@@ -380,3 +380,74 @@ class TestBacktestHonesty(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main(verbosity=2)
+
+
+class TestKalshiFees(unittest.TestCase):
+    """The fee curve, and what it does to a flat entry bar."""
+
+    def test_matches_kalshi_published_example(self):
+        from cfb_edge.kalshi_fees import fee_dollars
+
+        # Kalshi documents 20 contracts at 60c costing $0.34.
+        self.assertAlmostEqual(fee_dollars(20, 0.60), 0.34, places=9)
+
+    def test_fee_peaks_at_a_coin_flip(self):
+        from cfb_edge.kalshi_fees import fee_cents_per_contract
+
+        at_half = fee_cents_per_contract(0.50)
+        self.assertAlmostEqual(at_half, 1.75, places=9)
+        for price in (0.05, 0.21, 0.35, 0.65, 0.84, 0.95):
+            self.assertLess(fee_cents_per_contract(price), at_half)
+
+    def test_fee_is_symmetric_about_a_coin_flip(self):
+        from cfb_edge.kalshi_fees import fee_cents_per_contract
+
+        for price in (0.10, 0.25, 0.40):
+            self.assertAlmostEqual(
+                fee_cents_per_contract(price),
+                fee_cents_per_contract(1.0 - price),
+                places=12,
+            )
+
+    def test_the_entry_bar_must_bend_with_the_fee(self):
+        # The point of the module: a flat cent bar is the wrong shape, because
+        # clearing the same net edge costs more gross edge near 50c.
+        from cfb_edge.kalshi_fees import required_gross_edge_cents
+
+        self.assertGreater(
+            required_gross_edge_cents(0.50), required_gross_edge_cents(0.21)
+        )
+        self.assertAlmostEqual(required_gross_edge_cents(0.50), 2.75, places=9)
+
+    def test_a_one_cent_gross_edge_near_a_coin_flip_is_negative(self):
+        from cfb_edge.kalshi_fees import net_edge
+
+        edge = net_edge(0.49, 1.0)
+        self.assertFalse(edge.survives_fees)
+        self.assertLess(edge.net_ev, 0.0)
+
+    def test_a_three_cent_gross_edge_survives_but_loses_most_of_itself(self):
+        from cfb_edge.kalshi_fees import net_edge
+
+        edge = net_edge(0.47, 3.0)
+        self.assertTrue(edge.survives_fees)
+        self.assertGreater(edge.fee_share_of_gross, 0.5)
+        self.assertAlmostEqual(edge.gross_ev, 0.0638, places=3)
+        self.assertAlmostEqual(edge.net_ev, 0.0267, places=3)
+
+    def test_the_same_gross_edge_is_worth_more_in_the_tails(self):
+        from cfb_edge.kalshi_fees import net_edge
+
+        tail = net_edge(0.21, 3.0)
+        middle = net_edge(0.47, 3.0)
+        self.assertGreater(tail.net_cents, middle.net_cents)
+
+    def test_rejects_impossible_inputs(self):
+        from cfb_edge.kalshi_fees import fee_dollars
+
+        with self.assertRaises(ValueError):
+            fee_dollars(10, 0.0)
+        with self.assertRaises(ValueError):
+            fee_dollars(10, 1.0)
+        with self.assertRaises(ValueError):
+            fee_dollars(0, 0.5)

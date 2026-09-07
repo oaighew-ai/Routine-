@@ -107,3 +107,37 @@ real results, because this repository ships no historical data.
 margins, and refuses samples under 500 games. Refitting it against several real
 seasons is the single highest-value change available, and until that is done the
 probabilities are directionally right rather than calibrated.
+
+## Kalshi fees, for the cross-market engine
+
+`cfb_edge/kalshi_fees.py` exists for a different system: a gate that compares a
+sportsbook's de-vigged fair value against a Kalshi fill. It is here because that
+comparison has a trap in it.
+
+Kalshi charges `round_up(0.07 * C * P * (1 - P))`. The `P * (1 - P)` term peaks
+at 50c, so the fee is largest exactly on coin-flip markets and smallest in the
+tails:
+
+| Price | Fee per contract | Gross edge needed for +1c net |
+|---|---|---|
+| 10c | 0.63c | 1.63c |
+| 21c | 1.16c | 2.16c |
+| 47c | 1.74c | 2.74c |
+| 50c | 1.75c | 2.75c |
+| 84c | 0.94c | 1.94c |
+
+A cross-market gate finds most of its apparent edges near 50c, because that is
+where a book posting -110 both ways de-vigs to exactly 50 and where the
+comparison is easiest to make. Those are the same markets where the fee is at
+its maximum. So the edges the gate finds most often are the ones the fee eats
+most of.
+
+The consequence for an entry rule: **a flat bar in cents is the wrong shape.**
+Clearing one cent of net edge takes 2.75c of gross edge at a coin flip and
+2.16c at 21c. A flat 3c bar passes both, but delivers 1.25c of real edge in one
+case and 1.84c in the other, and a 1c gross edge near 50c is outright negative.
+`required_gross_edge_cents` returns the bar that actually holds net edge
+constant.
+
+Fee schedules vary by product and maker orders price differently, so read the
+real coefficient off the account before staking anything.
