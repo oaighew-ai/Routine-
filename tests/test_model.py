@@ -1066,3 +1066,41 @@ class TestEncompassing(unittest.TestCase):
 
         with self.assertRaises(ValueError):
             encompassing_regression([1.0, 2.0], [1.0, 2.0], [1.0])
+
+
+class TestLineMovement(unittest.TestCase):
+    """CLV is the right scoreboard, but it still has to clear the price."""
+
+    def test_a_worse_price_demands_more_clv(self):
+        from cfb_edge.line_movement import clv_required
+
+        self.assertGreater(clv_required(-120).clv_needed, clv_required(-110).clv_needed)
+        self.assertGreater(clv_required(-110).clv_needed, clv_required(-105).clv_needed)
+
+    def test_the_measured_edge_misses_at_minus_110_and_clears_at_reduced_juice(self):
+        # The headline result: 0.44 points of CLV, real (t = 4.7), not enough.
+        from cfb_edge.line_movement import clv_required
+
+        self.assertFalse(clv_required(-110, achieved=0.44).clears)
+        self.assertTrue(clv_required(-105, achieved=0.44).clears)
+
+    def test_break_even_price_inverts_the_requirement(self):
+        from cfb_edge.line_movement import break_even_price, clv_required
+
+        for clv in (0.25, 0.5, 0.75):
+            price = break_even_price(clv)
+            self.assertLessEqual(clv_required(price).clv_needed, clv + 0.05)
+
+    def test_density_is_averaged_not_read_off_a_key_number(self):
+        # A point estimate at 3 would overstate the density badly.
+        from cfb_edge.distribution import margin_pmf, sigma_for_total
+        from cfb_edge.line_movement import local_density
+
+        pmf = margin_pmf(0.0, sigma_for_total(52.0))
+        self.assertLess(local_density(), pmf[3])
+        self.assertGreater(local_density(), pmf[9])
+
+    def test_a_free_price_needs_no_edge(self):
+        from cfb_edge.line_movement import clv_required
+
+        self.assertAlmostEqual(clv_required(100).clv_needed, 0.0, places=9)

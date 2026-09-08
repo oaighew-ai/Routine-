@@ -505,3 +505,55 @@ one has not.
 `encompassing.py` runs that test on any pair of projections. It is the right
 first question to ask of any model, and it answers at a sample size one season
 can supply, which a win-loss record cannot.
+
+## H1: is line movement predictable? Yes. Is it enough? Almost.
+
+The one hypothesis this repository had not tested was propagation: not whether a
+model predicts games better than the market, which it does not, but whether it
+predicts where the market is *going*. Those are different questions and the
+second survives the first.
+
+Tested on 5,298 games that carry both a consensus opening and closing spread.
+Signal: back whichever side an Elo fair value prefers relative to the opening
+number. Graded against the actual result at -110.
+
+| min edge | books at open | bets | win% | ROI | CLV | CLV t |
+|---|---|---|---|---|---|---|
+| 0.0 | 1+ | 5298 | 51.22% | -2.18% | +0.29 | +4.4 |
+| 2.0 | 1+ | 3558 | 51.72% | -1.24% | +0.43 | +4.6 |
+| 6.0 | 1+ | 1231 | 50.12% | -4.25% | +0.83 | +3.2 |
+| 2.0 | 2+ | 1766 | 53.55% | +2.19% | +0.35 | **+5.5** |
+| 4.0 | 2+ | 1059 | 54.33% | +3.65% | +0.44 | +4.7 |
+
+**The movement is predictable.** Closing line value is positive in every
+configuration, with t-statistics from 3.2 to 5.5. That is not a marginal
+result, and it is the first positive finding anywhere in this project.
+
+**It is also not big enough.** A point of line is worth about 0.036 of win
+probability near a pick'em, so -110 needs 0.67 points of CLV to break even.
+The strategy earns 0.22 to 0.83 depending on selectivity, and the
+configurations that clear the bar are the ones with the fewest bets.
+
+| price | CLV needed | 0.44 achieved |
+|---|---|---|
+| -120 | 1.28 | no |
+| -115 | 0.98 | no |
+| **-110** | **0.67** | **no** |
+| -108 | 0.54 | no |
+| **-105** | **0.34** | **yes** |
+| -103 | 0.21 | yes |
+
+So H1 is alive, and it is a question about **where you bet, not whether the
+signal is real**. Half a point of CLV is a losing strategy at -110 and a
+winning one at -105. That makes reduced juice, and any venue whose cost sits
+below about -106, the entire ballgame.
+
+Two cautions. The realised win rates do not confirm the CLV: the most selective
+single-book configuration earns the most CLV and still lost money over 1,231
+bets, which at a standard error of 2.87% proves nothing either way and is
+precisely why CLV is the scoreboard. And eight configurations were tried, so the
+54.33% cell should be read as the noisiest number in the table rather than the
+most impressive one.
+
+`line_movement.py` ships the arithmetic: `clv_required(price)` for the bar and
+`break_even_price(clv)` for its inverse.
