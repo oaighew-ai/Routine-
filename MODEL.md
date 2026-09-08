@@ -838,3 +838,115 @@ the real-data value, and `SIMULATED_RATING_SCALE` is the simulator's.
 That gap is itself worth recording: the simulator understates how wrong an
 early-season rating really is, so its results are optimistic about the early
 season in a way real data is not.
+
+## Do bowl games need their own distribution?
+
+The playoff and bowls are the one part of the calendar where the model's
+assumptions have an obvious reason to fail. Teams sit for three to six weeks,
+players opt out, coaches leave, and the whole roster that earned the rating is
+not necessarily the roster that plays. If that inflates the spread of outcomes,
+then `sigma_for_total` is wrong for those games and every key-number density
+priced off it is wrong with it, in the direction of overpaying.
+
+Worth noting first that this cannot be settled forward. The playoff is eleven
+games. The surviving line-movement edge measures t = 3.2 to 5.5 over thousands
+of games, and t scales with the square root of n, so the same effect measured on
+eleven games would come back at t ≈ 0.3. A postseason model could never be
+validated on postseason results, this year or after a decade of them. The only
+way to ask the question is to ask it of history.
+
+### Getting the data, which is not where you would look
+
+cfbfastR's per-season schedule files stop in mid-December. The 2019 file's last
+game is Dec 14. There are no bowls in it, in any season, and nothing in the file
+says so — `season_type` reads `regular` on every row. A postseason game is
+identifiable only by its absence.
+
+The play-by-play files do carry them, under `week` values that restart at 1.
+Differencing the two sets recovers 626 postseason games across 2004-2021, which
+is where the play-by-play ends.
+
+Two traps in that data cost a first pass:
+
+**`homeTeamSpread` in the play-by-play is not a line.** The value 2.5 appears on
+5,248 of 12,374 games, 42% of the sample. It is a fill. Read against it, bowls
+looked *tighter* than the regular season at z = -3.26, which was an artifact of
+that filler concentrating in the near-pick'em bucket. The tell was that residual
+spread came out higher for games near a pick'em than for games at 3 to 7, which
+is backwards and does not happen with real lines.
+
+The real closing numbers are in the betting file, a median of 15 books per game.
+Regressing margin on the negated closing spread gives a slope of 1.027, which is
+what a clean line looks like.
+
+**The abbreviation map matters more than it looks.** Joining book rows to the
+home side needs abbreviation-to-team-id, and a stale external map dropped 184
+abbreviations and two thirds of the sample. Deriving it from the data instead
+resolves 596 of 602: the team an abbreviation names appears in every one of its
+rows, as home or away, while any other id appears only as that game's opponent,
+so the most frequent id is the team. Six remain too close to call and are
+dropped.
+
+That leaves **9,930 games with a real closing line, 348 of them postseason.**
+
+### The answer is no
+
+| | n | line bias | sd of residual |
+|---|---|---|---|
+| Regular season | 9,582 | −0.16 | 15.51 |
+| Bowls | 348 | +0.63 | **16.33** |
+
+Bowls are 5.3% wider. That is **not significant: z = +1.34**. The closing line is
+not biased in bowls either (+0.63 points, t = 0.72), so the market is not
+mispricing the layoff in any direction this can see.
+
+The key numbers survive intact, which was the sharper question, since a roster
+missing its kicker and half its skill players is exactly where you would expect
+field-goal margins to stop clustering:
+
+| Margin | Regular | Bowl | Ratio | z |
+|---|---|---|---|---|
+| 3 | 9.53% | 12.36% | 1.30 | 1.80 |
+| **7** | 8.13% | **8.33%** | **1.03** | 0.14 |
+| 10 | 4.45% | 4.31% | 0.97 | −0.12 |
+| 14 | 4.66% | 5.75% | 1.23 | 0.96 |
+
+The seven is flat to three significant figures. The three is directionally
+higher at z = 1.80, but that is one of twelve numbers tested and does not
+survive the company it keeps. Overtime rates match as well, 4.60% against 4.23%.
+
+### What the test can and cannot rule out
+
+At n = 348 against 9,582, a standard-deviation ratio has to exceed **1.079** to
+clear 1.96 sigma. So this rules out a bowl variance effect larger than about 8%
+and says nothing about anything smaller. The observed 5.3% sits under that bar,
+which is the honest reason it is not being adopted rather than a claim that the
+true effect is zero.
+
+Taking the point estimate at face value anyway, which the evidence does not
+support, prices the difference:
+
+| | density at 3 | gain | fee | net |
+|---|---|---|---|---|
+| sigma 15.51 | 0.0664 | +2.922% | 1.666% | **+1.256%** |
+| sigma 16.33 | 0.0634 | +2.788% | 1.673% | **+1.114%** |
+
+A 5.3% error in sigma costs 0.14 points of edge on a play at the three, about
+11% of it. Real, small, and well inside the uncertainty already carried by the
+0.44-point CLV assumption itself.
+
+**So `sigma_for_total` gets no postseason branch.** Bowls are priced exactly like
+regular-season games, and the reason is measurement rather than convenience.
+
+### What this does change
+
+Nothing in the distribution, and one thing in the capture.
+
+Bowl and playoff lines post in early December and do not close until late
+December or January. That is two to six weeks of line movement against two to
+six days in a regular-season week, and line movement is the only edge here that
+survived testing. `RELEASE_WINDOW_UTC` currently stops polling densely on
+Tuesday afternoon, which is correct for a regular week and wrong for a bowl
+line that posts on the 8th and is still moving on the 28th.
+
+The postseason opportunity is a longer capture window, not a different model.
