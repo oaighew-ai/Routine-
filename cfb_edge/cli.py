@@ -110,8 +110,12 @@ def cmd_play(args: argparse.Namespace) -> int:
                             american_price=args.book_price))
 
     per_game = []
+    skipped = 0
     with open(args.slate, newline="", encoding="utf-8") as fh:
         for row in csv.DictReader(fh):
+            if not (row.get("side") or "").strip():
+                skipped += 1
+                continue
             per_game.append(find_plays(
                 row["game"],
                 projected_margin=float(row["projected_margin"]),
@@ -125,6 +129,13 @@ def cmd_play(args: argparse.Namespace) -> int:
 
     card = build_card(per_game, max_weekly_exposure=args.max_exposure)
     considered = len(per_game)
+    if skipped:
+        print(f"{skipped} rows have no side and were skipped. The side comes from "
+              f"how the line moved off its open; a row without one is a game, "
+              f"not a bet.\n")
+    if not considered:
+        print("Nothing to price. Fill in the side column and run again.")
+        return 1
     if not card:
         print(f"No plays. {considered} games considered, none cleared their venue cost.\n"
               f"At {args.clv:.2f} points of CLV that is the expected outcome on most "

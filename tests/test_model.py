@@ -1328,3 +1328,13 @@ class TestStrategy(unittest.TestCase):
 
         with self.assertRaises(ValueError):
             Venue("broken").cost(0.5)
+
+    def test_a_missing_side_is_refused(self):
+        """A card built from games with no signal looks authoritative and
+        contains nothing, which is the worst output this module could make."""
+        from cfb_edge.strategy import find_plays
+
+        for blank in ("", "   ", None):
+            with self.assertRaises(ValueError):
+                find_plays("g", projected_margin=0.0, side=blank,
+                           venues=self._venues(), posted_line=-3.0)

@@ -134,12 +134,22 @@ def find_plays(
 
     `side` is which team the line-movement signal prefers, and it is the
     caller's job to have produced it from an opening line rather than a closing
-    one: the signal is about movement, and there is none left at the close.
+    one: the signal is about movement, and there is none left at the close. It
+    is required and must be non-empty. Without a side there is no bet, only a
+    game, and a card built from games with no signal is the most dangerous
+    output this module could produce: it looks authoritative and contains
+    nothing. So a blank side raises rather than returning plays.
 
     `posted_line` is what a book is offering. A book only appears in the result
     when its posted line is itself a key number, because that is the only case
     where a book beats an exchange.
     """
+    if not (side or "").strip():
+        raise ValueError(
+            f"{game}: no side. The line-movement signal has to come from an "
+            f"opening line; without one there is nothing to bet."
+        )
+
     pmf = margin_pmf(projected_margin, sigma_for_total(total))
 
     def survival(k: float) -> float:
