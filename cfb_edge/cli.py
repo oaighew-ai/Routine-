@@ -110,13 +110,24 @@ def cmd_play(args: argparse.Namespace) -> int:
         venues.append(Venue(f"book {args.book_price:+.0f}",
                             american_price=args.book_price))
 
+    slate_games = [r["game"].strip() for r in
+                   csv.DictReader(open(args.slate, newline="", encoding="utf-8"))]
+
     opens = {}
     if args.opens:
+        from .teams import match_games
+
+        raw = {}
         with open(args.opens, newline="", encoding="utf-8") as fh:
             for row in csv.DictReader(fh):
                 line = (row.get("opening_line") or row.get("open") or "").strip()
                 if line:
-                    opens[row["game"].strip()] = float(line)
+                    raw[row["game"].strip()] = float(line)
+        report = match_games(list(raw), slate_games)
+        for foreign, canonical in report.matched.items():
+            opens[canonical] = raw[foreign]
+        if report.unmatched:
+            print(report.summary() + "\n")
 
     per_game = []
     skipped = no_signal = 0

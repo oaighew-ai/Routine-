@@ -729,3 +729,41 @@ To leave it running unattended on Windows, Task Scheduler with *at startup* and
 *restart on failure*; on a unix box, a systemd unit with `Restart=always` or a
 cron entry hitting `--once` every five minutes. The `--once` mode exists for the
 cron shape, where the scheduler owns the interval rather than the process.
+
+## Reconciling team names
+
+Every provider spells these teams differently, and one pair makes the stakes
+obvious: cfbfastR says `Miami` and `Miami (OH)`, while an odds feed may send
+`Miami (FL)`, `Miami Hurricanes` or `Miami RedHawks`. Resolve that wrong and you
+have bet a different school in a different state.
+
+`teams.py` resolves a name exactly, through normalisation, or through an explicit
+alias, and **otherwise not at all**. There is no fuzzy fallback, deliberately:
+every plausible edit-distance scheme in this sport maps `Mississippi` onto
+`Mississippi State` at some threshold. An unmatched game costs one skipped bet;
+a mismatched one costs a wrong bet. Those are not the same mistake.
+
+The families worth knowing about, all covered and all tested:
+
+| Foreign name | Resolves to |
+|---|---|
+| Miami (FL), Miami Hurricanes | Miami |
+| Miami (OH), Miami RedHawks | Miami (OH) |
+| **Mississippi** | **Ole Miss** |
+| Mississippi State | Mississippi State |
+| Southern Mississippi | Southern Miss |
+| Louisiana-Lafayette | Louisiana |
+| Louisiana-Monroe | UL Monroe |
+| Hawaii | Hawai'i |
+| San Jose State | San José State |
+| Brigham Young, Connecticut, Central Florida | BYU, UConn, UCF |
+
+`play --opens` reconciles automatically and prints what it could not match, so a
+provider changing its spelling shows up as a named gap rather than as a quiet
+week:
+
+```
+2 of 3 games reconciled (67%)
+unmatched, add these to ALIASES in cfb_edge/teams.py:
+    Nowhere State @ Kansas
+```

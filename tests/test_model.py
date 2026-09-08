@@ -1491,3 +1491,66 @@ class TestOpeningCapture(unittest.TestCase):
         finally:
             if saved is not None:
                 os.environ["ODDS_API_KEY"] = saved
+
+
+class TestTeamAliases(unittest.TestCase):
+    """Names must resolve exactly or not at all."""
+
+    KNOWN = {"Miami", "Miami (OH)", "Ole Miss", "Mississippi State", "Louisiana",
+             "UL Monroe", "Louisiana Tech", "Hawai'i", "San José State",
+             "Texas A&M", "BYU", "UConn", "UCF", "NC State", "Southern Miss"}
+
+    def test_the_two_miamis_never_cross(self):
+        """The mistake that bets a different school in a different state."""
+        from cfb_edge.teams import resolve
+
+        for name in ("Miami (FL)", "Miami Hurricanes", "Miami Florida", "Miami"):
+            self.assertEqual(resolve(name, self.KNOWN), "Miami")
+        for name in ("Miami (OH)", "Miami RedHawks", "Miami Ohio"):
+            self.assertEqual(resolve(name, self.KNOWN), "Miami (OH)")
+
+    def test_mississippi_is_ole_miss_and_not_mississippi_state(self):
+        from cfb_edge.teams import resolve
+
+        self.assertEqual(resolve("Mississippi", self.KNOWN), "Ole Miss")
+        self.assertEqual(resolve("Mississippi State", self.KNOWN), "Mississippi State")
+        self.assertEqual(resolve("Southern Mississippi", self.KNOWN), "Southern Miss")
+
+    def test_the_louisiana_family_stays_separate(self):
+        from cfb_edge.teams import resolve
+
+        self.assertEqual(resolve("Louisiana-Lafayette", self.KNOWN), "Louisiana")
+        self.assertEqual(resolve("Louisiana-Monroe", self.KNOWN), "UL Monroe")
+        self.assertEqual(resolve("Louisiana Tech", self.KNOWN), "Louisiana Tech")
+
+    def test_accents_and_punctuation_survive_a_round_trip(self):
+        from cfb_edge.teams import resolve
+
+        self.assertEqual(resolve("Hawaii", self.KNOWN), "Hawai'i")
+        self.assertEqual(resolve("San Jose State", self.KNOWN), "San José State")
+        self.assertEqual(resolve("Texas A and M", self.KNOWN), "Texas A&M")
+
+    def test_an_unknown_school_is_refused_not_guessed(self):
+        """An unmatched game costs a skipped bet; a mismatched one costs a
+        wrong bet. There is no fuzzy fallback for exactly this reason."""
+        from cfb_edge.teams import resolve
+
+        self.assertIsNone(resolve("Slippery Rock", self.KNOWN))
+        self.assertIsNone(resolve("Miami Dolphins", self.KNOWN))
+
+    def test_game_strings_preserve_home_and_away(self):
+        from cfb_edge.teams import resolve_game
+
+        self.assertEqual(
+            resolve_game("Miami (FL) @ Texas A&M", self.KNOWN), "Miami @ Texas A&M")
+        self.assertIsNone(resolve_game("Miami (FL) vs Texas A&M", self.KNOWN))
+
+    def test_the_report_surfaces_gaps_rather_than_hiding_them(self):
+        from cfb_edge.teams import match_games
+
+        known = ["Missouri @ Kansas", "Miami @ Texas A&M"]
+        report = match_games(["Missouri @ Kansas", "Nowhere @ Kansas"], known)
+        self.assertEqual(len(report.matched), 1)
+        self.assertEqual(report.unmatched, ["Nowhere @ Kansas"])
+        self.assertIn("ALIASES", report.summary())
+        self.assertAlmostEqual(report.rate, 0.5, places=9)
