@@ -1554,3 +1554,64 @@ class TestTeamAliases(unittest.TestCase):
         self.assertEqual(report.unmatched, ["Nowhere @ Kansas"])
         self.assertIn("ALIASES", report.summary())
         self.assertAlmostEqual(report.rate, 0.5, places=9)
+
+
+class TestSlateBuilder(unittest.TestCase):
+    """A slate must not be able to see the week it is projecting."""
+
+    def _season_csv(self, season):
+        header = ("week,home_team,away_team,home_division,away_division,"
+                  "home_points,away_points,neutral_site,start_date\n")
+        if season == 2025:
+            body = ("1,Alpha,Beta,fbs,fbs,31,10,FALSE,2025-09-01\n"
+                    "2,Beta,Alpha,fbs,fbs,14,21,FALSE,2025-09-08\n")
+        else:
+            body = ("1,Alpha,Beta,fbs,fbs,28,14,FALSE,2026-09-05\n"
+                    "2,Beta,Alpha,fbs,fbs,7,35,FALSE,2026-09-12\n"
+                    "3,Alpha,Beta,fbs,fbs,99,0,FALSE,2026-09-19\n")
+        return (header + body).encode()
+
+    def _opener(self):
+        def open_url(url):
+            return self._season_csv(2025 if "2025" in url else 2026)
+        return open_url
+
+    def test_it_projects_the_target_week(self):
+        from cfb_edge.slate import build
+
+        rows = build(2026, 3, opener=self._opener())
+        self.assertEqual(len(rows), 1)
+        self.assertEqual(rows[0].game, "Beta @ Alpha")
+
+    def test_the_target_week_result_cannot_leak_into_the_ratings(self):
+        """Week 3 has Alpha winning 99-0. If that leaked, the projection
+        would be enormous. It must not."""
+        from cfb_edge.slate import build
+
+        rows = build(2026, 3, opener=self._opener())
+        self.assertLess(abs(rows[0].projected_margin), 40.0)
+
+    def test_an_unreachable_schedule_names_the_host(self):
+        import urllib.error
+        from cfb_edge.slate import ScheduleUnreachable, fetch_season
+
+        def refuse(url):
+            raise urllib.error.URLError("Tunnel connection failed: 403 Forbidden")
+
+        with self.assertRaises(ScheduleUnreachable) as ctx:
+            fetch_season(2026, opener=refuse)
+        self.assertIn("raw.githubusercontent.com", str(ctx.exception))
+
+    def test_the_written_csv_is_what_play_consumes(self):
+        import tempfile, os, csv as _csv
+        from cfb_edge.slate import build, write_csv
+
+        fd, path = tempfile.mkstemp(suffix=".csv"); os.close(fd)
+        try:
+            write_csv(build(2026, 3, opener=self._opener()), path)
+            with open(path, newline="", encoding="utf-8") as fh:
+                cols = _csv.DictReader(fh).fieldnames
+            self.assertEqual(
+                cols, ["game", "projected_margin", "side", "posted_line", "total"])
+        finally:
+            os.unlink(path)

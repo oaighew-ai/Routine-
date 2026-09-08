@@ -767,3 +767,31 @@ week:
 unmatched, add these to ALIASES in cfb_edge/teams.py:
     Nowhere State @ Kansas
 ```
+
+## Running a week, start to finish
+
+```bat
+setx ODDS_API_KEY "your-key"     :: once, then open a NEW terminal
+
+scripts\capture.bat              :: start Sunday afternoon, leave running
+scripts\card.bat 2026 3          :: any time after, for the card
+```
+
+`capture.bat` polls and records first-seen prices. `card.bat` rebuilds the slate
+with the latest results, rebuilds the opening lines from the raw log, and prints
+the card. Both are idempotent: run them as often as you like.
+
+`cfb_edge.slate` fetches schedules and results from cfbfastR on GitHub, which
+needs no key, and fits ratings on everything before the target week. Nothing
+from the week being projected can enter the ratings, and a test pins that by
+planting a 99-0 result in the target week and asserting the projection ignores
+it.
+
+Re-run `card.bat` after each Saturday. The projections are only as good as the
+results behind them, and a slate built for week three on Tuesday knows one week
+of football while the same slate rebuilt on Sunday knows two.
+
+To run the capture unattended on Windows: Task Scheduler, trigger **At startup**,
+action `scripts\capture.bat`, and on the Settings tab enable restart on failure.
+Task Scheduler only fires while logged on, which is the same constraint that
+stalled the earlier capture effort.
