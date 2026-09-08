@@ -232,3 +232,54 @@ your capture actually contains.
 A mismatched `--price-field` returns nothing rather than something wrong, and
 entries with no game label are reported rather than silently treated as
 independent, since that would remove the correction without saying so.
+
+## Strike ladders, and a structural result about Kalshi
+
+A Kalshi spread market is `P(margin > N)`, so a game's ladder is a picture of
+the market's whole margin distribution. `ladder.py` reads one as a single
+object. Two ideas motivated it, and only one survived.
+
+**Coherence still holds.** `{margin > 7.5}` is a subset of `{margin > 2.5}`, so
+the higher strike can never be worth more. When tradeable prices invert, buying
+the low strike and selling the high one pays at least 100 in every outcome.
+`find_arbitrage` looks for those on bid and ask rather than midpoints, and
+prices them net of both legs' fees. The bar is higher than it looks:
+
+| Strikes near | Inversion needed to clear fees |
+|---|---|
+| 20c | 2.24c |
+| 30c | 2.94c |
+| 50c | 3.50c |
+| 80c | 2.24c |
+
+A one-cent inversion is not an opportunity. A three-cent inversion at a coin
+flip is still not one.
+
+**The key-number idea does not survive, and the reason generalises.** Half-point
+strikes a point apart isolate a single margin, so a ladder states what the
+market thinks the chance of a three-point game is. A smoothly priced ladder
+underprices it badly, and the detector finds that cleanly: ratio 0.70 on a
+margin of 3, 0.79 on 7, and no false positives against a correctly priced
+control.
+
+It is untradeable anyway. Harvesting one margin means a vertical spread, and:
+
+```
+key-number mispricing on 3 worth       0.94c
+crossing two bid-ask spreads at 1c     2.00c
+two fees on two mid-ladder legs        3.14c
+                                      -------
+net                                   -4.20c
+```
+
+**Kalshi charges each leg on that leg's own notional.** A spread between two
+65-cent strikes pays fees as though you traded two 65-cent contracts, while the
+position is worth about three cents. For margins of 7, 10 and 14 the fee alone
+exceeds the entire fair value, so the breakeven cost is *negative*: no bid-ask
+spread, however tight, makes it work.
+
+That kills the idea for a reason that has nothing to do with football, and it
+generalises past this one strategy. **Any Kalshi position built by differencing
+two mid-ladder strikes is dead on arrival.** Only trades whose fee is
+proportional to the exposure you actually want survive, which is why a single
+outright in the tail behaves so differently from a spread in the middle.

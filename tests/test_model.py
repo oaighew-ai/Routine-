@@ -805,3 +805,114 @@ class TestMeasureCommand(unittest.TestCase):
         code, _, err = self._run("--price-field", "not_a_real_field")
         self.assertEqual(code, 2)
         self.assertIn("Check --price-field", err)
+
+
+class TestLadder(unittest.TestCase):
+    """Strike ladders: coherence, key numbers, and why the spread trade dies."""
+
+    def _rungs(self, thresholds, prices, half=1.0):
+        from cfb_edge.ladder import Strike
+
+        return [Strike(t, yes_bid=p - half, yes_ask=p + half)
+                for t, p in zip(thresholds, prices)]
+
+    def test_a_coherent_ladder_has_no_arbitrage(self):
+        from cfb_edge.ladder import Ladder, find_arbitrage
+
+        lad = Ladder("g", "t", self._rungs([2.5, 3.5, 6.5, 9.5], [69, 66, 59, 50]))
+        self.assertEqual(find_arbitrage(lad), [])
+
+    def test_a_small_inversion_is_not_an_arbitrage(self):
+        # Both legs pay a fee, and near a coin flip that is about 3.5c. An
+        # inversion smaller than its own fees is not an opportunity.
+        from cfb_edge.ladder import Ladder, find_arbitrage
+
+        lad = Ladder("g", "t", self._rungs([6.5, 7.5], [51, 54]))
+        self.assertEqual(find_arbitrage(lad), [])
+
+    def test_a_large_inversion_is_found_and_priced(self):
+        from cfb_edge.ladder import Ladder, find_arbitrage
+
+        lad = Ladder("g", "t", self._rungs([6.5, 7.5], [51, 61]))
+        arbs = find_arbitrage(lad)
+        self.assertEqual(len(arbs), 1)
+        self.assertGreater(arbs[0].profit_cents, 0)
+        # Payout is at least 100 in every state, so profit is 100 - cost - fees.
+        self.assertAlmostEqual(
+            arbs[0].profit_cents,
+            100.0 - arbs[0].cost_cents - arbs[0].fee_cents,
+            places=9,
+        )
+
+    def test_arbitrage_uses_tradeable_prices_not_midpoints(self):
+        from cfb_edge.ladder import Ladder, Strike, find_arbitrage
+
+        # Mids invert (51 vs 53) but ask/bid do not cross enough to pay.
+        lad = Ladder("g", "t", [Strike(6.5, 46, 56), Strike(7.5, 48, 58)])
+        self.assertEqual(find_arbitrage(lad), [])
+
+    def test_a_smooth_ladder_underprices_the_key_numbers(self):
+        from cfb_edge.distribution import _normal_cdf, sigma_for_total
+        from cfb_edge.ladder import Ladder, key_number_gaps
+
+        mu, sig = 10.0, sigma_for_total(52.0)
+        ts = [2.5, 3.5, 6.5, 7.5]
+        prices = [(1.0 - _normal_cdf(t, mu, sig)) * 100.0 for t in ts]
+        gaps = key_number_gaps(Ladder("g", "t", self._rungs(ts, prices)),
+                               model_margin=mu)
+        by_margin = {g.margin: g for g in gaps}
+        self.assertTrue(by_margin[3].underpriced)
+        self.assertTrue(by_margin[7].underpriced)
+        # Three is the most underpriced, because it carries the most extra mass.
+        self.assertLess(by_margin[3].ratio, by_margin[7].ratio)
+
+    def test_a_correctly_priced_ladder_raises_no_flag(self):
+        from cfb_edge.distribution import margin_pmf, sigma_for_total
+        from cfb_edge.ladder import Ladder, key_number_gaps
+
+        mu = 10.0
+        pmf = margin_pmf(mu, sigma_for_total(52.0))
+        ts = [2.5, 3.5, 6.5, 7.5]
+        prices = [sum(v for k, v in pmf.items() if k > t) * 100.0 for t in ts]
+        for g in key_number_gaps(Ladder("g", "t", self._rungs(ts, prices)),
+                                 model_margin=mu):
+            self.assertAlmostEqual(g.ratio, 1.0, delta=0.06)
+
+    def test_only_isolated_single_margins_are_reported(self):
+        from cfb_edge.ladder import Ladder, key_number_gaps
+
+        # 2.5 -> 6.5 spans four margins and pins nothing.
+        lad = Ladder("g", "t", self._rungs([2.5, 6.5], [69, 59]))
+        self.assertEqual(key_number_gaps(lad, model_margin=10.0), [])
+
+    def test_the_key_number_spread_cannot_clear_its_own_fees(self):
+        """The finding this module exists to establish.
+
+        Kalshi charges per leg on each leg's own notional. A vertical spread
+        between two mid-ladder strikes pays fees as though you traded two
+        65-cent contracts, while the position itself is worth about three
+        cents. For several key numbers the fee alone exceeds the entire fair
+        value, so the breakeven cost is negative and no bid-ask spread, however
+        tight, makes the trade possible.
+        """
+        from cfb_edge.distribution import _normal_cdf, sigma_for_total
+        from cfb_edge.ladder import Ladder, bucket_trades
+
+        mu, sig = 10.0, sigma_for_total(52.0)
+        ts = [2.5, 3.5, 6.5, 7.5, 9.5, 10.5]
+        prices = [(1.0 - _normal_cdf(t, mu, sig)) * 100.0 for t in ts]
+        # Even at a half-cent half-spread, tighter than Kalshi's tick allows.
+        trades = bucket_trades(Ladder("g", "t", self._rungs(ts, prices, half=0.5)),
+                               model_margin=mu)
+        self.assertTrue(trades)
+        for t in trades:
+            self.assertFalse(t.clears)
+        # For the higher key numbers the fee alone swallows the whole payout.
+        self.assertTrue(any(t.breakeven_cost < 0 for t in trades))
+
+    def test_coherence_report_counts_inversions(self):
+        from cfb_edge.ladder import Ladder, coherence_report
+
+        lad = Ladder("COL @ GT", "GT", self._rungs([2.5, 6.5, 7.5], [69, 51, 61]))
+        self.assertIn("1 inverted", coherence_report(lad))
+        self.assertIn("GT", coherence_report(lad))
