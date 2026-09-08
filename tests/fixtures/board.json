@@ -1,0 +1,81 @@
+{
+ "markets": {
+  "moneyline": [
+   {
+    "ticker": "KXNCAAFGAME-26SEP12X-ARST",
+    "yes_sub_title": "Arkansas St.",
+    "event_ticker": "ARST @ MEM"
+   },
+   {
+    "ticker": "KXNCAAFGAME-26SEP12X-THIN",
+    "yes_sub_title": "Thin market",
+    "event_ticker": "A @ B"
+   }
+  ],
+  "spread": [
+   {
+    "ticker": "KXNCAAFSPREAD-26SEP12X-COL",
+    "yes_sub_title": "Colorado +6.5",
+    "event_ticker": "COL @ GT"
+   }
+  ]
+ },
+ "books": {
+  "KXNCAAFGAME-26SEP12X-ARST": {
+   "orderbook": {
+    "yes": [
+     [
+      19,
+      5000
+     ],
+     [
+      20,
+      4000
+     ]
+    ],
+    "no": [
+     [
+      79,
+      9000
+     ],
+     [
+      80,
+      7000
+     ]
+    ]
+   }
+  },
+  "KXNCAAFGAME-26SEP12X-THIN": {
+   "orderbook": {
+    "yes": [
+     [
+      29,
+      50
+     ]
+    ],
+    "no": [
+     [
+      69,
+      60
+     ]
+    ]
+   }
+  },
+  "KXNCAAFSPREAD-26SEP12X-COL": {
+   "orderbook": {
+    "yes": [
+     [
+      48,
+      9000
+     ]
+    ],
+    "no": [
+     [
+      51,
+      9000
+     ]
+    ]
+   }
+  }
+ }
+}

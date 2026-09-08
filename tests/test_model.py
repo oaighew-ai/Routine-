@@ -451,3 +451,155 @@ class TestKalshiFees(unittest.TestCase):
             fee_dollars(10, 1.0)
         with self.assertRaises(ValueError):
             fee_dollars(0, 0.5)
+
+
+class TestKalshiBook(unittest.TestCase):
+    """The order-book inversion, which is where phantom edges come from."""
+
+    def _payload(self):
+        # YES bids at 45/46; NO bids at 51/52 -> YES asks at 48/49.
+        return {"orderbook": {"yes": [[45, 800], [46, 500]],
+                              "no": [[51, 900], [52, 600]]}}
+
+    def test_no_bids_become_yes_asks(self):
+        from cfb_edge.providers.kalshi import parse_book
+
+        book = parse_book("T", self._payload())
+        self.assertEqual([l.price for l in book.yes_asks], [48.0, 49.0])
+        self.assertEqual(book.best_ask, 48.0)
+
+    def test_yes_side_is_never_read_as_an_ask(self):
+        # The classic error: treating the YES bid array as an offer book makes
+        # the price look better than anything fillable, which downstream shows
+        # up as a large edge that does not exist.
+        from cfb_edge.providers.kalshi import parse_book
+
+        book = parse_book("T", self._payload())
+        self.assertGreater(book.best_ask, book.best_bid)
+        self.assertEqual(book.best_bid, 46.0)
+        self.assertEqual(book.spread, 2.0)
+
+    def test_vwap_walks_the_book(self):
+        from cfb_edge.providers.kalshi import parse_book
+
+        book = parse_book("T", self._payload())
+        self.assertEqual(book.vwap(200), 48.0)
+        # 600 at 48 then 200 at 49.
+        self.assertAlmostEqual(book.vwap(800), 48.25, places=9)
+
+    def test_vwap_refuses_a_size_the_book_cannot_fill(self):
+        from cfb_edge.providers.kalshi import parse_book
+
+        self.assertIsNone(parse_book("T", self._payload()).vwap(10_000))
+
+    def test_empty_book_is_handled(self):
+        from cfb_edge.providers.kalshi import parse_book
+
+        book = parse_book("T", {})
+        self.assertIsNone(book.best_ask)
+        self.assertIsNone(book.spread)
+        self.assertIsNone(book.vwap(1))
+
+    def test_unreachable_host_names_itself(self):
+        from cfb_edge.providers.kalshi import KalshiUnreachable, fetch_markets
+        import urllib.error
+
+        def refuse(url):
+            raise urllib.error.URLError("Tunnel connection failed: 403 Forbidden")
+
+        with self.assertRaises(KalshiUnreachable) as ctx:
+            fetch_markets("KXNCAAFGAME", opener=refuse)
+        self.assertIn("api.elections.kalshi.com", str(ctx.exception))
+
+
+class TestGate(unittest.TestCase):
+    def _c(self, **kw):
+        from cfb_edge.gate import Candidate
+
+        base = dict(ticker="T", label="L", game="A @ B", market="ML",
+                    entry_cents=21.0, fair_cents=24.9, fair_is_assumed=False,
+                    depth=500_000, spread=2.0)
+        base.update(kw)
+        return Candidate(**base)
+
+    def test_a_real_edge_clears_all_six(self):
+        from cfb_edge.gate import evaluate
+
+        r = evaluate(self._c())
+        self.assertTrue(r.cleared)
+        self.assertEqual(r.passed, 6)
+        self.assertAlmostEqual(r.net_ev, 0.1304, places=3)
+
+    def test_a_coin_flip_gap_smaller_than_the_fee_is_rejected(self):
+        from cfb_edge.gate import evaluate
+
+        r = evaluate(self._c(entry_cents=49.0, fair_cents=50.0,
+                             fair_is_assumed=True), allow_assumed_fair=True)
+        self.assertFalse(r.cleared)
+        self.assertFalse(r.checks["EDGE"])
+        self.assertLess(r.net_cents, 0)
+        self.assertIn("needed 2.75c", r.reason)
+
+    def test_assumed_fair_is_rejected_by_default(self):
+        from cfb_edge.gate import evaluate
+
+        r = evaluate(self._c(entry_cents=47.0, fair_cents=50.0, fair_is_assumed=True))
+        self.assertFalse(r.checks["BOOK"])
+        self.assertTrue(evaluate(
+            self._c(entry_cents=47.0, fair_cents=50.0, fair_is_assumed=True),
+            allow_assumed_fair=True).checks["BOOK"])
+
+    def test_a_book_too_thin_to_fill_fails_depth(self):
+        from cfb_edge.gate import evaluate
+
+        r = evaluate(self._c(depth=120), size=200)
+        self.assertFalse(r.checks["DEPTH"])
+        self.assertFalse(r.cleared)
+
+    def test_a_wide_quote_is_not_a_market(self):
+        from cfb_edge.gate import evaluate
+
+        self.assertFalse(evaluate(self._c(spread=9.0)).checks["QUOTE"])
+
+    def test_kelly_reduces_to_net_over_one_minus_price(self):
+        from cfb_edge.gate import quarter_kelly
+
+        self.assertAlmostEqual(quarter_kelly(21.0, 2.74, cap=1.0),
+                               0.25 * 2.74 / 79.0, places=12)
+        self.assertEqual(quarter_kelly(21.0, -1.0), 0.0)
+
+    def test_ranking_keeps_only_cleared_markets(self):
+        from cfb_edge.gate import evaluate, rank
+
+        rs = [evaluate(self._c()), evaluate(self._c(depth=1))]
+        self.assertEqual(len(rank(rs)), 1)
+
+
+class TestBoardEndToEnd(unittest.TestCase):
+    def test_offline_board_produces_a_card(self):
+        from cfb_edge.board import main
+        import io, contextlib
+
+        fixtures = Path(__file__).resolve().parent / "fixtures"
+        buf = io.StringIO()
+        with contextlib.redirect_stdout(buf):
+            code = main(["--offline", str(fixtures / "board.json"),
+                         "--book", str(fixtures / "lines.csv")])
+        out = buf.getvalue()
+        self.assertEqual(code, 0)
+        self.assertIn("Arkansas St.", out)
+        self.assertIn("cleared all six checks", out)
+        # The thin market has a bigger gross edge but cannot fill; it must not
+        # reach the card.
+        self.assertNotIn("1. Thin market", out)
+
+    def test_blocked_network_returns_an_error_not_an_empty_board(self):
+        from cfb_edge.board import main
+        import io, contextlib
+
+        buf, err = io.StringIO(), io.StringIO()
+        with contextlib.redirect_stdout(buf), contextlib.redirect_stderr(err):
+            code = main(["--week", "2"])
+        # An empty board and a blocked board mean opposite things.
+        self.assertEqual(code, 2)
+        self.assertIn("could not fetch", err.getvalue())

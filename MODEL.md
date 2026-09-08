@@ -141,3 +141,32 @@ constant.
 
 Fee schedules vary by product and maker orders price differently, so read the
 real coefficient off the account before staking anything.
+
+## Pulling a week's board
+
+```bash
+python3 -m cfb_edge.board --week 2 --book lines.csv --show-all
+python3 -m cfb_edge.board --week 2 --json week2.json   # then paste into the page
+python3 -m cfb_edge.board --offline tests/fixtures/board.json \
+                          --book tests/fixtures/lines.csv --show-all
+```
+
+Kalshi market data needs no key, so the Kalshi leg runs anywhere the network
+allows `api.elections.kalshi.com`. Where an egress policy blocks that host the
+run exits with a message naming it, because an empty board and a blocked board
+mean opposite things and must never look alike.
+
+Two details in `providers/kalshi.py` are worth knowing before trusting a price.
+
+Kalshi publishes two arrays of **bids**, one for YES and one for NO, and neither
+is an ask. A NO bid at q is a YES offer at `100 - q`. Reading the YES array as
+an offer book reports a price better than anything fillable, which surfaces
+downstream as a large edge that does not exist.
+
+And a midpoint is not a fill. Every entry price is a VWAP over the resting book
+for the size you actually want, and a book that cannot fill that size returns
+nothing rather than extrapolating.
+
+`--book` takes a CSV of `ticker,fair_cents` from whatever de-vigs your
+sportsbook prices. Without it every fair value falls back to an assumed 50c,
+which the gate rejects by default; `--allow-assumed` shows them, marked.
