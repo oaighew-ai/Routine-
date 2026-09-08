@@ -1151,11 +1151,28 @@ class TestVenue(unittest.TestCase):
     def test_tails_are_not_the_answer(self):
         # The fee falls in the tails, but so does the density, and they very
         # nearly cancel. A deep strike loses to a key number every time.
+        # Bounds are widened so the deep strikes are actually in the ladder;
+        # the module's default 5-95% band already excludes most of them.
         from cfb_edge.venue import rank_expressions
 
-        ranked = {e.strike: e for e in rank_expressions(0.44) if e.venue == "exchange"}
+        ranked = {
+            e.strike: e
+            for e in rank_expressions(0.44, price_bounds=(0.01, 0.99))
+            if e.venue == "exchange"
+        }
+        self.assertIn(28, ranked, "widened bounds should reach the deep strikes")
         self.assertGreater(ranked[3].net, ranked[28].net)
         self.assertGreater(ranked[7].net, ranked[24].net)
+
+    def test_the_default_bounds_exclude_the_deepest_strikes(self):
+        """Guards the bug this test originally had: 28 sits at 3.4% and is
+        filtered out by the default band, so a test naming it needs wider
+        bounds rather than a different expectation."""
+        from cfb_edge.venue import rank_expressions
+
+        strikes = {e.strike for e in rank_expressions(0.44) if e.venue == "exchange"}
+        self.assertNotIn(28, strikes)
+        self.assertIn(3, strikes)
 
     def test_a_book_wins_when_its_line_lands_on_a_key_number(self):
         # Projected at 10, a book posts 7, and its vig beats an exchange fee at

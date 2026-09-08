@@ -618,6 +618,9 @@ two effects nearly cancel.
 | 20 | 10.0% | 0.0097 | 0.43% | 0.63% | -0.20% |
 | 28 | 3.4% | 0.0089 | 0.39% | 0.23% | +0.16% |
 
+(`venue.py` defaults to a 5-95% price band, which excludes the 28 row; widen
+`price_bounds` to see the deepest strikes.)
+
 Deep tails scrape by. Key numbers win by a mile, and they win at *every*
 projected margin, not just in pick'ems.
 
