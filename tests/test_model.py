@@ -747,3 +747,61 @@ class TestClusterBootstrap(unittest.TestCase):
             cluster_bootstrap([1.0, 2.0], ["A"])
         with self.assertRaises(ValueError):
             cluster_bootstrap([], [])
+
+
+class TestMeasureCommand(unittest.TestCase):
+    """The end-to-end promotion check, on a fixture with a known shape."""
+
+    def _run(self, *extra):
+        import io, contextlib
+        from cfb_edge.measure import main
+
+        fx = Path(__file__).resolve().parent / "fixtures"
+        out, err = io.StringIO(), io.StringIO()
+        with contextlib.redirect_stdout(out), contextlib.redirect_stderr(err):
+            code = main(["--runs", str(fx / "capture.jsonl.gz"),
+                         "--entries", str(fx / "entries.csv"),
+                         "--replicates", "800", *extra])
+        return code, out.getvalue(), err.getvalue()
+
+    def test_it_reports_both_intervals_and_holds(self):
+        code, out, _ = self._run()
+        self.assertEqual(code, 0)
+        self.assertIn("resampling contracts", out)
+        self.assertIn("resampling games", out)
+        # The fixture has a real shared game effect, so clustering must matter.
+        self.assertIn("clustering says hold", out)
+        self.assertIn("verdict on the clustered interval: hold", out)
+
+    def test_a_healthy_beat_rate_does_not_promote(self):
+        # The fixture beats the close on most decided markets and still holds.
+        _, out, _ = self._run()
+        self.assertRegex(out, r"beat \d+ / tied \d+ / lost \d+")
+        self.assertNotIn("verdict on the clustered interval: PROMOTE", out)
+
+    def test_flat_markets_are_counted_separately(self):
+        _, out, _ = self._run()
+        self.assertIn("never moved", out)
+        self.assertIn("carries no information", out)
+        self.assertIn("markets that moved", out)
+
+    def test_horizons_are_reported(self):
+        _, out, _ = self._run()
+        for minutes in (5, 30, 120, 1440):
+            self.assertIn(f"{minutes}m before kickoff", out)
+
+    def test_missing_capture_files_fail_loudly(self):
+        import io, contextlib
+        from cfb_edge.measure import main
+
+        fx = Path(__file__).resolve().parent / "fixtures"
+        err = io.StringIO()
+        with contextlib.redirect_stdout(io.StringIO()), contextlib.redirect_stderr(err):
+            code = main(["--runs", "no/such/*.gz", "--entries", str(fx / "entries.csv")])
+        self.assertEqual(code, 2)
+        self.assertIn("no capture files matched", err.getvalue())
+
+    def test_a_wrong_price_field_returns_nothing_rather_than_garbage(self):
+        code, _, err = self._run("--price-field", "not_a_real_field")
+        self.assertEqual(code, 2)
+        self.assertIn("Check --price-field", err)

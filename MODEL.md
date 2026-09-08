@@ -203,3 +203,32 @@ dispersion in that sample, roughly **500 games** are needed before a true
 and constant. A capture running 67 games a week reaches that around the end of
 a season. Any promotion rule counting contracts rather than games is set at a
 small fraction of its intended bar.
+
+### Running the promotion check
+
+```bash
+python3 -m cfb_edge.measure --runs "data/raw/*.jsonl.gz" --entries entries.csv
+```
+
+Rebuilds CLV from the capture and reports the interval both ways, so the size
+of the clustering correction is measured rather than assumed. How much it
+matters depends entirely on the shared game effect in your own data:
+
+| Shared game effect | Interval widens | Verdict flips | Games needed |
+|---|---|---|---|
+| 0.0c | 0.95x | no | 3 |
+| 0.2c | 1.65x | no | 12 |
+| 0.5c | 2.61x | no | 53 |
+| 0.8c | 2.96x | no | 129 |
+| 1.2c | 3.27x | **yes** | 283 |
+| 1.6c | 3.36x | **yes** | 498 |
+| 2.4c | 3.41x | **yes** | 1111 |
+
+Below roughly 0.2c the correction is negligible and nothing changes. Above
+roughly 0.8c it decides promotions. The figure quoted earlier in this document
+assumed 1.6c, which was a guess; the command above replaces it with the number
+your capture actually contains.
+
+A mismatched `--price-field` returns nothing rather than something wrong, and
+entries with no game label are reported rather than silently treated as
+independent, since that would remove the correction without saying so.
