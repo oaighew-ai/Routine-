@@ -155,3 +155,69 @@ def fetch_series(names: Sequence[str] = ("moneyline", "spread", "total"),
     for name in names:
         out[name] = fetch_markets(SERIES[name], opener=opener)
     return out
+
+
+def find_markets(
+    team: str, *, series: str = SERIES["spread"], opener: Opener | None = None,
+    limit: int = 200,
+) -> list[dict]:
+    """Find the live markets for a game, by team name.
+
+    Exists because a ticker cannot be safely guessed. The event ticker follows
+    an obvious shape, `26SEP11` plus two team abbreviations, but the
+    abbreviations are Kalshi's own and a spread market appends a strike suffix
+    on top. Constructing one from the pattern lands you in a different market
+    with no error, which is worse than not finding it.
+
+    So: ask the exchange. Returns every open market whose title or subtitle
+    mentions the team, with its ticker, strike and current prices, and lets a
+    person read off the one they meant.
+    """
+    needle = team.strip().lower()
+    out: list[dict] = []
+    for m in fetch_markets(series, opener=opener, limit=limit):
+        haystack = " ".join(str(m.get(k) or "") for k in
+                            ("title", "subtitle", "yes_sub_title", "event_ticker"))
+        if needle in haystack.lower():
+            out.append({
+                "ticker": m.get("ticker"),
+                "event": m.get("event_ticker"),
+                "title": m.get("title"),
+                "yes": m.get("yes_sub_title"),
+                "yes_bid": m.get("yes_bid"),
+                "yes_ask": m.get("yes_ask"),
+                "close_time": m.get("close_time"),
+            })
+    return out
+
+
+def main(argv: list[str] | None = None) -> int:
+    """python3 -m cfb_edge.providers.kalshi --team Kansas --market spread"""
+    import argparse
+
+    p = argparse.ArgumentParser(prog="cfb_edge.providers.kalshi",
+                                description=main.__doc__)
+    p.add_argument("--team", required=True, help="any team in the game")
+    p.add_argument("--market", default="spread", choices=sorted(SERIES))
+    args = p.parse_args(argv)
+
+    try:
+        rows = find_markets(args.team, series=SERIES[args.market])
+    except KalshiUnreachable as exc:
+        print(f"cannot reach Kalshi: {exc}")
+        return 2
+    if not rows:
+        print(f"no open {args.market} markets mentioning {args.team!r}. "
+              f"Lines may not be posted yet.")
+        return 1
+    print(f"{len(rows)} open {args.market} markets mentioning {args.team!r}:\n")
+    for r in rows:
+        bid = r["yes_bid"]; ask = r["yes_ask"]
+        quote = f"{bid}/{ask}" if bid is not None and ask is not None else "no quote"
+        print(f"  {r['ticker']}")
+        print(f"      {r['yes'] or r['title']}   [{quote}]")
+    return 0
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())

@@ -1615,3 +1615,34 @@ class TestSlateBuilder(unittest.TestCase):
                 cols, ["game", "projected_margin", "side", "posted_line", "total"])
         finally:
             os.unlink(path)
+
+    def test_the_ticker_finder_matches_on_any_field(self):
+        from cfb_edge.providers.kalshi import find_markets
+        import json
+
+        payload = json.dumps({"markets": [
+            {"ticker": "KXNCAAFSPREAD-26SEP11MIZKAN-KAN3",
+             "event_ticker": "26SEP11MIZKAN",
+             "title": "Missouri at Kansas",
+             "yes_sub_title": "Kansas wins by over 3 points",
+             "yes_bid": 40, "yes_ask": 42},
+            {"ticker": "KXNCAAFSPREAD-26SEP12ASUTAM-TAM3",
+             "event_ticker": "26SEP12ASUTAM",
+             "title": "Arizona State at Texas A&M",
+             "yes_sub_title": "Texas A&M wins by over 3 points",
+             "yes_bid": 62, "yes_ask": 64},
+        ]}).encode()
+
+        rows = find_markets("Kansas", opener=lambda url: payload)
+        self.assertEqual(len(rows), 1)
+        self.assertEqual(rows[0]["ticker"], "KXNCAAFSPREAD-26SEP11MIZKAN-KAN3")
+        self.assertEqual(rows[0]["yes_bid"], 40)
+
+    def test_the_finder_reports_nothing_rather_than_a_near_miss(self):
+        from cfb_edge.providers.kalshi import find_markets
+        import json
+
+        payload = json.dumps({"markets": [
+            {"ticker": "X", "title": "Missouri at Kansas",
+             "yes_sub_title": "Kansas wins by over 3 points"}]}).encode()
+        self.assertEqual(find_markets("Nebraska", opener=lambda url: payload), [])
