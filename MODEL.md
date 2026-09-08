@@ -795,3 +795,46 @@ To run the capture unattended on Windows: Task Scheduler, trigger **At startup**
 action `scripts\capture.bat`, and on the Settings tab enable restart on failure.
 Task Scheduler only fires while logged on, which is the same constraint that
 stalled the earlier capture effort.
+
+## The rating scale, and a bug it hid
+
+Ratings from `solve_ratings` come out compressed, and badly. Shrinkage toward a
+prior pulls every team toward the middle, regressing the prior between seasons
+pulls them again, and the result is a spread of ratings far narrower than the
+spread of real team quality.
+
+Measured against 6,398 real closing lines, regressing the market's number on
+this model's projection gives a slope of **1.40**, with projections at a
+standard deviation of 8.95 against the market's 13.34. Correcting for it takes
+the slope to 1.001.
+
+That is not a small inaccuracy. It is a systematic bias with a direction: a
+compressed model always makes the underdog look undervalued, so a strategy that
+bets on disagreement with the market bets underdogs almost exclusively and reads
+its own scale error as signal.
+
+It surfaced on the 2026 week two board. The model projected Clemson by 3 against
+a market number of 26.5, on a Georgia Southern side that had played no rated
+games at all and so carried nothing but its regressed prior. Correcting the
+scale changed the card:
+
+| Game | Before | After | Why |
+|---|---|---|---|
+| Arizona State @ Texas A&M | bet Arizona State | **no bet** | model +9.86 to +12.52, gap 4.64 to 1.98 |
+| Oklahoma @ Michigan | no bet | **bet Oklahoma** | model -0.99 to -2.67, gap 3.49 to 5.17 |
+
+Arizona State was a false signal of exactly the predicted shape, a big underdog
+that a compressed model reads as cheap. Oklahoma was a missed one, and its line
+then moved nine points toward Oklahoma, the largest move on the board.
+
+**The constant is a property of the pipeline, not of football.** Inside the
+simulator in `backtest.py` the same ratings need a scale of 1.00, because that
+simulator hands the model priors equal to truth plus four points of noise, which
+is a far better preseason prior than anything real. Its ratings never compress,
+and applying 1.40 there over-corrects by forty percent and turns a profitable
+simulated column negative. So `rating_scale` is a parameter, `RATING_SCALE` is
+the real-data value, and `SIMULATED_RATING_SCALE` is the simulator's.
+
+That gap is itself worth recording: the simulator understates how wrong an
+early-season rating really is, so its results are optimistic about the early
+season in a way real data is not.

@@ -304,14 +304,20 @@ class TestEdge(unittest.TestCase):
         self.assertEqual(c.rejected_for, "unrated team")
 
     def test_no_bet_when_the_market_matches_the_model(self):
+        from cfb_edge.projection import RATING_SCALE
+
         model = self._seasoned_model()
-        fair = -(model.rating("Strong") - model.rating("Weak") + model.hfa)
+        fair = -((model.rating("Strong") - model.rating("Weak")) * RATING_SCALE
+                 + model.hfa)
         c = evaluate(model, Matchup("Strong", "Weak"), market_home_line=round(fair * 2) / 2)
         self.assertFalse(c.is_bet)
 
     def test_takes_the_side_the_model_prefers(self):
+        from cfb_edge.projection import RATING_SCALE
+
         model = self._seasoned_model()
-        fair = -(model.rating("Strong") - model.rating("Weak") + model.hfa)
+        fair = -((model.rating("Strong") - model.rating("Weak")) * RATING_SCALE
+                 + model.hfa)
         # Market makes the home favourite far too cheap: back home.
         # A weight has to be passed explicitly now: the default is zero, which
         # makes every edge zero and leaves no side to prefer.
@@ -338,8 +344,11 @@ class TestEdge(unittest.TestCase):
         self.assertGreater(EARLY_SEASON_MIN_EDGE, DEFAULT_MIN_EDGE)
 
     def test_a_bet_carries_positive_expected_value(self):
+        from cfb_edge.projection import RATING_SCALE
+
         model = self._seasoned_model()
-        fair = -(model.rating("Strong") - model.rating("Weak") + model.hfa)
+        fair = -((model.rating("Strong") - model.rating("Weak")) * RATING_SCALE
+                 + model.hfa)
         c = evaluate(model, Matchup("Strong", "Weak"), market_home_line=fair + 14.0,
                      max_model_weight=blend.DEMONSTRATED_EDGE_WEIGHT)
         if c.is_bet:
@@ -1646,3 +1655,71 @@ class TestSlateBuilder(unittest.TestCase):
             {"ticker": "X", "title": "Missouri at Kansas",
              "yes_sub_title": "Kansas wins by over 3 points"}]}).encode()
         self.assertEqual(find_markets("Nebraska", opener=lambda url: payload), [])
+
+
+class TestRatingScale(unittest.TestCase):
+    """Ratings come out compressed; uncorrected that is a directional bias."""
+
+    def test_the_simulator_needs_a_different_scale_than_real_data(self):
+        """The constant is a property of the pipeline, not of football. The
+        simulator's priors are truth plus noise, so its ratings never compress
+        and applying the real-data scale there over-corrects."""
+        from cfb_edge.projection import RATING_SCALE, SIMULATED_RATING_SCALE
+
+        self.assertAlmostEqual(SIMULATED_RATING_SCALE, 1.00, places=2)
+        self.assertGreater(RATING_SCALE, SIMULATED_RATING_SCALE)
+
+    def test_the_scale_is_applied_to_the_rating_gap(self):
+        from cfb_edge.projection import RATING_SCALE, Matchup, project
+        from cfb_edge.ratings import RatingModel
+
+        model = RatingModel(ratings={"A": 5.0, "B": -5.0},
+                            games_played={"A": 5, "B": 5}, hfa=3.2)
+        p = project(model, Matchup("A", "B"))
+        self.assertAlmostEqual(p.rating_gap, 10.0 * RATING_SCALE, places=9)
+        self.assertAlmostEqual(p.home_margin, 10.0 * RATING_SCALE + 3.2, places=9)
+
+    def test_home_field_is_not_scaled(self):
+        """HFA was fitted directly against real margins and is already in the
+        right units; scaling it would double-count the correction."""
+        from cfb_edge.projection import Matchup, project
+        from cfb_edge.ratings import RatingModel
+
+        model = RatingModel(ratings={"A": 0.0, "B": 0.0},
+                            games_played={"A": 5, "B": 5}, hfa=3.2)
+        self.assertAlmostEqual(project(model, Matchup("A", "B")).home_margin,
+                               3.2, places=9)
+
+    def test_a_neutral_site_gets_no_home_field(self):
+        from cfb_edge.projection import RATING_SCALE, Matchup, project
+        from cfb_edge.ratings import RatingModel
+
+        model = RatingModel(ratings={"A": 5.0, "B": -5.0},
+                            games_played={"A": 5, "B": 5}, hfa=3.2)
+        p = project(model, Matchup("A", "B", neutral=True))
+        self.assertAlmostEqual(p.home_margin, 10.0 * RATING_SCALE, places=9)
+
+    def test_the_scale_expands_rather_than_shrinks(self):
+        """Measured at 1.40 against 6,398 real closing lines. A value below 1
+        would mean the ratings were too spread out, which they are not."""
+        from cfb_edge.projection import RATING_SCALE
+
+        self.assertGreater(RATING_SCALE, 1.0)
+        self.assertLess(RATING_SCALE, 2.0)
+
+    def test_compression_biases_toward_underdogs(self):
+        """The reason this matters. An uncorrected model understates every
+        mismatch, so the favourite always looks overpriced and a
+        disagreement-based strategy bets underdogs on its own scale error."""
+        from cfb_edge.projection import RATING_SCALE
+        from cfb_edge.strategy import signal_side
+
+        raw_gap = 20.0                      # a genuine mismatch
+        market_line = -raw_gap              # market has it right
+        compressed = raw_gap / RATING_SCALE
+        side_wrong, _ = signal_side("Home", "Away", projected_margin=compressed,
+                                    opening_home_line=market_line)
+        side_right, _ = signal_side("Home", "Away", projected_margin=raw_gap,
+                                    opening_home_line=market_line)
+        self.assertEqual(side_wrong, "Away")   # the false underdog signal
+        self.assertIsNone(side_right)          # corrected: no signal at all

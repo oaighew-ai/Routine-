@@ -27,6 +27,7 @@ import urllib.request
 from dataclasses import dataclass
 from typing import Callable
 
+from .projection import RATING_SCALE
 from .ratings import Game, solve_ratings
 
 RAW_ROOT = (
@@ -123,7 +124,7 @@ def build(
         out.append(SlateRow(
             game=f"{away} @ {home}",
             projected_margin=round(
-                model.rating(home) - model.rating(away)
+                (model.rating(home) - model.rating(away)) * RATING_SCALE
                 + (0.0 if neutral else model.hfa), 2),
             neutral=neutral,
             date=(r.get("start_date") or "")[:10],

@@ -35,7 +35,7 @@ from dataclasses import dataclass
 from .blend import DEMONSTRATED_EDGE_WEIGHT
 from .edge import evaluate
 from .market import payout_multiple
-from .projection import Matchup
+from .projection import SIMULATED_RATING_SCALE, Matchup
 from .ratings import Game, solve_ratings
 
 # Dispersion of a real college football result around its true expectation.
@@ -125,6 +125,7 @@ def simulate(
             candidate = evaluate(
                 model, Matchup(home, away), market_home_line=line, market_total=52.0,
                 max_model_weight=max_model_weight,
+                rating_scale=SIMULATED_RATING_SCALE,
             )
             if not candidate.is_bet:
                 continue

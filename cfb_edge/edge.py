@@ -78,6 +78,7 @@ def evaluate(
     min_edge: float | None = None,
     known_teams_only: bool = True,
     max_model_weight: float | None = None,
+    rating_scale: float | None = None,
 ) -> Candidate:
     """Judge a single game and return the better side, bet or not.
 
@@ -90,7 +91,10 @@ def evaluate(
     is what the model measured against real closing lines. Raise it only with
     your own evidence.
     """
-    projection: Projection = project(model, matchup)
+    projection: Projection = project(
+        model, matchup,
+        **({} if rating_scale is None else {"rating_scale": rating_scale}),
+    )
     weight = blend_mod.model_weight(
         projection.min_games_played,
         **({} if max_model_weight is None else {"max_weight": max_model_weight}),
