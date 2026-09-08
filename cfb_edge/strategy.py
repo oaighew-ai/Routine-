@@ -89,6 +89,9 @@ class Play:
     side: str
     number: int
     venue: str
+    # Price of the side actually being backed. `survival(number)` is the home
+    # side's price, so an away bet pays its complement, and quoting the home
+    # number would have you asking for the wrong side of the book.
     strike_price: float
     density: float
     gain: float
@@ -164,11 +167,15 @@ def find_plays(
         price = survival(number)
         if not 0.02 < price < 0.98:
             continue
+        backing_home = side.strip() == game.split("@")[-1].strip()
+        entry = price if backing_home else 1.0 - price
         for venue in venues:
             if not venue.is_exchange:
                 # A book is only usable when the number it posted is this one.
                 if posted_line is None or int(abs(posted_line)) != number:
                     continue
+            # The fee is symmetric in P, so cost is unchanged; the quoted price
+            # is not, and that is what a person reads off the screen.
             cost = venue.cost(price)
             net = gain - cost
             if net <= 0.0:
@@ -176,8 +183,8 @@ def find_plays(
             out.append(
                 Play(
                     game=game, side=side, number=number, venue=venue.name,
-                    strike_price=price, density=density, gain=gain, cost=cost,
-                    stake=_quarter_kelly(net, price),
+                    strike_price=entry, density=density, gain=gain, cost=cost,
+                    stake=_quarter_kelly(net, entry),
                 )
             )
     return sorted(out, key=lambda p: p.net, reverse=True)

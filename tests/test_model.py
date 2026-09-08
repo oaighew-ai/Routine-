@@ -1371,3 +1371,17 @@ class TestStrategy(unittest.TestCase):
         self.assertIsNone(signal_side("H", "A", **kw)[0])
         self.assertIsNotNone(
             signal_side("H", "A", min_disagreement=1.0, **kw)[0])
+
+    def test_the_quoted_price_is_the_side_being_backed(self):
+        """An away bet pays the complement of the home side's price. Quoting
+        the home number would send you to the wrong side of the book."""
+        from cfb_edge.strategy import Venue, find_plays
+
+        ex = [Venue("exchange", is_exchange=True)]
+        home = find_plays("Away @ Home", projected_margin=9.86, side="Home",
+                          venues=ex)[0]
+        away = find_plays("Away @ Home", projected_margin=9.86, side="Away",
+                          venues=ex)[0]
+        self.assertAlmostEqual(home.strike_price + away.strike_price, 1.0, places=9)
+        self.assertLess(away.strike_price, 0.5)
+        self.assertGreater(home.strike_price, 0.5)
