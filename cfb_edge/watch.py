@@ -28,6 +28,14 @@ do not all move together. Rather than guessing the minute, poll often through
 the window when lines are expected and rarely outside it, and let first-seen do
 the work. Missing the exact moment costs nothing if the next poll is minutes
 away, and a poll that finds nothing new is nearly free.
+
+The strongest form of that rule is not a calendar at all. A poll that just
+recorded a first-seen price is direct evidence the board is opening *now*, so
+the next poll is five minutes away regardless of the hour. The clock only sets
+the baseline for when to look at all. This matters most in bowl season, where
+numbers post from early December and drift until January: a calendar rule would
+have to choose between five-minute polling for six weeks and missing the drop,
+and this one does neither.
 """
 
 from __future__ import annotations
@@ -50,21 +58,49 @@ RELEASE_WINDOW_UTC = {
     1: range(0, 18),    # Tuesday, until the market has settled
 }
 
-DENSE_INTERVAL_SECONDS = 300     # five minutes inside the window
-SPARSE_INTERVAL_SECONDS = 3600   # hourly outside it
+# Bowl and playoff numbers do not follow that rhythm. They post from early
+# December and do not close until late December or January, so the board fills
+# in over weeks rather than over one Sunday night. A weekday-and-hour rule
+# cannot express that, and the honest interval through it is neither five
+# minutes for six weeks nor an hour.
+POSTSEASON_MONTHS = {12: range(1, 32), 1: range(1, 21)}
+
+DENSE_INTERVAL_SECONDS = 300        # five minutes while numbers are landing
+POSTSEASON_INTERVAL_SECONDS = 1800  # half-hourly through the bowl trickle
+SPARSE_INTERVAL_SECONDS = 3600      # hourly when nothing is expected
 
 
 def in_release_window(when: datetime | None = None) -> bool:
-    """Whether now is when opening lines are likely to appear."""
+    """Whether now is when a regular week's opening lines are likely to appear."""
     when = when or datetime.now(timezone.utc)
     hours = RELEASE_WINDOW_UTC.get(when.weekday())
     return hours is not None and when.hour in hours
 
 
-def poll_interval(when: datetime | None = None) -> int:
-    return (
-        DENSE_INTERVAL_SECONDS if in_release_window(when) else SPARSE_INTERVAL_SECONDS
-    )
+def in_postseason_window(when: datetime | None = None) -> bool:
+    """Whether now is bowl and playoff season, when the board fills in slowly."""
+    when = when or datetime.now(timezone.utc)
+    days = POSTSEASON_MONTHS.get(when.month)
+    return days is not None and when.day in days
+
+
+def poll_interval(when: datetime | None = None, *, opened_last_poll: int = 0) -> int:
+    """How long to wait before the next poll.
+
+    The calendar is a prior, not the signal. The signal is whether the board is
+    actually opening: a poll that recorded a first-seen price means the market
+    is moving right now, so the next poll is five minutes away whatever the
+    clock says. That one rule is what makes bowl season work without polling
+    every five minutes for six weeks, and it costs nothing in a regular week
+    because the release window is already dense.
+    """
+    if opened_last_poll:
+        return DENSE_INTERVAL_SECONDS
+    if in_release_window(when):
+        return DENSE_INTERVAL_SECONDS
+    if in_postseason_window(when):
+        return POSTSEASON_INTERVAL_SECONDS
+    return SPARSE_INTERVAL_SECONDS
 
 
 @dataclass(frozen=True)
@@ -193,17 +229,20 @@ def watch(
     outcome worth avoiding.
     """
     polls = 0
+    opened = 0
     while max_polls is None or polls < max_polls:
         try:
             fresh = run_once(book, fetch)
+            opened = len(fresh)
             if fresh and on_new:
                 on_new(fresh)
         except Exception as exc:                      # noqa: BLE001
             print(f"poll failed, continuing: {exc}")
+            opened = 0
         polls += 1
         if max_polls is not None and polls >= max_polls:
             break
-        sleep(poll_interval(now()))
+        sleep(poll_interval(now(), opened_last_poll=opened))
     return polls
 
 
@@ -214,8 +253,10 @@ def main(argv: list[str] | None = None) -> int:
         python3 -m cfb_edge.watch --log data/opens.jsonl.gz --once
 
     Leave it running through Sunday evening and Monday. It polls every five
-    minutes inside the release window and hourly outside it, records the first
-    price it sees for each market, and never overwrites one.
+    minutes inside the release window, half-hourly through December and early
+    January when bowl numbers trickle out, and hourly the rest of the time. Any
+    poll that finds a new market tightens the next one to five minutes. It
+    records the first price it sees for each market and never overwrites one.
     """
     import argparse
 

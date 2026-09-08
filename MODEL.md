@@ -730,6 +730,49 @@ To leave it running unattended on Windows, Task Scheduler with *at startup* and
 cron entry hitting `--once` every five minutes. The `--once` mode exists for the
 cron shape, where the scheduler owns the interval rather than the process.
 
+### Bowl season, where the weekly rhythm stops working
+
+The release window was fitted to a regular week: books post look-ahead numbers
+from Sunday evening and the market fills in through Tuesday, so poll every five
+minutes across that stretch and hourly otherwise. Bowl and playoff numbers do
+not behave that way. They post from early December and do not close until late
+December or January, which is two to six weeks of line movement against two to
+six days, on the only edge in this project that survived testing.
+
+A weekday-and-hour rule cannot express that, and both ways of forcing it are
+bad. Five-minute polling from Dec 1 to Jan 20 is 14,688 requests, most of them
+against a board that has not changed. Leaving it hourly means a number can post
+and drift for an hour before it is first seen, and first-seen is the whole
+mechanism.
+
+The fix is to stop treating the calendar as the signal. A poll that just
+recorded a first-seen price is direct evidence the board is opening right now,
+so the next poll goes to five minutes whatever the clock says:
+
+```python
+def poll_interval(when=None, *, opened_last_poll=0):
+    if opened_last_poll:              return DENSE_INTERVAL_SECONDS       # 300
+    if in_release_window(when):       return DENSE_INTERVAL_SECONDS       # 300
+    if in_postseason_window(when):    return POSTSEASON_INTERVAL_SECONDS  # 1800
+    return SPARSE_INTERVAL_SECONDS                                        # 3600
+```
+
+December and the first twenty days of January get a half-hourly baseline, which
+is 2,448 requests across the whole stretch rather than 14,688. The worst case is
+that a bowl number sits unseen for thirty minutes; the moment one lands, the
+next poll is five minutes away and stays there while the board is moving.
+
+The ordering matters in one place. Championship-week Sunday falls inside both
+windows, and the weekly window has to win so that the last regular release is
+not coarsened to half-hourly by a calendar rule aimed at bowls. There is a test
+for exactly that date.
+
+This costs nothing in a regular week, where the release window is already dense,
+and it makes the offseason self-correcting: if a book posts a line in February,
+the capture tightens on its own instead of waiting for a rule that anticipated
+February.
+
+
 ## Reconciling team names
 
 Every provider spells these teams differently, and one pair makes the stakes

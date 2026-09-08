@@ -1456,6 +1456,66 @@ class TestOpeningCapture(unittest.TestCase):
         self.assertEqual(poll_interval(sunday_evening), DENSE_INTERVAL_SECONDS)
         self.assertEqual(poll_interval(friday_noon), SPARSE_INTERVAL_SECONDS)
 
+    def test_bowl_season_polls_between_dense_and_sparse(self):
+        from datetime import datetime, timezone
+        from cfb_edge.watch import (DENSE_INTERVAL_SECONDS, POSTSEASON_INTERVAL_SECONDS,
+                                    SPARSE_INTERVAL_SECONDS, poll_interval)
+
+        # A Friday in bowl season is outside every weekly release window, but
+        # bowl numbers post on no weekly rhythm at all.
+        bowl_friday = datetime(2026, 12, 18, 12, tzinfo=timezone.utc)
+        self.assertEqual(poll_interval(bowl_friday), POSTSEASON_INTERVAL_SECONDS)
+        self.assertLess(POSTSEASON_INTERVAL_SECONDS, SPARSE_INTERVAL_SECONDS)
+        self.assertGreater(POSTSEASON_INTERVAL_SECONDS, DENSE_INTERVAL_SECONDS)
+
+        # January playoff dates are in; February is not.
+        self.assertEqual(poll_interval(datetime(2027, 1, 8, 12, tzinfo=timezone.utc)),
+                         POSTSEASON_INTERVAL_SECONDS)
+        self.assertEqual(poll_interval(datetime(2027, 2, 5, 12, tzinfo=timezone.utc)),
+                         SPARSE_INTERVAL_SECONDS)
+
+        # Championship-week Sunday is still a regular release, and the weekly
+        # window has to win there rather than being coarsened by the calendar.
+        self.assertEqual(poll_interval(datetime(2026, 12, 6, 22, tzinfo=timezone.utc)),
+                         DENSE_INTERVAL_SECONDS)
+
+    def test_a_poll_that_opened_something_tightens_the_next_one(self):
+        from datetime import datetime, timezone
+        from cfb_edge.watch import DENSE_INTERVAL_SECONDS, poll_interval
+
+        # The calendar is a prior; a first-seen price is evidence. Every hour
+        # of the year goes dense once the board is demonstrably opening.
+        for when in (datetime(2026, 9, 11, 12, tzinfo=timezone.utc),   # regular Friday
+                     datetime(2026, 12, 18, 12, tzinfo=timezone.utc),  # bowl season
+                     datetime(2027, 2, 5, 12, tzinfo=timezone.utc)):   # offseason
+            self.assertEqual(poll_interval(when, opened_last_poll=3),
+                             DENSE_INTERVAL_SECONDS)
+
+    def test_the_watch_loop_feeds_new_opens_back_into_its_own_interval(self):
+        import tempfile, os
+        from datetime import datetime, timezone
+        from cfb_edge.watch import (DENSE_INTERVAL_SECONDS, OpeningBook, Quote,
+                                    SPARSE_INTERVAL_SECONDS, watch)
+
+        fd, path = tempfile.mkstemp(suffix=".jsonl"); os.close(fd)
+        try:
+            book = OpeningBook.load(path)
+            boards = [
+                [Quote("A @ B", "bk", "spread", -3.0, -110, "t0")],   # opens: dense next
+                [Quote("A @ B", "bk", "spread", -3.0, -110, "t1")],   # nothing new
+            ]
+            slept: list[float] = []
+            watch(book, lambda: boards[min(len(slept), len(boards) - 1)],
+                  max_polls=3, sleep=slept.append,
+                  now=lambda: datetime(2026, 6, 5, 12, tzinfo=timezone.utc))
+            # First poll opened a market, so the wait after it is dense. The
+            # second saw nothing new on a June Friday, so it falls back to
+            # sparse. A Monday would not test this: Mondays are always dense.
+            self.assertEqual(slept[0], DENSE_INTERVAL_SECONDS)
+            self.assertEqual(slept[1], SPARSE_INTERVAL_SECONDS)
+        finally:
+            os.unlink(path)
+
     def test_a_failing_poll_does_not_end_the_capture(self):
         import tempfile, os
         from cfb_edge.watch import OpeningBook, watch
