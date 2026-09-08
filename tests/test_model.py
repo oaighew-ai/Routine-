@@ -1104,3 +1104,35 @@ class TestLineMovement(unittest.TestCase):
         from cfb_edge.line_movement import clv_required
 
         self.assertAlmostEqual(clv_required(100).clv_needed, 0.0, places=9)
+
+
+class TestRealizedHold(unittest.TestCase):
+    """Measure a book rather than believe it."""
+
+    def test_a_standard_book_measures_as_minus_110(self):
+        h = market.realized_hold([(-110, -110)] * 50)
+        self.assertAlmostEqual(h.median_hold, 0.0476, places=4)
+        self.assertAlmostEqual(h.equivalent_price, -110, places=0)
+
+    def test_a_reduced_juice_book_measures_as_advertised(self):
+        h = market.realized_hold([(-105, -105)] * 50)
+        self.assertAlmostEqual(h.equivalent_price, -105, places=0)
+        self.assertTrue(h.clears(-105))
+
+    def test_a_book_that_only_sometimes_offers_it_is_caught(self):
+        # Advertises -105, posts it on a fifth of markets. The median is what
+        # you actually meet, and it is -110.
+        quotes = [(-105, -105)] * 20 + [(-110, -110)] * 80
+        h = market.realized_hold(quotes)
+        self.assertAlmostEqual(h.equivalent_price, -110, places=0)
+        self.assertFalse(h.clears(-105))
+
+    def test_the_threshold_comparison_runs_the_right_way(self):
+        cheap = market.realized_hold([(-103, -103)] * 10)
+        dear = market.realized_hold([(-115, -115)] * 10)
+        self.assertTrue(cheap.clears(-105))
+        self.assertFalse(dear.clears(-105))
+
+    def test_empty_input_is_refused(self):
+        with self.assertRaises(ValueError):
+            market.realized_hold([])

@@ -557,3 +557,41 @@ most impressive one.
 
 `line_movement.py` ships the arithmetic: `clv_required(price)` for the bar and
 `break_even_price(clv)` for its inverse.
+
+## Which books actually clear the threshold
+
+The CLV result needs a price better than about -106, so the venue question is
+not a detail. Measured from 416,185 real two-sided spread quotes, 2006-2019:
+
+| Book | Games | Median hold | Equivalent price | |
+|---|---|---|---|---|
+| MATCHBOOK | 8591 | 1.47% | **-103** | clears |
+| 5Dimes & sportbet | 9644 | 2.44% | **-105** | clears |
+| HERITAGE | 6619 | 2.44% | **-105** | clears |
+| PINNACLE | 9408 | 2.88% | -106 | borderline |
+| BETMANIA | 2423 | 3.38% | -107 | no |
+| bet365, Bovada, BetCRIS, BetOnline, | | | | |
+| JAZZ, JUSTBET, Intertops, SBR, +8 more | ~9000 each | 4.76% | -110 | no |
+
+**Three books out of twenty-two.** Everything mainstream sits at -110 to the
+cent, and the distribution is bimodal rather than continuous: books are either
+at 4.76% or they are running a different business.
+
+Two hard limits on that table. It stops in 2019, because **every spread row
+from 2020 onward carries an empty odds column** in this source: the modern data
+has lines but no prices. And of the three that cleared, one is an exchange
+rather than a book and the other two are offshore, which is not a coincidence.
+A book paying for US market access and television advertising does not price at
+2.44%.
+
+So the practical answer is uncomfortable. The venues that historically priced
+where this edge needs them to be are largely not available to a US bettor
+today, and the mainstream US market that replaced them prices at -110, where a
+half point of CLV loses money.
+
+`market.realized_hold` ships the measurement. Point it at any book's own quotes
+and it reports the median hold and the equivalent symmetric price, because a
+book advertising reduced juice may post it on marquee games and -110 everywhere
+else, and the median is the price you actually meet. That distinction decides
+whether this edge is a business or a slow loss, and it is not a claim worth
+taking on trust from anyone, including a book's own marketing.
