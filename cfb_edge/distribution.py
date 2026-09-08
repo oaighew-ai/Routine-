@@ -12,11 +12,21 @@ cannot see that will happily pay the same price for both. This module works
 with an explicit discrete distribution over integer margins so those effects
 fall out of the arithmetic instead of being ignored.
 
-The key-number multipliers below are priors, not measurements. They are the
-right shape and roughly the right size for FBS football, but they should be
-refit against real results with `fit_key_bumps`. They are deliberately smaller
-than the equivalent NFL numbers: college scoring is higher and more varied, so
-the mass piles up on key numbers less sharply than it does in the NFL.
+The multipliers below are fitted, not assumed. They come from 14,687 FBS-vs-FBS
+games from 2004 to 2024, comparing how often each margin actually occurred
+against a mixture of per-game normals centred on each game's Elo-implied
+expected margin. Fitting against the mixture rather than against a single
+pooled normal matters: the pooled spread of margins is 21.1 points, but that
+includes the variation in how mismatched the games were. The per-game residual
+is 16.5, and using 21 there would have flattened every key number by half.
+
+The structure is stronger than intuition suggests and it runs in both
+directions. A three-point margin happens in 9.7% of games where a smooth curve
+predicts 3.7%, a multiplier of 2.6. Seven is 2.3. But the numbers between the
+key ones are correspondingly starved: nine, twelve, fifteen and sixteen all
+occur at roughly half the smooth rate. Football scores in threes and sevens, so
+the mass has to come from somewhere, and modelling only the peaks while letting
+renormalisation handle the troughs understates both.
 """
 
 from __future__ import annotations
@@ -35,14 +45,36 @@ IMPOSSIBLE_MARGINS = frozenset({0})
 
 # Relative mass multipliers by absolute margin, applied before renormalising.
 KEY_BUMPS: Mapping[int, float] = {
-    3: 1.42,
-    7: 1.32,
-    10: 1.14,
-    14: 1.16,
-    17: 1.08,
-    21: 1.10,
-    24: 1.05,
-    28: 1.05,
+    1: 0.95,
+    2: 0.75,
+    3: 2.64,
+    4: 1.01,
+    5: 0.75,
+    6: 0.90,
+    7: 2.32,
+    8: 0.76,
+    9: 0.36,
+    10: 1.39,
+    11: 0.71,
+    12: 0.44,
+    13: 0.60,
+    14: 1.48,
+    15: 0.49,
+    16: 0.51,
+    17: 1.32,
+    18: 1.00,
+    19: 0.56,
+    20: 0.85,
+    21: 1.68,
+    22: 0.60,
+    23: 0.61,
+    24: 1.46,
+    25: 0.99,
+    26: 0.55,
+    27: 0.95,
+    28: 1.66,
+    29: 0.60,
+    30: 0.67,
 }
 
 # Margin dispersion is tied to how many points the game is expected to produce:

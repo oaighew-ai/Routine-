@@ -274,12 +274,84 @@ net                                   -4.20c
 
 **Kalshi charges each leg on that leg's own notional.** A spread between two
 65-cent strikes pays fees as though you traded two 65-cent contracts, while the
-position is worth about three cents. For margins of 7, 10 and 14 the fee alone
-exceeds the entire fair value, so the breakeven cost is *negative*: no bid-ask
-spread, however tight, makes it work.
+position is worth a few cents.
 
-That kills the idea for a reason that has nothing to do with football, and it
-generalises past this one strategy. **Any Kalshi position built by differencing
-two mid-ladder strikes is dead on arrival.** Only trades whose fee is
-proportional to the exposure you actually want survive, which is why a single
-outright in the tail behaves so differently from a spread in the middle.
+The numbers above came from the old priors and were too pessimistic. Refitting
+the key numbers against 14,687 real games raised the mispricing on a
+three-point margin from 0.94c to **3.7c**, roughly four times larger, so the
+verdict has to be restated:
+
+```
+key-number mispricing on 3, fitted       3.70c
+crossing two bid-ask spreads at 1c       2.00c
+two fees on two mid-ladder legs          3.14c
+                                        -------
+net                                     -1.44c   (the old priors said -4.20c)
+```
+
+Still uneconomic, but by a cent and a half rather than by a mile, and an
+earlier claim here that the fee alone exceeded the whole bucket's value is
+simply wrong: breakeven costs are positive now, up to 2.94c on the three-point
+bucket against about 4.2c of actual cost at the tick.
+
+So the honest verdict is narrower than "dead on arrival". A taker crossing two
+one-cent spreads cannot make it work. **A maker who posts both legs and never
+crosses would be looking at a different sum**, and that is the one version of
+this idea still worth testing. It is untested here.
+
+
+## Where the constants came from
+
+Everything below is fitted against 14,687 FBS-vs-FBS games from 2004 to 2024
+(cfbfastR schedules), not assumed. Three of the numbers this model shipped with
+were wrong, and one of them was wrong in a way that mattered.
+
+**Home field was 2.2 and should be 3.2.** Regressing final margin on the Elo
+gap with a home-field intercept gives a clear decline and a clear rebound:
+
+| Era | HFA |
+|---|---|
+| 2004-2008 | 4.49 |
+| 2009-2013 | 3.90 |
+| 2014-2018 | 3.14 |
+| 2019-2021 | 2.76 |
+| 2022-2024 | 3.39 |
+
+The trough is the empty-stadium seasons, and it rebounded. Reading the decline
+as continuing to two, which is what this model did, was about a point and a
+half too aggressive. A point and a half is most of a bet.
+
+**Margin dispersion was right, nearly by accident.** The pooled spread of
+margins is 21.1 points, and it is tempting to use that. It is the wrong number:
+it mixes in how mismatched the games were. The per-game residual is **16.5**,
+against the 16.0 this model already assumed. Using 21 would have flattened
+every key number by roughly half.
+
+**Key numbers were about half as strong as they should be.** Fitted against a
+mixture of per-game normals centred on each game's Elo-implied margin:
+
+| Margin | Prior | Fitted | Observed | Smooth curve says |
+|---|---|---|---|---|
+| 3 | 1.42 | **2.64** | 9.70% | 3.67% |
+| 7 | 1.32 | **2.32** | 8.16% | 3.51% |
+| 10 | 1.14 | 1.39 | 4.62% | 3.33% |
+| 14 | 1.16 | 1.48 | 4.43% | 3.00% |
+| 21 | 1.10 | 1.68 | 3.86% | 2.30% |
+
+And the troughs, which the old table ignored entirely: a margin of **9** occurs
+at 0.36x the smooth rate, **12** at 0.44x, **15** at 0.49x, **16** at 0.51x.
+Football scores in threes and sevens, so the mass on the key numbers has to be
+taken from somewhere. Modelling only the peaks and letting renormalisation
+handle the troughs understates both ends.
+
+Calibration after the refit, by predicted margin bucket:
+
+| Predicted margin | Games | P(margin 3) observed | model |
+|---|---|---|---|
+| 0-2 | 1714 | 13.83% | 12.60% |
+| 6-10 | 2843 | 10.80% | 11.34% |
+| 16-24 | 2436 | 5.71% | 6.59% |
+| whole sample | 14687 | 9.70% | 9.79% |
+
+Zero of the 14,687 games ended level, which is the overtime rule showing up in
+the data and confirms treating a margin of zero as impossible.

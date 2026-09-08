@@ -32,10 +32,21 @@ DEFAULT_MARGIN_CAP = 28.0
 # of the weight of its prior, and it takes a month for results to dominate.
 DEFAULT_PRIOR_WEIGHT = 4.0
 
-# Points a generic home field is worth. Modern college football sits closer to
-# two than to the three that older models assume; crowds matter less now that
-# scheduling, officiating and travel have all professionalised.
-DEFAULT_HFA = 2.2
+# Points a generic home field is worth, fitted from 14,687 FBS-vs-FBS games by
+# regressing final margin on the Elo gap with a home-field intercept.
+#
+#   2004-2008  4.49        2019-2021  2.76
+#   2009-2013  3.90        2022-2024  3.39
+#   2014-2018  3.14
+#
+# The long decline is real, and it is tempting to read the 2019-2021 trough as
+# the end state and set this near two. That is wrong: those seasons contain the
+# empty and half-empty stadiums of 2020, and the effect rebounded to 3.39 once
+# crowds came back. The recent four-year figure is 3.21, which is what this
+# uses. An earlier version of this file asserted 2.2 on the reasoning that
+# modern football had professionalised away the home edge; the data says that
+# reasoning was about a point and a half too aggressive.
+DEFAULT_HFA = 3.2
 
 
 @dataclass(frozen=True)

@@ -888,12 +888,23 @@ class TestLadder(unittest.TestCase):
     def test_the_key_number_spread_cannot_clear_its_own_fees(self):
         """The finding this module exists to establish.
 
-        Kalshi charges per leg on each leg's own notional. A vertical spread
-        between two mid-ladder strikes pays fees as though you traded two
-        65-cent contracts, while the position itself is worth about three
-        cents. For several key numbers the fee alone exceeds the entire fair
-        value, so the breakeven cost is negative and no bid-ask spread, however
-        tight, makes the trade possible.
+        Kalshi charges per leg on each leg's own notional, so a vertical spread
+        between two mid-ladder strikes pays fees as though two 65-cent
+        contracts were traded while the position is worth a few cents.
+
+        The original version of this test asserted something stronger: that the
+        fee alone exceeded the whole bucket's value, making the breakeven cost
+        negative. Refitting the key numbers against 14,687 real games disproved
+        that. The true mispricing on a three-point margin is about 3.7c, not
+        the 0.94c the earlier priors implied, so the buckets are worth roughly
+        four times what the model used to think and their breakeven costs are
+        positive.
+
+        The trade is still uneconomic, but for a weaker and more contingent
+        reason: at the one-cent tick, crossing two spreads plus two fees costs
+        about 4.2c against a breakeven of at best 2.94c. That is a gap of a
+        cent and a half rather than an impossibility, and it would close for a
+        maker who never crosses the spread.
         """
         from cfb_edge.distribution import _normal_cdf, sigma_for_total
         from cfb_edge.ladder import Ladder, bucket_trades
@@ -907,8 +918,22 @@ class TestLadder(unittest.TestCase):
         self.assertTrue(trades)
         for t in trades:
             self.assertFalse(t.clears)
-        # For the higher key numbers the fee alone swallows the whole payout.
-        self.assertTrue(any(t.breakeven_cost < 0 for t in trades))
+        # Breakeven is positive now, but far below what the tick actually
+        # costs, and the best case is the three-point bucket.
+        best = max(trades, key=lambda t: t.breakeven_cost)
+        self.assertEqual(best.margin, 3)
+        self.assertGreater(best.breakeven_cost, 0.0)
+        self.assertLess(best.breakeven_cost, 4.0)
+
+    def test_the_refit_quadrupled_the_key_number_mispricing(self):
+        """Guards the correction, so the old prior cannot creep back."""
+        from cfb_edge.distribution import KEY_BUMPS
+
+        self.assertGreater(KEY_BUMPS[3], 2.5)
+        self.assertGreater(KEY_BUMPS[7], 2.2)
+        # The troughs are as real as the peaks and must not be dropped.
+        self.assertLess(KEY_BUMPS[9], 0.5)
+        self.assertLess(KEY_BUMPS[12], 0.5)
 
     def test_coherence_report_counts_inversions(self):
         from cfb_edge.ladder import Ladder, coherence_report
