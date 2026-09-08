@@ -12,9 +12,20 @@ A dependency-free model for college football spreads, with the measurement
 apparatus to tell you whether it works. Standard library only, no API keys.
 
 ```bash
-python3 -m unittest discover -s tests     # 141 tests
+python3 -m unittest discover -s tests     # 172 tests
 python3 -m cfb_edge play --slate data/example_play.csv --book-price -105
 ```
+
+## `web/` — the pages
+
+Static single-file pages, no build step.
+
+- `week2-card.html` — the Week 2 2026 card: the plays the model found, how much
+  of the closing-line-value budget the market had already spent before you could
+  act, and what the rating-scale correction changed.
+- `cfb-edge-net.html` — a fee-adjusted board for pricing an exchange strike by
+  hand.
+
 
 Full documentation, including every result and every result that did not
 survive, is in [MODEL.md](MODEL.md).

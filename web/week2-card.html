@@ -1,0 +1,423 @@
+<title>Week 2 Edge Card</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700&family=IBM+Plex+Mono:wght@400;500;600&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&display=swap">
+<style>
+:root{
+  --ground:#e9edf3; --surface:#ffffff; --sunk:#dde4ed;
+  --ink:#131c2b; --ink-2:#43506a; --ink-3:#6e7c96;
+  --rule:#c2ccdb; --rule-soft:#dbe2ec;
+  --accent:#24468f; --accent-soft:#e2e8f6;
+  --live:#0f6f52; --live-soft:#dbeee6;
+  --decay:#9a5313; --decay-soft:#f6e7d6;
+  --dead:#8f2733; --dead-soft:#f6dfe1;
+  --sans:"Archivo","Helvetica Neue",Arial,sans-serif;
+  --mono:"IBM Plex Mono",ui-monospace,"SFMono-Regular",Menlo,monospace;
+  --serif:"Source Serif 4",Georgia,"Times New Roman",serif;
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --ground:#0e131b; --surface:#161d28; --sunk:#111823;
+    --ink:#dfe6f1; --ink-2:#a2aec4; --ink-3:#77849c;
+    --rule:#2b3648; --rule-soft:#222c3b;
+    --accent:#83a5ee; --accent-soft:#1b2740;
+    --live:#4cbc93; --live-soft:#122a24;
+    --decay:#d8934c; --decay-soft:#2c2115;
+    --dead:#e2717d; --dead-soft:#2e1a1e;
+  }
+}
+:root[data-theme="dark"]{
+  --ground:#0e131b; --surface:#161d28; --sunk:#111823;
+  --ink:#dfe6f1; --ink-2:#a2aec4; --ink-3:#77849c;
+  --rule:#2b3648; --rule-soft:#222c3b;
+  --accent:#83a5ee; --accent-soft:#1b2740;
+  --live:#4cbc93; --live-soft:#122a24;
+  --decay:#d8934c; --decay-soft:#2c2115;
+  --dead:#e2717d; --dead-soft:#2e1a1e;
+}
+
+*{box-sizing:border-box}
+body{
+  margin:0; background:var(--ground); color:var(--ink);
+  font-family:var(--serif); font-size:16px; line-height:1.6;
+  -webkit-font-smoothing:antialiased;
+  padding:36px 20px 72px;
+}
+.sheet{max-width:860px;margin:0 auto;display:flex;flex-direction:column;gap:38px}
+h1,h2,h3{font-family:var(--sans);text-wrap:balance;margin:0;letter-spacing:-.012em}
+h1{font-size:31px;font-weight:700;line-height:1.15}
+h2{font-size:15px;font-weight:600}
+h3{font-size:17px;font-weight:600}
+p{margin:0}
+.num{font-family:var(--mono);font-variant-numeric:tabular-nums}
+.lab{
+  font-family:var(--sans);font-size:10.5px;font-weight:600;
+  letter-spacing:.13em;text-transform:uppercase;color:var(--ink-3);
+}
+a{color:var(--accent)}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px;border-radius:2px}
+
+/* ---- masthead ---- */
+.mast{display:flex;flex-direction:column;gap:12px}
+.mast .kick{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap}
+.hrule{height:2px;background:var(--ink);opacity:.85}
+.mast .sub{
+  font-family:var(--mono);font-size:12.5px;color:var(--ink-2);
+  display:flex;gap:8px;flex-wrap:wrap;
+}
+.mast .sub b{font-weight:500;color:var(--ink)}
+
+/* ---- verdict band ---- */
+.verdict{
+  display:grid;grid-template-columns:minmax(0,1fr) auto;gap:22px;align-items:start;
+  border-top:2px solid var(--decay);border-bottom:1px solid var(--rule);
+  background:var(--decay-soft);padding:20px 22px;
+}
+.verdict .head{font-family:var(--sans);font-size:20px;font-weight:700;color:var(--decay);margin-bottom:8px}
+.verdict p{font-size:15.5px;max-width:62ch}
+.verdict .figs{display:flex;gap:26px}
+.verdict .figs div{text-align:right}
+.verdict .figs .v{font-family:var(--mono);font-size:25px;font-weight:600;line-height:1.1}
+
+/* ---- ledger ---- */
+.tw{overflow-x:auto}
+table{width:100%;border-collapse:collapse;min-width:560px}
+th{
+  font-family:var(--sans);font-size:10.5px;font-weight:600;letter-spacing:.11em;
+  text-transform:uppercase;color:var(--ink-3);text-align:right;
+  padding:0 0 8px;border-bottom:1px solid var(--rule);
+}
+th:first-child{text-align:left}
+td{
+  padding:13px 0;border-bottom:1px solid var(--rule-soft);text-align:right;
+  font-family:var(--mono);font-size:14px;font-variant-numeric:tabular-nums;
+}
+td:first-child{text-align:left;font-family:var(--serif);font-size:15.5px}
+tr:last-child td{border-bottom:none}
+td.stripe{border-left:3px solid transparent;padding-left:11px}
+tr.play td.stripe{border-left-color:var(--live)}
+tr.pass td.stripe{border-left-color:var(--rule)}
+tr.gone td.stripe{border-left-color:var(--dead)}
+tr.gone td{color:var(--ink-3)}
+tr.gone td:first-child{text-decoration:line-through;text-decoration-color:var(--dead)}
+.tag{
+  display:inline-block;font-family:var(--sans);font-size:10px;font-weight:600;
+  letter-spacing:.1em;text-transform:uppercase;padding:2px 7px;border-radius:2px;
+}
+.tag.play{background:var(--live-soft);color:var(--live)}
+.tag.pass{background:var(--sunk);color:var(--ink-3)}
+.tag.gone{background:var(--dead-soft);color:var(--dead)}
+.note{font-size:14px;color:var(--ink-2);max-width:66ch;margin-top:14px}
+
+/* ---- play cards ---- */
+.plays{display:grid;grid-template-columns:repeat(auto-fit,minmax(330px,1fr));gap:18px}
+.play-card{
+  background:var(--surface);border:1px solid var(--rule);border-radius:4px;
+  display:flex;flex-direction:column;
+}
+.play-card .top{padding:17px 19px 15px;border-bottom:1px solid var(--rule-soft)}
+.play-card .call{font-family:var(--sans);font-size:23px;font-weight:700;margin:5px 0 3px}
+.play-card .game{font-size:14.5px;color:var(--ink-2)}
+.play-card .grid{
+  display:grid;grid-template-columns:repeat(3,1fr);
+  border-bottom:1px solid var(--rule-soft);
+}
+.play-card .grid > div{padding:13px 19px;border-right:1px solid var(--rule-soft)}
+.play-card .grid > div:last-child{border-right:none}
+.play-card .grid .v{font-family:var(--mono);font-size:19px;font-weight:600;margin-top:3px}
+.play-card .math{padding:15px 19px;font-family:var(--mono);font-size:12.5px;color:var(--ink-2);line-height:1.75}
+.play-card .math b{color:var(--live);font-weight:600}
+.decay-strip{padding:15px 19px;background:var(--sunk);border-top:1px solid var(--rule-soft);margin-top:auto}
+.bar{height:10px;background:var(--surface);border:1px solid var(--rule);border-radius:2px;position:relative;overflow:hidden;margin:9px 0 7px}
+.bar i{display:block;height:100%;background:var(--decay)}
+.bar b{position:absolute;top:-3px;bottom:-3px;width:2px;background:var(--ink);left:0}
+.decay-strip .cap{font-family:var(--mono);font-size:12px;color:var(--ink-2)}
+
+/* ---- key numbers ---- */
+.keys{display:flex;flex-direction:column;gap:7px}
+.krow{display:grid;grid-template-columns:34px 1fr 58px;align-items:center;gap:12px}
+.krow .n{font-family:var(--mono);font-size:15px;font-weight:600;text-align:right}
+.krow .t{height:19px;background:var(--sunk);border-radius:2px;overflow:hidden}
+.krow .t i{display:block;height:100%;background:var(--rule);border-radius:2px}
+.krow.hot .t i{background:var(--accent)}
+.krow.hot .n{color:var(--accent)}
+.krow .m{font-family:var(--mono);font-size:13px;color:var(--ink-2);font-variant-numeric:tabular-nums}
+.baseline{
+  border-left:2px dashed var(--rule);padding-left:12px;margin-left:46px;
+  font-family:var(--mono);font-size:12px;color:var(--ink-3);margin-top:4px;
+}
+
+/* ---- calc ---- */
+.calc{
+  background:var(--surface);border:1px solid var(--rule);border-radius:4px;
+  padding:19px 21px;display:flex;flex-direction:column;gap:15px;
+}
+.calc .row{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.calc label{font-family:var(--sans);font-size:13px;font-weight:600}
+.calc input{
+  font-family:var(--mono);font-size:16px;padding:8px 11px;width:150px;
+  background:var(--ground);color:var(--ink);
+  border:1px solid var(--rule);border-radius:3px;
+}
+.calc .out{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:1px;background:var(--rule-soft)}
+.calc .out > div{background:var(--surface);padding:12px 14px}
+.calc .out .v{font-family:var(--mono);font-size:21px;font-weight:600;margin-top:3px}
+
+/* ---- withdrawn ---- */
+.dead-box{
+  border-left:3px solid var(--dead);background:var(--dead-soft);
+  padding:17px 20px;display:flex;flex-direction:column;gap:9px;
+}
+.dead-box h3{color:var(--dead)}
+.dead-box p{font-size:15px;max-width:64ch}
+.dead-box code{
+  font-family:var(--mono);font-size:13px;background:var(--surface);
+  padding:1px 5px;border-radius:2px;
+}
+
+/* ---- next ---- */
+.next{display:flex;flex-direction:column;gap:11px;border-top:1px solid var(--rule);padding-top:20px}
+.next ol{margin:0;padding-left:22px;display:flex;flex-direction:column;gap:7px;max-width:64ch}
+.next code{font-family:var(--mono);font-size:13.5px;background:var(--sunk);padding:1px 5px;border-radius:2px}
+.foot{
+  border-top:1px solid var(--rule);padding-top:16px;
+  font-family:var(--mono);font-size:11.5px;color:var(--ink-3);line-height:1.8;
+}
+@media (max-width:600px){
+  body{padding:24px 14px 56px}
+  h1{font-size:25px}
+  .verdict{grid-template-columns:1fr}
+  .verdict .figs div{text-align:left}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+</style>
+
+<div class="sheet">
+
+  <header class="mast">
+    <div class="kick"><span class="lab">CFB Edge · Week 2 · 2026</span><span class="lab" style="color:var(--accent)">rating-scale corrected</span></div>
+    <h1>Week 2 Edge Card</h1>
+    <div class="hrule"></div>
+    <div class="sub">
+      <span>Built <b>Sep 8, 2026</b></span><span>·</span>
+      <span>Slate <b>49 games</b></span><span>·</span>
+      <span>Lines captured <b>4</b></span><span>·</span>
+      <span>Model <b>ebfea50</b></span>
+    </div>
+  </header>
+
+  <section class="verdict">
+    <div>
+      <div class="head">Two plays clear. Both are stale. Pass.</div>
+      <p>The corrected model finds edges on Kansas and Oklahoma. It found them after
+      the market already moved to them. The whole edge here is predicted line
+      movement, and on both games that movement has already happened, so what the
+      model is pointing at is a price that no longer exists.</p>
+    </div>
+    <div class="figs">
+      <div><div class="lab">Plays</div><div class="v num">2</div></div>
+      <div><div class="lab">Exposure</div><div class="v num">1.35%</div></div>
+    </div>
+  </section>
+
+  <section>
+    <h2 class="lab" style="margin-bottom:14px">The four games with captured opening lines</h2>
+    <div class="tw">
+      <table>
+        <thead>
+          <tr>
+            <th>Game</th><th>Model</th><th>Open</th><th>Gap</th><th>Moved since</th><th>Verdict</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="play">
+            <td class="stripe">Missouri @ Kansas</td>
+            <td>KU +0.1</td><td>KU +6.5</td><td>6.43</td><td>1.0 pt</td>
+            <td><span class="tag play">play</span></td>
+          </tr>
+          <tr class="play">
+            <td class="stripe">Oklahoma @ Michigan</td>
+            <td>OU +2.7</td><td>OU +2.5</td><td>5.17</td><td>9.0 pts</td>
+            <td><span class="tag play">play</span></td>
+          </tr>
+          <tr class="pass">
+            <td class="stripe">Ohio State @ Texas</td>
+            <td>TEX &minus;0.9</td><td>TEX &minus;2.5</td><td>3.36</td><td>&mdash;</td>
+            <td><span class="tag pass">under bar</span></td>
+          </tr>
+          <tr class="gone">
+            <td class="stripe">Arizona State @ Texas A&amp;M</td>
+            <td>A&amp;M &minus;12.5</td><td>A&amp;M &minus;14.5</td><td>1.98</td><td>&mdash;</td>
+            <td><span class="tag gone">withdrawn</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="note">Gap is how far the model's fair number sits from the opening
+    number. The bar to act is 4.0 points. Ohio State @ Texas misses it by two
+    thirds of a point and gets no bet, which is the bar working, not the bar
+    failing.</p>
+  </section>
+
+  <section>
+    <h2 class="lab" style="margin-bottom:14px">The two plays, priced</h2>
+    <div class="plays">
+
+      <article class="play-card">
+        <div class="top">
+          <span class="lab">Fri Sep 11 · Missouri @ Kansas</span>
+          <div class="call">Kansas +3</div>
+          <div class="game">Exchange strike, not the posted &plus;6.5</div>
+        </div>
+        <div class="grid">
+          <div><div class="lab">Buy at</div><div class="v">39&cent;</div></div>
+          <div><div class="lab">Net edge</div><div class="v" style="color:var(--live)">&plus;1.17%</div></div>
+          <div><div class="lab">Stake</div><div class="v">0.48%</div></div>
+        </div>
+        <div class="math">
+          gain 2.84% &minus; fee 1.67% = <b>&plus;1.17%</b><br>
+          density at 3: 0.0645 &nbsp;·&nbsp; quarter Kelly
+        </div>
+        <div class="decay-strip">
+          <div class="lab">CLV budget spent before you bet</div>
+          <div class="bar"><i style="width:100%"></i><b style="left:44%"></b></div>
+          <div class="cap">1.0 pt moved against a 0.44 pt budget &mdash; <b>227%</b></div>
+        </div>
+      </article>
+
+      <article class="play-card">
+        <div class="top">
+          <span class="lab">Sat Sep 12 · Oklahoma @ Michigan</span>
+          <div class="call">Oklahoma +3</div>
+          <div class="game">Exchange strike, not the posted &plus;2.5</div>
+        </div>
+        <div class="grid">
+          <div><div class="lab">Buy at</div><div class="v">67&cent;</div></div>
+          <div><div class="lab">Net edge</div><div class="v" style="color:var(--live)">&plus;1.16%</div></div>
+          <div><div class="lab">Stake</div><div class="v">0.87%</div></div>
+        </div>
+        <div class="math">
+          gain 2.72% &minus; fee 1.56% = <b>&plus;1.16%</b><br>
+          density at 3: 0.0617 &nbsp;·&nbsp; quarter Kelly
+        </div>
+        <div class="decay-strip">
+          <div class="lab">CLV budget spent before you bet</div>
+          <div class="bar"><i style="width:100%"></i><b style="left:4.4%"></b></div>
+          <div class="cap">9.0 pts moved against a 0.44 pt budget &mdash; <b>2045%</b></div>
+        </div>
+      </article>
+
+    </div>
+    <p class="note">The tick on each bar is the 0.44 points of movement the model
+    expects to earn between the open and the close. Both lines have blown past it
+    already. Oklahoma opened as a 2.5-point dog and is now a 6.5-point favourite:
+    the nine points the model was pointing at have been paid out to whoever was
+    watching on Sunday.</p>
+  </section>
+
+  <section class="calc">
+    <div class="row">
+      <label for="br">Bankroll</label>
+      <input id="br" type="number" min="0" step="100" value="10000" inputmode="numeric">
+      <span class="num" style="color:var(--ink-3);font-size:13px">stakes are quarter Kelly, capped at 2% per bet</span>
+    </div>
+    <div class="out">
+      <div><div class="lab">Kansas +3 @ 39&cent;</div><div class="v" id="s1">$48</div><div class="num" style="font-size:12px;color:var(--ink-3)" id="c1">123 contracts</div></div>
+      <div><div class="lab">Oklahoma +3 @ 67&cent;</div><div class="v" id="s2">$87</div><div class="num" style="font-size:12px;color:var(--ink-3)" id="c2">130 contracts</div></div>
+      <div><div class="lab">Total at risk</div><div class="v" id="s3">$135</div><div class="num" style="font-size:12px;color:var(--ink-3)">1.35% of bankroll</div></div>
+    </div>
+  </section>
+
+  <section>
+    <h2 class="lab" style="margin-bottom:6px">Why both plays sit on 3</h2>
+    <p class="note" style="margin:0 0 16px">Share of final margins landing on each
+    number, against what a smooth distribution would put there. Fitted on 14,687
+    FBS games, 2004&ndash;2024. Points of line are only worth what the density
+    underneath them is worth, which is why the exchange wins here: a book sells one
+    posted number, an exchange sells the whole ladder, and neither book line this
+    week landed on a key number.</p>
+    <div class="keys">
+      <div class="krow hot"><span class="n">3</span><span class="t"><i style="width:100%"></i></span><span class="m">2.64&times;</span></div>
+      <div class="krow hot"><span class="n">7</span><span class="t"><i style="width:92%"></i></span><span class="m">2.44&times;</span></div>
+      <div class="krow"><span class="n">14</span><span class="t"><i style="width:56%"></i></span><span class="m">1.48&times;</span></div>
+      <div class="krow"><span class="n">10</span><span class="t"><i style="width:53%"></i></span><span class="m">1.39&times;</span></div>
+      <div class="krow"><span class="n">4</span><span class="t"><i style="width:38%"></i></span><span class="m">1.01&times;</span></div>
+      <div class="krow"><span class="n">1</span><span class="t"><i style="width:36%"></i></span><span class="m">0.95&times;</span></div>
+      <div class="krow"><span class="n">6</span><span class="t"><i style="width:34%"></i></span><span class="m">0.90&times;</span></div>
+      <div class="krow"><span class="n">2</span><span class="t"><i style="width:28%"></i></span><span class="m">0.75&times;</span></div>
+      <div class="krow"><span class="n">0</span><span class="t"><i style="width:0%"></i></span><span class="m">never</span></div>
+    </div>
+    <div class="baseline">1.00&times; is the smooth baseline. Zero is impossible: a
+    regulation tie goes to overtime.</div>
+  </section>
+
+  <section class="dead-box">
+    <h3>Withdrawn: Arizona State &plus;14.5</h3>
+    <p>This was on the card until today. It was a false signal.</p>
+    <p>The power ratings came out of a shrinkage fit that compressed them by a
+    factor of 1.40 against real closing lines &mdash; projections had a standard
+    deviation of 8.95 where the market's was 13.34. A compressed model pulls every
+    projection toward zero, which makes every underdog look cheap. Setting
+    <code>RATING_SCALE = 1.40</code> moved the slope from 1.400 to 1.001.</p>
+    <p>Arizona State's gap fell from 4.64 to 1.98 and it dropped off the card.
+    Oklahoma's rose from 3.49 to 5.17 and it appeared. The correction cost one bad
+    bet and found one good one, and the good one was the largest line move on the
+    board.</p>
+  </section>
+
+  <section class="next">
+    <h3>Week 3 is the one that matters</h3>
+    <p class="note" style="margin:0">Nothing on this card is worth chasing. The model
+    is now correct and it caught the Oklahoma move; it just caught it after the fact
+    because nobody was capturing opening lines when they released. That is fixable
+    and it is the only thing worth doing this week.</p>
+    <ol>
+      <li>Put your Odds API key in <code>ODDS_API_KEY</code>.</li>
+      <li>Run <code>scripts\capture.bat</code> before Sunday evening. It polls every
+      5 minutes through the release window and writes a first-seen log that cannot
+      be overwritten.</li>
+      <li>Run <code>scripts\card.bat</code> Monday. The card is then priced against
+      numbers nobody has moved yet.</li>
+    </ol>
+  </section>
+
+  <div class="foot">
+    Model weight on the market blend: 0.00. Measured, not chosen &mdash; regressing outcomes on both
+    market and model gives the market a coefficient of 1.0353 (t = &plus;24.6) and the model
+    &minus;0.0192 (t = &minus;0.31) over 6,398 games.<br>
+    The one surviving edge is line movement: &plus;0.44 points of closing line value,
+    t = 3.2 to 5.5. A &minus;110 book needs 0.67 points. That shortfall is why every play here
+    is an exchange strike on a key number.<br>
+    This is a hypothesis with a standard error, not a demonstrated profit.
+  </div>
+
+</div>
+
+<script>
+(function(){
+  var br = document.getElementById("br");
+  var plays = [
+    {stake:0.0048, price:0.39, s:"s1", c:"c1"},
+    {stake:0.0087, price:0.67, s:"s2", c:"c2"}
+  ];
+  var money = function(n){
+    return "$" + Math.round(n).toLocaleString("en-US");
+  };
+  function render(){
+    var b = parseFloat(br.value);
+    if (!isFinite(b) || b < 0) b = 0;
+    var total = 0;
+    plays.forEach(function(p){
+      var dollars = b * p.stake;
+      total += dollars;
+      document.getElementById(p.s).textContent = money(dollars);
+      var n = Math.floor(dollars / p.price);
+      document.getElementById(p.c).textContent =
+        n.toLocaleString("en-US") + (n === 1 ? " contract" : " contracts");
+    });
+    document.getElementById("s3").textContent = money(total);
+  }
+  br.addEventListener("input", render);
+  render();
+})();
+</script>
