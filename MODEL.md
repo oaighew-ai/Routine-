@@ -595,3 +595,54 @@ book advertising reduced juice may post it on marquee games and -110 everywhere
 else, and the median is the price you actually meet. That distinction decides
 whether this edge is a business or a slow loss, and it is not a claim worth
 taking on trust from anyone, including a book's own marketing.
+
+## Kalshi's tail prices versus a -105 book
+
+Worth testing because the two costs have different shapes. A book charges a flat
+vig; an exchange charges `0.07 x P x (1-P)`, which peaks at a coin flip and
+falls away toward both ends. The obvious inference is that tail strikes are
+cheap and therefore good.
+
+That inference is wrong, and it is wrong for an instructive reason. A CLV edge
+is denominated in points of line, and points convert to probability at the local
+density of the margin distribution. The fee falls in the tails, but the density
+falls too, so the same half point of line buys less probability out there. The
+two effects nearly cancel.
+
+| Strike | Price | Density | 0.44 pts buys | Exchange fee | Net |
+|---|---|---|---|---|---|
+| 0 | 50.0% | 0.0236 | 1.04% | 1.75% | -0.71% |
+| **3** | 39.3% | 0.0646 | **2.84%** | 1.67% | **+1.17%** |
+| **7** | 27.5% | 0.0552 | **2.43%** | 1.40% | **+1.03%** |
+| 9 | 25.1% | 0.0076 | 0.34% | 1.32% | -0.98% |
+| 20 | 10.0% | 0.0097 | 0.43% | 0.63% | -0.20% |
+| 28 | 3.4% | 0.0089 | 0.39% | 0.23% | +0.16% |
+
+Deep tails scrape by. Key numbers win by a mile, and they win at *every*
+projected margin, not just in pick'ems.
+
+**So the exchange's real advantage is not its fee. It is strike selection.** A
+book sells the one line it has posted, which sits near the game's median. An
+exchange sells the whole ladder, so the edge can always be expressed at three or
+seven where the density is two and a half times higher.
+
+That gives a clean rule, and it cuts both ways:
+
+| Situation | Best venue | Net edge |
+|---|---|---|
+| Book's line lands on 3 or 7 | **the book**, at -105 or better | +1.43% |
+| Book's line is an ordinary number | **the exchange**, at the 3 or 7 strike | +0.9% to +1.2% |
+| Book's line is ordinary, only -110 available | neither | negative |
+
+At -110 nothing works unless the posted line is already a key number. At -105 a
+key-number line is the best bet on the board, better than any exchange strike,
+because 1.22% of vig beats 1.75% of fee on the same proposition. Away from key
+numbers the exchange is the only venue that clears at all.
+
+`venue.py` ranks the options for a given projected margin and CLV.
+
+One circularity to keep in view: the 0.44 points of CLV was measured on
+sportsbook line movement. Whether it transfers to an exchange strike depends on
+the exchange tracking the sportsbook, which is precisely the propagation
+hypothesis that remains untested. This section says where the edge is worth
+most **if** it transfers, not that it does.

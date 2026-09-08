@@ -1136,3 +1136,57 @@ class TestRealizedHold(unittest.TestCase):
     def test_empty_input_is_refused(self):
         with self.assertRaises(ValueError):
             market.realized_hold([])
+
+
+class TestVenue(unittest.TestCase):
+    """Where to express a line edge, once you have one."""
+
+    def test_the_best_strike_is_a_key_number(self):
+        from cfb_edge.venue import best_strike, is_key_number
+
+        for pm in (0.0, 3.0, 6.0, 9.0):
+            b = best_strike(0.44, projected_margin=pm)
+            self.assertTrue(is_key_number(b.strike), f"projected {pm} -> {b.strike}")
+
+    def test_tails_are_not_the_answer(self):
+        # The fee falls in the tails, but so does the density, and they very
+        # nearly cancel. A deep strike loses to a key number every time.
+        from cfb_edge.venue import rank_expressions
+
+        ranked = {e.strike: e for e in rank_expressions(0.44) if e.venue == "exchange"}
+        self.assertGreater(ranked[3].net, ranked[28].net)
+        self.assertGreater(ranked[7].net, ranked[24].net)
+
+    def test_a_book_wins_when_its_line_lands_on_a_key_number(self):
+        # Projected at 10, a book posts 7, and its vig beats an exchange fee at
+        # the same 50/50 proposition.
+        from cfb_edge.venue import best_strike
+
+        b = best_strike(0.44, projected_margin=10.0)
+        self.assertTrue(b.venue.startswith("book"))
+        self.assertEqual(abs(b.strike), 7)
+
+    def test_an_exchange_wins_when_the_book_line_is_an_ordinary_number(self):
+        from cfb_edge.venue import best_strike
+
+        b = best_strike(0.44, projected_margin=0.0)
+        self.assertEqual(b.venue, "exchange")
+
+    def test_the_exchange_fee_peaks_at_a_coin_flip(self):
+        from cfb_edge.venue import exchange_fee
+
+        self.assertAlmostEqual(exchange_fee(0.5), 0.0175, places=6)
+        for p in (0.1, 0.25, 0.75, 0.9):
+            self.assertLess(exchange_fee(p), exchange_fee(0.5))
+
+    def test_the_exchange_fee_always_undercuts_minus_110(self):
+        from cfb_edge.venue import book_vig, exchange_fee
+
+        self.assertLess(exchange_fee(0.5), book_vig(-110))
+
+    def test_a_bigger_edge_is_profitable_in_more_places(self):
+        from cfb_edge.venue import rank_expressions
+
+        small = sum(1 for e in rank_expressions(0.20) if e.profitable)
+        large = sum(1 for e in rank_expressions(1.00) if e.profitable)
+        self.assertGreater(large, small)
