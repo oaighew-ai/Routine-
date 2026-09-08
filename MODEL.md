@@ -18,8 +18,15 @@ costing under about -106, sized at a quarter of Kelly. `strategy.py` implements
 exactly that and nothing else.
 
 ```bash
-python3 -m cfb_edge play --slate data/example_play.csv --book-price -105
+python3 -m cfb_edge play --slate data/week2_2026_slate.csv \
+                         --opens opening_lines.csv --book-price -105
 ```
+
+The only market input is one **opening** line per game. The model's fair value
+is compared against it, and the side backed is whichever the model thinks the
+open underpriced. What the line does afterwards is the thing being predicted,
+not an input, so a current line is unnecessary and a closing line would be
+useless: there is no movement left to forecast at the close.
 
 It is not a demonstrated profit. The closing line value is solid; the realised
 win rates do not confirm it at the sample sizes available, and they will not for

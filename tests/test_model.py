@@ -1338,3 +1338,36 @@ class TestStrategy(unittest.TestCase):
             with self.assertRaises(ValueError):
                 find_plays("g", projected_margin=0.0, side=blank,
                            venues=self._venues(), posted_line=-3.0)
+
+    def test_the_side_is_derived_from_the_open_alone(self):
+        """The signal needs one market number, not two. What the line does
+        after the open is what is being predicted, not an input."""
+        from cfb_edge.strategy import signal_side
+
+        # Model wants home laying 10; the open only asks 3. Home is underpriced.
+        side, gap = signal_side("Home", "Away", projected_margin=10.0,
+                                opening_home_line=-3.0)
+        self.assertEqual(side, "Home")
+        self.assertLess(gap, 0)
+
+        # Model wants home laying 3; the open asks 10. Away is underpriced.
+        side, gap = signal_side("Home", "Away", projected_margin=3.0,
+                                opening_home_line=-10.0)
+        self.assertEqual(side, "Away")
+        self.assertGreater(gap, 0)
+
+    def test_a_small_disagreement_produces_no_signal(self):
+        from cfb_edge.strategy import signal_side
+
+        side, gap = signal_side("Home", "Away", projected_margin=7.0,
+                                opening_home_line=-6.0)
+        self.assertIsNone(side)
+        self.assertLess(abs(gap), 4.0)
+
+    def test_the_disagreement_threshold_is_adjustable(self):
+        from cfb_edge.strategy import signal_side
+
+        kw = dict(projected_margin=7.0, opening_home_line=-5.0)
+        self.assertIsNone(signal_side("H", "A", **kw)[0])
+        self.assertIsNotNone(
+            signal_side("H", "A", min_disagreement=1.0, **kw)[0])

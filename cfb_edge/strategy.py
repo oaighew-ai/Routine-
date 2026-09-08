@@ -202,6 +202,35 @@ def build_card(
     ]
 
 
+def signal_side(
+    home: str, away: str, *, projected_margin: float, opening_home_line: float,
+    min_disagreement: float = 4.0,
+) -> tuple[str | None, float]:
+    """Which side the line-movement signal prefers, and by how much.
+
+    This is the whole signal, and it takes one market input: the opening
+    number. The model's fair line is compared against it, and the side backed
+    is the one the model thinks the market underpriced at the open. What the
+    line does afterwards is the thing being predicted, not an input, which is
+    why a current line is not needed and a closing line would be useless.
+
+    `min_disagreement` defaults to four points because that is where the
+    measured closing line value was strongest and most reliable: 0.44 points at
+    a t of 4.7, on games where at least two books had posted an open. Below
+    about two points the signal is there but thin.
+
+    Returns `(None, gap)` when the disagreement is too small to act on, which
+    on a normal board is most games.
+    """
+    fair = -projected_margin
+    gap = fair - opening_home_line
+    if abs(gap) < min_disagreement:
+        return None, gap
+    # gap < 0 means the model wants the home team laying more than the open
+    # asks, so the home side is the underpriced one.
+    return (home if gap < 0 else away), gap
+
+
 def is_tradeable(number: int) -> bool:
     """Whether a margin carries enough extra mass to be worth betting."""
     return number in TRADEABLE_KEY_NUMBERS and KEY_BUMPS.get(number, 1.0) > 1.0

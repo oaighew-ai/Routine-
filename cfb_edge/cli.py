@@ -102,20 +102,47 @@ def cmd_clv(args: argparse.Namespace) -> int:
 
 def cmd_play(args: argparse.Namespace) -> int:
     """The strategy the evidence supports, run over a slate."""
-    from .strategy import DEFAULT_CLV_POINTS, Venue, build_card, find_plays
+    from .strategy import (DEFAULT_CLV_POINTS, Venue, build_card, find_plays,
+                           signal_side)
 
     venues = [Venue("exchange", is_exchange=True)]
     if args.book_price is not None:
         venues.append(Venue(f"book {args.book_price:+.0f}",
                             american_price=args.book_price))
 
+    opens = {}
+    if args.opens:
+        with open(args.opens, newline="", encoding="utf-8") as fh:
+            for row in csv.DictReader(fh):
+                line = (row.get("opening_line") or row.get("open") or "").strip()
+                if line:
+                    opens[row["game"].strip()] = float(line)
+
     per_game = []
-    skipped = 0
+    skipped = no_signal = 0
     with open(args.slate, newline="", encoding="utf-8") as fh:
         for row in csv.DictReader(fh):
-            if not (row.get("side") or "").strip():
+            game = row["game"].strip()
+            proj = float(row["projected_margin"])
+            side = (row.get("side") or "").strip()
+            posted = (row.get("posted_line") or "").strip()
+
+            if not side and game in opens:
+                # Derive the side from the model's disagreement with the open.
+                home, away = (game.split("@")[-1].strip(),
+                              game.split("@")[0].strip())
+                side, _gap = signal_side(home, away, projected_margin=proj,
+                                         opening_home_line=opens[game],
+                                         min_disagreement=args.min_disagreement)
+                if side is None:
+                    no_signal += 1
+                    continue
+                if not posted:
+                    posted = str(opens[game])
+            if not side:
                 skipped += 1
                 continue
+            row["side"], row["posted_line"] = side, posted
             per_game.append(find_plays(
                 row["game"],
                 projected_margin=float(row["projected_margin"]),
@@ -129,10 +156,16 @@ def cmd_play(args: argparse.Namespace) -> int:
 
     card = build_card(per_game, max_weekly_exposure=args.max_exposure)
     considered = len(per_game)
+    if no_signal:
+        print(f"{no_signal} games had an opening line but the model disagreed with "
+              f"it by less than {args.min_disagreement:.1f} points, which is not "
+              f"enough to act on.")
     if skipped:
-        print(f"{skipped} rows have no side and were skipped. The side comes from "
-              f"how the line moved off its open; a row without one is a game, "
-              f"not a bet.\n")
+        print(f"{skipped} rows have neither a side nor an opening line and were "
+              f"skipped. Supply one opening number per game and the side is "
+              f"derived; a row with neither is a game, not a bet.")
+    if no_signal or skipped:
+        print()
     if not considered:
         print("Nothing to price. Fill in the side column and run again.")
         return 1
@@ -187,6 +220,11 @@ def build_parser() -> argparse.ArgumentParser:
                         help="CSV: game,projected_margin,side,posted_line,total")
     p_play.add_argument("--book-price", type=float, default=None, dest="book_price",
                         help="your book's price, e.g. -105. Omit for exchange only.")
+    p_play.add_argument("--opens", help="CSV of game,opening_line (home perspective). "
+                        "Supply this and the side is derived for you.")
+    p_play.add_argument("--min-disagreement", type=float, default=4.0,
+                        dest="min_disagreement",
+                        help="points the model must differ from the open (default 4)")
     p_play.add_argument("--clv", type=float, default=0.44,
                         help="points of closing line value assumed (default 0.44)")
     p_play.add_argument("--max-exposure", type=float, default=0.10,
