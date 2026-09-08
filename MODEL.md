@@ -446,3 +446,62 @@ introduced that year, where the third overtime becomes two-point conversions,
 is covered by one season and is not tested here. And 8 of 570 overtime games
 show a regulation score that is not tied, about 1.4%, which is a data-quality
 floor on all of the above rather than something the analysis can fix.
+
+## The real backtest: 6,398 games against actual closing lines
+
+Everything above this section was validated against a simulator. This section
+replaces it with real closing lines from 20 seasons of sportsbook data, a median
+of 14 books per game, 2006 to 2025.
+
+**First, the market.** Over 7,818 games with a closing spread:
+
+| | |
+|---|---|
+| mean error of the closing line | **-0.114 pts** (t = -0.66) |
+| home team covers | 49.43% |
+| favourite covers | 49.14% |
+| closing line residual sd | **15.39** |
+| Elo projection residual sd, same games | 16.33 |
+
+The closing line is unbiased, and it is a full point of standard deviation
+sharper than a public Elo rating. Nothing here was a surprise, but it had never
+been checked.
+
+**Then the model.** Walk-forward: for each week, ratings are fit only on games
+already played that season, with the previous season's ratings regressed halfway
+as the prior. Graded at -110.
+
+| min edge | from week | bets | win% | ROI |
+|---|---|---|---|---|
+| 1.0 | 4 | 2785 | 48.87% | **-6.60%** |
+| 1.5 | 4 | 1648 | 47.78% | **-8.65%** |
+| 2.0 | 4 | 938 | 49.08% | **-6.22%** |
+| 3.0 | 4 | 282 | 52.14% | -0.45% |
+| 1.0 | 6 | 2386 | 48.47% | **-7.35%** |
+| 3.0 | 6 | 262 | 52.69% | +0.59% |
+
+Break-even is 52.38%. The two rows that reach it are the two smallest samples,
+standard errors around 6%, selected as the best of eight configurations. That is
+what noise looks like, not an edge.
+
+**Then the test that actually settles it.** Regress what happened on both
+projections at once. If the market's coefficient is one and the model's is zero,
+the closing line already contains everything the model knows:
+
+```
+closing line   +1.0353   (se 0.0421, t = +24.6)
+this model     -0.0192   (se 0.0627, t = -0.31)
+residual sd     15.41
+```
+
+The implied optimal weight on the model is **-0.019**. Zero.
+
+So `blend.MAX_MODEL_WEIGHT` now ships at **0.0**, and the model bets nothing.
+An earlier version of this document called 0.45 conservative. Against real
+closing lines it was 0.45 too high. The schedule and the machinery are kept, and
+`DEMONSTRATED_EDGE_WEIGHT` exists for a model that has earned a vote, but this
+one has not.
+
+`encompassing.py` runs that test on any pair of projections. It is the right
+first question to ask of any model, and it answers at a sample size one season
+can supply, which a win-loss record cannot.

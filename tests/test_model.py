@@ -165,10 +165,19 @@ class TestDistribution(unittest.TestCase):
 
 
 class TestBlend(unittest.TestCase):
-    def test_weight_is_small_early_and_capped_late(self):
-        self.assertLess(blend.model_weight(1), 0.10)
-        self.assertLess(blend.model_weight(1000), blend.MAX_MODEL_WEIGHT + 1e-9)
-        self.assertGreater(blend.model_weight(10), blend.model_weight(2))
+    def test_the_default_weight_is_zero_because_that_is_what_was_measured(self):
+        # Against 6,398 real closing lines the model's incremental coefficient
+        # was -0.02 (t = -0.31). Zero is the measurement, not a placeholder.
+        self.assertEqual(blend.MAX_MODEL_WEIGHT, 0.0)
+        for n in (1, 5, 20, 1000):
+            self.assertEqual(blend.model_weight(n), 0.0)
+
+    def test_the_schedule_shape_survives_for_a_model_that_earns_a_vote(self):
+        cap = blend.DEMONSTRATED_EDGE_WEIGHT
+        self.assertLess(blend.model_weight(1, max_weight=cap), 0.10)
+        self.assertLess(blend.model_weight(1000, max_weight=cap), cap + 1e-9)
+        self.assertGreater(blend.model_weight(10, max_weight=cap),
+                           blend.model_weight(2, max_weight=cap))
 
     def test_edge_is_the_disagreement_scaled_by_the_weight(self):
         w = blend.model_weight(6)
@@ -176,9 +185,12 @@ class TestBlend(unittest.TestCase):
         self.assertAlmostEqual(edge, w * (-7.0 - -10.0), places=12)
 
     def test_a_ten_point_disagreement_in_week_two_is_not_a_bet(self):
-        # The single most important behaviour in the system.
-        edge = blend.blended_edge(-16.0, -6.0, blend.model_weight(1))
+        # True at the demonstrated-edge weight, and trivially true at the
+        # measured default of zero.
+        edge = blend.blended_edge(
+            -16.0, -6.0, blend.model_weight(1, max_weight=blend.DEMONSTRATED_EDGE_WEIGHT))
         self.assertLess(abs(edge), 1.0)
+        self.assertEqual(blend.blended_edge(-16.0, -6.0, blend.model_weight(1)), 0.0)
 
 
 class TestStaking(unittest.TestCase):
@@ -301,11 +313,24 @@ class TestEdge(unittest.TestCase):
         model = self._seasoned_model()
         fair = -(model.rating("Strong") - model.rating("Weak") + model.hfa)
         # Market makes the home favourite far too cheap: back home.
-        cheap = evaluate(model, Matchup("Strong", "Weak"), market_home_line=fair + 12.0)
+        # A weight has to be passed explicitly now: the default is zero, which
+        # makes every edge zero and leaves no side to prefer.
+        w = blend.DEMONSTRATED_EDGE_WEIGHT
+        cheap = evaluate(model, Matchup("Strong", "Weak"),
+                         market_home_line=fair + 12.0, max_model_weight=w)
         self.assertEqual(cheap.side, "home")
         # Market makes it far too expensive: back away.
-        rich = evaluate(model, Matchup("Strong", "Weak"), market_home_line=fair - 12.0)
+        rich = evaluate(model, Matchup("Strong", "Weak"),
+                        market_home_line=fair - 12.0, max_model_weight=w)
         self.assertEqual(rich.side, "away")
+
+    def test_the_default_weight_produces_no_bets_at_all(self):
+        """The measured behaviour: an empty card, on every game."""
+        model = self._seasoned_model()
+        for offset in (-14.0, -5.0, 0.0, 5.0, 14.0):
+            c = evaluate(model, Matchup("Strong", "Weak"), market_home_line=offset)
+            self.assertFalse(c.is_bet)
+            self.assertAlmostEqual(c.edge_points, 0.0, places=9)
 
     def test_early_season_threshold_is_stricter(self):
         from cfb_edge.edge import DEFAULT_MIN_EDGE, EARLY_SEASON_MIN_EDGE
@@ -315,7 +340,8 @@ class TestEdge(unittest.TestCase):
     def test_a_bet_carries_positive_expected_value(self):
         model = self._seasoned_model()
         fair = -(model.rating("Strong") - model.rating("Weak") + model.hfa)
-        c = evaluate(model, Matchup("Strong", "Weak"), market_home_line=fair + 14.0)
+        c = evaluate(model, Matchup("Strong", "Weak"), market_home_line=fair + 14.0,
+                     max_model_weight=blend.DEMONSTRATED_EDGE_WEIGHT)
         if c.is_bet:
             self.assertGreater(c.stake.expected_value, 0.0)
             self.assertGreater(c.outcome.win_excluding_push, 0.5238)
@@ -358,6 +384,10 @@ class TestCLV(unittest.TestCase):
 
 
 class TestBacktestHonesty(unittest.TestCase):
+    """The simulator runs at the demonstrated-edge weight, not the measured
+    default of zero, because simulating a model that never bets says nothing.
+    The authoritative result is the real closing-line test in blend.py."""
+
     def test_the_model_does_not_beat_a_sharp_market(self):
         """The claim the README makes, pinned so it cannot rot silently."""
         from cfb_edge.backtest import simulate
@@ -376,6 +406,15 @@ class TestBacktestHonesty(unittest.TestCase):
         from cfb_edge.backtest import simulate
 
         self.assertEqual(simulate(weeks_played=1, market_sigma=3.0, seasons=40).bets, 0)
+
+    def test_the_shipped_default_bets_nothing_ever(self):
+        """What the real closing-line test implies for live use."""
+        from cfb_edge.backtest import simulate
+        from cfb_edge.blend import MAX_MODEL_WEIGHT
+
+        r = simulate(weeks_played=10, market_sigma=3.0, seasons=20,
+                     max_model_weight=MAX_MODEL_WEIGHT)
+        self.assertEqual(r.bets, 0)
 
 
 if __name__ == "__main__":
@@ -972,3 +1011,58 @@ class TestKeyNumberDrift(unittest.TestCase):
 
         self.assertAlmostEqual(KEY_BUMPS[14], 1.48, places=2)
         self.assertAlmostEqual(KEY_BUMPS[21], 1.68, places=2)
+
+
+class TestEncompassing(unittest.TestCase):
+    """The test that decides whether a model deserves a blend weight."""
+
+    def _data(self, model_signal, n=4000, seed=3):
+        """Outcomes driven by the market plus, optionally, real model signal."""
+        import random
+
+        rng = random.Random(seed)
+        actual, market, model = [], [], []
+        for _ in range(n):
+            truth = rng.gauss(0, 14)
+            extra = rng.gauss(0, 6)
+            market.append(truth)
+            model.append(truth + rng.gauss(0, 5) + (extra if model_signal else 0.0))
+            actual.append(truth + (extra if model_signal else 0.0) + rng.gauss(0, 15))
+        return actual, market, model
+
+    def test_a_useless_model_gets_a_zero_coefficient(self):
+        from cfb_edge.encompassing import encompassing_regression
+
+        r = encompassing_regression(*self._data(model_signal=False))
+        self.assertFalse(r.model_adds_information)
+        self.assertLess(abs(r.model_coef), 0.15)
+        self.assertGreater(r.market_t, 5.0)
+
+    def test_a_model_with_real_signal_is_detected(self):
+        from cfb_edge.encompassing import encompassing_regression
+
+        r = encompassing_regression(*self._data(model_signal=True))
+        self.assertTrue(r.model_adds_information)
+        self.assertGreater(r.implied_model_weight, 0.0)
+
+    def test_the_shipped_weight_matches_the_measured_verdict(self):
+        # blend.py ships zero because the real regression said zero.
+        from cfb_edge.blend import MAX_MODEL_WEIGHT
+        from cfb_edge.encompassing import encompassing_regression
+
+        r = encompassing_regression(*self._data(model_signal=False))
+        self.assertFalse(r.model_adds_information)
+        self.assertEqual(MAX_MODEL_WEIGHT, 0.0)
+
+    def test_collinear_projections_are_refused(self):
+        from cfb_edge.encompassing import encompassing_regression
+
+        market = [float(i) for i in range(50)]
+        with self.assertRaises(ValueError):
+            encompassing_regression(market, market, market)
+
+    def test_mismatched_lengths_are_refused(self):
+        from cfb_edge.encompassing import encompassing_regression
+
+        with self.assertRaises(ValueError):
+            encompassing_regression([1.0, 2.0], [1.0, 2.0], [1.0])

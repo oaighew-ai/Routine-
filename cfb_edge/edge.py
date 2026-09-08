@@ -77,14 +77,24 @@ def evaluate(
     market_total: float = 52.0,
     min_edge: float | None = None,
     known_teams_only: bool = True,
+    max_model_weight: float | None = None,
 ) -> Candidate:
     """Judge a single game and return the better side, bet or not.
 
     `market_home_line` follows the same convention as everything else: negative
     means the home team is laying points.
+
+    `max_model_weight` raises the ceiling on how much of a vote the model gets;
+    it does not bypass the games-played schedule, so an early-season game is
+    still shrunk toward the market. The default ceiling is zero, because zero
+    is what the model measured against real closing lines. Raise it only with
+    your own evidence.
     """
     projection: Projection = project(model, matchup)
-    weight = blend_mod.model_weight(projection.min_games_played)
+    weight = blend_mod.model_weight(
+        projection.min_games_played,
+        **({} if max_model_weight is None else {"max_weight": max_model_weight}),
+    )
     blended = blend_mod.blend_line(projection.home_line, market_home_line, weight)
 
     # Positive means the home side is the value; negative means the away side.

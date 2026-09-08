@@ -1,10 +1,16 @@
-"""A simulator for answering the only question that matters: does this win?
+"""A simulator for a question real history answers badly.
 
-Backtesting against real history is the right thing to do and needs a database
-of historical closing lines that this repository does not ship. So the fallback
-is a simulator with a known ground truth, which can answer a question real
-history answers badly: how sharp does the market have to be before the model
-stops working?
+This is no longer the primary evidence. The model has since been tested against
+6,398 real closing lines from 2006 to 2025, and it lost: 47-49% against the
+spread at every threshold, and an incremental regression coefficient of -0.02
+with a t of -0.31, meaning the closing line already contains everything the
+ratings know. That result lives in `blend.py`, which is why the default model
+weight there is now zero.
+
+What this simulator still answers, and history does not, is the conditional:
+how sharp does a market have to be before a model like this stops working? It
+runs at `DEMONSTRATED_EDGE_WEIGHT` rather than the measured default, because a
+simulation of a model that never bets is not informative about anything.
 
 The answer, from `python3 -m cfb_edge.backtest`, is the most useful number in
 the project and it is not flattering. Against a market that prices games within
@@ -26,6 +32,7 @@ import math
 import random
 from dataclasses import dataclass
 
+from .blend import DEMONSTRATED_EDGE_WEIGHT
 from .edge import evaluate
 from .market import payout_multiple
 from .projection import Matchup
@@ -77,6 +84,7 @@ def simulate(
     seed: int = 17,
     game_noise: float = GAME_NOISE,
     prior_noise: float = PRIOR_NOISE,
+    max_model_weight: float = DEMONSTRATED_EDGE_WEIGHT,
 ) -> BacktestResult:
     """Run the full pipeline against a synthetic league with known true ratings.
 
@@ -115,7 +123,8 @@ def simulate(
             line = round((fair_home_line + rng.gauss(0.0, market_sigma)) * 2) / 2
 
             candidate = evaluate(
-                model, Matchup(home, away), market_home_line=line, market_total=52.0
+                model, Matchup(home, away), market_home_line=line, market_total=52.0,
+                max_model_weight=max_model_weight,
             )
             if not candidate.is_bet:
                 continue

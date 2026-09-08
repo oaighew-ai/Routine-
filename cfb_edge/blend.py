@@ -8,20 +8,41 @@ power rating built from a handful of results is not competitive with it. So the
 projection the model bets is never the raw model number: it is a weighted
 average of the model and the market, and the weight on the model is small.
 
-The consequence is deliberate and worth stating plainly. In week two, with a
-weight near 0.09, a model that disagrees with the market by ten full points
-produces less than one point of edge, which will not clear the betting
-threshold. The model will find almost nothing to bet in September. That is the
-correct behaviour for a system that knows almost nothing in September, and the
-main reason models like this lose money is that their authors could not stand
-seeing an empty card and turned the weight up.
+This module was written expecting to argue for a small weight against the
+temptation of a large one. Measurement settled it more harshly than that: on
+6,398 real games the model's incremental coefficient is -0.02 with a t of
+-0.31, so the honest weight is zero and the honest card is empty. The schedule
+below is kept because its shape is still right for any model that does earn a
+vote, but the default no longer grants one.
 """
 
 from __future__ import annotations
 
-# Even in December, with a full season of results, the model gets less than
-# half the vote. Nothing here justifies more.
-MAX_MODEL_WEIGHT = 0.45
+# Measured, not chosen. Regressing actual margin on both the closing line's
+# projection and this model's, over 6,398 real games from 2006 to 2025 with the
+# ratings fit walk-forward so nothing looks ahead:
+#
+#     closing line   +1.0353   (t = +24.6)
+#     this model     -0.0192   (t = -0.31)
+#
+# A market coefficient of one and a model coefficient of zero is what an
+# efficient market looks like from the inside: the closing line already
+# contains everything the ratings know, and then some. The implied optimal
+# weight on the model is -0.019, which is zero.
+#
+# So the default is zero, and the model bets nothing. That is not a placeholder
+# and it is not pessimism, it is the measurement. An earlier version of this
+# file allowed 0.45 and described that as conservative; against real closing
+# lines it was 0.45 too high, and the walk-forward backtest it produced lost
+# 6 to 9 percent per bet across every threshold tried.
+#
+# Raise it only against your own evidence, and pass it explicitly when you do.
+MAX_MODEL_WEIGHT = 0.0
+
+# What the weight would be if a model did earn a vote. Kept because the shape
+# of the schedule is still right: whatever weight a model deserves, it deserves
+# less of it in September than in November.
+DEMONSTRATED_EDGE_WEIGHT = 0.45
 
 # Games played at which the model reaches half its maximum weight.
 HALF_WEIGHT_GAMES = 4.0
