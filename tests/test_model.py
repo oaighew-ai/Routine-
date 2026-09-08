@@ -941,3 +941,34 @@ class TestLadder(unittest.TestCase):
         lad = Ladder("COL @ GT", "GT", self._rungs([2.5, 6.5, 7.5], [69, 51, 61]))
         self.assertIn("1 inverted", coherence_report(lad))
         self.assertIn("GT", coherence_report(lad))
+
+
+class TestKeyNumberDrift(unittest.TestCase):
+    """Guards the era findings from 17,472 games, 2001-2025."""
+
+    def test_seven_carries_the_modern_value_not_the_pooled_one(self):
+        # The seven rose from 2.05 (2001-2010) to 2.44 (2011-2025), z = 3.25,
+        # so the pooled 2.32 understates it for a game played today.
+        from cfb_edge.distribution import KEY_BUMPS
+
+        self.assertAlmostEqual(KEY_BUMPS[7], 2.44, places=2)
+
+    def test_three_is_flat_and_keeps_the_full_sample_fit(self):
+        # No drift (t = 0.41 across 25 years), so the larger sample wins and
+        # chasing the most recent era would be fitting noise.
+        from cfb_edge.distribution import KEY_BUMPS
+
+        self.assertAlmostEqual(KEY_BUMPS[3], 2.64, places=2)
+
+    def test_three_still_outranks_seven(self):
+        from cfb_edge.distribution import KEY_BUMPS
+
+        self.assertGreater(KEY_BUMPS[3], KEY_BUMPS[7])
+
+    def test_flat_numbers_were_not_chased(self):
+        # 14 and 21 read lower in the most recent era, but their trends are
+        # insignificant (t = 0.47 and -0.12), so the pooled fit is kept.
+        from cfb_edge.distribution import KEY_BUMPS
+
+        self.assertAlmostEqual(KEY_BUMPS[14], 1.48, places=2)
+        self.assertAlmostEqual(KEY_BUMPS[21], 1.68, places=2)

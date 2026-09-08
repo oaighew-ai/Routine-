@@ -355,3 +355,44 @@ Calibration after the refit, by predicted margin bucket:
 
 Zero of the 14,687 games ended level, which is the overtime rule showing up in
 the data and confirms treating a margin of zero as impossible.
+
+## Is the key-number structure drifting?
+
+Worth asking, because a multiplier fitted across 2001-2025 is useless for 2026
+if the underlying scoring has changed. Tested across five five-year eras with
+the Elo scaling, home field and dispersion all refit *inside* each era, so a
+change in scoring environment cannot show up as key-number drift.
+
+| Margin | 01-05 | 06-10 | 11-15 | 16-20 | 21-25 | slope/yr | t |
+|---|---|---|---|---|---|---|---|
+| **3** | 2.77 | 2.49 | 2.63 | 2.60 | 2.76 | +0.003 | +0.41 |
+| **7** | 2.02 | 2.08 | 2.46 | 2.48 | 2.39 | **+0.022** | **+2.46** |
+| 10 | 1.38 | 1.33 | 1.39 | 1.38 | 1.38 | +0.001 | +0.68 |
+| 14 | 1.21 | 1.57 | 1.61 | 1.50 | 1.38 | +0.005 | +0.47 |
+| 21 | 1.73 | 1.57 | 1.59 | 1.84 | 1.58 | -0.001 | -0.12 |
+
+**Three does not move.** Flat across a quarter century, and the most recent era
+sits slightly *above* the full-sample fit. The number this model carries is not
+going stale, and because the trend is nothing, the larger sample wins: chasing
+the most recent era here would be fitting noise.
+
+**Seven does move, and it is not marginal.** Splitting at the midpoint rather
+than reading a slope off five points:
+
+| Period | Multiplier | P(margin 7) | Games |
+|---|---|---|---|
+| 2001-2010 | 2.05 ± 0.09 | 7.12% | 6654 |
+| 2011-2025 | 2.44 ± 0.08 | 8.59% | 10818 |
+
+A difference of +0.39 against a standard error of 0.12, so **z = 3.25**. The
+model carries 2.44, the modern figure, rather than the 2.32 the full sample
+gives. It looks plateaued since 2011 rather than still climbing, so this is a
+level shift to adopt, not a trend to extrapolate.
+
+Why it moved is not established. The rising scoring of the 2010s, the growth in
+two-point attempts, and the overtime format changes are all candidates and none
+of them is tested here. Only the drift is.
+
+The other numbers read differently across eras but none of them significantly:
+14 and 21 both look lower in 2021-2025, and both trends are noise (t = 0.47 and
+-0.12). They keep their full-sample fits, deliberately.

@@ -20,6 +20,21 @@ pooled normal matters: the pooled spread of margins is 21.1 points, but that
 includes the variation in how mismatched the games were. The per-game residual
 is 16.5, and using 21 there would have flattened every key number by half.
 
+One multiplier is era-dependent and it is the seven. Tested across five
+five-year eras with the baseline refit inside each, so a change in scoring
+cannot masquerade as key-number drift, the seven rose from 2.05 in 2001-2010 to
+2.44 in 2011-2025, a difference of +0.39 against a standard error of 0.12
+(z = 3.25). It appears to have plateaued since 2011 rather than still climbing,
+so the table below carries the 2011-2025 figure rather than the full-sample
+2.32. Candidate causes are the rising scoring of the 2010s, the growth in
+two-point attempts, and the overtime format changes; none of them is
+established here, only the drift itself.
+
+Everything else is flat. The three, which matters most, does not move at all:
+2.77, 2.49, 2.63, 2.60, 2.76 across those same eras, a trend of +0.003 per year
+against a standard error of 0.008. The most recent era sits slightly above the
+full-sample fit, so the number in this table is not going stale.
+
 The structure is stronger than intuition suggests and it runs in both
 directions. A three-point margin happens in 9.7% of games where a smooth curve
 predicts 3.7%, a multiplier of 2.6. Seven is 2.3. But the numbers between the
@@ -51,7 +66,7 @@ KEY_BUMPS: Mapping[int, float] = {
     4: 1.01,
     5: 0.75,
     6: 0.90,
-    7: 2.32,
+    7: 2.44,
     8: 0.76,
     9: 0.36,
     10: 1.39,
