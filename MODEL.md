@@ -170,3 +170,36 @@ nothing rather than extrapolating.
 `--book` takes a CSV of `ticker,fair_cents` from whatever de-vigs your
 sportsbook prices. Without it every fair value falls back to an assumed 50c,
 which the gate rejects by default; `--allow-assumed` shows them, marked.
+
+## Measuring whether any of it is real
+
+Two modules exist for the promotion decision, not the betting decision.
+
+`clv_extract.py` rebuilds closing line value from a raw capture series. It
+measures each entry at several offsets before kickoff as well as at the close,
+because an edge that decays in five minutes and one that holds to kickoff imply
+opposite things about how fast you have to act. It also separates markets that
+moved from markets that never did: a log dominated by flat contracts reports a
+mean CLV near zero and a beat rate near zero, and neither figure says anything
+about skill, because the market never gave an opinion.
+
+`bootstrap.py` is the one that changes conclusions. Contracts on the same game
+share that game's news, weather and officiating, so their errors are correlated
+and they are not independent observations. Resampling contracts instead of
+games understates the standard error badly. On a board shaped like a real one,
+67 games and about 13 contracts each:
+
+```
+naive       +0.303c [+0.187, +0.419]   871 "independent" observations -> PROMOTE
+clustered   +0.303c [-0.091, +0.716]   67 games                       -> hold
+```
+
+Same data, same point estimate. The naive interval is **3.5x too narrow**, and
+it promotes a signal the honest interval cannot distinguish from zero.
+
+The planning consequence is harsher than the inference one. At the per-game
+dispersion in that sample, roughly **500 games** are needed before a true
++0.15c edge shows a lower bound above zero, and that assumes the edge is real
+and constant. A capture running 67 games a week reaches that around the end of
+a season. Any promotion rule counting contracts rather than games is set at a
+small fraction of its intended bar.

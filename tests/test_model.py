@@ -603,3 +603,147 @@ class TestBoardEndToEnd(unittest.TestCase):
         # An empty board and a blocked board mean opposite things.
         self.assertEqual(code, 2)
         self.assertIn("could not fetch", err.getvalue())
+
+
+class TestCLVExtract(unittest.TestCase):
+    def _series(self):
+        from datetime import datetime, timedelta, timezone
+        from cfb_edge.clv_extract import build_series
+
+        kick = datetime(2026, 9, 12, 23, 0, tzinfo=timezone.utc)
+        recs = []
+        # A market that drifts from 40c to 46c into kickoff.
+        for i, price in enumerate([40, 41, 43, 45, 46]):
+            recs.append({"ticker": "MOVER", "ts": (kick - timedelta(minutes=1440 - i * 360)).isoformat(),
+                         "yes_mid": price, "kickoff": kick.isoformat()})
+        # A market nobody ever traded.
+        for i in range(5):
+            recs.append({"ticker": "FLAT", "ts": (kick - timedelta(minutes=1440 - i * 360)).isoformat(),
+                         "yes_mid": 17, "kickoff": kick.isoformat()})
+        return build_series(recs), kick
+
+    def test_flat_markets_are_identified(self):
+        series, _ = self._series()
+        self.assertTrue(series["MOVER"].moved)
+        self.assertFalse(series["FLAT"].moved)
+
+    def test_close_is_the_last_price_before_kickoff(self):
+        series, _ = self._series()
+        self.assertEqual(series["MOVER"].close, 46.0)
+
+    def test_price_at_never_looks_into_the_future(self):
+        from datetime import timedelta
+
+        series, kick = self._series()
+        s = series["MOVER"]
+        # 1440m before kickoff only the first observation exists.
+        self.assertEqual(s.price_at(kick - timedelta(minutes=1440)), 40.0)
+        self.assertIsNone(s.price_at(kick - timedelta(minutes=2000)))
+
+    def test_clv_is_close_minus_entry(self):
+        from cfb_edge.clv_extract import measure
+
+        series, _ = self._series()
+        m = measure([{"ticker": "MOVER", "game": "A @ B", "entry_price": 41.0}], series)[0]
+        self.assertAlmostEqual(m.clv, 5.0, places=9)
+        self.assertTrue(m.beat_close)
+
+    def test_flat_market_reports_zero_clv_and_is_flagged(self):
+        from cfb_edge.clv_extract import measure, summarise
+
+        series, _ = self._series()
+        ms = measure([
+            {"ticker": "MOVER", "game": "A @ B", "entry_price": 41.0},
+            {"ticker": "FLAT", "game": "C @ D", "entry_price": 17.0},
+        ], series)
+        s = summarise(ms)
+        self.assertEqual(s.flat, 1)
+        self.assertEqual(s.moved, 1)
+        # The flat row drags the overall mean but not the moved-only mean.
+        self.assertGreater(s.mean_clv_moved_only, s.mean_clv)
+
+    def test_entries_without_a_captured_series_are_dropped(self):
+        from cfb_edge.clv_extract import measure
+
+        series, _ = self._series()
+        self.assertEqual(
+            measure([{"ticker": "UNSEEN", "game": "x", "entry_price": 50.0}], series), []
+        )
+
+    def test_truncated_lines_do_not_kill_a_run(self):
+        import gzip, tempfile, os
+        from cfb_edge.clv_extract import read_runs
+
+        fd, path = tempfile.mkstemp(suffix=".jsonl.gz")
+        os.close(fd)
+        try:
+            with gzip.open(path, "wt", encoding="utf-8") as fh:
+                fh.write('{"ticker":"A","ts":1,"yes_mid":50}\n')
+                fh.write('{"ticker":"B","ts":2,  \n')   # truncated tail
+            self.assertEqual(len(list(read_runs([path]))), 1)
+        finally:
+            os.unlink(path)
+
+
+class TestClusterBootstrap(unittest.TestCase):
+    def _board(self, seed=5, games=67, per_game=13, game_sd=1.6, mean=0.15):
+        import random
+
+        rng = random.Random(seed)
+        values, clusters = [], []
+        for g in range(games):
+            effect = rng.gauss(0, game_sd)
+            for _ in range(per_game):
+                values.append(effect + rng.gauss(0, 0.5) + mean)
+                clusters.append(f"G{g}")
+        return values, clusters
+
+    def test_clustering_widens_the_interval(self):
+        from cfb_edge.bootstrap import cluster_bootstrap, naive_bootstrap
+
+        v, c = self._board()
+        naive = naive_bootstrap(v, replicates=2000)
+        clustered = cluster_bootstrap(v, c, replicates=2000)
+        self.assertGreater(clustered.width, naive.width * 2)
+        self.assertEqual(clustered.clusters, 67)
+        self.assertEqual(naive.clusters, len(v))
+
+    def test_the_naive_interval_would_promote_what_the_honest_one_holds(self):
+        # The whole reason this module exists.
+        from cfb_edge.bootstrap import cluster_bootstrap, naive_bootstrap
+
+        v, c = self._board()
+        self.assertTrue(naive_bootstrap(v, replicates=2000).excludes_zero)
+        self.assertFalse(cluster_bootstrap(v, c, replicates=2000).excludes_zero)
+
+    def test_point_estimate_is_unchanged_by_clustering(self):
+        from cfb_edge.bootstrap import cluster_bootstrap, naive_bootstrap
+
+        v, c = self._board()
+        self.assertAlmostEqual(
+            naive_bootstrap(v, replicates=500).point,
+            cluster_bootstrap(v, c, replicates=500).point,
+            places=12,
+        )
+
+    def test_independent_data_needs_no_inflation(self):
+        from cfb_edge.bootstrap import inflation_factor
+
+        v, _ = self._board(game_sd=0.0)          # no shared game effect
+        singleton = [f"G{i}" for i in range(len(v))]
+        self.assertLess(abs(inflation_factor(v, singleton, replicates=1500) - 1.0), 0.15)
+
+    def test_sample_size_planning_is_sane(self):
+        from cfb_edge.bootstrap import required_clusters
+
+        # A smaller edge against the same noise needs more games.
+        self.assertGreater(required_clusters(0.10, 1.7), required_clusters(0.30, 1.7))
+        self.assertEqual(required_clusters(-0.1, 1.7), 0)
+
+    def test_mismatched_inputs_are_rejected(self):
+        from cfb_edge.bootstrap import cluster_bootstrap
+
+        with self.assertRaises(ValueError):
+            cluster_bootstrap([1.0, 2.0], ["A"])
+        with self.assertRaises(ValueError):
+            cluster_bootstrap([], [])
