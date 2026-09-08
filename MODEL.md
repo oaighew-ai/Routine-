@@ -683,3 +683,49 @@ sportsbook line movement. Whether it transfers to an exchange strike depends on
 the exchange tracking the sportsbook, which is precisely the propagation
 hypothesis that remains untested. This section says where the edge is worth
 most **if** it transfers, not that it does.
+
+## Capturing opening lines automatically
+
+The strategy is worth 0.44 points of closing line value against the **opening**
+number and nothing at all against the current one. So a card built on Wednesday
+is a card built on numbers whose value someone else already took.
+
+Week 2 of 2026 made that concrete. Oklahoma at Michigan opened Michigan -2.5,
+the model said Michigan was overvalued, and the line flipped nine points to
+Oklahoma -6.5. The model was right and the edge was unbettable, because nobody
+was watching when it opened.
+
+```bash
+export ODDS_API_KEY=...                                  # setx on Windows
+python3 -m cfb_edge.watch --log data/opens.jsonl.gz --out opens.csv
+python3 -m cfb_edge play --slate data/week2_2026_slate.csv --opens opens.csv
+```
+
+**When to run it.** Books post look-ahead numbers for the coming week from
+Sunday evening, and the rest of the market fills in through Monday and into
+Tuesday. Rather than guess the minute, `watch.py` polls every five minutes
+through Sunday evening, all of Monday, and Tuesday morning, and hourly the rest
+of the time. At that rate a season fits inside the free tier's 500 requests a
+month.
+
+Three rules the code enforces, each of which exists because the obvious
+alternative destroys the data:
+
+**First seen wins, permanently.** The first price observed for a game, book and
+market is the open, and later polls never overwrite it. A capture that keeps the
+latest price is a capture that has thrown away the only number the strategy
+needs. A test drives a line nine points and asserts the recorded open does not
+move.
+
+**Raw before derived.** Every poll appends to an immutable gzipped log, and the
+opens CSV is rebuilt from it with `--rebuild`. A week captured under a broken
+schema is gone; a week of raw JSON can be re-parsed.
+
+**A failed poll is not a failed capture.** Network errors are logged and
+skipped. The next poll is minutes away, and an exception that ends the run is
+the one outcome worth avoiding.
+
+To leave it running unattended on Windows, Task Scheduler with *at startup* and
+*restart on failure*; on a unix box, a systemd unit with `Restart=always` or a
+cron entry hitting `--once` every five minutes. The `--once` mode exists for the
+cron shape, where the scheduler owns the interval rather than the process.

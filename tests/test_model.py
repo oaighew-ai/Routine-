@@ -1385,3 +1385,109 @@ class TestStrategy(unittest.TestCase):
         self.assertAlmostEqual(home.strike_price + away.strike_price, 1.0, places=9)
         self.assertLess(away.strike_price, 0.5)
         self.assertGreater(home.strike_price, 0.5)
+
+
+class TestOpeningCapture(unittest.TestCase):
+    """First-seen is the open, and nothing may overwrite it."""
+
+    def _quotes(self, line, seen="t1"):
+        from cfb_edge.watch import Quote
+
+        return [Quote("A @ B", "BookOne", "spread", line, -110, seen)]
+
+    def test_the_first_price_wins_permanently(self):
+        import tempfile, os
+        from cfb_edge.watch import OpeningBook
+
+        fd, path = tempfile.mkstemp(suffix=".jsonl"); os.close(fd)
+        try:
+            book = OpeningBook(path=Path(path))
+            self.assertEqual(len(book.record(self._quotes(-2.5))), 1)
+            # The line moves nine points. The open must not follow it.
+            self.assertEqual(len(book.record(self._quotes(6.5, "t2"))), 0)
+            self.assertEqual(book.opens[("A @ B", "BookOne", "spread")].line, -2.5)
+        finally:
+            os.unlink(path)
+
+    def test_the_open_survives_a_reload_from_raw(self):
+        import tempfile, os
+        from cfb_edge.watch import OpeningBook
+
+        fd, path = tempfile.mkstemp(suffix=".jsonl"); os.close(fd)
+        try:
+            book = OpeningBook(path=Path(path))
+            book.record(self._quotes(-2.5))
+            book.record(self._quotes(6.5, "t2"))
+            reloaded = OpeningBook.load(path)
+            self.assertEqual(
+                reloaded.opens[("A @ B", "BookOne", "spread")].line, -2.5)
+        finally:
+            os.unlink(path)
+
+    def test_consensus_takes_the_median_across_books(self):
+        import tempfile, os
+        from cfb_edge.watch import OpeningBook, Quote
+
+        fd, path = tempfile.mkstemp(suffix=".jsonl"); os.close(fd)
+        try:
+            book = OpeningBook(path=Path(path))
+            book.record([Quote("A @ B", f"Book{i}", "spread", ln, -110, "t")
+                         for i, ln in enumerate((-3.0, -3.5, -14.0))])
+            # The outlier must not define the open.
+            self.assertEqual(book.consensus_opens()["A @ B"], -3.5)
+        finally:
+            os.unlink(path)
+
+    def test_polling_is_dense_only_in_the_release_window(self):
+        from datetime import datetime, timezone
+        from cfb_edge.watch import DENSE_INTERVAL_SECONDS, SPARSE_INTERVAL_SECONDS, poll_interval
+
+        sunday_evening = datetime(2026, 9, 13, 22, tzinfo=timezone.utc)
+        friday_noon = datetime(2026, 9, 11, 12, tzinfo=timezone.utc)
+        self.assertEqual(poll_interval(sunday_evening), DENSE_INTERVAL_SECONDS)
+        self.assertEqual(poll_interval(friday_noon), SPARSE_INTERVAL_SECONDS)
+
+    def test_a_failing_poll_does_not_end_the_capture(self):
+        import tempfile, os
+        from cfb_edge.watch import OpeningBook, watch
+
+        fd, path = tempfile.mkstemp(suffix=".jsonl"); os.close(fd)
+        calls = {"n": 0}
+
+        def flaky():
+            calls["n"] += 1
+            if calls["n"] == 1:
+                raise RuntimeError("network blip")
+            return self._quotes(-3.0)
+
+        try:
+            book = OpeningBook(path=Path(path))
+            watch(book, flaky, max_polls=2, sleep=lambda _s: None)
+            self.assertEqual(calls["n"], 2)
+            self.assertIn(("A @ B", "BookOne", "spread"), book.opens)
+        finally:
+            os.unlink(path)
+
+    def test_only_the_home_side_is_stored(self):
+        from cfb_edge.providers.oddsapi import parse_board
+
+        payload = [{"home_team": "Kansas", "away_team": "Missouri", "bookmakers": [
+            {"title": "Pinnacle", "markets": [{"key": "spreads", "outcomes": [
+                {"name": "Kansas", "point": 6.5, "price": -105},
+                {"name": "Missouri", "point": -6.5, "price": -105}]}]}]}]
+        quotes = parse_board(payload)
+        self.assertEqual(len(quotes), 1)
+        self.assertEqual(quotes[0].line, 6.5)
+        self.assertEqual(quotes[0].game, "Missouri @ Kansas")
+
+    def test_a_missing_key_fails_loudly(self):
+        import os
+        from cfb_edge.providers.oddsapi import OddsApiUnreachable, fetch_board
+
+        saved = os.environ.pop("ODDS_API_KEY", None)
+        try:
+            with self.assertRaises(OddsApiUnreachable):
+                fetch_board()
+        finally:
+            if saved is not None:
+                os.environ["ODDS_API_KEY"] = saved
