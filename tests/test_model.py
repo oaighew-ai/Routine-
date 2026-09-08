@@ -1207,3 +1207,124 @@ class TestVenue(unittest.TestCase):
         small = sum(1 for e in rank_expressions(0.20) if e.profitable)
         large = sum(1 for e in rank_expressions(1.00) if e.profitable)
         self.assertGreater(large, small)
+
+
+class TestStrategy(unittest.TestCase):
+    """The capstone: the one strategy the evidence supports."""
+
+    def _venues(self):
+        from cfb_edge.strategy import Venue
+
+        return [Venue("book -105", american_price=-105),
+                Venue("book -110", american_price=-110),
+                Venue("exchange", is_exchange=True)]
+
+    def test_a_minus_110_book_clears_only_barely_and_only_on_a_key_line(self):
+        """An earlier version of this test claimed -110 never clears. It does,
+        marginally, when the posted line is a key number sitting at the
+        projected margin, which is where the density peaks. Away from that it
+        does not clear at all, and even where it does the margin is a tenth of
+        what a -105 book earns on the same bet."""
+        from cfb_edge.strategy import find_plays
+
+        # Line on a key number at the projection: clears, barely.
+        on_peak = find_plays("g", projected_margin=7.0, side="home",
+                             venues=self._venues(), posted_line=-7.0)
+        b110 = [p for p in on_peak if p.venue == "book -110"]
+        b105 = [p for p in on_peak if p.venue == "book -105"]
+        self.assertTrue(b110)
+        self.assertLess(b110[0].net, 0.005)
+        self.assertGreater(b105[0].net, b110[0].net * 4)
+
+        # Line not a key number: no book play at all, at any price.
+        off_key = find_plays("g", projected_margin=0.0, side="home",
+                             venues=self._venues(), posted_line=-1.5)
+        self.assertFalse(any(p.venue.startswith("book") for p in off_key))
+
+        # A key number far from the projection is not enough either: the
+        # density there is too low for -110 even though 14 is a key number.
+        far = find_plays("g", projected_margin=10.0, side="home",
+                         venues=self._venues(), posted_line=-14.0)
+        self.assertFalse(any(p.venue == "book -110" for p in far))
+        self.assertTrue(any(p.venue == "book -105" for p in far))
+
+    def test_a_book_only_appears_when_its_posted_line_is_a_key_number(self):
+        from cfb_edge.strategy import find_plays
+
+        on_key = find_plays("g", projected_margin=10.0, side="home",
+                            venues=self._venues(), posted_line=-7.0)
+        self.assertTrue(any(p.venue == "book -105" for p in on_key))
+        off_key = find_plays("g", projected_margin=10.0, side="home",
+                             venues=self._venues(), posted_line=-8.5)
+        self.assertFalse(any(p.venue.startswith("book") for p in off_key))
+
+    def test_a_reduced_juice_book_on_a_key_number_beats_the_exchange(self):
+        from cfb_edge.strategy import find_plays
+
+        plays = find_plays("g", projected_margin=10.0, side="home",
+                           venues=self._venues(), posted_line=-7.0)
+        self.assertEqual(plays[0].venue, "book -105")
+
+    def test_the_exchange_carries_the_board_away_from_key_lines(self):
+        from cfb_edge.strategy import find_plays
+
+        plays = find_plays("g", projected_margin=1.0, side="home",
+                           venues=self._venues(), posted_line=-1.5)
+        self.assertTrue(plays)
+        self.assertTrue(all(p.venue == "exchange" for p in plays))
+        self.assertEqual(plays[0].number, 3)
+
+    def test_a_smaller_edge_produces_no_card_at_all(self):
+        from cfb_edge.strategy import find_plays
+
+        plays = find_plays("g", projected_margin=0.0, side="home",
+                           venues=self._venues(), posted_line=-3.0,
+                           clv_points=0.10)
+        self.assertEqual(plays, [])
+
+    def test_stakes_are_capped_per_bet(self):
+        from cfb_edge.strategy import MAX_STAKE, find_plays
+
+        plays = find_plays("g", projected_margin=0.0, side="home",
+                           venues=self._venues(), posted_line=-3.0,
+                           clv_points=3.0)
+        self.assertTrue(plays)
+        for p in plays:
+            self.assertLessEqual(p.stake, MAX_STAKE + 1e-12)
+
+    def test_the_card_takes_one_play_per_game(self):
+        from cfb_edge.strategy import build_card, find_plays
+
+        per_game = [
+            find_plays(f"g{i}", projected_margin=float(i), side="home",
+                       venues=self._venues(), posted_line=-1.5)
+            for i in range(4)
+        ]
+        card = build_card(per_game)
+        self.assertEqual(len(card), len({p.game for p in card}))
+        self.assertLessEqual(len(card), 4)
+
+    def test_the_weekly_exposure_cap_scales_proportionally(self):
+        from cfb_edge.strategy import build_card, find_plays
+
+        per_game = [
+            find_plays(f"g{i}", projected_margin=0.0, side="home",
+                       venues=self._venues(), posted_line=-3.0, clv_points=3.0)
+            for i in range(20)
+        ]
+        card = build_card(per_game, max_weekly_exposure=0.10)
+        self.assertAlmostEqual(sum(p.stake for p in card), 0.10, places=9)
+
+    def test_only_real_key_numbers_are_tradeable(self):
+        from cfb_edge.strategy import is_tradeable
+
+        self.assertTrue(is_tradeable(3))
+        self.assertTrue(is_tradeable(7))
+        self.assertFalse(is_tradeable(9))
+        self.assertFalse(is_tradeable(12))
+
+    def test_a_venue_with_neither_price_nor_flag_is_refused(self):
+        from cfb_edge.strategy import Venue
+
+        with self.assertRaises(ValueError):
+            Venue("broken").cost(0.5)

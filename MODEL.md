@@ -1,5 +1,32 @@
 # College football edge model
 
+## What this concludes
+
+Six edge ideas were tested against real data. Five died. The survivor is small.
+
+| Idea | Verdict | Evidence |
+|---|---|---|
+| Power ratings beat the closing line | **dead** | incremental coefficient -0.02, t = -0.31, 6,398 games |
+| Team totals, game totals, spreads, moneyline gates | **dead** | not detected across audited seasons |
+| Key-number arbitrage on exchange ladders | **dead** | fees exceed the mispricing by 1.4c |
+| Deep-tail exchange strikes are cheap | **dead** | fee falls but density falls with it |
+| Reduced-juice books are widely available | **dead** | 3 of 22 books, all offshore or an exchange, data ends 2019 |
+| Line movement is predictable | **alive** | CLV +0.22 to +0.83 pts, t = 3.2 to 5.5 |
+
+The survivor pays only where the arithmetic closes: at a key number, on a venue
+costing under about -106, sized at a quarter of Kelly. `strategy.py` implements
+exactly that and nothing else.
+
+```bash
+python3 -m cfb_edge play --slate data/example_play.csv --book-price -105
+```
+
+It is not a demonstrated profit. The closing line value is solid; the realised
+win rates do not confirm it at the sample sizes available, and they will not for
+a long time. Read what follows as the best-supported hypothesis here.
+
+---
+
 A spread-betting model that is built to disagree with the market rarely, and to
 say so out loud when it has nothing.
 

@@ -4,11 +4,13 @@
     python3 -m cfb_edge card  --games data/games.csv --priors data/priors.csv \
                               --slate data/slate.csv
     python3 -m cfb_edge clv   --bets data/bets.csv
+    python3 -m cfb_edge play  --slate data/example_play.csv --book-price -105
 """
 
 from __future__ import annotations
 
 import argparse
+import csv
 import sys
 
 from . import clv as clv_mod
@@ -98,6 +100,45 @@ def cmd_clv(args: argparse.Namespace) -> int:
     return 0
 
 
+def cmd_play(args: argparse.Namespace) -> int:
+    """The strategy the evidence supports, run over a slate."""
+    from .strategy import DEFAULT_CLV_POINTS, Venue, build_card, find_plays
+
+    venues = [Venue("exchange", is_exchange=True)]
+    if args.book_price is not None:
+        venues.append(Venue(f"book {args.book_price:+.0f}",
+                            american_price=args.book_price))
+
+    per_game = []
+    with open(args.slate, newline="", encoding="utf-8") as fh:
+        for row in csv.DictReader(fh):
+            per_game.append(find_plays(
+                row["game"],
+                projected_margin=float(row["projected_margin"]),
+                side=row["side"],
+                venues=venues,
+                posted_line=(float(row["posted_line"])
+                             if (row.get("posted_line") or "").strip() else None),
+                total=float(row.get("total") or 52.0),
+                clv_points=args.clv,
+            ))
+
+    card = build_card(per_game, max_weekly_exposure=args.max_exposure)
+    considered = len(per_game)
+    if not card:
+        print(f"No plays. {considered} games considered, none cleared their venue cost.\n"
+              f"At {args.clv:.2f} points of CLV that is the expected outcome on most "
+              f"boards; the strategy fires on key numbers, not on every game.")
+        return 0
+    print(f"{len(card)} plays from {considered} games. "
+          f"Exposure {sum(p.stake for p in card):.2%} of bankroll.\n")
+    for i, p in enumerate(card, 1):
+        print(f"  {i}. {p.describe()}")
+    print(f"\nCLV assumption: {args.clv:.2f} points. This is the best-supported "
+          f"hypothesis here, not a demonstrated profit.")
+    return 0
+
+
 def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(
         prog="cfb_edge", description="College football betting edge model"
@@ -129,6 +170,17 @@ def build_parser() -> argparse.ArgumentParser:
     p_card.add_argument("--show-all", action="store_true", dest="show_all",
                         help="print every game, including passes")
     p_card.set_defaults(func=cmd_card)
+
+    p_play = sub.add_parser("play", help="the evidence-backed strategy over a slate")
+    p_play.add_argument("--slate", required=True,
+                        help="CSV: game,projected_margin,side,posted_line,total")
+    p_play.add_argument("--book-price", type=float, default=None, dest="book_price",
+                        help="your book's price, e.g. -105. Omit for exchange only.")
+    p_play.add_argument("--clv", type=float, default=0.44,
+                        help="points of closing line value assumed (default 0.44)")
+    p_play.add_argument("--max-exposure", type=float, default=0.10,
+                        dest="max_exposure")
+    p_play.set_defaults(func=cmd_play)
 
     p_clv = sub.add_parser("clv", help="report closing line value on a bet log")
     p_clv.add_argument("--bets", required=True)
