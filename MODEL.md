@@ -396,3 +396,53 @@ of them is tested here. Only the drift is.
 The other numbers read differently across eras but none of them significantly:
 14 and 21 both look lower in 2021-2025, and both trends are noise (t = 0.47 and
 -0.12). They keep their full-sample fits, deliberately.
+
+## Where the seven actually moved: regulation, not overtime
+
+The natural suspect for a rising seven was the overtime rule. An overtime game
+was tied after regulation, so its final margin *is* its overtime margin, and
+those land on a field goal or a touchdown most of the time. Confirmed directly:
+
+| Era | OT games | end on 3 | end on 7 | combined |
+|---|---|---|---|---|
+| 2004-2010 | 180 | 53% | 20% | 73% |
+| 2011-2015 | 149 | 45% | 33% | 78% |
+| 2016-2021 | 151 | 41% | 26% | 68% |
+
+So overtime really is a key-number machine, and its mix really did shift from
+threes toward sevens. But it is only about 4% of games, and the hypothesis
+fails anyway.
+
+Splitting 11,542 games by period number from play-by-play:
+
+| Era | OT rate | P(margin 7) all | regulation only | OT only |
+|---|---|---|---|---|
+| 2004-2010 | 4.4% | 7.12% | **6.52%** | 20.0% |
+| 2011-2015 | 4.3% | 8.54% | **7.44%** | 32.9% |
+| 2016-2021 | 3.7% | 8.42% | **7.72%** | 26.5% |
+
+Regulation-only games move on their own: 6.52% to 7.72%, z = +2.05, essentially
+the same as the z = +2.19 with overtime included. Decomposing the full change:
+
+| Component | Contribution | Share |
+|---|---|---|
+| Regulation scoring | +1.14pp | **88%** |
+| Overtime composition | +0.24pp | 19% |
+| Overtime frequency | -0.09pp | -7% |
+
+**Overtime is not the mechanism.** It got less frequent over the period, which
+pushed the seven down, and the regulation game moved enough to overwhelm that.
+This matters for whether to trust the 2.44: a shift driven by how regulation
+football is played is far more likely to persist than one driven by a tiebreak
+rule that can be rewritten in an offseason.
+
+The three tells the opposite story, and it is why its overall trend is flat.
+Its small overall decline is entirely an overtime effect (composition -93%,
+frequency +64% of a negative change) while regulation threes actually rose
+slightly. The two forces cancel.
+
+Two limits. Play-by-play in this source stops at 2021, so the overtime format
+introduced that year, where the third overtime becomes two-point conversions,
+is covered by one season and is not tested here. And 8 of 570 overtime games
+show a regulation score that is not tied, about 1.4%, which is a data-quality
+floor on all of the above rather than something the analysis can fix.

@@ -26,9 +26,17 @@ cannot masquerade as key-number drift, the seven rose from 2.05 in 2001-2010 to
 2.44 in 2011-2025, a difference of +0.39 against a standard error of 0.12
 (z = 3.25). It appears to have plateaued since 2011 rather than still climbing,
 so the table below carries the 2011-2025 figure rather than the full-sample
-2.32. Candidate causes are the rising scoring of the 2010s, the growth in
-two-point attempts, and the overtime format changes; none of them is
-established here, only the drift itself.
+2.32.
+
+The obvious suspect for that shift was overtime, since an overtime game's final
+margin is just its overtime margin and those land on three or seven most of the
+time. Splitting 11,542 games by whether they needed overtime, using period
+numbers from play-by-play, rules that out. Regulation-only games move on their
+own, 6.52% to 7.72% (z = 2.05), and decomposing the total change puts 88% of it
+in regulation scoring. Overtime got *less* frequent over the period, which
+pushed the other way. So the seven is drifting because regulation football
+changed, not because of a rule about how ties are broken, which is the version
+of the finding more likely to persist.
 
 Everything else is flat. The three, which matters most, does not move at all:
 2.77, 2.49, 2.63, 2.60, 2.76 across those same eras, a trend of +0.003 per year
