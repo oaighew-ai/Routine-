@@ -125,6 +125,10 @@ class OpeningBook:
 
     path: Path
     opens: dict[tuple[str, str, str], Quote] = field(default_factory=dict)
+    # Last price seen for each market. The same append-only log that gives the
+    # open gives the close, because every poll is written and nothing is
+    # overwritten. No second data source, and no way for the two to disagree.
+    latest: dict[tuple[str, str, str], Quote] = field(default_factory=dict)
 
     @classmethod
     def load(cls, path: str | Path) -> "OpeningBook":
@@ -150,6 +154,7 @@ class OpeningBook:
                         continue
                     # First wins. Never overwrite.
                     book.opens.setdefault(quote.key, quote)
+                    book.latest[quote.key] = quote      # last wins, deliberately
         return book
 
     def record(self, quotes: Iterable[Quote]) -> list[Quote]:
@@ -162,6 +167,8 @@ class OpeningBook:
         fresh = [q for q in quotes if q.key not in self.opens]
         for q in fresh:
             self.opens[q.key] = q
+        for q in quotes:
+            self.latest[q.key] = q
 
         self.path.parent.mkdir(parents=True, exist_ok=True)
         opener = gzip.open if self.path.suffix == ".gz" else open
@@ -172,14 +179,14 @@ class OpeningBook:
             }) + "\n")
         return fresh
 
-    def consensus_opens(self, market: str = "spread") -> dict[str, float]:
-        """Median opening line per game, across whichever books were seen first.
+    def _consensus(self, source: dict, market: str) -> dict[str, float]:
+        """Median line per game across whichever books are in `source`.
 
         Median rather than first-book, because one book posting an outlier and
-        pulling it thirty seconds later should not define the open.
+        pulling it thirty seconds later should not define the number.
         """
         by_game: dict[str, list[float]] = {}
-        for (game, _book, mkt), q in self.opens.items():
+        for (game, _book, mkt), q in source.items():
             if mkt == market:
                 by_game.setdefault(game, []).append(q.line)
         out: dict[str, float] = {}
@@ -190,6 +197,23 @@ class OpeningBook:
                 lines[mid] if len(lines) % 2 else 0.5 * (lines[mid - 1] + lines[mid])
             )
         return out
+
+    def consensus_closes(self, market: str = "spread") -> dict[str, float]:
+        """Median of the last price seen per book, which is the close.
+
+        Only as good as how late the capture ran. A log that stopped on Monday
+        gives Monday's number and calls it a close, so the caller is
+        responsible for knowing when polling stopped.
+        """
+        return self._consensus(self.latest, market)
+
+    def consensus_opens(self, market: str = "spread") -> dict[str, float]:
+        """Median opening line per game, across whichever books were seen first.
+
+        Median rather than first-book, because one book posting an outlier and
+        pulling it thirty seconds later should not define the open.
+        """
+        return self._consensus(self.opens, market)
 
     def write_opens_csv(self, path: str | Path, market: str = "spread") -> int:
         """Emit exactly what `cfb_edge play --opens` consumes."""

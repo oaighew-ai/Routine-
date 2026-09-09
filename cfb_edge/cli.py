@@ -211,6 +211,77 @@ def cmd_settle(args: argparse.Namespace) -> int:
     return 0
 
 
+def _slate_and_opens(slate_path, opens_path):
+    """Projections and opening lines, reconciled by the alias map."""
+    from .teams import match_games
+
+    slate = {}
+    with open(slate_path, newline="", encoding="utf-8") as fh:
+        for row in csv.DictReader(fh):
+            slate[row["game"].strip()] = float(row["projected_margin"])
+
+    raw = {}
+    with open(opens_path, newline="", encoding="utf-8") as fh:
+        for row in csv.DictReader(fh):
+            line = (row.get("opening_line") or row.get("open") or "").strip()
+            if line:
+                raw[row["game"].strip()] = float(line)
+
+    report = match_games(list(raw), list(slate))
+    opens = {canon: raw[foreign] for foreign, canon in report.matched.items()}
+    return slate, opens, report
+
+
+def cmd_signals(args: argparse.Namespace) -> int:
+    """Record every signal on the board, whether or not it is worth betting.
+
+    The card is two bets a week and the stop rule needs about a hundred graded
+    observations. The signal fires far more often than the card does, and
+    nothing has to be at risk to measure closing line value, so recording all
+    of them is what makes the rule answerable this season instead of in 2029.
+    """
+    from .paper import record, signals_for
+
+    slate, opens, report = _slate_and_opens(args.slate, args.opens)
+    if report.unmatched:
+        print(report.summary() + "\n")
+    signals = signals_for(slate, opens, date=args.date,
+                          min_disagreement=args.min_disagreement)
+    added, skipped = record(args.out, signals)
+    print(f"{len(opens)} games had an opening line; the model disagreed with "
+          f"{len(signals)} of them by {args.min_disagreement:.1f} points or more.")
+    print(f"recorded {added} to {args.out}"
+          + (f", {skipped} already there" if skipped else ""))
+    for s in signals[:12]:
+        print(f"    {s.side} at {s.line_taken:+g} in {s.away} @ {s.home}")
+    if len(signals) > 12:
+        print(f"    ... and {len(signals) - 12} more")
+    if added:
+        print(f"\nGrade them once the market has closed:\n"
+              f"    python3 -m cfb_edge grade --signals {args.out} --log <capture log>")
+    return 0
+
+
+def cmd_grade(args: argparse.Namespace) -> int:
+    """Fill in closing lines, taken from the same capture log as the opens."""
+    from .paper import grade
+    from .watch import OpeningBook
+
+    book = OpeningBook.load(args.log)
+    closes = book.consensus_closes()
+    if not closes:
+        print(f"no quotes in {args.log}. Nothing to grade against.")
+        return 2
+    graded, still_open = grade(args.signals, closes)
+    print(f"{len(closes)} games have a last-seen price in {args.log}")
+    print(f"graded {graded} signals; {still_open} still have no closing line")
+    print("\nA close is only as late as the capture ran. If polling stopped "
+          "before kickoff, this grades against that moment and not the close.")
+    if graded:
+        print(f"\n    python3 -m cfb_edge clv --bets {args.signals}")
+    return 0
+
+
 def cmd_play(args: argparse.Namespace) -> int:
     """The strategy the evidence supports, run over a slate."""
     from .strategy import (DEFAULT_CLV_POINTS, Venue, build_card, find_plays,
@@ -370,6 +441,24 @@ def build_parser() -> argparse.ArgumentParser:
     p_clv = sub.add_parser("clv", help="report closing line value on a bet log")
     p_clv.add_argument("--bets", required=True)
     p_clv.set_defaults(func=cmd_clv)
+
+    p_sig = sub.add_parser(
+        "signals", help="record every signal on the board, bet or not")
+    p_sig.add_argument("--slate", required=True)
+    p_sig.add_argument("--opens", required=True)
+    p_sig.add_argument("--out", default="data/signals.csv")
+    p_sig.add_argument("--date", help="ISO date (default today)")
+    p_sig.add_argument("--min-disagreement", type=float, default=4.0,
+                       dest="min_disagreement")
+    p_sig.set_defaults(func=cmd_signals)
+
+    p_grade = sub.add_parser(
+        "grade", help="fill closing lines into a signal log from the capture")
+    p_grade.add_argument("--signals", default="data/signals.csv")
+    p_grade.add_argument("--log", default="data/opens.jsonl.gz",
+                         help="the raw capture, which holds the close as well "
+                              "as the open")
+    p_grade.set_defaults(func=cmd_grade)
 
     p_log = sub.add_parser(
         "log", help="record a bet as placed, which is the only time you can")

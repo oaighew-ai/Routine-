@@ -1270,6 +1270,124 @@ class TestBetLog(unittest.TestCase):
         self.assertEqual([b.home for b in bets], ["B0", "B1", "B2", "B3"])
 
 
+class TestPaperSignals(unittest.TestCase):
+    """Measuring costs nothing, so measure everything."""
+
+    def _tmp(self, suffix=".csv"):
+        import os, tempfile
+        fd, path = tempfile.mkstemp(suffix=suffix); os.close(fd); os.unlink(path)
+        self.addCleanup(lambda: os.path.exists(path) and os.unlink(path))
+        return path
+
+    def _log(self, polls):
+        import gzip, json
+        path = self._tmp(".jsonl.gz")
+        with gzip.open(path, "wt", encoding="utf-8") as fh:
+            for quotes in polls:
+                fh.write(json.dumps({"polled_at": "x", "quotes": quotes}) + "\n")
+        return path
+
+    def _q(self, game, line, seen):
+        return {"game": game, "book": "bk", "market": "spread",
+                "line": line, "price": -110, "seen_at": seen}
+
+    def test_one_log_yields_both_the_open_and_the_close(self):
+        """The append-only capture already holds both, so there is no second
+        source and no way for the two to disagree."""
+        from cfb_edge.watch import OpeningBook
+
+        path = self._log([[self._q("A @ B", 6.5, "t0")],
+                          [self._q("A @ B", 6.0, "t1")],
+                          [self._q("A @ B", 5.5, "t2")]])
+        book = OpeningBook.load(path)
+        self.assertEqual(book.consensus_opens()["A @ B"], 6.5)
+        self.assertEqual(book.consensus_closes()["A @ B"], 5.5)
+
+        # And a live capture keeps both as it records.
+        from cfb_edge.watch import Quote
+        book.record([Quote("A @ B", "bk", "spread", 4.5, -110, "t3")])
+        self.assertEqual(book.consensus_opens()["A @ B"], 6.5)
+        self.assertEqual(book.consensus_closes()["A @ B"], 4.5)
+
+    def test_a_signal_records_the_line_from_the_backed_side(self):
+        from cfb_edge.paper import signals_for
+
+        # Home line +6.5, model near a pick'em: the home side is underpriced.
+        home, = signals_for({"Missouri @ Kansas": -0.07},
+                            {"Missouri @ Kansas": 6.5}, date="2026-09-08")
+        self.assertEqual(home.side, "Kansas")
+        self.assertEqual(home.line_taken, 6.5)
+
+        # Home line -2.5, model has the away side better: the away number is
+        # the negation of the home one.
+        away, = signals_for({"Oklahoma @ Michigan": -2.67},
+                            {"Oklahoma @ Michigan": -2.5}, date="2026-09-08")
+        self.assertEqual(away.side, "Oklahoma")
+        self.assertEqual(away.line_taken, 2.5)
+
+    def test_games_under_the_bar_are_not_recorded(self):
+        from cfb_edge.paper import signals_for
+
+        # The real week 2 board: two fire, two do not.
+        slate = {"Missouri @ Kansas": -0.07, "Oklahoma @ Michigan": -2.67,
+                 "Ohio State @ Texas": -0.86, "Arizona State @ Texas A&M": 12.52}
+        opens = {"Missouri @ Kansas": 6.5, "Oklahoma @ Michigan": -2.5,
+                 "Ohio State @ Texas": -2.5, "Arizona State @ Texas A&M": -14.5}
+        sides = {s.side for s in signals_for(slate, opens, date="2026-09-08")}
+        self.assertEqual(sides, {"Kansas", "Oklahoma"})
+
+    def test_recording_the_same_week_twice_adds_nothing(self):
+        """The board opens in pieces, so the command has to be re-runnable."""
+        from cfb_edge.paper import record, signals_for
+
+        path = self._tmp()
+        sigs = signals_for({"A @ B": 0.0}, {"A @ B": 6.5}, date="2026-09-08")
+        self.assertEqual(record(path, sigs), (1, 0))
+        self.assertEqual(record(path, sigs), (0, 1))
+
+    def test_grading_flips_the_sign_for_an_away_signal(self):
+        """The close is captured from the home side; an away signal took its
+        negation, and getting that backwards inverts the only conclusion."""
+        from cfb_edge.clv import load_bets
+        from cfb_edge.paper import grade, record, signals_for
+
+        path = self._tmp()
+        record(path, signals_for({"Oklahoma @ Michigan": -2.67},
+                                 {"Oklahoma @ Michigan": -2.5}, date="2026-09-08"))
+        # Home line moved -2.5 -> +6.5, nine points toward the away side.
+        graded, still_open = grade(path, {"Oklahoma @ Michigan": 6.5})
+        self.assertEqual((graded, still_open), (1, 0))
+        bet, = load_bets(path)
+        self.assertEqual(bet.closing_line, -6.5)
+        self.assertAlmostEqual(bet.line_clv, 9.0, places=9)
+
+    def test_grading_twice_cannot_move_a_recorded_close(self):
+        from cfb_edge.clv import load_bets
+        from cfb_edge.paper import grade, record, signals_for
+
+        path = self._tmp()
+        record(path, signals_for({"A @ B": 0.0}, {"A @ B": 6.5}, date="2026-09-08"))
+        grade(path, {"A @ B": 5.5})
+        grade(path, {"A @ B": 1.0})
+        self.assertEqual(load_bets(path)[0].closing_line, 5.5)
+
+    def test_paper_rows_can_never_read_as_realised_profit(self):
+        from cfb_edge.clv import build_report, load_bets
+        from cfb_edge.paper import grade, record, signals_for
+
+        path = self._tmp()
+        record(path, signals_for({"A @ B": 0.0, "C @ D": 0.0},
+                                 {"A @ B": 6.5, "C @ D": 7.0}, date="2026-09-08"))
+        grade(path, {"A @ B": 5.5, "C @ D": 6.0})
+        report = build_report(load_bets(path))
+        self.assertEqual(report.staked, 0.0)
+        self.assertEqual(report.realised_profit, 0.0)
+        self.assertEqual(report.roi, 0.0)
+        # The line CLV is still measured, which is the whole point.
+        self.assertAlmostEqual(report.mean_line_clv, 1.0, places=9)
+        self.assertTrue(all(b.price_clv is None for b in load_bets(path)))
+
+
 class TestStopRule(unittest.TestCase):
     """A rule fixed in advance, and the honest limits of what it can decide."""
 
