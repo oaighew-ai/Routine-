@@ -272,11 +272,17 @@ def cmd_grade(args: argparse.Namespace) -> int:
     if not closes:
         print(f"no quotes in {args.log}. Nothing to grade against.")
         return 2
+    ungated = book.ungated_games()
     graded, still_open = grade(args.signals, closes)
-    print(f"{len(closes)} games have a last-seen price in {args.log}")
+    print(f"{len(closes)} games have a pre-kickoff closing price in {args.log}")
+    if ungated:
+        print(f"WARNING: {len(ungated)} of them carry no kickoff time, so their "
+              f"close could not be gated and may be an in-play number. Logs "
+              f"captured before commence_time was recorded look like this.")
     print(f"graded {graded} signals; {still_open} still have no closing line")
     print("\nA close is only as late as the capture ran. If polling stopped "
-          "before kickoff, this grades against that moment and not the close.")
+          "early, this grades against that moment and not the close. Quotes "
+          "seen after kickoff are excluded.")
     if graded:
         print(f"\n    python3 -m cfb_edge clv --bets {args.signals}")
     return 0

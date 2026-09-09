@@ -113,10 +113,35 @@ class Quote:
     line: float
     price: float | None
     seen_at: str
+    # When the game starts, as the provider reports it. Optional because logs
+    # captured before this field existed do not carry one, and because a
+    # provider that omits it should degrade to the old behaviour rather than
+    # discard the poll.
+    commence_time: str | None = None
 
     @property
     def key(self) -> tuple[str, str, str]:
         return (self.game, self.book, self.market)
+
+    @property
+    def before_kickoff(self) -> bool | None:
+        """Whether this quote was seen before the game started.
+
+        None when either timestamp is missing or unparseable, which the caller
+        has to decide about rather than have decided for it.
+        """
+        if not self.commence_time:
+            return None
+        try:
+            seen = datetime.fromisoformat(self.seen_at.replace("Z", "+00:00"))
+            start = datetime.fromisoformat(self.commence_time.replace("Z", "+00:00"))
+        except (ValueError, AttributeError):
+            return None
+        if seen.tzinfo is None:
+            seen = seen.replace(tzinfo=timezone.utc)
+        if start.tzinfo is None:
+            start = start.replace(tzinfo=timezone.utc)
+        return seen < start
 
 
 @dataclass
@@ -125,6 +150,9 @@ class OpeningBook:
 
     path: Path
     opens: dict[tuple[str, str, str], Quote] = field(default_factory=dict)
+    # Every quote ever seen, needed because the close is the last one *before
+    # kickoff* rather than simply the last one.
+    _history: list[Quote] = field(default_factory=list)
     # Last price seen for each market. The same append-only log that gives the
     # open gives the close, because every poll is written and nothing is
     # overwritten. No second data source, and no way for the two to disagree.
@@ -155,6 +183,7 @@ class OpeningBook:
                     # First wins. Never overwrite.
                     book.opens.setdefault(quote.key, quote)
                     book.latest[quote.key] = quote      # last wins, deliberately
+                    book._history.append(quote)
         return book
 
     def record(self, quotes: Iterable[Quote]) -> list[Quote]:
@@ -169,6 +198,7 @@ class OpeningBook:
             self.opens[q.key] = q
         for q in quotes:
             self.latest[q.key] = q
+            self._history.append(q)
 
         self.path.parent.mkdir(parents=True, exist_ok=True)
         opener = gzip.open if self.path.suffix == ".gz" else open
@@ -178,6 +208,10 @@ class OpeningBook:
                 "quotes": [q.__dict__ for q in quotes],
             }) + "\n")
         return fresh
+
+    def _all_quotes(self) -> list[Quote]:
+        """Every quote in the raw log, in the order it was recorded."""
+        return list(self._history)
 
     def _consensus(self, source: dict, market: str) -> dict[str, float]:
         """Median line per game across whichever books are in `source`.
@@ -198,14 +232,42 @@ class OpeningBook:
             )
         return out
 
-    def consensus_closes(self, market: str = "spread") -> dict[str, float]:
-        """Median of the last price seen per book, which is the close.
+    def closing_quotes(self) -> dict[tuple[str, str, str], Quote]:
+        """Last quote per market that was seen *before* kickoff.
 
-        Only as good as how late the capture ran. A log that stopped on Monday
-        gives Monday's number and calls it a close, so the caller is
-        responsible for knowing when polling stopped.
+        The capture runs from Sunday into Tuesday and games kick off inside
+        that window, so plain last-seen is not a close: a quote taken while a
+        game is being played is an in-play number, and closing line value
+        measured against one is noise recorded as signal. That would corrupt
+        the scorecard the whole project rests on, quietly, which is the worst
+        shape a defect can take here.
+
+        Quotes carrying no kickoff time are kept. Logs written before the field
+        existed have none, and dropping them would silently empty an old log
+        rather than admit it cannot be gated. `ungated_games` reports how many
+        are in that position.
         """
-        return self._consensus(self.latest, market)
+        out: dict[tuple[str, str, str], Quote] = {}
+        for q in self._all_quotes():
+            if q.before_kickoff is False:
+                continue
+            out[q.key] = q
+        return out
+
+    def ungated_games(self, market: str = "spread") -> set[str]:
+        """Games whose close could not be gated for want of a kickoff time."""
+        return {q.game for q in self._all_quotes()
+                if q.market == market and q.before_kickoff is None}
+
+    def consensus_closes(self, market: str = "spread") -> dict[str, float]:
+        """Median closing line per game, ignoring anything seen after kickoff.
+
+        Still only as good as how late the capture ran: a log that stopped on
+        Monday gives Monday's number and calls it a close. The guard here is
+        against the other end, polling past kickoff, which the schedule makes
+        routine rather than exceptional.
+        """
+        return self._consensus(self.closing_quotes(), market)
 
     def consensus_opens(self, market: str = "spread") -> dict[str, float]:
         """Median opening line per game, across whichever books were seen first.

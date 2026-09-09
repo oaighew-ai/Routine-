@@ -96,6 +96,10 @@ def parse_board(payload: list[dict]) -> list[Quote]:
         if not home or not away:
             continue
         game = f"{away} @ {home}"
+        # Carried on every quote so the close can be gated on kickoff. The
+        # capture runs from Sunday into Tuesday and games start inside that
+        # window, so without this a quote taken mid-game becomes the "close".
+        commence = (event.get("commence_time") or "").strip() or None
         for bookmaker in event.get("bookmakers") or []:
             book = (bookmaker.get("title") or bookmaker.get("key") or "").strip()
             for market in bookmaker.get("markets") or []:
@@ -112,6 +116,6 @@ def parse_board(payload: list[dict]) -> list[Quote]:
                         game=game, book=book,
                         market="spread" if kind == "spreads" else str(kind),
                         line=float(point), price=outcome.get("price"),
-                        seen_at=seen_at,
+                        seen_at=seen_at, commence_time=commence,
                     ))
     return out
