@@ -882,6 +882,77 @@ That gap is itself worth recording: the simulator understates how wrong an
 early-season rating really is, so its results are optimistic about the early
 season in a way real data is not.
 
+## The pricing bug: quoting a number nobody was offering
+
+The card told you to buy Kansas at 39c. The market was offering it near 26c.
+
+`find_plays` built its margin distribution from the model's projection and then
+read both the contract price and the key-number density off it. Every number on
+the card was therefore the model's own fair value rather than anything a person
+could fill.
+
+That is the rejected hypothesis smuggled back in through the pricing path. The
+model's incremental coefficient against 6,398 real closing lines is -0.02 at a
+t of -0.31. It has no information the line does not already have, so a price
+derived from it is not a price, and a card is an instruction to go and fill an
+order.
+
+The cost is not a rounding error. Week 2 of 2026, priced both ways:
+
+| Game | Side | Quoted off the projection | Market | Error |
+|---|---|---|---|---|
+| Missouri @ Kansas | Kansas, strike 3 | 39c | **26c** | 13c |
+| Oklahoma @ Michigan | Oklahoma, strike 3 | 67c | **55c** | 12c |
+
+The net edge on each is about one cent. A person filling at the quoted price
+pays twelve cents over the market to collect it.
+
+### Both terms were wrong, not just the price
+
+Line movement converts to probability at the density underneath it, and the
+line moves from where the market is rather than from where the model wishes it
+were. So `gain = clv_points * density` has to use the market's density too, and
+it lands on the other side of the trade often enough that this is not a
+conservative assumption in disguise:
+
+| Game | Density at 3, model | Market | Gain, model | Market |
+|---|---|---|---|---|
+| Missouri @ Kansas | 0.0645 | 0.0553 | +2.84% | **+2.43%** |
+| Oklahoma @ Michigan | 0.0617 | 0.0657 | +2.72% | **+2.89%** |
+
+Kansas was overstated by 17% and Michigan understated by 6%.
+
+### The fix, and what it removes
+
+`find_plays` no longer takes a projection at all. It takes `market_line` and
+prices everything off it. The projection keeps its one job, `signal_side`,
+which is choosing the side, and that is the entire extent of what the evidence
+entitles it to do.
+
+The corrected Week 2 card:
+
+```
+2 plays from 2 games. Exposure 1.01% of bankroll.
+
+  1. Oklahoma @ Michigan: Oklahoma at +3 on exchange (55%) | +1.16% | stake 0.64%
+  2. Missouri @ Kansas:   Kansas   at +3 on exchange (26%) | +1.10% | stake 0.37%
+```
+
+Same two plays and nearly the same net edges, because the edge was always the
+0.44 points of movement rather than the disagreement. What changed is that the
+prices are now ones a person can actually get, the ranking flipped, and
+exposure fell from 1.35% to 1.01%.
+
+`rank_expressions` took the same argument under the name `projected_margin`
+and it is now `market_margin`, for the same reason.
+
+Two tests pin this. One asserts the quoted price equals the market's survival
+at the strike and is more than ten cents from what the projection alone would
+have said. The other asserts the gain uses the market's density, on one game
+where that lowers the edge and one where it raises it, so neither direction can
+be mistaken for a safety margin.
+
+
 ## Do bowl games need their own distribution?
 
 The playoff and bowls are the one part of the calendar where the model's

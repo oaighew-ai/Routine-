@@ -74,7 +74,7 @@ def book_vig(american_price: float) -> float:
 def rank_expressions(
     clv_points: float,
     *,
-    projected_margin: float = 0.0,
+    market_margin: float = 0.0,
     total: float = 52.0,
     book_prices: tuple[float, ...] = (-110.0, -105.0, -103.0),
     coefficient: float = FEE_COEFFICIENT,
@@ -82,11 +82,17 @@ def rank_expressions(
 ) -> list[Expression]:
     """Every way of expressing `clv_points` of edge, best first.
 
+    `market_margin` is the market's implied home margin, which is its posted
+    line negated. It is deliberately not the model's projection: the density
+    that turns a line move into probability is the density where the line
+    actually sits, and the price you pay is the market's price. Feeding a
+    projection here prices a contract nobody is offering. See `find_plays`.
+
     The book entries are pinned to the line a book would actually post, which
     is the game's median margin. The exchange entries range over the ladder,
     because that is the freedom being priced.
     """
-    pmf = margin_pmf(projected_margin, sigma_for_total(total))
+    pmf = margin_pmf(market_margin, sigma_for_total(total))
 
     def survival(k: float) -> float:
         return sum(v for kk, v in pmf.items() if kk > k)

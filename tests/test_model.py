@@ -1154,7 +1154,7 @@ class TestVenue(unittest.TestCase):
         from cfb_edge.venue import best_strike, is_key_number
 
         for pm in (0.0, 3.0, 6.0, 9.0):
-            b = best_strike(0.44, projected_margin=pm)
+            b = best_strike(0.44, market_margin=pm)
             self.assertTrue(is_key_number(b.strike), f"projected {pm} -> {b.strike}")
 
     def test_tails_are_not_the_answer(self):
@@ -1188,14 +1188,14 @@ class TestVenue(unittest.TestCase):
         # the same 50/50 proposition.
         from cfb_edge.venue import best_strike
 
-        b = best_strike(0.44, projected_margin=10.0)
+        b = best_strike(0.44, market_margin=10.0)
         self.assertTrue(b.venue.startswith("book"))
         self.assertEqual(abs(b.strike), 7)
 
     def test_an_exchange_wins_when_the_book_line_is_an_ordinary_number(self):
         from cfb_edge.venue import best_strike
 
-        b = best_strike(0.44, projected_margin=0.0)
+        b = best_strike(0.44, market_margin=0.0)
         self.assertEqual(b.venue, "exchange")
 
     def test_the_exchange_fee_peaks_at_a_coin_flip(self):
@@ -1237,7 +1237,7 @@ class TestStrategy(unittest.TestCase):
         from cfb_edge.strategy import find_plays
 
         # Line on a key number at the projection: clears, barely.
-        on_peak = find_plays("g", projected_margin=7.0, side="home",
+        on_peak = find_plays("g", market_line=-7.0, side="home",
                              venues=self._venues(), posted_line=-7.0)
         b110 = [p for p in on_peak if p.venue == "book -110"]
         b105 = [p for p in on_peak if p.venue == "book -105"]
@@ -1246,38 +1246,41 @@ class TestStrategy(unittest.TestCase):
         self.assertGreater(b105[0].net, b110[0].net * 4)
 
         # Line not a key number: no book play at all, at any price.
-        off_key = find_plays("g", projected_margin=0.0, side="home",
+        off_key = find_plays("g", market_line=-0.0, side="home",
                              venues=self._venues(), posted_line=-1.5)
         self.assertFalse(any(p.venue.startswith("book") for p in off_key))
 
-        # A key number far from the projection is not enough either: the
-        # density there is too low for -110 even though 14 is a key number.
-        far = find_plays("g", projected_margin=10.0, side="home",
-                         venues=self._venues(), posted_line=-14.0)
-        self.assertFalse(any(p.venue == "book -110" for p in far))
-        self.assertTrue(any(p.venue == "book -105" for p in far))
+        # There is no such thing as a book posting a key number far from the
+        # market, because the book's own number is the market. What is left is
+        # the vig difference at the number itself, and it decides the venue.
+        at_14 = find_plays("g", market_line=-14.0, side="home",
+                           venues=self._venues(), posted_line=-14.0)
+        n110 = [p for p in at_14 if p.venue == "book -110"]
+        n105 = [p for p in at_14 if p.venue == "book -105"]
+        self.assertTrue(n105)
+        self.assertGreater(n105[0].net, max([p.net for p in n110], default=0.0))
 
     def test_a_book_only_appears_when_its_posted_line_is_a_key_number(self):
         from cfb_edge.strategy import find_plays
 
-        on_key = find_plays("g", projected_margin=10.0, side="home",
+        on_key = find_plays("g", market_line=-10.0, side="home",
                             venues=self._venues(), posted_line=-7.0)
         self.assertTrue(any(p.venue == "book -105" for p in on_key))
-        off_key = find_plays("g", projected_margin=10.0, side="home",
+        off_key = find_plays("g", market_line=-10.0, side="home",
                              venues=self._venues(), posted_line=-8.5)
         self.assertFalse(any(p.venue.startswith("book") for p in off_key))
 
     def test_a_reduced_juice_book_on_a_key_number_beats_the_exchange(self):
         from cfb_edge.strategy import find_plays
 
-        plays = find_plays("g", projected_margin=10.0, side="home",
+        plays = find_plays("g", market_line=-10.0, side="home",
                            venues=self._venues(), posted_line=-7.0)
         self.assertEqual(plays[0].venue, "book -105")
 
     def test_the_exchange_carries_the_board_away_from_key_lines(self):
         from cfb_edge.strategy import find_plays
 
-        plays = find_plays("g", projected_margin=1.0, side="home",
+        plays = find_plays("g", market_line=-1.0, side="home",
                            venues=self._venues(), posted_line=-1.5)
         self.assertTrue(plays)
         self.assertTrue(all(p.venue == "exchange" for p in plays))
@@ -1286,7 +1289,7 @@ class TestStrategy(unittest.TestCase):
     def test_a_smaller_edge_produces_no_card_at_all(self):
         from cfb_edge.strategy import find_plays
 
-        plays = find_plays("g", projected_margin=0.0, side="home",
+        plays = find_plays("g", market_line=-0.0, side="home",
                            venues=self._venues(), posted_line=-3.0,
                            clv_points=0.10)
         self.assertEqual(plays, [])
@@ -1294,18 +1297,64 @@ class TestStrategy(unittest.TestCase):
     def test_stakes_are_capped_per_bet(self):
         from cfb_edge.strategy import MAX_STAKE, find_plays
 
-        plays = find_plays("g", projected_margin=0.0, side="home",
+        plays = find_plays("g", market_line=-0.0, side="home",
                            venues=self._venues(), posted_line=-3.0,
                            clv_points=3.0)
         self.assertTrue(plays)
         for p in plays:
             self.assertLessEqual(p.stake, MAX_STAKE + 1e-12)
 
+    def test_the_quoted_price_is_the_market_not_the_projection(self):
+        """The bug this pins cost twelve cents on a one cent edge.
+
+        Missouri at Kansas, week 2 of 2026: the model projected a pick'em, the
+        market posted Kansas +6.5. Pricing the three off the projection quoted
+        39c on a contract the market was offering near 26c. A card is an
+        instruction to go and fill an order, so a price nobody is offering is
+        not a rounding error, it is a losing bet.
+        """
+        from cfb_edge.distribution import margin_pmf, sigma_for_total
+        from cfb_edge.strategy import find_plays
+
+        plays = find_plays("Missouri @ Kansas", market_line=6.5, side="Kansas",
+                           venues=self._venues())
+        three = [p for p in plays if p.number == 3]
+        self.assertTrue(three)
+
+        pmf = margin_pmf(-6.5, sigma_for_total(52.0))
+        self.assertAlmostEqual(three[0].strike_price,
+                               sum(v for k, v in pmf.items() if k > 3), places=9)
+        # And nowhere near what the projection alone would have said.
+        model = margin_pmf(0.0, sigma_for_total(52.0))
+        self.assertGreater(abs(three[0].strike_price
+                               - sum(v for k, v in model.items() if k > 3)), 0.10)
+
+    def test_line_movement_is_valued_where_the_line_actually_is(self):
+        """Both terms come from the market, not just the price.
+
+        A move of `clv_points` converts to probability at the density under it,
+        and the line moves from where the market is rather than from where the
+        model wishes it were. Kansas is the case where that lowers the edge and
+        Michigan the case where it raises it, so neither direction is a
+        convenient assumption.
+        """
+        from cfb_edge.distribution import margin_pmf, sigma_for_total
+        from cfb_edge.strategy import DEFAULT_CLV_POINTS, find_plays
+
+        for line, projection in ((6.5, 0.0), (-2.5, -2.67)):
+            plays = find_plays("A @ B", market_line=line, side="B",
+                               venues=self._venues())
+            three = [p for p in plays if p.number == 3][0]
+            market = margin_pmf(-line, sigma_for_total(52.0)).get(3, 0.0)
+            model = margin_pmf(projection, sigma_for_total(52.0)).get(3, 0.0)
+            self.assertAlmostEqual(three.gain, DEFAULT_CLV_POINTS * market, places=9)
+            self.assertNotAlmostEqual(three.gain, DEFAULT_CLV_POINTS * model, places=4)
+
     def test_the_card_takes_one_play_per_game(self):
         from cfb_edge.strategy import build_card, find_plays
 
         per_game = [
-            find_plays(f"g{i}", projected_margin=float(i), side="home",
+            find_plays(f"g{i}", market_line=-float(i), side="home",
                        venues=self._venues(), posted_line=-1.5)
             for i in range(4)
         ]
@@ -1317,7 +1366,7 @@ class TestStrategy(unittest.TestCase):
         from cfb_edge.strategy import build_card, find_plays
 
         per_game = [
-            find_plays(f"g{i}", projected_margin=0.0, side="home",
+            find_plays(f"g{i}", market_line=-3.0, side="home",
                        venues=self._venues(), posted_line=-3.0, clv_points=3.0)
             for i in range(20)
         ]
@@ -1345,7 +1394,7 @@ class TestStrategy(unittest.TestCase):
 
         for blank in ("", "   ", None):
             with self.assertRaises(ValueError):
-                find_plays("g", projected_margin=0.0, side=blank,
+                find_plays("g", market_line=-0.0, side=blank,
                            venues=self._venues(), posted_line=-3.0)
 
     def test_the_side_is_derived_from_the_open_alone(self):
@@ -1387,9 +1436,9 @@ class TestStrategy(unittest.TestCase):
         from cfb_edge.strategy import Venue, find_plays
 
         ex = [Venue("exchange", is_exchange=True)]
-        home = find_plays("Away @ Home", projected_margin=9.86, side="Home",
+        home = find_plays("Away @ Home", market_line=-9.9, side="Home",
                           venues=ex)[0]
-        away = find_plays("Away @ Home", projected_margin=9.86, side="Away",
+        away = find_plays("Away @ Home", market_line=-9.9, side="Away",
                           venues=ex)[0]
         self.assertAlmostEqual(home.strike_price + away.strike_price, 1.0, places=9)
         self.assertLess(away.strike_price, 0.5)

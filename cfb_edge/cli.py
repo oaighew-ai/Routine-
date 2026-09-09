@@ -154,9 +154,19 @@ def cmd_play(args: argparse.Namespace) -> int:
                 skipped += 1
                 continue
             row["side"], row["posted_line"] = side, posted
+            # Priced off the market's number, never off the projection: the
+            # projection has already done its only job, which was picking the
+            # side. An opening line is preferred over a posted one because the
+            # signal is about movement away from the open.
+            market_line = opens.get(game)
+            if market_line is None:
+                market_line = float(posted) if (posted or "").strip() else None
+            if market_line is None:
+                skipped += 1
+                continue
             per_game.append(find_plays(
                 row["game"],
-                projected_margin=float(row["projected_margin"]),
+                market_line=market_line,
                 side=row["side"],
                 venues=venues,
                 posted_line=(float(row["posted_line"])

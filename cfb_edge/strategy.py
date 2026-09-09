@@ -125,7 +125,7 @@ def _quarter_kelly(net_edge: float, strike_price: float) -> float:
 def find_plays(
     game: str,
     *,
-    projected_margin: float,
+    market_line: float,
     side: str,
     venues: list[Venue],
     posted_line: float | None = None,
@@ -143,6 +143,26 @@ def find_plays(
     output this module could produce: it looks authoritative and contains
     nothing. So a blank side raises rather than returning plays.
 
+    `market_line` is the market's number from the home team's perspective, and
+    everything here is priced off it. **The model's projection is deliberately
+    not an input.** It picks the side, in `signal_side`, and that is all it is
+    entitled to do: measured against 6,398 real closing lines its incremental
+    coefficient is -0.02 at a t of -0.31, so pricing a contract off it rather
+    than off the market is betting a hypothesis this project already rejected.
+
+    That distinction is worth money rather than being a nicety. On Missouri at
+    Kansas in week 2 of 2026 the model projected a pick'em while the market
+    posted Kansas +6.5. Pricing the three off the projection quoted 39c on a
+    contract the market was offering near 26c, and on the other side of the
+    same board it quoted 67c where the market sat near 55c. A person filling
+    that order pays twelve cents over the market to collect an edge worth
+    about one, which is a losing bet made out of a rounding of principle.
+
+    Both terms have to come from the market, not just the price. Line movement
+    converts to probability at the density where the line actually is, so a
+    move of `clv_points` is worth `clv_points * density` under the market's
+    distribution and not under the model's.
+
     `posted_line` is what a book is offering. A book only appears in the result
     when its posted line is itself a key number, because that is the only case
     where a book beats an exchange.
@@ -153,7 +173,9 @@ def find_plays(
             f"opening line; without one there is nothing to bet."
         )
 
-    pmf = margin_pmf(projected_margin, sigma_for_total(total))
+    # Priced where the market is. A line of +6.5 on the home team means the
+    # market's implied home margin is -6.5.
+    pmf = margin_pmf(-market_line, sigma_for_total(total))
 
     def survival(k: float) -> float:
         return sum(v for kk, v in pmf.items() if kk > k)
