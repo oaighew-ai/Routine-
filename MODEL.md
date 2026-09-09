@@ -981,6 +981,18 @@ A 5.3% error in sigma costs 0.14 points of edge on a play at the three, about
 **So `sigma_for_total` gets no postseason branch.** Bowls are priced exactly like
 regular-season games, and the reason is measurement rather than convenience.
 
+The whole test is `scripts/bowl_variance.py`, which is worth re-running when
+cfbfastR extends its play-by-play past 2021: four more seasons would take the
+postseason sample from 348 to roughly 500, and the detectable effect from 8%
+down to about 6.5%. It caches each stage, so a second run is seconds. The
+filler-value trap is a hard failure in it rather than a comment, because that
+one produced a confident answer with the sign inverted:
+
+```
+refusing to continue: 42% of spreads are exactly 2.5. That is a fill value,
+not a line.
+```
+
 ### What this does change
 
 Nothing in the distribution, and one thing in the capture.
