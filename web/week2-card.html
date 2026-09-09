@@ -163,6 +163,18 @@ tr.gone td:first-child{text-decoration:line-through;text-decoration-color:var(--
 .calc .out > div{background:var(--surface);padding:12px 14px}
 .calc .out .v{font-family:var(--mono);font-size:21px;font-weight:600;margin-top:3px}
 
+/* ---- correction ---- */
+.fix-box{
+  border-left:3px solid var(--accent);background:var(--accent-soft);
+  padding:17px 20px;display:flex;flex-direction:column;gap:10px;
+}
+.fix-box h3{color:var(--accent)}
+.fix-box p{font-size:15px;max-width:64ch}
+.fix-box table{min-width:0}
+.fix-box td,.fix-box th{padding:7px 10px 7px 0}
+.fix-box td.was{text-decoration:line-through;color:var(--ink-3)}
+.fix-box td.now{font-weight:600}
+
 /* ---- withdrawn ---- */
 .dead-box{
   border-left:3px solid var(--dead);background:var(--dead-soft);
@@ -195,14 +207,14 @@ tr.gone td:first-child{text-decoration:line-through;text-decoration-color:var(--
 <div class="sheet">
 
   <header class="mast">
-    <div class="kick"><span class="lab">CFB Edge · Week 2 · 2026</span><span class="lab" style="color:var(--accent)">rating-scale corrected</span></div>
+    <div class="kick"><span class="lab">CFB Edge · Week 2 · 2026</span><span class="lab" style="color:var(--accent)">priced off the market</span></div>
     <h1>Week 2 Edge Card</h1>
     <div class="hrule"></div>
     <div class="sub">
-      <span>Built <b>Sep 8, 2026</b></span><span>·</span>
+      <span>Built <b>Sep 8</b>, corrected <b>Sep 9</b></span><span>·</span>
       <span>Slate <b>49 games</b></span><span>·</span>
       <span>Lines captured <b>4</b></span><span>·</span>
-      <span>Model <b>ebfea50</b></span>
+      <span>Model <b>efde350</b></span>
     </div>
   </header>
 
@@ -216,8 +228,36 @@ tr.gone td:first-child{text-decoration:line-through;text-decoration-color:var(--
     </div>
     <div class="figs">
       <div><div class="lab">Plays</div><div class="v num">2</div></div>
-      <div><div class="lab">Exposure</div><div class="v num">1.35%</div></div>
+      <div><div class="lab">Exposure</div><div class="v num">1.01%</div></div>
     </div>
+  </section>
+
+  <section class="fix-box">
+    <h3>Corrected Sept 9: these prices were wrong</h3>
+    <p>The first version of this card quoted Kansas at 39&cent; and Oklahoma at
+    67&cent;. Those were the model's own fair values, not prices anyone was
+    offering. The market was near 26&cent; and 55&cent;.</p>
+    <p>The pricing code built its margin distribution from the model's
+    projection and read both the contract price and the key-number density off
+    it. That is the one thing the model is measured as having no right to do:
+    against 6,398 real closing lines its incremental coefficient is
+    &minus;0.02 at a t of &minus;0.31.</p>
+    <div class="tw">
+      <table>
+        <thead><tr><th>Contract</th><th>Quoted</th><th>Market</th><th>Error</th></tr></thead>
+        <tbody>
+          <tr><td>Kansas, strike 3</td><td class="was">39&cent;</td><td class="now">26&cent;</td><td>13&cent;</td></tr>
+          <tr><td>Oklahoma, strike 3</td><td class="was">67&cent;</td><td class="now">55&cent;</td><td>12&cent;</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p>The net edge on each is about one cent. Filling at the quoted price meant
+    paying twelve cents over the market to collect one, which is roughly ten
+    times the edge in the wrong direction.</p>
+    <p>The plays themselves survive, because the edge was always the 0.44 points
+    of predicted movement rather than the model's disagreement with the line.
+    What changed: the prices are ones you can actually get, the ranking flipped,
+    and exposure fell from 1.35% to 1.01%.</p>
   </section>
 
   <section>
@@ -270,13 +310,13 @@ tr.gone td:first-child{text-decoration:line-through;text-decoration-color:var(--
           <div class="game">Exchange strike, not the posted &plus;6.5</div>
         </div>
         <div class="grid">
-          <div><div class="lab">Buy at</div><div class="v">39&cent;</div></div>
-          <div><div class="lab">Net edge</div><div class="v" style="color:var(--live)">&plus;1.17%</div></div>
-          <div><div class="lab">Stake</div><div class="v">0.48%</div></div>
+          <div><div class="lab">Buy at</div><div class="v">26&cent;</div></div>
+          <div><div class="lab">Net edge</div><div class="v" style="color:var(--live)">&plus;1.10%</div></div>
+          <div><div class="lab">Stake</div><div class="v">0.37%</div></div>
         </div>
         <div class="math">
-          gain 2.84% &minus; fee 1.67% = <b>&plus;1.17%</b><br>
-          density at 3: 0.0645 &nbsp;·&nbsp; quarter Kelly
+          gain 2.43% &minus; fee 1.33% = <b>&plus;1.10%</b><br>
+          density at 3: 0.0553 &nbsp;·&nbsp; quarter Kelly
         </div>
         <div class="decay-strip">
           <div class="lab">CLV budget spent before you bet</div>
@@ -292,13 +332,13 @@ tr.gone td:first-child{text-decoration:line-through;text-decoration-color:var(--
           <div class="game">Exchange strike, not the posted &plus;2.5</div>
         </div>
         <div class="grid">
-          <div><div class="lab">Buy at</div><div class="v">67&cent;</div></div>
+          <div><div class="lab">Buy at</div><div class="v">55&cent;</div></div>
           <div><div class="lab">Net edge</div><div class="v" style="color:var(--live)">&plus;1.16%</div></div>
-          <div><div class="lab">Stake</div><div class="v">0.87%</div></div>
+          <div><div class="lab">Stake</div><div class="v">0.64%</div></div>
         </div>
         <div class="math">
-          gain 2.72% &minus; fee 1.56% = <b>&plus;1.16%</b><br>
-          density at 3: 0.0617 &nbsp;·&nbsp; quarter Kelly
+          gain 2.89% &minus; fee 1.73% = <b>&plus;1.16%</b><br>
+          density at 3: 0.0657 &nbsp;·&nbsp; quarter Kelly
         </div>
         <div class="decay-strip">
           <div class="lab">CLV budget spent before you bet</div>
@@ -322,9 +362,9 @@ tr.gone td:first-child{text-decoration:line-through;text-decoration-color:var(--
       <span class="num" style="color:var(--ink-3);font-size:13px">stakes are quarter Kelly, capped at 2% per bet</span>
     </div>
     <div class="out">
-      <div><div class="lab">Kansas +3 @ 39&cent;</div><div class="v" id="s1">$48</div><div class="num" style="font-size:12px;color:var(--ink-3)" id="c1">123 contracts</div></div>
-      <div><div class="lab">Oklahoma +3 @ 67&cent;</div><div class="v" id="s2">$87</div><div class="num" style="font-size:12px;color:var(--ink-3)" id="c2">130 contracts</div></div>
-      <div><div class="lab">Total at risk</div><div class="v" id="s3">$135</div><div class="num" style="font-size:12px;color:var(--ink-3)">1.35% of bankroll</div></div>
+      <div><div class="lab">Kansas +3 @ 26&cent;</div><div class="v" id="s1">$37</div><div class="num" style="font-size:12px;color:var(--ink-3)" id="c1">142 contracts</div></div>
+      <div><div class="lab">Oklahoma +3 @ 55&cent;</div><div class="v" id="s2">$64</div><div class="num" style="font-size:12px;color:var(--ink-3)" id="c2">116 contracts</div></div>
+      <div><div class="lab">Total at risk</div><div class="v" id="s3">$101</div><div class="num" style="font-size:12px;color:var(--ink-3)">1.01% of bankroll</div></div>
     </div>
   </section>
 
@@ -397,8 +437,8 @@ tr.gone td:first-child{text-decoration:line-through;text-decoration-color:var(--
 (function(){
   var br = document.getElementById("br");
   var plays = [
-    {stake:0.0048, price:0.39, s:"s1", c:"c1"},
-    {stake:0.0087, price:0.67, s:"s2", c:"c2"}
+    {stake:0.0037, price:0.26, s:"s1", c:"c1"},
+    {stake:0.0064, price:0.55, s:"s2", c:"c2"}
   ];
   var money = function(n){
     return "$" + Math.round(n).toLocaleString("en-US");
