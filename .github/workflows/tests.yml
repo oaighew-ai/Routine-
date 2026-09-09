@@ -1,0 +1,123 @@
+name: tests
+
+# The model's whole claim is that its numbers are measured. A test suite that
+# only ever runs on the author's machine is not measurement, so it runs here.
+# Push covers the default branch and pull_request covers everything else.
+# Listing every branch under push as well ran the whole matrix twice on each
+# commit to an open PR: eight jobs for four Pythons, and seven failure
+# notifications for one broken commit.
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+# A branch under active work supersedes its own earlier runs. Without this a
+# fix pushed on top of a red commit still waits behind the run it obsoleted.
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        # The package is standard library only and uses no syntax newer than
+        # 3.9, so the matrix is about catching deprecations on the way up
+        # rather than defending a floor anyone depends on.
+        python-version: ["3.10", "3.11", "3.12", "3.13"]
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+
+      # No install step, deliberately. The package imports nothing outside the
+      # standard library and there is no requirements file to drift.
+      - name: Assert no third-party imports crept in
+        run: |
+          python - <<'PY'
+          import ast, pathlib, sys
+          stdlib = set(sys.stdlib_module_names)
+          allowed = stdlib | {"cfb_edge"}
+          bad = []
+          for f in pathlib.Path("cfb_edge").rglob("*.py"):
+              tree = ast.parse(f.read_text())
+              for node in ast.walk(tree):
+                  if isinstance(node, ast.Import):
+                      names = [a.name.split(".")[0] for a in node.names]
+                  elif isinstance(node, ast.ImportFrom):
+                      names = [(node.module or "").split(".")[0]] if node.level == 0 else []
+                  else:
+                      continue
+                  for n in names:
+                      if n and n not in allowed:
+                          bad.append(f"{f}:{node.lineno} imports {n}")
+          if bad:
+              print("\n".join(bad))
+              raise SystemExit("third-party import in a standard-library-only package")
+          print("clean: standard library only")
+          PY
+
+      - name: Unit tests
+        run: python -m unittest discover -s tests -v
+
+      # The first CI run failed on a test that asserted a blocked network by
+      # actually being blocked. It passed only in a sandbox whose egress
+      # policy blocks odds hosts, and reported a false pass anywhere else.
+      # Denying the socket layer outright keeps that class from returning.
+      - name: The suite must not touch the network
+        run: |
+          python - <<'PY'
+          import io, socket, unittest
+          def deny(*a, **k):
+              raise AssertionError(
+                  "a test opened a real network connection. Inject the "
+                  "transport instead: board.main, slate.build and the Kalshi "
+                  "provider all take an `opener`."
+              )
+          socket.socket.connect = deny
+          socket.create_connection = deny
+          socket.getaddrinfo = deny
+          res = unittest.TextTestRunner(stream=io.StringIO(), verbosity=0).run(
+              unittest.TestLoader().discover("tests"))
+          for case, tb in res.failures + res.errors:
+              print(f"{case.id()}\n{tb}")
+          print(f"ran {res.testsRun} with no sockets available")
+          raise SystemExit(bool(res.failures or res.errors))
+          PY
+
+      # The CLI is how a person actually uses this and it has no unit tests of
+      # its own. A signature change to `find_plays` once broke every call site
+      # here while the suite stayed green, so each entry point is run for real
+      # against the checked-in example data.
+      - name: CLI smoke test
+        run: |
+          set -eux
+          python -m cfb_edge rate --games data/example_games.csv
+          python -m cfb_edge card --slate data/example_slate.csv
+          python -m cfb_edge play --slate data/example_play.csv --book-price -105
+          python -m cfb_edge clv  --bets data/example_bets.csv
+
+      # A card that prices off the model instead of the market is the most
+      # expensive bug this project has had. It is cheap to assert it is gone.
+      - name: The projection must not price anything
+        run: |
+          python - <<'PY'
+          import inspect
+          from cfb_edge.strategy import find_plays
+          params = inspect.signature(find_plays).parameters
+          assert "market_line" in params, "find_plays must price off the market"
+          assert "projected_margin" not in params, (
+              "find_plays took a projection again: the model has no incremental "
+              "information over the closing line (t = -0.31), so a price derived "
+              "from it is not a price"
+          )
+          print("ok: pricing takes the market line and not the projection")
+          PY

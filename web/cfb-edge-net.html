@@ -1,0 +1,511 @@
+<title>CFB Edge Net</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,900&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ground:#eef1f5; --surface:#ffffff; --raised:#f6f8fa;
+  --ink:#0e1620; --ink-2:#3d4d5e; --ink-3:#6b7f93;
+  --rule:#d5dde6; --rule-soft:#e6ecf2;
+  --clears:#0d9488; --loses:#e11d48; --fee:#a16207; --brand:#c2560c;
+  --clears-wash:#0d948814; --loses-wash:#e11d4814;
+  --shadow:0 1px 2px #0e162010, 0 8px 22px #0e162010;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --ground:#0d1219; --surface:#151d27; --raised:#1c2733;
+    --ink:#e6edf3; --ink-2:#a9bacb; --ink-3:#7d8fa3;
+    --rule:#26333f; --rule-soft:#1e2a35;
+    --clears:#0d9488; --loses:#e11d48; --fee:#ca8a04; --brand:#f97316;
+    --clears-wash:#0d94881f; --loses-wash:#e11d481f;
+    --shadow:0 1px 2px #00000040, 0 10px 26px #00000045;
+  }
+}
+:root[data-theme="dark"]{
+  --ground:#0d1219; --surface:#151d27; --raised:#1c2733;
+  --ink:#e6edf3; --ink-2:#a9bacb; --ink-3:#7d8fa3;
+  --rule:#26333f; --rule-soft:#1e2a35;
+  --clears:#0d9488; --loses:#e11d48; --fee:#ca8a04; --brand:#f97316;
+  --clears-wash:#0d94881f; --loses-wash:#e11d481f;
+  --shadow:0 1px 2px #00000040, 0 10px 26px #00000045;
+}
+*{box-sizing:border-box}
+body{
+  margin:0; background:var(--ground); color:var(--ink);
+  font-family:"JetBrains Mono",ui-monospace,SFMono-Regular,Menlo,monospace;
+  font-size:13px; line-height:1.55; -webkit-font-smoothing:antialiased;
+  padding:26px 16px 72px;
+}
+.wrap{max-width:940px;margin:0 auto;display:flex;flex-direction:column;gap:30px}
+.tnum{font-variant-numeric:tabular-nums}
+
+/* ---------- masthead ---------- */
+.mast{display:flex;flex-direction:column;gap:9px}
+.eyebrow{display:flex;align-items:center;gap:9px;font-size:10px;letter-spacing:.17em;
+  text-transform:uppercase;color:var(--ink-3)}
+.eyebrow .pip{width:6px;height:6px;border-radius:50%;background:var(--brand);flex:none}
+h1{font-family:"Fraunces",Georgia,serif;font-weight:900;font-size:clamp(28px,5.5vw,40px);
+  line-height:1.02;letter-spacing:-.022em;margin:0;text-wrap:balance}
+h1 em{font-style:normal;color:var(--brand)}
+.dek{color:var(--ink-2);font-size:13px;max-width:66ch;margin:0}
+
+/* ---------- headline figures ---------- */
+.figs{display:grid;grid-template-columns:repeat(auto-fit,minmax(148px,1fr));gap:1px;
+  background:var(--rule);border:1px solid var(--rule);border-radius:12px;overflow:hidden}
+.fig{background:var(--surface);padding:14px 16px;display:flex;flex-direction:column;gap:3px}
+.fig .k{font-size:9.5px;letter-spacing:.13em;text-transform:uppercase;color:var(--ink-3)}
+.fig .v{font-size:27px;font-weight:700;line-height:1.06}
+.fig .c{font-size:10.5px;color:var(--ink-3)}
+.fig.hot{background:var(--loses-wash)}
+.fig.hot .v{color:var(--loses)}
+
+/* ---------- sections ---------- */
+section{display:flex;flex-direction:column;gap:11px}
+h2{font-family:"Fraunces",Georgia,serif;font-weight:600;font-size:19px;margin:0;
+  letter-spacing:-.012em;display:flex;align-items:baseline;gap:10px;flex-wrap:wrap}
+h2 .n{font-family:"JetBrains Mono",monospace;font-size:10px;letter-spacing:.1em;
+  text-transform:uppercase;color:var(--ink-3);font-weight:400}
+.lede{color:var(--ink-2);margin:0;max-width:70ch;font-size:12.5px}
+
+/* ---------- chart ---------- */
+.chartbox{background:var(--surface);border:1px solid var(--rule);border-radius:12px;
+  padding:16px 14px 10px;box-shadow:var(--shadow);position:relative}
+.chartbox svg{display:block;width:100%;height:auto;overflow:visible}
+.legend{display:flex;gap:16px;flex-wrap:wrap;padding:2px 4px 0;font-size:11px;color:var(--ink-2)}
+.legend i{display:inline-block;width:9px;height:9px;border-radius:50%;margin-right:6px;
+  vertical-align:middle}
+.legend .swatch-fee{width:16px;height:0;border-top:2px dashed var(--fee);border-radius:0}
+#tip{position:absolute;pointer-events:none;opacity:0;transition:opacity .12s;
+  background:var(--raised);border:1px solid var(--rule);border-radius:8px;padding:8px 10px;
+  font-size:11px;line-height:1.5;box-shadow:var(--shadow);max-width:240px;z-index:5}
+#tip b{font-weight:700}
+@media (prefers-reduced-motion:reduce){#tip{transition:none}}
+
+/* ---------- table ---------- */
+.tscroll{overflow-x:auto;background:var(--surface);border:1px solid var(--rule);
+  border-radius:12px;box-shadow:var(--shadow)}
+table{width:100%;border-collapse:collapse;font-size:11.5px;min-width:660px}
+th{text-align:left;font-size:9px;letter-spacing:.12em;text-transform:uppercase;
+  color:var(--ink-3);font-weight:500;padding:10px 10px;border-bottom:1px solid var(--rule);
+  white-space:nowrap;background:var(--raised)}
+th.num,td.num{text-align:right}
+td{padding:9px 10px;border-bottom:1px solid var(--rule-soft);vertical-align:top}
+tbody tr:last-child td{border-bottom:none}
+tr.lose{background:var(--loses-wash)}
+.mkt{font-weight:700;color:var(--ink)}
+.gm{color:var(--ink-3);font-size:10.5px}
+.chip{display:inline-block;font-size:8.5px;letter-spacing:.1em;text-transform:uppercase;
+  font-weight:700;padding:2px 7px;border-radius:999px;white-space:nowrap}
+.chip.ok{color:var(--clears);background:var(--clears-wash);border:1px solid var(--clears)}
+.chip.no{color:var(--loses);background:var(--loses-wash);border:1px solid var(--loses)}
+.pos{color:var(--clears)} .neg{color:var(--loses)} .fee-c{color:var(--fee)}
+.strike{color:var(--ink-3);text-decoration:line-through}
+.basis{font-size:9.5px;color:var(--ink-3)}
+.warnbasis{color:var(--fee)}
+
+/* ---------- calculator ---------- */
+.calc{background:var(--surface);border:1px solid var(--rule);border-radius:12px;
+  padding:16px;box-shadow:var(--shadow);display:flex;flex-direction:column;gap:13px}
+.frow{display:grid;grid-template-columns:repeat(auto-fit,minmax(132px,1fr));gap:11px;align-items:end}
+.field{display:flex;flex-direction:column;gap:5px;min-width:0}
+label{font-size:9.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-3)}
+input,select{font-family:inherit;font-size:13px;padding:8px 10px;border-radius:7px;
+  border:1px solid var(--rule);background:var(--raised);color:var(--ink);width:100%;
+  font-variant-numeric:tabular-nums}
+input:focus-visible,select:focus-visible,button:focus-visible{outline:2px solid var(--brand);
+  outline-offset:2px}
+button{font-family:inherit;font-size:11px;letter-spacing:.09em;text-transform:uppercase;
+  font-weight:700;padding:9px 15px;border-radius:7px;border:1px solid var(--rule);
+  background:var(--raised);color:var(--ink);cursor:pointer}
+button.primary{background:var(--brand);border-color:var(--brand);color:#fff}
+button:hover{border-color:var(--ink-3)}
+.verdict{border-top:1px solid var(--rule-soft);padding-top:12px;display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(112px,1fr));gap:12px}
+.vc{display:flex;flex-direction:column;gap:2px}
+.vc .k{font-size:9.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-3)}
+.vc .v{font-size:19px;font-weight:700}
+.ruling{font-size:12.5px;color:var(--ink-2);border-left:2px solid var(--rule);padding-left:11px}
+.ruling.ok{border-left-color:var(--clears)}
+.ruling.no{border-left-color:var(--loses)}
+.btns{display:flex;gap:9px;flex-wrap:wrap}
+
+/* ---------- method ---------- */
+.method{background:var(--surface);border:1px solid var(--rule);border-radius:12px;padding:17px 19px;
+  display:flex;flex-direction:column;gap:11px}
+.method p{margin:0;color:var(--ink-2);font-size:12px;max-width:72ch}
+.method code{background:var(--raised);padding:1.5px 5px;border-radius:4px;font-size:11.5px;
+  color:var(--ink);border:1px solid var(--rule-soft)}
+.method .h{font-size:9.5px;letter-spacing:.13em;text-transform:uppercase;color:var(--ink-3)}
+.caveat{border-left:2px solid var(--fee);padding-left:11px;color:var(--ink-2);font-size:12px}
+footer{color:var(--ink-3);font-size:10.5px;line-height:1.75;border-top:1px solid var(--rule);
+  padding-top:13px}
+</style>
+
+<div class="wrap">
+
+  <header class="mast">
+    <div class="eyebrow"><span class="pip"></span><span>CFB Edge &middot; fee-adjusted board</span></div>
+    <h1>Your gross edge is not your edge. <em>The fee is.</em></h1>
+    <p class="dek">Kalshi charges <code>round_up(0.07 &times; C &times; P &times; (1&minus;P))</code>, which peaks at
+    1.75&cent; per contract at a coin flip. A cross-market gate finds most of its candidates
+    right there, at 47&ndash;49&cent;, because that is where a book posting &minus;110 both ways de-vigs to
+    exactly 50. Those are the trades the fee eats. Below is the Week&nbsp;1 board re-graded
+    net of fees.</p>
+  </header>
+
+  <div class="figs" id="figs"></div>
+
+  <section>
+    <h2>The break-even curve <span class="n">every dot below the line loses money</span></h2>
+    <p class="lede">Horizontal axis is the Kalshi entry price. The dashed curve is the fee that
+    price has to overcome. Each dot is one market on your board, placed at its gross edge.
+    Above the curve the trade clears; below it, the fee is bigger than the edge.</p>
+    <div class="chartbox">
+      <svg id="chart" viewBox="0 0 900 400" role="img"
+           aria-label="Gross edge of each market plotted against Kalshi's fee curve by entry price."></svg>
+      <div id="tip" role="status"></div>
+    </div>
+    <div class="legend">
+      <span><i style="background:var(--clears)"></i>Clears net of fees</span>
+      <span><i style="background:var(--loses)"></i>Negative after fees</span>
+      <span><i class="swatch-fee"></i>Fee per contract (break-even)</span>
+    </div>
+  </section>
+
+  <section>
+    <h2>Week 1 board, re-graded <span class="n">14 priced markets</span></h2>
+    <p class="lede">Your posted EV is <code>gross &divide; entry</code> with no fee deducted. I reproduced every
+    figure that way to confirm it. The Net EV column is the same trade after the fee actually
+    charged.</p>
+    <div class="tscroll">
+      <table>
+        <thead><tr>
+          <th>Market</th><th class="num">Entry</th><th class="num">Gross</th>
+          <th class="num">Fee</th><th class="num">Net</th><th class="num">Posted EV</th>
+          <th class="num">Net EV</th><th class="num">¼&nbsp;Kelly</th><th>Verdict</th>
+        </tr></thead>
+        <tbody id="rows"></tbody>
+      </table>
+    </div>
+  </section>
+
+  <section>
+    <h2>Price a Week 2 market <span class="n">the working part</span></h2>
+    <p class="lede">Enter a Kalshi entry price and either the book's de-vigged fair value or the
+    gross gap in cents. Rows you add are saved in this browser and join the board and the chart
+    above.</p>
+    <div class="calc">
+      <div class="frow">
+        <div class="field"><label for="f-name">Market</label>
+          <input id="f-name" type="text" placeholder="Iowa St +13.5" autocomplete="off"></div>
+        <div class="field"><label for="f-game">Game</label>
+          <input id="f-game" type="text" placeholder="Iowa State @ Iowa" autocomplete="off"></div>
+        <div class="field"><label for="f-entry">Kalshi entry (¢)</label>
+          <input id="f-entry" type="number" step="0.5" min="1" max="99" value="47"></div>
+        <div class="field"><label for="f-mode">Compare against</label>
+          <select id="f-mode">
+            <option value="fair">Book de-vigged fair (¢)</option>
+            <option value="gross">Gross gap (¢)</option>
+            <option value="assume">Assumed 50¢ coin flip</option>
+          </select></div>
+        <div class="field" id="wrap-val"><label for="f-val">Value (¢)</label>
+          <input id="f-val" type="number" step="0.1" value="50"></div>
+      </div>
+      <div class="verdict" id="verdict"></div>
+      <div class="ruling" id="ruling"></div>
+      <div class="btns">
+        <button class="primary" id="add">Add to board</button>
+        <button id="clear">Clear my rows</button>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2>Method</h2>
+    <div class="method">
+      <div>
+        <div class="h">Fee</div>
+        <p><code>fee¢ = 7 &times; P &times; (1&minus;P)</code> where P is the price in dollars. Kalshi rounds the
+        order total up to the next cent; on any real size that rounding washes out, so the
+        per-contract figure is the one to reason with. Checked against Kalshi's own published
+        example: 20 contracts at 60&cent; costs $0.34.</p>
+      </div>
+      <div>
+        <div class="h">The entry bar has to bend</div>
+        <p>Clearing 1&cent; of net edge needs <b>2.75&cent;</b> gross at a coin flip but only <b>2.16&cent;</b> at
+        21&cent; and <b>1.63&cent;</b> at 10&cent;. A flat cent bar is loosest exactly where your gate finds the
+        most candidates. Use <code>required_gross = target_net + 7&times;P&times;(1&minus;P)</code>.</p>
+      </div>
+      <div>
+        <div class="h">Stake</div>
+        <p>For a contract bought at P cents that settles at 100, full Kelly reduces to
+        <code>f* = net¢ &divide; (100 &minus; P¢)</code>. Shown here at a quarter of that and capped at 2% of
+        bankroll, because the edge is estimated, not known.</p>
+      </div>
+      <div class="caveat">
+        <div class="h">What this does not tell you</div>
+        <p style="margin-top:4px">Fees explain why the leans are smaller than posted. They do not
+        establish that the remainder is real. Rows marked <span class="warnbasis">assumed 50&cent;</span>
+        rest on the book pricing that number &minus;110 both ways; a shaded line breaks them outright.
+        The 0.07 coefficient is the documented general case and some products differ, so read the
+        rate off the account before staking. Nothing here is validated by closing line value.</p>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    Week 1 figures parsed from the CFB Edge Picks board dated 2 Sep 2026; those games settled
+    5&ndash;6 Sep and are shown as a worked example, not as live advice. Prices are probabilities,
+    so cents and percentage points are the same unit. Nothing on this page places a wager.
+  </footer>
+</div>
+
+<script>
+"use strict";
+const COEF = 0.07;
+const KEY = "cfb-edge-net-rows-v1";
+
+const feeCents = p => COEF * p * (1 - p) * 100;          // p in dollars
+const requiredGross = (p, target = 1) => target + feeCents(p);
+
+function grade(r){
+  const p = r.entry / 100;
+  const fee = feeCents(p);
+  const net = r.gross - fee;
+  return {
+    ...r, fee, net,
+    grossEV: r.gross / r.entry,
+    netEV: net / r.entry,
+    kelly: Math.max(0, net / (100 - r.entry)),
+    clears: net > 0
+  };
+}
+
+// Week 1 board, parsed from the published CFB Edge Picks artifact.
+const SEED = [
+  {name:"Arkansas St. ML +376", game:"Arkansas State @ Memphis",        mkt:"ML",     entry:21, gross:3.90, basis:"book de-vig", posted:18.4},
+  {name:"Over 52.5",            game:"Florida Intl @ South Florida",    mkt:"Total",  entry:47, gross:3.00, basis:"assumed 50¢", posted:6.3},
+  {name:"Southern Miss −20.5",  game:"Alcorn State @ Southern Miss",    mkt:"Spread", entry:47, gross:3.00, basis:"assumed 50¢", posted:6.3},
+  {name:"Over 51.5",            game:"Colorado @ Georgia Tech",         mkt:"Total",  entry:47, gross:3.00, basis:"assumed 50¢", posted:6.3},
+  {name:"Western Kentucky ML",  game:"Western Kentucky @ Nevada",       mkt:"ML",     entry:54, gross:2.20, basis:"book de-vig", posted:4.1},
+  {name:"Over 62.5",            game:"Idaho State @ Utah State",        mkt:"Total",  entry:48, gross:2.00, basis:"assumed 50¢", posted:4.1},
+  {name:"Over 59.5",            game:"Murray State @ Middle Tenn.",     mkt:"Total",  entry:48, gross:2.00, basis:"assumed 50¢", posted:4.1},
+  {name:"Colorado +6.5",        game:"Colorado @ Georgia Tech",         mkt:"Spread", entry:49, gross:1.00, basis:"assumed 50¢", posted:2.0},
+  {name:"Idaho State +13.5",    game:"Idaho State @ Utah State",        mkt:"Spread", entry:49, gross:1.00, basis:"assumed 50¢", posted:2.0},
+  {name:"Middle Tennessee ML",  game:"Murray State @ Middle Tenn.",     mkt:"ML",     entry:93, gross:-1.00, basis:"book de-vig", posted:-1.1},
+  {name:"South Florida ML",     game:"Florida Intl @ South Florida",    mkt:"ML",     entry:84, gross:-0.80, basis:"book de-vig", posted:-1.0},
+  {name:"Colorado ML",          game:"Colorado @ Georgia Tech",         mkt:"ML",     entry:32, gross:-1.30, basis:"book de-vig", posted:-4.2},
+  {name:"Alcorn St. ML",        game:"Alcorn State @ Southern Miss",    mkt:"ML",     entry:10, gross:-0.30, basis:"book de-vig", posted:-2.8},
+  {name:"Idaho St. ML",         game:"Idaho State @ Utah State",        mkt:"ML",     entry:18, gross:-1.10, basis:"book de-vig", posted:-6.0}
+];
+
+function mine(){
+  try { return JSON.parse(localStorage.getItem(KEY)) || []; }
+  catch { return []; }
+}
+function saveMine(rows){
+  try { localStorage.setItem(KEY, JSON.stringify(rows)); } catch {}
+}
+const board = () => SEED.concat(mine()).map(grade);
+
+const c1 = n => (n >= 0 ? "+" : "−") + Math.abs(n).toFixed(2);
+const pct = n => (n >= 0 ? "+" : "−") + Math.abs(n * 100).toFixed(2) + "%";
+
+/* ---------------- headline figures ---------------- */
+function renderFigs(){
+  const b = board();
+  const postedPos = b.filter(r => r.posted === undefined ? r.gross > 0 : r.posted > 0);
+  const flipped = postedPos.filter(r => !r.clears);
+  const clears = b.filter(r => r.clears);
+  const best = clears.slice().sort((x, y) => y.netEV - x.netEV)[0];
+  document.getElementById("figs").innerHTML = `
+    <div class="fig"><span class="k">Markets priced</span><span class="v tnum">${b.length}</span>
+      <span class="c">across ${new Set(b.map(r => r.game)).size} games</span></div>
+    <div class="fig"><span class="k">Positive on your board</span><span class="v tnum">${postedPos.length}</span>
+      <span class="c">before fees</span></div>
+    <div class="fig hot"><span class="k">Flip to losers</span><span class="v tnum">${flipped.length}</span>
+      <span class="c">fee alone</span></div>
+    <div class="fig"><span class="k">Best net edge</span>
+      <span class="v tnum pos">${best ? pct(best.netEV) : "—"}</span>
+      <span class="c">${best ? best.name : "nothing clears"}</span></div>`;
+}
+
+/* ---------------- chart ---------------- */
+function renderChart(){
+  const svg = document.getElementById("chart");
+  const b = board();
+  const W = 900, H = 400, L = 56, R = 18, T = 18, B = 46;
+  const pw = W - L - R, ph = H - T - B;
+
+  const yLo = Math.min(-1.6, ...b.map(r => r.gross)) - 0.3;
+  const yHi = Math.max(4.3, ...b.map(r => r.gross)) + 0.3;
+  const X = c => L + (c / 100) * pw;
+  const Y = v => T + ph - ((v - yLo) / (yHi - yLo)) * ph;
+
+  let s = "";
+  // horizontal gridlines at whole cents
+  for (let v = Math.ceil(yLo); v <= Math.floor(yHi); v++){
+    const y = Y(v);
+    s += `<line x1="${L}" y1="${y.toFixed(1)}" x2="${W - R}" y2="${y.toFixed(1)}"
+      stroke="var(--rule-soft)" stroke-width="1" fill="none"/>`;
+    s += `<text x="${L - 9}" y="${(y + 3.6).toFixed(1)}" text-anchor="end" font-size="11"
+      fill="var(--ink-3)" font-family="JetBrains Mono, monospace">${v > 0 ? "+" : ""}${v}¢</text>`;
+  }
+  // zero line, emphasised
+  s += `<line x1="${L}" y1="${Y(0).toFixed(1)}" x2="${W - R}" y2="${Y(0).toFixed(1)}"
+    stroke="var(--rule)" stroke-width="1.5" fill="none"/>`;
+  // x ticks
+  for (let c = 0; c <= 100; c += 10){
+    s += `<text x="${X(c).toFixed(1)}" y="${H - B + 21}" text-anchor="middle" font-size="11"
+      fill="var(--ink-3)" font-family="JetBrains Mono, monospace">${c}¢</text>`;
+  }
+  s += `<text x="${(L + pw / 2).toFixed(1)}" y="${H - 6}" text-anchor="middle" font-size="11"
+    fill="var(--ink-3)" font-family="JetBrains Mono, monospace">Kalshi entry price</text>`;
+  s += `<text transform="translate(15,${(T + ph / 2).toFixed(1)}) rotate(-90)" text-anchor="middle"
+    font-size="11" fill="var(--ink-3)" font-family="JetBrains Mono, monospace">Gross edge</text>`;
+
+  // fee curve
+  let d = "";
+  for (let c = 1; c <= 99; c++){
+    d += (c === 1 ? "M" : "L") + X(c).toFixed(1) + "," + Y(feeCents(c / 100)).toFixed(1);
+  }
+  s += `<path d="${d}" fill="none" stroke="var(--fee)" stroke-width="2" stroke-dasharray="6 4"/>`;
+  // Annotation sits out at 70¢ where the plot is empty; the peak itself is
+  // crowded by the 47-49¢ cluster, which is the point the chart is making.
+  s += `<text x="${X(70).toFixed(1)}" y="${(Y(2.75)).toFixed(1)}" text-anchor="start"
+    font-size="11" font-weight="700" fill="var(--fee)"
+    font-family="JetBrains Mono, monospace">fee curve · break-even</text>`;
+  s += `<text x="${X(70).toFixed(1)}" y="${(Y(2.75) + 15).toFixed(1)}" text-anchor="start"
+    font-size="10.5" fill="var(--ink-3)"
+    font-family="JetBrains Mono, monospace">peaks 1.75¢ at 50¢</text>`;
+  s += `<line x1="${(X(70) - 4).toFixed(1)}" y1="${(Y(2.75) + 4).toFixed(1)}"
+    x2="${(X(63)).toFixed(1)}" y2="${(Y(feeCents(0.63)) - 6).toFixed(1)}"
+    stroke="var(--fee)" stroke-width="1" opacity="0.55" fill="none"/>`;
+
+  // dots, jittered so co-located markets stay countable
+  const seen = new Map();
+  b.forEach((r, i) => {
+    const key = r.entry + ":" + r.gross.toFixed(2);
+    const k = seen.get(key) || 0; seen.set(key, k + 1);
+    const cx = X(r.entry) + (k % 2 ? 1 : -1) * Math.ceil(k / 2) * 8;
+    const cy = Y(r.gross);
+    const col = r.clears ? "var(--clears)" : "var(--loses)";
+    s += `<circle class="dot" data-i="${i}" cx="${cx.toFixed(1)}" cy="${cy.toFixed(1)}" r="6.5"
+      fill="${col}" stroke="var(--surface)" stroke-width="2"/>`;
+  });
+  // direct label for the one real edge
+  const best = b.slice().sort((x, y) => y.netEV - x.netEV)[0];
+  if (best){
+    s += `<text x="${(X(best.entry) + 13).toFixed(1)}" y="${(Y(best.gross) + 4).toFixed(1)}"
+      font-size="11" font-weight="700" fill="var(--ink-2)"
+      font-family="JetBrains Mono, monospace">${best.name}</text>`;
+  }
+  svg.innerHTML = s;
+
+  const tip = document.getElementById("tip");
+  svg.querySelectorAll(".dot").forEach(el => {
+    const show = ev => {
+      const r = b[+el.dataset.i];
+      tip.innerHTML = `<b>${r.name}</b><br>${r.game}<br>
+        entry ${r.entry}¢ · gross ${c1(r.gross)}¢<br>
+        fee ${r.fee.toFixed(2)}¢ → net <b>${c1(r.net)}¢</b><br>
+        net EV <b>${pct(r.netEV)}</b>`;
+      const box = svg.parentElement.getBoundingClientRect();
+      tip.style.opacity = 1;
+      tip.style.left = Math.min(box.width - 250, Math.max(4, ev.clientX - box.left + 12)) + "px";
+      tip.style.top = Math.max(4, ev.clientY - box.top - 10) + "px";
+    };
+    el.addEventListener("mousemove", show);
+    el.addEventListener("mouseenter", show);
+    el.addEventListener("mouseleave", () => { tip.style.opacity = 0; });
+  });
+}
+
+/* ---------------- table ---------------- */
+function renderRows(){
+  const b = board().slice().sort((x, y) => y.netEV - x.netEV);
+  document.getElementById("rows").innerHTML = b.map(r => {
+    const assumed = /assumed/.test(r.basis);
+    const kelly = Math.min(r.kelly * 0.25, 0.02);
+    return `<tr class="${r.clears ? "" : "lose"}">
+      <td><div class="mkt">${r.name}</div><div class="gm">${r.game} · ${r.mkt}</div>
+        <div class="basis ${assumed ? "warnbasis" : ""}">${r.basis}</div></td>
+      <td class="num tnum">${r.entry}¢</td>
+      <td class="num tnum">${c1(r.gross)}</td>
+      <td class="num tnum fee-c">−${r.fee.toFixed(2)}</td>
+      <td class="num tnum ${r.clears ? "pos" : "neg"}"><b>${c1(r.net)}</b></td>
+      <td class="num tnum ${r.clears ? "" : "strike"}">${r.posted === undefined ? "—" : (r.posted > 0 ? "+" : "−") + Math.abs(r.posted).toFixed(1) + "%"}</td>
+      <td class="num tnum ${r.clears ? "pos" : "neg"}"><b>${pct(r.netEV)}</b></td>
+      <td class="num tnum">${r.clears ? (kelly * 100).toFixed(2) + "%" : "—"}</td>
+      <td><span class="chip ${r.clears ? "ok" : "no"}">${r.clears ? "clears" : "loses"}</span></td>
+    </tr>`;
+  }).join("");
+}
+
+/* ---------------- calculator ---------------- */
+const $ = id => document.getElementById(id);
+
+function currentRow(){
+  const entry = parseFloat($("f-entry").value);
+  const mode = $("f-mode").value;
+  const val = parseFloat($("f-val").value);
+  if (!(entry > 0 && entry < 100)) return null;
+  let gross, basis;
+  if (mode === "assume"){ gross = 50 - entry; basis = "assumed 50¢"; }
+  else if (mode === "gross"){ if (isNaN(val)) return null; gross = val; basis = "gross gap given"; }
+  else { if (isNaN(val)) return null; gross = val - entry; basis = "book de-vig"; }
+  return grade({
+    name: $("f-name").value.trim() || "Unnamed market",
+    game: $("f-game").value.trim() || "—",
+    mkt: "—", entry, gross, basis
+  });
+}
+
+function renderCalc(){
+  const r = currentRow();
+  const v = $("verdict"), ru = $("ruling");
+  $("wrap-val").style.display = $("f-mode").value === "assume" ? "none" : "";
+  if (!r){
+    v.innerHTML = `<div class="vc"><span class="k">Entry</span><span class="v">—</span></div>`;
+    ru.className = "ruling"; ru.textContent = "Enter an entry price between 1¢ and 99¢.";
+    return;
+  }
+  const bar = requiredGross(r.entry / 100);
+  const kelly = Math.min(r.kelly * 0.25, 0.02);
+  v.innerHTML = `
+    <div class="vc"><span class="k">Fee</span><span class="v tnum fee-c">${r.fee.toFixed(2)}¢</span></div>
+    <div class="vc"><span class="k">Net edge</span>
+      <span class="v tnum ${r.clears ? "pos" : "neg"}">${c1(r.net)}¢</span></div>
+    <div class="vc"><span class="k">Gross EV</span><span class="v tnum">${pct(r.grossEV)}</span></div>
+    <div class="vc"><span class="k">Net EV</span>
+      <span class="v tnum ${r.clears ? "pos" : "neg"}">${pct(r.netEV)}</span></div>
+    <div class="vc"><span class="k">¼ Kelly</span>
+      <span class="v tnum">${r.clears ? (kelly * 100).toFixed(2) + "%" : "—"}</span></div>`;
+  ru.className = "ruling " + (r.clears ? "ok" : "no");
+  ru.innerHTML = r.clears
+    ? `Clears. At ${r.entry}¢ the fee is ${r.fee.toFixed(2)}¢, so you needed
+       <b>${bar.toFixed(2)}¢</b> gross for a single cent of real edge and you have
+       ${c1(r.gross)}¢. Quarter Kelly puts <b>${(kelly * 100).toFixed(2)}%</b> of bankroll on it.`
+    : `Does not clear. At ${r.entry}¢ the fee is ${r.fee.toFixed(2)}¢ and the gap is only
+       ${c1(r.gross)}¢, so this pays <b>${c1(r.net)}¢</b> per contract. You needed
+       <b>${bar.toFixed(2)}¢</b> gross to make a cent.`;
+}
+
+["f-entry", "f-val", "f-name", "f-game"].forEach(id =>
+  $(id).addEventListener("input", renderCalc));
+$("f-mode").addEventListener("change", renderCalc);
+
+$("add").addEventListener("click", () => {
+  const r = currentRow();
+  if (!r) return;
+  const rows = mine();
+  rows.push({ name: r.name, game: r.game, mkt: r.mkt, entry: r.entry, gross: r.gross, basis: r.basis });
+  saveMine(rows);
+  renderAll();
+});
+$("clear").addEventListener("click", () => { saveMine([]); renderAll(); });
+
+function renderAll(){ renderFigs(); renderChart(); renderRows(); renderCalc(); }
+renderAll();
+addEventListener("resize", renderChart);
+</script>
