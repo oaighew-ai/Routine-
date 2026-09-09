@@ -439,11 +439,16 @@ tr.gone td:first-child{text-decoration:line-through;text-decoration-color:var(--
         <tbody id="wl-body"></tbody>
       </table>
     </div>
-    <p class="note">A caveat with teeth: these ratings carry almost no 2026 data.
-    cfbfastR has zero 2026 rows, so team quality is regressed 2025 priors scaled by
-    1.40. That is precisely the condition that manufactured the Arizona State false
-    signal before the compression fix. Treat every number above as a place to look,
-    not a forecast.</p>
+    <p class="note">A caveat with teeth, corrected Sept 9: the ratings rest on
+    <b>51 completed 2026 games</b>. Most teams have played exactly one, and
+    <b>42 of about 136 FBS teams have played none at all</b>, so their rating is a
+    regressed 2025 prior scaled by 1.40 and nothing else. That is precisely the
+    condition that manufactured the Arizona State false signal before the
+    compression fix. Treat every number above as a place to look, not a forecast.</p>
+    <p class="note" style="margin-top:8px">An earlier version of this page said
+    cfbfastR had zero 2026 rows. That is true of its <i>odds</i> file and false of
+    its schedules, which carry week 1 results. The conclusion does not change, but
+    the reason was wrong.</p>
   </section>
 
   <section class="next">

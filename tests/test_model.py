@@ -1134,6 +1134,348 @@ class TestLineMovement(unittest.TestCase):
         self.assertAlmostEqual(clv_required(100).clv_needed, 0.0, places=9)
 
 
+class TestBetLog(unittest.TestCase):
+    """The scorecard is worthless if nothing feeds it, and worse than
+    worthless if what feeds it has the sign backwards."""
+
+    def _log(self, path, **kw):
+        from cfb_edge.cli import main
+        import io, contextlib
+        args = ["log", "--bets", str(path)]
+        for k, v in kw.items():
+            args += [f"--{k.replace('_', '-')}", str(v)]
+        buf = io.StringIO()
+        with contextlib.redirect_stdout(buf):
+            code = main(args)
+        return code, buf.getvalue()
+
+    def _tmp(self):
+        import os, tempfile
+        fd, path = tempfile.mkstemp(suffix=".csv"); os.close(fd); os.unlink(path)
+        self.addCleanup(lambda: os.path.exists(path) and os.unlink(path))
+        return path
+
+    def test_an_exchange_strike_is_stored_as_laying_that_number(self):
+        """The trap this command exists to remove.
+
+        The card prints the Kansas play as "Kansas at +3", meaning a contract
+        paying if Kansas wins by more than three. In the convention
+        `cover_probability` documents, that is Kansas *laying* three, so the
+        stored line is -3. Anyone translating by hand gets this backwards
+        roughly half the time, and the error is invisible: the scorecard still
+        prints, just with the sign of its only conclusion flipped.
+        """
+        from cfb_edge.clv import load_bets
+
+        path = self._tmp()
+        code, out = self._log(path, game="Missouri @ Kansas", side="Kansas",
+                              strike=3, cents=26, stake=0.0037)
+        self.assertEqual(code, 0)
+        bet, = load_bets(path)
+        self.assertEqual(bet.line_taken, -3.0)
+        self.assertEqual(bet.side, "Kansas")
+        self.assertEqual((bet.away, bet.home), ("Missouri", "Kansas"))
+        self.assertIn("laying 3", out)
+
+        # A book's line is taken as given, in the same convention.
+        other = self._tmp()
+        self._log(other, game="A @ B", side="A", line=+6.5, price=-110, stake=0.01)
+        self.assertEqual(load_bets(other)[0].line_taken, 6.5)
+
+    def test_cents_convert_to_the_price_the_scorecard_needs(self):
+        from cfb_edge.clv import load_bets
+        from cfb_edge.market import (american_to_probability,
+                                     probability_to_american)
+
+        path = self._tmp()
+        self._log(path, game="A @ B", side="B", strike=3, cents=26, stake=0.01)
+        bet, = load_bets(path)
+        # American odds cannot express every cent exactly: `decimal_to_american`
+        # rounds, so the round trip loses at most 8.93e-06 of probability across
+        # 1c to 99c. The edge being measured is around 1e-2, so that is under a
+        # tenth of one percent of it. Measured rather than assumed, and asserted
+        # here so a future rounding change that made it worse would show up.
+        self.assertAlmostEqual(american_to_probability(bet.price_taken), 0.26,
+                               delta=1e-5)
+        worst = max(abs(american_to_probability(probability_to_american(c / 100))
+                        - c / 100) for c in range(1, 100))
+        self.assertLess(worst, 1e-5)
+
+    def test_a_side_that_is_not_playing_is_refused(self):
+        path = self._tmp()
+        with self.assertRaises(SystemExit):
+            self._log(path, game="Missouri @ Kansas", side="Kansas State",
+                      strike=3, cents=26, stake=0.01)
+
+    def test_the_log_round_trips_into_the_scorecard(self):
+        from cfb_edge.cli import main
+        from cfb_edge.clv import build_report, load_bets, settle_bet
+        import io, contextlib
+
+        path = self._tmp()
+        self._log(path, game="Missouri @ Kansas", side="Kansas", strike=3,
+                  cents=26, stake=0.0037, date="2026-09-11")
+        settle_bet(path, game="Missouri @ Kansas", closing_line=-4.5,
+                   result="win")
+        report = build_report(load_bets(path))
+        self.assertEqual(report.bets, 1)
+        self.assertEqual(report.beat_close, 1)
+        self.assertAlmostEqual(report.mean_line_clv, 1.5, places=9)
+
+        buf = io.StringIO()
+        with contextlib.redirect_stdout(buf):
+            self.assertEqual(main(["clv", "--bets", str(path)]), 0)
+        self.assertIn("Beat close 1", buf.getvalue())
+
+    def test_settling_an_ambiguous_game_refuses_rather_than_guesses(self):
+        """Settling the wrong row corrupts the only scorecard there is."""
+        from cfb_edge.clv import BetNotFound, settle_bet
+
+        path = self._tmp()
+        for d in ("2026-09-11", "2026-10-11"):
+            self._log(path, game="A @ B", side="B", strike=3, cents=50,
+                      stake=0.01, date=d)
+        with self.assertRaises(BetNotFound) as ctx:
+            settle_bet(path, game="A @ B", closing_line=-3.0)
+        self.assertIn("2026-09-11", str(ctx.exception))
+        # Naming the date resolves it.
+        bet = settle_bet(path, game="A @ B", date="2026-10-11", closing_line=-3.0)
+        self.assertEqual(bet.date, "2026-10-11")
+
+    def test_settling_a_game_that_was_never_logged_says_so(self):
+        from cfb_edge.clv import BetNotFound, settle_bet
+
+        path = self._tmp()
+        self._log(path, game="A @ B", side="B", strike=3, cents=50, stake=0.01)
+        with self.assertRaises(BetNotFound):
+            settle_bet(path, game="C @ D", closing_line=-3.0)
+
+    def test_a_result_outside_win_loss_push_is_refused(self):
+        from cfb_edge.clv import settle_bet
+
+        path = self._tmp()
+        self._log(path, game="A @ B", side="B", strike=3, cents=50, stake=0.01)
+        with self.assertRaises(ValueError):
+            settle_bet(path, game="A @ B", result="cashed out")
+
+    def test_appending_preserves_earlier_bets(self):
+        from cfb_edge.clv import load_bets
+
+        path = self._tmp()
+        for i in range(4):
+            self._log(path, game=f"A{i} @ B{i}", side=f"B{i}", strike=3,
+                      cents=50, stake=0.01)
+        bets = load_bets(path)
+        self.assertEqual(len(bets), 4)
+        self.assertEqual([b.home for b in bets], ["B0", "B1", "B2", "B3"])
+
+
+class TestPaperSignals(unittest.TestCase):
+    """Measuring costs nothing, so measure everything."""
+
+    def _tmp(self, suffix=".csv"):
+        import os, tempfile
+        fd, path = tempfile.mkstemp(suffix=suffix); os.close(fd); os.unlink(path)
+        self.addCleanup(lambda: os.path.exists(path) and os.unlink(path))
+        return path
+
+    def _log(self, polls):
+        import gzip, json
+        path = self._tmp(".jsonl.gz")
+        with gzip.open(path, "wt", encoding="utf-8") as fh:
+            for quotes in polls:
+                fh.write(json.dumps({"polled_at": "x", "quotes": quotes}) + "\n")
+        return path
+
+    def _q(self, game, line, seen):
+        return {"game": game, "book": "bk", "market": "spread",
+                "line": line, "price": -110, "seen_at": seen}
+
+    def test_one_log_yields_both_the_open_and_the_close(self):
+        """The append-only capture already holds both, so there is no second
+        source and no way for the two to disagree."""
+        from cfb_edge.watch import OpeningBook
+
+        path = self._log([[self._q("A @ B", 6.5, "t0")],
+                          [self._q("A @ B", 6.0, "t1")],
+                          [self._q("A @ B", 5.5, "t2")]])
+        book = OpeningBook.load(path)
+        self.assertEqual(book.consensus_opens()["A @ B"], 6.5)
+        self.assertEqual(book.consensus_closes()["A @ B"], 5.5)
+
+        # And a live capture keeps both as it records.
+        from cfb_edge.watch import Quote
+        book.record([Quote("A @ B", "bk", "spread", 4.5, -110, "t3")])
+        self.assertEqual(book.consensus_opens()["A @ B"], 6.5)
+        self.assertEqual(book.consensus_closes()["A @ B"], 4.5)
+
+    def test_a_signal_records_the_line_from_the_backed_side(self):
+        from cfb_edge.paper import signals_for
+
+        # Home line +6.5, model near a pick'em: the home side is underpriced.
+        home, = signals_for({"Missouri @ Kansas": -0.07},
+                            {"Missouri @ Kansas": 6.5}, date="2026-09-08")
+        self.assertEqual(home.side, "Kansas")
+        self.assertEqual(home.line_taken, 6.5)
+
+        # Home line -2.5, model has the away side better: the away number is
+        # the negation of the home one.
+        away, = signals_for({"Oklahoma @ Michigan": -2.67},
+                            {"Oklahoma @ Michigan": -2.5}, date="2026-09-08")
+        self.assertEqual(away.side, "Oklahoma")
+        self.assertEqual(away.line_taken, 2.5)
+
+    def test_games_under_the_bar_are_not_recorded(self):
+        from cfb_edge.paper import signals_for
+
+        # The real week 2 board: two fire, two do not.
+        slate = {"Missouri @ Kansas": -0.07, "Oklahoma @ Michigan": -2.67,
+                 "Ohio State @ Texas": -0.86, "Arizona State @ Texas A&M": 12.52}
+        opens = {"Missouri @ Kansas": 6.5, "Oklahoma @ Michigan": -2.5,
+                 "Ohio State @ Texas": -2.5, "Arizona State @ Texas A&M": -14.5}
+        sides = {s.side for s in signals_for(slate, opens, date="2026-09-08")}
+        self.assertEqual(sides, {"Kansas", "Oklahoma"})
+
+    def test_recording_the_same_week_twice_adds_nothing(self):
+        """The board opens in pieces, so the command has to be re-runnable."""
+        from cfb_edge.paper import record, signals_for
+
+        path = self._tmp()
+        sigs = signals_for({"A @ B": 0.0}, {"A @ B": 6.5}, date="2026-09-08")
+        self.assertEqual(record(path, sigs), (1, 0))
+        self.assertEqual(record(path, sigs), (0, 1))
+
+    def test_grading_flips_the_sign_for_an_away_signal(self):
+        """The close is captured from the home side; an away signal took its
+        negation, and getting that backwards inverts the only conclusion."""
+        from cfb_edge.clv import load_bets
+        from cfb_edge.paper import grade, record, signals_for
+
+        path = self._tmp()
+        record(path, signals_for({"Oklahoma @ Michigan": -2.67},
+                                 {"Oklahoma @ Michigan": -2.5}, date="2026-09-08"))
+        # Home line moved -2.5 -> +6.5, nine points toward the away side.
+        graded, still_open = grade(path, {"Oklahoma @ Michigan": 6.5})
+        self.assertEqual((graded, still_open), (1, 0))
+        bet, = load_bets(path)
+        self.assertEqual(bet.closing_line, -6.5)
+        self.assertAlmostEqual(bet.line_clv, 9.0, places=9)
+
+    def test_grading_twice_cannot_move_a_recorded_close(self):
+        from cfb_edge.clv import load_bets
+        from cfb_edge.paper import grade, record, signals_for
+
+        path = self._tmp()
+        record(path, signals_for({"A @ B": 0.0}, {"A @ B": 6.5}, date="2026-09-08"))
+        grade(path, {"A @ B": 5.5})
+        grade(path, {"A @ B": 1.0})
+        self.assertEqual(load_bets(path)[0].closing_line, 5.5)
+
+    def test_paper_rows_can_never_read_as_realised_profit(self):
+        from cfb_edge.clv import build_report, load_bets
+        from cfb_edge.paper import grade, record, signals_for
+
+        path = self._tmp()
+        record(path, signals_for({"A @ B": 0.0, "C @ D": 0.0},
+                                 {"A @ B": 6.5, "C @ D": 7.0}, date="2026-09-08"))
+        grade(path, {"A @ B": 5.5, "C @ D": 6.0})
+        report = build_report(load_bets(path))
+        self.assertEqual(report.staked, 0.0)
+        self.assertEqual(report.realised_profit, 0.0)
+        self.assertEqual(report.roi, 0.0)
+        # The line CLV is still measured, which is the whole point.
+        self.assertAlmostEqual(report.mean_line_clv, 1.0, places=9)
+        self.assertTrue(all(b.price_clv is None for b in load_bets(path)))
+
+
+class TestStopRule(unittest.TestCase):
+    """A rule fixed in advance, and the honest limits of what it can decide."""
+
+    def test_the_boundaries_are_the_sprt_they_claim_to_be(self):
+        import math
+        from cfb_edge.stopping import (ALPHA, BETA, CLAIMED_CLV, CLV_SD_PER_BET,
+                                       confirm_threshold, kill_threshold)
+
+        v = CLV_SD_PER_BET ** 2
+        for n in (1, 26, 100, 400):
+            self.assertAlmostEqual(
+                confirm_threshold(n),
+                math.log((1 - BETA) / ALPHA) * v / CLAIMED_CLV + CLAIMED_CLV / 2 * n,
+                places=9)
+            self.assertAlmostEqual(
+                kill_threshold(n),
+                math.log(BETA / (1 - ALPHA)) * v / CLAIMED_CLV + CLAIMED_CLV / 2 * n,
+                places=9)
+            self.assertLess(kill_threshold(n), confirm_threshold(n))
+
+    def test_the_error_rates_match_the_design(self):
+        """The boundaries are only worth trusting if simulation agrees."""
+        import random
+        from cfb_edge.stopping import CLV_SD_PER_BET, confirm_threshold, kill_threshold
+
+        def run(mu, trials=4000, cap=400):
+            rng = random.Random(11)
+            dead = alive = 0
+            for _ in range(trials):
+                s = 0.0
+                for n in range(1, cap + 1):
+                    s += rng.gauss(mu, CLV_SD_PER_BET)
+                    if s <= kill_threshold(n): dead += 1; break
+                    if s >= confirm_threshold(n): alive += 1; break
+            return dead / trials, alive / trials
+
+        dead_when_dead, alive_when_dead = run(0.0)
+        self.assertGreater(dead_when_dead, 0.85)
+        self.assertLess(alive_when_dead, 0.08)          # design alpha 0.05
+
+        dead_when_alive, alive_when_alive = run(0.44)
+        self.assertGreater(alive_when_alive, 0.70)      # design 1 - beta = 0.80
+        self.assertLess(dead_when_alive, 0.25)
+
+    def test_a_single_season_can_kill_but_cannot_confirm(self):
+        """26 bets is a tripwire, not a verdict. Documented so nobody reads a
+        quiet season as evidence the edge is real."""
+        from cfb_edge.stopping import CLAIMED_CLV, confirm_threshold
+
+        needed_per_bet = confirm_threshold(26) / 26
+        self.assertGreater(needed_per_bet, 4 * CLAIMED_CLV)
+
+    def test_the_verdict_moves_between_the_three_states(self):
+        from cfb_edge.stopping import evaluate, kill_threshold
+
+        self.assertEqual(evaluate([]).decision, "no graded bets yet")
+        self.assertEqual(evaluate([0.5] * 10).decision, "CONTINUE")
+        self.assertEqual(evaluate([-3.0] * 26).decision, "STOP")
+        self.assertEqual(evaluate([5.0] * 200).decision, "CONFIRMED")
+        # Landing on the boundary stops: the rule is "at or below", and a sum
+        # of floats reaches it only to within rounding, so the comparison
+        # carries a tolerance far below the half point a line moves in.
+        n = 30
+        self.assertEqual(evaluate([kill_threshold(n) / n] * n).decision, "STOP")
+        self.assertEqual(evaluate([kill_threshold(n) / n * 1.001] * n).decision,
+                         "STOP")
+        self.assertEqual(evaluate([kill_threshold(n) / n * 0.9] * n).decision,
+                         "CONTINUE")
+
+    def test_the_scorecard_prints_the_rule_without_being_asked(self):
+        import io, contextlib, os, tempfile
+        from cfb_edge.cli import main
+
+        fd, path = tempfile.mkstemp(suffix=".csv"); os.close(fd)
+        self.addCleanup(os.unlink, path)
+        with open(path, "w", encoding="utf-8") as fh:
+            fh.write("date,away,home,side,line_taken,price_taken,stake,"
+                     "closing_line,closing_price,closing_opposite_price,result\n")
+            for i in range(3):
+                fh.write(f"2026-09-1{i},A,B,B,-3.0,-110,0.01,-4.5,,,win\n")
+        buf = io.StringIO()
+        with contextlib.redirect_stdout(buf):
+            main(["clv", "--bets", path])
+        out = buf.getvalue()
+        self.assertIn("Stop rule after 3 graded bets", out)
+        self.assertIn("CONTINUE", out)
+
+
 class TestRealizedHold(unittest.TestCase):
     """Measure a book rather than believe it."""
 

@@ -92,11 +92,193 @@ def cmd_card(args: argparse.Namespace) -> int:
 
 
 def cmd_clv(args: argparse.Namespace) -> int:
+    from .stopping import evaluate
+
     bets = clv_mod.load_bets(args.bets)
     if not bets:
         print("no bets logged yet")
         return 0
     print(clv_mod.build_report(bets).summary())
+    # Printed with the scorecard rather than behind its own command. A stop
+    # rule you have to remember to run is one you consult when you already
+    # suspect the answer.
+    graded = [b.line_clv for b in bets if b.line_clv is not None]
+    print()
+    print(evaluate(graded).summary())
+    return 0
+
+
+def _price_from(args: argparse.Namespace, cents_attr: str, price_attr: str,
+                label: str) -> float | None:
+    """One price, from either an exchange quote in cents or an American price."""
+    from .market import probability_to_american
+
+    cents, price = getattr(args, cents_attr), getattr(args, price_attr)
+    if cents is not None and price is not None:
+        raise SystemExit(f"give {label} in cents or as an American price, not both")
+    if cents is not None:
+        if not 0 < cents < 100:
+            raise SystemExit(f"{label} in cents must be between 1 and 99, got {cents}")
+        return probability_to_american(cents / 100.0)
+    return price
+
+
+def cmd_log(args: argparse.Namespace) -> int:
+    """Record a bet at the moment it is placed.
+
+    The price you actually got is the whole measurement. It cannot be
+    reconstructed on Tuesday, so a bet that is not logged now is a bet that
+    never enters the scorecard.
+    """
+    import datetime as _dt
+
+    from .clv import LoggedBet, append_bet
+
+    if "@" not in args.game:
+        raise SystemExit(f"game must read 'Away @ Home', got {args.game!r}")
+    away, home = (s.strip() for s in args.game.split("@", 1))
+    side = args.side.strip()
+    if side.lower() not in (away.lower(), home.lower()):
+        raise SystemExit(f"side must be {away!r} or {home!r}, got {side!r}")
+
+    # The card prints an exchange play as "Kansas at +3", meaning a contract
+    # that pays if Kansas wins by more than three. In betting convention that
+    # is Kansas laying three, so the stored line is negative. Nobody should
+    # have to do that flip by hand: --strike takes the card's number and
+    # --line takes a sportsbook's, and the echo below states which was meant.
+    if (args.strike is None) == (args.line is None):
+        raise SystemExit("give exactly one of --strike (exchange) or --line (book)")
+    line = -abs(args.strike) if args.strike is not None else args.line
+
+    price = _price_from(args, "cents", "price", "the price")
+    if price is None:
+        raise SystemExit("give the price with --cents (exchange) or --price (book)")
+
+    bet = LoggedBet(
+        date=args.date or _dt.date.today().isoformat(),
+        away=away, home=home, side=side,
+        line_taken=float(line), price_taken=float(price), stake=float(args.stake),
+    )
+    n = append_bet(args.bets, bet)
+
+    verb = "laying" if line < 0 else "taking"
+    print(f"logged bet {n} to {args.bets}")
+    print(f"  {bet.date}  {side} {verb} {abs(line):g} in {away} @ {home}")
+    print(f"  at {price:+.0f} American"
+          + (f" ({args.cents}c)" if args.cents is not None else "")
+          + f", staking {bet.stake:.2%} of bankroll")
+    print(f"  wins if {side} beat the number, so if their margin {'exceeds' if line < 0 else 'is above'} "
+          f"{-line:+g}")
+    return 0
+
+
+def cmd_settle(args: argparse.Namespace) -> int:
+    """Fill in where the market closed, which is what CLV is measured against."""
+    from .clv import BetNotFound, settle_bet
+
+    close = args.closing_line
+    if close is not None and args.closing_strike is not None:
+        raise SystemExit("give the close as --closing-line or --closing-strike, not both")
+    if args.closing_strike is not None:
+        close = -abs(args.closing_strike)
+
+    try:
+        bet = settle_bet(
+            args.bets, game=args.game, date=args.date, closing_line=close,
+            closing_price=_price_from(args, "closing_cents", "closing_price",
+                                      "the closing price"),
+            closing_opposite_price=_price_from(
+                args, "closing_opposite_cents", "closing_opposite_price",
+                "the closing opposite price"),
+            result=args.result,
+        )
+    except (BetNotFound, ValueError) as exc:
+        print(exc)
+        return 2
+
+    print(f"settled {bet.side} in {bet.away} @ {bet.home} ({bet.date})")
+    if bet.line_clv is not None:
+        moved = bet.line_clv
+        verdict = ("beat the close" if moved > 0 else
+                   "tied the close" if moved == 0 else "lost to the close")
+        print(f"  took {bet.line_taken:+g}, closed {bet.closing_line:+g} "
+              f"-> {moved:+.1f} points, {verdict}")
+        print(f"  which is {bet.probability_clv():+.2%} of win probability")
+    if bet.price_clv is not None:
+        print(f"  price CLV {bet.price_clv:+.2%}")
+    if bet.result:
+        print(f"  result {bet.result}, profit {bet.profit():+.4f} units")
+    return 0
+
+
+def _slate_and_opens(slate_path, opens_path):
+    """Projections and opening lines, reconciled by the alias map."""
+    from .teams import match_games
+
+    slate = {}
+    with open(slate_path, newline="", encoding="utf-8") as fh:
+        for row in csv.DictReader(fh):
+            slate[row["game"].strip()] = float(row["projected_margin"])
+
+    raw = {}
+    with open(opens_path, newline="", encoding="utf-8") as fh:
+        for row in csv.DictReader(fh):
+            line = (row.get("opening_line") or row.get("open") or "").strip()
+            if line:
+                raw[row["game"].strip()] = float(line)
+
+    report = match_games(list(raw), list(slate))
+    opens = {canon: raw[foreign] for foreign, canon in report.matched.items()}
+    return slate, opens, report
+
+
+def cmd_signals(args: argparse.Namespace) -> int:
+    """Record every signal on the board, whether or not it is worth betting.
+
+    The card is two bets a week and the stop rule needs about a hundred graded
+    observations. The signal fires far more often than the card does, and
+    nothing has to be at risk to measure closing line value, so recording all
+    of them is what makes the rule answerable this season instead of in 2029.
+    """
+    from .paper import record, signals_for
+
+    slate, opens, report = _slate_and_opens(args.slate, args.opens)
+    if report.unmatched:
+        print(report.summary() + "\n")
+    signals = signals_for(slate, opens, date=args.date,
+                          min_disagreement=args.min_disagreement)
+    added, skipped = record(args.out, signals)
+    print(f"{len(opens)} games had an opening line; the model disagreed with "
+          f"{len(signals)} of them by {args.min_disagreement:.1f} points or more.")
+    print(f"recorded {added} to {args.out}"
+          + (f", {skipped} already there" if skipped else ""))
+    for s in signals[:12]:
+        print(f"    {s.side} at {s.line_taken:+g} in {s.away} @ {s.home}")
+    if len(signals) > 12:
+        print(f"    ... and {len(signals) - 12} more")
+    if added:
+        print(f"\nGrade them once the market has closed:\n"
+              f"    python3 -m cfb_edge grade --signals {args.out} --log <capture log>")
+    return 0
+
+
+def cmd_grade(args: argparse.Namespace) -> int:
+    """Fill in closing lines, taken from the same capture log as the opens."""
+    from .paper import grade
+    from .watch import OpeningBook
+
+    book = OpeningBook.load(args.log)
+    closes = book.consensus_closes()
+    if not closes:
+        print(f"no quotes in {args.log}. Nothing to grade against.")
+        return 2
+    graded, still_open = grade(args.signals, closes)
+    print(f"{len(closes)} games have a last-seen price in {args.log}")
+    print(f"graded {graded} signals; {still_open} still have no closing line")
+    print("\nA close is only as late as the capture ran. If polling stopped "
+          "before kickoff, this grades against that moment and not the close.")
+    if graded:
+        print(f"\n    python3 -m cfb_edge clv --bets {args.signals}")
     return 0
 
 
@@ -259,6 +441,62 @@ def build_parser() -> argparse.ArgumentParser:
     p_clv = sub.add_parser("clv", help="report closing line value on a bet log")
     p_clv.add_argument("--bets", required=True)
     p_clv.set_defaults(func=cmd_clv)
+
+    p_sig = sub.add_parser(
+        "signals", help="record every signal on the board, bet or not")
+    p_sig.add_argument("--slate", required=True)
+    p_sig.add_argument("--opens", required=True)
+    p_sig.add_argument("--out", default="data/signals.csv")
+    p_sig.add_argument("--date", help="ISO date (default today)")
+    p_sig.add_argument("--min-disagreement", type=float, default=4.0,
+                       dest="min_disagreement")
+    p_sig.set_defaults(func=cmd_signals)
+
+    p_grade = sub.add_parser(
+        "grade", help="fill closing lines into a signal log from the capture")
+    p_grade.add_argument("--signals", default="data/signals.csv")
+    p_grade.add_argument("--log", default="data/opens.jsonl.gz",
+                         help="the raw capture, which holds the close as well "
+                              "as the open")
+    p_grade.set_defaults(func=cmd_grade)
+
+    p_log = sub.add_parser(
+        "log", help="record a bet as placed, which is the only time you can")
+    p_log.add_argument("--bets", default="data/bets.csv",
+                       help="the log to append to (default data/bets.csv)")
+    p_log.add_argument("--game", required=True, help='"Away @ Home"')
+    p_log.add_argument("--side", required=True, help="the team you backed")
+    p_log.add_argument("--strike", type=float,
+                       help="exchange strike as the card prints it: 3 means a "
+                            "contract paying if your side wins by more than 3")
+    p_log.add_argument("--line", type=float,
+                       help="a book's line from your side's view: -3 lays three")
+    p_log.add_argument("--cents", type=float, help="exchange price paid, in cents")
+    p_log.add_argument("--price", type=float, help="American price, e.g. -110")
+    p_log.add_argument("--stake", type=float, required=True,
+                       help="fraction of bankroll, e.g. 0.0037")
+    p_log.add_argument("--date", help="ISO date (default today)")
+    p_log.set_defaults(func=cmd_log)
+
+    p_set = sub.add_parser(
+        "settle", help="record where the market closed, and the result")
+    p_set.add_argument("--bets", default="data/bets.csv")
+    p_set.add_argument("--game", required=True, help='"Away @ Home"')
+    p_set.add_argument("--date", help="needed only when one game has two bets")
+    p_set.add_argument("--closing-line", type=float, dest="closing_line",
+                       help="closing number from your side's view")
+    p_set.add_argument("--closing-strike", type=float, dest="closing_strike",
+                       help="closing strike as the card prints it")
+    p_set.add_argument("--closing-cents", type=float, dest="closing_cents")
+    p_set.add_argument("--closing-price", type=float, dest="closing_price")
+    p_set.add_argument("--closing-opposite-cents", type=float,
+                       dest="closing_opposite_cents",
+                       help="the other side's closing cents; both are needed "
+                            "for price CLV, which devigs the two-way close")
+    p_set.add_argument("--closing-opposite-price", type=float,
+                       dest="closing_opposite_price")
+    p_set.add_argument("--result", choices=("win", "loss", "push"))
+    p_set.set_defaults(func=cmd_settle)
 
     return parser
 

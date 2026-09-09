@@ -159,6 +159,81 @@ BET_FIELDS = [
 ]
 
 
+class BetNotFound(LookupError):
+    """Raised when a bet to settle cannot be identified from the log."""
+
+
+def append_bet(path: str | Path, bet: LoggedBet) -> int:
+    """Add one bet to the log, creating it if absent. Returns the new count.
+
+    Read-modify-write rather than a bare append, so a log written under an
+    older field order is rewritten into the current one instead of gaining a
+    row whose columns silently do not line up.
+    """
+    path = Path(path)
+    existing = load_bets(path) if path.exists() else []
+    existing.append(bet)
+    path.parent.mkdir(parents=True, exist_ok=True)
+    save_bets(existing, path)
+    return len(existing)
+
+
+def settle_bet(
+    path: str | Path,
+    *,
+    game: str,
+    closing_line: float | None = None,
+    closing_price: float | None = None,
+    closing_opposite_price: float | None = None,
+    result: str | None = None,
+    date: str | None = None,
+) -> LoggedBet:
+    """Fill in the market's final word on one logged bet.
+
+    A bet is identified by its game, and by its date when one game appears
+    more than once. An ambiguous match raises rather than settling the first
+    row found: settling the wrong bet corrupts the only scorecard this project
+    has, and does it silently.
+    """
+    path = Path(path)
+    bets = load_bets(path)
+
+    def matches(b: LoggedBet) -> bool:
+        if f"{b.away} @ {b.home}".lower() != game.strip().lower():
+            return False
+        return date is None or b.date == date
+
+    hits = [i for i, b in enumerate(bets) if matches(b)]
+    if not hits:
+        raise BetNotFound(
+            f"no logged bet for {game!r}"
+            + (f" on {date}" if date else "")
+            + f". The log has {len(bets)} bets."
+        )
+    open_hits = [i for i in hits if bets[i].result is None]
+    candidates = open_hits or hits
+    if len(candidates) > 1:
+        dates = ", ".join(sorted({bets[i].date for i in candidates}))
+        raise BetNotFound(
+            f"{len(candidates)} bets match {game!r}. Pass a date to choose "
+            f"between them: {dates}"
+        )
+
+    bet = bets[candidates[0]]
+    if closing_line is not None:
+        bet.closing_line = closing_line
+    if closing_price is not None:
+        bet.closing_price = closing_price
+    if closing_opposite_price is not None:
+        bet.closing_opposite_price = closing_opposite_price
+    if result is not None:
+        if result not in ("win", "loss", "push"):
+            raise ValueError(f"result must be win, loss or push, got {result!r}")
+        bet.result = result
+    save_bets(bets, path)
+    return bet
+
+
 def load_bets(path: str | Path) -> list[LoggedBet]:
     rows: list[LoggedBet] = []
     with open(path, newline="", encoding="utf-8") as fh:

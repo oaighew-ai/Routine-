@@ -1090,3 +1090,73 @@ Tuesday afternoon, which is correct for a regular week and wrong for a bowl
 line that posts on the 8th and is still moving on the 28th.
 
 The postseason opportunity is a longer capture window, not a different model.
+
+## The stop rule, fixed before there is money on it
+
+A stop rule set after a losing month is a rationalisation with a number
+attached. This one is a sequential probability ratio test on closing line
+value, chosen because CLV is the only quantity whose sample size this strategy
+can ever support.
+
+**The parameters are measured.** Replaying the strategy over 2,611 historical
+games carrying a consensus open and close from two or more books gives 1,375
+bets at +0.376 points, t = +5.01, and a per-bet standard deviation of **2.78
+points**. That replication uses a cruder Elo-to-margin conversion than the
+model itself, fitted at 24.2 Elo points per point of margin against a standard
+figure of about 25, which is why it lands near rather than on the 1,059 bets
+at +0.44 recorded above. The test is against the documented 0.44, since the
+claim is what is on trial.
+
+    H0: no CLV          H1: the claimed 0.44 points
+    alpha = 0.05        beta = 0.20
+
+Alpha is tighter on purpose. Continuing a dead strategy bleeds money weekly;
+abandoning a live one forgoes an edge worth about a cent on a contract even
+when real. Being quick to kill is the cheaper error.
+
+The boundaries, on cumulative CLV in points:
+
+| Graded bets | Stop at or below | Confirm at or above |
+|---|---|---|
+| 26 | −21.6 | +54.4 |
+| 52 | −15.9 | +60.1 |
+| 100 | −5.4 | +70.7 |
+| 200 | +16.6 | +92.7 |
+
+Simulation over 40,000 runs per condition, against the sd above:
+
+| Truth | Stopped | Confirmed | Median bets to decide |
+|---|---|---|---|
+| No edge | 93.0% | 4.5% | 82 |
+| Half the claim | 58.3% | 31.5% | 139 |
+| As claimed, 0.44 | 18.1% | **77.5%** | 133 |
+| Negative, −0.20 | 99.5% | 0.4% | 53 |
+
+Those match the 5% and 20% the test was designed around, which is the only
+reason to trust the boundaries.
+
+### What one season cannot do
+
+At roughly two plays a week across a thirteen-week season you place about 26
+bets. At 26 bets:
+
+- a genuinely dead strategy is stopped **8.7%** of the time
+- **nothing** can be confirmed: clearing the upper boundary needs +2.09 points
+  a bet, five times the claim
+
+So a season is a tripwire for breakage, not a verdict, and the running total
+carries across seasons rather than resetting. Reading a quiet season as
+evidence the edge is real is exactly the error this rule exists to prevent, and
+there is a test asserting the confirm boundary stays out of one season's reach
+so that nobody quietly loosens it.
+
+### The fix is more observations, not a looser rule
+
+The signal fires on roughly half of all games with a captured opening line.
+Only the few that clear their own fee reach a card. Recording the CLV of every
+signal, bet or not, turns a three-season question into a several-week one, and
+nothing has to be at risk to measure a number.
+
+`cfb_edge clv` prints the verdict with the scorecard rather than behind its own
+command, because a stop rule you have to remember to run is one you consult
+only when you already suspect the answer.
