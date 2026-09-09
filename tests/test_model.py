@@ -1134,6 +1134,142 @@ class TestLineMovement(unittest.TestCase):
         self.assertAlmostEqual(clv_required(100).clv_needed, 0.0, places=9)
 
 
+class TestBetLog(unittest.TestCase):
+    """The scorecard is worthless if nothing feeds it, and worse than
+    worthless if what feeds it has the sign backwards."""
+
+    def _log(self, path, **kw):
+        from cfb_edge.cli import main
+        import io, contextlib
+        args = ["log", "--bets", str(path)]
+        for k, v in kw.items():
+            args += [f"--{k.replace('_', '-')}", str(v)]
+        buf = io.StringIO()
+        with contextlib.redirect_stdout(buf):
+            code = main(args)
+        return code, buf.getvalue()
+
+    def _tmp(self):
+        import os, tempfile
+        fd, path = tempfile.mkstemp(suffix=".csv"); os.close(fd); os.unlink(path)
+        self.addCleanup(lambda: os.path.exists(path) and os.unlink(path))
+        return path
+
+    def test_an_exchange_strike_is_stored_as_laying_that_number(self):
+        """The trap this command exists to remove.
+
+        The card prints the Kansas play as "Kansas at +3", meaning a contract
+        paying if Kansas wins by more than three. In the convention
+        `cover_probability` documents, that is Kansas *laying* three, so the
+        stored line is -3. Anyone translating by hand gets this backwards
+        roughly half the time, and the error is invisible: the scorecard still
+        prints, just with the sign of its only conclusion flipped.
+        """
+        from cfb_edge.clv import load_bets
+
+        path = self._tmp()
+        code, out = self._log(path, game="Missouri @ Kansas", side="Kansas",
+                              strike=3, cents=26, stake=0.0037)
+        self.assertEqual(code, 0)
+        bet, = load_bets(path)
+        self.assertEqual(bet.line_taken, -3.0)
+        self.assertEqual(bet.side, "Kansas")
+        self.assertEqual((bet.away, bet.home), ("Missouri", "Kansas"))
+        self.assertIn("laying 3", out)
+
+        # A book's line is taken as given, in the same convention.
+        other = self._tmp()
+        self._log(other, game="A @ B", side="A", line=+6.5, price=-110, stake=0.01)
+        self.assertEqual(load_bets(other)[0].line_taken, 6.5)
+
+    def test_cents_convert_to_the_price_the_scorecard_needs(self):
+        from cfb_edge.clv import load_bets
+        from cfb_edge.market import (american_to_probability,
+                                     probability_to_american)
+
+        path = self._tmp()
+        self._log(path, game="A @ B", side="B", strike=3, cents=26, stake=0.01)
+        bet, = load_bets(path)
+        # American odds cannot express every cent exactly: `decimal_to_american`
+        # rounds, so the round trip loses at most 8.93e-06 of probability across
+        # 1c to 99c. The edge being measured is around 1e-2, so that is under a
+        # tenth of one percent of it. Measured rather than assumed, and asserted
+        # here so a future rounding change that made it worse would show up.
+        self.assertAlmostEqual(american_to_probability(bet.price_taken), 0.26,
+                               delta=1e-5)
+        worst = max(abs(american_to_probability(probability_to_american(c / 100))
+                        - c / 100) for c in range(1, 100))
+        self.assertLess(worst, 1e-5)
+
+    def test_a_side_that_is_not_playing_is_refused(self):
+        path = self._tmp()
+        with self.assertRaises(SystemExit):
+            self._log(path, game="Missouri @ Kansas", side="Kansas State",
+                      strike=3, cents=26, stake=0.01)
+
+    def test_the_log_round_trips_into_the_scorecard(self):
+        from cfb_edge.cli import main
+        from cfb_edge.clv import build_report, load_bets, settle_bet
+        import io, contextlib
+
+        path = self._tmp()
+        self._log(path, game="Missouri @ Kansas", side="Kansas", strike=3,
+                  cents=26, stake=0.0037, date="2026-09-11")
+        settle_bet(path, game="Missouri @ Kansas", closing_line=-4.5,
+                   result="win")
+        report = build_report(load_bets(path))
+        self.assertEqual(report.bets, 1)
+        self.assertEqual(report.beat_close, 1)
+        self.assertAlmostEqual(report.mean_line_clv, 1.5, places=9)
+
+        buf = io.StringIO()
+        with contextlib.redirect_stdout(buf):
+            self.assertEqual(main(["clv", "--bets", str(path)]), 0)
+        self.assertIn("Beat close 1", buf.getvalue())
+
+    def test_settling_an_ambiguous_game_refuses_rather_than_guesses(self):
+        """Settling the wrong row corrupts the only scorecard there is."""
+        from cfb_edge.clv import BetNotFound, settle_bet
+
+        path = self._tmp()
+        for d in ("2026-09-11", "2026-10-11"):
+            self._log(path, game="A @ B", side="B", strike=3, cents=50,
+                      stake=0.01, date=d)
+        with self.assertRaises(BetNotFound) as ctx:
+            settle_bet(path, game="A @ B", closing_line=-3.0)
+        self.assertIn("2026-09-11", str(ctx.exception))
+        # Naming the date resolves it.
+        bet = settle_bet(path, game="A @ B", date="2026-10-11", closing_line=-3.0)
+        self.assertEqual(bet.date, "2026-10-11")
+
+    def test_settling_a_game_that_was_never_logged_says_so(self):
+        from cfb_edge.clv import BetNotFound, settle_bet
+
+        path = self._tmp()
+        self._log(path, game="A @ B", side="B", strike=3, cents=50, stake=0.01)
+        with self.assertRaises(BetNotFound):
+            settle_bet(path, game="C @ D", closing_line=-3.0)
+
+    def test_a_result_outside_win_loss_push_is_refused(self):
+        from cfb_edge.clv import settle_bet
+
+        path = self._tmp()
+        self._log(path, game="A @ B", side="B", strike=3, cents=50, stake=0.01)
+        with self.assertRaises(ValueError):
+            settle_bet(path, game="A @ B", result="cashed out")
+
+    def test_appending_preserves_earlier_bets(self):
+        from cfb_edge.clv import load_bets
+
+        path = self._tmp()
+        for i in range(4):
+            self._log(path, game=f"A{i} @ B{i}", side=f"B{i}", strike=3,
+                      cents=50, stake=0.01)
+        bets = load_bets(path)
+        self.assertEqual(len(bets), 4)
+        self.assertEqual([b.home for b in bets], ["B0", "B1", "B2", "B3"])
+
+
 class TestRealizedHold(unittest.TestCase):
     """Measure a book rather than believe it."""
 
