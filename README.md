@@ -26,6 +26,22 @@ Static single-file pages, no build step.
 - `cfb-edge-net.html` — a fee-adjusted board for pricing an exchange strike by
   hand.
 
+## Capturing opening lines without being there
+
+The edge is 0.44 points of closing line value measured against the *opening*
+number, so the capture has to be running before books post. On Windows:
+
+```
+setx ODDS_API_KEY "your-key"                                  :: once, then a NEW terminal
+powershell -ExecutionPolicy Bypass -File scripts\install_capture_task.ps1
+```
+
+That registers a weekly Sunday task that runs whether or not you are logged on,
+restarts if it dies, and logs to `data\capture.log`. It starts six hours before
+the release window rather than at it, because `watch.py` already polls hourly
+when nothing is expected and every five minutes once anything opens: six hours
+early costs six requests, and being late costs the week.
+
 
 Full documentation, including every result and every result that did not
 survive, is in [MODEL.md](MODEL.md).
