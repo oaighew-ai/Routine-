@@ -2,13 +2,23 @@ name: tests
 
 # The model's whole claim is that its numbers are measured. A test suite that
 # only ever runs on the author's machine is not measurement, so it runs here.
+# Push covers the default branch and pull_request covers everything else.
+# Listing every branch under push as well ran the whole matrix twice on each
+# commit to an open PR: eight jobs for four Pythons, and seven failure
+# notifications for one broken commit.
 on:
   push:
-    branches: ["**"]
+    branches: [main]
   pull_request:
 
 permissions:
   contents: read
+
+# A branch under active work supersedes its own earlier runs. Without this a
+# fix pushed on top of a red commit still waits behind the run it obsoleted.
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
 
 jobs:
   test:
