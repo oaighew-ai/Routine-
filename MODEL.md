@@ -1171,3 +1171,52 @@ nothing has to be at risk to measure a number.
 `cfb_edge clv` prints the verdict with the scorecard rather than behind its own
 command, because a stop rule you have to remember to run is one you consult
 only when you already suspect the answer.
+
+## Scoring week 1 of 2026, out of sample
+
+The ratings had used week 1 as input since the slates were rebuilt, but the
+model had never been *scored* against it. That was an omission rather than a
+decision, and it is worth separating what the check does and does not say.
+
+51 FBS-vs-FBS games, projected from 2025 priors alone, which is genuinely out
+of sample.
+
+| | |
+|---|---|
+| Mean projected home margin | +11.09 |
+| Mean actual home margin | **+18.84** |
+| Bias (actual − projected) | **+7.75, t = +2.76** |
+| Residual sd | 20.04, against 16.33 for an Elo projection historically |
+| Slope of actual on projected | 0.738, **95% CI [0.26, 1.21]** |
+
+**The scale is not contradicted.** The slope looks low but 51 games cannot
+resolve it: 1.0 sits comfortably inside the interval. `RATING_SCALE = 1.40`
+stands, and anyone reading 0.738 as a reason to change it is reading noise.
+
+**The bias is a level shift, not a scaling problem.** It is +8.96 on the 47
+home games at t = +3.03, and roughly flat across the board: +7.60 where the
+model made the home team a 7-point-plus favourite, +6.50 where it had the game
+inside a touchdown. A compression problem would grow with the projection and
+this does not. The four neutral-site games run the other way and are too few to
+read.
+
+Three explanations fit and this data cannot separate them: week 1 home field is
+genuinely larger than the season average, week 1 FBS-vs-FBS scheduling selects
+for strong hosts in ways the ratings understate, or 51 games produced a t of 3
+by chance.
+
+**Nothing is being changed on the strength of it.** `DEFAULT_HFA` was fitted on
+17,472 games across five eras precisely so that one week could not move it, and
+moving it now would discard that for a sample a fiftieth the size.
+
+### What this check cannot do
+
+It measures **margin** accuracy. The model's own conclusion is that it cannot
+beat the closing line on margins at all: −0.02 at t = −0.31 over 6,398 games.
+The strategy does not bet margins, it bets line movement, so a margin bias in
+week 1 says almost nothing about whether the strategy works.
+
+The test that would say something needs week 1 **opening lines**, and none were
+captured, because the capture did not exist yet. That is the same gap that left
+week 2 with 4 opening lines out of 49 games, and it is what the Sunday capture
+exists to close.
