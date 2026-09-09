@@ -150,9 +150,14 @@ class OpeningBook:
 
     path: Path
     opens: dict[tuple[str, str, str], Quote] = field(default_factory=dict)
-    # Every quote ever seen, needed because the close is the last one *before
-    # kickoff* rather than simply the last one.
-    _history: list[Quote] = field(default_factory=list)
+    # Last quote per market that was seen before kickoff. Maintained as the
+    # log is read rather than derived from a full history: a season of
+    # five-minute polling is about six million quotes, and holding them to
+    # compute one value per market would cost gigabytes to answer a question
+    # that needs a single pass.
+    closing: dict[tuple[str, str, str], Quote] = field(default_factory=dict)
+    # (game, market) pairs whose kickoff time was missing or unreadable.
+    _ungated: set[tuple[str, str]] = field(default_factory=set)
     # Last price seen for each market. The same append-only log that gives the
     # open gives the close, because every poll is written and nothing is
     # overwritten. No second data source, and no way for the two to disagree.
@@ -180,10 +185,7 @@ class OpeningBook:
                         quote = Quote(**q)
                     except TypeError:
                         continue
-                    # First wins. Never overwrite.
-                    book.opens.setdefault(quote.key, quote)
-                    book.latest[quote.key] = quote      # last wins, deliberately
-                    book._history.append(quote)
+                    book._observe(quote)
         return book
 
     def record(self, quotes: Iterable[Quote]) -> list[Quote]:
@@ -194,11 +196,8 @@ class OpeningBook:
         """
         quotes = list(quotes)
         fresh = [q for q in quotes if q.key not in self.opens]
-        for q in fresh:
-            self.opens[q.key] = q
         for q in quotes:
-            self.latest[q.key] = q
-            self._history.append(q)
+            self._observe(q)
 
         self.path.parent.mkdir(parents=True, exist_ok=True)
         opener = gzip.open if self.path.suffix == ".gz" else open
@@ -209,9 +208,15 @@ class OpeningBook:
             }) + "\n")
         return fresh
 
-    def _all_quotes(self) -> list[Quote]:
-        """Every quote in the raw log, in the order it was recorded."""
-        return list(self._history)
+    def _observe(self, quote: Quote) -> None:
+        """Fold one quote into the derived views, in a single pass."""
+        self.opens.setdefault(quote.key, quote)   # first wins, never overwritten
+        self.latest[quote.key] = quote            # last wins, deliberately
+        gated = quote.before_kickoff
+        if gated is None:
+            self._ungated.add((quote.game, quote.market))
+        if gated is not False:                    # unknown counts as usable
+            self.closing[quote.key] = quote
 
     def _consensus(self, source: dict, market: str) -> dict[str, float]:
         """Median line per game across whichever books are in `source`.
@@ -247,17 +252,11 @@ class OpeningBook:
         rather than admit it cannot be gated. `ungated_games` reports how many
         are in that position.
         """
-        out: dict[tuple[str, str, str], Quote] = {}
-        for q in self._all_quotes():
-            if q.before_kickoff is False:
-                continue
-            out[q.key] = q
-        return out
+        return self.closing
 
     def ungated_games(self, market: str = "spread") -> set[str]:
         """Games whose close could not be gated for want of a kickoff time."""
-        return {q.game for q in self._all_quotes()
-                if q.market == market and q.before_kickoff is None}
+        return {game for game, mkt in self._ungated if mkt == market}
 
     def consensus_closes(self, market: str = "spread") -> dict[str, float]:
         """Median closing line per game, ignoring anything seen after kickoff.
@@ -356,6 +355,12 @@ def main(argv: list[str] | None = None) -> int:
     p.add_argument("--max-polls", type=int, default=None, dest="max_polls")
     p.add_argument("--rebuild", action="store_true",
                    help="skip polling; rebuild the opens CSV from the existing log")
+    p.add_argument("--regions", default="us,us2,eu",
+                   help="the-odds-api regions. Billing is one credit per "
+                        "region per market, so this is the main lever on cost: "
+                        "the default costs 3 credits a poll and about 8,400 a "
+                        "month at the schedule below; 'us' costs a third of "
+                        "that and drops the low-hold European books.")
     args = p.parse_args(argv)
 
     book = OpeningBook.load(args.log)
@@ -372,8 +377,11 @@ def main(argv: list[str] | None = None) -> int:
             if len(games) > 10:
                 print(f"    ... and {len(games) - 10} more")
 
+        def fetch() -> list[Quote]:
+            return fetch_board(regions=args.regions)
+
         try:
-            watch(book, fetch_board,
+            watch(book, fetch,
                   max_polls=1 if args.once else args.max_polls, on_new=announce)
         except OddsApiUnreachable as exc:
             print(f"cannot capture: {exc}")

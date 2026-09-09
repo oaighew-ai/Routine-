@@ -1,10 +1,16 @@
 """The Odds API adapter: a full college football board in one call.
 
-Chosen over scraping because it returns every book at once, includes the
-sportsbooks that matter for this strategy, and costs one request per poll. The
-free tier is 500 requests a month, which at the polling schedule in `watch.py`
-covers a season with room to spare: dense polling only runs inside the release
-window, and outside it an hourly poll is cheap.
+Chosen over scraping because it returns every book at once and includes the
+sportsbooks that matter for this strategy.
+
+**It is not free at this polling rate, and an earlier version of this file
+said it was.** Billing is one credit per region per market, so the defaults
+here cost 3 credits a poll, and the schedule in `watch.py` makes 652 polls in
+a regular-season week: about 1,956 credits a week and 8,400 a month. That was
+never checked against the arithmetic until it was measured. Read your own
+plan's allowance before leaving the capture running, and note that
+`--regions us` costs a third as much at the price of the low-hold European
+books the strategy was measured on.
 
 Set the key in the environment rather than passing it around:
 
@@ -64,8 +70,12 @@ def fetch_board(
     key = api_key or os.environ.get("ODDS_API_KEY")
     if not key:
         raise OddsApiUnreachable(
-            "no API key. Set ODDS_API_KEY in the environment; the free tier at "
-            "the-odds-api.com covers a season at this polling rate."
+            "no API key. Set ODDS_API_KEY in the environment.\n"
+            "Check your plan's allowance first: the-odds-api.com bills one "
+            "credit per region per market, so these defaults cost 3 a poll, "
+            "and the schedule in watch.py makes 652 polls a week. That is "
+            "about 1,956 credits a week and 8,400 a month. Dropping to "
+            "--regions us cuts it to a third."
         )
     url = (
         f"{API_ROOT}/sports/{SPORT}/odds/?apiKey={key}&regions={regions}"

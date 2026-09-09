@@ -705,8 +705,19 @@ python3 -m cfb_edge play --slate data/week2_2026_slate.csv --opens opens.csv
 Sunday evening, and the rest of the market fills in through Monday and into
 Tuesday. Rather than guess the minute, `watch.py` polls every five minutes
 through Sunday evening, all of Monday, and Tuesday morning, and hourly the rest
-of the time. At that rate a season fits inside the free tier's 500 requests a
-month.
+of the time.
+
+**What that costs, corrected.** This section previously claimed a season fits
+inside a 500-request free tier. Walking the schedule minute by minute gives
+**652 polls in a regular-season week**, and the-odds-api bills one credit per
+region per market, so the default `us,us2,eu` costs 3 credits a poll: about
+1,956 a week and **8,400 a month**. The original claim was never checked
+against the schedule it was describing.
+
+`--regions us` cuts that to a third. It also drops the European books, and the
+reduced-juice venues this strategy needs are not all in the us region, so the
+saving is not free. Which way that trades is the operator's call and depends
+on their plan, which is why it is a flag and not a new default.
 
 Three rules the code enforces, each of which exists because the obvious
 alternative destroys the data:
