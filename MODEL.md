@@ -946,6 +946,20 @@ exposure fell from 1.35% to 1.01%.
 `rank_expressions` took the same argument under the name `projected_margin`
 and it is now `market_margin`, for the same reason.
 
+`local_density` in `line_movement.py` had the same shape reachable through it:
+a `line` and a `projected_margin` that could disagree, which reads a density at
+one number under a distribution centred on another. Nothing live passed the
+pair, so the headline requirement of 0.67 points at -110 is unaffected, but the
+argument is gone and the centre now follows the line with no way to separate
+them.
+
+Two duplications were removed while the pricing path was open, both of the kind
+that agree until someone edits one copy. `venue.py` restated Kalshi's fee
+coefficient and its formula instead of importing them, in a project whose fee
+module says in its own docstring to read the real rate off the account before
+staking; `build_card` reimplemented the portfolio cap that `staking.py` already
+owns. Both now have one definition and a test asserting it.
+
 Two tests pin this. One asserts the quoted price equals the market's survival
 at the strike and is more than ten cents from what the projection alone would
 have said. The other asserts the gain uses the market's density, on one game

@@ -47,6 +47,7 @@ from __future__ import annotations
 from dataclasses import dataclass
 
 from .distribution import KEY_BUMPS, margin_pmf, sigma_for_total
+from .staking import apply_portfolio_cap
 from .venue import book_vig, exchange_fee
 
 # Measured closing line value, in points, from the opening-line strategy at its
@@ -222,13 +223,10 @@ def build_card(
     """
     best = [max(ps, key=lambda p: p.net) for ps in plays_by_game if ps]
     best.sort(key=lambda p: p.net, reverse=True)
-    total = sum(p.stake for p in best)
-    if total <= max_weekly_exposure or total <= 0:
-        return best
-    scale = max_weekly_exposure / total
-    return [
-        Play(**{**p.__dict__, "stake": p.stake * scale}) for p in best
-    ]
+    # Scaled by `staking`, which owns this rule, rather than reimplemented.
+    scaled = apply_portfolio_cap([p.stake for p in best],
+                                 max_total=max_weekly_exposure)
+    return [Play(**{**p.__dict__, "stake": s}) for p, s in zip(best, scaled)]
 
 
 def signal_side(

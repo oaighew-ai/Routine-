@@ -1109,6 +1109,15 @@ class TestLineMovement(unittest.TestCase):
         self.assertLess(local_density(), pmf[3])
         self.assertGreater(local_density(), pmf[9])
 
+        # The centre follows the line, so density at a real number is read
+        # under the distribution that number implies rather than under a
+        # pick'em. A seven is a peak wherever the market has put it.
+        # Zero is not in the support at all: a regulation tie goes to overtime.
+        at_seven = margin_pmf(-7.0, sigma_for_total(52.0))
+        self.assertNotIn(0, at_seven)
+        self.assertGreater(local_density(7.0), at_seven[-25])
+        self.assertAlmostEqual(local_density(7.0), local_density(-7.0), places=9)
+
     def test_a_free_price_needs_no_edge(self):
         from cfb_edge.line_movement import clv_required
 
@@ -1349,6 +1358,36 @@ class TestStrategy(unittest.TestCase):
             model = margin_pmf(projection, sigma_for_total(52.0)).get(3, 0.0)
             self.assertAlmostEqual(three.gain, DEFAULT_CLV_POINTS * market, places=9)
             self.assertNotAlmostEqual(three.gain, DEFAULT_CLV_POINTS * model, places=4)
+
+    def test_the_fee_rate_has_exactly_one_definition(self):
+        """kalshi_fees says to read the real rate off the account.
+
+        A number expected to change must not exist twice. Two copies agree
+        right up until someone edits one of them, and the failure is silent:
+        every play still prices, just against a fee nobody is charging.
+        """
+        from cfb_edge import kalshi_fees, venue
+
+        self.assertIs(venue.FEE_COEFFICIENT, kalshi_fees.FEE_COEFFICIENT)
+        for price in (0.10, 0.26, 0.50, 0.55, 0.90):
+            self.assertAlmostEqual(
+                venue.exchange_fee(price),
+                kalshi_fees.fee_cents_per_contract(price) / 100.0, places=12)
+
+    def test_the_card_caps_exposure_with_the_staking_rule(self):
+        """One implementation of the cap, not two that happen to match."""
+        from cfb_edge.staking import apply_portfolio_cap
+        from cfb_edge.strategy import Venue, build_card, find_plays
+
+        per_game = [find_plays(f"g{i}", market_line=-3.0, side="home",
+                               venues=[Venue("exchange", is_exchange=True)],
+                               clv_points=3.0) for i in range(20)]
+        card = build_card(per_game, max_weekly_exposure=0.07)
+        raw = [max(ps, key=lambda p: p.net).stake for ps in per_game if ps]
+        raw.sort(reverse=True)
+        want = apply_portfolio_cap(raw, max_total=0.07)
+        self.assertAlmostEqual(sum(p.stake for p in card), sum(want), places=12)
+        self.assertLessEqual(sum(p.stake for p in card), 0.07 + 1e-12)
 
     def test_the_card_takes_one_play_per_game(self):
         from cfb_edge.strategy import build_card, find_plays

@@ -29,10 +29,14 @@ from __future__ import annotations
 from dataclasses import dataclass
 
 from .distribution import KEY_BUMPS, margin_pmf, sigma_for_total
+from .kalshi_fees import FEE_COEFFICIENT
 from .market import american_to_probability
 
-# Kalshi's fee coefficient, as a required edge in probability: 0.07 * P * (1-P).
-FEE_COEFFICIENT = 0.07
+# Imported rather than restated. `kalshi_fees` says to read the real rate off
+# the account before staking, so this number is expected to change, and two
+# copies of a number that is expected to change is one copy too many.
+__all__ = ["FEE_COEFFICIENT", "Expression", "exchange_fee", "book_vig",
+           "rank_expressions", "best_strike", "is_key_number"]
 
 
 @dataclass(frozen=True)

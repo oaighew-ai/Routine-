@@ -26,8 +26,7 @@ from .market import american_to_probability
 
 
 def local_density(
-    line: float = 0.0, *, projected_margin: float = 0.0, total: float = 52.0,
-    window: int = 3,
+    line: float = 0.0, *, total: float = 52.0, window: int = 3,
 ) -> float:
     """Win probability gained per point of line, near `line`.
 
@@ -35,8 +34,16 @@ def local_density(
     one, because the margin distribution is lumpy and a point-estimate at a key
     number would overstate the density while one in a trough would understate
     it.
+
+    The distribution is centred on `line` and the window is taken around the
+    same place, and there is deliberately no way to separate the two. A line is
+    the market's own estimate of the margin, so a density read at a line under
+    a distribution centred somewhere else is the density of a game nobody is
+    offering. That separation used to be reachable here through a
+    `projected_margin` argument, and the same mistake priced a real card
+    thirteen cents wrong. See `find_plays`.
     """
-    pmf = margin_pmf(projected_margin, sigma_for_total(total))
+    pmf = margin_pmf(-line, sigma_for_total(total))
     centre = -line
     lo, hi = math.floor(centre - window), math.ceil(centre + window)
     mass = sum(v for k, v in pmf.items() if lo <= k <= hi)
