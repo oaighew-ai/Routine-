@@ -175,6 +175,20 @@ tr.gone td:first-child{text-decoration:line-through;text-decoration-color:var(--
 .fix-box td.was{text-decoration:line-through;color:var(--ink-3)}
 .fix-box td.now{font-weight:600}
 
+/* ---- watchlist ---- */
+.wl table{min-width:640px}
+.wl td{padding:9px 0}
+.wl .line-in{
+  font-family:var(--mono);font-size:13.5px;width:74px;padding:5px 8px;
+  background:var(--ground);color:var(--ink);
+  border:1px solid var(--rule);border-radius:3px;text-align:right;
+}
+.wl .gap{font-weight:600}
+.wl .fires{color:var(--live)}
+.wl .under{color:var(--ink-3)}
+.wl tr.lit td{background:var(--live-soft)}
+.wl .verdict{font-family:var(--sans);font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase}
+
 /* ---- withdrawn ---- */
 .dead-box{
   border-left:3px solid var(--dead);background:var(--dead-soft);
@@ -405,6 +419,33 @@ tr.gone td:first-child{text-decoration:line-through;text-decoration-color:var(--
     board.</p>
   </section>
 
+  <section class="wl">
+    <h2 class="lab" style="margin-bottom:6px">Week 3 watchlist &middot; not picks</h2>
+    <p class="note" style="margin:0 0 6px">The model's projection for every Week 3
+    game between recognisable programs. <b>None of these is a bet.</b> A bet needs a
+    market number to disagree with, and Week 3 lines do not post until Sunday
+    evening. What this tells you is where to look first when they do.</p>
+    <p class="note" style="margin:0 0 16px">Type an opening line as it appears
+    (home team's number, negative if the home team is favoured) and the gap and
+    verdict update. The bar is <b>4.0 points</b>.</p>
+    <div class="tw">
+      <table>
+        <thead>
+          <tr>
+            <th>Game</th><th>Model says</th><th>Fair line</th>
+            <th>Opening line</th><th>Gap</th><th>Verdict</th>
+          </tr>
+        </thead>
+        <tbody id="wl-body"></tbody>
+      </table>
+    </div>
+    <p class="note">A caveat with teeth: these ratings carry almost no 2026 data.
+    cfbfastR has zero 2026 rows, so team quality is regressed 2025 priors scaled by
+    1.40. That is precisely the condition that manufactured the Arizona State false
+    signal before the compression fix. Treat every number above as a place to look,
+    not a forecast.</p>
+  </section>
+
   <section class="next">
     <h3>Week 3 is the one that matters</h3>
     <p class="note" style="margin:0">Nothing on this card is worth chasing. The model
@@ -460,4 +501,59 @@ tr.gone td:first-child{text-decoration:line-through;text-decoration-color:var(--
   br.addEventListener("input", render);
   render();
 })();
+(function(){
+  var GAMES = [{"a": "Michigan State", "h": "Notre Dame", "m": 17.89}, {"a": "Syracuse", "h": "Pittsburgh", "m": 17.61}, {"a": "USC", "h": "Rutgers", "m": -15.84}, {"a": "Kentucky", "h": "Texas A&M", "m": 15.0}, {"a": "Stanford", "h": "Duke", "m": 14.65}, {"a": "NC State", "h": "Vanderbilt", "m": 13.03}, {"a": "Houston", "h": "Texas Tech", "m": 11.67}, {"a": "West Virginia", "h": "Virginia", "m": 11.6}, {"a": "Florida State", "h": "Alabama", "m": 9.89}, {"a": "Purdue", "h": "UCLA", "m": 9.71}, {"a": "Miami", "h": "Wake Forest", "m": -7.31}, {"a": "Tulane", "h": "Kansas State", "m": 5.82}, {"a": "Virginia Tech", "h": "Maryland", "m": 5.5}, {"a": "Colorado", "h": "Northwestern", "m": 5.19}, {"a": "Georgia", "h": "Arkansas", "m": -4.59}, {"a": "Mississippi State", "h": "South Carolina", "m": 4.41}, {"a": "LSU", "h": "Ole Miss", "m": 2.87}, {"a": "North Carolina", "h": "Clemson", "m": 1.92}, {"a": "Arizona State", "h": "Kansas", "m": -1.68}, {"a": "SMU", "h": "Louisville", "m": 1.45}, {"a": "Florida", "h": "Auburn", "m": 0.48}];
+  var BAR = 4.0;
+  var body = document.getElementById("wl-body");
+  if (!body) return;
+
+  function fmt(n, digits){ return (n >= 0 ? "+" : "") + n.toFixed(digits || 1); }
+
+  GAMES.forEach(function(g, i){
+    var fair = -g.m;                       // the number the model would post
+    var favourite = g.m > 0 ? g.h : g.a;
+    var tr = document.createElement("tr");
+    tr.innerHTML =
+      '<td>' + g.a + ' <span style="color:var(--ink-3)">@</span> ' + g.h + '</td>' +
+      '<td>' + favourite + ' by ' + Math.abs(g.m).toFixed(1) + '</td>' +
+      '<td>' + fmt(fair) + '</td>' +
+      '<td><input class="line-in" type="number" step="0.5" inputmode="decimal" ' +
+          'aria-label="opening line for ' + g.a + ' at ' + g.h + '" data-i="' + i + '"></td>' +
+      '<td class="gap">&mdash;</td>' +
+      '<td class="verdict under">awaiting line</td>';
+    body.appendChild(tr);
+  });
+
+  body.addEventListener("input", function(e){
+    var input = e.target;
+    if (!input.classList.contains("line-in")) return;
+    var g = GAMES[+input.dataset.i];
+    var tr = input.closest("tr");
+    var gapCell = tr.querySelector(".gap");
+    var verdict = tr.querySelector(".verdict");
+    var raw = input.value.trim();
+    var line = parseFloat(raw);
+
+    if (raw === "" || !isFinite(line)) {
+      gapCell.textContent = "\u2014";
+      verdict.textContent = "awaiting line";
+      verdict.className = "verdict under";
+      tr.classList.remove("lit");
+      return;
+    }
+    var gap = (-g.m) - line;               // signal_side: fair minus the open
+    gapCell.textContent = fmt(gap, 2);
+    if (Math.abs(gap) < BAR) {
+      verdict.textContent = "under the bar";
+      verdict.className = "verdict under";
+      tr.classList.remove("lit");
+    } else {
+      // gap < 0 means the model likes the home side.
+      verdict.textContent = (gap < 0 ? g.h : g.a) + " fires";
+      verdict.className = "verdict fires";
+      tr.classList.add("lit");
+    }
+  });
+})();
+
 </script>
