@@ -92,11 +92,19 @@ def cmd_card(args: argparse.Namespace) -> int:
 
 
 def cmd_clv(args: argparse.Namespace) -> int:
+    from .stopping import evaluate
+
     bets = clv_mod.load_bets(args.bets)
     if not bets:
         print("no bets logged yet")
         return 0
     print(clv_mod.build_report(bets).summary())
+    # Printed with the scorecard rather than behind its own command. A stop
+    # rule you have to remember to run is one you consult when you already
+    # suspect the answer.
+    graded = [b.line_clv for b in bets if b.line_clv is not None]
+    print()
+    print(evaluate(graded).summary())
     return 0
 
 

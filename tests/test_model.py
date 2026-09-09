@@ -1270,6 +1270,94 @@ class TestBetLog(unittest.TestCase):
         self.assertEqual([b.home for b in bets], ["B0", "B1", "B2", "B3"])
 
 
+class TestStopRule(unittest.TestCase):
+    """A rule fixed in advance, and the honest limits of what it can decide."""
+
+    def test_the_boundaries_are_the_sprt_they_claim_to_be(self):
+        import math
+        from cfb_edge.stopping import (ALPHA, BETA, CLAIMED_CLV, CLV_SD_PER_BET,
+                                       confirm_threshold, kill_threshold)
+
+        v = CLV_SD_PER_BET ** 2
+        for n in (1, 26, 100, 400):
+            self.assertAlmostEqual(
+                confirm_threshold(n),
+                math.log((1 - BETA) / ALPHA) * v / CLAIMED_CLV + CLAIMED_CLV / 2 * n,
+                places=9)
+            self.assertAlmostEqual(
+                kill_threshold(n),
+                math.log(BETA / (1 - ALPHA)) * v / CLAIMED_CLV + CLAIMED_CLV / 2 * n,
+                places=9)
+            self.assertLess(kill_threshold(n), confirm_threshold(n))
+
+    def test_the_error_rates_match_the_design(self):
+        """The boundaries are only worth trusting if simulation agrees."""
+        import random
+        from cfb_edge.stopping import CLV_SD_PER_BET, confirm_threshold, kill_threshold
+
+        def run(mu, trials=4000, cap=400):
+            rng = random.Random(11)
+            dead = alive = 0
+            for _ in range(trials):
+                s = 0.0
+                for n in range(1, cap + 1):
+                    s += rng.gauss(mu, CLV_SD_PER_BET)
+                    if s <= kill_threshold(n): dead += 1; break
+                    if s >= confirm_threshold(n): alive += 1; break
+            return dead / trials, alive / trials
+
+        dead_when_dead, alive_when_dead = run(0.0)
+        self.assertGreater(dead_when_dead, 0.85)
+        self.assertLess(alive_when_dead, 0.08)          # design alpha 0.05
+
+        dead_when_alive, alive_when_alive = run(0.44)
+        self.assertGreater(alive_when_alive, 0.70)      # design 1 - beta = 0.80
+        self.assertLess(dead_when_alive, 0.25)
+
+    def test_a_single_season_can_kill_but_cannot_confirm(self):
+        """26 bets is a tripwire, not a verdict. Documented so nobody reads a
+        quiet season as evidence the edge is real."""
+        from cfb_edge.stopping import CLAIMED_CLV, confirm_threshold
+
+        needed_per_bet = confirm_threshold(26) / 26
+        self.assertGreater(needed_per_bet, 4 * CLAIMED_CLV)
+
+    def test_the_verdict_moves_between_the_three_states(self):
+        from cfb_edge.stopping import evaluate, kill_threshold
+
+        self.assertEqual(evaluate([]).decision, "no graded bets yet")
+        self.assertEqual(evaluate([0.5] * 10).decision, "CONTINUE")
+        self.assertEqual(evaluate([-3.0] * 26).decision, "STOP")
+        self.assertEqual(evaluate([5.0] * 200).decision, "CONFIRMED")
+        # Landing on the boundary stops: the rule is "at or below", and a sum
+        # of floats reaches it only to within rounding, so the comparison
+        # carries a tolerance far below the half point a line moves in.
+        n = 30
+        self.assertEqual(evaluate([kill_threshold(n) / n] * n).decision, "STOP")
+        self.assertEqual(evaluate([kill_threshold(n) / n * 1.001] * n).decision,
+                         "STOP")
+        self.assertEqual(evaluate([kill_threshold(n) / n * 0.9] * n).decision,
+                         "CONTINUE")
+
+    def test_the_scorecard_prints_the_rule_without_being_asked(self):
+        import io, contextlib, os, tempfile
+        from cfb_edge.cli import main
+
+        fd, path = tempfile.mkstemp(suffix=".csv"); os.close(fd)
+        self.addCleanup(os.unlink, path)
+        with open(path, "w", encoding="utf-8") as fh:
+            fh.write("date,away,home,side,line_taken,price_taken,stake,"
+                     "closing_line,closing_price,closing_opposite_price,result\n")
+            for i in range(3):
+                fh.write(f"2026-09-1{i},A,B,B,-3.0,-110,0.01,-4.5,,,win\n")
+        buf = io.StringIO()
+        with contextlib.redirect_stdout(buf):
+            main(["clv", "--bets", path])
+        out = buf.getvalue()
+        self.assertIn("Stop rule after 3 graded bets", out)
+        self.assertIn("CONTINUE", out)
+
+
 class TestRealizedHold(unittest.TestCase):
     """Measure a book rather than believe it."""
 
