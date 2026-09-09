@@ -39,6 +39,7 @@ NOMINAL_PRICE = -110.0
 def signals_for(
     slate: dict[str, float], opens: dict[str, float], *,
     date: str | None = None, min_disagreement: float = 4.0,
+    week: int | None = None,
 ) -> list[LoggedBet]:
     """Every game where the model disagrees with the open by enough to act.
 
@@ -54,7 +55,7 @@ def signals_for(
         open_line = opens[game]
         side, _gap = signal_side(home, away, projected_margin=projected,
                                  opening_home_line=open_line,
-                                 min_disagreement=min_disagreement)
+                                 min_disagreement=min_disagreement, week=week)
         if side is None:
             continue
         # The line from the backed side's view: the home number as posted, or

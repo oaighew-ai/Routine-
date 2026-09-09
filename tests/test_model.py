@@ -1270,6 +1270,70 @@ class TestBetLog(unittest.TestCase):
         self.assertEqual([b.home for b in bets], ["B0", "B1", "B2", "B3"])
 
 
+class TestEarlySeasonGate(unittest.TestCase):
+    """Weeks 1 and 2 have no measurable edge, so they produce no plays."""
+
+    def test_no_side_before_the_gate_however_large_the_gap(self):
+        from cfb_edge.strategy import MIN_SEASON_WEEK, signal_side
+
+        # Charlotte at Ole Miss: the model says 21.7, the market said 47.5.
+        kw = dict(projected_margin=21.7, opening_home_line=-47.5)
+        for wk in range(1, MIN_SEASON_WEEK):
+            side, gap = signal_side("Ole Miss", "Charlotte", week=wk, **kw)
+            self.assertIsNone(side, f"week {wk} should produce no side")
+            self.assertGreater(abs(gap), 20)     # the gap is still reported
+        side, _ = signal_side("Ole Miss", "Charlotte", week=MIN_SEASON_WEEK, **kw)
+        self.assertIsNotNone(side)
+
+    def test_omitting_the_week_skips_the_check_rather_than_guessing_one(self):
+        from cfb_edge.strategy import signal_side
+
+        side, _ = signal_side("B", "A", projected_margin=0.0,
+                              opening_home_line=8.0, week=None)
+        self.assertEqual(side, "B")
+
+    def test_a_large_disagreement_is_not_capped(self):
+        """Worth a test because the opposite looks obviously right.
+
+        Bucketed over 1,375 historical bets, CLV rises with the size of the
+        disagreement: +0.099 at 4-6 points, +0.527 at 8-10, +0.572 at 14-20.
+        A cap would throw away the best-paying bets in the set.
+        """
+        from cfb_edge.strategy import signal_side
+
+        side, gap = signal_side("Ole Miss", "Charlotte", projected_margin=21.7,
+                                opening_home_line=-47.5, week=8)
+        self.assertEqual(side, "Charlotte")
+        self.assertGreater(abs(gap), 20)
+
+    def test_the_paper_log_is_gated_too(self):
+        """The stop rule reads the paper log, so an ungated week would feed it
+        observations the strategy is not claiming to make."""
+        from cfb_edge.paper import signals_for
+
+        slate = {"Missouri @ Kansas": -0.07}
+        opens = {"Missouri @ Kansas": 6.5}
+        self.assertEqual(signals_for(slate, opens, date="2026-09-08", week=2), [])
+        self.assertEqual(len(signals_for(slate, opens, date="2026-09-08", week=3)), 1)
+
+    def test_the_cli_says_the_week_is_why(self):
+        import contextlib, io, os, tempfile
+        from cfb_edge.cli import main
+
+        fd, slate = tempfile.mkstemp(suffix=".csv"); os.close(fd)
+        fd, opens = tempfile.mkstemp(suffix=".csv"); os.close(fd)
+        self.addCleanup(os.unlink, slate); self.addCleanup(os.unlink, opens)
+        open(slate, "w").write("game,projected_margin,side,posted_line,total\n"
+                               "Missouri @ Kansas,-0.07,,,52\n")
+        open(opens, "w").write("game,opening_line\nMissouri @ Kansas,6.5\n")
+        buf = io.StringIO()
+        with contextlib.redirect_stdout(buf):
+            main(["play", "--slate", slate, "--opens", opens, "--week", "2"])
+        out = buf.getvalue()
+        self.assertIn("Week 2: no plays", out)
+        self.assertIn("not because they were quiet", out)
+
+
 class TestPaperSignals(unittest.TestCase):
     """Measuring costs nothing, so measure everything."""
 

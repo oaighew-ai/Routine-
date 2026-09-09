@@ -246,7 +246,7 @@ def cmd_signals(args: argparse.Namespace) -> int:
     if report.unmatched:
         print(report.summary() + "\n")
     signals = signals_for(slate, opens, date=args.date,
-                          min_disagreement=args.min_disagreement)
+                          min_disagreement=args.min_disagreement, week=args.week)
     added, skipped = record(args.out, signals)
     print(f"{len(opens)} games had an opening line; the model disagreed with "
           f"{len(signals)} of them by {args.min_disagreement:.1f} points or more.")
@@ -290,7 +290,8 @@ def cmd_grade(args: argparse.Namespace) -> int:
 
 def cmd_play(args: argparse.Namespace) -> int:
     """The strategy the evidence supports, run over a slate."""
-    from .strategy import (DEFAULT_CLV_POINTS, Venue, build_card, find_plays,
+    from .strategy import (DEFAULT_CLV_POINTS, MIN_SEASON_WEEK, Venue,
+                           build_card, find_plays,
                            signal_side)
 
     venues = [Venue("exchange", is_exchange=True)]
@@ -318,7 +319,7 @@ def cmd_play(args: argparse.Namespace) -> int:
             print(report.summary() + "\n")
 
     per_game = []
-    skipped = no_signal = 0
+    skipped = no_signal = too_early = 0
     with open(args.slate, newline="", encoding="utf-8") as fh:
         for row in csv.DictReader(fh):
             game = row["game"].strip()
@@ -332,9 +333,13 @@ def cmd_play(args: argparse.Namespace) -> int:
                               game.split("@")[0].strip())
                 side, _gap = signal_side(home, away, projected_margin=proj,
                                          opening_home_line=opens[game],
-                                         min_disagreement=args.min_disagreement)
+                                         min_disagreement=args.min_disagreement,
+                                         week=args.week)
                 if side is None:
-                    no_signal += 1
+                    if args.week is not None and args.week < MIN_SEASON_WEEK:
+                        too_early += 1
+                    else:
+                        no_signal += 1
                     continue
                 if not posted:
                     posted = str(opens[game])
@@ -365,6 +370,11 @@ def cmd_play(args: argparse.Namespace) -> int:
 
     card = build_card(per_game, max_weekly_exposure=args.max_exposure)
     considered = len(per_game)
+    if too_early:
+        print(f"Week {args.week}: no plays. The signal earns +0.049 points of CLV "
+              f"at t = 0.28 in weeks 1-2, against +0.440 at t = 5.31 from week "
+              f"{MIN_SEASON_WEEK} on. {too_early} games had an opening line and "
+              f"were not priced because of it, not because they were quiet.")
     if no_signal:
         print(f"{no_signal} games had an opening line but the model disagreed with "
               f"it by less than {args.min_disagreement:.1f} points, which is not "
@@ -373,7 +383,7 @@ def cmd_play(args: argparse.Namespace) -> int:
         print(f"{skipped} rows have neither a side nor an opening line and were "
               f"skipped. Supply one opening number per game and the side is "
               f"derived; a row with neither is a game, not a bet.")
-    if no_signal or skipped:
+    if no_signal or skipped or too_early:
         print()
     if not considered:
         print("Nothing to price. Fill in the side column and run again.")
@@ -435,6 +445,11 @@ def build_parser() -> argparse.ArgumentParser:
                         help="your book's price, e.g. -105. Omit for exchange only.")
     p_play.add_argument("--opens", help="CSV of game,opening_line (home perspective). "
                         "Supply this and the side is derived for you.")
+    p_play.add_argument("--week", type=int,
+                        help="week of the season. Weeks 1 and 2 return no plays: "
+                             "replayed on 1,375 historical bets they earn +0.049 "
+                             "points of CLV at t = 0.28, against +0.440 at t = "
+                             "5.31 from week 3 on. Omitting this skips the check.")
     p_play.add_argument("--min-disagreement", type=float, default=4.0,
                         dest="min_disagreement",
                         help="points the model must differ from the open (default 4)")
@@ -454,6 +469,8 @@ def build_parser() -> argparse.ArgumentParser:
     p_sig.add_argument("--opens", required=True)
     p_sig.add_argument("--out", default="data/signals.csv")
     p_sig.add_argument("--date", help="ISO date (default today)")
+    p_sig.add_argument("--week", type=int,
+                       help="week of the season; 1 and 2 record nothing")
     p_sig.add_argument("--min-disagreement", type=float, default=4.0,
                        dest="min_disagreement")
     p_sig.set_defaults(func=cmd_signals)

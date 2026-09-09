@@ -58,6 +58,14 @@ DEFAULT_CLV_POINTS = 0.44
 # Ten and fourteen are real but marginal; three and seven do the work.
 TRADEABLE_KEY_NUMBERS = (3, 7, 10, 14)
 
+# The signal is not measurable in the first two weeks of a season. Replayed
+# over 1,375 historical bets, weeks 1-2 return +0.049 points of CLV at t = 0.28
+# (n = 228) while weeks 3 onward return +0.440 at t = 5.31 (n = 1,147). The
+# mechanism is not mysterious: in week 2 most teams have played once and some
+# have played nothing, so a rating is a regressed prior and a disagreement with
+# the market is the model being uninformed rather than the market being wrong.
+MIN_SEASON_WEEK = 3
+
 # Fraction of Kelly, and the per-bet ceiling. Both from `staking.py`.
 KELLY_FRACTION = 0.25
 MAX_STAKE = 0.02
@@ -231,7 +239,8 @@ def build_card(
 
 def signal_side(
     home: str, away: str, *, projected_margin: float, opening_home_line: float,
-    min_disagreement: float = 4.0,
+    min_disagreement: float = 4.0, week: int | None = None,
+    min_week: int = MIN_SEASON_WEEK,
 ) -> tuple[str | None, float]:
     """Which side the line-movement signal prefers, and by how much.
 
@@ -246,11 +255,26 @@ def signal_side(
     a t of 4.7, on games where at least two books had posted an open. Below
     about two points the signal is there but thin.
 
+    `week` is the week of the season. Weeks before `min_week` return no side at
+    all, whatever the disagreement, because the signal has no measurable edge
+    there. Passing None skips the check and says so by omission: a caller that
+    does not know the week cannot be protected from it.
+
+    A large disagreement is *not* treated as suspect, which was worth testing
+    because it looks like it should be. Bucketing the same 1,375 bets by size
+    of disagreement gives +0.099 at 4-6 points (t = 1.06), +0.527 at 8-10
+    (t = 3.21) and +0.572 at 14-20 (t = 1.55). CLV rises with the gap rather
+    than falling apart, so there is no upper cap here. What the buckets do say
+    is that the 4-6 band carries almost nothing, which is why the bar this
+    module recommends is higher than the one it historically used.
+
     Returns `(None, gap)` when the disagreement is too small to act on, which
     on a normal board is most games.
     """
     fair = -projected_margin
     gap = fair - opening_home_line
+    if week is not None and week < min_week:
+        return None, gap
     if abs(gap) < min_disagreement:
         return None, gap
     # gap < 0 means the model wants the home team laying more than the open

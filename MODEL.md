@@ -1220,3 +1220,74 @@ The test that would say something needs week 1 **opening lines**, and none were
 captured, because the capture did not exist yet. That is the same gap that left
 week 2 with 4 opening lines out of 49 games, and it is what the Sunday capture
 exists to close.
+
+## Where the signal does and does not work
+
+Two guards were proposed after week 2 of 2026 produced a "signal" on Charlotte
+at Ole Miss, where the model said 21.7 and the market said 47.5. Charlotte had
+played no FBS-vs-FBS games; its rating was a regressed prior and nothing else.
+One guard survived contact with the data and the other did not.
+
+### The size of a disagreement is not a warning sign
+
+The obvious guard is a cap: treat a 26-point disagreement as evidence the
+rating is broken rather than evidence of an edge. Bucketing the same 1,375
+replayed bets says the opposite.
+
+| Disagreement | Bets | Mean CLV | t |
+|---|---|---|---|
+| 4-6 pts | 513 | +0.099 | +1.06 |
+| 6-8 | 351 | +0.324 | +2.64 |
+| 8-10 | 211 | **+0.527** | +3.21 |
+| 10-14 | 203 | +0.541 | +3.00 |
+| 14-20 | 76 | +0.572 | +1.55 |
+
+CLV rises with the gap. A cap would discard the best-paying bets in the set, so
+there is no cap, and there is a test asserting a 26-point disagreement still
+produces a side.
+
+What the buckets do say is that the **4-6 band carries almost nothing**, and it
+is 37% of all bets at the historic 4.0 bar.
+
+### The first two weeks of a season do not work
+
+| Weeks | Bets | Mean CLV | t |
+|---|---|---|---|
+| **1-2** | 228 | **+0.049** | **+0.28** |
+| 3-4 | 218 | +0.451 | +1.81 |
+| 5-7 | 274 | +0.613 | +3.94 |
+| 8-11 | 370 | +0.290 | +1.94 |
+| 12-19 | 285 | +0.461 | +3.76 |
+
+Weeks 1-2 return nothing at all: +0.049 points at t = 0.28. From week 3 the
+same rule returns +0.440 at t = 5.31.
+
+The mechanism is not mysterious. In week 2 most teams have played once and some
+have played nothing, so a rating is a regressed prior, and a disagreement with
+the market is the model being uninformed rather than the market being wrong.
+This is the same failure that produced the Arizona State signal before the
+rating-scale fix, arriving from a different direction.
+
+`MIN_SEASON_WEEK = 3`. `signal_side` returns no side before it, whatever the
+disagreement. Passing no week skips the check rather than guessing one: a
+caller that does not know the week cannot be protected from it.
+
+### What this cost the week 2 card
+
+Everything. Priced with `--week 2` the board returns no plays at all, and the
+three that were on it, including the Oregon at Oklahoma State signal found by
+searching for its opening line, were in a window where the strategy has never
+been shown to work.
+
+The honest reading is that the argument for passing on week 2 was right for a
+weaker reason than the real one. The value being spent was true; the week
+having no measured edge in the first place is more decisive.
+
+### Caveat on how these numbers were chosen
+
+Both tables come from slicing one dataset several ways, and a bar of 6.0 in
+weeks 3+ measures better still (+0.658, t = 5.37, n = 682) than the 4.0 kept
+here. The week finding is adopted because it is large, has a mechanism, and
+splits a t of 0.28 from a t of 5.31. The bar is left alone because moving it to
+the best cell of a grid searched on the same data is how a fitted constant
+becomes an overfitted one.
