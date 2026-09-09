@@ -1389,6 +1389,26 @@ class TestStrategy(unittest.TestCase):
         self.assertAlmostEqual(sum(p.stake for p in card), sum(want), places=12)
         self.assertLessEqual(sum(p.stake for p in card), 0.07 + 1e-12)
 
+    def test_the_cli_defaults_come_from_the_modules_that_own_them(self):
+        """The third instance of one constant living in two places.
+
+        `--hfa` defaulted to 2.2 long after the fitted value moved to 3.2, so
+        every `rate` run used a home field a full point too low while
+        `ratings.DEFAULT_HFA` sat next door with the right number. Nothing
+        failed and nothing looked wrong; the output just quietly said 2.20.
+        """
+        from cfb_edge.cli import build_parser
+        from cfb_edge.ratings import DEFAULT_HFA
+        from cfb_edge.staking import DEFAULT_MAX_WEEKLY_EXPOSURE
+        from cfb_edge.strategy import DEFAULT_CLV_POINTS
+
+        rate = build_parser().parse_args(["rate", "--games", "x.csv"])
+        self.assertEqual(rate.hfa, DEFAULT_HFA)
+
+        play = build_parser().parse_args(["play", "--slate", "x.csv"])
+        self.assertEqual(play.clv, DEFAULT_CLV_POINTS)
+        self.assertEqual(play.max_exposure, DEFAULT_MAX_WEEKLY_EXPOSURE)
+
     def test_the_card_takes_one_play_per_game(self):
         from cfb_edge.strategy import build_card, find_plays
 

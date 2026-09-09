@@ -16,7 +16,7 @@ import sys
 from . import clv as clv_mod
 from . import data as data_mod
 from .edge import evaluate, rank_card
-from .ratings import solve_ratings
+from .ratings import DEFAULT_HFA, solve_ratings
 from .staking import DEFAULT_MAX_WEEKLY_EXPOSURE, apply_portfolio_cap
 
 
@@ -216,8 +216,12 @@ def build_parser() -> argparse.ArgumentParser:
         p.add_argument("--prior-weight", type=float, default=4.0,
                        dest="prior_weight",
                        help="prior strength in games (default 4.0)")
-        p.add_argument("--hfa", type=float, default=2.2,
-                       help="home field advantage in points (default 2.2)")
+        # Taken from `ratings`, never restated. This sat at 2.2 long after the
+        # fitted value moved to 3.2, so every `rate` run used a home field a
+        # full point too low while the constant next door was right.
+        p.add_argument("--hfa", type=float, default=DEFAULT_HFA,
+                       help=f"home field advantage in points "
+                            f"(default {DEFAULT_HFA})")
 
     p_rate = sub.add_parser("rate", help="fit and print power ratings")
     add_model_args(p_rate)
