@@ -1270,6 +1270,70 @@ class TestBetLog(unittest.TestCase):
         self.assertEqual([b.home for b in bets], ["B0", "B1", "B2", "B3"])
 
 
+class TestEarlySeasonGate(unittest.TestCase):
+    """Weeks 1 and 2 have no measurable edge, so they produce no plays."""
+
+    def test_no_side_before_the_gate_however_large_the_gap(self):
+        from cfb_edge.strategy import MIN_SEASON_WEEK, signal_side
+
+        # Charlotte at Ole Miss: the model says 21.7, the market said 47.5.
+        kw = dict(projected_margin=21.7, opening_home_line=-47.5)
+        for wk in range(1, MIN_SEASON_WEEK):
+            side, gap = signal_side("Ole Miss", "Charlotte", week=wk, **kw)
+            self.assertIsNone(side, f"week {wk} should produce no side")
+            self.assertGreater(abs(gap), 20)     # the gap is still reported
+        side, _ = signal_side("Ole Miss", "Charlotte", week=MIN_SEASON_WEEK, **kw)
+        self.assertIsNotNone(side)
+
+    def test_omitting_the_week_skips_the_check_rather_than_guessing_one(self):
+        from cfb_edge.strategy import signal_side
+
+        side, _ = signal_side("B", "A", projected_margin=0.0,
+                              opening_home_line=8.0, week=None)
+        self.assertEqual(side, "B")
+
+    def test_a_large_disagreement_is_not_capped(self):
+        """Worth a test because the opposite looks obviously right.
+
+        Bucketed over 1,375 historical bets, CLV rises with the size of the
+        disagreement: +0.099 at 4-6 points, +0.527 at 8-10, +0.572 at 14-20.
+        A cap would throw away the best-paying bets in the set.
+        """
+        from cfb_edge.strategy import signal_side
+
+        side, gap = signal_side("Ole Miss", "Charlotte", projected_margin=21.7,
+                                opening_home_line=-47.5, week=8)
+        self.assertEqual(side, "Charlotte")
+        self.assertGreater(abs(gap), 20)
+
+    def test_the_paper_log_is_gated_too(self):
+        """The stop rule reads the paper log, so an ungated week would feed it
+        observations the strategy is not claiming to make."""
+        from cfb_edge.paper import signals_for
+
+        slate = {"Missouri @ Kansas": -0.07}
+        opens = {"Missouri @ Kansas": 6.5}
+        self.assertEqual(signals_for(slate, opens, date="2026-09-08", week=2), [])
+        self.assertEqual(len(signals_for(slate, opens, date="2026-09-08", week=3)), 1)
+
+    def test_the_cli_says_the_week_is_why(self):
+        import contextlib, io, os, tempfile
+        from cfb_edge.cli import main
+
+        fd, slate = tempfile.mkstemp(suffix=".csv"); os.close(fd)
+        fd, opens = tempfile.mkstemp(suffix=".csv"); os.close(fd)
+        self.addCleanup(os.unlink, slate); self.addCleanup(os.unlink, opens)
+        open(slate, "w").write("game,projected_margin,side,posted_line,total\n"
+                               "Missouri @ Kansas,-0.07,,,52\n")
+        open(opens, "w").write("game,opening_line\nMissouri @ Kansas,6.5\n")
+        buf = io.StringIO()
+        with contextlib.redirect_stdout(buf):
+            main(["play", "--slate", slate, "--opens", opens, "--week", "2"])
+        out = buf.getvalue()
+        self.assertIn("Week 2: no plays", out)
+        self.assertIn("not because they were quiet", out)
+
+
 class TestPaperSignals(unittest.TestCase):
     """Measuring costs nothing, so measure everything."""
 
@@ -1386,6 +1450,109 @@ class TestPaperSignals(unittest.TestCase):
         # The line CLV is still measured, which is the whole point.
         self.assertAlmostEqual(report.mean_line_clv, 1.0, places=9)
         self.assertTrue(all(b.price_clv is None for b in load_bets(path)))
+
+
+class TestKickoffGuard(unittest.TestCase):
+    """A quote taken while a game is being played is not a close.
+
+    The capture runs Sunday into Tuesday and games kick off inside that
+    window, so this is the routine case rather than the exceptional one. CLV
+    measured against an in-play line is noise recorded as signal, and it would
+    corrupt the scorecard quietly.
+    """
+
+    def _log(self, quotes_per_poll):
+        import gzip, json, os, tempfile
+        fd, path = tempfile.mkstemp(suffix=".jsonl.gz"); os.close(fd)
+        self.addCleanup(os.unlink, path)
+        with gzip.open(path, "wt", encoding="utf-8") as fh:
+            for quotes in quotes_per_poll:
+                fh.write(json.dumps({"polled_at": "x", "quotes": quotes}) + "\n")
+        return path
+
+    def _q(self, line, seen, kick="2026-09-12T23:00:00Z", game="A @ B"):
+        return {"game": game, "book": "bk", "market": "spread", "line": line,
+                "price": -110, "seen_at": seen, "commence_time": kick}
+
+    def test_the_close_is_the_last_price_before_kickoff(self):
+        from cfb_edge.watch import OpeningBook
+
+        path = self._log([
+            [self._q(6.5, "2026-09-10T12:00:00Z")],   # Thursday
+            [self._q(5.5, "2026-09-12T22:00:00Z")],   # an hour before kickoff
+            [self._q(-14.0, "2026-09-12T23:30:00Z")],  # in play, must be ignored
+            [self._q(-21.0, "2026-09-13T02:00:00Z")],  # after the final whistle
+        ])
+        book = OpeningBook.load(path)
+        self.assertEqual(book.consensus_opens()["A @ B"], 6.5)
+        self.assertEqual(book.consensus_closes()["A @ B"], 5.5)
+
+    def test_an_ungated_quote_is_kept_and_reported(self):
+        """Old logs carry no kickoff time. Dropping them would silently empty
+        the log rather than admit the close cannot be gated."""
+        from cfb_edge.watch import OpeningBook
+
+        path = self._log([[{"game": "A @ B", "book": "bk", "market": "spread",
+                            "line": 6.5, "price": -110, "seen_at": "t0"}],
+                          [{"game": "A @ B", "book": "bk", "market": "spread",
+                            "line": 4.0, "price": -110, "seen_at": "t1"}]])
+        book = OpeningBook.load(path)
+        self.assertEqual(book.consensus_closes()["A @ B"], 4.0)
+        self.assertEqual(book.ungated_games(), {"A @ B"})
+
+    def test_a_gated_game_is_not_reported_as_ungated(self):
+        from cfb_edge.watch import OpeningBook
+
+        path = self._log([[self._q(6.5, "2026-09-10T12:00:00Z")]])
+        self.assertEqual(OpeningBook.load(path).ungated_games(), set())
+
+    def test_the_guard_survives_a_live_capture_too(self):
+        from cfb_edge.watch import OpeningBook, Quote
+
+        path = self._log([[self._q(6.5, "2026-09-10T12:00:00Z")]])
+        book = OpeningBook.load(path)
+        book.record([Quote("A @ B", "bk", "spread", 3.0, -110,
+                           "2026-09-12T22:30:00Z", "2026-09-12T23:00:00Z")])
+        self.assertEqual(book.consensus_closes()["A @ B"], 3.0)
+        book.record([Quote("A @ B", "bk", "spread", -30.0, -110,
+                           "2026-09-13T00:00:00Z", "2026-09-12T23:00:00Z")])
+        self.assertEqual(book.consensus_closes()["A @ B"], 3.0)
+
+    def test_the_provider_carries_kickoff_onto_every_quote(self):
+        """The gate is decorative unless the provider populates the field."""
+        from cfb_edge.providers.oddsapi import parse_board
+
+        quotes = parse_board([{
+            "home_team": "Kansas", "away_team": "Missouri",
+            "commence_time": "2026-09-12T23:00:00Z",
+            "bookmakers": [{"title": "bk", "markets": [{"key": "spreads",
+                "outcomes": [{"name": "Kansas", "point": 6.5, "price": -110}]}]}],
+        }])
+        self.assertEqual(len(quotes), 1)
+        self.assertEqual(quotes[0].commence_time, "2026-09-12T23:00:00Z")
+        self.assertIs(quotes[0].before_kickoff, True)
+
+    def test_a_provider_that_omits_kickoff_still_yields_quotes(self):
+        from cfb_edge.providers.oddsapi import parse_board
+
+        quotes = parse_board([{
+            "home_team": "Kansas", "away_team": "Missouri",
+            "bookmakers": [{"title": "bk", "markets": [{"key": "spreads",
+                "outcomes": [{"name": "Kansas", "point": 6.5, "price": -110}]}]}],
+        }])
+        self.assertEqual(len(quotes), 1)
+        self.assertIsNone(quotes[0].commence_time)
+        self.assertIsNone(quotes[0].before_kickoff)
+
+    def test_a_naive_timestamp_is_read_as_utc_not_rejected(self):
+        from cfb_edge.watch import Quote
+
+        self.assertIs(Quote("A @ B", "b", "spread", 3.0, -110,
+                            "2026-09-12T22:00:00", "2026-09-12T23:00:00Z"
+                            ).before_kickoff, True)
+        self.assertIs(Quote("A @ B", "b", "spread", 3.0, -110,
+                            "nonsense", "2026-09-12T23:00:00Z"
+                            ).before_kickoff, None)
 
 
 class TestStopRule(unittest.TestCase):

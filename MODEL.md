@@ -705,8 +705,19 @@ python3 -m cfb_edge play --slate data/week2_2026_slate.csv --opens opens.csv
 Sunday evening, and the rest of the market fills in through Monday and into
 Tuesday. Rather than guess the minute, `watch.py` polls every five minutes
 through Sunday evening, all of Monday, and Tuesday morning, and hourly the rest
-of the time. At that rate a season fits inside the free tier's 500 requests a
-month.
+of the time.
+
+**What that costs, corrected.** This section previously claimed a season fits
+inside a 500-request free tier. Walking the schedule minute by minute gives
+**652 polls in a regular-season week**, and the-odds-api bills one credit per
+region per market, so the default `us,us2,eu` costs 3 credits a poll: about
+1,956 a week and **8,400 a month**. The original claim was never checked
+against the schedule it was describing.
+
+`--regions us` cuts that to a third. It also drops the European books, and the
+reduced-juice venues this strategy needs are not all in the us region, so the
+saving is not free. Which way that trades is the operator's call and depends
+on their plan, which is why it is a flag and not a new default.
 
 Three rules the code enforces, each of which exists because the obvious
 alternative destroys the data:
@@ -1160,3 +1171,123 @@ nothing has to be at risk to measure a number.
 `cfb_edge clv` prints the verdict with the scorecard rather than behind its own
 command, because a stop rule you have to remember to run is one you consult
 only when you already suspect the answer.
+
+## Scoring week 1 of 2026, out of sample
+
+The ratings had used week 1 as input since the slates were rebuilt, but the
+model had never been *scored* against it. That was an omission rather than a
+decision, and it is worth separating what the check does and does not say.
+
+51 FBS-vs-FBS games, projected from 2025 priors alone, which is genuinely out
+of sample.
+
+| | |
+|---|---|
+| Mean projected home margin | +11.09 |
+| Mean actual home margin | **+18.84** |
+| Bias (actual − projected) | **+7.75, t = +2.76** |
+| Residual sd | 20.04, against 16.33 for an Elo projection historically |
+| Slope of actual on projected | 0.738, **95% CI [0.26, 1.21]** |
+
+**The scale is not contradicted.** The slope looks low but 51 games cannot
+resolve it: 1.0 sits comfortably inside the interval. `RATING_SCALE = 1.40`
+stands, and anyone reading 0.738 as a reason to change it is reading noise.
+
+**The bias is a level shift, not a scaling problem.** It is +8.96 on the 47
+home games at t = +3.03, and roughly flat across the board: +7.60 where the
+model made the home team a 7-point-plus favourite, +6.50 where it had the game
+inside a touchdown. A compression problem would grow with the projection and
+this does not. The four neutral-site games run the other way and are too few to
+read.
+
+Three explanations fit and this data cannot separate them: week 1 home field is
+genuinely larger than the season average, week 1 FBS-vs-FBS scheduling selects
+for strong hosts in ways the ratings understate, or 51 games produced a t of 3
+by chance.
+
+**Nothing is being changed on the strength of it.** `DEFAULT_HFA` was fitted on
+17,472 games across five eras precisely so that one week could not move it, and
+moving it now would discard that for a sample a fiftieth the size.
+
+### What this check cannot do
+
+It measures **margin** accuracy. The model's own conclusion is that it cannot
+beat the closing line on margins at all: −0.02 at t = −0.31 over 6,398 games.
+The strategy does not bet margins, it bets line movement, so a margin bias in
+week 1 says almost nothing about whether the strategy works.
+
+The test that would say something needs week 1 **opening lines**, and none were
+captured, because the capture did not exist yet. That is the same gap that left
+week 2 with 4 opening lines out of 49 games, and it is what the Sunday capture
+exists to close.
+
+## Where the signal does and does not work
+
+Two guards were proposed after week 2 of 2026 produced a "signal" on Charlotte
+at Ole Miss, where the model said 21.7 and the market said 47.5. Charlotte had
+played no FBS-vs-FBS games; its rating was a regressed prior and nothing else.
+One guard survived contact with the data and the other did not.
+
+### The size of a disagreement is not a warning sign
+
+The obvious guard is a cap: treat a 26-point disagreement as evidence the
+rating is broken rather than evidence of an edge. Bucketing the same 1,375
+replayed bets says the opposite.
+
+| Disagreement | Bets | Mean CLV | t |
+|---|---|---|---|
+| 4-6 pts | 513 | +0.099 | +1.06 |
+| 6-8 | 351 | +0.324 | +2.64 |
+| 8-10 | 211 | **+0.527** | +3.21 |
+| 10-14 | 203 | +0.541 | +3.00 |
+| 14-20 | 76 | +0.572 | +1.55 |
+
+CLV rises with the gap. A cap would discard the best-paying bets in the set, so
+there is no cap, and there is a test asserting a 26-point disagreement still
+produces a side.
+
+What the buckets do say is that the **4-6 band carries almost nothing**, and it
+is 37% of all bets at the historic 4.0 bar.
+
+### The first two weeks of a season do not work
+
+| Weeks | Bets | Mean CLV | t |
+|---|---|---|---|
+| **1-2** | 228 | **+0.049** | **+0.28** |
+| 3-4 | 218 | +0.451 | +1.81 |
+| 5-7 | 274 | +0.613 | +3.94 |
+| 8-11 | 370 | +0.290 | +1.94 |
+| 12-19 | 285 | +0.461 | +3.76 |
+
+Weeks 1-2 return nothing at all: +0.049 points at t = 0.28. From week 3 the
+same rule returns +0.440 at t = 5.31.
+
+The mechanism is not mysterious. In week 2 most teams have played once and some
+have played nothing, so a rating is a regressed prior, and a disagreement with
+the market is the model being uninformed rather than the market being wrong.
+This is the same failure that produced the Arizona State signal before the
+rating-scale fix, arriving from a different direction.
+
+`MIN_SEASON_WEEK = 3`. `signal_side` returns no side before it, whatever the
+disagreement. Passing no week skips the check rather than guessing one: a
+caller that does not know the week cannot be protected from it.
+
+### What this cost the week 2 card
+
+Everything. Priced with `--week 2` the board returns no plays at all, and the
+three that were on it, including the Oregon at Oklahoma State signal found by
+searching for its opening line, were in a window where the strategy has never
+been shown to work.
+
+The honest reading is that the argument for passing on week 2 was right for a
+weaker reason than the real one. The value being spent was true; the week
+having no measured edge in the first place is more decisive.
+
+### Caveat on how these numbers were chosen
+
+Both tables come from slicing one dataset several ways, and a bar of 6.0 in
+weeks 3+ measures better still (+0.658, t = 5.37, n = 682) than the 4.0 kept
+here. The week finding is adopted because it is large, has a mechanism, and
+splits a t of 0.28 from a t of 5.31. The bar is left alone because moving it to
+the best cell of a grid searched on the same data is how a fitted constant
+becomes an overfitted one.

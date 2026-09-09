@@ -1,2 +1,20 @@
 __pycache__/
 *.pyc
+
+# Everything the capture and the logs write. These are the operator's own
+# record: the prices they were quoted, the bets they placed, and the stakes
+# they placed them at. `git add -A` would sweep the lot into a commit, and
+# nothing above this line would have stopped it.
+#
+# The tracked files under data/ are the example fixtures and the weekly
+# slates, which are model output and carry nothing private. They are listed
+# back in explicitly rather than left to a narrower pattern, so adding a new
+# runtime file defaults to ignored instead of defaulting to committed.
+data/*
+!data/example_*.csv
+!data/week*_slate.csv
+
+# The raw capture and anything derived from it, wherever it is written.
+*.jsonl
+*.jsonl.gz
+capture.log
