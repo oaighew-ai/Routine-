@@ -74,20 +74,28 @@ def build_candidates(
     return out
 
 
-def run(args: argparse.Namespace) -> int:
+def run(args: argparse.Namespace, *, opener: kalshi.Opener | None = None) -> int:
+    """Price the live board, or replay a captured one.
+
+    `opener` is injected the way `slate.build` takes one, so that the
+    unreachable-network path can be tested without depending on whether the
+    machine running the test happens to be able to reach Kalshi. A test that
+    asserts a blocked network by actually being blocked passes only where the
+    egress policy blocks it, and reports a false pass everywhere else.
+    """
     if args.offline:
         blob = json.loads(Path(args.offline).read_text(encoding="utf-8"))
         markets = blob["markets"]
         books = {t: kalshi.parse_book(t, p) for t, p in blob["books"].items()}
     else:
         try:
-            markets = kalshi.fetch_series()
+            markets = kalshi.fetch_series(opener=opener)
             books = {}
             for rows in markets.values():
                 for m in rows:
                     ticker = m.get("ticker")
                     if ticker:
-                        books[ticker] = kalshi.fetch_book(ticker)
+                        books[ticker] = kalshi.fetch_book(ticker, opener=opener)
         except kalshi.KalshiUnreachable as exc:
             print(f"could not fetch the board.\n{exc}", file=sys.stderr)
             return 2
@@ -153,7 +161,8 @@ def run(args: argparse.Namespace) -> int:
     return 0
 
 
-def main(argv: list[str] | None = None) -> int:
+def main(argv: list[str] | None = None, *,
+         opener: kalshi.Opener | None = None) -> int:
     p = argparse.ArgumentParser(prog="cfb_edge.board", description=__doc__)
     p.add_argument("--week", type=int, help="label only; Kalshi returns open markets")
     p.add_argument("--book", help="CSV of ticker,fair_cents from your book source")
@@ -165,7 +174,7 @@ def main(argv: list[str] | None = None) -> int:
     p.add_argument("--show-all", action="store_true", dest="show_all")
     p.add_argument("--offline", help="replay a captured JSON board")
     p.add_argument("--json", help="write the board for the CFB Edge Net page")
-    return run(p.parse_args(argv))
+    return run(p.parse_args(argv), opener=opener)
 
 
 if __name__ == "__main__":

@@ -58,6 +58,31 @@ jobs:
       - name: Unit tests
         run: python -m unittest discover -s tests -v
 
+      # The first CI run failed on a test that asserted a blocked network by
+      # actually being blocked. It passed only in a sandbox whose egress
+      # policy blocks odds hosts, and reported a false pass anywhere else.
+      # Denying the socket layer outright keeps that class from returning.
+      - name: The suite must not touch the network
+        run: |
+          python - <<'PY'
+          import io, socket, unittest
+          def deny(*a, **k):
+              raise AssertionError(
+                  "a test opened a real network connection. Inject the "
+                  "transport instead: board.main, slate.build and the Kalshi "
+                  "provider all take an `opener`."
+              )
+          socket.socket.connect = deny
+          socket.create_connection = deny
+          socket.getaddrinfo = deny
+          res = unittest.TextTestRunner(stream=io.StringIO(), verbosity=0).run(
+              unittest.TestLoader().discover("tests"))
+          for case, tb in res.failures + res.errors:
+              print(f"{case.id()}\n{tb}")
+          print(f"ran {res.testsRun} with no sockets available")
+          raise SystemExit(bool(res.failures or res.errors))
+          PY
+
       # The CLI is how a person actually uses this and it has no unit tests of
       # its own. A signature change to `find_plays` once broke every call site
       # here while the suite stayed green, so each entry point is run for real

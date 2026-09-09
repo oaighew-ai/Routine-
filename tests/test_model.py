@@ -642,15 +642,25 @@ class TestBoardEndToEnd(unittest.TestCase):
         self.assertNotIn("1. Thin market", out)
 
     def test_blocked_network_returns_an_error_not_an_empty_board(self):
+        """An empty board and a blocked board mean opposite things.
+
+        The blockage is injected rather than relied upon. This test used to
+        call the real endpoint and assert it failed, which passed only where
+        the egress policy happened to block Kalshi and reported a false pass
+        on any machine with open internet. CI caught it on the first run.
+        """
         from cfb_edge.board import main
-        import io, contextlib
+        import io, contextlib, urllib.error
+
+        def blocked(url, **kw):
+            raise urllib.error.URLError("Tunnel connection failed: 403 Forbidden")
 
         buf, err = io.StringIO(), io.StringIO()
         with contextlib.redirect_stdout(buf), contextlib.redirect_stderr(err):
-            code = main(["--week", "2"])
-        # An empty board and a blocked board mean opposite things.
+            code = main(["--week", "2"], opener=blocked)
         self.assertEqual(code, 2)
         self.assertIn("could not fetch", err.getvalue())
+        self.assertNotIn("no markets", buf.getvalue().lower())
 
 
 class TestCLVExtract(unittest.TestCase):
