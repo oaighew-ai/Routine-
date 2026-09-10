@@ -109,30 +109,6 @@ tr.gone td:first-child{text-decoration:line-through;text-decoration-color:var(--
 .tag.gone{background:var(--dead-soft);color:var(--dead)}
 .note{font-size:14px;color:var(--ink-2);max-width:66ch;margin-top:14px}
 
-/* ---- play cards ---- */
-.plays{display:grid;grid-template-columns:repeat(auto-fit,minmax(330px,1fr));gap:18px}
-.play-card{
-  background:var(--surface);border:1px solid var(--rule);border-radius:4px;
-  display:flex;flex-direction:column;
-}
-.play-card .top{padding:17px 19px 15px;border-bottom:1px solid var(--rule-soft)}
-.play-card .call{font-family:var(--sans);font-size:23px;font-weight:700;margin:5px 0 3px}
-.play-card .game{font-size:14.5px;color:var(--ink-2)}
-.play-card .grid{
-  display:grid;grid-template-columns:repeat(3,1fr);
-  border-bottom:1px solid var(--rule-soft);
-}
-.play-card .grid > div{padding:13px 19px;border-right:1px solid var(--rule-soft)}
-.play-card .grid > div:last-child{border-right:none}
-.play-card .grid .v{font-family:var(--mono);font-size:19px;font-weight:600;margin-top:3px}
-.play-card .math{padding:15px 19px;font-family:var(--mono);font-size:12.5px;color:var(--ink-2);line-height:1.75}
-.play-card .math b{color:var(--live);font-weight:600}
-.decay-strip{padding:15px 19px;background:var(--sunk);border-top:1px solid var(--rule-soft);margin-top:auto}
-.bar{height:10px;background:var(--surface);border:1px solid var(--rule);border-radius:2px;position:relative;overflow:hidden;margin:9px 0 7px}
-.bar i{display:block;height:100%;background:var(--decay)}
-.bar b{position:absolute;top:-3px;bottom:-3px;width:2px;background:var(--ink);left:0}
-.decay-strip .cap{font-family:var(--mono);font-size:12px;color:var(--ink-2)}
-
 /* ---- key numbers ---- */
 .keys{display:flex;flex-direction:column;gap:7px}
 .krow{display:grid;grid-template-columns:34px 1fr 58px;align-items:center;gap:12px}
@@ -146,22 +122,6 @@ tr.gone td:first-child{text-decoration:line-through;text-decoration-color:var(--
   border-left:2px dashed var(--rule);padding-left:12px;margin-left:46px;
   font-family:var(--mono);font-size:12px;color:var(--ink-3);margin-top:4px;
 }
-
-/* ---- calc ---- */
-.calc{
-  background:var(--surface);border:1px solid var(--rule);border-radius:4px;
-  padding:19px 21px;display:flex;flex-direction:column;gap:15px;
-}
-.calc .row{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
-.calc label{font-family:var(--sans);font-size:13px;font-weight:600}
-.calc input{
-  font-family:var(--mono);font-size:16px;padding:8px 11px;width:150px;
-  background:var(--ground);color:var(--ink);
-  border:1px solid var(--rule);border-radius:3px;
-}
-.calc .out{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:1px;background:var(--rule-soft)}
-.calc .out > div{background:var(--surface);padding:12px 14px}
-.calc .out .v{font-family:var(--mono);font-size:21px;font-weight:600;margin-top:3px}
 
 /* ---- correction ---- */
 .fix-box{
@@ -221,29 +181,63 @@ tr.gone td:first-child{text-decoration:line-through;text-decoration-color:var(--
 <div class="sheet">
 
   <header class="mast">
-    <div class="kick"><span class="lab">CFB Edge · Week 2 · 2026</span><span class="lab" style="color:var(--accent)">priced off the market</span></div>
+    <div class="kick"><span class="lab">CFB Edge · Week 2 · 2026</span><span class="lab" style="color:var(--dead)">no plays &middot; week gate</span></div>
     <h1>Week 2 Edge Card</h1>
     <div class="hrule"></div>
     <div class="sub">
-      <span>Built <b>Sep 8</b>, corrected <b>Sep 9</b></span><span>·</span>
+      <span>Built <b>Sep 8</b>, corrected twice <b>Sep 9</b></span><span>·</span>
       <span>Slate <b>49 games</b></span><span>·</span>
       <span>Lines captured <b>4</b></span><span>·</span>
-      <span>Model <b>efde350</b></span>
+      <span>Model <b>b2cfea2</b></span>
     </div>
   </header>
 
   <section class="verdict">
     <div>
-      <div class="head">Two plays clear. Both are stale. Pass.</div>
-      <p>The corrected model finds edges on Kansas and Oklahoma. It found them after
-      the market already moved to them. The whole edge here is predicted line
-      movement, and on both games that movement has already happened, so what the
-      model is pointing at is a price that no longer exists.</p>
+      <div class="head">No plays. Weeks 1 and 2 have no measured edge.</div>
+      <p>Kansas and Oklahoma were on this card this morning. They are gone, and not
+      because the market moved. The signal was finally tested week by week against
+      1,375 replicated bets and it earns nothing before week 3. Both plays were
+      independently stale on arrival, which is what prompted the test.</p>
+      <p style="margin-top:10px">This card is now a record of a week the model
+      should not have been betting. It is left up because the reasoning is the
+      product; the two plays it used to carry are struck through below.</p>
     </div>
     <div class="figs">
-      <div><div class="lab">Plays</div><div class="v num">2</div></div>
-      <div><div class="lab">Exposure</div><div class="v num">1.01%</div></div>
+      <div><div class="lab">Plays</div><div class="v num" style="color:var(--dead)">0</div></div>
+      <div><div class="lab">Exposure</div><div class="v num" style="color:var(--dead)">0.00%</div></div>
     </div>
+  </section>
+
+  <section class="dead-box">
+    <h3>Added Sept 9: the week gate</h3>
+    <p>The strategy has always been measured in aggregate. It had never been
+    measured by week. Splitting the same 1,375 replicated bets on the week of the
+    season gives two different strategies wearing one name.</p>
+    <div class="tw">
+      <table>
+        <thead><tr><th>Weeks</th><th>Bets</th><th>CLV per bet</th><th>t</th><th>Verdict</th></tr></thead>
+        <tbody>
+          <tr><td>1&ndash;2</td><td class="num">228</td><td class="num">&plus;0.049</td><td class="num">0.28</td><td><span class="tag gone">noise</span></td></tr>
+          <tr><td>3 and later</td><td class="num">1,147</td><td class="num">&plus;0.440</td><td class="num">5.31</td><td><span class="tag play">the edge</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p>Weeks 1 and 2 are not a weaker version of the edge. They are indistinguishable
+    from zero, and the whole of the claimed &plus;0.44 lives from week 3 on. The
+    mechanism is not mysterious: in week 2 most teams have played once and roughly
+    a third have played nothing at all, so their rating is a regressed prior and
+    the model is disagreeing with the market about a number it has no information
+    on. That is exactly the condition that manufactured the Arizona State false
+    signal.</p>
+    <p><code>MIN_SEASON_WEEK = 3</code> in <code>cfb_edge/strategy.py</code>. Weeks
+    1 and 2 now return no side at all.</p>
+    <p><b>A cap on the size of the disagreement was proposed at the same time and
+    the data refused it.</b> The argument was that a 26-point gap means a broken
+    rating, not an edge. Bucketing says the opposite: CLV <i>rises</i> with the gap
+    &mdash; &plus;0.099 at 4&ndash;6 points, &plus;0.527 at 8&ndash;10,
+    &plus;0.572 at 14&ndash;20. There is now a test asserting a 26-point gap still
+    fires, so that idea cannot come back by accident.</p>
   </section>
 
   <section class="fix-box">
@@ -268,10 +262,11 @@ tr.gone td:first-child{text-decoration:line-through;text-decoration-color:var(--
     <p>The net edge on each is about one cent. Filling at the quoted price meant
     paying twelve cents over the market to collect one, which is roughly ten
     times the edge in the wrong direction.</p>
-    <p>The plays themselves survive, because the edge was always the 0.44 points
-    of predicted movement rather than the model's disagreement with the line.
-    What changed: the prices are ones you can actually get, the ranking flipped,
-    and exposure fell from 1.35% to 1.01%.</p>
+    <p>At the time this correction was written the plays survived it, because the
+    edge was always the 0.44 points of predicted movement rather than the model's
+    disagreement with the line. The week gate above then removed them for a
+    different reason entirely. Both findings stand: the pricing was wrong, and the
+    week was wrong.</p>
   </section>
 
   <section>
@@ -284,15 +279,15 @@ tr.gone td:first-child{text-decoration:line-through;text-decoration-color:var(--
           </tr>
         </thead>
         <tbody>
-          <tr class="play">
+          <tr class="gone">
             <td class="stripe">Missouri @ Kansas</td>
             <td>KU +0.1</td><td>KU +6.5</td><td>6.43</td><td>1.0 pt</td>
-            <td><span class="tag play">play</span></td>
+            <td><span class="tag gone">week gate</span></td>
           </tr>
-          <tr class="play">
+          <tr class="gone">
             <td class="stripe">Oklahoma @ Michigan</td>
             <td>OU +2.7</td><td>OU +2.5</td><td>5.17</td><td>9.0 pts</td>
-            <td><span class="tag play">play</span></td>
+            <td><span class="tag gone">week gate</span></td>
           </tr>
           <tr class="pass">
             <td class="stripe">Ohio State @ Texas</td>
@@ -310,86 +305,54 @@ tr.gone td:first-child{text-decoration:line-through;text-decoration-color:var(--
     <p class="note">Gap is how far the model's fair number sits from the opening
     number. The bar to act is 4.0 points. Ohio State @ Texas misses it by two
     thirds of a point and gets no bet, which is the bar working, not the bar
-    failing.</p>
+    failing. The top two clear the bar comfortably and still get no bet, because
+    the week gate is checked before the bar is.</p>
+    <p class="note"><code>python -m cfb_edge play --slate data/week2_2026_slate.csv
+    --opens data/opens.csv --week 2</code> now prints:
+    <i>"Week 2: no plays. The signal earns +0.049 points of CLV at t = 0.28 in
+    weeks 1-2, against +0.440 at t = 5.31 from week 3 on. 5 games had an opening
+    line and were not priced because of it, not because they were quiet."</i></p>
   </section>
 
   <section>
-    <h2 class="lab" style="margin-bottom:14px">The two plays, priced</h2>
-    <div class="plays">
-
-      <article class="play-card">
-        <div class="top">
-          <span class="lab">Fri Sep 11 · Missouri @ Kansas</span>
-          <div class="call">Kansas +3</div>
-          <div class="game">Exchange strike, not the posted &plus;6.5</div>
-        </div>
-        <div class="grid">
-          <div><div class="lab">Buy at</div><div class="v">26&cent;</div></div>
-          <div><div class="lab">Net edge</div><div class="v" style="color:var(--live)">&plus;1.10%</div></div>
-          <div><div class="lab">Stake</div><div class="v">0.37%</div></div>
-        </div>
-        <div class="math">
-          gain 2.43% &minus; fee 1.33% = <b>&plus;1.10%</b><br>
-          density at 3: 0.0553 &nbsp;·&nbsp; quarter Kelly
-        </div>
-        <div class="decay-strip">
-          <div class="lab">CLV budget spent before you bet</div>
-          <div class="bar"><i style="width:100%"></i><b style="left:44%"></b></div>
-          <div class="cap">1.0 pt moved against a 0.44 pt budget &mdash; <b>227%</b></div>
-        </div>
-      </article>
-
-      <article class="play-card">
-        <div class="top">
-          <span class="lab">Sat Sep 12 · Oklahoma @ Michigan</span>
-          <div class="call">Oklahoma +3</div>
-          <div class="game">Exchange strike, not the posted &plus;2.5</div>
-        </div>
-        <div class="grid">
-          <div><div class="lab">Buy at</div><div class="v">55&cent;</div></div>
-          <div><div class="lab">Net edge</div><div class="v" style="color:var(--live)">&plus;1.16%</div></div>
-          <div><div class="lab">Stake</div><div class="v">0.64%</div></div>
-        </div>
-        <div class="math">
-          gain 2.89% &minus; fee 1.73% = <b>&plus;1.16%</b><br>
-          density at 3: 0.0657 &nbsp;·&nbsp; quarter Kelly
-        </div>
-        <div class="decay-strip">
-          <div class="lab">CLV budget spent before you bet</div>
-          <div class="bar"><i style="width:100%"></i><b style="left:4.4%"></b></div>
-          <div class="cap">9.0 pts moved against a 0.44 pt budget &mdash; <b>2045%</b></div>
-        </div>
-      </article>
-
+    <h2 class="lab" style="margin-bottom:14px">The two plays, struck</h2>
+    <div class="tw">
+      <table>
+        <thead>
+          <tr><th>Contract</th><th>Buy at</th><th>Net edge</th><th>Stake</th><th>CLV spent before you bet</th></tr>
+        </thead>
+        <tbody>
+          <tr class="gone">
+            <td class="stripe">Kansas &plus;3 &middot; Fri Sep 11</td>
+            <td class="num">26&cent;</td><td class="num">&plus;1.10%</td>
+            <td class="num">0.37%</td><td class="num">227%</td>
+          </tr>
+          <tr class="gone">
+            <td class="stripe">Oklahoma &plus;3 &middot; Sat Sep 12</td>
+            <td class="num">55&cent;</td><td class="num">&plus;1.16%</td>
+            <td class="num">0.64%</td><td class="num">2045%</td>
+          </tr>
+        </tbody>
+      </table>
     </div>
-    <p class="note">The tick on each bar is the 0.44 points of movement the model
-    expects to earn between the open and the close. Both lines have blown past it
-    already. Oklahoma opened as a 2.5-point dog and is now a 6.5-point favourite:
-    the nine points the model was pointing at have been paid out to whoever was
-    watching on Sunday.</p>
-  </section>
-
-  <section class="calc">
-    <div class="row">
-      <label for="br">Bankroll</label>
-      <input id="br" type="number" min="0" step="100" value="10000" inputmode="numeric">
-      <span class="num" style="color:var(--ink-3);font-size:13px">stakes are quarter Kelly, capped at 2% per bet</span>
-    </div>
-    <div class="out">
-      <div><div class="lab">Kansas +3 @ 26&cent;</div><div class="v" id="s1">$37</div><div class="num" style="font-size:12px;color:var(--ink-3)" id="c1">142 contracts</div></div>
-      <div><div class="lab">Oklahoma +3 @ 55&cent;</div><div class="v" id="s2">$64</div><div class="num" style="font-size:12px;color:var(--ink-3)" id="c2">116 contracts</div></div>
-      <div><div class="lab">Total at risk</div><div class="v" id="s3">$101</div><div class="num" style="font-size:12px;color:var(--ink-3)">1.01% of bankroll</div></div>
-    </div>
+    <p class="note">These are the numbers the card carried before the week gate,
+    kept so the record is checkable rather than quietly rewritten. The stakes and
+    the bankroll calculator that used to sit here are gone: there is nothing to
+    stake. Both bets failed two independent tests. The last column is movement
+    already spent against a budget of 0.44 points &mdash; Oklahoma's line had
+    travelled nine points, twenty times the entire edge, before anyone could
+    have taken it.</p>
   </section>
 
   <section>
-    <h2 class="lab" style="margin-bottom:6px">Why both plays sit on 3</h2>
+    <h2 class="lab" style="margin-bottom:6px">Why the strikes sat on 3</h2>
     <p class="note" style="margin:0 0 16px">Share of final margins landing on each
     number, against what a smooth distribution would put there. Fitted on 14,687
     FBS games, 2004&ndash;2024. Points of line are only worth what the density
     underneath them is worth, which is why the exchange wins here: a book sells one
     posted number, an exchange sells the whole ladder, and neither book line this
-    week landed on a key number.</p>
+    week landed on a key number. This is the part of the method the week gate did
+    not touch, and it is how Week 3 will be priced.</p>
     <div class="keys">
       <div class="krow hot"><span class="n">3</span><span class="t"><i style="width:100%"></i></span><span class="m">2.64&times;</span></div>
       <div class="krow hot"><span class="n">7</span><span class="t"><i style="width:92%"></i></span><span class="m">2.44&times;</span></div>
@@ -423,8 +386,13 @@ tr.gone td:first-child{text-decoration:line-through;text-decoration-color:var(--
     <h2 class="lab" style="margin-bottom:6px">Week 3 watchlist &middot; not picks</h2>
     <p class="note" style="margin:0 0 6px">The model's projection for every Week 3
     game between recognisable programs. <b>None of these is a bet.</b> A bet needs a
-    market number to disagree with, and Week 3 lines do not post until Sunday
-    evening. What this tells you is where to look first when they do.</p>
+    market number to disagree with, and Week 3 lines post from <b>Sunday Sept 13,
+    22:00 UTC</b>, for games played <b>Sept 19</b>. What this tells you is where to
+    look first when they do.</p>
+    <p class="note" style="margin:0 0 6px">Week 3 is also the first week the gate
+    lets through, so this is the first slate of 2026 that can produce a bet at all.
+    Every gap below is computed by the same arithmetic <code>signal_side</code>
+    uses, checked against it over 273 line combinations.</p>
     <p class="note" style="margin:0 0 16px">Type an opening line as it appears
     (home team's number, negative if the home team is favoured) and the gap and
     verdict update. The bar is <b>4.0 points</b>.</p>
@@ -452,19 +420,32 @@ tr.gone td:first-child{text-decoration:line-through;text-decoration-color:var(--
   </section>
 
   <section class="next">
-    <h3>Week 3 is the one that matters</h3>
-    <p class="note" style="margin:0">Nothing on this card is worth chasing. The model
-    is now correct and it caught the Oklahoma move; it just caught it after the fact
-    because nobody was capturing opening lines when they released. That is fixable
-    and it is the only thing worth doing this week.</p>
+    <h3>Week 3 is the first week that counts</h3>
+    <p class="note" style="margin:0">Not a figure of speech. Week 3 is where the
+    measured edge starts, and it is played <b>Sept 19</b>. Its opening lines post
+    from Sunday Sept 13, 22:00 UTC. Two Routines are armed for that Sunday: one at
+    18:00 UTC to start the capture, one at 22:00 UTC to verify it actually landed.</p>
     <ol>
-      <li>Put your Odds API key in <code>ODDS_API_KEY</code>.</li>
-      <li>Run <code>scripts\capture.bat</code> before Sunday evening. It polls every
-      5 minutes through the release window and writes a first-seen log that cannot
-      be overwritten.</li>
-      <li>Run <code>scripts\card.bat</code> Monday. The card is then priced against
-      numbers nobody has moved yet.</li>
+      <li>Put your Odds API key in <code>ODDS_API_KEY</code> as a <b>user or machine</b>
+      variable. A scheduled task does not inherit one set in a single terminal, and
+      this is the most common way the capture silently records nothing.</li>
+      <li>Check your plan's allowance. At the default three regions the schedule
+      costs about <b>1,956 credits a week</b>. <code>--regions us</code> costs a
+      third of that and gives up the low-hold European books.</li>
+      <li>Run <code>scripts\capture.bat</code>, or register the weekly task with
+      <code>scripts\install_capture_task.ps1</code>. The PowerShell has never been
+      run anywhere &mdash; there is no Windows in CI &mdash; so watch the first
+      registration rather than assuming it took.</li>
+      <li>Monday, build the card <b>and</b> log the paper signals:
+      <code>cfb_edge signals --week 3</code>. That records every signal on the
+      board at zero stake, about 25 observations a week against the 2 that would
+      get money. The stop rule needs that volume: on real bets alone it would kill
+      a worthless strategy only 8.7% of the time in a season.</li>
     </ol>
+    <p class="note" style="margin-top:4px">Nothing else is worth doing this week.
+    The model is now correct, it caught the nine-point Oklahoma move, and it caught
+    it after the fact because nobody was capturing when the number posted. That is
+    the only fixable part.</p>
   </section>
 
   <div class="foot">
@@ -472,40 +453,14 @@ tr.gone td:first-child{text-decoration:line-through;text-decoration-color:var(--
     market and model gives the market a coefficient of 1.0353 (t = &plus;24.6) and the model
     &minus;0.0192 (t = &minus;0.31) over 6,398 games.<br>
     The one surviving edge is line movement: &plus;0.44 points of closing line value,
-    t = 3.2 to 5.5. A &minus;110 book needs 0.67 points. That shortfall is why every play here
-    is an exchange strike on a key number.<br>
+    t = 3.2 to 5.5, <b>from week 3 on</b>. A &minus;110 book needs 0.67 points. That shortfall
+    is why every play is an exchange strike on a key number rather than a spread bet.<br>
     This is a hypothesis with a standard error, not a demonstrated profit.
   </div>
 
 </div>
 
 <script>
-(function(){
-  var br = document.getElementById("br");
-  var plays = [
-    {stake:0.0037, price:0.26, s:"s1", c:"c1"},
-    {stake:0.0064, price:0.55, s:"s2", c:"c2"}
-  ];
-  var money = function(n){
-    return "$" + Math.round(n).toLocaleString("en-US");
-  };
-  function render(){
-    var b = parseFloat(br.value);
-    if (!isFinite(b) || b < 0) b = 0;
-    var total = 0;
-    plays.forEach(function(p){
-      var dollars = b * p.stake;
-      total += dollars;
-      document.getElementById(p.s).textContent = money(dollars);
-      var n = Math.floor(dollars / p.price);
-      document.getElementById(p.c).textContent =
-        n.toLocaleString("en-US") + (n === 1 ? " contract" : " contracts");
-    });
-    document.getElementById("s3").textContent = money(total);
-  }
-  br.addEventListener("input", render);
-  render();
-})();
 (function(){
   var GAMES = [{"a": "Michigan State", "h": "Notre Dame", "m": 17.89}, {"a": "Syracuse", "h": "Pittsburgh", "m": 17.61}, {"a": "USC", "h": "Rutgers", "m": -15.84}, {"a": "Kentucky", "h": "Texas A&M", "m": 15.0}, {"a": "Stanford", "h": "Duke", "m": 14.65}, {"a": "NC State", "h": "Vanderbilt", "m": 13.03}, {"a": "Houston", "h": "Texas Tech", "m": 11.67}, {"a": "West Virginia", "h": "Virginia", "m": 11.6}, {"a": "Florida State", "h": "Alabama", "m": 9.89}, {"a": "Purdue", "h": "UCLA", "m": 9.71}, {"a": "Miami", "h": "Wake Forest", "m": -7.31}, {"a": "Tulane", "h": "Kansas State", "m": 5.82}, {"a": "Virginia Tech", "h": "Maryland", "m": 5.5}, {"a": "Colorado", "h": "Northwestern", "m": 5.19}, {"a": "Georgia", "h": "Arkansas", "m": -4.59}, {"a": "Mississippi State", "h": "South Carolina", "m": 4.41}, {"a": "LSU", "h": "Ole Miss", "m": 2.87}, {"a": "North Carolina", "h": "Clemson", "m": 1.92}, {"a": "Arizona State", "h": "Kansas", "m": -1.68}, {"a": "SMU", "h": "Louisville", "m": 1.45}, {"a": "Florida", "h": "Auburn", "m": 0.48}];
   var BAR = 4.0;
