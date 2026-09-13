@@ -1559,6 +1559,122 @@ class TestKickoffGuard(unittest.TestCase):
         self.assertNotEqual(live[0].seen_at, archived[0].seen_at)
         self.assertIs(live[0].before_kickoff, False)
 
+    def test_the_release_window_is_the_same_instant_in_every_timezone(self):
+        """The schedule is defined in UTC and was read off wall-clock fields.
+
+        `.weekday()` and `.hour` are wall-clock attributes, not instants, so an
+        aware datetime in another zone used to be taken at face value. Sunday
+        18:30-04:00 is 22:30 UTC and inside the release window, and it was
+        answered as a quiet Sunday evening: a caller on US Eastern passing local
+        time polled hourly straight through the window, which is exactly the
+        failure this module exists to prevent.
+        """
+        from datetime import datetime, timedelta, timezone
+
+        from cfb_edge.watch import (DENSE_INTERVAL_SECONDS, in_release_window,
+                                    poll_interval)
+
+        instant = datetime(2026, 9, 13, 22, 30, tzinfo=timezone.utc)
+        for offset in (0, -4, -7, 2, 9, 13, -11):
+            local = instant.astimezone(timezone(timedelta(hours=offset)))
+            self.assertTrue(in_release_window(local), f"UTC{offset:+d}")
+            self.assertEqual(poll_interval(local), DENSE_INTERVAL_SECONDS,
+                             f"UTC{offset:+d}")
+
+        # And an instant outside the window stays outside it, read from
+        # anywhere. Saturday afternoon: games are still being played.
+        quiet = datetime(2026, 9, 12, 19, 0, tzinfo=timezone.utc)
+        for offset in (0, -4, -7, 2, 9):
+            local = quiet.astimezone(timezone(timedelta(hours=offset)))
+            self.assertFalse(in_release_window(local), f"UTC{offset:+d}")
+
+    def test_a_naive_datetime_is_read_as_utc(self):
+        """Stated rather than left to whatever attribute access happened to do."""
+        from datetime import datetime, timezone
+
+        from cfb_edge.watch import in_postseason_window, in_release_window
+
+        self.assertTrue(in_release_window(datetime(2026, 9, 13, 22, 30)))
+        self.assertFalse(in_release_window(datetime(2026, 9, 13, 20, 30)))
+        self.assertEqual(
+            in_release_window(datetime(2026, 9, 13, 22, 30)),
+            in_release_window(datetime(2026, 9, 13, 22, 30,
+                                       tzinfo=timezone.utc)))
+        self.assertTrue(in_postseason_window(datetime(2026, 12, 20)))
+        self.assertFalse(in_postseason_window(datetime(2026, 9, 13)))
+
+    def test_an_unusable_seen_at_is_refused_rather_than_absorbed(self):
+        """Both failures were silent, and both disabled the kickoff gate."""
+        from datetime import datetime, timezone
+
+        from cfb_edge.providers.oddsapi import parse_board
+
+        payload = [{
+            "home_team": "Kansas", "away_team": "Missouri",
+            "commence_time": "2020-09-12T23:00:00Z",
+            "bookmakers": [{"title": "bk", "markets": [{"key": "spreads",
+                "outcomes": [{"name": "Kansas", "point": 6.5, "price": -110}]}]}],
+        }]
+
+        # "" used to take the `or` branch and get the current clock, which is
+        # the exact substitution the argument exists to prevent.
+        for bad in ("", "   ", "last tuesday", "2020-13-45"):
+            with self.assertRaises(ValueError, msg=repr(bad)):
+                parse_board(payload, seen_at=bad)
+
+        # A datetime is the natural thing to reach for and is not a string.
+        with self.assertRaises(ValueError):
+            parse_board(payload, seen_at=datetime(2020, 9, 6, tzinfo=timezone.utc))
+
+        # None still means "live poll", and a real offset still parses.
+        self.assertEqual(len(parse_board(payload)), 1)
+        off = parse_board(payload, seen_at="2020-09-06T14:00:00-04:00")
+        self.assertIs(off[0].before_kickoff, True)
+
+    def test_the_refusal_is_what_keeps_an_in_play_quote_out_of_the_close(self):
+        """The bug was worth a test showing the damage, not just the raise.
+
+        `Quote.before_kickoff` returns None when it cannot parse, and
+        `OpeningBook._observe` counts None as usable so that logs predating the
+        commence_time field still work. That tolerance is correct. It is also
+        what made a malformed seen_at dangerous: every quote in the batch
+        became eligible to be the close, including one taken mid-game, and the
+        close moves toward whoever is winning.
+        """
+        import os
+        import tempfile
+
+        from cfb_edge.providers.oddsapi import parse_board
+        from cfb_edge.watch import OpeningBook
+
+        def board(line):
+            return [{
+                "home_team": "Kansas", "away_team": "Missouri",
+                "commence_time": "2020-09-12T23:00:00Z",
+                "bookmakers": [{"title": "bk", "markets": [{"key": "spreads",
+                    "outcomes": [{"name": "Kansas", "point": line,
+                                  "price": -110}]}]}],
+            }]
+
+        fd, path = tempfile.mkstemp(suffix=".jsonl"); os.close(fd)
+        try:
+            book = OpeningBook(path=Path(path))
+            book.record(parse_board(board(6.5), seen_at="2020-09-06T18:00:00Z"))
+            book.record(parse_board(board(5.5), seen_at="2020-09-12T22:30:00Z"))
+            # Mid-game, Kansas being run over. Must not become the close.
+            book.record(parse_board(board(-17.0),
+                                    seen_at="2020-09-13T00:30:00Z"))
+
+            self.assertEqual(book.consensus_opens()["Missouri @ Kansas"], 6.5)
+            self.assertEqual(book.consensus_closes()["Missouri @ Kansas"], 5.5)
+            self.assertEqual(book.ungated_games(), set())
+
+            # And the batch that would have caused it cannot be built at all.
+            with self.assertRaises(ValueError):
+                parse_board(board(-17.0), seen_at="")
+        finally:
+            os.unlink(path)
+
     def test_a_provider_that_omits_kickoff_still_yields_quotes(self):
         from cfb_edge.providers.oddsapi import parse_board
 
