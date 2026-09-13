@@ -1527,10 +1527,37 @@ class TestKickoffGuard(unittest.TestCase):
             "commence_time": "2026-09-12T23:00:00Z",
             "bookmakers": [{"title": "bk", "markets": [{"key": "spreads",
                 "outcomes": [{"name": "Kansas", "point": 6.5, "price": -110}]}]}],
-        }])
+        }], seen_at="2026-09-10T12:00:00Z")
         self.assertEqual(len(quotes), 1)
         self.assertEqual(quotes[0].commence_time, "2026-09-12T23:00:00Z")
         self.assertIs(quotes[0].before_kickoff, True)
+
+    def test_replaying_an_archived_payload_keeps_its_own_timestamp(self):
+        """Without this the open is whenever you happened to re-parse.
+
+        This test also exists because its predecessor passed for four days and
+        then failed: it asserted before_kickoff was True against a fixture
+        kickoff of 2026-09-12, using the real clock as seen_at. On 2026-09-13
+        that kickoff was in the past and the assertion inverted. A test whose
+        result depends on the date it runs is not a test.
+        """
+        from cfb_edge.providers.oddsapi import parse_board
+
+        payload = [{
+            "home_team": "Kansas", "away_team": "Missouri",
+            "commence_time": "2020-09-12T23:00:00Z",
+            "bookmakers": [{"title": "bk", "markets": [{"key": "spreads",
+                "outcomes": [{"name": "Kansas", "point": 6.5, "price": -110}]}]}],
+        }]
+        archived = parse_board(payload, seen_at="2020-09-06T18:00:00Z")
+        self.assertEqual(archived[0].seen_at, "2020-09-06T18:00:00Z")
+        self.assertIs(archived[0].before_kickoff, True)
+
+        # The same payload with no seen_at is stamped now, which for a 2020
+        # kickoff means the quote reads as taken after the game finished.
+        live = parse_board(payload)
+        self.assertNotEqual(live[0].seen_at, archived[0].seen_at)
+        self.assertIs(live[0].before_kickoff, False)
 
     def test_a_provider_that_omits_kickoff_still_yields_quotes(self):
         from cfb_edge.providers.oddsapi import parse_board

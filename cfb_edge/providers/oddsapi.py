@@ -60,6 +60,7 @@ def fetch_board(
     markets: str = "spreads",
     regions: str = "us,us2,eu",
     opener: Opener | None = None,
+    seen_at: str | None = None,
 ) -> list[Quote]:
     """One poll of the whole college football board.
 
@@ -89,16 +90,22 @@ def fetch_board(
             f"policy denial the host has to be allowed; the client cannot work "
             f"around it."
         ) from exc
-    return parse_board(payload)
+    return parse_board(payload, seen_at=seen_at)
 
 
-def parse_board(payload: list[dict]) -> list[Quote]:
+def parse_board(payload: list[dict], *, seen_at: str | None = None) -> list[Quote]:
     """Flatten the API's nested response into quotes.
 
     Lines are recorded from the home team's perspective, matching every other
     convention in this package: negative means the home team lays points.
+
+    `seen_at` defaults to now, which is right for a live poll and wrong for
+    everything else. Re-parsing an archived payload without it stamps every
+    quote with today's clock, which silently destroys the first-seen ordering
+    the whole strategy is built on: the open stops being the open. Pass the
+    time the payload was actually fetched.
     """
-    seen_at = datetime.now(timezone.utc).isoformat()
+    seen_at = seen_at or datetime.now(timezone.utc).isoformat()
     out: list[Quote] = []
     for event in payload or []:
         home = (event.get("home_team") or "").strip()
