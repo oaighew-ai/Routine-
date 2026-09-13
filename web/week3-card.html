@@ -201,10 +201,11 @@ tbody tr:last-child td{border-bottom:none}
       <span class="v">0</span>
       <span class="sub">Not a quiet board. No opening lines exist yet, so nothing can be priced.</span>
     </div>
-    <div class="chip bad">
+    <div class="chip wait">
       <span class="lab">Capture</span>
-      <span class="v">Never run</span>
-      <span class="sub">Zero real API calls to date. This is the only untested link in the chain.</span>
+      <span class="v">Check it</span>
+      <span class="sub">The log is gitignored on purpose, so its state cannot be read from
+      anywhere but the machine running it. One command below settles it.</span>
     </div>
     <div class="chip wait">
       <span class="lab">Scorecard</span>
@@ -236,21 +237,28 @@ tbody tr:last-child td{border-bottom:none}
       <div class="tick">
         <div class="when">Now<span>Sun 18:00 UTC</span></div>
         <div class="what">
-          <h3>Prove the capture works, before it matters</h3>
-          <p><code>fetch_board</code> has never made a real call. A capture that silently
-          never starts is indistinguishable from a quiet week, and you would not find out
-          until Monday.</p>
+          <h3>Confirm the capture is recording, not just running</h3>
+          <p>A task that starts, fails to authenticate and exits looks identical to a quiet
+          board: both leave you with nothing. The task status does not answer this. The
+          count of recorded markets does.</p>
           <ol>
-            <li>Set the key as a <b>user or machine</b> variable:
-            <code>setx ODDS_API_KEY &lt;key&gt;</code>. A scheduled task does not inherit
-            one set in a single terminal. This is the most common silent failure.</li>
-            <li>Run <code>scripts\capture.bat</code> once by hand and watch one poll print.
-            One successful call proves the key, the plan and the parser together.</li>
-            <li>Check the plan allowance. Billing is one credit per region per market, so
-            the default three regions cost 3 a poll and the schedule makes 652 polls a
-            week: about <b>1,956 credits weekly</b>. <code>--regions us</code> costs a
-            third and gives up the low-hold European books.</li>
+            <li><code>python -m cfb_edge.watch --log data\opens.jsonl.gz --rebuild --out data\opens.csv</code>
+            prints how many markets have a recorded open. Non-zero means the chain works
+            end to end. Zero, an hour into the window, means it does not, whatever
+            <code>Get-ScheduledTask</code> reports.</li>
+            <li>If it is zero, the usual cause is <code>ODDS_API_KEY</code> set in one
+            terminal rather than as a user or machine variable. A scheduled task does not
+            inherit a terminal's environment.</li>
+            <li>Watch the credit burn. Billing is one credit per region per market, so the
+            default three regions cost 3 a poll and the schedule makes 652 polls a week:
+            about <b>1,956 credits weekly</b>. <code>--regions us</code> costs a third and
+            gives up the low-hold European books.</li>
           </ol>
+          <p class="note">The capture writes to <code>data/opens.jsonl.gz</code>, which is
+          gitignored along with every bet and signal log. That is deliberate: this
+          repository is public and the operator's own record does not belong in it. The
+          consequence is that nothing outside the machine running the capture can see
+          whether it worked.</p>
         </div>
       </div>
 
