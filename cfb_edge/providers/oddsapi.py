@@ -93,6 +93,53 @@ def fetch_board(
     return parse_board(payload, seen_at=seen_at)
 
 
+def _checked_seen_at(seen_at: str | None) -> str:
+    """The timestamp to stamp on this batch, or a loud failure.
+
+    Only `None` means "this is a live poll, use the clock". Every other value
+    is a caller saying it knows when the payload was fetched, and a caller that
+    is wrong about that has to find out here rather than downstream.
+
+    The two ways it used to go wrong were both silent. An empty string took the
+    `or` branch and got today's clock, which is the exact substitution this
+    argument exists to prevent. An unparseable string survived all the way to
+    `Quote.before_kickoff`, which catches `ValueError` and returns `None`, and
+    `OpeningBook._observe` counts `None` as usable: every quote in the batch
+    would then be eligible to become the close, including one taken mid-game.
+    The close would be wrong in the direction of whoever was winning, and
+    nothing would have complained.
+
+    Validation runs the same transformation `before_kickoff` does, so a value
+    that passes here cannot fail there. The string is returned unchanged rather
+    than normalised, so replaying an archived log rewrites nothing.
+    """
+    if seen_at is None:
+        return datetime.now(timezone.utc).isoformat()
+    if not isinstance(seen_at, str):
+        raise ValueError(
+            f"seen_at must be an ISO 8601 string, got {type(seen_at).__name__}. "
+            f"A datetime is the natural thing to reach for and is not accepted, "
+            f"because Quote.seen_at is serialised to the log as text."
+        )
+    if not seen_at.strip():
+        raise ValueError(
+            "seen_at is empty. Pass None for a live poll, or the time the "
+            "payload was actually fetched. An empty string used to fall back "
+            "to the current clock, which silently destroys the first-seen "
+            "ordering the whole strategy is measured against."
+        )
+    try:
+        datetime.fromisoformat(seen_at.replace("Z", "+00:00"))
+    except ValueError as exc:
+        raise ValueError(
+            f"seen_at is not an ISO 8601 timestamp: {seen_at!r}. It has to "
+            f"parse, because the kickoff gate compares it against the game's "
+            f"start time and an unparseable value silently disables that gate "
+            f"for every quote in this batch."
+        ) from exc
+    return seen_at
+
+
 def parse_board(payload: list[dict], *, seen_at: str | None = None) -> list[Quote]:
     """Flatten the API's nested response into quotes.
 
@@ -103,9 +150,10 @@ def parse_board(payload: list[dict], *, seen_at: str | None = None) -> list[Quot
     everything else. Re-parsing an archived payload without it stamps every
     quote with today's clock, which silently destroys the first-seen ordering
     the whole strategy is built on: the open stops being the open. Pass the
-    time the payload was actually fetched.
+    time the payload was actually fetched. Anything that is neither `None` nor
+    a parseable ISO 8601 string raises rather than falling back.
     """
-    seen_at = seen_at or datetime.now(timezone.utc).isoformat()
+    seen_at = _checked_seen_at(seen_at)
     out: list[Quote] = []
     for event in payload or []:
         home = (event.get("home_team") or "").strip()
