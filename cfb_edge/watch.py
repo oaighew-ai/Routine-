@@ -70,16 +70,37 @@ POSTSEASON_INTERVAL_SECONDS = 1800  # half-hourly through the bowl trickle
 SPARSE_INTERVAL_SECONDS = 3600      # hourly when nothing is expected
 
 
+def _as_utc(when: datetime | None) -> datetime:
+    """The moment, in UTC, whatever timezone it arrived in.
+
+    Both schedules below are defined in UTC and are read by pulling `.weekday()`
+    and `.hour` straight off the value. Those attributes are wall-clock fields,
+    not instants, so an aware datetime in another zone used to be read at face
+    value: Sunday 18:30-04:00 is 22:30 UTC and inside the release window, and it
+    was answered as a quiet Sunday evening. A caller on US Eastern passing local
+    time polled hourly through the entire release window, which is precisely the
+    failure this module exists to prevent.
+
+    A naive datetime is taken as UTC. That is what the old code did implicitly
+    and it is the only reading consistent with the constants' names, but it is
+    now a stated choice rather than an accident of attribute access.
+    """
+    when = when or datetime.now(timezone.utc)
+    if when.tzinfo is None:
+        return when.replace(tzinfo=timezone.utc)
+    return when.astimezone(timezone.utc)
+
+
 def in_release_window(when: datetime | None = None) -> bool:
     """Whether now is when a regular week's opening lines are likely to appear."""
-    when = when or datetime.now(timezone.utc)
+    when = _as_utc(when)
     hours = RELEASE_WINDOW_UTC.get(when.weekday())
     return hours is not None and when.hour in hours
 
 
 def in_postseason_window(when: datetime | None = None) -> bool:
     """Whether now is bowl and playoff season, when the board fills in slowly."""
-    when = when or datetime.now(timezone.utc)
+    when = _as_utc(when)
     days = POSTSEASON_MONTHS.get(when.month)
     return days is not None and when.day in days
 

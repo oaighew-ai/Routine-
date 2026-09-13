@@ -1559,6 +1559,50 @@ class TestKickoffGuard(unittest.TestCase):
         self.assertNotEqual(live[0].seen_at, archived[0].seen_at)
         self.assertIs(live[0].before_kickoff, False)
 
+    def test_the_release_window_is_the_same_instant_in_every_timezone(self):
+        """The schedule is defined in UTC and was read off wall-clock fields.
+
+        `.weekday()` and `.hour` are wall-clock attributes, not instants, so an
+        aware datetime in another zone used to be taken at face value. Sunday
+        18:30-04:00 is 22:30 UTC and inside the release window, and it was
+        answered as a quiet Sunday evening: a caller on US Eastern passing local
+        time polled hourly straight through the window, which is exactly the
+        failure this module exists to prevent.
+        """
+        from datetime import datetime, timedelta, timezone
+
+        from cfb_edge.watch import (DENSE_INTERVAL_SECONDS, in_release_window,
+                                    poll_interval)
+
+        instant = datetime(2026, 9, 13, 22, 30, tzinfo=timezone.utc)
+        for offset in (0, -4, -7, 2, 9, 13, -11):
+            local = instant.astimezone(timezone(timedelta(hours=offset)))
+            self.assertTrue(in_release_window(local), f"UTC{offset:+d}")
+            self.assertEqual(poll_interval(local), DENSE_INTERVAL_SECONDS,
+                             f"UTC{offset:+d}")
+
+        # And an instant outside the window stays outside it, read from
+        # anywhere. Saturday afternoon: games are still being played.
+        quiet = datetime(2026, 9, 12, 19, 0, tzinfo=timezone.utc)
+        for offset in (0, -4, -7, 2, 9):
+            local = quiet.astimezone(timezone(timedelta(hours=offset)))
+            self.assertFalse(in_release_window(local), f"UTC{offset:+d}")
+
+    def test_a_naive_datetime_is_read_as_utc(self):
+        """Stated rather than left to whatever attribute access happened to do."""
+        from datetime import datetime, timezone
+
+        from cfb_edge.watch import in_postseason_window, in_release_window
+
+        self.assertTrue(in_release_window(datetime(2026, 9, 13, 22, 30)))
+        self.assertFalse(in_release_window(datetime(2026, 9, 13, 20, 30)))
+        self.assertEqual(
+            in_release_window(datetime(2026, 9, 13, 22, 30)),
+            in_release_window(datetime(2026, 9, 13, 22, 30,
+                                       tzinfo=timezone.utc)))
+        self.assertTrue(in_postseason_window(datetime(2026, 12, 20)))
+        self.assertFalse(in_postseason_window(datetime(2026, 9, 13)))
+
     def test_an_unusable_seen_at_is_refused_rather_than_absorbed(self):
         """Both failures were silent, and both disabled the kickoff gate."""
         from datetime import datetime, timezone

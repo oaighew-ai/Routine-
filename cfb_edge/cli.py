@@ -211,6 +211,25 @@ def cmd_settle(args: argparse.Namespace) -> int:
     return 0
 
 
+def _warn_if_ungated(week: int | None) -> None:
+    """Say so when the week gate is not being applied.
+
+    `signal_side` deliberately skips the check when it is not told the week: a
+    caller that does not know the week cannot be protected by it. That is the
+    right library contract and the wrong silence at a command line, because the
+    result looks identical to a gated run that happened to find plays.
+
+    This is not hypothetical. `scripts/card.bat`, the documented weekly
+    workflow, called `play` without `--week` from the day the gate was added,
+    so every card it built priced an ungated board while the tests that proved
+    the gate worked stayed green.
+    """
+    if week is None:
+        print("warning: no --week, so the week gate is off. Weeks 1 and 2 "
+              "return +0.049 points of CLV at t = 0.28 against +0.440 at "
+              "t = 5.31 from week 3 on; pass --week to enforce it.\n")
+
+
 def _slate_and_opens(slate_path, opens_path):
     """Projections and opening lines, reconciled by the alias map."""
     from .teams import match_games
@@ -245,6 +264,7 @@ def cmd_signals(args: argparse.Namespace) -> int:
     slate, opens, report = _slate_and_opens(args.slate, args.opens)
     if report.unmatched:
         print(report.summary() + "\n")
+    _warn_if_ungated(args.week)
     signals = signals_for(slate, opens, date=args.date,
                           min_disagreement=args.min_disagreement, week=args.week)
     added, skipped = record(args.out, signals)
@@ -293,6 +313,8 @@ def cmd_play(args: argparse.Namespace) -> int:
     from .strategy import (DEFAULT_CLV_POINTS, MIN_SEASON_WEEK, Venue,
                            build_card, find_plays,
                            signal_side)
+
+    _warn_if_ungated(args.week)
 
     venues = [Venue("exchange", is_exchange=True)]
     if args.book_price is not None:
