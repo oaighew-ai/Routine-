@@ -447,8 +447,17 @@ def main(argv: list[str] | None = None) -> int:
             unreachable = (OddsApiUnreachable,)
 
         try:
-            watch(book, fetch,
-                  max_polls=1 if args.once else args.max_polls, on_new=announce)
+            if args.once:
+                # A diagnostic has no next poll to recover on.
+                try:
+                    fresh = run_once(book, fetch)
+                    if fresh:
+                        announce(fresh)
+                except Exception as exc:
+                    print(f"cannot capture: {exc}")
+                    return 2
+            else:
+                watch(book, fetch, max_polls=args.max_polls, on_new=announce)
         except unreachable as exc:
             print(f"cannot capture: {exc}")
             return 2
