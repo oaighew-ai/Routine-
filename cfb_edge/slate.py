@@ -81,6 +81,41 @@ def _fbs_results(rows: list[dict], *, upto_week: int | None = None) -> list[Game
     return out
 
 
+def current_week(
+    season: int, *, today: str | None = None, opener: Opener | None = None,
+    rows: list[dict] | None = None,
+) -> int | None:
+    """The week a capture started today should be recording, or None.
+
+    A weekly scheduled task cannot be told the week when it is registered,
+    because the week changes underneath it. Deriving it from a hardcoded
+    season-start date is how a capture ends up recording the wrong slate in
+    the one week the calendar shifts, so this reads the schedule instead.
+
+    The answer is the earliest regular-season week that has not finished:
+    lines for it are posting now or have already posted. A season that is over
+    returns None rather than the last week, because there is nothing left to
+    capture and reporting week 15 forever would look like it was working.
+    """
+    import datetime as _dt
+
+    day = today or _dt.date.today().isoformat()
+    rows = rows if rows is not None else fetch_season(season, opener=opener)
+    last_day: dict[int, str] = {}
+    for r in rows:
+        if (r.get("season_type") or "").strip().lower() != "regular":
+            continue
+        try:
+            week = int(float(r["week"]))
+        except (ValueError, TypeError, KeyError):
+            continue
+        date = (r.get("start_date") or "")[:10]
+        if date and date > last_day.get(week, ""):
+            last_day[week] = date
+    upcoming = [w for w, end in sorted(last_day.items()) if end >= day]
+    return upcoming[0] if upcoming else None
+
+
 @dataclass(frozen=True)
 class SlateRow:
     game: str
@@ -147,18 +182,30 @@ def main(argv: list[str] | None = None) -> int:
 
     p = argparse.ArgumentParser(prog="cfb_edge.slate", description=main.__doc__)
     p.add_argument("--season", type=int, required=True)
-    p.add_argument("--week", type=int, required=True)
+    p.add_argument("--week", default="current",
+                   help="week number, or 'current' (default) to derive the "
+                        "next unfinished week from the schedule")
     p.add_argument("--out", required=True)
     args = p.parse_args(argv)
 
     try:
-        rows = build(args.season, args.week)
+        if str(args.week).strip().lower() == "current":
+            week = current_week(args.season)
+            if week is None:
+                print(f"the {args.season} regular season is over. "
+                      f"Nothing left to capture; pass --week explicitly to "
+                      f"rebuild an earlier slate.")
+                return 2
+            print(f"week {week} is the next unfinished week of {args.season}.")
+        else:
+            week = int(args.week)
+        rows = build(args.season, week)
     except ScheduleUnreachable as exc:
         print(f"cannot build the slate: {exc}")
         return 2
     n = write_csv(rows, args.out)
-    played = "results through week %d" % (args.week - 1)
-    print(f"{n} FBS-vs-FBS games in {args.season} week {args.week}, "
+    played = "results through week %d" % (week - 1)
+    print(f"{n} FBS-vs-FBS games in {args.season} week {week}, "
           f"projected from {played}.")
     print(f"wrote {args.out}")
     print("re-run after the current week finishes; the ratings improve.")
