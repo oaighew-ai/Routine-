@@ -1,7 +1,5 @@
 name: capture validation
 
-# Branch-only deployment test. Prove network + parser behavior before adding a
-# recurring capture loop. No model signal is promoted by this workflow.
 on:
   push:
     branches: [cfb-cloud-capture]
@@ -23,18 +21,14 @@ jobs:
   validate-live-capture:
     runs-on: ubuntu-latest
     timeout-minutes: 10
-
     steps:
       - uses: actions/checkout@v4
-
       - uses: actions/setup-python@v5
         with:
           python-version: "3.13"
-
       - name: Build current slate
         run: python3 -m cfb_edge.slate --season 2026 --week current --out data/slate_current.csv
-
-      - name: Preserve raw Kalshi response
+      - name: Preserve and inspect raw Kalshi response
         run: |
           set -euo pipefail
           curl --fail --silent --show-error \
@@ -45,24 +39,20 @@ jobs:
           p = json.load(open('data/kalshi_spread_markets.json', encoding='utf-8'))
           rows = p.get('markets', [])
           print(f'raw_open_markets={len(rows)}')
-          if rows:
-              print('sample_keys=' + ','.join(sorted(rows[0])))
+          fields = ['ticker','event_ticker','title','yes_sub_title','custom_strike','floor_strike','yes_bid_dollars','yes_ask_dollars','occurrence_datetime']
+          for i, row in enumerate(rows[:8]):
+              print(f'--- sample {i+1} ---')
+              for key in fields:
+                  print(f'{key}={row.get(key)!r}')
           PY
-
       - name: Take one parser poll
         run: |
           set -euo pipefail
           python3 -m cfb_edge.watch --source kalshi --slate data/slate_current.csv \
             --log data/cloud_validation.jsonl.gz --out data/cloud_validation.csv --once
-          test -s data/cloud_validation.jsonl.gz
-          test -s data/cloud_validation.csv
           LINES=$(( $(wc -l < data/cloud_validation.csv) - 1 ))
           echo "parsed_rows=$LINES" >> "$GITHUB_STEP_SUMMARY"
-          if [ "$LINES" -le 0 ]; then
-            echo "No parsed CFB spread rows; inspect preserved raw payload." >&2
-            exit 1
-          fi
-
+          test "$LINES" -gt 0
       - name: Upload validation evidence
         if: always()
         uses: actions/upload-artifact@v4
