@@ -327,6 +327,46 @@ def cmd_grade(args: argparse.Namespace) -> int:
     return 0
 
 
+def cmd_orders(args: argparse.Namespace) -> int:
+    """Capture in, fillable orders out, in one step.
+
+    Every other path through this CLI asks the operator to carry a number from
+    one command to the next, and the number that mattered most was never
+    carried at all: what the exchange is willing to sell. This asks.
+    """
+    from .orders import orders_for, summarise
+    from .providers.kalshi import SERIES, find_markets, listed_strikes
+
+    slate, opens, report = _slate_and_opens(args.slate, args.opens)
+    if report.unmatched:
+        print(report.summary() + "\n")
+
+    cache: dict[str, list[int]] = {}
+
+    def lister(game: str, side: str) -> list[int]:
+        # One call per team, reused across that team's games. The exchange is
+        # the slow part and the only part that can refuse.
+        if side not in cache:
+            try:
+                cache[side] = listed_strikes(
+                    find_markets(side, series=SERIES["spread"]))
+            except Exception as exc:                      # noqa: BLE001
+                raise SystemExit(
+                    f"could not read the exchange's ladder for {side!r}: {exc}\n"
+                    f"Without it this command cannot tell a contract that "
+                    f"exists from one that does not, which is the whole point "
+                    f"of it. Use `play` if you want a card priced against key "
+                    f"numbers regardless of what is listed."
+                ) from exc
+        return cache[side]
+
+    orders = orders_for(slate, opens, lister=lister, week=args.week,
+                        bankroll=args.bankroll,
+                        min_disagreement=args.min_disagreement)
+    print(summarise(orders, bankroll=args.bankroll))
+    return 0
+
+
 def cmd_play(args: argparse.Namespace) -> int:
     """The strategy the evidence supports, run over a slate."""
     from .strategy import (DEFAULT_CLV_POINTS, MIN_SEASON_WEEK, Venue,
@@ -478,6 +518,18 @@ def build_parser() -> argparse.ArgumentParser:
     p_card.add_argument("--show-all", action="store_true", dest="show_all",
                         help="print every game, including passes")
     p_card.set_defaults(func=cmd_card)
+
+
+    p_ord = sub.add_parser(
+        "orders", help="fillable orders from the capture, or none")
+    p_ord.add_argument("--slate", required=True)
+    p_ord.add_argument("--opens", required=True)
+    p_ord.add_argument("--week", type=int, required=True,
+                       help="required here: the gate is not optional when the "
+                            "output is an order")
+    p_ord.add_argument("--bankroll", type=float, default=10_000.0)
+    p_ord.add_argument("--min-disagreement", type=float, default=4.0)
+    p_ord.set_defaults(func=cmd_orders)
 
     p_play = sub.add_parser("play", help="the evidence-backed strategy over a slate")
     p_play.add_argument("--slate", required=True,

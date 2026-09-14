@@ -19,6 +19,7 @@ which then shows up downstream as a large phantom edge.
 from __future__ import annotations
 
 import json
+import re
 import urllib.error
 import urllib.request
 from dataclasses import dataclass
@@ -221,3 +222,43 @@ def main(argv: list[str] | None = None) -> int:
 
 if __name__ == "__main__":
     raise SystemExit(main())
+
+
+# Strikes are written into the market's subtitle rather than carried as a
+# field, so they have to be read out of text. Kalshi phrases a spread market
+# as "wins by over 16.5 points"; the number is what a Play calls its strike.
+_STRIKE = re.compile(r"by (?:over|more than)\s+(\d+(?:\.\d+)?)", re.I)
+
+
+def strike_of(market: dict) -> float | None:
+    """The strike a spread market is written at, or None if it cannot be read.
+
+    Returning None rather than guessing is the point. A strike inferred from a
+    title that did not contain one would be priced as if it were listed, which
+    is the exact failure this module exists to prevent: the card quoted a
+    three-point contract on a game whose only listed strike was the line, and
+    the operator filled the listed one at a price where the edge is negative.
+    """
+    for key in ("yes_sub_title", "subtitle", "title"):
+        text = market.get(key)
+        if not text:
+            continue
+        found = _STRIKE.search(str(text))
+        if found:
+            return float(found.group(1))
+    return None
+
+
+def listed_strikes(markets: Sequence[dict]) -> list[int]:
+    """Every strike the venue will actually sell, as whole margins.
+
+    A contract written at 16.5 pays when the margin exceeds 16, so 16 is the
+    number the pricing model reasons about. Half-points are floored rather than
+    rounded for that reason: 16.5 and 16 are the same bet.
+    """
+    out = set()
+    for m in markets:
+        s = strike_of(m)
+        if s is not None:
+            out.add(int(s))
+    return sorted(out)
