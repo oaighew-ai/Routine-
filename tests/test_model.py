@@ -1559,6 +1559,45 @@ class TestKickoffGuard(unittest.TestCase):
         self.assertNotEqual(live[0].seen_at, archived[0].seen_at)
         self.assertIs(live[0].before_kickoff, False)
 
+    def test_an_impossible_price_is_refused_when_it_is_typed(self):
+        """The bet log is the one file that cannot be recomputed.
+
+        `market.american_to_decimal` has always rejected a price inside +-100,
+        but nothing called it on the way in. So `log --price 66` wrote cleanly,
+        read back cleanly while the bet was unsettled, and only raised weeks
+        later when `settle` or `clv` tried to compute a payout, by which point
+        the price actually received is gone. 66 is what someone types when the
+        card quoted them 66 cents on an exchange contract.
+        """
+        import os
+        import subprocess
+        import sys
+        import tempfile
+
+        d = tempfile.mkdtemp()
+        log = os.path.join(d, "bets.jsonl")
+
+        def place(price_flag, value):
+            return subprocess.run(
+                [sys.executable, "-m", "cfb_edge", "log", "--bets", log,
+                 "--game", "A @ B", "--side", "B", "--line", "3",
+                 price_flag, str(value), "--stake", "0.01"],
+                capture_output=True, text=True)
+
+        for bad in (66, 0, 99, -99, 1):
+            r = place("--price", bad)
+            self.assertNotEqual(r.returncode, 0, f"--price {bad} was accepted")
+            self.assertFalse(os.path.exists(log),
+                             f"--price {bad} reached the log")
+        # The cents hint fires only for something that looks like cents.
+        self.assertIn("--cents 66", place("--price", 66).stderr
+                      + place("--price", 66).stdout)
+
+        for ok in (-110, 100, -100, 150):
+            r = place("--price", ok)
+            self.assertEqual(r.returncode, 0, f"--price {ok} was refused")
+            os.unlink(log)
+
     def test_the_release_window_is_the_same_instant_in_every_timezone(self):
         """The schedule is defined in UTC and was read off wall-clock fields.
 
