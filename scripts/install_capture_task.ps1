@@ -28,6 +28,12 @@
     ODDS_API_KEY, and bills roughly 8,400 credits a month for a line you
     cannot trade against.
 
+.PARAMETER Season
+    Season year. Defaults to the current UTC year. The WEEK is never fixed
+    here: the task passes "current" and the slate builder derives the next
+    unfinished week from the schedule on each run, because a weekly task
+    cannot be told a week that changes underneath it.
+
 .PARAMETER TaskName
     Name of the scheduled task. Default "CFB Edge line capture".
 
@@ -44,6 +50,7 @@
 param(
     [ValidateRange(0, 23)] [int] $UtcHour = 16,
     [ValidateSet("kalshi", "oddsapi")] [string] $Source = "kalshi",
+    [int] $Season = [datetime]::UtcNow.Year,
     [string] $TaskName = "CFB Edge line capture"
 )
 
@@ -78,6 +85,7 @@ $targetLocal = [System.TimeZoneInfo]::ConvertTimeFromUtc($targetUtc, [System.Tim
 
 Write-Host ""
 Write-Host "Capturing from       : $Source$(if ($Source -eq 'kalshi') { '  (no key, no cost)' })"
+Write-Host "Season / week        : $Season / derived from the schedule each run"
 Write-Host "Release window opens : Sunday 22:00 UTC"
 Write-Host "Capture will start   : Sunday $($UtcHour.ToString('00')):00 UTC"
 Write-Host "  which is locally   : $($targetLocal.ToString('dddd HH:mm')) ($([System.TimeZoneInfo]::Local.Id))"
@@ -87,7 +95,7 @@ Write-Host ""
 $logDir = Join-Path $repo "data"
 if (-not (Test-Path $logDir)) { New-Item -ItemType Directory -Path $logDir | Out-Null }
 $action = New-ScheduledTaskAction -Execute "cmd.exe" `
-    -Argument "/c `"`"$bat`" $Source >> `"$logDir\capture.log`" 2>&1`"" `
+    -Argument "/c `"`"$bat`" $Season current $Source >> `"$logDir\capture.log`" 2>&1`"" `
     -WorkingDirectory $repo
 
 $trigger = New-ScheduledTaskTrigger -Weekly -DaysOfWeek Sunday -At $targetLocal

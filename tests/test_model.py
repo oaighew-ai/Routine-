@@ -1455,6 +1455,57 @@ class TestPaperSignals(unittest.TestCase):
 
 
 
+
+class TestCurrentWeek(unittest.TestCase):
+    """A weekly scheduled task cannot be told a week that moves.
+
+    `capture.bat` shipped without a slate at all, so `--source kalshi` refused
+    to start every single time it was run: the documented way to start the
+    capture could not start the capture. Fixing it needs the week, and a task
+    registered once in September cannot carry the right one into October.
+    """
+
+    ROWS = [
+        {"season_type": "regular", "week": "1", "start_date": "2026-08-29T16:00:00Z"},
+        {"season_type": "regular", "week": "1", "start_date": "2026-09-07T23:00:00Z"},
+        {"season_type": "regular", "week": "2", "start_date": "2026-09-13T16:00:00Z"},
+        {"season_type": "regular", "week": "3", "start_date": "2026-09-20T16:00:00Z"},
+        {"season_type": "postseason", "week": "1", "start_date": "2026-12-20T16:00:00Z"},
+    ]
+
+    def test_it_names_the_week_still_being_priced(self):
+        from cfb_edge.slate import current_week
+
+        self.assertEqual(current_week(2026, today="2026-09-14", rows=self.ROWS), 3)
+
+    def test_a_week_still_in_progress_is_the_current_one(self):
+        """Saturday of week 3 is still week 3, not week 4. A capture started
+        mid-week records whatever has not posted yet."""
+        from cfb_edge.slate import current_week
+
+        self.assertEqual(current_week(2026, today="2026-09-20", rows=self.ROWS), 3)
+
+    def test_a_long_opening_week_does_not_shift_the_count(self):
+        """Week 1 of 2026 runs Aug 29 to Sep 7. Deriving the week by dividing
+        elapsed days by seven would put Sep 14 in week 3 by luck here and in
+        the wrong week most other seasons."""
+        from cfb_edge.slate import current_week
+
+        self.assertEqual(current_week(2026, today="2026-09-01", rows=self.ROWS), 1)
+        self.assertEqual(current_week(2026, today="2026-09-08", rows=self.ROWS), 2)
+
+    def test_a_finished_season_reports_nothing_rather_than_the_last_week(self):
+        """Returning 15 forever would look exactly like a working capture."""
+        from cfb_edge.slate import current_week
+
+        self.assertIsNone(current_week(2026, today="2027-01-15", rows=self.ROWS))
+
+    def test_the_postseason_does_not_masquerade_as_a_regular_week(self):
+        from cfb_edge.slate import current_week
+
+        self.assertIsNone(current_week(2026, today="2026-12-01", rows=self.ROWS))
+
+
 class TestOneSidedLadder(unittest.TestCase):
     """A ladder quoted from one side is still a ladder.
 
