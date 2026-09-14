@@ -298,14 +298,23 @@ class OpeningBook:
         return self._consensus(self.opens, market)
 
     def write_opens_csv(self, path: str | Path, market: str = "spread") -> int:
-        """Emit exactly what `cfb_edge play --opens` consumes."""
+        """Emit exactly what `cfb_edge play --opens` consumes.
+
+        The `source` column travels with the number. Every line here came out
+        of a capture log, where it was stamped with the moment it was seen, so
+        it can carry `CAPTURED` downstream and be graded. A hand-written opens
+        file has no such column, reads back as unverified, and is kept out of
+        the closing line value it would otherwise contaminate.
+        """
         import csv
+
+        from .clv import CAPTURED
 
         rows = sorted(self.consensus_opens(market).items())
         with open(path, "w", newline="", encoding="utf-8") as fh:
             w = csv.writer(fh)
-            w.writerow(["game", "opening_line"])
-            w.writerows(rows)
+            w.writerow(["game", "opening_line", "source"])
+            w.writerows((game, line, CAPTURED) for game, line in rows)
         return len(rows)
 
 
@@ -352,6 +361,14 @@ def watch(
     return polls
 
 
+def _slate_games(path: str) -> list[str]:
+    """The week's fixtures as "Away @ Home", which orients the exchange."""
+    import csv
+
+    with open(path, newline="", encoding="utf-8") as fh:
+        return [r["game"].strip() for r in csv.DictReader(fh) if r.get("game")]
+
+
 def main(argv: list[str] | None = None) -> int:
     """Run the capture.
 
@@ -376,6 +393,17 @@ def main(argv: list[str] | None = None) -> int:
     p.add_argument("--max-polls", type=int, default=None, dest="max_polls")
     p.add_argument("--rebuild", action="store_true",
                    help="skip polling; rebuild the opens CSV from the existing log")
+    p.add_argument("--slate",
+                   help="the week's slate CSV. Required with --source kalshi, "
+                        "because nothing in a Kalshi market says which team is "
+                        "at home and a line written upside down is a sign error "
+                        "on everything downstream.")
+    p.add_argument("--source", default="kalshi", choices=("kalshi", "oddsapi"),
+                   help="where the line comes from. kalshi (the default) reads "
+                        "the spread ladder and inverts it to a line: free, no "
+                        "key, and measured on the venue that actually fills "
+                        "you. oddsapi reads sportsbook opens, needs "
+                        "ODDS_API_KEY, and costs about 8,400 credits a month.")
     p.add_argument("--regions", default="us,us2,eu",
                    help="the-odds-api regions. Billing is one credit per "
                         "region per market, so this is the main lever on cost: "
@@ -398,13 +426,30 @@ def main(argv: list[str] | None = None) -> int:
             if len(games) > 10:
                 print(f"    ... and {len(games) - 10} more")
 
-        def fetch() -> list[Quote]:
-            return fetch_board(regions=args.regions)
+        if args.source == "kalshi":
+            from .providers.kalshi import KalshiUnreachable, board_quotes
+
+            if not args.slate:
+                print("--source kalshi needs --slate: a Kalshi market does not "
+                      "say which team is at home, and the schedule is the only "
+                      "thing that does.")
+                return 2
+
+            def fetch() -> list[Quote]:
+                # The slate names the home team; a Kalshi market does not.
+                return board_quotes(games=_slate_games(args.slate))
+
+            unreachable: tuple[type[Exception], ...] = (KalshiUnreachable,)
+        else:
+            def fetch() -> list[Quote]:
+                return fetch_board(regions=args.regions)
+
+            unreachable = (OddsApiUnreachable,)
 
         try:
             watch(book, fetch,
                   max_polls=1 if args.once else args.max_polls, on_new=announce)
-        except OddsApiUnreachable as exc:
+        except unreachable as exc:
             print(f"cannot capture: {exc}")
             return 2
         except KeyboardInterrupt:

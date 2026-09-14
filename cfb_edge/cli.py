@@ -132,7 +132,7 @@ def cmd_log(args: argparse.Namespace) -> int:
     """
     import datetime as _dt
 
-    from .clv import LoggedBet, append_bet
+    from .clv import FILLED, LoggedBet, append_bet
     from .market import american_to_decimal
 
     if "@" not in args.game:
@@ -173,10 +173,13 @@ def cmd_log(args: argparse.Namespace) -> int:
             f"{price:+.0f} is not an American price. They are +100 or longer "
             f"for an underdog and -100 or shorter for a favourite.{hint}")
 
+    # `log` records a position the operator actually took, so the number is a
+    # fill rather than a claim about the market, and it grades.
     bet = LoggedBet(
         date=args.date or _dt.date.today().isoformat(),
         away=away, home=home, side=side,
         line_taken=float(line), price_taken=float(price), stake=float(args.stake),
+        source=FILLED,
     )
     n = append_bet(args.bets, bet)
 
@@ -230,6 +233,29 @@ def cmd_settle(args: argparse.Namespace) -> int:
     return 0
 
 
+def _warn_if_unverified(sources: dict[str, str]) -> None:
+    """Say so when the lines being priced have no capture behind them.
+
+    An opens file written by hand loads and prices exactly like one rebuilt
+    from a capture, and produces a card that looks exactly as confident. The
+    difference only surfaces later, as closing line value computed against a
+    number that nothing ever recorded as true.
+    """
+    from .clv import CAPTURED
+
+    loose = sorted(g for g, src in sources.items() if src != CAPTURED)
+    if not loose:
+        return
+    print(f"warning: {len(loose)} of {len(sources)} opening lines carry no "
+          f"capture. They will price a card but cannot be graded:")
+    for game in loose[:6]:
+        print(f"    {game}")
+    if len(loose) > 6:
+        print(f"    ... and {len(loose) - 6} more")
+    print("Run `cfb_edge.watch --rebuild` against a capture log to get lines "
+          "that can be.\n")
+
+
 def _warn_if_ungated(week: int | None) -> None:
     """Say so when the week gate is not being applied.
 
@@ -258,16 +284,22 @@ def _slate_and_opens(slate_path, opens_path):
         for row in csv.DictReader(fh):
             slate[row["game"].strip()] = float(row["projected_margin"])
 
-    raw = {}
+    from .clv import UNVERIFIED
+
+    raw, raw_sources = {}, {}
     with open(opens_path, newline="", encoding="utf-8") as fh:
         for row in csv.DictReader(fh):
             line = (row.get("opening_line") or row.get("open") or "").strip()
             if line:
-                raw[row["game"].strip()] = float(line)
+                game = row["game"].strip()
+                raw[game] = float(line)
+                raw_sources[game] = (row.get("source") or "").strip() or UNVERIFIED
 
     report = match_games(list(raw), list(slate))
     opens = {canon: raw[foreign] for foreign, canon in report.matched.items()}
-    return slate, opens, report
+    sources = {canon: raw_sources[foreign]
+               for foreign, canon in report.matched.items()}
+    return slate, opens, report, sources
 
 
 def cmd_signals(args: argparse.Namespace) -> int:
@@ -280,12 +312,13 @@ def cmd_signals(args: argparse.Namespace) -> int:
     """
     from .paper import record, signals_for
 
-    slate, opens, report = _slate_and_opens(args.slate, args.opens)
+    slate, opens, report, sources = _slate_and_opens(args.slate, args.opens)
     if report.unmatched:
         print(report.summary() + "\n")
     _warn_if_ungated(args.week)
     signals = signals_for(slate, opens, date=args.date,
-                          min_disagreement=args.min_disagreement, week=args.week)
+                          min_disagreement=args.min_disagreement,
+                          week=args.week, sources=sources)
     added, skipped = record(args.out, signals)
     print(f"{len(opens)} games had an opening line; the model disagreed with "
           f"{len(signals)} of them by {args.min_disagreement:.1f} points or more.")
@@ -337,9 +370,10 @@ def cmd_orders(args: argparse.Namespace) -> int:
     from .orders import orders_for, summarise
     from .providers.kalshi import SERIES, find_markets, listed_strikes
 
-    slate, opens, report = _slate_and_opens(args.slate, args.opens)
+    slate, opens, report, sources = _slate_and_opens(args.slate, args.opens)
     if report.unmatched:
         print(report.summary() + "\n")
+    _warn_if_unverified(sources)
 
     cache: dict[str, list[int]] = {}
 
@@ -380,8 +414,8 @@ def cmd_play(args: argparse.Namespace) -> int:
         venues.append(Venue(f"book {args.book_price:+.0f}",
                             american_price=args.book_price))
 
-    slate_games = [r["game"].strip() for r in
-                   csv.DictReader(open(args.slate, newline="", encoding="utf-8"))]
+    with open(args.slate, newline="", encoding="utf-8") as fh:
+        slate_games = [r["game"].strip() for r in csv.DictReader(fh)]
 
     opens = {}
     if args.opens:

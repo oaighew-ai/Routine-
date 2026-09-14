@@ -1436,12 +1436,13 @@ class TestPaperSignals(unittest.TestCase):
         self.assertEqual(load_bets(path)[0].closing_line, 5.5)
 
     def test_paper_rows_can_never_read_as_realised_profit(self):
-        from cfb_edge.clv import build_report, load_bets
+        from cfb_edge.clv import CAPTURED, build_report, load_bets
         from cfb_edge.paper import grade, record, signals_for
 
         path = self._tmp()
         record(path, signals_for({"A @ B": 0.0, "C @ D": 0.0},
-                                 {"A @ B": 6.5, "C @ D": 7.0}, date="2026-09-08"))
+                                 {"A @ B": 6.5, "C @ D": 7.0}, date="2026-09-08",
+                                 sources={"A @ B": CAPTURED, "C @ D": CAPTURED}))
         grade(path, {"A @ B": 5.5, "C @ D": 6.0})
         report = build_report(load_bets(path))
         self.assertEqual(report.staked, 0.0)
@@ -1450,6 +1451,138 @@ class TestPaperSignals(unittest.TestCase):
         # The line CLV is still measured, which is the whole point.
         self.assertAlmostEqual(report.mean_line_clv, 1.0, places=9)
         self.assertTrue(all(b.price_clv is None for b in load_bets(path)))
+
+
+
+class TestLineProvenance(unittest.TestCase):
+    """A line is evidence only when something recorded it independently.
+
+    This is the same defect as the `seen_at` bug, one layer up. There, a blank
+    timestamp silently became the current clock and biased closing line value
+    +23.5 points against a true +1.0, in the direction of confirming the
+    strategy. Here a number with no origin at all loads, prices a card and
+    grades into CLV exactly like a captured one. Both fail toward belief, which
+    is the only direction that costs money.
+    """
+
+    def _tmp(self):
+        import os, tempfile
+        fd, path = tempfile.mkstemp(suffix=".csv"); os.close(fd); os.unlink(path)
+        self.addCleanup(lambda: os.path.exists(path) and os.unlink(path))
+        return path
+
+    def test_a_line_with_no_provenance_is_kept_out_of_the_clv(self):
+        from cfb_edge.clv import LoggedBet, build_report
+
+        typed = LoggedBet(date="2026-09-14", away="Michigan State",
+                          home="Notre Dame", side="Michigan State",
+                          line_taken=29.5, price_taken=-110.0, stake=0.0,
+                          closing_line=14.0)
+        report = build_report([typed])
+        # 15.5 points of CLV, which would read as a spectacular confirmation.
+        self.assertEqual(typed.line_clv, 15.5)
+        self.assertEqual(report.graded, 0)
+        self.assertEqual(report.unverified, 1)
+        self.assertEqual(report.mean_line_clv, 0.0)
+        self.assertIn("EXCLUDED", report.summary())
+
+    def test_a_captured_line_grades(self):
+        from cfb_edge.clv import CAPTURED, LoggedBet, build_report
+
+        seen = LoggedBet(date="2026-09-14", away="A", home="B", side="B",
+                         line_taken=-6.5, price_taken=-110.0, stake=0.0,
+                         closing_line=-7.5, source=CAPTURED)
+        report = build_report([seen])
+        self.assertEqual(report.graded, 1)
+        self.assertEqual(report.unverified, 0)
+        self.assertAlmostEqual(report.mean_line_clv, 1.0, places=9)
+        self.assertNotIn("EXCLUDED", report.summary())
+
+    def test_a_real_fill_grades_because_a_ticket_recorded_it(self):
+        from cfb_edge.clv import FILLED, LoggedBet, build_report
+
+        held = LoggedBet(date="2026-09-14", away="A", home="B", side="B",
+                         line_taken=-3.0, price_taken=-110.0, stake=0.01,
+                         closing_line=-4.5, source=FILLED)
+        self.assertTrue(held.gradeable)
+        self.assertEqual(build_report([held]).graded, 1)
+
+    def test_an_unverified_bet_still_counts_its_money(self):
+        """Provenance gates the measurement, never the profit and loss.
+
+        A bet placed at a number somebody typed still won or lost real money.
+        Dropping it from the P&L would be a second lie told to correct a first.
+        """
+        from cfb_edge.clv import LoggedBet, build_report
+
+        typed = LoggedBet(date="2026-09-14", away="A", home="B", side="B",
+                          line_taken=-3.0, price_taken=-110.0, stake=1.0,
+                          closing_line=-4.5, result="win")
+        report = build_report([typed])
+        self.assertEqual(report.graded, 0)
+        self.assertEqual(report.staked, 1.0)
+        self.assertGreater(report.realised_profit, 0.0)
+
+    def test_a_legacy_row_with_no_source_column_reads_as_unverified(self):
+        """Absence of a provenance is not a provenance.
+
+        Every row written before this column existed came from a hand-assembled
+        opens file, so defaulting the other way would silently bless exactly
+        the rows that prompted the check.
+        """
+        import csv
+        from cfb_edge.clv import UNVERIFIED, load_bets
+
+        path = self._tmp()
+        with open(path, "w", newline="", encoding="utf-8") as fh:
+            w = csv.writer(fh)
+            w.writerow(["date", "away", "home", "side", "line_taken",
+                        "price_taken", "stake", "closing_line"])
+            w.writerow(["2026-09-14", "A", "B", "B", "-3.0", "-110.0", "0.0", "-4.5"])
+        bet = load_bets(path)[0]
+        self.assertEqual(bet.source, UNVERIFIED)
+        self.assertFalse(bet.gradeable)
+
+    def test_the_capture_stamps_every_line_it_writes(self):
+        import csv
+        from cfb_edge.clv import CAPTURED
+        from cfb_edge.watch import OpeningBook, Quote
+
+        book = OpeningBook(path=Path(self._tmp()))
+        book.record([Quote(game="A @ B", market="spread", line=-6.5,
+                           price=-110.0, book="kalshi",
+                           seen_at="2026-09-14T00:00:00+00:00")])
+        path = self._tmp()
+        book.write_opens_csv(path)
+        with open(path, newline="", encoding="utf-8") as fh:
+            rows = list(csv.DictReader(fh))
+        self.assertEqual(rows[0]["source"], CAPTURED)
+
+    def test_a_hand_written_opens_file_does_not_grade(self):
+        """The end-to-end version of the defect, through the real commands."""
+        import csv as _csv
+        from cfb_edge.clv import build_report, load_bets
+        from cfb_edge.paper import grade, record, signals_for
+
+        opens_path = self._tmp()
+        with open(opens_path, "w", newline="", encoding="utf-8") as fh:
+            w = _csv.writer(fh)
+            w.writerow(["game", "opening_line"])   # no source column
+            w.writerow(["Michigan State @ Notre Dame", "-29.5"])
+
+        raw, sources = {}, {}
+        with open(opens_path, newline="", encoding="utf-8") as fh:
+            for row in _csv.DictReader(fh):
+                raw[row["game"]] = float(row["opening_line"])
+                sources[row["game"]] = (row.get("source") or "").strip() or "unverified"
+
+        log = self._tmp()
+        record(log, signals_for({"Michigan State @ Notre Dame": 15.32}, raw,
+                                date="2026-09-14", week=3, sources=sources))
+        grade(log, {"Michigan State @ Notre Dame": -14.0})
+        report = build_report(load_bets(log))
+        self.assertEqual(report.graded, 0)
+        self.assertEqual(report.unverified, 1)
 
 
 class TestKickoffGuard(unittest.TestCase):
@@ -1558,6 +1691,108 @@ class TestKickoffGuard(unittest.TestCase):
         live = parse_board(payload)
         self.assertNotEqual(live[0].seen_at, archived[0].seen_at)
         self.assertIs(live[0].before_kickoff, False)
+
+    def test_a_kalshi_ladder_inverts_to_the_line(self):
+        """The ladder is a survival curve, so the line falls out of it.
+
+        This is what lets the Odds API go. The old chain recorded a book's
+        opening line, bet a Kalshi contract and scored against a book's close:
+        two of three steps on a venue the operator never trades.
+        """
+        from cfb_edge.providers.kalshi import implied_line, survival_curve
+
+        ladder = [
+            {"yes_sub_title": "Texas A&M wins by over 3.5 points",
+             "yes_bid": 88, "yes_ask": 90},
+            {"yes_sub_title": "Texas A&M wins by over 16.5 points",
+             "yes_bid": 49, "yes_ask": 51},
+            {"yes_sub_title": "Kentucky wins by over 2.5 points",
+             "yes_bid": 6, "yes_ask": 8},
+        ]
+        curve = survival_curve(ladder, home="Texas A&M", away="Kentucky")
+        # An away rung at 2.5 is a home rung at -2.5 with the price complemented.
+        self.assertAlmostEqual(curve[-2.5], 0.93, places=6)
+        self.assertAlmostEqual(curve[16.5], 0.50, places=6)
+        self.assertAlmostEqual(implied_line(curve), -16.5, places=2)
+
+    def test_a_ladder_that_never_crosses_a_coin_flip_yields_no_line(self):
+        """Extrapolating off the end of a ladder invents a number."""
+        from cfb_edge.providers.kalshi import implied_line, survival_curve
+
+        # Every rung deep in the money: the ladder does not reach the middle.
+        one_sided = [
+            {"yes_sub_title": "Georgia wins by over 30.5 points",
+             "yes_bid": 10, "yes_ask": 12},
+            {"yes_sub_title": "Georgia wins by over 40.5 points",
+             "yes_bid": 3, "yes_ask": 5},
+        ]
+        curve = survival_curve(one_sided, home="Arkansas", away="Georgia")
+        self.assertIsNone(implied_line(curve))
+        # And a single rung is not a curve.
+        self.assertIsNone(implied_line({5.0: 0.4}))
+
+    def test_a_one_sided_quote_is_not_read_as_a_price(self):
+        """A rung with no bid is an aspiration, not a market."""
+        from cfb_edge.providers.kalshi import survival_curve
+
+        self.assertEqual(
+            survival_curve(
+                [{"yes_sub_title": "Auburn wins by over 2.5 points",
+                  "yes_bid": 0, "yes_ask": 47}],
+                home="Auburn", away="Florida"),
+            {})
+
+    def test_the_kalshi_board_becomes_quotes_the_capture_already_eats(self):
+        """New source, same instrument: watch, grade and clv do not change."""
+        import json
+
+        from cfb_edge.providers.kalshi import board_quotes
+
+        page = {"markets": [
+            {"event_ticker": "26SEP19KYTAM", "close_time": "2026-09-19T23:00:00Z",
+             "yes_sub_title": "Texas A&M wins by over 3.5 points",
+             "yes_bid": 88, "yes_ask": 90},
+            {"event_ticker": "26SEP19KYTAM",
+             "yes_sub_title": "Texas A&M wins by over 16.5 points",
+             "yes_bid": 49, "yes_ask": 51},
+            {"event_ticker": "26SEP19KYTAM",
+             "yes_sub_title": "Kentucky wins by over 2.5 points",
+             "yes_bid": 6, "yes_ask": 8},
+            # A game whose ladder never crosses a coin flip is skipped, not
+            # guessed at.
+            {"event_ticker": "26SEP19GAARK",
+             "yes_sub_title": "Georgia wins by over 30.5 points",
+             "yes_bid": 10, "yes_ask": 12},
+        ]}
+        # The slate orients the board. Nothing in a Kalshi market says which
+        # team is at home; inferring it from the event ticker gave an answer
+        # that depended on set iteration order and flipped between machines.
+        quotes = board_quotes(
+            games=["Kentucky @ Texas A&M", "Georgia @ Arkansas"],
+            opener=lambda url: json.dumps(page).encode(),
+            seen_at="2026-09-14T22:00:00Z")
+
+        self.assertEqual(len(quotes), 1)
+        q = quotes[0]
+        self.assertEqual(q.game, "Kentucky @ Texas A&M")
+        self.assertEqual(q.book, "kalshi")
+        self.assertEqual(q.line, -16.5)
+        self.assertEqual(q.seen_at, "2026-09-14T22:00:00Z")
+        # The kickoff gate needs this, and it comes free from close_time.
+        self.assertIs(q.before_kickoff, True)
+
+        # Orientation comes from the slate and nowhere else. Reverse the
+        # fixture and the line flips sign; drop it and the game is skipped.
+        flipped = board_quotes(
+            games=["Texas A&M @ Kentucky"],
+            opener=lambda url: json.dumps(page).encode(),
+            seen_at="2026-09-14T22:00:00Z")
+        self.assertEqual(flipped[0].game, "Texas A&M @ Kentucky")
+        self.assertEqual(flipped[0].line, 16.5)
+
+        self.assertEqual(
+            board_quotes(games=[],
+                         opener=lambda url: json.dumps(page).encode()), [])
 
     def test_a_strike_the_venue_does_not_list_is_never_quoted(self):
         """The defect that made the card unfillable.

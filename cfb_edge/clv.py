@@ -25,6 +25,23 @@ from .distribution import cover_probability, margin_pmf, sigma_for_total
 from .market import american_to_probability, devig
 
 
+CAPTURED = "capture"
+"""`line_taken` was read from a capture log, stamped at the moment it was seen."""
+
+FILLED = "fill"
+"""`line_taken` is the number a real order actually filled at.
+
+Gradeable for the same reason a capture is, and not by analogy: the operator
+holds a ticket saying so. What makes a line evidence is that something recorded
+it independently of wanting it to be true, and a fill confirmation does.
+"""
+
+UNVERIFIED = "unverified"
+"""`line_taken` came from somewhere with no timestamp and no audit trail."""
+
+GRADEABLE = frozenset({CAPTURED, FILLED})
+
+
 @dataclass
 class LoggedBet:
     """A bet as placed, and the market's final word on it."""
@@ -40,6 +57,20 @@ class LoggedBet:
     closing_price: float | None = None
     closing_opposite_price: float | None = None
     result: str | None = None  # "win", "loss", "push", or None if unsettled
+    source: str = UNVERIFIED
+    """Where `line_taken` came from, which decides whether it can be graded.
+
+    A number typed in by hand, read off a screenshot or pulled from a search
+    result is not a measurement of anything. It looks identical to a captured
+    opening line in every way that a float can look identical, and the
+    difference only shows up in the closing line value it produces, by which
+    point it has already been believed. Only `CAPTURED` rows count.
+    """
+
+    @property
+    def gradeable(self) -> bool:
+        """Whether this row's line is evidence, so its CLV means something."""
+        return self.source in GRADEABLE
 
     @property
     def line_clv(self) -> float | None:
@@ -102,6 +133,7 @@ class CLVReport:
 
     bets: int
     graded: int
+    unverified: int
     beat_close: int
     tied_close: int
     lost_to_close: int
@@ -119,6 +151,14 @@ class CLVReport:
         return self.realised_profit / self.staked if self.staked else 0.0
 
     def summary(self) -> str:
+        warning = ""
+        if self.unverified:
+            warning = (
+                f"\nWARNING: {self.unverified} row(s) carry a line with no "
+                f"capture behind it and are EXCLUDED from the CLV above. A "
+                f"line typed in by hand cannot measure line movement, because "
+                f"nothing recorded when it was true."
+            )
         return (
             f"{self.bets} bets, {self.graded} with a closing line.\n"
             f"Beat close {self.beat_close} / tied {self.tied_close} / "
@@ -128,11 +168,18 @@ class CLVReport:
             f"{self.mean_probability_clv:+.2%} win probability\n"
             f"Realised {self.realised_profit:+.3f} units on "
             f"{self.staked:.3f} staked (ROI {self.roi:+.2%})"
+            + warning
         )
 
 
 def build_report(bets: list[LoggedBet]) -> CLVReport:
-    graded = [b for b in bets if b.line_clv is not None]
+    # Closing line value is provenance-gated and realised profit is not. A bet
+    # placed at a number somebody typed in still won or lost real money, so it
+    # belongs in the P&L. What it cannot do is measure how far a line moved,
+    # because no timestamped record of that line existing was ever made. Mixing
+    # the two is how an unverifiable number becomes a confirmed edge.
+    closed = [b for b in bets if b.line_clv is not None]
+    graded = [b for b in closed if b.gradeable]
     line_clvs = [b.line_clv for b in graded]
     prob_clvs = [
         p for p in (b.probability_clv() for b in graded) if p is not None
@@ -143,6 +190,7 @@ def build_report(bets: list[LoggedBet]) -> CLVReport:
     return CLVReport(
         bets=len(bets),
         graded=len(graded),
+        unverified=len(closed) - len(graded),
         beat_close=sum(1 for v in line_clvs if v > 0),
         tied_close=sum(1 for v in line_clvs if v == 0),
         lost_to_close=sum(1 for v in line_clvs if v < 0),
@@ -156,6 +204,7 @@ def build_report(bets: list[LoggedBet]) -> CLVReport:
 BET_FIELDS = [
     "date", "away", "home", "side", "line_taken", "price_taken", "stake",
     "closing_line", "closing_price", "closing_opposite_price", "result",
+    "source",
 ]
 
 
@@ -255,6 +304,7 @@ def load_bets(path: str | Path) -> list[LoggedBet]:
                     closing_price=num("closing_price"),
                     closing_opposite_price=num("closing_opposite_price"),
                     result=(row.get("result") or "").strip() or None,
+                    source=(row.get("source") or "").strip() or UNVERIFIED,
                 )
             )
     return rows
