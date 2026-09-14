@@ -1,0 +1,67 @@
+name: capture validation
+
+on:
+  push:
+    branches: [cfb-cloud-capture]
+    paths:
+      - ".github/workflows/capture-validation.yml"
+      - "cfb_edge/**"
+      - "scripts/preflight.sh"
+      - "scripts/capture.sh"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: cfb-capture-validation
+  cancel-in-progress: true
+
+jobs:
+  validate-live-capture:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+      - name: Build current slate
+        run: python3 -m cfb_edge.slate --season 2026 --week current --out data/slate_current.csv
+      - name: Preserve and inspect raw Kalshi response
+        run: |
+          set -euo pipefail
+          curl --fail --silent --show-error \
+            'https://api.elections.kalshi.com/trade-api/v2/markets?limit=200&status=open&series_ticker=KXNCAAFSPREAD' \
+            -o data/kalshi_spread_markets.json
+          python3 - <<'PY'
+          import json
+          p = json.load(open('data/kalshi_spread_markets.json', encoding='utf-8'))
+          rows = p.get('markets', [])
+          print(f'raw_open_markets={len(rows)}')
+          fields = ['ticker','event_ticker','title','yes_sub_title','custom_strike','floor_strike','yes_bid_dollars','yes_ask_dollars','occurrence_datetime']
+          for i, row in enumerate(rows[:8]):
+              print(f'--- sample {i+1} ---')
+              for key in fields:
+                  print(f'{key}={row.get(key)!r}')
+          PY
+      - name: Take one parser poll
+        run: |
+          set -euo pipefail
+          python3 -m cfb_edge.watch --source kalshi --slate data/slate_current.csv \
+            --log data/cloud_validation.jsonl.gz --out data/cloud_validation.csv --once
+          LINES=$(( $(wc -l < data/cloud_validation.csv) - 1 ))
+          echo "parsed_rows=$LINES" >> "$GITHUB_STEP_SUMMARY"
+          test "$LINES" -gt 0
+      - name: Upload validation evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: cfb-capture-validation-${{ github.run_id }}
+          path: |
+            data/slate_current.csv
+            data/kalshi_spread_markets.json
+            data/cloud_validation.jsonl.gz
+            data/cloud_validation.csv
+          if-no-files-found: warn
+          retention-days: 30
