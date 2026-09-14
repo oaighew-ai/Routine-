@@ -133,6 +133,7 @@ def cmd_log(args: argparse.Namespace) -> int:
     import datetime as _dt
 
     from .clv import LoggedBet, append_bet
+    from .market import american_to_decimal
 
     if "@" not in args.game:
         raise SystemExit(f"game must read 'Away @ Home', got {args.game!r}")
@@ -153,6 +154,24 @@ def cmd_log(args: argparse.Namespace) -> int:
     price = _price_from(args, "cents", "price", "the price")
     if price is None:
         raise SystemExit("give the price with --cents (exchange) or --price (book)")
+
+    # Validate here, where the number was just typed and can still be checked
+    # against the confirmation on screen. `market.american_to_decimal` has
+    # always rejected these, but nothing called it on the way in, so an
+    # impossible price wrote cleanly, read back cleanly while the bet was
+    # unsettled, and only raised weeks later when `settle` or `clv` tried to
+    # compute a payout. By then the price actually received is gone.
+    try:
+        american_to_decimal(float(price))
+    except ValueError:
+        hint = ""
+        if 0 < abs(float(price)) < 100:
+            hint = (f"\n  {abs(float(price)):.0f} looks like an exchange price "
+                    f"in cents. That is --cents {abs(float(price)):.0f}, not "
+                    f"--price.")
+        raise SystemExit(
+            f"{price:+.0f} is not an American price. They are +100 or longer "
+            f"for an underdog and -100 or shorter for a favourite.{hint}")
 
     bet = LoggedBet(
         date=args.date or _dt.date.today().isoformat(),
