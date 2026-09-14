@@ -1,9 +1,7 @@
 name: capture validation
 
-# Branch-only deployment test. This proves that GitHub-hosted runners can reach
-# the public schedule and Kalshi endpoints and that the parser returns real CFB
-# spread rows. It does NOT establish the recurring capture loop or promote any
-# model signal.
+# Branch-only deployment test. Prove network + parser behavior before adding a
+# recurring capture loop. No model signal is promoted by this workflow.
 on:
   push:
     branches: [cfb-cloud-capture]
@@ -33,13 +31,27 @@ jobs:
         with:
           python-version: "3.13"
 
-      - name: Run end-to-end preflight
-        run: bash scripts/preflight.sh 2026 current kalshi
+      - name: Build current slate
+        run: python3 -m cfb_edge.slate --season 2026 --week current --out data/slate_current.csv
 
-      - name: Preserve one fresh timestamped poll
+      - name: Preserve raw Kalshi response
         run: |
           set -euo pipefail
-          python3 -m cfb_edge.slate --season 2026 --week current --out data/slate_current.csv
+          curl --fail --silent --show-error \
+            'https://api.elections.kalshi.com/trade-api/v2/markets?limit=200&status=open&series_ticker=KXNCAAFSPREAD' \
+            -o data/kalshi_spread_markets.json
+          python3 - <<'PY'
+          import json
+          p = json.load(open('data/kalshi_spread_markets.json', encoding='utf-8'))
+          rows = p.get('markets', [])
+          print(f'raw_open_markets={len(rows)}')
+          if rows:
+              print('sample_keys=' + ','.join(sorted(rows[0])))
+          PY
+
+      - name: Take one parser poll
+        run: |
+          set -euo pipefail
           python3 -m cfb_edge.watch --source kalshi --slate data/slate_current.csv \
             --log data/cloud_validation.jsonl.gz --out data/cloud_validation.csv --once
           test -s data/cloud_validation.jsonl.gz
@@ -47,7 +59,7 @@ jobs:
           LINES=$(( $(wc -l < data/cloud_validation.csv) - 1 ))
           echo "parsed_rows=$LINES" >> "$GITHUB_STEP_SUMMARY"
           if [ "$LINES" -le 0 ]; then
-            echo "No parsed CFB spread rows; capture is not validated." >&2
+            echo "No parsed CFB spread rows; inspect preserved raw payload." >&2
             exit 1
           fi
 
@@ -58,6 +70,7 @@ jobs:
           name: cfb-capture-validation-${{ github.run_id }}
           path: |
             data/slate_current.csv
+            data/kalshi_spread_markets.json
             data/cloud_validation.jsonl.gz
             data/cloud_validation.csv
           if-no-files-found: warn
