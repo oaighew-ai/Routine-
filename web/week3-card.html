@@ -185,7 +185,7 @@ tbody tr:last-child td{border-bottom:none}
       <span>Slate <b>57 FBS games</b></span>
       <span>Ratings fit through <b>week 2</b></span>
       <span>Regenerated <b>Sep 13</b></span>
-      <span>Model <b>5852817</b></span>
+      <span>Model <b>2d61984</b></span>
       <span>Games <b>Sat Sep 19</b></span>
     </div>
   </header>
@@ -205,7 +205,8 @@ tbody tr:last-child td{border-bottom:none}
       <span class="lab">Capture</span>
       <span class="v">Check it</span>
       <span class="sub">The log is gitignored on purpose, so its state cannot be read from
-      anywhere but the machine running it. One command below settles it.</span>
+      anywhere but the machine running it. The window is open now; one command
+      below settles it.</span>
     </div>
     <div class="chip wait">
       <span class="lab">Scorecard</span>
@@ -235,7 +236,7 @@ tbody tr:last-child td{border-bottom:none}
     <div class="clock">
 
       <div class="tick">
-        <div class="when">Now<span>Sun 18:00 UTC</span></div>
+        <div class="when" style="color:var(--ink-3)">Done<span>Sun 18:00 UTC</span></div>
         <div class="what">
           <h3>Confirm the capture is recording, not just running</h3>
           <p>A task that starts, fails to authenticate and exits looks identical to a quiet
@@ -263,7 +264,7 @@ tbody tr:last-child td{border-bottom:none}
       </div>
 
       <div class="tick">
-        <div class="when">Release<span>Sun 22:00 UTC</span></div>
+        <div class="when" style="color:var(--ink-3)">Open<span>Sun 22:00 UTC</span></div>
         <div class="what">
           <h3>Poll every five minutes through the window</h3>
           <p>The window is measured, not guessed: Sunday 22:00 UTC onward, all Monday,
@@ -277,7 +278,7 @@ tbody tr:last-child td{border-bottom:none}
       </div>
 
       <div class="tick">
-        <div class="when">Monday<span>after the open</span></div>
+        <div class="when">Now<span>Mon Sep 14</span></div>
         <div class="what">
           <h3>Price the card, then log every signal whether or not you bet</h3>
           <ol>
@@ -335,6 +336,36 @@ tbody tr:last-child td{border-bottom:none}
     sign. Eighteen of these 57 games moved at least the 4.0 points the bar requires, on
     four days of information, with no market number involved. Whatever fires on Monday,
     part of it is a rating that will read differently next Sunday.</p>
+  </section>
+
+  <section class="dead-box" style="border-left-color:var(--live)">
+    <h3 style="color:var(--live)">Verified end to end, Sept 14</h3>
+    <p>The pipeline was driven against a simulated capture: 57 games, two books,
+    five polls spanning the release window through to a deliberate mid-game quote.
+    Every stage downstream of the API call holds.</p>
+    <div class="tw">
+      <table>
+        <thead><tr><th>Stage</th><th>Result</th></tr></thead>
+        <tbody>
+          <tr><td>Capture, 5 polls</td><td>114 markets, <b>0 opens overwritten</b> after the first</td></tr>
+          <tr><td>Kickoff guard</td><td>close = the 18:55 pre-kickoff quote on all 114, not the in-play one</td></tr>
+          <tr><td>Week gate at 2</td><td>refuses all 57, naming the gate</td></tr>
+          <tr><td>Week gate omitted</td><td>warns that it is off</td></tr>
+          <tr><td>Card at week 3</td><td>prices, 11 of 12 plays landing on strike 3</td></tr>
+          <tr><td>signals &rarr; grade &rarr; clv</td><td>chains through to a verdict</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p>It found two defects. <code>log --price 66</code> wrote an impossible
+    American price cleanly and only raised weeks later at <code>settle</code>, by
+    which point the price actually received is gone; 66 is what you type when the
+    card quotes 66 cents, and <code>--cents</code> is the path that was meant. And
+    both Sunday Routines instructed a future session to run a <code>grade</code>
+    command that does not exist, which broke the automation at the step carrying
+    the whole measurement programme. Both are fixed.</p>
+    <p class="note" style="max-width:64ch">What this does <b>not</b> test is the
+    API call itself. A real 200 response has never been parsed anywhere, because
+    the egress proxy here refuses every odds host. Everything after it is proven.</p>
   </section>
 
   <section>
