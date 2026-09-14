@@ -45,6 +45,7 @@ repository, not as a result.
 from __future__ import annotations
 
 from dataclasses import dataclass
+from typing import Sequence
 
 from .distribution import KEY_BUMPS, margin_pmf, sigma_for_total
 from .staking import apply_portfolio_cap
@@ -141,6 +142,7 @@ def find_plays(
     total: float = 52.0,
     clv_points: float = DEFAULT_CLV_POINTS,
     key_numbers: tuple[int, ...] = TRADEABLE_KEY_NUMBERS,
+    listed_strikes: Sequence[int] | None = None,
 ) -> list[Play]:
     """Every way to express one game's edge that clears its own cost.
 
@@ -175,6 +177,20 @@ def find_plays(
     `posted_line` is what a book is offering. A book only appears in the result
     when its posted line is itself a key number, because that is the only case
     where a book beats an exchange.
+
+    `listed_strikes` is what the venue will actually sell you, and passing it is
+    the difference between a card and a card you can fill. Without it this
+    function optimises over `key_numbers`, a ladder chosen because 3 and 7 carry
+    the most margin density, and says nothing about whether such a contract is
+    listed. On a game the market has at -16.5 that produced "back Texas A&M at
+    +3", priced 77c, while the exchange listed one strike: the line itself, at
+    50c, where the edge is -1.18%. The operator filled the thing that existed
+    rather than the thing that was quoted, which is the correct behaviour of a
+    person and the wrong outcome of a system.
+
+    So when the venue's ladder is known, pass it. Strikes outside it are not
+    priced, and a game whose listed strikes all fail to clear returns no plays,
+    which is a real answer rather than a missing one.
     """
     if not (side or "").strip():
         raise ValueError(
@@ -189,8 +205,13 @@ def find_plays(
     def survival(k: float) -> float:
         return sum(v for kk, v in pmf.items() if kk > k)
 
+    # The venue's ladder wins when it is known. Sorted and de-duplicated so the
+    # output order is the edge, not the caller's argument order.
+    candidates = (tuple(sorted({int(k) for k in listed_strikes}))
+                  if listed_strikes is not None else tuple(key_numbers))
+
     out: list[Play] = []
-    for number in key_numbers:
+    for number in candidates:
         density = pmf.get(number, 0.0)
         if density <= 0.0:
             continue

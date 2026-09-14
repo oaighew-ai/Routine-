@@ -1559,6 +1559,78 @@ class TestKickoffGuard(unittest.TestCase):
         self.assertNotEqual(live[0].seen_at, archived[0].seen_at)
         self.assertIs(live[0].before_kickoff, False)
 
+    def test_a_strike_the_venue_does_not_list_is_never_quoted(self):
+        """The defect that made the card unfillable.
+
+        `find_plays` optimised over a fixed ladder and never asked the exchange
+        what it sells. On a game the market had at -16.5 it quoted "Texas A&M
+        at +3" while the only listed strike was the line itself, where the edge
+        is negative. The operator filled what existed.
+        """
+        from cfb_edge.strategy import Venue, find_plays
+
+        v = [Venue("exchange", is_exchange=True)]
+        args = dict(market_line=-16.5, side="Texas A&M", venues=v)
+
+        # The old behaviour, kept for callers that have no ladder.
+        free = find_plays("Kentucky @ Texas A&M", **args)
+        self.assertTrue(free)
+        self.assertIn(free[0].number, (3, 7, 10, 14))
+
+        # Given the ladder, nothing outside it may be quoted.
+        listed = [16, 20, 24]
+        got = find_plays("Kentucky @ Texas A&M", listed_strikes=listed, **args)
+        for play in got:
+            self.assertIn(play.number, listed)
+
+        # And the ladder Kalshi actually showed clears nothing at all.
+        self.assertEqual(
+            find_plays("Kentucky @ Texas A&M", listed_strikes=[16], **args), [])
+
+    def test_a_signal_with_nothing_fillable_is_reported_not_dropped(self):
+        """Silence here is what made the card look uniformly actionable."""
+        from cfb_edge.orders import orders_for, summarise
+
+        slate = {"Kentucky @ Texas A&M": 24.23}
+        opens = {"Kentucky @ Texas A&M": -16.5}
+
+        # The venue lists only the line.
+        thin = orders_for(slate, opens, lister=lambda g, s: [16], week=3)
+        self.assertEqual(len(thin), 1)
+        self.assertFalse(thin[0].placeable)
+        self.assertIn("clear the fee", thin[0].reason)
+        self.assertIn("No placeable bet", summarise(thin))
+
+        # The venue lists nothing at all.
+        none = orders_for(slate, opens, lister=lambda g, s: [], week=3)
+        self.assertIn("lists no strike", none[0].reason)
+
+        # A ladder that reaches a key number does produce a fillable order.
+        rich = orders_for(slate, opens, lister=lambda g, s: [3, 7, 16], week=3,
+                          bankroll=10_000.0)
+        self.assertTrue(rich[0].placeable)
+        self.assertIn(rich[0].strike, (3, 7))
+        self.assertGreater(rich[0].net_edge, 0.0)
+        self.assertGreater(rich[0].contracts, 0)
+        # Contracts are floored, so the fill can never exceed the stake.
+        self.assertLessEqual(
+            rich[0].contracts * rich[0].limit_price, rich[0].dollars + 1e-9)
+
+    def test_the_week_gate_still_applies_before_the_venue_is_asked(self):
+        """Week 2 must not even reach the exchange."""
+        from cfb_edge.orders import orders_for
+
+        slate = {"Kentucky @ Texas A&M": 24.23}
+        opens = {"Kentucky @ Texas A&M": -16.5}
+        asked = []
+
+        def lister(game, side):
+            asked.append(game)
+            return [3, 7]
+
+        self.assertEqual(orders_for(slate, opens, lister=lister, week=2), [])
+        self.assertEqual(asked, [])
+
     def test_an_impossible_price_is_refused_when_it_is_typed(self):
         """The bet log is the one file that cannot be recomputed.
 
