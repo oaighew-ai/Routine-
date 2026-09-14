@@ -124,6 +124,31 @@ tbody tr:last-child td{border-bottom:none}
 .tag.under{background:var(--sunk);color:var(--ink-3)}
 .tag.empty{background:transparent;color:var(--ink-3);padding-left:0}
 
+/* bankroll */
+.bank{display:flex;flex-direction:column;gap:16px}
+.bank .setr{display:flex;align-items:baseline;gap:11px;flex-wrap:wrap}
+.bank label{font-family:var(--display);font-size:13px;font-weight:600}
+.bank input{
+  font-family:var(--mono);font-size:19px;font-weight:600;padding:7px 11px;width:150px;
+  background:var(--surface);color:var(--ink);
+  border:1px solid var(--rule);border-radius:3px;text-align:right;
+}
+.caps{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:1px;background:var(--rule-soft)}
+.caps > div{background:var(--surface);padding:13px 15px;display:flex;flex-direction:column;gap:4px}
+.caps .v{font-family:var(--mono);font-size:20px;font-weight:600;line-height:1.1}
+.caps .sub{font-size:12.5px;color:var(--ink-3)}
+.scale{border-left:3px solid var(--dead);background:var(--dead-soft);padding:16px 19px;display:flex;flex-direction:column;gap:10px}
+.scale h3{color:var(--dead);font-size:16px}
+.scale .pair{display:flex;gap:26px;flex-wrap:wrap}
+.scale .pair > div{display:flex;flex-direction:column;gap:3px}
+.scale .pair .v{font-family:var(--mono);font-size:23px;font-weight:600;line-height:1.1}
+.scale p{font-size:14px;color:var(--ink-2);max-width:64ch}
+.proof{display:grid;grid-template-columns:1fr auto;gap:9px 18px;align-items:baseline;max-width:520px}
+.proof .k{font-size:14px;color:var(--ink-2)}
+.proof .n{font-family:var(--mono);font-size:16px;font-weight:600;text-align:right}
+.proof .n.bad{color:var(--dead)}
+.proof .n.good{color:var(--live)}
+
 /* key numbers */
 .keys{display:flex;flex-direction:column;gap:6px}
 .krow{display:grid;grid-template-columns:30px 1fr 54px;align-items:center;gap:12px}
@@ -338,6 +363,56 @@ tbody tr:last-child td{border-bottom:none}
     part of it is a rating that will read differently next Sunday.</p>
   </section>
 
+  <section class="bank">
+    <h2 style="margin-bottom:2px">What a stake costs</h2>
+    <p class="note" style="margin:0 0 4px">Every stake the card prints is a
+    percentage. This turns them into money, and states what that money can and
+    cannot buy.</p>
+    <div class="setr">
+      <label for="bank">Bankroll</label>
+      <span class="num" style="font-size:19px;color:var(--ink-3)">$</span>
+      <input id="bank" type="text" inputmode="numeric" value="10,000"
+             aria-label="Bankroll in dollars">
+    </div>
+
+    <div class="caps">
+      <div><span class="lab">Ceiling, one bet</span><span class="v" id="cap1">$200</span><span class="sub">2% of bankroll, hard</span></div>
+      <div><span class="lab">Ceiling, all bets</span><span class="v" id="cap2">$1,000</span><span class="sub">10% across the card</span></div>
+      <div><span class="lab">Typical play</span><span class="v" id="typ">$42</span><span class="sub">0.42%, quarter Kelly</span></div>
+      <div><span class="lab">Smallest seen</span><span class="v" id="small">$10</span><span class="sub">0.10% on a thin edge</span></div>
+    </div>
+
+    <div class="scale">
+      <h3>The part worth reading before Saturday</h3>
+      <div class="pair">
+        <div><span class="lab">Expected profit, a full season</span><span class="v" id="ev">$9</span></div>
+        <div><span class="lab">One standard deviation</span><span class="v" id="sd">&plusmn;$197</span></div>
+      </div>
+      <p>Twenty-two real bets, weeks 3 through 13. <b>The noise is
+      <span class="num" id="ratio">21</span> times the edge.</b> You will finish
+      the year up or down a few hundred dollars and it will tell you nothing about
+      whether the model works.</p>
+      <p><b>That ratio does not improve with a bigger bankroll.</b> Double the
+      money and both numbers double. There is no size at which realised profit
+      becomes the scorecard, which is why it is not the scorecard here.</p>
+    </div>
+
+    <div>
+      <h3 style="margin-bottom:10px">What it would take to prove a 1% edge</h3>
+      <div class="proof">
+        <span class="k">On realised profit, at t = 2</span><span class="n bad">40,000 bets</span>
+        <span class="k">at two real bets a week</span><span class="n bad">1,818 seasons</span>
+        <span class="k">On closing line value, at t = 2</span><span class="n good">160 bets</span>
+        <span class="k">at 25 paper signals a week</span><span class="n good">6.4 weeks</span>
+      </div>
+      <p class="note" style="max-width:64ch;margin-top:16px"><b>251 times fewer observations.</b>
+      That is the whole argument for the zero-stake log, and it is why skipping
+      <code>signals</code> on a quiet week costs more than skipping a bet. Bet the
+      card if you want to prove you can get the fill. The answer arrives in the CLV
+      number six weeks from now, not in the balance.</p>
+    </div>
+  </section>
+
   <section class="dead-box" style="border-left-color:var(--live)">
     <h3 style="color:var(--live)">Verified end to end, Sept 14</h3>
     <p>The pipeline was driven against a simulated capture: 57 games, two books,
@@ -472,6 +547,54 @@ tbody tr:last-child td{border-bottom:none}
 </div>
 
 <script>
+(function(){
+  var el = document.getElementById("bank");
+  if (!el) return;
+  // Ratios come from cfb_edge.staking: max_stake 0.02, portfolio cap 0.10,
+  // quarter Kelly. TYP and SMALL are the median and minimum stake the
+  // end-to-end run actually produced.
+  var CAP1 = 0.02, CAP2 = 0.10, TYP = 0.0042, SMALL = 0.0010;
+  var BETS = 22, EDGE = 0.010;
+
+  function money(n){ return "$" + Math.round(n).toLocaleString("en-US"); }
+  function read(){
+    var v = parseFloat(String(el.value).replace(/[^0-9.]/g, ""));
+    return (isFinite(v) && v > 0) ? v : 0;
+  }
+  function set(id, text){
+    var n = document.getElementById(id);
+    if (n) n.textContent = text;
+  }
+  function render(){
+    var b = read();
+    set("cap1", money(b * CAP1));
+    set("cap2", money(b * CAP2));
+    set("typ",  money(b * TYP));
+    set("small", money(b * SMALL));
+
+    var stake = b * TYP;
+    var ev = BETS * stake * EDGE;
+    var sd = Math.sqrt(BETS) * stake;
+    set("ev", money(ev));
+    set("sd", "\u00b1" + money(sd));
+    // sd/ev reduces to sqrt(BETS)/(BETS*EDGE): the bankroll cancels. Rendered
+    // rather than hard-coded so the claim above stays checkable.
+    set("ratio", ev > 0 ? String(Math.round(sd / ev)) : "\u2014");
+
+    try { localStorage.setItem("cfb-bankroll", String(b)); } catch (e) {}
+  }
+  el.addEventListener("input", render);
+  el.addEventListener("blur", function(){
+    var b = read();
+    if (b) el.value = b.toLocaleString("en-US");
+  });
+  try {
+    var saved = localStorage.getItem("cfb-bankroll");
+    if (saved && parseFloat(saved) > 0) el.value = parseFloat(saved).toLocaleString("en-US");
+  } catch (e) {}
+  render();
+})();
+
 (function(){
   var GAMES = [{"a":"Western Kentucky","h":"Indiana","m":31.89},{"a":"Kent State","h":"Ohio State","m":27.54},{"a":"Kentucky","h":"Texas A&M","m":24.23},{"a":"Buffalo","h":"Penn State","m":21.83},{"a":"UTEP","h":"Michigan","m":18.73},{"a":"Syracuse","h":"Pittsburgh","m":18.21},{"a":"USC","h":"Rutgers","m":-18.21},{"a":"Kennesaw State","h":"Tennessee","m":17.02},{"a":"Northern Illinois","h":"Arizona","m":16.42},{"a":"Bowling Green","h":"Iowa State","m":16.35},{"a":"Stanford","h":"Duke","m":16.16},{"a":"Utah State","h":"Utah","m":15.77},{"a":"Florida State","h":"Alabama","m":15.48},{"a":"Michigan State","h":"Notre Dame","m":15.32},{"a":"Charlotte","h":"App State","m":14.98},{"a":"Troy","h":"Missouri","m":13.78},{"a":"Miami (OH)","h":"Cincinnati","m":13.09},{"a":"Purdue","h":"UCLA","m":12.76},{"a":"NC State","h":"Vanderbilt","m":12.62},{"a":"Georgia","h":"Arkansas","m":-12.25},{"a":"Temple","h":"Toledo","m":12.07},{"a":"Houston","h":"Texas Tech","m":11.86},{"a":"North Dakota State","h":"Sacramento State","m":-11.66},{"a":"West Virginia","h":"Virginia","m":11.6},{"a":"Ball State","h":"Liberty","m":11.54},{"a":"Tulane","h":"Kansas State","m":11.43},{"a":"UTSA","h":"Texas","m":10.82},{"a":"Arkansas State","h":"TCU","m":9.79},{"a":"Western Michigan","h":"Rice","m":-8.58},{"a":"North Texas","h":"Texas State","m":-8.39},{"a":"Louisiana Tech","h":"Baylor","m":7.77},{"a":"Miami","h":"Wake Forest","m":-7.49},{"a":"UAB","h":"Louisiana","m":7.32},{"a":"Eastern Michigan","h":"Wisconsin","m":6.78},{"a":"BYU","h":"Colorado State","m":-6.28},{"a":"Colorado","h":"Northwestern","m":6.07},{"a":"Virginia Tech","h":"Maryland","m":5.99},{"a":"Ohio","h":"South Alabama","m":4.96},{"a":"Akron","h":"Minnesota","m":4.95},{"a":"Georgia State","h":"UCF","m":4.95},{"a":"North Carolina","h":"Clemson","m":4.95},{"a":"Coastal Carolina","h":"Delaware","m":4.72},{"a":"Wyoming","h":"Central Michigan","m":4.7},{"a":"Florida","h":"Auburn","m":4.37},{"a":"East Carolina","h":"Old Dominion","m":4.19},{"a":"New Mexico","h":"Oklahoma","m":3.86},{"a":"James Madison","h":"San Diego State","m":-3.47},{"a":"UConn","h":"Southern Miss","m":3.23},{"a":"Georgia Southern","h":"Jacksonville State","m":3.19},{"a":"Florida International","h":"Florida Atlantic","m":-3.04},{"a":"Marshall","h":"Missouri State","m":2.9},{"a":"Nevada","h":"Middle Tennessee","m":-2.77},{"a":"Fresno State","h":"San Jos\u00e9 State","m":-1.69},{"a":"Arizona State","h":"Kansas","m":-1.49},{"a":"LSU","h":"Ole Miss","m":0.92},{"a":"SMU","h":"Louisville","m":0.74},{"a":"Mississippi State","h":"South Carolina","m":-0.5}];
   var BAR = 4.0, body = document.getElementById("board-body");
