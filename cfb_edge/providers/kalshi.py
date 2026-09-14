@@ -262,3 +262,137 @@ def listed_strikes(markets: Sequence[dict]) -> list[int]:
         if s is not None:
             out.add(int(s))
     return sorted(out)
+
+
+def _team_and_strike(market: dict) -> tuple[str, float] | None:
+    """Which team the contract is written on, and at what margin.
+
+    A rung reads "Boston College wins by over 20.5 points". The team is
+    everything before "wins", the strike is the number after "over".
+    """
+    for key in ("yes_sub_title", "subtitle", "title"):
+        text = str(market.get(key) or "")
+        if not text:
+            continue
+        found = _STRIKE.search(text)
+        if not found:
+            continue
+        team = re.split(r"\bwins?\b", text, maxsplit=1)[0].strip()
+        if team:
+            return team, float(found.group(1))
+    return None
+
+
+def _mid(market: dict) -> float | None:
+    """Mid price in probability, or None when the rung is not two-sided.
+
+    A rung quoted on one side only is not a price, it is an aspiration, and
+    reading the lone side as a probability is how a market with no liquidity
+    ends up setting an opening line.
+    """
+    bid, ask = market.get("yes_bid"), market.get("yes_ask")
+    if bid in (None, 0) or ask in (None, 0):
+        return None
+    return (float(bid) + float(ask)) / 200.0          # cents on both sides
+
+
+def survival_curve(
+    markets: Sequence[dict], *, home: str, away: str,
+) -> dict[float, float]:
+    """P(home margin > x), read off both sides of the ladder.
+
+    Kalshi quotes each game from both directions: "Home wins by over 6.5" and
+    "Away wins by over 2.5" are rungs on one curve, because an away rung at N
+    is a home rung at -N with the probability complemented. Every strike is a
+    half-point, so there are no ties to worry about and the complement is exact.
+    """
+    out: dict[float, float] = {}
+    for m in markets:
+        parsed = _team_and_strike(m)
+        price = _mid(m)
+        if parsed is None or price is None:
+            continue
+        team, strike = parsed
+        low = team.lower()
+        if low in home.lower() or home.lower() in low:
+            out[strike] = price
+        elif low in away.lower() or away.lower() in low:
+            out[-strike] = 1.0 - price
+    return dict(sorted(out.items()))
+
+
+def implied_line(curve: dict[float, float]) -> float | None:
+    """The market's line, as the home team's number, or None.
+
+    The line is the margin the market makes a coin flip, so it is where the
+    survival curve crosses one half. Two rungs either side of the crossing are
+    enough to interpolate; a curve entirely above or below it only proves the
+    ladder does not reach the middle of this game, and extrapolating off the
+    end of a ladder to invent a line is precisely the kind of number this
+    project has spent a week learning not to manufacture.
+
+    Returned negated, because every line in this package is written from the
+    home team's perspective and a home favourite lays points.
+    """
+    pts = sorted(curve.items())
+    if len(pts) < 2:
+        return None
+    for (x1, p1), (x2, p2) in zip(pts, pts[1:]):
+        if (p1 - 0.5) * (p2 - 0.5) <= 0 and p1 != p2:
+            margin = x1 + (x2 - x1) * (p1 - 0.5) / (p1 - p2)
+            return -margin
+    return None
+
+
+def board_quotes(
+    *, opener: Opener | None = None, limit: int = 1000,
+    seen_at: str | None = None,
+) -> list["object"]:
+    """One poll of the whole spread board, as Quotes the capture already eats.
+
+    This is the Odds API's replacement and it is deliberately shaped to need no
+    other change. `watch`, `grade` and `clv` take Quotes; they do not care that
+    the line came from a ladder rather than from a book, and measuring value on
+    the venue that actually fills you is the correct version of the measurement
+    rather than a compromise on it.
+
+    The old chain recorded a sportsbook's opening line, bet a Kalshi contract,
+    and scored against a sportsbook's close: two of the three steps on a venue
+    the operator never trades. That gap is what let a card quote a strike the
+    exchange does not list.
+
+    A game whose ladder does not straddle a coin flip is skipped rather than
+    guessed at. It has no line yet, which is a different thing from having one
+    this function could not read.
+    """
+    from datetime import datetime, timezone
+
+    from ..watch import Quote
+
+    stamp = seen_at or datetime.now(timezone.utc).isoformat()
+    by_event: dict[str, list[dict]] = {}
+    for m in fetch_markets(SERIES["spread"], opener=opener, limit=limit):
+        ev = m.get("event_ticker")
+        if ev:
+            by_event.setdefault(str(ev), []).append(m)
+
+    out = []
+    for event, markets in by_event.items():
+        teams = {t for t, _ in filter(None, map(_team_and_strike, markets))}
+        if len(teams) != 2:
+            # One-sided ladder, or a title this cannot parse. Either way there
+            # is no second team to anchor the away side of the curve.
+            continue
+        # Kalshi writes the event ticker away-then-home, matching the
+        # "Away @ Home" convention used everywhere in this package.
+        away, home = sorted(teams, key=lambda t: str(event).lower().find(t.lower()[:3]))
+        line = implied_line(survival_curve(markets, home=home, away=away))
+        if line is None:
+            continue
+        commence = next((m.get("close_time") for m in markets if m.get("close_time")), None)
+        out.append(Quote(
+            game=f"{away} @ {home}", book="kalshi", market="spread",
+            line=round(line, 1), price=None, seen_at=stamp,
+            commence_time=str(commence) if commence else None,
+        ))
+    return out

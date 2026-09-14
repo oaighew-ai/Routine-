@@ -1559,6 +1559,91 @@ class TestKickoffGuard(unittest.TestCase):
         self.assertNotEqual(live[0].seen_at, archived[0].seen_at)
         self.assertIs(live[0].before_kickoff, False)
 
+    def test_a_kalshi_ladder_inverts_to_the_line(self):
+        """The ladder is a survival curve, so the line falls out of it.
+
+        This is what lets the Odds API go. The old chain recorded a book's
+        opening line, bet a Kalshi contract and scored against a book's close:
+        two of three steps on a venue the operator never trades.
+        """
+        from cfb_edge.providers.kalshi import implied_line, survival_curve
+
+        ladder = [
+            {"yes_sub_title": "Texas A&M wins by over 3.5 points",
+             "yes_bid": 88, "yes_ask": 90},
+            {"yes_sub_title": "Texas A&M wins by over 16.5 points",
+             "yes_bid": 49, "yes_ask": 51},
+            {"yes_sub_title": "Kentucky wins by over 2.5 points",
+             "yes_bid": 6, "yes_ask": 8},
+        ]
+        curve = survival_curve(ladder, home="Texas A&M", away="Kentucky")
+        # An away rung at 2.5 is a home rung at -2.5 with the price complemented.
+        self.assertAlmostEqual(curve[-2.5], 0.93, places=6)
+        self.assertAlmostEqual(curve[16.5], 0.50, places=6)
+        self.assertAlmostEqual(implied_line(curve), -16.5, places=2)
+
+    def test_a_ladder_that_never_crosses_a_coin_flip_yields_no_line(self):
+        """Extrapolating off the end of a ladder invents a number."""
+        from cfb_edge.providers.kalshi import implied_line, survival_curve
+
+        # Every rung deep in the money: the ladder does not reach the middle.
+        one_sided = [
+            {"yes_sub_title": "Georgia wins by over 30.5 points",
+             "yes_bid": 10, "yes_ask": 12},
+            {"yes_sub_title": "Georgia wins by over 40.5 points",
+             "yes_bid": 3, "yes_ask": 5},
+        ]
+        curve = survival_curve(one_sided, home="Arkansas", away="Georgia")
+        self.assertIsNone(implied_line(curve))
+        # And a single rung is not a curve.
+        self.assertIsNone(implied_line({5.0: 0.4}))
+
+    def test_a_one_sided_quote_is_not_read_as_a_price(self):
+        """A rung with no bid is an aspiration, not a market."""
+        from cfb_edge.providers.kalshi import survival_curve
+
+        self.assertEqual(
+            survival_curve(
+                [{"yes_sub_title": "Auburn wins by over 2.5 points",
+                  "yes_bid": 0, "yes_ask": 47}],
+                home="Auburn", away="Florida"),
+            {})
+
+    def test_the_kalshi_board_becomes_quotes_the_capture_already_eats(self):
+        """New source, same instrument: watch, grade and clv do not change."""
+        import json
+
+        from cfb_edge.providers.kalshi import board_quotes
+
+        page = {"markets": [
+            {"event_ticker": "26SEP19KYTAM", "close_time": "2026-09-19T23:00:00Z",
+             "yes_sub_title": "Texas A&M wins by over 3.5 points",
+             "yes_bid": 88, "yes_ask": 90},
+            {"event_ticker": "26SEP19KYTAM",
+             "yes_sub_title": "Texas A&M wins by over 16.5 points",
+             "yes_bid": 49, "yes_ask": 51},
+            {"event_ticker": "26SEP19KYTAM",
+             "yes_sub_title": "Kentucky wins by over 2.5 points",
+             "yes_bid": 6, "yes_ask": 8},
+            # A game whose ladder never crosses a coin flip is skipped, not
+            # guessed at.
+            {"event_ticker": "26SEP19GAARK",
+             "yes_sub_title": "Georgia wins by over 30.5 points",
+             "yes_bid": 10, "yes_ask": 12},
+        ]}
+        quotes = board_quotes(
+            opener=lambda url: json.dumps(page).encode(),
+            seen_at="2026-09-14T22:00:00Z")
+
+        self.assertEqual(len(quotes), 1)
+        q = quotes[0]
+        self.assertEqual(q.game, "Kentucky @ Texas A&M")
+        self.assertEqual(q.book, "kalshi")
+        self.assertEqual(q.line, -16.5)
+        self.assertEqual(q.seen_at, "2026-09-14T22:00:00Z")
+        # The kickoff gate needs this, and it comes free from close_time.
+        self.assertIs(q.before_kickoff, True)
+
     def test_a_strike_the_venue_does_not_list_is_never_quoted(self):
         """The defect that made the card unfillable.
 

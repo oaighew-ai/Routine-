@@ -376,6 +376,12 @@ def main(argv: list[str] | None = None) -> int:
     p.add_argument("--max-polls", type=int, default=None, dest="max_polls")
     p.add_argument("--rebuild", action="store_true",
                    help="skip polling; rebuild the opens CSV from the existing log")
+    p.add_argument("--source", default="kalshi", choices=("kalshi", "oddsapi"),
+                   help="where the line comes from. kalshi (the default) reads "
+                        "the spread ladder and inverts it to a line: free, no "
+                        "key, and measured on the venue that actually fills "
+                        "you. oddsapi reads sportsbook opens, needs "
+                        "ODDS_API_KEY, and costs about 8,400 credits a month.")
     p.add_argument("--regions", default="us,us2,eu",
                    help="the-odds-api regions. Billing is one credit per "
                         "region per market, so this is the main lever on cost: "
@@ -398,13 +404,23 @@ def main(argv: list[str] | None = None) -> int:
             if len(games) > 10:
                 print(f"    ... and {len(games) - 10} more")
 
-        def fetch() -> list[Quote]:
-            return fetch_board(regions=args.regions)
+        if args.source == "kalshi":
+            from .providers.kalshi import KalshiUnreachable, board_quotes
+
+            def fetch() -> list[Quote]:
+                return board_quotes()
+
+            unreachable: tuple[type[Exception], ...] = (KalshiUnreachable,)
+        else:
+            def fetch() -> list[Quote]:
+                return fetch_board(regions=args.regions)
+
+            unreachable = (OddsApiUnreachable,)
 
         try:
             watch(book, fetch,
                   max_polls=1 if args.once else args.max_polls, on_new=announce)
-        except OddsApiUnreachable as exc:
+        except unreachable as exc:
             print(f"cannot capture: {exc}")
             return 2
         except KeyboardInterrupt:
