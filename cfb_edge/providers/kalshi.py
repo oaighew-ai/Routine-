@@ -345,7 +345,7 @@ def implied_line(curve: dict[float, float]) -> float | None:
 
 
 def board_quotes(
-    *, opener: Opener | None = None, limit: int = 1000,
+    *, games: Sequence[str], opener: Opener | None = None, limit: int = 1000,
     seen_at: str | None = None,
 ) -> list["object"]:
     """One poll of the whole spread board, as Quotes the capture already eats.
@@ -364,6 +364,18 @@ def board_quotes(
     A game whose ladder does not straddle a coin flip is skipped rather than
     guessed at. It has no line yet, which is a different thing from having one
     this function could not read.
+
+    `games` is the slate, as "Away @ Home" strings, and it is required because
+    **nothing in a Kalshi market says which team is at home**. The first version
+    of this function inferred it by looking for each team's first three letters
+    in the event ticker. Kalshi abbreviates, so on 26SEP19KYTAM neither "tex"
+    nor "ken" is present, both lookups returned -1, the sort key did nothing,
+    and the orientation fell out of set iteration order. It passed locally and
+    failed on CI, which is the only reason it was caught: a home line written
+    upside down is a sign error on every number downstream of it.
+
+    So the schedule decides. A game on the exchange that is not on the slate is
+    skipped, because there is nothing to orient it against.
     """
     from datetime import datetime, timezone
 
@@ -376,6 +388,16 @@ def board_quotes(
         if ev:
             by_event.setdefault(str(ev), []).append(m)
 
+    # The slate is the only authority on who is at home, keyed by the pair of
+    # teams so the exchange's own naming does not have to match ours exactly.
+    schedule: dict[frozenset[str], tuple[str, str]] = {}
+    for g in games:
+        if "@" not in g:
+            continue
+        a, h = (part.strip() for part in g.split("@", 1))
+        if a and h:
+            schedule[frozenset((a.lower(), h.lower()))] = (a, h)
+
     out = []
     for event, markets in by_event.items():
         teams = {t for t, _ in filter(None, map(_team_and_strike, markets))}
@@ -383,9 +405,10 @@ def board_quotes(
             # One-sided ladder, or a title this cannot parse. Either way there
             # is no second team to anchor the away side of the curve.
             continue
-        # Kalshi writes the event ticker away-then-home, matching the
-        # "Away @ Home" convention used everywhere in this package.
-        away, home = sorted(teams, key=lambda t: str(event).lower().find(t.lower()[:3]))
+        fixture = schedule.get(frozenset(t.lower() for t in teams))
+        if fixture is None:
+            continue
+        away, home = fixture
         line = implied_line(survival_curve(markets, home=home, away=away))
         if line is None:
             continue

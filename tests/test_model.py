@@ -1631,7 +1631,11 @@ class TestKickoffGuard(unittest.TestCase):
              "yes_sub_title": "Georgia wins by over 30.5 points",
              "yes_bid": 10, "yes_ask": 12},
         ]}
+        # The slate orients the board. Nothing in a Kalshi market says which
+        # team is at home; inferring it from the event ticker gave an answer
+        # that depended on set iteration order and flipped between machines.
         quotes = board_quotes(
+            games=["Kentucky @ Texas A&M", "Georgia @ Arkansas"],
             opener=lambda url: json.dumps(page).encode(),
             seen_at="2026-09-14T22:00:00Z")
 
@@ -1643,6 +1647,19 @@ class TestKickoffGuard(unittest.TestCase):
         self.assertEqual(q.seen_at, "2026-09-14T22:00:00Z")
         # The kickoff gate needs this, and it comes free from close_time.
         self.assertIs(q.before_kickoff, True)
+
+        # Orientation comes from the slate and nowhere else. Reverse the
+        # fixture and the line flips sign; drop it and the game is skipped.
+        flipped = board_quotes(
+            games=["Texas A&M @ Kentucky"],
+            opener=lambda url: json.dumps(page).encode(),
+            seen_at="2026-09-14T22:00:00Z")
+        self.assertEqual(flipped[0].game, "Texas A&M @ Kentucky")
+        self.assertEqual(flipped[0].line, 16.5)
+
+        self.assertEqual(
+            board_quotes(games=[],
+                         opener=lambda url: json.dumps(page).encode()), [])
 
     def test_a_strike_the_venue_does_not_list_is_never_quoted(self):
         """The defect that made the card unfillable.
