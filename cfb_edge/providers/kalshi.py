@@ -376,6 +376,13 @@ def board_quotes(
 
     So the schedule decides. A game on the exchange that is not on the slate is
     skipped, because there is nothing to orient it against.
+
+    A ladder quoted from one side only still yields a line. The away team's
+    name is used to recognise away-side rungs and complement them, so a ladder
+    with no away rungs simply never needs it, and the curve it does give reads
+    the same as any other. Skipping those cost the capture every thinly-quoted
+    game on the board, which on this book is a large share of it and is
+    precisely where the observations are scarcest.
     """
     from datetime import datetime, timezone
 
@@ -401,11 +408,20 @@ def board_quotes(
     out = []
     for event, markets in by_event.items():
         teams = {t for t, _ in filter(None, map(_team_and_strike, markets))}
-        if len(teams) != 2:
-            # One-sided ladder, or a title this cannot parse. Either way there
-            # is no second team to anchor the away side of the curve.
+        if not teams:
+            # No title here parsed into a team and a strike, so there is
+            # nothing to look up and nothing to price.
             continue
-        fixture = schedule.get(frozenset(t.lower() for t in teams))
+        if len(teams) == 1:
+            # One-sided. The pair is not in the markets, so take it from the
+            # slate: exactly one fixture may contain this team, or the
+            # orientation is a guess again and the game is skipped.
+            solo = next(iter(teams)).lower()
+            hits = [f for key, f in schedule.items() if solo in key]
+            fixture = hits[0] if len(hits) == 1 else None
+        else:
+            fixture = (schedule.get(frozenset(t.lower() for t in teams))
+                       if len(teams) == 2 else None)
         if fixture is None:
             continue
         away, home = fixture

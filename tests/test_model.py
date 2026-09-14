@@ -1454,6 +1454,87 @@ class TestPaperSignals(unittest.TestCase):
 
 
 
+
+class TestOneSidedLadder(unittest.TestCase):
+    """A ladder quoted from one side is still a ladder.
+
+    Kalshi's college football book is thin, so a game quoted only from the
+    favourite's side is the common case rather than the odd one. These were
+    being dropped from the capture on the grounds that there was "no second
+    team to anchor the away side of the curve", which is not what the away
+    team is for: `survival_curve` takes both names from the slate and uses the
+    away one only to recognise away rungs and complement them. A ladder with
+    no away rungs never needs it, and dropping those games cost observations
+    where they are scarcest.
+    """
+
+    def _board(self, team, strikes, event="26sep19kytam",
+               title="Kentucky at Texas A&M"):
+        return [{"event_ticker": event, "ticker": f"{event}-{i}", "title": title,
+                 "yes_sub_title": f"{team} wins by more than {s}",
+                 "yes_bid": b, "yes_ask": a, "status": "active",
+                 "close_time": "2026-09-20T23:30:00Z"}
+                for i, (s, b, a) in enumerate(strikes)]
+
+    def _opener(self, board):
+        import json
+        return lambda url, **kw: json.dumps({"markets": board, "cursor": ""})
+
+    def test_a_home_only_ladder_still_yields_the_line(self):
+        from cfb_edge.providers.kalshi import board_quotes
+
+        board = self._board("Texas A&M", [(2.5, 91, 93), (10.5, 67, 71),
+                                          (16.5, 48, 52), (24.5, 26, 30)])
+        quotes = board_quotes(games=["Kentucky @ Texas A&M"],
+                              opener=self._opener(board),
+                              seen_at="2026-09-14T22:00:00+00:00")
+        self.assertEqual(len(quotes), 1)
+        self.assertEqual(quotes[0].game, "Kentucky @ Texas A&M")
+        self.assertAlmostEqual(quotes[0].line, -16.5, places=1)
+
+    def test_an_away_only_ladder_yields_the_line_with_the_sign_flipped(self):
+        from cfb_edge.providers.kalshi import board_quotes
+
+        board = self._board("Kentucky", [(2.5, 91, 93), (10.5, 67, 71),
+                                         (16.5, 48, 52), (24.5, 26, 30)])
+        quotes = board_quotes(games=["Kentucky @ Texas A&M"],
+                              opener=self._opener(board),
+                              seen_at="2026-09-14T22:00:00+00:00")
+        self.assertEqual(len(quotes), 1)
+        self.assertAlmostEqual(quotes[0].line, 16.5, places=1)
+
+    def test_a_lone_team_on_two_slate_fixtures_is_skipped(self):
+        """Uniqueness or nothing. Two candidate fixtures is a coin flip on
+        orientation, which is the exact defect the schedule lookup exists to
+        remove."""
+        from cfb_edge.providers.kalshi import board_quotes
+
+        board = self._board("Texas A&M", [(2.5, 91, 93), (16.5, 48, 52)])
+        quotes = board_quotes(
+            games=["Kentucky @ Texas A&M", "Texas A&M @ Auburn"],
+            opener=self._opener(board), seen_at="2026-09-14T22:00:00+00:00")
+        self.assertEqual(quotes, [])
+
+    def test_a_lone_team_not_on_the_slate_is_skipped(self):
+        from cfb_edge.providers.kalshi import board_quotes
+
+        board = self._board("Texas A&M", [(2.5, 91, 93), (16.5, 48, 52)])
+        quotes = board_quotes(games=["Florida @ Auburn"],
+                              opener=self._opener(board),
+                              seen_at="2026-09-14T22:00:00+00:00")
+        self.assertEqual(quotes, [])
+
+    def test_a_ladder_that_never_crosses_a_coin_flip_still_yields_nothing(self):
+        """The one-sided fix must not weaken the refusal to extrapolate."""
+        from cfb_edge.providers.kalshi import board_quotes
+
+        board = self._board("Texas A&M", [(2.5, 91, 93), (10.5, 67, 71)])
+        quotes = board_quotes(games=["Kentucky @ Texas A&M"],
+                              opener=self._opener(board),
+                              seen_at="2026-09-14T22:00:00+00:00")
+        self.assertEqual(quotes, [])
+
+
 class TestLineProvenance(unittest.TestCase):
     """A line is evidence only when something recorded it independently.
 

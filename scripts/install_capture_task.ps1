@@ -21,6 +21,13 @@
     release window opens. Converted to your local time for you, because Task
     Scheduler works in local time and the release window is defined in UTC.
 
+.PARAMETER Source
+    Which venue to capture from. "kalshi" (default) reads the exchange's own
+    spread ladder, needs no key and costs nothing, and measures the same board
+    the orders fill on. "oddsapi" reads sportsbook opens, requires
+    ODDS_API_KEY, and bills roughly 8,400 credits a month for a line you
+    cannot trade against.
+
 .PARAMETER TaskName
     Name of the scheduled task. Default "CFB Edge line capture".
 
@@ -36,6 +43,7 @@
 [CmdletBinding()]
 param(
     [ValidateRange(0, 23)] [int] $UtcHour = 16,
+    [ValidateSet("kalshi", "oddsapi")] [string] $Source = "kalshi",
     [string] $TaskName = "CFB Edge line capture"
 )
 
@@ -45,13 +53,19 @@ $repo = Split-Path -Parent $PSScriptRoot
 $bat  = Join-Path $repo "scripts\capture.bat"
 if (-not (Test-Path $bat)) { throw "cannot find $bat. Run this from the repository." }
 
-if (-not $env:ODDS_API_KEY) {
+# Only the oddsapi path has a credential. Warning about a key the default
+# path never reads sends people to set one up, and then to the paid source
+# because they assume that is what they configured it for.
+if ($Source -eq "oddsapi" -and -not $env:ODDS_API_KEY) {
     Write-Warning @"
-ODDS_API_KEY is not set in this session. The task will fail until it is set
-as a MACHINE or USER environment variable, not just in one terminal:
+ODDS_API_KEY is not set in this session. The oddsapi task will fail until it
+is set as a MACHINE or USER environment variable, not just in one terminal:
     setx ODDS_API_KEY "your-key"
 A task started by the scheduler does not inherit a variable you exported into
 some other window.
+
+The default source is kalshi, which needs no key at all. Drop -Source oddsapi
+unless you specifically want sportsbook opens.
 "@
 }
 
@@ -63,6 +77,7 @@ $targetUtc   = $nextSundayUtc.AddHours($UtcHour)
 $targetLocal = [System.TimeZoneInfo]::ConvertTimeFromUtc($targetUtc, [System.TimeZoneInfo]::Local)
 
 Write-Host ""
+Write-Host "Capturing from       : $Source$(if ($Source -eq 'kalshi') { '  (no key, no cost)' })"
 Write-Host "Release window opens : Sunday 22:00 UTC"
 Write-Host "Capture will start   : Sunday $($UtcHour.ToString('00')):00 UTC"
 Write-Host "  which is locally   : $($targetLocal.ToString('dddd HH:mm')) ($([System.TimeZoneInfo]::Local.Id))"
@@ -72,7 +87,7 @@ Write-Host ""
 $logDir = Join-Path $repo "data"
 if (-not (Test-Path $logDir)) { New-Item -ItemType Directory -Path $logDir | Out-Null }
 $action = New-ScheduledTaskAction -Execute "cmd.exe" `
-    -Argument "/c `"`"$bat`" >> `"$logDir\capture.log`" 2>&1`"" `
+    -Argument "/c `"`"$bat`" $Source >> `"$logDir\capture.log`" 2>&1`"" `
     -WorkingDirectory $repo
 
 $trigger = New-ScheduledTaskTrigger -Weekly -DaysOfWeek Sunday -At $targetLocal
@@ -122,3 +137,8 @@ Write-Host "Verify it works without waiting for Sunday:"
 Write-Host "    Start-ScheduledTask '$TaskName'"
 Write-Host "    Get-Content '$logDir\capture.log' -Tail 20 -Wait"
 Write-Host "Stop the test with:  Stop-ScheduledTask '$TaskName'"
+Write-Host ""
+Write-Host "The task reporting success is NOT proof it captured. This is:" -ForegroundColor Yellow
+Write-Host "    python -m cfb_edge.watch --log data\opens.jsonl.gz --rebuild --out data\opens.csv"
+Write-Host "A non-zero count means the whole chain works. Zero means it does not,"
+Write-Host "whatever the scheduler says."
