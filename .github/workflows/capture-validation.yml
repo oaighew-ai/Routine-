@@ -1,0 +1,64 @@
+name: capture validation
+
+# Branch-only deployment test. This proves that GitHub-hosted runners can reach
+# the public schedule and Kalshi endpoints and that the parser returns real CFB
+# spread rows. It does NOT establish the recurring capture loop or promote any
+# model signal.
+on:
+  push:
+    branches: [cfb-cloud-capture]
+    paths:
+      - ".github/workflows/capture-validation.yml"
+      - "cfb_edge/**"
+      - "scripts/preflight.sh"
+      - "scripts/capture.sh"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: cfb-capture-validation
+  cancel-in-progress: true
+
+jobs:
+  validate-live-capture:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+
+      - name: Run end-to-end preflight
+        run: bash scripts/preflight.sh 2026 current kalshi
+
+      - name: Preserve one fresh timestamped poll
+        run: |
+          set -euo pipefail
+          python3 -m cfb_edge.slate --season 2026 --week current --out data/slate_current.csv
+          python3 -m cfb_edge.watch --source kalshi --slate data/slate_current.csv \
+            --log data/cloud_validation.jsonl.gz --out data/cloud_validation.csv --once
+          test -s data/cloud_validation.jsonl.gz
+          test -s data/cloud_validation.csv
+          LINES=$(( $(wc -l < data/cloud_validation.csv) - 1 ))
+          echo "parsed_rows=$LINES" >> "$GITHUB_STEP_SUMMARY"
+          if [ "$LINES" -le 0 ]; then
+            echo "No parsed CFB spread rows; capture is not validated." >&2
+            exit 1
+          fi
+
+      - name: Upload validation evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: cfb-capture-validation-${{ github.run_id }}
+          path: |
+            data/slate_current.csv
+            data/cloud_validation.jsonl.gz
+            data/cloud_validation.csv
+          if-no-files-found: warn
+          retention-days: 30
