@@ -34,13 +34,32 @@ from .ratings import RatingModel
 # directly against real margins and is already in the right units.
 #
 # The constant is a property of the pipeline, not of football, so it is a
-# parameter. Measured inside `backtest.py`'s simulated world the same ratings
-# need a scale of 1.00, because that simulator hands the model priors equal to
-# truth plus four points of noise, which is a far better preseason prior than
-# anything real. Its ratings therefore never compress, and applying 1.40 there
-# over-corrects by forty percent. That is a limitation of the simulator worth
-# knowing about: it understates how wrong an early-season rating really is.
-RATING_SCALE = 1.40
+# parameter, and `calibration.py` measures it rather than asserting it. Walk-
+# forward over 2,995 FBS games across 2021-2025, solving each week's ratings on
+# earlier weeks only:
+#
+#     actual = -0.690 + 1.0732 x projected     slope SE 0.0294, t vs 1.0 = +2.49
+#
+# At 1.40 the projections were still seven percent too small, in the same
+# direction in every bucket of projected margin: the favourite was understated
+# by +0.44 points in games inside a field goal, +0.92 at a touchdown to ten,
+# and +1.76 among three-score favourites. That is the compression above,
+# surviving its own correction. Raising the scale to 1.50 takes the slope to
+# 1.0003 at t = +0.01.
+#
+# Worth stating plainly: the +0.44 points of closing line value this project
+# rests on were measured with 1.40 in place. Re-scaling moves about three
+# percent of signals (17 of 519 on the 2025 board) and flipped no sides, so the
+# measurement is not invalidated, but it is no longer exactly the configuration
+# that produced it.
+#
+# Measured inside `backtest.py`'s simulated world the same ratings need a scale
+# of 1.00, because that simulator hands the model priors equal to truth plus
+# four points of noise, which is a far better preseason prior than anything
+# real. Its ratings therefore never compress. That is a limitation of the
+# simulator worth knowing about: it understates how wrong an early-season
+# rating really is.
+RATING_SCALE = 1.50
 
 # What the same pipeline needs against `backtest.py`'s synthetic league.
 SIMULATED_RATING_SCALE = 1.00

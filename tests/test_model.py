@@ -1506,6 +1506,148 @@ class TestCurrentWeek(unittest.TestCase):
         self.assertIsNone(current_week(2026, today="2026-12-01", rows=self.ROWS))
 
 
+
+class TestCalibration(unittest.TestCase):
+    """Is the model's projected margin the size reality is?
+
+    `RATING_SCALE` corrects the solver's compression, and was a hand-measured
+    constant that nothing in the package could re-check. Measured walk-forward
+    over 2,995 FBS games from 2021 to 2025 it was still seven percent too low,
+    in the same direction in every bucket of projected margin. A compressed
+    model makes every underdog look undervalued, so a strategy that bets on
+    disagreeing with the market reads its own scale error as signal.
+    """
+
+    def _row(self, week, home, away, hp, ap, *, neutral=False, kind="regular",
+             div="fbs"):
+        return {"season_type": kind, "home_division": div, "away_division": div,
+                "week": str(week), "home_team": home, "away_team": away,
+                "home_points": str(hp), "away_points": str(ap),
+                "neutral_site": "TRUE" if neutral else "FALSE"}
+
+    def _league(self, weeks=12, teams=16, spread=2.0, noise=0.0, seed=5):
+        """A synthetic season whose true strengths are known."""
+        import random
+        rng = random.Random(seed)
+        names = [f"T{i:02d}" for i in range(teams)]
+        truth = {n: (i - (teams - 1) / 2) * spread / teams for i, n in enumerate(names)}
+        rows = []
+        for week in range(1, weeks + 1):
+            order = names[:]
+            rng.shuffle(order)
+            for home, away in zip(order[::2], order[1::2]):
+                margin = truth[home] - truth[away] + 3.2
+                if noise:
+                    margin += rng.gauss(0, noise)
+                margin = round(margin)
+                base = 24
+                rows.append(self._row(week, home, away, base + margin, base))
+        return rows
+
+    def test_a_perfect_fit_returns_slope_one(self):
+        from cfb_edge.calibration import fit
+
+        points = [(x, 2.0 + 1.0 * x) for x in range(-20, 21)]
+        c = fit(points)
+        self.assertAlmostEqual(c.slope, 1.0, places=9)
+        self.assertAlmostEqual(c.intercept, 2.0, places=9)
+        self.assertFalse(c.compressed)
+
+    def test_a_compressed_projection_reports_slope_above_one(self):
+        from cfb_edge.calibration import fit
+
+        # Projections are 70% of reality, so reality is 1/0.7 times projection.
+        points = [(0.7 * x, float(x)) for x in range(-20, 21)]
+        c = fit(points)
+        self.assertAlmostEqual(c.slope, 1.0 / 0.7, places=6)
+        self.assertAlmostEqual(c.implied_scale(1.40), 1.40 / 0.7, places=6)
+
+    def test_a_slope_needs_three_points_and_real_spread(self):
+        from cfb_edge.calibration import fit
+
+        with self.assertRaises(ValueError):
+            fit([(1.0, 1.0), (2.0, 2.0)])
+        with self.assertRaises(ValueError):
+            fit([(3.0, 1.0), (3.0, 2.0), (3.0, 9.0)])
+
+    def test_the_target_week_cannot_rate_the_teams_that_predict_it(self):
+        """The test that makes the measurement worth anything.
+
+        Solving ratings on the whole season and projecting games inside it
+        returns a slope near one however wrong the scale is, because each
+        team's own result helped set the rating that predicts it. Walk-forward
+        is the difference between measuring the model and measuring nothing.
+        """
+        from cfb_edge.calibration import walk_forward_points
+        from cfb_edge.ratings import Game, solve_ratings
+        from cfb_edge.projection import Matchup, project
+
+        rows = self._league(weeks=14, teams=16, noise=6.0)
+        points = walk_forward_points(rows, from_week=4, min_history=40)
+        # 8 games a week, usable from the week history first reaches 40.
+        self.assertGreater(len(points), 60)
+
+        # Every projection must be reproducible from strictly earlier weeks.
+        records = [(int(r["week"]), r["home_team"], r["away_team"],
+                    int(r["home_points"]) - int(r["away_points"])) for r in rows]
+        by_week = {}
+        for week, home, away, margin in records:
+            by_week.setdefault(week, []).append((home, away, margin))
+
+        week = max(w for w in by_week if w >= 4)
+        history = [Game(h, a, 24 + m, 24, False)
+                   for w, h, a, m in records if w < week]
+        model = solve_ratings(history)
+        home, away, _ = by_week[week][0]
+        expected = project(model, Matchup(home=home, away=away)).home_margin
+        actual_for_that_game = [p for p, _ in points]
+        self.assertIn(round(expected, 6),
+                      [round(v, 6) for v in actual_for_that_game])
+
+    def test_a_scale_that_fits_drives_the_slope_to_one(self):
+        from cfb_edge.calibration import fit, walk_forward_points
+
+        rows = self._league(weeks=14, teams=16, noise=5.0)
+        before = fit(walk_forward_points(rows, from_week=4, min_history=40))
+        corrected = before.implied_scale(1.0)
+        after = fit(walk_forward_points(rows, from_week=4, min_history=40,
+                                        rating_scale=corrected))
+        self.assertLess(abs(after.slope - 1.0), abs(before.slope - 1.0) + 1e-9)
+        self.assertLess(abs(after.t_against_one), 1.96)
+
+    def test_only_fbs_regular_season_games_with_scores_are_measured(self):
+        from cfb_edge.calibration import _rows_to_records
+
+        rows = [
+            self._row(5, "A", "B", 28, 21),
+            self._row(5, "C", "D", 28, 21, kind="postseason"),
+            self._row(5, "E", "F", 28, 21, div="fcs"),
+            {**self._row(5, "G", "H", 28, 21), "home_points": ""},
+            {**self._row(5, "I", "J", 28, 21), "week": "not a week"},
+            {**self._row(5, "", "K", 28, 21)},
+        ]
+        kept = _rows_to_records(rows)
+        self.assertEqual([r[1] for r in kept], ["A"])
+
+    def test_pooling_favours_the_season_measured_most_precisely(self):
+        from cfb_edge.calibration import Calibration, pool
+
+        tight = Calibration(games=600, slope=1.00, intercept=0.0,
+                            stderr=0.01, residual_sd=16.0)
+        loose = Calibration(games=60, slope=2.00, intercept=0.0,
+                            stderr=0.50, residual_sd=16.0)
+        p = pool([tight, loose])
+        self.assertLess(p.slope, 1.01)
+        self.assertEqual(p.games, 660)
+        self.assertLess(p.stderr, tight.stderr)
+
+    def test_the_scale_in_use_is_the_one_the_measurement_supports(self):
+        """Guards the constant against drifting back by accident."""
+        from cfb_edge.projection import RATING_SCALE
+
+        self.assertAlmostEqual(RATING_SCALE, 1.50, places=2)
+
+
 class TestOneSidedLadder(unittest.TestCase):
     """A ladder quoted from one side is still a ladder.
 
