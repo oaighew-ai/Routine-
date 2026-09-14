@@ -124,6 +124,31 @@ tbody tr:last-child td{border-bottom:none}
 .tag.under{background:var(--sunk);color:var(--ink-3)}
 .tag.empty{background:transparent;color:var(--ink-3);padding-left:0}
 
+/* bankroll */
+.bank{display:flex;flex-direction:column;gap:16px}
+.bank .setr{display:flex;align-items:baseline;gap:11px;flex-wrap:wrap}
+.bank label{font-family:var(--display);font-size:13px;font-weight:600}
+.bank input{
+  font-family:var(--mono);font-size:19px;font-weight:600;padding:7px 11px;width:150px;
+  background:var(--surface);color:var(--ink);
+  border:1px solid var(--rule);border-radius:3px;text-align:right;
+}
+.caps{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:1px;background:var(--rule-soft)}
+.caps > div{background:var(--surface);padding:13px 15px;display:flex;flex-direction:column;gap:4px}
+.caps .v{font-family:var(--mono);font-size:20px;font-weight:600;line-height:1.1}
+.caps .sub{font-size:12.5px;color:var(--ink-3)}
+.scale{border-left:3px solid var(--dead);background:var(--dead-soft);padding:16px 19px;display:flex;flex-direction:column;gap:10px}
+.scale h3{color:var(--dead);font-size:16px}
+.scale .pair{display:flex;gap:26px;flex-wrap:wrap}
+.scale .pair > div{display:flex;flex-direction:column;gap:3px}
+.scale .pair .v{font-family:var(--mono);font-size:23px;font-weight:600;line-height:1.1}
+.scale p{font-size:14px;color:var(--ink-2);max-width:64ch}
+.proof{display:grid;grid-template-columns:1fr auto;gap:9px 18px;align-items:baseline;max-width:520px}
+.proof .k{font-size:14px;color:var(--ink-2)}
+.proof .n{font-family:var(--mono);font-size:16px;font-weight:600;text-align:right}
+.proof .n.bad{color:var(--dead)}
+.proof .n.good{color:var(--live)}
+
 /* key numbers */
 .keys{display:flex;flex-direction:column;gap:6px}
 .krow{display:grid;grid-template-columns:30px 1fr 54px;align-items:center;gap:12px}
@@ -198,8 +223,9 @@ tbody tr:last-child td{border-bottom:none}
     </div>
     <div class="chip wait">
       <span class="lab">Plays</span>
-      <span class="v">0</span>
-      <span class="sub">Not a quiet board. No opening lines exist yet, so nothing can be priced.</span>
+      <span class="v">4</span>
+      <span class="sub">On seven lines found by search, not recorded by the capture.
+      Provisional until your own opens confirm them.</span>
     </div>
     <div class="chip wait">
       <span class="lab">Capture</span>
@@ -216,10 +242,11 @@ tbody tr:last-child td{border-bottom:none}
   </section>
 
   <section class="verdict">
-    <div class="head">Nothing is bettable tonight, and that is the schedule working rather than a dry board.</div>
+    <div class="head">Four plays, on lines nobody recorded. A shortlist, not a card.</div>
     <p>The signal takes exactly one market input: the number a book posts when it first
-    opens a game. Those numbers do not exist yet. They start posting at
-    <b>22:00 UTC tonight</b> and the window runs through Tuesday 18:00 UTC.</p>
+    opens a game. Seven of those were found by search on Sept 14 and four clear the bar.
+    <b>None came from the capture</b>, so for six of the seven there is no way to tell an
+    opening number from one that has already moved.</p>
     <p>This matters more than it sounds. The model cannot beat a closing line at all,
     measured at an incremental coefficient of &minus;0.02 against 6,398 games. What
     survives is predicting where a line travels: <b>0.44 points of closing line value
@@ -229,6 +256,11 @@ tbody tr:last-child td{border-bottom:none}
     &minus;2.5, the model said Michigan was overvalued, and the line travelled nine
     points to Oklahoma &minus;6.5. The model was right and the bet was never available,
     because nobody was recording when the number posted.</p>
+    <p class="note">North Carolina at Clemson is this week's version, and the most useful
+    row on the page. One source named the open, <b>Clemson &minus;5.5</b>, and the current
+    number, <b>&minus;8.5</b>, separately. At the open the gap was 0.55; at the current
+    number it is 3.55. Neither clears the bar, a three-point move happened, and the model
+    had nothing to say at either end. That is what most of a real week looks like.</p>
   </section>
 
   <section>
@@ -311,9 +343,10 @@ tbody tr:last-child td{border-bottom:none}
   <section class="board">
     <h2 style="margin-bottom:7px">The board &middot; all 57 games</h2>
     <p class="note" style="margin-bottom:6px">Every FBS game on the week 3 slate, ordered
-    by how far the model sits from a pick'em. <b>None of these is a bet.</b> Type an
-    opening line as a book posts it and the gap, side and verdict compute with the same
-    arithmetic <code>signal_side</code> uses.</p>
+    by how far the model sits from a pick'em. <b>Seven rows are pre-filled</b> with lines
+    found by search on Sept 14, outlined in amber, and those compute on load. The other
+    fifty are empty because nothing sourced them. Type over anything your own capture
+    recorded: a number recorded first-seen beats one found in an article.</p>
     <p class="note" style="margin-bottom:16px"><b>Sign convention:</b> both the fair
     line and the opening line are the <b>home team's</b> number, negative when the home
     team lays points. A home favourite by six and a half is <code>-6.5</code>. Fair line
@@ -336,6 +369,103 @@ tbody tr:last-child td{border-bottom:none}
     sign. Eighteen of these 57 games moved at least the 4.0 points the bar requires, on
     four days of information, with no market number involved. Whatever fires on Monday,
     part of it is a rating that will read differently next Sunday.</p>
+  </section>
+
+  <section>
+    <h2 style="margin-bottom:7px">The four, priced</h2>
+    <p class="note" style="margin:0 0 16px">Stakes are quarter Kelly, capped at 2% a bet
+    and 10% across the card. Dollar figures are below, against whatever bankroll you set.</p>
+    <div class="tw">
+      <table>
+        <thead>
+          <tr><th>Back</th><th>Strike</th><th>Open</th><th>Gap</th><th>Buy at</th><th>Net edge</th><th>Stake</th></tr>
+        </thead>
+        <tbody>
+          <tr class="lit">
+            <td class="gm">Auburn <i>vs Florida</i></td>
+            <td class="n">&plus;3</td><td class="n">&plus;2.5</td><td class="n gap">&minus;6.87</td>
+            <td class="n">34&cent;</td><td class="n">&plus;1.16%</td><td class="n">0.44%</td>
+          </tr>
+          <tr class="lit">
+            <td class="gm">Texas A&amp;M <i>vs Kentucky</i></td>
+            <td class="n">&plus;3</td><td class="n">&minus;15.5</td><td class="n gap">&minus;8.73</td>
+            <td class="n">75&cent;</td><td class="n">&plus;0.85%</td><td class="n">0.83%</td>
+          </tr>
+          <tr class="lit">
+            <td class="gm">Arkansas <i>vs Georgia</i></td>
+            <td class="n">&plus;3</td><td class="n">&plus;17.5</td><td class="n gap">&minus;5.25</td>
+            <td class="n">19&cent;</td><td class="n">&plus;0.70%</td><td class="n">0.19%</td>
+          </tr>
+          <tr class="lit">
+            <td class="gm">Michigan State <i>at Notre Dame</i></td>
+            <td class="n">&plus;7</td><td class="n">&minus;29.5</td><td class="n gap">&plus;14.18</td>
+            <td class="n">11&cent;</td><td class="n">&plus;0.36%</td><td class="n">0.10%</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="note"><b>Notre Dame has the largest disagreement and the smallest stake.</b>
+    Fourteen points of gap, one tenth of a percent of bankroll. Quarter Kelly sizes on the
+    price, not on how wrong the market looks: a big disagreement on a hopeless dog is a
+    cheap lottery ticket. Texas A&amp;M is the largest stake and the only one where the
+    model wants the favourite.</p>
+    <p class="note"><b>Three more had a line and got no bet:</b> Florida State at Alabama
+    (gap 3.02), LSU at Ole Miss (3.42), North Carolina at Clemson (0.55).</p>
+    <p class="note"><b>Excluded: Miami at Wake Forest.</b> Four different numbers across
+    sources (19.5, 20.5, 22.5, 23.5) and a quote whose two sides did not reconcile. Not a
+    line, a rumour. Georgia at Arkansas is priced at the conservative end of its reported
+    range (&plus;17.5, not the &plus;24.5 one book showed), so the stake is understated
+    rather than inflated; the side holds across the whole range.</p>
+  </section>
+
+  <section class="bank">
+    <h2 style="margin-bottom:2px">What a stake costs</h2>
+    <p class="note" style="margin:0 0 4px">Every stake the card prints is a
+    percentage. This turns them into money, and states what that money can and
+    cannot buy.</p>
+    <div class="setr">
+      <label for="bank">Bankroll</label>
+      <span class="num" style="font-size:19px;color:var(--ink-3)">$</span>
+      <input id="bank" type="text" inputmode="numeric" value="10,000"
+             aria-label="Bankroll in dollars">
+    </div>
+
+    <div class="caps">
+      <div><span class="lab">Ceiling, one bet</span><span class="v" id="cap1">$200</span><span class="sub">2% of bankroll, hard</span></div>
+      <div><span class="lab">Ceiling, all bets</span><span class="v" id="cap2">$1,000</span><span class="sub">10% across the card</span></div>
+      <div><span class="lab">Typical play</span><span class="v" id="typ">$42</span><span class="sub">0.42%, quarter Kelly</span></div>
+      <div><span class="lab">Smallest seen</span><span class="v" id="small">$10</span><span class="sub">0.10% on a thin edge</span></div>
+    </div>
+
+    <div class="scale">
+      <h3>The part worth reading before Saturday</h3>
+      <div class="pair">
+        <div><span class="lab">Expected profit, a full season</span><span class="v" id="ev">$9</span></div>
+        <div><span class="lab">One standard deviation</span><span class="v" id="sd">&plusmn;$197</span></div>
+      </div>
+      <p>Twenty-two real bets, weeks 3 through 13. <b>The noise is
+      <span class="num" id="ratio">21</span> times the edge.</b> You will finish
+      the year up or down a few hundred dollars and it will tell you nothing about
+      whether the model works.</p>
+      <p><b>That ratio does not improve with a bigger bankroll.</b> Double the
+      money and both numbers double. There is no size at which realised profit
+      becomes the scorecard, which is why it is not the scorecard here.</p>
+    </div>
+
+    <div>
+      <h3 style="margin-bottom:10px">What it would take to prove a 1% edge</h3>
+      <div class="proof">
+        <span class="k">On realised profit, at t = 2</span><span class="n bad">40,000 bets</span>
+        <span class="k">at two real bets a week</span><span class="n bad">1,818 seasons</span>
+        <span class="k">On closing line value, at t = 2</span><span class="n good">160 bets</span>
+        <span class="k">at 25 paper signals a week</span><span class="n good">6.4 weeks</span>
+      </div>
+      <p class="note" style="max-width:64ch;margin-top:16px"><b>251 times fewer observations.</b>
+      That is the whole argument for the zero-stake log, and it is why skipping
+      <code>signals</code> on a quiet week costs more than skipping a bet. Bet the
+      card if you want to prove you can get the fill. The answer arrives in the CLV
+      number six weeks from now, not in the balance.</p>
+    </div>
   </section>
 
   <section class="dead-box" style="border-left-color:var(--live)">
@@ -473,7 +603,55 @@ tbody tr:last-child td{border-bottom:none}
 
 <script>
 (function(){
-  var GAMES = [{"a":"Western Kentucky","h":"Indiana","m":31.89},{"a":"Kent State","h":"Ohio State","m":27.54},{"a":"Kentucky","h":"Texas A&M","m":24.23},{"a":"Buffalo","h":"Penn State","m":21.83},{"a":"UTEP","h":"Michigan","m":18.73},{"a":"Syracuse","h":"Pittsburgh","m":18.21},{"a":"USC","h":"Rutgers","m":-18.21},{"a":"Kennesaw State","h":"Tennessee","m":17.02},{"a":"Northern Illinois","h":"Arizona","m":16.42},{"a":"Bowling Green","h":"Iowa State","m":16.35},{"a":"Stanford","h":"Duke","m":16.16},{"a":"Utah State","h":"Utah","m":15.77},{"a":"Florida State","h":"Alabama","m":15.48},{"a":"Michigan State","h":"Notre Dame","m":15.32},{"a":"Charlotte","h":"App State","m":14.98},{"a":"Troy","h":"Missouri","m":13.78},{"a":"Miami (OH)","h":"Cincinnati","m":13.09},{"a":"Purdue","h":"UCLA","m":12.76},{"a":"NC State","h":"Vanderbilt","m":12.62},{"a":"Georgia","h":"Arkansas","m":-12.25},{"a":"Temple","h":"Toledo","m":12.07},{"a":"Houston","h":"Texas Tech","m":11.86},{"a":"North Dakota State","h":"Sacramento State","m":-11.66},{"a":"West Virginia","h":"Virginia","m":11.6},{"a":"Ball State","h":"Liberty","m":11.54},{"a":"Tulane","h":"Kansas State","m":11.43},{"a":"UTSA","h":"Texas","m":10.82},{"a":"Arkansas State","h":"TCU","m":9.79},{"a":"Western Michigan","h":"Rice","m":-8.58},{"a":"North Texas","h":"Texas State","m":-8.39},{"a":"Louisiana Tech","h":"Baylor","m":7.77},{"a":"Miami","h":"Wake Forest","m":-7.49},{"a":"UAB","h":"Louisiana","m":7.32},{"a":"Eastern Michigan","h":"Wisconsin","m":6.78},{"a":"BYU","h":"Colorado State","m":-6.28},{"a":"Colorado","h":"Northwestern","m":6.07},{"a":"Virginia Tech","h":"Maryland","m":5.99},{"a":"Ohio","h":"South Alabama","m":4.96},{"a":"Akron","h":"Minnesota","m":4.95},{"a":"Georgia State","h":"UCF","m":4.95},{"a":"North Carolina","h":"Clemson","m":4.95},{"a":"Coastal Carolina","h":"Delaware","m":4.72},{"a":"Wyoming","h":"Central Michigan","m":4.7},{"a":"Florida","h":"Auburn","m":4.37},{"a":"East Carolina","h":"Old Dominion","m":4.19},{"a":"New Mexico","h":"Oklahoma","m":3.86},{"a":"James Madison","h":"San Diego State","m":-3.47},{"a":"UConn","h":"Southern Miss","m":3.23},{"a":"Georgia Southern","h":"Jacksonville State","m":3.19},{"a":"Florida International","h":"Florida Atlantic","m":-3.04},{"a":"Marshall","h":"Missouri State","m":2.9},{"a":"Nevada","h":"Middle Tennessee","m":-2.77},{"a":"Fresno State","h":"San Jos\u00e9 State","m":-1.69},{"a":"Arizona State","h":"Kansas","m":-1.49},{"a":"LSU","h":"Ole Miss","m":0.92},{"a":"SMU","h":"Louisville","m":0.74},{"a":"Mississippi State","h":"South Carolina","m":-0.5}];
+  var el = document.getElementById("bank");
+  if (!el) return;
+  // Ratios come from cfb_edge.staking: max_stake 0.02, portfolio cap 0.10,
+  // quarter Kelly. TYP and SMALL are the median and minimum stake the
+  // end-to-end run actually produced.
+  var CAP1 = 0.02, CAP2 = 0.10, TYP = 0.0042, SMALL = 0.0010;
+  var BETS = 22, EDGE = 0.010;
+
+  function money(n){ return "$" + Math.round(n).toLocaleString("en-US"); }
+  function read(){
+    var v = parseFloat(String(el.value).replace(/[^0-9.]/g, ""));
+    return (isFinite(v) && v > 0) ? v : 0;
+  }
+  function set(id, text){
+    var n = document.getElementById(id);
+    if (n) n.textContent = text;
+  }
+  function render(){
+    var b = read();
+    set("cap1", money(b * CAP1));
+    set("cap2", money(b * CAP2));
+    set("typ",  money(b * TYP));
+    set("small", money(b * SMALL));
+
+    var stake = b * TYP;
+    var ev = BETS * stake * EDGE;
+    var sd = Math.sqrt(BETS) * stake;
+    set("ev", money(ev));
+    set("sd", "\u00b1" + money(sd));
+    // sd/ev reduces to sqrt(BETS)/(BETS*EDGE): the bankroll cancels. Rendered
+    // rather than hard-coded so the claim above stays checkable.
+    set("ratio", ev > 0 ? String(Math.round(sd / ev)) : "\u2014");
+
+    try { localStorage.setItem("cfb-bankroll", String(b)); } catch (e) {}
+  }
+  el.addEventListener("input", render);
+  el.addEventListener("blur", function(){
+    var b = read();
+    if (b) el.value = b.toLocaleString("en-US");
+  });
+  try {
+    var saved = localStorage.getItem("cfb-bankroll");
+    if (saved && parseFloat(saved) > 0) el.value = parseFloat(saved).toLocaleString("en-US");
+  } catch (e) {}
+  render();
+})();
+
+(function(){
+  var GAMES = [{"a":"Western Kentucky","h":"Indiana","m":31.89},{"a":"Kent State","h":"Ohio State","m":27.54},{"a":"Kentucky","h":"Texas A&M","m":24.23,"o":-15.5},{"a":"Buffalo","h":"Penn State","m":21.83},{"a":"UTEP","h":"Michigan","m":18.73},{"a":"Syracuse","h":"Pittsburgh","m":18.21},{"a":"USC","h":"Rutgers","m":-18.21},{"a":"Kennesaw State","h":"Tennessee","m":17.02},{"a":"Northern Illinois","h":"Arizona","m":16.42},{"a":"Bowling Green","h":"Iowa State","m":16.35},{"a":"Stanford","h":"Duke","m":16.16},{"a":"Utah State","h":"Utah","m":15.77},{"a":"Florida State","h":"Alabama","m":15.48,"o":-18.5},{"a":"Michigan State","h":"Notre Dame","m":15.32,"o":-29.5},{"a":"Charlotte","h":"App State","m":14.98},{"a":"Troy","h":"Missouri","m":13.78},{"a":"Miami (OH)","h":"Cincinnati","m":13.09},{"a":"Purdue","h":"UCLA","m":12.76},{"a":"NC State","h":"Vanderbilt","m":12.62},{"a":"Georgia","h":"Arkansas","m":-12.25,"o":17.5},{"a":"Temple","h":"Toledo","m":12.07},{"a":"Houston","h":"Texas Tech","m":11.86},{"a":"North Dakota State","h":"Sacramento State","m":-11.66},{"a":"West Virginia","h":"Virginia","m":11.6},{"a":"Ball State","h":"Liberty","m":11.54},{"a":"Tulane","h":"Kansas State","m":11.43},{"a":"UTSA","h":"Texas","m":10.82},{"a":"Arkansas State","h":"TCU","m":9.79},{"a":"Western Michigan","h":"Rice","m":-8.58},{"a":"North Texas","h":"Texas State","m":-8.39},{"a":"Louisiana Tech","h":"Baylor","m":7.77},{"a":"Miami","h":"Wake Forest","m":-7.49},{"a":"UAB","h":"Louisiana","m":7.32},{"a":"Eastern Michigan","h":"Wisconsin","m":6.78},{"a":"BYU","h":"Colorado State","m":-6.28},{"a":"Colorado","h":"Northwestern","m":6.07},{"a":"Virginia Tech","h":"Maryland","m":5.99},{"a":"Ohio","h":"South Alabama","m":4.96},{"a":"Akron","h":"Minnesota","m":4.95},{"a":"Georgia State","h":"UCF","m":4.95},{"a":"North Carolina","h":"Clemson","m":4.95,"o":-5.5},{"a":"Coastal Carolina","h":"Delaware","m":4.72},{"a":"Wyoming","h":"Central Michigan","m":4.7},{"a":"Florida","h":"Auburn","m":4.37,"o":2.5},{"a":"East Carolina","h":"Old Dominion","m":4.19},{"a":"New Mexico","h":"Oklahoma","m":3.86},{"a":"James Madison","h":"San Diego State","m":-3.47},{"a":"UConn","h":"Southern Miss","m":3.23},{"a":"Georgia Southern","h":"Jacksonville State","m":3.19},{"a":"Florida International","h":"Florida Atlantic","m":-3.04},{"a":"Marshall","h":"Missouri State","m":2.9},{"a":"Nevada","h":"Middle Tennessee","m":-2.77},{"a":"Fresno State","h":"San Jos\u00e9 State","m":-1.69},{"a":"Arizona State","h":"Kansas","m":-1.49},{"a":"LSU","h":"Ole Miss","m":0.92,"o":2.5},{"a":"SMU","h":"Louisville","m":0.74},{"a":"Mississippi State","h":"South Carolina","m":-0.5}];
   var BAR = 4.0, body = document.getElementById("board-body");
   if (!body) return;
 
@@ -499,6 +677,13 @@ tbody tr:last-child td{border-bottom:none}
     input.inputMode = "decimal";
     input.id = "open-" + i;
     input.placeholder = "—";
+    if (typeof g.o === "number") {
+      // Found by search on Sept 14, not recorded by the capture. Pre-filled so
+      // the row computes on load; type over it with your own recorded open.
+      input.value = String(g.o);
+      input.title = "found by search, not captured";
+      input.style.borderColor = "var(--accent)";
+    }
     input.setAttribute("aria-label", "Opening line for " + g.h + " against " + g.a);
     td.appendChild(input);
     tr.appendChild(td);
@@ -539,6 +724,7 @@ tbody tr:last-child td{border-bottom:none}
       }
     }
     input.addEventListener("input", render);
+    render();
     body.appendChild(tr);
   });
 })();
