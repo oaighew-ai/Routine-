@@ -24,7 +24,7 @@ from __future__ import annotations
 import datetime as _dt
 from pathlib import Path
 
-from .clv import BET_FIELDS, LoggedBet, load_bets, save_bets
+from .clv import BET_FIELDS, UNVERIFIED, LoggedBet, load_bets, save_bets
 from .strategy import signal_side
 
 # A stake of zero is what marks a row as paper, and it keeps realised profit at
@@ -39,13 +39,16 @@ NOMINAL_PRICE = -110.0
 def signals_for(
     slate: dict[str, float], opens: dict[str, float], *,
     date: str | None = None, min_disagreement: float = 4.0,
-    week: int | None = None,
+    week: int | None = None, sources: dict[str, str] | None = None,
 ) -> list[LoggedBet]:
     """Every game where the model disagrees with the open by enough to act.
 
     `slate` maps "Away @ Home" to the model's projected home margin, `opens`
-    maps the same key to the opening home line.
+    maps the same key to the opening home line. `sources` maps it to where
+    that line came from; a game missing from it is unverified, because a line
+    with no stated provenance has none.
     """
+    sources = sources or {}
     day = date or _dt.date.today().isoformat()
     out: list[LoggedBet] = []
     for game, projected in sorted(slate.items()):
@@ -63,7 +66,8 @@ def signals_for(
         taken = open_line if side == home else -open_line
         out.append(LoggedBet(date=day, away=away, home=home, side=side,
                              line_taken=float(taken), price_taken=NOMINAL_PRICE,
-                             stake=PAPER_STAKE))
+                             stake=PAPER_STAKE,
+                             source=sources.get(game, UNVERIFIED)))
     return out
 
 

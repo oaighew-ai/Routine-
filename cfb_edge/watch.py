@@ -298,14 +298,23 @@ class OpeningBook:
         return self._consensus(self.opens, market)
 
     def write_opens_csv(self, path: str | Path, market: str = "spread") -> int:
-        """Emit exactly what `cfb_edge play --opens` consumes."""
+        """Emit exactly what `cfb_edge play --opens` consumes.
+
+        The `source` column travels with the number. Every line here came out
+        of a capture log, where it was stamped with the moment it was seen, so
+        it can carry `CAPTURED` downstream and be graded. A hand-written opens
+        file has no such column, reads back as unverified, and is kept out of
+        the closing line value it would otherwise contaminate.
+        """
         import csv
+
+        from .clv import CAPTURED
 
         rows = sorted(self.consensus_opens(market).items())
         with open(path, "w", newline="", encoding="utf-8") as fh:
             w = csv.writer(fh)
-            w.writerow(["game", "opening_line"])
-            w.writerows(rows)
+            w.writerow(["game", "opening_line", "source"])
+            w.writerows((game, line, CAPTURED) for game, line in rows)
         return len(rows)
 
 
