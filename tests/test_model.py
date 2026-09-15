@@ -1507,6 +1507,85 @@ class TestCurrentWeek(unittest.TestCase):
 
 
 
+
+class TestSkillRequirement(unittest.TestCase):
+    """How good would the model have to be, versus how good it is.
+
+    Every instinct this project has had to fight says "make the model better".
+    The model's residual sd is 16.33 against the closing line's 15.39, so it is
+    nearly a point of standard deviation worse than the number it would bet
+    into, and its incremental coefficient over the close is -0.02 at t = -0.31.
+    These tests pin the arithmetic that says tuning cannot close that.
+    """
+
+    def test_the_model_is_worse_than_the_number_it_bets_against(self):
+        from cfb_edge.requirement import model_deficit
+
+        self.assertGreater(model_deficit(), 0.0)
+        self.assertAlmostEqual(model_deficit(), 0.94, places=2)
+
+    def test_the_breakeven_rate_at_a_standard_price(self):
+        from cfb_edge.requirement import breakeven_probability
+
+        self.assertAlmostEqual(breakeven_probability(-110), 0.523810, places=5)
+        self.assertAlmostEqual(breakeven_probability(100), 0.5, places=9)
+        self.assertLess(breakeven_probability(-102), breakeven_probability(-110))
+
+    def test_a_bigger_disagreement_needs_a_smaller_coefficient(self):
+        """The same edge is easier to clear when the signal is louder, which is
+        why the disagreement threshold is a real parameter and not decoration."""
+        from cfb_edge.requirement import beta_required
+
+        loud = beta_required(mean_disagreement=14.0)
+        quiet = beta_required(mean_disagreement=4.0)
+        self.assertLess(loud, quiet)
+        self.assertGreater(quiet, 0.0)
+
+    def test_a_worse_price_raises_the_bar(self):
+        from cfb_edge.requirement import beta_required
+
+        self.assertGreater(beta_required(american_price=-120, mean_disagreement=7.5),
+                           beta_required(american_price=-102, mean_disagreement=7.5))
+
+    def test_a_zero_disagreement_is_not_a_signal(self):
+        from cfb_edge.requirement import beta_required
+
+        with self.assertRaises(ValueError):
+            beta_required(mean_disagreement=0.0)
+        with self.assertRaises(ValueError):
+            beta_required(mean_disagreement=-3.0)
+
+    def test_the_measured_model_does_not_reach_the_bar_at_a_typical_signal(self):
+        """The finding, asserted so a future tuning pass has to confront it."""
+        from cfb_edge.requirement import requirement
+
+        r = requirement(mean_disagreement=7.5)
+        self.assertGreater(r.beta_required, 0.0)
+        self.assertLess(r.beta_measured, 0.0)
+        self.assertGreater(r.standard_errors_away, 2.0)
+        self.assertFalse(r.reachable)
+        self.assertIn("Not consistent", r.summary())
+
+    def test_a_model_with_real_information_does_reach_it(self):
+        """The test is not rigged to always fail. A coefficient the data could
+        plausibly have produced clears the bar and says so."""
+        from cfb_edge.requirement import requirement
+
+        r = requirement(mean_disagreement=7.5, beta_measured=0.10, beta_t=2.0)
+        self.assertTrue(r.reachable)
+        self.assertIn("Consistent", r.summary())
+
+    def test_the_probit_is_the_inverse_of_the_normal_cdf(self):
+        from cfb_edge.requirement import _phi, _probit
+
+        for p in (0.01, 0.25, 0.5, 0.5238, 0.75, 0.99):
+            self.assertAlmostEqual(_phi(_probit(p)), p, places=6)
+        with self.assertRaises(ValueError):
+            _probit(0.0)
+        with self.assertRaises(ValueError):
+            _probit(1.0)
+
+
 class TestCalibration(unittest.TestCase):
     """Is the model's projected margin the size reality is?
 
