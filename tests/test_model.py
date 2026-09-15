@@ -1508,6 +1508,129 @@ class TestCurrentWeek(unittest.TestCase):
 
 
 
+
+class TestRealKalshiPayload(unittest.TestCase):
+    """Built from a live response, not from what the code hoped to receive.
+
+    A GitHub-hosted runner reached `KXNCAAFSPREAD` on 14 Sep 2026 and got 200
+    open markets. The capture parsed zero of them and reported no error: the
+    request succeeded, so nothing looked wrong, and the whole board came back
+    as silence. Three defects, all visible only against the real fields.
+    """
+
+    # Verbatim field shape from that response.
+    REAL = {
+        "ticker": "KXNCAAFSPREAD-26SEP19ETAMTLSA-TLSA64",
+        "event_ticker": "KXNCAAFSPREAD-26SEP19ETAMTLSA",
+        "title": "Tulsa wins by over 63.5 points",
+        "yes_sub_title": "Tulsa wins by over 63.5 points",
+        "custom_strike": {"football_team": "8cd1c3b1-0e14-4583-b17b-939bb19d0589"},
+        "floor_strike": 63.5,
+        "yes_bid_dollars": "0.0900",
+        "yes_ask_dollars": "0.8300",
+        "occurrence_datetime": "2026-09-20T03:00:00Z",
+        "status": "active",
+    }
+
+    def _rung(self, team, strike, bid, ask):
+        """A rung in the live shape: dollar strings, numeric floor_strike."""
+        return {**self.REAL,
+                "ticker": f"KXNCAAFSPREAD-26SEP19X-{team[:4].upper()}{strike}",
+                "title": f"{team} wins by over {strike} points",
+                "yes_sub_title": f"{team} wins by over {strike} points",
+                "floor_strike": strike,
+                "yes_bid_dollars": f"{bid:.4f}",
+                "yes_ask_dollars": f"{ask:.4f}"}
+
+    def test_the_price_is_read_from_the_dollar_field_the_exchange_sends(self):
+        """The defect that returned zero. `yes_bid` does not exist on the live
+        payload; `yes_bid_dollars` does, as a string."""
+        from cfb_edge.providers.kalshi import _mid, _side_price
+
+        self.assertAlmostEqual(_side_price(self.REAL, "yes_bid"), 0.09, places=6)
+        self.assertAlmostEqual(_side_price(self.REAL, "yes_ask"), 0.83, places=6)
+        # Cents spelling still works, for anything that sends it.
+        self.assertAlmostEqual(
+            _side_price({"yes_bid": 48}, "yes_bid"), 0.48, places=6)
+
+    def test_a_seventy_four_cent_spread_is_not_a_price(self):
+        """The real rung above is quoted 0.09 against 0.83. A midpoint of that
+        is an invention, and the edge being chased is about one cent."""
+        from cfb_edge.providers.kalshi import _mid
+
+        self.assertIsNone(_mid(self.REAL))
+
+    def test_a_tight_rung_prices_normally(self):
+        from cfb_edge.providers.kalshi import _mid
+
+        self.assertAlmostEqual(_mid(self._rung("Tulsa", 16.5, 0.48, 0.52)),
+                               0.50, places=6)
+
+    def test_the_strike_comes_from_the_contract_not_the_copy(self):
+        """`floor_strike` is the exchange's own number. The title is marketing
+        copy and can be reworded without the contract changing."""
+        from cfb_edge.providers.kalshi import strike_of
+
+        self.assertEqual(strike_of(self.REAL), 63.5)
+        reworded = {**self.REAL, "title": "Tulsa to cover", "yes_sub_title": ""}
+        self.assertEqual(strike_of(reworded), 63.5)
+        # With neither, it refuses rather than guessing.
+        self.assertIsNone(strike_of({"title": "Tulsa to cover"}))
+
+    def test_a_real_shaped_ladder_becomes_a_quote(self):
+        """End to end on the live field names, with tradeable spreads."""
+        import json
+        from cfb_edge.providers.kalshi import board_quotes
+
+        board = [self._rung("Texas A&M", s, b, a) for s, b, a in
+                 [(2.5, 0.91, 0.93), (10.5, 0.67, 0.71),
+                  (16.5, 0.48, 0.52), (24.5, 0.26, 0.30)]]
+        quotes = board_quotes(
+            games=["Kentucky @ Texas A&M"],
+            opener=lambda url, **kw: json.dumps({"markets": board, "cursor": ""}),
+            seen_at="2026-09-14T22:00:00+00:00")
+        self.assertEqual(len(quotes), 1)
+        self.assertAlmostEqual(quotes[0].line, -16.5, places=1)
+
+    def test_a_board_wider_than_one_page_is_followed_to_the_end(self):
+        """One page is 200 markets and a ladder runs twenty-odd rungs, so a
+        sixty-game board does not fit. Reading page one drops most of it."""
+        import json
+        from cfb_edge.providers.kalshi import fetch_markets
+
+        pages = [
+            {"markets": [self._rung("A", 3.5, 0.5, 0.52)], "cursor": "c1"},
+            {"markets": [self._rung("B", 7.5, 0.5, 0.52)], "cursor": "c2"},
+            {"markets": [self._rung("C", 9.5, 0.5, 0.52)], "cursor": ""},
+        ]
+        calls = []
+
+        def opener(url, **kw):
+            calls.append(url)
+            return json.dumps(pages[len(calls) - 1])
+
+        got = fetch_markets("KXNCAAFSPREAD", opener=opener)
+        self.assertEqual(len(got), 3)
+        self.assertEqual(len(calls), 3)
+        self.assertIn("cursor=c1", calls[1])
+        self.assertIn("cursor=c2", calls[2])
+
+    def test_a_cursor_that_never_advances_cannot_spin_forever(self):
+        import json
+        from cfb_edge.providers.kalshi import fetch_markets
+
+        calls = []
+
+        def opener(url, **kw):
+            calls.append(url)
+            return json.dumps({"markets": [self._rung("A", 3.5, 0.5, 0.52)],
+                               "cursor": "stuck"})
+
+        got = fetch_markets("KXNCAAFSPREAD", opener=opener)
+        self.assertLessEqual(len(calls), 3)
+        self.assertGreaterEqual(len(got), 1)
+
+
 class TestSkillRequirement(unittest.TestCase):
     """How good would the model have to be, versus how good it is.
 
