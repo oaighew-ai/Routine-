@@ -1,0 +1,106 @@
+# What the exchange actually sends, measured on a runner that can reach it.
+#
+# This container cannot: every odds host returns 403 at the egress proxy, so the
+# Kalshi parser was written against the documented shape and had never seen a
+# real response. It was wrong in three ways at once, and because the request
+# itself succeeded the capture reported no error and parsed zero markets.
+#
+# A GitHub-hosted runner can reach the API. This job is the feedback loop that
+# was missing: it prints the real field names, the spread distribution across
+# the whole board, and how many games survive to a quote. It never fails, so
+# the diagnostics always land even when the answer is bad news.
+name: kalshi truth
+
+on:
+  push:
+    branches: [claude/college-football-edge-model-qer3fo]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  measure:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+
+      - name: Build the current slate
+        run: python3 -m cfb_edge.slate --season 2026 --out data/slate_current.csv
+
+      - name: What the board really looks like
+        run: |
+          python3 - <<'PY' | tee -a "$GITHUB_STEP_SUMMARY"
+          import csv, statistics
+          from collections import Counter
+          from cfb_edge.providers.kalshi import (
+              SERIES, fetch_markets, _team_and_strike, _side_price, MAX_SPREAD)
+
+          markets = fetch_markets(SERIES["spread"])
+          print(f"## Board\n")
+          print(f"- markets fetched (all pages): **{len(markets)}**")
+          if not markets:
+              print("- nothing returned, so nothing below means anything")
+              raise SystemExit(0)
+
+          keys = sorted(markets[0])
+          print(f"- fields on a market: `{', '.join(keys)}`")
+
+          events = Counter(m.get("event_ticker") for m in markets)
+          print(f"- distinct games: **{len(events)}**")
+          print(f"- rungs per game: median **{statistics.median(events.values()):.0f}**, "
+                f"max **{max(events.values())}**")
+
+          spreads, one_sided, unparsed = [], 0, 0
+          for m in markets:
+              if _team_and_strike(m) is None:
+                  unparsed += 1
+              bid = _side_price(m, "yes_bid"); ask = _side_price(m, "yes_ask")
+              if bid is None or ask is None or bid <= 0 or ask <= 0:
+                  one_sided += 1
+                  continue
+              spreads.append(ask - bid)
+
+          print(f"\n## Is it tradeable?\n")
+          print(f"- rungs whose title did not parse: **{unparsed}**")
+          print(f"- rungs with no two-sided quote: **{one_sided}**")
+          if spreads:
+              spreads.sort()
+              def pct(p): return spreads[min(len(spreads)-1, int(len(spreads)*p))]
+              print(f"- bid-ask spread: median **{statistics.median(spreads):.3f}**, "
+                    f"p10 **{pct(0.10):.3f}**, p90 **{pct(0.90):.3f}**")
+              tight = sum(1 for s in spreads if s <= MAX_SPREAD)
+              print(f"- rungs inside the {MAX_SPREAD:.2f} cap: "
+                    f"**{tight} / {len(spreads)}** ({tight/len(spreads):.1%})")
+              print(f"\nThe edge being chased is about **0.01**. A median spread "
+                    f"wider than that is the whole question.")
+          PY
+
+      - name: Does the capture parse it now?
+        run: |
+          python3 -m cfb_edge.watch --source kalshi --slate data/slate_current.csv \
+            --log data/truth.jsonl.gz --out data/truth.csv --once
+          ROWS=$(( $(wc -l < data/truth.csv) - 1 ))
+          echo "## Capture" >> "$GITHUB_STEP_SUMMARY"
+          echo "- opening lines parsed: **$ROWS**" >> "$GITHUB_STEP_SUMMARY"
+          if [ "$ROWS" -gt 0 ]; then
+            echo '```' >> "$GITHUB_STEP_SUMMARY"
+            head -6 data/truth.csv >> "$GITHUB_STEP_SUMMARY"
+            echo '```' >> "$GITHUB_STEP_SUMMARY"
+          else
+            echo "- still zero. The diagnostics above say why." >> "$GITHUB_STEP_SUMMARY"
+          fi
+
+      - name: Keep one real response to test against
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: kalshi-truth-${{ github.run_id }}
+          path: |
+            data/truth.csv
+            data/truth.jsonl.gz
+          if-no-files-found: warn
+          retention-days: 30

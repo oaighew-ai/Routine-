@@ -1507,6 +1507,208 @@ class TestCurrentWeek(unittest.TestCase):
 
 
 
+
+
+class TestRealKalshiPayload(unittest.TestCase):
+    """Built from a live response, not from what the code hoped to receive.
+
+    A GitHub-hosted runner reached `KXNCAAFSPREAD` on 14 Sep 2026 and got 200
+    open markets. The capture parsed zero of them and reported no error: the
+    request succeeded, so nothing looked wrong, and the whole board came back
+    as silence. Three defects, all visible only against the real fields.
+    """
+
+    # Verbatim field shape from that response.
+    REAL = {
+        "ticker": "KXNCAAFSPREAD-26SEP19ETAMTLSA-TLSA64",
+        "event_ticker": "KXNCAAFSPREAD-26SEP19ETAMTLSA",
+        "title": "Tulsa wins by over 63.5 points",
+        "yes_sub_title": "Tulsa wins by over 63.5 points",
+        "custom_strike": {"football_team": "8cd1c3b1-0e14-4583-b17b-939bb19d0589"},
+        "floor_strike": 63.5,
+        "yes_bid_dollars": "0.0900",
+        "yes_ask_dollars": "0.8300",
+        "occurrence_datetime": "2026-09-20T03:00:00Z",
+        "status": "active",
+    }
+
+    def _rung(self, team, strike, bid, ask):
+        """A rung in the live shape: dollar strings, numeric floor_strike."""
+        return {**self.REAL,
+                "ticker": f"KXNCAAFSPREAD-26SEP19X-{team[:4].upper()}{strike}",
+                "title": f"{team} wins by over {strike} points",
+                "yes_sub_title": f"{team} wins by over {strike} points",
+                "floor_strike": strike,
+                "yes_bid_dollars": f"{bid:.4f}",
+                "yes_ask_dollars": f"{ask:.4f}"}
+
+    def test_the_price_is_read_from_the_dollar_field_the_exchange_sends(self):
+        """The defect that returned zero. `yes_bid` does not exist on the live
+        payload; `yes_bid_dollars` does, as a string."""
+        from cfb_edge.providers.kalshi import _mid, _side_price
+
+        self.assertAlmostEqual(_side_price(self.REAL, "yes_bid"), 0.09, places=6)
+        self.assertAlmostEqual(_side_price(self.REAL, "yes_ask"), 0.83, places=6)
+        # Cents spelling still works, for anything that sends it.
+        self.assertAlmostEqual(
+            _side_price({"yes_bid": 48}, "yes_bid"), 0.48, places=6)
+
+    def test_a_seventy_four_cent_spread_is_not_a_price(self):
+        """The real rung above is quoted 0.09 against 0.83. A midpoint of that
+        is an invention, and the edge being chased is about one cent."""
+        from cfb_edge.providers.kalshi import _mid
+
+        self.assertIsNone(_mid(self.REAL))
+
+    def test_a_tight_rung_prices_normally(self):
+        from cfb_edge.providers.kalshi import _mid
+
+        self.assertAlmostEqual(_mid(self._rung("Tulsa", 16.5, 0.48, 0.52)),
+                               0.50, places=6)
+
+    def test_the_strike_comes_from_the_contract_not_the_copy(self):
+        """`floor_strike` is the exchange's own number. The title is marketing
+        copy and can be reworded without the contract changing."""
+        from cfb_edge.providers.kalshi import strike_of
+
+        self.assertEqual(strike_of(self.REAL), 63.5)
+        reworded = {**self.REAL, "title": "Tulsa to cover", "yes_sub_title": ""}
+        self.assertEqual(strike_of(reworded), 63.5)
+        # With neither, it refuses rather than guessing.
+        self.assertIsNone(strike_of({"title": "Tulsa to cover"}))
+
+    def test_a_real_shaped_ladder_becomes_a_quote(self):
+        """End to end on the live field names, with tradeable spreads."""
+        import json
+        from cfb_edge.providers.kalshi import board_quotes
+
+        board = [self._rung("Texas A&M", s, b, a) for s, b, a in
+                 [(2.5, 0.91, 0.93), (10.5, 0.67, 0.71),
+                  (16.5, 0.48, 0.52), (24.5, 0.26, 0.30)]]
+        quotes = board_quotes(
+            games=["Kentucky @ Texas A&M"],
+            opener=lambda url, **kw: json.dumps({"markets": board, "cursor": ""}),
+            seen_at="2026-09-14T22:00:00+00:00")
+        self.assertEqual(len(quotes), 1)
+        self.assertAlmostEqual(quotes[0].line, -16.5, places=1)
+
+    def test_a_board_wider_than_one_page_is_followed_to_the_end(self):
+        """One page is 200 markets and a ladder runs twenty-odd rungs, so a
+        sixty-game board does not fit. Reading page one drops most of it."""
+        import json
+        from cfb_edge.providers.kalshi import fetch_markets
+
+        pages = [
+            {"markets": [self._rung("A", 3.5, 0.5, 0.52)], "cursor": "c1"},
+            {"markets": [self._rung("B", 7.5, 0.5, 0.52)], "cursor": "c2"},
+            {"markets": [self._rung("C", 9.5, 0.5, 0.52)], "cursor": ""},
+        ]
+        calls = []
+
+        def opener(url, **kw):
+            calls.append(url)
+            return json.dumps(pages[len(calls) - 1])
+
+        got = fetch_markets("KXNCAAFSPREAD", opener=opener)
+        self.assertEqual(len(got), 3)
+        self.assertEqual(len(calls), 3)
+        self.assertIn("cursor=c1", calls[1])
+        self.assertIn("cursor=c2", calls[2])
+
+    def test_a_cursor_that_never_advances_cannot_spin_forever(self):
+        import json
+        from cfb_edge.providers.kalshi import fetch_markets
+
+        calls = []
+
+        def opener(url, **kw):
+            calls.append(url)
+            return json.dumps({"markets": [self._rung("A", 3.5, 0.5, 0.52)],
+                               "cursor": "stuck"})
+
+        got = fetch_markets("KXNCAAFSPREAD", opener=opener)
+        self.assertLessEqual(len(calls), 3)
+        self.assertGreaterEqual(len(got), 1)
+
+
+class TestSkillRequirement(unittest.TestCase):
+    """How good would the model have to be, versus how good it is.
+
+    Every instinct this project has had to fight says "make the model better".
+    The model's residual sd is 16.33 against the closing line's 15.39, so it is
+    nearly a point of standard deviation worse than the number it would bet
+    into, and its incremental coefficient over the close is -0.02 at t = -0.31.
+    These tests pin the arithmetic that says tuning cannot close that.
+    """
+
+    def test_the_model_is_worse_than_the_number_it_bets_against(self):
+        from cfb_edge.requirement import model_deficit
+
+        self.assertGreater(model_deficit(), 0.0)
+        self.assertAlmostEqual(model_deficit(), 0.94, places=2)
+
+    def test_the_breakeven_rate_at_a_standard_price(self):
+        from cfb_edge.requirement import breakeven_probability
+
+        self.assertAlmostEqual(breakeven_probability(-110), 0.523810, places=5)
+        self.assertAlmostEqual(breakeven_probability(100), 0.5, places=9)
+        self.assertLess(breakeven_probability(-102), breakeven_probability(-110))
+
+    def test_a_bigger_disagreement_needs_a_smaller_coefficient(self):
+        """The same edge is easier to clear when the signal is louder, which is
+        why the disagreement threshold is a real parameter and not decoration."""
+        from cfb_edge.requirement import beta_required
+
+        loud = beta_required(mean_disagreement=14.0)
+        quiet = beta_required(mean_disagreement=4.0)
+        self.assertLess(loud, quiet)
+        self.assertGreater(quiet, 0.0)
+
+    def test_a_worse_price_raises_the_bar(self):
+        from cfb_edge.requirement import beta_required
+
+        self.assertGreater(beta_required(american_price=-120, mean_disagreement=7.5),
+                           beta_required(american_price=-102, mean_disagreement=7.5))
+
+    def test_a_zero_disagreement_is_not_a_signal(self):
+        from cfb_edge.requirement import beta_required
+
+        with self.assertRaises(ValueError):
+            beta_required(mean_disagreement=0.0)
+        with self.assertRaises(ValueError):
+            beta_required(mean_disagreement=-3.0)
+
+    def test_the_measured_model_does_not_reach_the_bar_at_a_typical_signal(self):
+        """The finding, asserted so a future tuning pass has to confront it."""
+        from cfb_edge.requirement import requirement
+
+        r = requirement(mean_disagreement=7.5)
+        self.assertGreater(r.beta_required, 0.0)
+        self.assertLess(r.beta_measured, 0.0)
+        self.assertGreater(r.standard_errors_away, 2.0)
+        self.assertFalse(r.reachable)
+        self.assertIn("Not consistent", r.summary())
+
+    def test_a_model_with_real_information_does_reach_it(self):
+        """The test is not rigged to always fail. A coefficient the data could
+        plausibly have produced clears the bar and says so."""
+        from cfb_edge.requirement import requirement
+
+        r = requirement(mean_disagreement=7.5, beta_measured=0.10, beta_t=2.0)
+        self.assertTrue(r.reachable)
+        self.assertIn("Consistent", r.summary())
+
+    def test_the_probit_is_the_inverse_of_the_normal_cdf(self):
+        from cfb_edge.requirement import _phi, _probit
+
+        for p in (0.01, 0.25, 0.5, 0.5238, 0.75, 0.99):
+            self.assertAlmostEqual(_phi(_probit(p)), p, places=6)
+        with self.assertRaises(ValueError):
+            _probit(0.0)
+        with self.assertRaises(ValueError):
+            _probit(1.0)
+
+
 class TestCalibration(unittest.TestCase):
     """Is the model's projected margin the size reality is?
 
