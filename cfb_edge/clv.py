@@ -36,10 +36,31 @@ holds a ticket saying so. What makes a line evidence is that something recorded
 it independently of wanting it to be true, and a fill confirmation does.
 """
 
+LATE = "late"
+"""`line_taken` was captured honestly, but after the number had stopped being new.
+
+This is the trap `CAPTURED` alone does not catch. Provenance answers where a
+number came from; it says nothing about when. A line first seen on the morning
+of the game is recorded with a real timestamp by a real poll and is in every
+respect a genuine observation, and it is still not an opening line.
+
+It matters because the strategy is priced entirely on movement that has not
+happened yet. The measured +0.44 points runs from the open to the close, and a
+board observed for the first time a day before kickoff has already spent most
+of that: on the week 3 2026 board, lines moved 0.29 points over three days, so
+what remained inside the last day was nearer 0.10. Pricing that as 0.44
+overstates every play by about four and a half times.
+
+Graded as though it were an open, such a row does not read as a fabrication. It
+reads as the strategy underperforming, which is worse, because the honest
+conclusion would be that the strategy was never run.
+"""
+
 UNVERIFIED = "unverified"
 """`line_taken` came from somewhere with no timestamp and no audit trail."""
 
 GRADEABLE = frozenset({CAPTURED, FILLED})
+"""Sources whose CLV means something. `LATE` is deliberately not among them."""
 
 
 @dataclass

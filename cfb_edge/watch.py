@@ -91,6 +91,22 @@ def _as_utc(when: datetime | None) -> datetime:
     return when.astimezone(timezone.utc)
 
 
+def _parse_time(stamp: str) -> datetime | None:
+    """An ISO timestamp as an aware UTC datetime, or None if it is not one.
+
+    None rather than a fallback to the current clock. That substitution is
+    exactly the `seen_at` bug: a blank stamp silently became "now", and the
+    closing line value it produced was +23.5 points against a true +1.0, in
+    the direction of confirming the strategy.
+    """
+    if not stamp:
+        return None
+    try:
+        return _as_utc(datetime.fromisoformat(str(stamp).replace("Z", "+00:00")))
+    except (ValueError, AttributeError, TypeError):
+        return None
+
+
 def in_release_window(when: datetime | None = None) -> bool:
     """Whether now is when a regular week's opening lines are likely to appear."""
     when = _as_utc(when)
@@ -297,24 +313,62 @@ class OpeningBook:
         """
         return self._consensus(self.opens, market)
 
+    def first_seen(self, market: str = "spread") -> dict[str, str]:
+        """Earliest timestamp on any book's first sighting, per game.
+
+        The open is the first price anyone posted, so across books the one that
+        counts is the earliest. Taking the latest would let a book that joined
+        on Tuesday decide whether Sunday's number was timely.
+        """
+        out: dict[str, str] = {}
+        for (game, _book, mkt), q in self.opens.items():
+            if mkt != market:
+                continue
+            stamp = str(getattr(q, "seen_at", "") or "")
+            if stamp and (game not in out or stamp < out[game]):
+                out[game] = stamp
+        return out
+
     def write_opens_csv(self, path: str | Path, market: str = "spread") -> int:
         """Emit exactly what `cfb_edge play --opens` consumes.
 
-        The `source` column travels with the number. Every line here came out
-        of a capture log, where it was stamped with the moment it was seen, so
-        it can carry `CAPTURED` downstream and be graded. A hand-written opens
-        file has no such column, reads back as unverified, and is kept out of
-        the closing line value it would otherwise contaminate.
+        The `source` column travels with the number, and it answers two
+        questions rather than one. Where did this come from, and was it still
+        new when it was seen.
+
+        Every line here came out of a capture log, stamped with the moment it
+        was seen, so the first question is settled. The second is what
+        `CAPTURED` on its own got wrong: a line first seen on the morning of
+        the game is captured honestly and is not an opening line, and grading
+        it as one prices roughly 0.10 points of remaining movement as 0.44.
+
+        So a row is `CAPTURED` only when its first sighting falls inside the
+        release window, which is the interval this module already defines as
+        when opening numbers appear. Outside it the row is `LATE`: written,
+        readable, usable for a card if someone insists, and refused by the
+        closing line value.
+
+        A row whose first sighting carries no timestamp is `LATE` too. An
+        unstamped quote cannot be shown to be timely, and defaulting the other
+        way would bless exactly the rows that cannot answer for themselves.
         """
         import csv
 
-        from .clv import CAPTURED
+        from .clv import CAPTURED, LATE
 
+        seen = self.first_seen(market)
         rows = sorted(self.consensus_opens(market).items())
         with open(path, "w", newline="", encoding="utf-8") as fh:
             w = csv.writer(fh)
-            w.writerow(["game", "opening_line", "source"])
-            w.writerows((game, line, CAPTURED) for game, line in rows)
+            w.writerow(["game", "opening_line", "source", "first_seen"])
+            for game, line in rows:
+                stamp = seen.get(game, "")
+                # `in_release_window(None)` means now, so the parse result is
+                # checked before it is passed: an unreadable stamp must not be
+                # judged against the current clock.
+                when = _parse_time(stamp)
+                timely = when is not None and in_release_window(when)
+                w.writerow([game, line, CAPTURED if timely else LATE, stamp])
         return len(rows)
 
 

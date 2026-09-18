@@ -9,19 +9,35 @@ from pathlib import Path
 from tempfile import TemporaryDirectory
 
 from . import slate, watch
-from .clv import CAPTURED
+from .clv import CAPTURED, LATE
+
+
+# What a parsed row may say about itself here. `LATE` counts: this function
+# asks whether the chain works, not whether the line is worth betting. A poll
+# run outside the release window produces honest rows that are correctly
+# refused by the closing line value, and reporting that as a broken capture
+# would send someone hunting a parser bug that is not there. `UNVERIFIED` does
+# not count, because a row with no provenance is not evidence the parse ran.
+PARSED = frozenset({CAPTURED, LATE})
+
+REQUIRED_COLUMNS = ("game", "opening_line", "source")
 
 
 def count_lines(path: Path) -> int:
     """Reject missing or malformed output instead of counting arbitrary text."""
     with path.open(newline="", encoding="utf-8") as fh:
         reader = csv.DictReader(fh, strict=True)
-        if reader.fieldnames != ["game", "opening_line", "source"]:
-            raise ValueError("invalid opening-lines CSV header")
+        names = reader.fieldnames or []
+        # Required columns must be present; extra ones are allowed, so adding a
+        # column to the capture does not read here as a corrupt file.
+        if [n for n in REQUIRED_COLUMNS if n not in names]:
+            raise ValueError(
+                f"invalid opening-lines CSV header: {names!r} is missing one of "
+                f"{list(REQUIRED_COLUMNS)}")
         count = 0
         for row in reader:
             if (None in row or not row["game"] or not row["game"].strip()
-                    or row["source"] != CAPTURED
+                    or row["source"] not in PARSED
                     or not math.isfinite(float(row["opening_line"]))):
                 raise ValueError("invalid opening-lines CSV row")
             count += 1
