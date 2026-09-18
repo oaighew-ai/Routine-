@@ -14,6 +14,16 @@ that agrees with whatever the arithmetic currently does.
 
     python3 scripts/golden_vectors.py --check     # fail if the fixture is stale
     python3 scripts/golden_vectors.py --write     # rewrite it
+
+Comparison is numeric to 1e-9, which is the tolerance acceptance check 1 states,
+and not a byte comparison of this file. That distinction is not pedantry: the
+first CI run caught `p09` differing in its last bit between Python 3.11 and
+3.12, 0.5288328255702358 against ...357, because `math.erf` is a libm call and
+libm is allowed to differ by a unit in the last place. That gap is 1.1e-16,
+eleven orders of magnitude inside the tolerance, and a test that fails on it is
+testing the platform's libm rather than the engine. Structure is still compared
+exactly: a vector that appears, disappears, or changes its decision or reason
+codes is a real change and fails.
 """
 
 from __future__ import annotations
@@ -154,29 +164,86 @@ def build() -> dict:
     }
 
 
+TOLERANCE = 1e-9
+"""Acceptance check 1's stated bound. Not a byte comparison; see the docstring."""
+
+
+def compare(fixture: dict, rebuilt: dict, *, tol: float = TOLERANCE) -> list[str]:
+    """Differences that matter, as human-readable lines. Empty means current."""
+    out: list[str] = []
+    want = {v["name"]: v for v in fixture.get("vectors", [])}
+    got = {v["name"]: v for v in rebuilt.get("vectors", [])}
+
+    for name in sorted(set(want) - set(got)):
+        out.append(f"{name}: in the fixture, not produced by the engine")
+    for name in sorted(set(got) - set(want)):
+        out.append(f"{name}: produced by the engine, not in the fixture")
+
+    # Read from the payloads, not from `want`/`got`, which hold vectors only.
+    # The first version of this shadowed them and silently compared nothing,
+    # which `test_a_changed_w0_is_caught` caught on the next run.
+    for key in ("engineVersion", "w0", "n_half"):
+        if fixture.get(key) != rebuilt.get(key):
+            out.append(
+                f"{key}: fixture {fixture.get(key)!r} != engine {rebuilt.get(key)!r}"
+            )
+
+    for name in sorted(set(want) & set(got)):
+        a, b = want[name], got[name]
+        if a["kind"] != b["kind"]:
+            out.append(f"{name}: kind {a['kind']} != {b['kind']}")
+            continue
+        if a["kind"] == "value":
+            out.extend(_diff_number(name, a["expected"], b["expected"], tol))
+            continue
+        for field, x in a["expected"].items():
+            y = b["expected"].get(field)
+            if isinstance(x, (int, float)) and not isinstance(x, bool):
+                out.extend(_diff_number(f"{name}.{field}", x, y, tol))
+            elif x != y:
+                out.append(f"{name}.{field}: fixture {x!r} != engine {y!r}")
+    return out
+
+
+def _diff_number(label: str, x, y, tol: float) -> list[str]:
+    if x is None or y is None:
+        return [] if x == y else [f"{label}: fixture {x!r} != engine {y!r}"]
+    if not isinstance(y, (int, float)) or isinstance(y, bool):
+        return [f"{label}: engine produced {y!r}, not a number"]
+    if abs(float(x) - float(y)) <= tol:
+        return []
+    return [f"{label}: fixture {x!r} != engine {y!r} (|delta| {abs(x - y):.3e} > {tol:g})"]
+
+
 def main(argv=None) -> int:
     ap = argparse.ArgumentParser(description=__doc__)
     ap.add_argument("--write", action="store_true", help="rewrite the fixture")
     ap.add_argument("--check", action="store_true", help="fail if the fixture is stale")
     args = ap.parse_args(argv)
 
-    payload = json.dumps(build(), indent=2, sort_keys=True) + "\n"
+    rebuilt = build()
     if args.write:
         FIXTURE.parent.mkdir(parents=True, exist_ok=True)
-        FIXTURE.write_text(payload, encoding="utf-8")
-        print(f"wrote {FIXTURE} ({len(json.loads(payload)['vectors'])} vectors)")
+        FIXTURE.write_text(json.dumps(rebuilt, indent=2, sort_keys=True) + "\n",
+                           encoding="utf-8")
+        print(f"wrote {FIXTURE} ({len(rebuilt['vectors'])} vectors)")
         return 0
     if args.check:
         if not FIXTURE.exists():
             print("fixture missing; run with --write")
             return 1
-        if FIXTURE.read_text(encoding="utf-8") != payload:
+        drift = compare(json.loads(FIXTURE.read_text(encoding="utf-8")), rebuilt)
+        if drift:
             print("golden vectors are stale. A number the engine produces has "
-                  "changed. Explain it in DECISIONS.md before regenerating.")
+                  "changed by more than 1e-9. Explain it in DECISIONS.md before "
+                  "regenerating:")
+            for line in drift:
+                print(f"  {line}")
             return 1
-        print("golden vectors current")
+        print(f"golden vectors current ({len(rebuilt['vectors'])} vectors, "
+              f"tolerance {TOLERANCE:g})")
         return 0
-    print(payload)
+    print(json.dumps(rebuilt, indent=2, sort_keys=True))
     return 0
 
 

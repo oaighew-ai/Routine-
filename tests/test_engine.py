@@ -55,48 +55,74 @@ class Check01GoldenVectors(unittest.TestCase):
     D1: there is no `edge_engine.jsx`, so these were generated from this engine.
     That makes this a drift test and not an independent one, which is stated in
     the fixture and in `scripts/golden_vectors.py` rather than left implied.
+
+    Compared numerically, at the tolerance check 1 names, and not as text. The
+    first CI run failed here because `p09` differs in its last bit between
+    Python 3.11 and 3.12: 0.5288328255702358 against ...357. It runs through
+    `math.erf`, which is a libm call, and libm may differ by a unit in the last
+    place between builds. The gap is 1.1e-16. A test that fails on it is
+    testing the platform's libm, not the engine.
     """
 
     def setUp(self):
-        self.payload = json.loads(GOLDEN.read_text(encoding="utf-8"))
+        import scripts.golden_vectors as gv  # noqa: PLC0415
+        self.gv = gv
+        self.fixture = json.loads(GOLDEN.read_text(encoding="utf-8"))
+        self.rebuilt = gv.build()
 
     def test_at_least_ten_vectors(self):
-        self.assertGreaterEqual(len(self.payload["vectors"]), 10)
+        self.assertGreaterEqual(len(self.fixture["vectors"]), 10)
 
-    def test_fixture_is_not_stale(self):
-        import scripts.golden_vectors as gv  # noqa: PLC0415
-        self.assertEqual(
-            json.dumps(gv.build(), indent=2, sort_keys=True) + "\n",
-            GOLDEN.read_text(encoding="utf-8"),
-            "golden vectors are stale; see scripts/golden_vectors.py",
-        )
+    def test_the_engine_reproduces_every_vector(self):
+        drift = self.gv.compare(self.fixture, self.rebuilt)
+        self.assertEqual(drift, [], "golden vectors are stale:\n" + "\n".join(drift))
 
-    def test_primitive_vectors_reproduce(self):
-        import scripts.golden_vectors as gv  # noqa: PLC0415
-        rebuilt = {v["name"]: v for v in gv.build()["vectors"]}
-        for v in self.payload["vectors"]:
+    def test_every_vector_is_within_the_stated_tolerance(self):
+        """The bound is check 1's, asserted per value rather than in aggregate."""
+        got = {v["name"]: v for v in self.rebuilt["vectors"]}
+        for v in self.fixture["vectors"]:
             if v["kind"] != "value":
                 continue
             with self.subTest(v["name"]):
-                self.assertAlmostEqual(
-                    rebuilt[v["name"]]["expected"], v["expected"], delta=1e-9
-                )
+                self.assertAlmostEqual(got[v["name"]]["expected"], v["expected"],
+                                       delta=1e-9)
 
-    def test_decision_vectors_reproduce(self):
-        import scripts.golden_vectors as gv  # noqa: PLC0415
-        rebuilt = {v["name"]: v for v in gv.build()["vectors"]}
-        for v in self.payload["vectors"]:
+    def test_structure_is_compared_exactly(self):
+        """Names, decisions and reason codes are not floats and get no slack."""
+        got = {v["name"]: v for v in self.rebuilt["vectors"]}
+        self.assertEqual(sorted(got), sorted(v["name"] for v in self.fixture["vectors"]))
+        for v in self.fixture["vectors"]:
             if v["kind"] != "decision":
                 continue
             with self.subTest(v["name"]):
-                got, want = rebuilt[v["name"]]["expected"], v["expected"]
-                self.assertEqual(got["decision"], want["decision"])
-                self.assertEqual(got["reasonCodes"], want["reasonCodes"])
-                for key in ("p_post", "ev", "f_full", "stake", "portfolioScale"):
-                    if want[key] is None:
-                        self.assertIsNone(got[key])
-                    else:
-                        self.assertAlmostEqual(got[key], want[key], delta=1e-9)
+                self.assertEqual(got[v["name"]]["expected"]["decision"],
+                                 v["expected"]["decision"])
+                self.assertEqual(got[v["name"]]["expected"]["reasonCodes"],
+                                 v["expected"]["reasonCodes"])
+
+    def test_the_detector_still_catches_a_real_change(self):
+        """Loosening to a tolerance must not have disarmed the guard.
+
+        A genuine parameter change moves numbers by orders of magnitude more
+        than a last-bit difference, so the drift report has to name it.
+        """
+        tampered = json.loads(json.dumps(self.fixture))
+        for v in tampered["vectors"]:
+            if v["name"].startswith("p01"):
+                v["expected"] += 1e-6
+        drift = self.gv.compare(tampered, self.rebuilt)
+        self.assertTrue(any("p01" in line for line in drift), drift)
+
+    def test_a_missing_vector_is_caught(self):
+        tampered = json.loads(json.dumps(self.fixture))
+        tampered["vectors"] = tampered["vectors"][1:]
+        self.assertTrue(self.gv.compare(tampered, self.rebuilt))
+
+    def test_a_changed_w0_is_caught(self):
+        tampered = json.loads(json.dumps(self.fixture))
+        tampered["w0"] = 0.25
+        drift = self.gv.compare(tampered, self.rebuilt)
+        self.assertTrue(any("w0" in line for line in drift), drift)
 
 
 class Check02EVAtTheExecutablePrice(unittest.TestCase):
