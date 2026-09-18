@@ -1,0 +1,10 @@
+# This branch exists to hold captured market data, so data/ is NOT ignored here.
+# It carries opening lines read from Kalshi's public board: prices anyone can
+# query, with no account, no key and nothing about who placed what.
+#
+# The operator's own record stays out. A bet log carries positions and fill
+# prices and belongs nowhere near a public branch.
+data/bets*
+data/*bets*
+__pycache__/
+*.pyc
