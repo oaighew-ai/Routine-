@@ -1,0 +1,579 @@
+{
+  "engineVersion": "derived-1",
+  "n_half": 50.0,
+  "note": "Generated from this engine, not from edge_engine.jsx. See DECISIONS.md D1.",
+  "vectors": [
+    {
+      "expected": {
+        "decision": "BET",
+        "ev": 0.010612873397336464,
+        "f_full": 0.011674160736663147,
+        "maxPlayablePrice": -112.0,
+        "p_baseline": 0.5,
+        "p_model": 0.5463260871230095,
+        "p_post": 0.5293686479700335,
+        "portfolioScale": 1.0,
+        "reasonCodes": [],
+        "stake": 0.25,
+        "w_mod": 0.8659517426273459
+      },
+      "inputs": {
+        "c": 1,
+        "line": -3.0,
+        "market": "spreads",
+        "other_price": -110.0,
+        "price": -110.0,
+        "push": 0.0,
+        "side": "home",
+        "signals": [
+          {
+            "record": {
+              "family": "system",
+              "flag": "system",
+              "flag_weight": 1.0,
+              "losses_provider": 129,
+              "system_id": "mature",
+              "wins_provider": 194
+            },
+            "side": "for"
+          }
+        ],
+        "venue": "book_default"
+      },
+      "kind": "decision",
+      "name": "v01 mature system, -110 spread"
+    },
+    {
+      "expected": {
+        "decision": "PASS",
+        "ev": -0.04545454545454558,
+        "f_full": 0.0,
+        "maxPlayablePrice": null,
+        "p_baseline": 0.5,
+        "p_model": null,
+        "p_post": 0.5,
+        "portfolioScale": 1.0,
+        "reasonCodes": [
+          "NEG_EV",
+          "NO_EVIDENCE"
+        ],
+        "stake": 0.0,
+        "w_mod": 0.0
+      },
+      "inputs": {
+        "c": 1,
+        "line": -3.0,
+        "market": "spreads",
+        "other_price": -110.0,
+        "price": -110.0,
+        "push": 0.0,
+        "side": "home",
+        "signals": [],
+        "venue": "book_default"
+      },
+      "kind": "decision",
+      "name": "v02 no signals at all"
+    },
+    {
+      "expected": {
+        "decision": "BET",
+        "ev": 0.010612873397336464,
+        "f_full": 0.011674160736663147,
+        "maxPlayablePrice": -112.0,
+        "p_baseline": 0.5,
+        "p_model": 0.5463260871230095,
+        "p_post": 0.5293686479700335,
+        "portfolioScale": 1.0,
+        "reasonCodes": [
+          "FAMILY_DUP"
+        ],
+        "stake": 0.25,
+        "w_mod": 0.8659517426273459
+      },
+      "inputs": {
+        "c": 1,
+        "line": -3.0,
+        "market": "spreads",
+        "other_price": -110.0,
+        "price": -110.0,
+        "push": 0.0,
+        "side": "home",
+        "signals": [
+          {
+            "record": {
+              "family": "system",
+              "flag": "system",
+              "flag_weight": 1.0,
+              "losses_provider": 129,
+              "system_id": "mature",
+              "wins_provider": 194
+            },
+            "side": "for"
+          },
+          {
+            "record": {
+              "family": "system",
+              "flag": "system",
+              "flag_weight": 1.0,
+              "losses_provider": 129,
+              "system_id": "mature2",
+              "wins_provider": 194
+            },
+            "side": "for"
+          }
+        ],
+        "venue": "book_default"
+      },
+      "kind": "decision",
+      "name": "v03 two signals, one family"
+    },
+    {
+      "expected": {
+        "decision": "BET",
+        "ev": 0.023173322185175593,
+        "f_full": 0.025490654403685746,
+        "maxPlayablePrice": -115.0,
+        "p_baseline": 0.5,
+        "p_model": 0.5463260871230095,
+        "p_post": 0.5359479306684254,
+        "portfolioScale": 1.0,
+        "reasonCodes": [],
+        "stake": 0.6,
+        "w_mod": 1.7319034852546917
+      },
+      "inputs": {
+        "c": 1,
+        "line": -3.0,
+        "market": "spreads",
+        "other_price": -110.0,
+        "price": -110.0,
+        "push": 0.0,
+        "side": "home",
+        "signals": [
+          {
+            "record": {
+              "family": "system",
+              "flag": "system",
+              "flag_weight": 1.0,
+              "losses_provider": 129,
+              "system_id": "mature",
+              "wins_provider": 194
+            },
+            "side": "for"
+          },
+          {
+            "record": {
+              "family": "sharp",
+              "flag": "system",
+              "flag_weight": 1.0,
+              "losses_provider": 129,
+              "system_id": "m2",
+              "wins_provider": 194
+            },
+            "side": "for"
+          }
+        ],
+        "venue": "book_default"
+      },
+      "kind": "decision",
+      "name": "v04 two signals, two families"
+    },
+    {
+      "expected": {
+        "decision": "NO_BET",
+        "ev": -0.04545454545454558,
+        "f_full": 0.0,
+        "maxPlayablePrice": null,
+        "p_baseline": 0.5,
+        "p_model": 0.5,
+        "p_post": 0.5,
+        "portfolioScale": 1.0,
+        "reasonCodes": [
+          "OPPOSED"
+        ],
+        "stake": 0.0,
+        "w_mod": 1.7319034852546917
+      },
+      "inputs": {
+        "c": 1,
+        "line": -3.0,
+        "market": "spreads",
+        "other_price": -110.0,
+        "price": -110.0,
+        "push": 0.0,
+        "side": "home",
+        "signals": [
+          {
+            "record": {
+              "family": "system",
+              "flag": "system",
+              "flag_weight": 1.0,
+              "losses_provider": 129,
+              "system_id": "mature",
+              "wins_provider": 194
+            },
+            "side": "for"
+          },
+          {
+            "record": {
+              "family": "sharp",
+              "flag": "system",
+              "flag_weight": 1.0,
+              "losses_provider": 129,
+              "system_id": "m3",
+              "wins_provider": 194
+            },
+            "side": "against"
+          }
+        ],
+        "venue": "book_default"
+      },
+      "kind": "decision",
+      "name": "v05 equal and opposite"
+    },
+    {
+      "expected": {
+        "decision": "PASS",
+        "ev": -0.09456329979263839,
+        "f_full": 0.0,
+        "maxPlayablePrice": null,
+        "p_baseline": 0.5,
+        "p_model": 0.30064184250845644,
+        "p_post": 0.47427636677528473,
+        "portfolioScale": 1.0,
+        "reasonCodes": [
+          "NEG_EV"
+        ],
+        "stake": 0.0,
+        "w_mod": 0.07407407407407407
+      },
+      "inputs": {
+        "c": 1,
+        "line": -3.0,
+        "market": "spreads",
+        "other_price": -110.0,
+        "price": -110.0,
+        "push": 0.0,
+        "side": "home",
+        "signals": [
+          {
+            "record": {
+              "family": "sharp",
+              "flag": "system",
+              "flag_weight": 1.0,
+              "losses_provider": 1,
+              "system_id": "young",
+              "wins_provider": 3
+            },
+            "side": "for"
+          }
+        ],
+        "venue": "book_default"
+      },
+      "kind": "decision",
+      "name": "v06 tiny sample is not evidence"
+    },
+    {
+      "expected": {
+        "decision": "PASS",
+        "ev": -0.01680921887427078,
+        "f_full": 0.0,
+        "maxPlayablePrice": null,
+        "p_baseline": 0.5,
+        "p_model": 0.5229238393929447,
+        "p_post": 0.515004694875382,
+        "portfolioScale": 1.0,
+        "reasonCodes": [
+          "NEG_EV"
+        ],
+        "stake": 0.0,
+        "w_mod": 0.9473684210526315
+      },
+      "inputs": {
+        "c": 1,
+        "line": -3.0,
+        "market": "spreads",
+        "other_price": -110.0,
+        "price": -110.0,
+        "push": 0.0,
+        "side": "home",
+        "signals": [
+          {
+            "record": {
+              "family": "model",
+              "flag": "system",
+              "flag_weight": 1.0,
+              "losses_provider": 400,
+              "system_id": "deep",
+              "wins_provider": 500
+            },
+            "side": "for"
+          }
+        ],
+        "venue": "book_default"
+      },
+      "kind": "decision",
+      "name": "v07 deep but thin edge"
+    },
+    {
+      "expected": {
+        "decision": "BET",
+        "ev": 0.010612873397336464,
+        "f_full": 0.011674160736663147,
+        "maxPlayablePrice": -112.0,
+        "p_baseline": 0.5,
+        "p_model": 0.5463260871230095,
+        "p_post": 0.5293686479700335,
+        "portfolioScale": 0.7254762501100117,
+        "reasonCodes": [],
+        "stake": 0.2,
+        "w_mod": 0.8659517426273459
+      },
+      "inputs": {
+        "c": 4,
+        "line": -3.0,
+        "market": "spreads",
+        "other_price": -110.0,
+        "price": -110.0,
+        "push": 0.0,
+        "side": "home",
+        "signals": [
+          {
+            "record": {
+              "family": "system",
+              "flag": "system",
+              "flag_weight": 1.0,
+              "losses_provider": 129,
+              "system_id": "mature",
+              "wins_provider": 194
+            },
+            "side": "for"
+          }
+        ],
+        "venue": "book_default"
+      },
+      "kind": "decision",
+      "name": "v08 four correlated positions"
+    },
+    {
+      "expected": {
+        "decision": "PASS",
+        "ev": -0.00038189140361155616,
+        "f_full": 0.0,
+        "maxPlayablePrice": null,
+        "p_baseline": 0.5319879776728209,
+        "p_model": 0.5463260871230095,
+        "p_post": 0.5410776918090543,
+        "portfolioScale": 1.0,
+        "reasonCodes": [
+          "DEVIG_SENSITIVE"
+        ],
+        "stake": 0.0,
+        "w_mod": 0.8659517426273459
+      },
+      "inputs": {
+        "c": 1,
+        "line": null,
+        "market": "h2h",
+        "other_price": 110.0,
+        "price": -118.0,
+        "push": 0.0,
+        "side": "home",
+        "signals": [
+          {
+            "record": {
+              "family": "system",
+              "flag": "system",
+              "flag_weight": 1.0,
+              "losses_provider": 129,
+              "system_id": "mature",
+              "wins_provider": 194
+            },
+            "side": "for"
+          }
+        ],
+        "venue": "book_default"
+      },
+      "kind": "decision",
+      "name": "v09 de-vig sensitive moneyline"
+    },
+    {
+      "expected": {
+        "decision": "BET",
+        "ev": 0.04835751852888981,
+        "f_full": 0.049324668899722174,
+        "maxPlayablePrice": -112.0,
+        "p_baseline": 0.5,
+        "p_model": 0.5463260871230095,
+        "p_post": 0.5293686479700335,
+        "portfolioScale": 1.0,
+        "reasonCodes": [],
+        "stake": 1.2,
+        "w_mod": 0.8659517426273459
+      },
+      "inputs": {
+        "c": 1,
+        "line": -3.0,
+        "market": "spreads",
+        "other_price": -102.0,
+        "price": -102.0,
+        "push": 0.0,
+        "side": "home",
+        "signals": [
+          {
+            "record": {
+              "family": "system",
+              "flag": "system",
+              "flag_weight": 1.0,
+              "losses_provider": 129,
+              "system_id": "mature",
+              "wins_provider": 194
+            },
+            "side": "for"
+          }
+        ],
+        "venue": "book_default"
+      },
+      "kind": "decision",
+      "name": "v10 price better than -110"
+    },
+    {
+      "expected": {
+        "decision": "BET",
+        "ev": 0.009583424677794827,
+        "f_full": 0.011674160736663147,
+        "maxPlayablePrice": -112.0,
+        "p_baseline": 0.5,
+        "p_model": 0.5463260871230095,
+        "p_post": 0.5293686479700335,
+        "portfolioScale": 1.0,
+        "reasonCodes": [],
+        "stake": 0.25,
+        "w_mod": 0.8659517426273459
+      },
+      "inputs": {
+        "c": 1,
+        "line": -3.0,
+        "market": "spreads",
+        "other_price": -110.0,
+        "price": -110.0,
+        "push": 0.097,
+        "side": "home",
+        "signals": [
+          {
+            "record": {
+              "family": "system",
+              "flag": "system",
+              "flag_weight": 1.0,
+              "losses_provider": 129,
+              "system_id": "mature",
+              "wins_provider": 194
+            },
+            "side": "for"
+          }
+        ],
+        "venue": "book_default"
+      },
+      "kind": "decision",
+      "name": "v11 whole-number spread with push mass"
+    },
+    {
+      "expected": {
+        "decision": "BET",
+        "ev": 0.010612873397336464,
+        "f_full": 0.011674160736663147,
+        "maxPlayablePrice": -112.0,
+        "p_baseline": 0.5,
+        "p_model": 0.5463260871230095,
+        "p_post": 0.5293686479700335,
+        "portfolioScale": 1.0,
+        "reasonCodes": [
+          "UNGRADEABLE_PRICE"
+        ],
+        "stake": 0.25,
+        "w_mod": 0.8659517426273459
+      },
+      "inputs": {
+        "c": 1,
+        "line": -3.0,
+        "market": "spreads",
+        "other_price": -110.0,
+        "price": -110.0,
+        "push": 0.0,
+        "side": "home",
+        "signals": [
+          {
+            "record": {
+              "family": "system",
+              "flag": "system",
+              "flag_weight": 1.0,
+              "losses_provider": 129,
+              "system_id": "mature",
+              "wins_provider": 194
+            },
+            "side": "for"
+          }
+        ],
+        "venue": "book_default"
+      },
+      "kind": "decision",
+      "name": "v12 late price, logged but ungradeable"
+    },
+    {
+      "expected": 0.5463260871230095,
+      "kind": "value",
+      "name": "p01 wilson 194-323"
+    },
+    {
+      "expected": 0.30064184250845644,
+      "kind": "value",
+      "name": "p02 wilson 3-4"
+    },
+    {
+      "expected": 0.8659517426273459,
+      "kind": "value",
+      "name": "p03 raw weight n=323"
+    },
+    {
+      "expected": 0.7254762501100117,
+      "kind": "value",
+      "name": "p04 portfolio scale c=4 rho=0.3"
+    },
+    {
+      "expected": 0.25,
+      "kind": "value",
+      "name": "p05 round down 0.2749 to 0.05"
+    },
+    {
+      "expected": -0.0168181818181819,
+      "kind": "value",
+      "name": "p06 ev at -110 on 0.515"
+    },
+    {
+      "expected": 0.9704705286575382,
+      "kind": "value",
+      "name": "p07 kalshi 49c payout"
+    },
+    {
+      "expected": 0.8879155435759211,
+      "kind": "value",
+      "name": "p11 kalshi fee on an american quote"
+    },
+    {
+      "expected": -0.053720439588122226,
+      "kind": "value",
+      "name": "p08 clvPct at -110 on a -108/-112 close"
+    },
+    {
+      "expected": 0.5288328255702358,
+      "kind": "value",
+      "name": "p09 cross-number spread conversion"
+    },
+    {
+      "expected": 0.5379371530674416,
+      "kind": "value",
+      "name": "p10 totals conversion, over"
+    }
+  ],
+  "w0": 0.5
+}
