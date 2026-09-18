@@ -1930,6 +1930,140 @@ class TestOneSidedLadder(unittest.TestCase):
         self.assertEqual(quotes, [])
 
 
+
+class TestCaptureTiming(unittest.TestCase):
+    """Provenance answers where a number came from, not when.
+
+    `CAPTURED` alone let a line first seen on the morning of the game grade as
+    though it were an opening line. Nothing about that row is fabricated: a real
+    poll recorded it with a real timestamp. It is simply not an open, and the
+    strategy prices every play on 0.44 points of movement that has not happened
+    yet. On the week 3 2026 board lines moved 0.29 points over three days, so
+    inside the last day roughly 0.10 remained. Pricing that as 0.44 overstates
+    a play about four and a half times.
+
+    Graded that way the row does not look like a lie. It looks like the
+    strategy underperforming, when the truth is the strategy was never run.
+    """
+
+    def _tmp(self):
+        import os, tempfile
+        fd, path = tempfile.mkstemp(suffix=".csv"); os.close(fd); os.unlink(path)
+        self.addCleanup(lambda: os.path.exists(path) and os.unlink(path))
+        return path
+
+    def _book(self, seen_at, *, game="A @ B", line=-6.5):
+        from pathlib import Path
+        from cfb_edge.watch import OpeningBook, Quote
+
+        book = OpeningBook(path=Path(self._tmp()))
+        book.record([Quote(game=game, market="spread", line=line, price=-110.0,
+                           book="kalshi", seen_at=seen_at)])
+        return book
+
+    def _row(self, book):
+        import csv
+        path = self._tmp()
+        book.write_opens_csv(path)
+        with open(path, newline="", encoding="utf-8") as fh:
+            return next(csv.DictReader(fh))
+
+    def test_a_line_first_seen_in_the_window_is_an_open(self):
+        from cfb_edge.clv import CAPTURED
+
+        # Monday 12:00 UTC: inside RELEASE_WINDOW_UTC.
+        row = self._row(self._book("2026-09-14T12:00:00+00:00"))
+        self.assertEqual(row["source"], CAPTURED)
+
+    def test_a_line_first_seen_on_game_day_is_late(self):
+        """The defect. Friday is outside the window, so this is not an open."""
+        from cfb_edge.clv import LATE
+
+        row = self._row(self._book("2026-09-18T14:50:00+00:00"))
+        self.assertEqual(row["source"], LATE)
+
+    def test_late_is_not_gradeable(self):
+        from cfb_edge.clv import GRADEABLE, CAPTURED, FILLED, LATE, LoggedBet
+
+        self.assertNotIn(LATE, GRADEABLE)
+        self.assertIn(CAPTURED, GRADEABLE)
+        self.assertIn(FILLED, GRADEABLE)
+        bet = LoggedBet(date="2026-09-18", away="A", home="B", side="B",
+                        line_taken=-6.5, price_taken=-110.0, stake=0.0,
+                        closing_line=-7.5, source=LATE)
+        self.assertFalse(bet.gradeable)
+
+    def test_a_late_row_is_excluded_from_the_closing_line_value(self):
+        from cfb_edge.clv import LATE, LoggedBet, build_report
+
+        late = LoggedBet(date="2026-09-18", away="A", home="B", side="B",
+                         line_taken=-6.5, price_taken=-110.0, stake=0.0,
+                         closing_line=-7.5, source=LATE)
+        report = build_report([late])
+        self.assertEqual(report.graded, 0)
+        self.assertEqual(report.unverified, 1)
+        self.assertEqual(report.mean_line_clv, 0.0)
+
+    def test_the_earliest_sighting_across_books_decides(self):
+        """A book that joined on Tuesday must not decide whether Sunday's
+        number was timely."""
+        from pathlib import Path
+        from cfb_edge.clv import CAPTURED
+        from cfb_edge.watch import OpeningBook, Quote
+
+        book = OpeningBook(path=Path(self._tmp()))
+        book.record([
+            Quote(game="A @ B", market="spread", line=-6.5, price=-110.0,
+                  book="early", seen_at="2026-09-14T12:00:00+00:00"),
+            Quote(game="A @ B", market="spread", line=-6.5, price=-110.0,
+                  book="late", seen_at="2026-09-18T12:00:00+00:00"),
+        ])
+        self.assertEqual(book.first_seen()["A @ B"], "2026-09-14T12:00:00+00:00")
+        self.assertEqual(self._row(book)["source"], CAPTURED)
+
+    def test_an_unreadable_stamp_is_late_rather_than_judged_against_now(self):
+        """`in_release_window(None)` means now. Passing an unparsed stamp
+        straight through would ask whether *this moment* is in the window,
+        which is the `seen_at` bug wearing a new hat."""
+        from cfb_edge.clv import LATE
+
+        for stamp in ("", "not a timestamp", "2026-13-45T99:00:00Z"):
+            self.assertEqual(self._row(self._book(stamp))["source"], LATE,
+                             f"{stamp!r} should not be treated as timely")
+
+    def test_the_stamp_itself_is_written_so_the_call_can_be_audited(self):
+        row = self._row(self._book("2026-09-14T12:00:00+00:00"))
+        self.assertEqual(row["first_seen"], "2026-09-14T12:00:00+00:00")
+
+    def test_preflight_counts_a_late_row_because_the_parse_worked(self):
+        """Preflight asks whether the chain runs, not whether the line is
+        worth betting. A poll outside the window is a working capture."""
+        import csv as _csv
+        from cfb_edge.preflight import count_lines
+        from pathlib import Path
+
+        path = self._tmp()
+        with open(path, "w", newline="", encoding="utf-8") as fh:
+            w = _csv.writer(fh)
+            w.writerow(["game", "opening_line", "source", "first_seen"])
+            w.writerow(["A @ B", "-6.5", "late", "2026-09-18T14:50:00+00:00"])
+            w.writerow(["C @ D", "-3.5", "capture", "2026-09-14T12:00:00+00:00"])
+        self.assertEqual(count_lines(Path(path)), 2)
+
+    def test_preflight_still_rejects_a_row_with_no_provenance(self):
+        import csv as _csv
+        from cfb_edge.preflight import count_lines
+        from pathlib import Path
+
+        path = self._tmp()
+        with open(path, "w", newline="", encoding="utf-8") as fh:
+            w = _csv.writer(fh)
+            w.writerow(["game", "opening_line", "source"])
+            w.writerow(["A @ B", "-6.5", "unverified"])
+        with self.assertRaises(ValueError):
+            count_lines(Path(path))
+
+
 class TestLineProvenance(unittest.TestCase):
     """A line is evidence only when something recorded it independently.
 
