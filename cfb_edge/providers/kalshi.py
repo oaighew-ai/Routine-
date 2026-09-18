@@ -137,12 +137,34 @@ def parse_book(ticker: str, payload: dict) -> Book:
 
 
 def fetch_markets(series_ticker: str, *, opener: Opener | None = None,
-                  limit: int = 200) -> list[dict]:
-    """Open markets in one series."""
-    payload = _get(
-        f"/markets?limit={limit}&status=open&series_ticker={series_ticker}", opener
-    )
-    return payload.get("markets", [])
+                  limit: int = 200, max_pages: int = 25) -> list[dict]:
+    """Every open market in one series, following the cursor.
+
+    The endpoint caps a page at 200 regardless of what `limit` asks for, and a
+    college football spread ladder runs twenty-odd rungs per game, so one page
+    covers about ten games out of a sixty-game board. Reading only the first
+    page silently drops most of the slate, and the games it keeps are whichever
+    the exchange happened to return first rather than the ones on the card.
+
+    `max_pages` bounds the walk so a server that keeps handing back the same
+    cursor cannot spin here forever.
+    """
+    out: list[dict] = []
+    cursor = ""
+    seen: set[str] = set()
+    for _ in range(max_pages):
+        path = f"/markets?limit={limit}&status=open&series_ticker={series_ticker}"
+        if cursor:
+            path += f"&cursor={cursor}"
+        payload = _get(path, opener)
+        page = payload.get("markets") or []
+        out.extend(page)
+        cursor = str(payload.get("cursor") or "")
+        # An empty cursor ends the walk; a repeated one means it is not advancing.
+        if not cursor or cursor in seen or not page:
+            break
+        seen.add(cursor)
+    return out
 
 
 def fetch_book(ticker: str, *, opener: Opener | None = None, depth: int = 50) -> Book:
@@ -229,6 +251,12 @@ if __name__ == "__main__":
 # as "wins by over 16.5 points"; the number is what a Play calls its strike.
 _STRIKE = re.compile(r"by (?:over|more than)\s+(\d+(?:\.\d+)?)", re.I)
 
+# Widest bid-ask, in probability, that still counts as a quoted price. The live
+# college football ladder is mostly wider than this: rungs at 0.09/0.83 and
+# 0.14/0.38 are common. A mid taken from those is a number nobody would trade
+# at, and it would set an opening line the market never offered.
+MAX_SPREAD = 0.15
+
 
 def strike_of(market: dict) -> float | None:
     """The strike a spread market is written at, or None if it cannot be read.
@@ -239,6 +267,15 @@ def strike_of(market: dict) -> float | None:
     three-point contract on a game whose only listed strike was the line, and
     the operator filled the listed one at a price where the edge is negative.
     """
+    # `floor_strike` is the exchange's own number for this rung. Preferring it
+    # over a regex on prose is not a style choice: the title is marketing copy
+    # and can be reworded, while this field is the contract.
+    floor = market.get("floor_strike")
+    if floor not in (None, ""):
+        try:
+            return float(floor)
+        except (TypeError, ValueError):
+            pass
     for key in ("yes_sub_title", "subtitle", "title"):
         text = market.get(key)
         if not text:
@@ -283,6 +320,31 @@ def _team_and_strike(market: dict) -> tuple[str, float] | None:
     return None
 
 
+def _side_price(market: dict, base: str) -> float | None:
+    """One side's price as a probability, whichever way Kalshi spelled it.
+
+    The live payload carries `yes_bid_dollars` as a STRING ("0.0900"), while
+    this module was written against `yes_bid` as an integer in cents. Reading
+    only the second returned None for every rung on the board, so the capture
+    parsed zero markets while the request itself succeeded: a silent nothing
+    rather than an error. Both spellings are accepted, dollars preferred,
+    because the dollar field is the one the exchange actually sends.
+    """
+    dollars = market.get(f"{base}_dollars")
+    if dollars not in (None, ""):
+        try:
+            return float(dollars)
+        except (TypeError, ValueError):
+            return None
+    cents = market.get(base)
+    if cents in (None, ""):
+        return None
+    try:
+        return float(cents) / 100.0
+    except (TypeError, ValueError):
+        return None
+
+
 def _mid(market: dict) -> float | None:
     """Mid price in probability, or None when the rung is not two-sided.
 
@@ -290,10 +352,16 @@ def _mid(market: dict) -> float | None:
     reading the lone side as a probability is how a market with no liquidity
     ends up setting an opening line.
     """
-    bid, ask = market.get("yes_bid"), market.get("yes_ask")
-    if bid in (None, 0) or ask in (None, 0):
+    bid, ask = _side_price(market, "yes_bid"), _side_price(market, "yes_ask")
+    if bid is None or ask is None or bid <= 0.0 or ask <= 0.0:
         return None
-    return (float(bid) + float(ask)) / 200.0          # cents on both sides
+    if ask - bid > MAX_SPREAD:
+        # Not a price. On the real NCAAF board a rung is routinely quoted 0.09
+        # bid against 0.83 ask, and a midpoint of that is an invention: the
+        # edge this project chases is about one cent, so a 74-cent spread is
+        # not a cost to subtract, it is the absence of a market.
+        return None
+    return (bid + ask) / 2.0
 
 
 def survival_curve(
