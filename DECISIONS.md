@@ -164,35 +164,97 @@ chosen selector to this entry.
 `phase0-coverage.yml` precisely so a future run reports that rather than a
 parser silently returning zero rows.
 
-## 2026-09-19 — D8. The Odds API key is rejected, so items 2 and 3 stay open
+## 2026-09-19 — D8. Phase 0 items 2 and 3, answered
 
-**Decision.** Phase 0 items 2 (plan tier and credit burn) and 3 (the coverage
-matrix) are **not** answered and are not guessed.
+**Superseded the same day.** This entry first recorded that the API key was
+rejected with a 401 and that items 2 and 3 were therefore open. A working key
+was supplied and the coverage workflow re-run; what follows is the measurement.
 
-**Evidence.** `ODDS_API_KEY` is set as a repository secret — the runner shows it
-masked in the step environment — and every call to `api.the-odds-api.com`
-answers **HTTP 401** on both sport keys. The key exists and the API is refusing
-it. Nothing about venue coverage, the plan tier or the remaining credit balance
-can be stated from this, and none of it is inferred.
+**Item 2, the plan and the burn.** `x-requests-used` 171 plus
+`x-requests-remaining` 329 is a **500-credit monthly allowance: the free tier**.
+The key sees 82 sports. Historical odds, which A3 needs for closes and A4 for
+lag prices, are paid-plan only.
 
-**What this changes in the meantime.** The only figure on record stays the one
-already measured in `cfb_edge/providers/oddsapi.py`: the existing CFB capture on
-`regions=us,us2,eu` costs 3 credits a poll across 652 polls a week, about 1,956
-a week and 8,400 a month. Requesting by `bookmakers` bills as one region and
-cuts that to a third. That is arithmetic from the documented billing rule, not a
-reading of this account.
+**The billing rule, measured rather than reasoned about.** Credits are
+`regions x markets`. A pull of 7 bookmakers across `h2h,spreads,totals`
+reported `x-requests-last` of **3**.
 
-Acceptance check 16 (Kalshi prices reaching `bookSet`) therefore remains
-unverified against a live board. The offline half passes.
+This corrects a claim this repository made twice, in
+`cfb_edge/providers/oddsapi.py` and in the first version of this entry: that
+requesting by `bookmakers` "cuts it to a third". Naming books collapses only the
+region factor to 1. The market factor is untouched, and the EDGE OS scan asks
+for three markets where the old capture asked for one, so the two cost the same
+3 credits per pull. The saving is real only at a constant market count. The
+client's comment now says to read `x-requests-last` rather than infer the price
+from the parameter used.
 
-**One diagnostic was wrong and is fixed.** The client reported the 401 as "if
-this is a network policy denial the host has to be allowed", because
-`HTTPError` subclasses `URLError` and the broad handler caught it first. A
-server that answers is reachable; what it answered is the finding. The message
-now names the cause per status code, and four tests hold the distinction.
+**What the free tier can and cannot do**, at 3 credits a pull:
 
-**Reversal criterion.** A working key. Replace the secret and re-run
-`phase0-coverage`; both items answer themselves in one run.
+| workload | cost | verdict |
+|---|---|---|
+| one CFB scan window, one sport | 3 | fine |
+| a CFB Saturday, four windows | 12 | fine |
+| a 15-week CFB season of scans | 180 | fits inside one month's 500 |
+| `watch.py`'s 10-minute capture schedule | ~8,400/month | **16.8x the entire allowance** |
+
+So SHADOW scanning is affordable on this plan and **the opening-line capture is
+not**. That matters more than it looks: `MODEL.md` measures the edge from the
+*opening* number, and `clv.py`'s `LATE` provenance exists because a board first
+seen late has already spent most of the move. A plan that cannot afford opens
+cannot feed the strategy the repository actually measured.
+
+`credit_cap_monthly` is set to 500 in `config/edge_os.json`, and `fetch_pull`
+raises `CreditCapReached` rather than quietly spending past it.
+
+**Reversal criterion.** A paid tier. Re-run the workflow and this entry is
+rewritten from the new headers, not edited by hand.
+
+## 2026-09-19 — D9. The coverage matrix, and two venue gaps it exposes
+
+**Acceptance check 16 passes for CFB.** Kalshi's prices reach `bookSet` on live
+events, in all three markets.
+
+**americanfootball_ncaaf — 90 events**
+
+| venue | h2h | spreads | totals |
+|---|---|---|---|
+| `kalshi` | yes | yes | yes |
+| `pinnacle` | yes | yes | yes |
+| `draftkings` | yes | yes | yes |
+| `fanduel` | yes | yes | yes |
+| `betmgm` | yes | yes | yes |
+| `betrivers` | yes | yes | yes |
+
+**basketball_nba — 41 events**
+
+| venue | h2h | spreads | totals |
+|---|---|---|---|
+| `kalshi` | yes | **no** | **no** |
+| `pinnacle` | **not listed** | | |
+| `draftkings` | yes | yes | yes |
+| `fanduel` | yes | yes | yes |
+| `betmgm` | yes | yes | yes |
+| `betrivers` | yes | yes | yes |
+
+Three findings, in order of what they cost:
+
+1. **Kalshi lists no NBA spreads or totals, only moneyline.** §7 plans NBA from
+   opening night, and on the one venue that can be bet and withdrawn from, two
+   of the three markets do not exist there. An NBA spread signal has nowhere to
+   be executed. Either NBA is a moneyline-only sport for this system, or it
+   needs a second venue, and that is a decision rather than a detail.
+2. **Pinnacle is absent from NBA entirely.** A3 names Pinnacle as the close
+   reference and the US median as the fallback; on NBA the fallback is the only
+   option, and `closeRef` will read `us_median` on every NBA row. That is
+   already handled, but it means NBA closes are measured against a softer
+   reference than CFB ones, and the two are not strictly comparable.
+3. **`williamhill_us` is listed for neither sport.** A dead key, removed from
+   the workflow's defaults. It cost nothing, but a key that never returns data
+   is indistinguishable from a venue that dropped a market unless someone looks.
+
+**Reversal criterion.** Re-run the workflow. The matrix is a snapshot of one
+pull; venues add and drop markets, and Kalshi's NBA coverage in particular is
+worth re-checking at opening night before any NBA rule is written around it.
 
 ---
 

@@ -39,9 +39,17 @@ SPORT = "americanfootball_ncaaf"
 # BUILD_PROMPT §7. Requesting by `bookmakers` rather than by region is not a
 # preference: region `us` alone omits Kalshi, which the API lists under `us_ex`,
 # and Pinnacle, which it lists under `eu`. A bookmakers list of ten keys or
-# fewer is billed as one region, so naming the books is both cheaper than
-# `us,us2,eu` and the only way to get the venue and the sharp reference in the
-# same pull.
+# fewer is billed as one region, so it is the only way to get the venue and the
+# sharp reference in the same pull.
+#
+# **It is not automatically cheaper, and an earlier version of this comment said
+# it was.** Billing is regions x markets. Naming books collapses the region
+# factor to 1; the market factor is untouched. Measured on a real pull:
+# 7 bookmakers x `h2h,spreads,totals` cost 3 credits, exactly what
+# `regions=us,us2,eu` costs for one market. The saving is real only at a
+# constant market count, and the EDGE OS scan asks for three markets where the
+# old capture asked for one, so it nets out. Read `x-requests-last`; do not
+# reason about the price from the parameter you used.
 MAX_BOOKMAKERS_PER_REGION = 10
 
 SPORT_KEYS = {

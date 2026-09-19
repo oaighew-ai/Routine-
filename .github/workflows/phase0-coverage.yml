@@ -33,7 +33,7 @@ on:
     inputs:
       bookmakers:
         description: "Bookmaker keys, comma separated, 10 or fewer (billed as one region)"
-        default: "kalshi,pinnacle,draftkings,fanduel,betmgm,williamhill_us,betrivers"
+        default: "kalshi,pinnacle,draftkings,fanduel,betmgm,betrivers"
         required: false
       sports:
         description: "Sport keys, comma separated"
@@ -103,7 +103,7 @@ jobs:
           # here. Without this the matrix silently requests no books and no
           # sports and reports an empty board, which reads exactly like a
           # venue that lists nothing.
-          BOOKMAKERS: ${{ inputs.bookmakers || 'kalshi,pinnacle,draftkings,fanduel,betmgm,williamhill_us,betrivers' }}
+          BOOKMAKERS: ${{ inputs.bookmakers || 'kalshi,pinnacle,draftkings,fanduel,betmgm,betrivers' }}
           SPORTS: ${{ inputs.sports || 'americanfootball_ncaaf,basketball_nba' }}
         run: |
           python3 - <<'PY' | tee -a "$GITHUB_STEP_SUMMARY"

@@ -12,7 +12,7 @@
     "spreads",
     "totals"
   ],
-  "credit_cap_monthly": null,
+  "credit_cap_monthly": 500,
   "blend": {
     "w0": 0.5,
     "n_half": 50.0,
@@ -74,5 +74,6 @@
       "unverified_reason": "Priced in the posted line; no separate fee schedule. Named venues that charge one need their own entry.",
       "default_price_kind": "american"
     }
-  }
+  },
+  "credit_cap_note": "Free tier, measured 2026-09-19: x-requests-used 171 + x-requests-remaining 329 = 500. Billing is regions x markets; a 3-market pull costs 3. The 10-minute capture schedule in watch.py would spend about 8,400 a month, 16.8x the entire allowance, so it cannot run on this plan. Historical odds, which A3 and A4 need, are paid-plan only."
 }

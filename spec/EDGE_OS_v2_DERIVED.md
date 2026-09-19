@@ -407,10 +407,17 @@ exists yet, and the one that gets written keys on `data-event` and
 `.percentage-a` / `.percentage-b` rather than on anything inferred from how the
 page looks in a browser.
 
-Odds coverage is **unmeasured**. The Odds API refuses this account's key with a
-401, so the venue-by-sport-by-market matrix, the plan tier and the credit
-balance are all open questions (D8). Nothing in this document assumes an answer
-to them, and acceptance check 16 stays unverified until a working key exists.
+Odds coverage is **measured** (D9). On CFB every listed venue quotes all three
+markets, Kalshi included, so acceptance check 16 passes. On NBA, Kalshi quotes
+moneyline only and Pinnacle is absent, so an NBA spread has no executable venue
+and every NBA `closeRef` falls back to the US median. No rule in this document
+should be extended to NBA without settling that first.
+
+The plan is the **free tier, 500 credits a month** (D8). Billing is
+`regions x markets`, measured at 3 credits for a three-market pull, which makes
+SHADOW scanning affordable and the opening-line capture impossible at roughly
+16.8x the allowance. Since the measured edge runs from the *open*, a plan that
+cannot afford opens cannot feed the strategy; see D8.
 
 ## 9. What this document does not contain
 
