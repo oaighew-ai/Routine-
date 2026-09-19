@@ -21,7 +21,19 @@
 # be. The job never fails, so the diagnostics land even when the answer is no.
 name: cfbd probe
 
+# Push-triggered on this file alone, because a `workflow_dispatch` workflow is
+# not dispatchable until its file reaches the default branch (the API answers
+# 404, confirmed twice now) and this one has no earlier run to re-run.
+#
+# `phase0-coverage.yml` had its push trigger removed for spending Odds API
+# credits on unrelated commits. That reasoning does not carry here: this probe
+# spends no Odds API credits at all, makes two CFBD requests, and fires only
+# when this file itself changes. Drop the trigger once it is on main.
 on:
+  push:
+    branches: [claude/jolly-feynman-p2rb1h]
+    paths:
+      - .github/workflows/cfbd-probe.yml
   workflow_dispatch:
     inputs:
       year:
