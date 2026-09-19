@@ -333,6 +333,82 @@ markets. The probe prints field names and counts and builds nothing.
 becomes the only exit; a yes gets its own entry naming the provider and the
 provenance value before any client is written.
 
+## 2026-09-19 — D12. CFBD carries the line, not its price
+
+**The probe answered** (`cfbd-probe.yml`, run 2). Auth works, quota is
+`x-calllimit-remaining: 897` on a limit near 1,000, and it is **a separate
+budget from the Odds API entirely**.
+
+`GET /lines?year=2026&week=3`: 119 games, 194 provider quotes. Every quote
+carries the same eight fields, all 194 of 194:
+
+`provider`, `spread`, `formattedSpread`, **`spreadOpen`**, `overUnder`,
+**`overUnderOpen`**, `homeMoneyline`, `awayMoneyline`
+
+Providers: `DraftKings` x119, `Bovada` x74, and `Draft Kings` x1 — the same
+book under two spellings, which is a data wart any client has to normalise.
+
+### What this is worth, stated as a split rather than a yes
+
+My own probe printed "CFBD can carry the market reference" and that was too
+strong; the verdict logic has been corrected so a future run cannot repeat it.
+**A line is not a price.** There is no juice on a spread or a total anywhere in
+the response. Only moneylines carry both sides.
+
+**It can feed the measurement this repository actually validated.** `MODEL.md`
+measures +0.44 points of closing line value from the *opening* number, with
+t-statistics from 3.2 to 5.5, and `clv.py`'s `line_clv` and `probability_clv`
+both work in points and need no price at all. `spreadOpen` hands that over
+directly, for free, for every listed game.
+
+**It cannot feed A3's `clvPct` on a spread.** That is EV at the closing no-vig
+price and needs a two-way price to de-vig. Nor can it produce `p_baseline` for
+a spread, for the same reason: Law 4 decides on EV at the executable price, and
+a line with no juice is not a price. Moneylines are the exception — those carry
+both sides and de-vig normally.
+
+**It cannot be a consensus.** §7 wants the median of the listed US books. Two
+books, one of which covers 74 of 119 games, is not that.
+
+### What it does to the capture problem
+
+This is the part that matters. D8 and D10 leave the opening-line capture at
+about 5.6x the free-tier allowance even stripped to spreads alone, and the cost
+is irreducible because it lives in the polling frequency.
+
+**`spreadOpen` may make the polling unnecessary for the line-based
+measurement.** The reason `watch.py` polls every ten minutes is to be watching
+when the number appears. If CFBD simply reports what the number opened at, the
+edge `MODEL.md` validated can be measured without the capture existing.
+
+That is a large claim and it is not yet established. What is established is
+that the field exists and is populated on every quote.
+
+### Provenance, which bounds all of the above
+
+Confirmed: **no timestamp on any quote.** So the rule written in advance in D11
+stands unchanged, and the split above does not soften it.
+
+- **As a close or open *reference*: defensible.** The question is where the
+  market was, and a third-party record answers it.
+- **As an *entry price*: not defensible.** The claim would be that you could
+  have taken a number you never saw. `priceSource` exists to prevent exactly
+  that (D6), and an API response does not change it.
+
+Concretely: a CFBD opener is a legitimate thing to measure an entry *against*,
+and never a legitimate thing to record as the entry. Any client gets a
+`priceSource` of its own — not `capture`, which is reserved for what this
+system watched happen.
+
+**What is not decided here.** Which provider to use, whether a two-book
+reference is good enough to gate on, and whether the line-based CLV or A3's
+price-based `clvPct` is the gate. Those need their own entry and probably their
+own measurement; this one records what the API returns and what that forecloses.
+
+**Reversal criterion.** CFBD adds spread prices, or adds more providers, or
+adds timestamps. The probe is kept so a re-run reports that rather than a
+client silently continuing to work from two books.
+
 ---
 
 ## Amendments carried from BUILD_PROMPT §6

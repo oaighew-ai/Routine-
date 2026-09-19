@@ -154,20 +154,41 @@ jobs:
           has_time = any(k for k in fields
                          if "time" in k.lower() or "updated" in k.lower()
                          or "date" in k.lower())
+          # A line is not a price. This check exists because the first version
+          # of this verdict did not have it and announced that CFBD "can carry
+          # the market reference" while the juice on every spread was missing.
+          has_spread_price = any("spread" in k.lower() and
+                                 ("price" in k.lower() or "juice" in k.lower()
+                                  or "odds" in k.lower() or "vig" in k.lower())
+                                 for k in fields)
+          has_ml_price = any(k.lower().endswith("moneyline") for k in fields)
 
           print(f"- **opening lines present:** {'YES — ' + ', '.join(sorted(k for k in fields if 'open' in k.lower())) if has_open else 'no'}")
           print(f"- **a settled/closing line present:** {'yes' if has_close else 'no'}")
+          print(f"- **a price on the spread (juice):** {'yes' if has_spread_price else '**no**'}")
+          print(f"- **a two-way moneyline price:** {'yes' if has_ml_price else 'no'}")
           print(f"- **any timestamp on a quote:** {'yes' if has_time else '**no**'}")
           print("")
-          if has_open and has_close:
-              print("**CFBD can carry the market reference.** The Odds API would then "
-                    "be needed only for the executable venue price at decision time, "
-                    "which is a small fraction of current spend. Next step is a "
-                    "DECISIONS.md entry choosing the provider and settling "
-                    "provenance, not a client.")
+
+          if has_open and has_close and has_spread_price:
+              print("**CFBD can carry the whole market reference**, line and price. "
+                    "The Odds API would be needed only for the executable venue "
+                    "price at decision time.")
+          elif has_open and has_close:
+              print("**CFBD carries the line but not its price.** That is a real "
+                    "answer and a split one, so do not round it to yes:\n")
+              print("- It **can** feed a line-based CLV, which is the measurement "
+                    "`MODEL.md` actually validated: +0.44 points from the open, "
+                    "t-statistics 3.2 to 5.5, and `clv.py`'s `line_clv` and "
+                    "`probability_clv` both work in points and need no price.")
+              print("- It **cannot** feed A3's `clvPct` on a spread, which is EV at "
+                    "the closing no-vig price and needs a two-way price to de-vig. "
+                    "Moneylines are the exception: those carry both sides.")
+              print("- It **cannot** produce `p_baseline` for a spread at all, for "
+                    "the same reason. Law 4 decides on EV at the executable price, "
+                    "and a line with no juice is not a price.")
           elif has_close:
-              print("**Closes only.** Useful for A3 grading, which is the harder half, "
-                    "but the opener capture problem stands.")
+              print("**Closes only.** The opener capture problem stands.")
           else:
               print("**Not a substitute.** Record it and move on.")
 

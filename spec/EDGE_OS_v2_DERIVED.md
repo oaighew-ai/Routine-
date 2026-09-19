@@ -423,8 +423,12 @@ capture still wants about 2,800 a month stripped to spreads alone, 5.6x the
 allowance. Scope cuts do not reach it, because the cost is in the polling
 frequency and the frequency is the point: the measured edge runs from the
 *open*, and an open is only an open if something was watching when it appeared.
-D11 tests whether CFBD can supply that reference instead; until it answers, a
-paid tier is the only other exit.
+CFBD supplies `spreadOpen` and `overUnderOpen` on every quote, free and on a
+separate quota (D12), which may make the polling unnecessary for the
+line-based measurement `MODEL.md` validated. It supplies no juice on a spread
+or a total, so it cannot produce `p_baseline` or A3's `clvPct` for those
+markets, and it carries no timestamp, so under D6 it is a reference to measure
+an entry against and never the entry itself.
 
 ## 9. What this document does not contain
 
