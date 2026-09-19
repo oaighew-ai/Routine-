@@ -409,6 +409,51 @@ own measurement; this one records what the API returns and what that forecloses.
 adds timestamps. The probe is kept so a re-run reports that rather than a
 client silently continuing to work from two books.
 
+## 2026-09-19 — D13. The gate is line-based CLV, not A3's price-based clvPct
+
+**Decision.** Gate 2 is measured in **points of line beaten**, through
+`clv.py`'s `line_clv` and `probability_clv`, not through A3's
+`clvPct = closeFairProb x entryDecimal - 1`.
+
+**Reason, in the owner's words: that is what we measured.** `MODEL.md` records
++0.44 points of closing line value from the opening number, with t-statistics
+from 3.2 to 5.5 across variants, on 6,398 real closing lines. A3's definition
+is a different quantity that was never measured here, and D12 established that
+the data source which makes the measurement affordable — CFBD's `spreadOpen` —
+cannot feed it on a spread at all, because it carries no juice.
+
+Choosing the measured quantity over the prescribed one is Law 6's spirit
+applied to a definition rather than a threshold.
+
+**What this changes.**
+
+- **Gate 2 (A5)** counts `line_clv` or `probability_clv` on BET rows, clustered
+  by slate date, with D5's cluster minimum. `probability_clv` is the additive
+  form — half a point at 3 is worth far more than at 12, and converting through
+  the margin PMF is what makes rows comparable — so the gate runs on that and
+  reports points alongside.
+- **A3 is not deleted.** `clvPct` stays computed and stored wherever a two-way
+  price exists, which is every moneyline and every Odds API pull. It becomes a
+  second reading rather than the gate. Keeping both is cheap and the comparison
+  is itself evidence: if they disagree in sign at n, that is worth knowing.
+- **A4's `clvLagPct`** gets the same treatment: a lagged *line*, with the
+  price-based lag kept where a price exists.
+- **The `pmf` tag stays meaningful.** A5 requires the gate to pass with and
+  without cross-number rows, and `probability_clv` converts through the margin
+  PMF on every row, so essentially all rows become `pmf`. The with/without
+  split is therefore re-expressed as: rows where the line did not move (exact,
+  no conversion) versus rows where it did.
+
+**What it does not change.** The betting decision. Law 4 still decides on EV at
+the executable price net of fees, and that still needs a real two-way price
+from the venue. CFBD cannot price a bet; it can only say where the market was.
+This decision is about the **scorecard**, not the trigger.
+
+**Reversal criterion.** A measured disagreement. Both quantities are stored on
+every row where both are computable, so at n >= 60 the two can be compared
+directly. If the price-based reading clears while the line-based one does not,
+or the reverse, that is a finding and this entry gets revisited on it.
+
 ---
 
 ## Amendments carried from BUILD_PROMPT §6
