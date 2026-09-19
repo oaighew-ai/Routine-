@@ -25,7 +25,8 @@ name: phase0 coverage
 # default branch — confirmed, not assumed: the dispatch API answers this one
 # with a 404. That trigger has been removed, and the reason is the measurement
 # it produced: the plan is the free tier, 500 credits a month, and each run of
-# this job spends 6 (two sports x three markets). Its `paths` filter included
+# this job spends 3 (one sport x three markets; it was 6 before NBA was
+# dropped in D10). Its `paths` filter included
 # `cfb_edge/providers/oddsapi.py`, a file under active development, so every
 # edit to the odds client quietly cost 6 credits out of an allowance that
 # cannot afford the capture schedule in the first place.
@@ -43,7 +44,7 @@ on:
         required: false
       sports:
         description: "Sport keys, comma separated"
-        default: "americanfootball_ncaaf,basketball_nba"
+        default: "americanfootball_ncaaf"
         required: false
 
 permissions:
@@ -105,7 +106,7 @@ jobs:
           # sports and reports an empty board, which reads exactly like a
           # venue that lists nothing.
           BOOKMAKERS: ${{ inputs.bookmakers || 'kalshi,pinnacle,draftkings,fanduel,betmgm,betrivers' }}
-          SPORTS: ${{ inputs.sports || 'americanfootball_ncaaf,basketball_nba' }}
+          SPORTS: ${{ inputs.sports || 'americanfootball_ncaaf' }}
         run: |
           python3 - <<'PY' | tee -a "$GITHUB_STEP_SUMMARY"
           import os, sys

@@ -408,16 +408,23 @@ exists yet, and the one that gets written keys on `data-event` and
 page looks in a browser.
 
 Odds coverage is **measured** (D9). On CFB every listed venue quotes all three
-markets, Kalshi included, so acceptance check 16 passes. On NBA, Kalshi quotes
-moneyline only and Pinnacle is absent, so an NBA spread has no executable venue
-and every NBA `closeRef` falls back to the US median. No rule in this document
-should be extended to NBA without settling that first.
+markets, Kalshi included, so acceptance check 16 passes.
+
+**This system is college football only** (D10). The NBA gaps D9 found — Kalshi
+quoting moneyline alone, Pinnacle absent entirely — are recorded there and are
+not live questions. They become live again the day NBA returns, and the matrix
+should be re-measured then rather than read off a September snapshot.
 
 The plan is the **free tier, 500 credits a month** (D8). Billing is
 `regions x markets`, measured at 3 credits for a three-market pull, which makes
-SHADOW scanning affordable and the opening-line capture impossible at roughly
-16.8x the allowance. Since the measured edge runs from the *open*, a plan that
-cannot afford opens cannot feed the strategy; see D8.
+SHADOW scanning affordable and the opening-line capture impossible. Under D10's
+CFB-only scope a full 15-week season of scans costs 180 credits and fits; the
+capture still wants about 2,800 a month stripped to spreads alone, 5.6x the
+allowance. Scope cuts do not reach it, because the cost is in the polling
+frequency and the frequency is the point: the measured edge runs from the
+*open*, and an open is only an open if something was watching when it appeared.
+D11 tests whether CFBD can supply that reference instead; until it answers, a
+paid tier is the only other exit.
 
 ## 9. What this document does not contain
 

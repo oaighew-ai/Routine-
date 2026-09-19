@@ -1,0 +1,181 @@
+# What CollegeFootballData actually returns, measured before anything is built
+# on it.
+#
+# The idea under test is the only one that can rescue the opening-line capture
+# without a paid Odds API tier. The Odds API plan is the free tier, 500 credits
+# a month, and `watch.py`'s schedule wants ~2,800 even stripped to spreads
+# alone: 5.6x the allowance (DECISIONS.md D8). CFBD is college football only,
+# which used to make it a half-solution and no longer does now that NBA is out
+# of scope (D10). If CFBD carries opening and closing lines, the Odds API is
+# needed only for the executable venue price at decision time, and the credit
+# problem changes shape entirely.
+#
+# **Nothing is assumed about CFBD's response.** This repository already paid for
+# that habit once: `kalshi-truth.yml` exists because a parser written against a
+# documented shape it had never seen was wrong in three ways at once and
+# reported no error while parsing zero markets. So this job asks, prints what
+# came back, and builds nothing.
+#
+# Needs CFBD_API_KEY as a repository secret. The key was emailed by
+# keys@mail.collegefootballdata.com; it is not in this repository and must not
+# be. The job never fails, so the diagnostics land even when the answer is no.
+name: cfbd probe
+
+on:
+  workflow_dispatch:
+    inputs:
+      year:
+        description: "Season"
+        default: "2026"
+        required: false
+      week:
+        description: "Week number to sample"
+        default: "3"
+        required: false
+
+permissions:
+  contents: read
+
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+
+      - name: What does CFBD give us?
+        env:
+          CFBD_API_KEY: ${{ secrets.CFBD_API_KEY }}
+          YEAR: ${{ inputs.year || '2026' }}
+          WEEK: ${{ inputs.week || '3' }}
+        run: |
+          python3 - <<'PY' | tee -a "$GITHUB_STEP_SUMMARY"
+          import collections, json, os, urllib.error, urllib.request
+
+          key = os.environ.get("CFBD_API_KEY", "")
+          year, week = os.environ["YEAR"], os.environ["WEEK"]
+          ROOT = "https://api.collegefootballdata.com"
+
+          print("# CFBD probe\n")
+          if not key:
+              print("- `CFBD_API_KEY` is not set as a repository secret. Add it and "
+                    "re-run. The key was emailed by "
+                    "`keys@mail.collegefootballdata.com`.")
+              raise SystemExit(0)
+
+          def get(path):
+              """Return (status, payload, headers). Never raises."""
+              req = urllib.request.Request(
+                  ROOT + path,
+                  headers={"Authorization": f"Bearer {key}",
+                           "Accept": "application/json",
+                           "User-Agent": "cfb-edge/1.0"},
+              )
+              try:
+                  with urllib.request.urlopen(req, timeout=30) as r:
+                      return r.status, json.loads(r.read()), {
+                          k.lower(): v for k, v in r.headers.items()}
+              except urllib.error.HTTPError as e:
+                  return e.code, None, {k.lower(): v for k, v in e.headers.items()}
+              except Exception as e:                       # noqa: BLE001
+                  return str(e), None, {}
+
+          # ---- 1. Does the key work at all? --------------------------------
+          print("## Auth\n")
+          status, games, headers = get(f"/games?year={year}&week={week}&seasonType=regular")
+          print(f"- `GET /games?year={year}&week={week}` -> **{status}**")
+          if status == 401:
+              print("- 401. The key is wrong for this service, or the auth scheme is "
+                    "not `Bearer`. Nothing below will work.")
+              raise SystemExit(0)
+          if status != 200 or games is None:
+              print(f"- no usable response; stopping. Headers seen: "
+                    f"{sorted(headers)[:10]}")
+              raise SystemExit(0)
+          print(f"- games returned: **{len(games)}**")
+          if games:
+              print(f"- fields on a game: `{', '.join(sorted(games[0]))}`")
+
+          quota = {k: v for k, v in headers.items()
+                   if "ratelimit" in k or "quota" in k or "remaining" in k}
+          print(f"- rate-limit headers: {quota if quota else '**none advertised**'}")
+
+          # ---- 2. The question that matters: lines, and do they carry opens?
+          print("\n## Betting lines\n")
+          status, lines, _ = get(f"/lines?year={year}&week={week}&seasonType=regular")
+          print(f"- `GET /lines?year={year}&week={week}` -> **{status}**")
+          if status != 200 or not lines:
+              print("- **no lines.** CFBD cannot substitute for the market "
+                    "reference; the Odds API stays the only source and D8's "
+                    "credit problem stands. That is a real answer, not a failure.")
+              raise SystemExit(0)
+
+          print(f"- games with a lines record: **{len(lines)}**")
+          print(f"- fields on a lines record: `{', '.join(sorted(lines[0]))}`")
+
+          inner = [ln for g in lines for ln in (g.get("lines") or [])]
+          print(f"- individual provider quotes: **{len(inner)}**")
+          if not inner:
+              print("- records exist but carry no provider quotes. Nothing usable.")
+              raise SystemExit(0)
+
+          fields = collections.Counter(k for ln in inner for k in ln)
+          print(f"- fields on a quote, with how many quotes carry each:")
+          for k, v in fields.most_common():
+              print(f"  - `{k}` x{v}")
+
+          providers = collections.Counter(ln.get("provider") for ln in inner)
+          print(f"\n- providers: " + ", ".join(f"`{p}` x{n}"
+                                               for p, n in providers.most_common()))
+
+          # ---- 3. The three things that decide whether this is usable -------
+          print("\n## Verdict\n")
+          has_open = any(k for k in fields if "open" in k.lower())
+          has_close = any(k for k in fields
+                          if k.lower() in {"spread", "overunder", "formattedspread"})
+          has_time = any(k for k in fields
+                         if "time" in k.lower() or "updated" in k.lower()
+                         or "date" in k.lower())
+
+          print(f"- **opening lines present:** {'YES — ' + ', '.join(sorted(k for k in fields if 'open' in k.lower())) if has_open else 'no'}")
+          print(f"- **a settled/closing line present:** {'yes' if has_close else 'no'}")
+          print(f"- **any timestamp on a quote:** {'yes' if has_time else '**no**'}")
+          print("")
+          if has_open and has_close:
+              print("**CFBD can carry the market reference.** The Odds API would then "
+                    "be needed only for the executable venue price at decision time, "
+                    "which is a small fraction of current spend. Next step is a "
+                    "DECISIONS.md entry choosing the provider and settling "
+                    "provenance, not a client.")
+          elif has_close:
+              print("**Closes only.** Useful for A3 grading, which is the harder half, "
+                    "but the opener capture problem stands.")
+          else:
+              print("**Not a substitute.** Record it and move on.")
+
+          if not has_time:
+              print("\n**Provenance caveat, and it is not small.** A quote with no "
+                    "timestamp cannot measure line movement: `clv.py` refuses to "
+                    "grade exactly this, and D6 exists because a line first seen "
+                    "late is indistinguishable from an opener in every way a float "
+                    "can be. A CFBD opener is CFBD's record that a line opened "
+                    "somewhere, not this system's record of seeing it. That is "
+                    "defensible as a **close reference**, where the question is "
+                    "where the market ended, and not as an **entry price**, where "
+                    "the claim is that you could have taken it. Any adoption has to "
+                    "say which of the two it is using CFBD for.")
+
+          # ---- 4. One record, so the shape is concrete ---------------------
+          sample = dict(lines[0])
+          sample["lines"] = (sample.get("lines") or [])[:2]
+          text = json.dumps(sample, indent=2)
+          print("\n<details><summary>One record, trimmed</summary>\n")
+          print("```json\n" + text[:1800] + ("\n... truncated" if len(text) > 1800 else "") + "\n```")
+          print("\n</details>")
+          PY
+
+      - name: Nothing is committed
+        if: always()
+        run: echo "Read the step summary. This job builds nothing and writes nothing."

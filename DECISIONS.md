@@ -256,6 +256,83 @@ Three findings, in order of what they cost:
 pull; venues add and drop markets, and Kalshi's NBA coverage in particular is
 worth re-checking at opening night before any NBA rule is written around it.
 
+## 2026-09-19 — D10. College football only
+
+**Decision.** NBA is out of scope. `SPORTS` in BUILD_PROMPT reads "ncaaf now;
+nba from opening night; mlb reuse only"; the owner has cut it to CFB alone.
+
+**What it retires.** D9's two NBA findings stop being decisions: Kalshi listing
+NBA moneyline only, and Pinnacle being absent from NBA so every NBA `closeRef`
+would fall back to the US median. Neither needs answering now. They stay in D9
+as measurements, because they will be true again the day NBA comes back.
+
+**What it buys.** Every Odds API pull halves, one sport instead of two. Against
+the 317 credits remaining on the free tier:
+
+| scan markets | credits/pull | a 15-week season, 4 windows a week |
+|---|---|---|
+| `h2h,spreads,totals` | 3 | 180 |
+| `spreads,totals` | 2 | 120 |
+| `spreads` only | 1 | 60 |
+
+**So SHADOW scanning now fits the free tier**, at any of those market counts,
+with room. That was not true an hour ago.
+
+**What it does not fix.** The opening-line capture. `watch.py`'s schedule costs
+about 2,800 credits a month stripped all the way down to spreads alone, still
+5.6x the allowance. Scope cuts and market cuts do not reach it, because the
+cost is in the polling frequency, and the frequency is the point: the edge
+`MODEL.md` measures runs from the open, and an open is only an open if
+something was watching when it appeared.
+
+That is the problem D11 is meant to test a way out of.
+
+**Reversal criterion.** The owner puts NBA back. Re-run `phase0-coverage` with
+both sport keys first: D9's NBA matrix is a snapshot and Kalshi's coverage is
+worth re-checking at opening night rather than assumed from September.
+
+## 2026-09-19 — D11. Test CFBD before building on it
+
+**Decision.** Probe CollegeFootballData to find out whether it can carry the
+market reference, and build nothing until it has answered.
+`.github/workflows/cfbd-probe.yml` does the asking; it needs `CFBD_API_KEY` as
+a repository secret.
+
+**Why it is worth asking.** The capture problem above has exactly two exits: a
+paid Odds API tier, or a different source for the market reference. CFBD is
+college-football-only, which made it a half-answer while NBA was in scope and
+makes it a whole one under D10. The repository already trusts the same family
+of source: `cfb_edge/slate.py` builds slates from cfbfastR, and `teams.py`'s
+entire alias table is keyed to cfbfastR spellings.
+
+If CFBD carries opens and closes, the Odds API is needed only for the
+executable venue price at the moment of decision — a small fraction of current
+spend, because you price the venue when you are about to bet, not across the
+whole board every ten minutes.
+
+**The provenance question, which decides how far this can go.** A CFBD line is
+a third-party record that a line existed. It is stronger than the screenshot
+`clv.py` refuses to grade and weaker than this system's own capture. The
+distinction that matters is what the number is used *for*:
+
+- **As a close reference: defensible.** The question is where the market ended,
+  and a timestamped third-party record answers it.
+- **As an entry price: not defensible.** The claim would be that you could have
+  taken a number you never saw. That is precisely the error `priceSource`
+  exists to prevent (D6), and dressing it in an API response does not change it.
+
+So even the best possible probe result does not license CFBD openers as entry
+prices. It licenses them as a reference the entry is measured against.
+
+**Nothing is assumed about the response.** `kalshi-truth.yml` is in this
+repository because a parser written against a documented shape it had never
+seen was wrong in three ways at once and reported no error while parsing zero
+markets. The probe prints field names and counts and builds nothing.
+
+**Reversal criterion.** The probe answers. A no is recorded and the paid tier
+becomes the only exit; a yes gets its own entry naming the provider and the
+provenance value before any client is written.
+
 ---
 
 ## Amendments carried from BUILD_PROMPT §6
