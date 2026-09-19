@@ -82,6 +82,29 @@ Line CLV needs only the closing number.
 
 ## Capturing opening lines without being there
 
+The GitHub `capture` workflow now saves `capture-report.json` and
+`capture-report.html` beside the captured data, plus a 30-day run artifact.
+Download and open the HTML locally. This is a dated research snapshot, not a
+live betting card. Each game exposes quote freshness, kickoff verification and
+missing execution/evidence checks. A fresh derived Kalshi line never becomes an
+executable sportsbook price. No stakes, orders or S02 evidence are generated.
+Failed polls cannot revive prior quotes as fresh; slate failures now fail the
+run instead of being silently treated as an empty season. Outside-season runs
+may therefore fail explicitly until a typed no-games outcome is implemented.
+
+Rebuild a report without contacting any provider:
+
+```sh
+python -m cfb_edge.capture_report --log data/opens.jsonl.gz \
+  --slate data/slate_current.csv --out data
+```
+
+The capture schedule, provider, first-seen log, and S02/S03 controls are unchanged.
+Reports include code and input hashes. A historical quote timestamp does not
+establish when a projection was available; these reports are not prospective
+model forecasts. Executable asks, depth, fees and registered evidence must be
+connected before enabling a decision card.
+
 The edge is 0.44 points of closing line value measured against the *opening*
 number, so the capture has to be running before books post. On Windows:
 
