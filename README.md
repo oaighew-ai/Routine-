@@ -97,6 +97,30 @@ when nothing is expected and every five minutes once anything opens: six hours
 early costs six requests, and being late costs the week.
 
 
+## `cfb_edge/engine/` and `cfb_edge/ledger/` — EDGE OS
+
+The execution and validation layer: an append-only shadow ledger that records
+every candidate with frozen inputs, its decision and its closing-line value.
+Phase is SHADOW, so stakes are paper until Gate 2 clears.
+
+```bash
+python3 -m cfb_edge.edgeos --ledger ledger scan --dry-run   # decide, write nothing
+python3 -m cfb_edge.edgeos --ledger ledger grade            # Gate 2 from rows
+```
+
+- `spec/BUILD_PROMPT.md` is the build's source of truth.
+- `spec/EDGE_OS_v2_DERIVED.md` is a **reconstruction** of the real specification,
+  which was never supplied. Read `DECISIONS.md` D1 before trusting any constant
+  in it; the ones it invented are tagged PRIOR.
+- `DECISIONS.md` is append-only and every entry carries a reversal criterion.
+- `GRAVEYARD.md` holds what died. New evidence or nothing.
+
+The decision is made on EV at the executable price net of venue fees, gated once
+on `f_full > 0`, and sized at quarter Kelly with a correlation haircut, rounded
+down. CLV is EV at the closing no-vig price, not a move in implied probability:
++1.5 points of the latter at a -110 entry is still -1.8% EV, which is why the
+distinction gets its own amendment and its own test.
+
 Full documentation, including every result and every result that did not
 survive, is in [MODEL.md](MODEL.md).
 
