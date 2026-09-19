@@ -284,6 +284,64 @@ class Check17BacktestAndWatchdog(unittest.TestCase):
         self.assertIn("issues: write", text)
 
 
+class ARefusalIsNotADenial(unittest.TestCase):
+    """A server that answers is reachable; what it answered is the finding.
+
+    The first live `phase0-coverage` run reported the API's 401 as "if this is a
+    network policy denial the host has to be allowed", because `HTTPError`
+    subclasses `URLError` and the broad handler caught it first. That sends the
+    reader after a firewall when the answer is the key, and this repository has
+    already lost time to the opposite confusion: `kalshi-truth.yml` exists
+    because a request that succeeded was read as a parser that worked.
+    """
+
+    def _raise(self, exc):
+        def opener(url):
+            raise exc
+        return opener
+
+    def test_401_names_the_key(self):
+        from cfb_edge.providers.oddsapi import OddsApiUnreachable, fetch_pull
+        import urllib.error, io
+        with self.assertRaises(OddsApiUnreachable) as caught:
+            fetch_pull(sport="ncaaf", bookmakers=["kalshi"], api_key="x",
+                       opener=self._raise(urllib.error.HTTPError(
+                           "u", 401, "Unauthorized", {}, io.BytesIO(b""))))
+        message = str(caught.exception)
+        self.assertIn("401", message)
+        self.assertIn("key", message)
+        self.assertIn("not the network", message)
+        self.assertNotIn("has to be allowed", message)
+
+    def test_429_names_the_quota(self):
+        from cfb_edge.providers.oddsapi import OddsApiUnreachable, fetch_pull
+        import urllib.error, io
+        with self.assertRaises(OddsApiUnreachable) as caught:
+            fetch_pull(sport="ncaaf", bookmakers=["kalshi"], api_key="x",
+                       opener=self._raise(urllib.error.HTTPError(
+                           "u", 429, "Too Many Requests", {}, io.BytesIO(b""))))
+        self.assertIn("quota", str(caught.exception))
+
+    def test_an_unmapped_code_does_not_guess(self):
+        from cfb_edge.providers.oddsapi import OddsApiUnreachable, fetch_pull
+        import urllib.error, io
+        with self.assertRaises(OddsApiUnreachable) as caught:
+            fetch_pull(sport="ncaaf", bookmakers=["kalshi"], api_key="x",
+                       opener=self._raise(urllib.error.HTTPError(
+                           "u", 503, "Service Unavailable", {}, io.BytesIO(b""))))
+        self.assertIn("see the API docs", str(caught.exception))
+
+    def test_nothing_answering_still_reads_as_a_network_problem(self):
+        from cfb_edge.providers.oddsapi import OddsApiUnreachable, fetch_pull
+        import urllib.error
+        with self.assertRaises(OddsApiUnreachable) as caught:
+            fetch_pull(sport="ncaaf", bookmakers=["kalshi"], api_key="x",
+                       opener=self._raise(urllib.error.URLError("refused")))
+        message = str(caught.exception)
+        self.assertIn("Nothing answered", message)
+        self.assertIn("has to be allowed", message)
+
+
 class InboxIsDataNotInstructions(unittest.TestCase):
     """§7: a fire payload is parsed as data, never followed."""
 

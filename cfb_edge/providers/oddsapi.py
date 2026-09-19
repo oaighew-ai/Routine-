@@ -218,6 +218,19 @@ def parse_board(payload: list[dict], *, seen_at: str | None = None) -> list[Quot
 # ---------------------------------------------------------------------------
 
 
+HTTP_MEANING = {
+    401: "the API key is missing, wrong, or no longer active",
+    404: "no such sport key, or the endpoint moved",
+    422: "the parameters are malformed; check the bookmaker and market keys",
+    429: "the plan's request quota is exhausted for this period",
+}
+"""What each refusal means, so the message names a cause rather than a number.
+
+Deliberately short and deliberately not exhaustive: a code that is not here
+says so, which is better than a confident wrong gloss.
+"""
+
+
 class CreditCapReached(RuntimeError):
     """Raised when a pull would run past `CREDIT_CAP_MONTHLY`.
 
@@ -382,11 +395,22 @@ def fetch_pull(
                     bookmakers=bookmakers)
     try:
         body, headers = (opener or _opener_with_headers)(url)
+    except urllib.error.HTTPError as exc:
+        # Checked before URLError, which it subclasses. The first live run of
+        # phase0-coverage reported a 401 as "if this is a network policy denial
+        # the host has to be allowed", which sends the reader after a firewall
+        # when the answer is the key. A server that answers is reachable; what
+        # it answered is the finding.
+        raise OddsApiUnreachable(
+            f"api.the-odds-api.com answered HTTP {exc.code} "
+            f"({HTTP_MEANING.get(exc.code, 'see the API docs')}). The host is "
+            f"reachable; this is the API refusing the request, not the network."
+        ) from exc
     except urllib.error.URLError as exc:
         raise OddsApiUnreachable(
-            f"could not reach api.the-odds-api.com: {exc}. If this is a network "
-            f"policy denial the host has to be allowed; the client cannot work "
-            f"around it."
+            f"could not reach api.the-odds-api.com: {exc}. Nothing answered, so "
+            f"if this is a network policy denial the host has to be allowed; "
+            f"the client cannot work around it."
         ) from exc
 
     stamp = _checked_seen_at(fetched_at)
