@@ -398,6 +398,20 @@ Every code the engine can emit, and what it means.
 
 ---
 
+## 8a. Signal sources, as measured
+
+§7 gates a CFB scoresandodds parser on Phase 0 confirming the page. Confirmed,
+at `/ncaaf/consensus-picks` and not `/ncaaf/consensus`; the selectors are
+recorded in `DECISIONS.md` D7 with the counts they were measured from. No parser
+exists yet, and the one that gets written keys on `data-event` and
+`.percentage-a` / `.percentage-b` rather than on anything inferred from how the
+page looks in a browser.
+
+Odds coverage is **unmeasured**. The Odds API refuses this account's key with a
+401, so the venue-by-sport-by-market matrix, the plan tier and the credit
+balance are all open questions (D8). Nothing in this document assumes an answer
+to them, and acceptance check 16 stays unverified until a working key exists.
+
 ## 9. What this document does not contain
 
 The real EDGE_OS_v2 has a flag-to-weight table, a posterior blend and a

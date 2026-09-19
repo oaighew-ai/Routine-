@@ -119,6 +119,81 @@ strategy underperforming rather than as a measurement error.
 **Reversal criterion.** None expected. Retire only if every price in the ledger
 is provably captured, which the field itself is what proves.
 
+## 2026-09-19 — D7. The CFB consensus page exists, at a different path
+
+**Decision.** Phase 0 item 4 is answered. §7 allows a scoresandodds parser for
+CFB "only after Phase 0 confirms the page". It is confirmed, and the path in the
+prompt is wrong.
+
+**Evidence**, from three `phase0-coverage` runs (runs 1-3 on
+`claude/jolly-feynman-p2rb1h`):
+
+| path | HTTP | bytes | % strings |
+|---|---|---|---|
+| `/ncaaf/consensus` | 404 | 0 | 0 |
+| `/ncaaf/consensus-picks` | **200** | 1,002,399 | **2,647** |
+| `/ncaaf` | 200 | 1,015,763 | 664 |
+| `/nba/consensus` | 404 | 0 | 0 |
+| `/nba/consensus-picks` | **200** | 129,027 | 199 |
+
+The first run probed only `/ncaaf/consensus`, got a 404, and concluded nothing
+useful. A single 404 cannot separate "CFB has no consensus page" from "the path
+is wrong" from "the site is down". The second run added an NBA control and
+found the control 404 as well, which was the tell: the guessed *path shape* was
+wrong for both sports, not the site.
+
+**The page's real structure**, counted rather than assumed:
+
+- `data-role` x728, `data-event` x219, `data-market` x219, `data-value` x219,
+  `data-parity` x219
+- `.consensus` x438, `.team-name` x438, `.percentage-a` x430,
+  `.percentage-b` x430, `.trend-graph-percentage` x430, `.game-odds` x418
+
+219 events, 438 team names (two per event), and ~430 percentage pairs. That is
+a parseable board, and the selectors above are measured, not guessed.
+
+**Why this is recorded rather than acted on.** No parser is written yet. §7 says
+scoresandodds is parsed by a script and never read by the model, and
+`GRAVEYARD.md` carries the cost of the opposite habit: `kalshi-truth.yml` exists
+because a parser written against a documented shape it had never seen was wrong
+in three ways at once while reporting no error. The next person writing this
+parser keys on `data-event` and `.percentage-a` / `.percentage-b`, and adds the
+chosen selector to this entry.
+
+**Reversal criterion.** The site changes its markup. The probe step is kept in
+`phase0-coverage.yml` precisely so a future run reports that rather than a
+parser silently returning zero rows.
+
+## 2026-09-19 — D8. The Odds API key is rejected, so items 2 and 3 stay open
+
+**Decision.** Phase 0 items 2 (plan tier and credit burn) and 3 (the coverage
+matrix) are **not** answered and are not guessed.
+
+**Evidence.** `ODDS_API_KEY` is set as a repository secret — the runner shows it
+masked in the step environment — and every call to `api.the-odds-api.com`
+answers **HTTP 401** on both sport keys. The key exists and the API is refusing
+it. Nothing about venue coverage, the plan tier or the remaining credit balance
+can be stated from this, and none of it is inferred.
+
+**What this changes in the meantime.** The only figure on record stays the one
+already measured in `cfb_edge/providers/oddsapi.py`: the existing CFB capture on
+`regions=us,us2,eu` costs 3 credits a poll across 652 polls a week, about 1,956
+a week and 8,400 a month. Requesting by `bookmakers` bills as one region and
+cuts that to a third. That is arithmetic from the documented billing rule, not a
+reading of this account.
+
+Acceptance check 16 (Kalshi prices reaching `bookSet`) therefore remains
+unverified against a live board. The offline half passes.
+
+**One diagnostic was wrong and is fixed.** The client reported the 401 as "if
+this is a network policy denial the host has to be allowed", because
+`HTTPError` subclasses `URLError` and the broad handler caught it first. A
+server that answers is reachable; what it answered is the finding. The message
+now names the cause per status code, and four tests hold the distinction.
+
+**Reversal criterion.** A working key. Replace the secret and re-run
+`phase0-coverage`; both items answer themselves in one run.
+
 ---
 
 ## Amendments carried from BUILD_PROMPT §6
