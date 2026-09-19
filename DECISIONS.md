@@ -513,3 +513,82 @@ as well.
 
 **Reversal criterion.** None. This is the gate; changing it is changing what the
 project is measuring, and would need its own entry with ledger evidence.
+
+## 2026-09-19 — D14. Candidates come from the price when no system exists, and the sharp book is the reference
+
+**Decision.** `cfb_edge/shop.py` produces candidates with no handicapping
+system at all, by pricing each book's quote against **Pinnacle's no-vig
+price**. `runner.scan` stays as it is; this is a second driver into the same
+`decide()` path, with zero signals, so `p_post` is just the reference's
+de-vigged probability and Law 4 decides on EV at the executable price. §8 of
+BUILD_PROMPT already names reduced-juice shopping as an owned strategy.
+
+**Why there was a board with nothing on it.** `scan` is driven by signal
+fires. `systems.jsonl` is empty, so every game resolved to `NO_EVIDENCE` and
+the board was correctly blank. That is the right answer to "what does my
+handicapper like" and the wrong answer to "is there anything here worth
+betting".
+
+### The direction, which I had backwards first
+
+The first version used the median of the soft books as the reference and
+shopped every venue against it, Pinnacle included. That bets Pinnacle every
+time Pinnacle is cheaper than DraftKings and FanDuel think it should be —
+that is, every time Pinnacle is right. It produced plausible picks with
+positive EV attached, which is the worst kind of wrong. Corrected before any
+live pull: the reference is Pinnacle where it quotes the market, the soft
+median where it does not, the reference book is never itself a candidate, and
+the fallback is recorded on the row (`reference`) rather than blended in
+silently. 56 of 1,482 quotes on the live slate used the fallback.
+
+**This is the assumption the whole method rests on**, and it is not proven
+here: that Pinnacle's no-vig price is closer to the truth than the books it
+prices. If it is wrong, every sign flips. It is the first thing the SHADOW
+ledger should be able to falsify.
+
+### Three constraints, each of which changed the live result
+
+- **A different line is a different bet.** Spreads and totals compare only at
+  a matching number; the rest are logged `LINE_MISMATCH` and never bet.
+  Bridging the half-point needs the margin PMF, and a model error imported
+  into a market-relative measurement comes back looking like an edge. 558 of
+  1,380 pre-game quotes were excluded this way.
+- **A kicked-off game is not a candidate.** Added after the first live run,
+  which produced six candidates of which four were games already in progress,
+  two at +323% and +108% EV. Books run live markets at different speeds, so a
+  slow book against a moving game reads as enormous value and is gone before
+  it can be taken. Logged `IN_PLAY`; an unknown kickoff counts as started.
+- **A book is never measured against a median it belongs to.** Worst in the
+  thin markets where one outlier moves the median.
+
+### What the live slate actually produced
+
+One pull, 3 credits, 2026-09-19T18:47:04Z, 71 events and 67 with quotes.
+
+| stage | quotes |
+|---|---|
+| priced | 1,482 |
+| kick-off ahead | 1,380 |
+| comparable to the reference | 822 |
+| positive EV | 54 |
+| survive de-vig sensitivity | **2** |
+
+**The finding: all 52 rejected rows were moneylines, and every one died on
+§6.10's de-vig sensitivity check.** Proportional and power de-vig disagree
+about whether they are bets at all. 49 of the 52 sat at +300 or longer, which
+is exactly where theory puts it: proportional de-vig spreads the margin evenly
+and systematically overstates a longshot's chance, while a power fit loads
+more of it onto the longshot. The largest number the scan produced was +112%
+(BetMGM +4500 against a +2000 reference) and it was correctly rejected.
+
+The two survivors are both home underdogs taking points near even money, at
++0.95% and +0.29% EV, staking $29.77 and expecting $0.25 in total. The second
+is below any sane execution threshold and is logged anyway, because raising
+the bar until only the comfortable rows survive is how a system stops being
+able to report that it is not working.
+
+**Reversal criterion.** A handicapping system is supplied, at which point
+`scan` is the primary driver again and this becomes one signal among others,
+not the board. Or SHADOW grading shows the shopped rows have no CLV, at which
+point the Pinnacle-is-sharper assumption above is what failed and the entry
+should say so.
