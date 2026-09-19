@@ -17,6 +17,17 @@
 # bad news. Read the step summary, not the status tick.
 name: phase0 coverage
 
+# The push trigger is not decoration either. A `workflow_dispatch` workflow is
+# only dispatchable once its file is on the default branch, so until this merges
+# there is no button anywhere and the API answers a dispatch with a 404. That
+# would make answering Phase 0 wait on merging the very PR whose assumptions
+# Phase 0 is meant to check. `kalshi-truth.yml` hit this first and solved it the
+# same way.
+#
+# Scoped by `paths` rather than firing on every push to the branch: each run
+# spends one credit per sport, and a workflow that quietly bills on unrelated
+# commits is how a plan runs out in the week the opens are posted. Touch this
+# file to force a run.
 on:
   workflow_dispatch:
     inputs:
@@ -28,6 +39,11 @@ on:
         description: "Sport keys, comma separated"
         default: "americanfootball_ncaaf,basketball_nba"
         required: false
+  push:
+    branches: [claude/jolly-feynman-p2rb1h]
+    paths:
+      - .github/workflows/phase0-coverage.yml
+      - cfb_edge/providers/oddsapi.py
 
 permissions:
   contents: read
@@ -83,8 +99,12 @@ jobs:
       - name: Coverage matrix (Phase 0 item 3)
         env:
           ODDS_API_KEY: ${{ secrets.ODDS_API_KEY }}
-          BOOKMAKERS: ${{ inputs.bookmakers }}
-          SPORTS: ${{ inputs.sports }}
+          # `inputs` is empty on a push event, so the defaults are repeated
+          # here. Without this the matrix silently requests no books and no
+          # sports and reports an empty board, which reads exactly like a
+          # venue that lists nothing.
+          BOOKMAKERS: ${{ inputs.bookmakers || 'kalshi,pinnacle,draftkings,fanduel,betmgm,williamhill_us,betrivers' }}
+          SPORTS: ${{ inputs.sports || 'americanfootball_ncaaf,basketball_nba' }}
         run: |
           python3 - <<'PY' | tee -a "$GITHUB_STEP_SUMMARY"
           import os, sys
