@@ -11,15 +11,11 @@
 # the mistake phase0-coverage already made once.
 name: shop board
 
+# Dispatch only. A path-scoped push trigger lived here long enough to run the
+# workflow twice from a branch, because `workflow_dispatch` 404s until the file
+# is on the default branch. It is gone now: the two runs it enabled cost 6
+# credits, and a trigger that fires on edits to itself is a slow leak.
 on:
-  # `workflow_dispatch` 404s until the file is on the default branch, which is
-  # why this path-scoped push trigger exists. It fires only when this file
-  # itself changes, so an unrelated commit cannot spend credits. Remove it once
-  # the workflow reaches main.
-  push:
-    branches: [claude/jolly-feynman-p2rb1h]
-    paths:
-      - .github/workflows/shop-board.yml
   workflow_dispatch:
     inputs:
       bookmakers:
