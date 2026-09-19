@@ -1,0 +1,96 @@
+# This week's CFB board, priced.
+#
+# Runs cfb_edge.shop against one live Odds API pull and prints every priced
+# quote, pipe-delimited and nothing else, so a dashboard can be built from real
+# prices rather than invented ones (CLAUDE.md, §4).
+#
+# Costs 3 credits: billing is regions x markets, and requesting by `bookmakers`
+# collapses six books across three regions into one region's billing. Do not
+# add a schedule to this file. Every run spends a real share of a 500-a-month
+# allowance, and a workflow that burns credits on unrelated pushes is exactly
+# the mistake phase0-coverage already made once.
+name: shop board
+
+on:
+  # `workflow_dispatch` 404s until the file is on the default branch, which is
+  # why this path-scoped push trigger exists. It fires only when this file
+  # itself changes, so an unrelated commit cannot spend credits. Remove it once
+  # the workflow reaches main.
+  push:
+    branches: [claude/jolly-feynman-p2rb1h]
+    paths:
+      - .github/workflows/shop-board.yml
+  workflow_dispatch:
+    inputs:
+      bookmakers:
+        description: "Books to pull, comma separated. Pinnacle is the reference and must be present."
+        default: "pinnacle,draftkings,fanduel,betmgm,betrivers,kalshi"
+        required: false
+      markets:
+        description: "Markets to pull. Each one costs a credit."
+        default: "h2h,spreads,totals"
+        required: false
+
+permissions:
+  contents: read
+
+jobs:
+  board:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+
+      - name: Pull and shop
+        env:
+          ODDS_API_KEY: ${{ secrets.ODDS_API_KEY }}
+          BOOKMAKERS: ${{ inputs.bookmakers || 'pinnacle,draftkings,fanduel,betmgm,betrivers,kalshi' }}
+          MARKETS: ${{ inputs.markets || 'h2h,spreads,totals' }}
+        run: |
+          python3 - <<'PY'
+          import json, os, sys
+          from cfb_edge import shop
+          from cfb_edge.engine import config
+          from cfb_edge.providers.oddsapi import fetch_pull, OddsApiUnreachable
+
+          books = [b.strip() for b in os.environ["BOOKMAKERS"].split(",") if b.strip()]
+          markets = [m.strip() for m in os.environ["MARKETS"].split(",") if m.strip()]
+
+          try:
+              pull = fetch_pull(sport="americanfootball_ncaaf",
+                                bookmakers=books, markets=markets)
+          except OddsApiUnreachable as exc:
+              print(f"PULL_FAILED|{exc}")
+              raise SystemExit(0)
+
+          print(f"META|fetchedAt={pull.fetched_at}|events={len(pull.events)}"
+                f"|books={','.join(pull.book_set)}"
+                f"|creditsRemaining={pull.credits_remaining}"
+                f"|lastCost={pull.last_cost}")
+
+          cfg = config.load("config/edge_os.json")
+          rows = shop.shop(pull.__dict__ | {"events": list(pull.events)},
+                           cfg=cfg, markets=markets, age_seconds=0.0)
+
+          # away|home|startsAt|market|side|line|venue|venuePrice|refPrice|
+          # refLine|reference|pBaseline|ev|stakeUnits|decision|reasons
+          print("ROWHDR|away|home|startsAt|market|side|line|venue|venuePrice"
+                "|refPrice|refLine|reference|pBaseline|ev|stakeUnits"
+                "|decision|reasons")
+          for r in rows:
+              d = r.decision
+              print("|".join(str(x) for x in [
+                  "ROW", r.away, r.home, r.commence_time or "", r.market,
+                  r.side, r.venue_line, r.venue, r.venue_price,
+                  r.consensus_price, r.consensus_line, r.reference,
+                  "" if d.p_baseline is None else f"{d.p_baseline:.6f}",
+                  f"{d.ev:.6f}", f"{d.stake_units:.2f}", d.decision,
+                  "+".join(d.reason_codes),
+              ]))
+
+          print()
+          print("SUMMARY")
+          print(shop.summary(rows))
+          PY

@@ -32,12 +32,20 @@ BOOK_DISAGREE = "BOOK_DISAGREE"
 LOOKAHEAD = "LOOKAHEAD"
 UNGRADEABLE_PRICE = "UNGRADEABLE_PRICE"
 
+# Shopping
+# The venue is quoting a different number from the consensus, so its price is
+# the price of a different bet. Comparing them needs a margin model to bridge
+# the half-points, and importing a model into a market-relative measurement is
+# how a model error comes back looking like an edge. The row is logged and does
+# not bet.
+LINE_MISMATCH = "LINE_MISMATCH"
+
 ALL = frozenset({
     NO_EVIDENCE, AGGREGATE_ONLY, CLV_KILL, LUCK_RISK,
     FAMILY_DUP, OPPOSED, NEG_EV, DEVIG_SENSITIVE, DOMINATED,
     SUB_MIN, CEILING_HIT,
     STALE, UNMAPPED, DEVIG_IMPLAUSIBLE, BOOK_DISAGREE, LOOKAHEAD,
-    UNGRADEABLE_PRICE,
+    UNGRADEABLE_PRICE, LINE_MISMATCH,
 })
 
 # Decisions

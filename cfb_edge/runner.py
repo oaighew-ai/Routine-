@@ -214,6 +214,8 @@ class MarketView:
     other_price: float | None
     venue_price: float | None
     book_set: tuple[str, ...]
+    venue_line: float | None = None
+    venue_other_price: float | None = None
 
 
 def _outcomes(event: Mapping, book: str, market: str) -> list[dict]:
@@ -233,17 +235,26 @@ def market_view(
     side: str,
     venue: str,
     consensus_books: Sequence[str] | None = None,
+    exclude_venue: bool = False,
 ) -> MarketView | None:
     """Median line and price across the US books, plus the venue's own price.
 
     Median rather than mean, for the reason `market.consensus_line` already
     gives: one book leaving a stale number should look like an opportunity at
     the venue, not move the reference the edge is measured against.
+
+    `exclude_venue` drops the venue from its own reference. Leave it off when
+    the venue is already in `US_CONSENSUS_EXCLUDED`; turn it on when shopping
+    one listed book against the others, because a book compared against a
+    median it is a member of is partly compared against itself, and the
+    contamination is worst in exactly the thin markets where a single outlier
+    moves the median.
     """
     books = [b.get("key") for b in event.get("bookmakers", [])]
     pool = [
         b for b in books
         if b and b not in US_CONSENSUS_EXCLUDED
+        and not (exclude_venue and b == venue)
         and (consensus_books is None or b in consensus_books)
     ]
     lines: list[float] = []
@@ -272,6 +283,7 @@ def market_view(
 
     venue_outs = _outcomes(event, venue, market)
     venue_mine = next((o for o in venue_outs if o.get("name") == side), None)
+    venue_theirs = next((o for o in venue_outs if o.get("name") != side), None)
 
     return MarketView(
         event_id=str(event.get("id", "")),
@@ -285,6 +297,10 @@ def market_view(
         other_price=median(others),
         venue_price=None if venue_mine is None else venue_mine.get("price"),
         book_set=tuple(sorted(pool)),
+        venue_line=None if venue_mine is None else venue_mine.get("point"),
+        venue_other_price=(
+            None if venue_theirs is None else venue_theirs.get("price")
+        ),
     )
 
 
