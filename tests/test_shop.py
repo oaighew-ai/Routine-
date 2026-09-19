@@ -11,6 +11,7 @@ kind, so it gets a test that fails loudly if the direction ever flips back.
 from __future__ import annotations
 
 import unittest
+from datetime import datetime, timezone
 from pathlib import Path
 
 from cfb_edge import shop
@@ -53,6 +54,9 @@ class ShopTests(unittest.TestCase):
 
     def run_shop(self, bookmakers, **kw):
         kw.setdefault("age_seconds", 0.0)
+        # Every fixture kicks off at 19:00; shop an hour before it, because
+        # after kickoff nothing bets and every test below would pass vacuously.
+        kw.setdefault("now", datetime(2026, 9, 20, 18, 0, tzinfo=timezone.utc))
         return shop.shop({"events": [event(bookmakers)]}, cfg=self.cfg, **kw)
 
     # -- direction --------------------------------------------------------
@@ -189,6 +193,65 @@ class ShopTests(unittest.TestCase):
             books = [book(k, h2h=(-150, +130)) for k in
                      ("draftkings", "fanduel", "betmgm")[:n]]
             self.assertEqual(self.run_shop(books), [], f"{n} soft books")
+
+    # -- in-play -----------------------------------------------------------
+
+    def test_a_game_already_under_way_never_bets(self):
+        """The first live run's four false picks, as a test.
+
+        A book 12 cents off the sharp price is a candidate before kickoff and
+        noise after it, because after kickoff the gap is how fast each book
+        updates a moving game. Same prices, same books, opposite answer.
+        """
+        books = [
+            book("pinnacle", h2h=(-128, +118)),
+            book("draftkings", h2h=(-150, +130)),
+            book("fanduel", h2h=(-152, +128)),
+            book("betmgm", h2h=(-148, +126)),
+        ]
+        before = shop.shop(
+            {"events": [event(books)]}, cfg=self.cfg, age_seconds=0.0,
+            now=datetime(2026, 9, 20, 18, 0, tzinfo=timezone.utc),
+        )
+        after = shop.shop(
+            {"events": [event(books)]}, cfg=self.cfg, age_seconds=0.0,
+            now=datetime(2026, 9, 20, 20, 0, tzinfo=timezone.utc),
+        )
+        self.assertTrue([r for r in before if r.bets])
+        self.assertFalse([r for r in after if r.bets])
+        for r in after:
+            self.assertIn(reasons.IN_PLAY, r.decision.reason_codes)
+            self.assertEqual(r.decision.stake_units, 0.0)
+        self.assertIn("kicked off", shop.summary(after))
+
+    def test_kickoff_exactly_now_counts_as_started(self):
+        books = [
+            book("pinnacle", h2h=(-128, +118)),
+            book("draftkings", h2h=(-150, +130)),
+            book("fanduel", h2h=(-152, +128)),
+            book("betmgm", h2h=(-148, +126)),
+        ]
+        rows = shop.shop(
+            {"events": [event(books)]}, cfg=self.cfg, age_seconds=0.0,
+            now=datetime(2026, 9, 20, 19, 0, tzinfo=timezone.utc),
+        )
+        self.assertTrue(rows)
+        self.assertFalse([r for r in rows if r.bets])
+
+    def test_an_unknown_kickoff_counts_as_started(self):
+        """The unknown case takes the side that only ever skips a bet."""
+        for missing in (None, "", "not a timestamp"):
+            ev = event([
+                book("pinnacle", h2h=(-128, +118)),
+                book("draftkings", h2h=(-150, +130)),
+                book("fanduel", h2h=(-152, +128)),
+                book("betmgm", h2h=(-148, +126)),
+            ])
+            ev["commenceTime"] = missing
+            rows = shop.shop({"events": [ev]}, cfg=self.cfg, age_seconds=0.0,
+                             now=datetime(2026, 9, 1, tzinfo=timezone.utc))
+            self.assertTrue(rows, repr(missing))
+            self.assertFalse([r for r in rows if r.bets], repr(missing))
 
     # -- bookkeeping -------------------------------------------------------
 

@@ -35,6 +35,14 @@ imported into a market-relative measurement comes back looking like an edge.
 Those rows are logged `LINE_MISMATCH` and do not bet. Moneylines have no line
 and are always comparable, which is why most of what survives is a moneyline.
 
+**A game that has kicked off is not a candidate.** This was not in the first
+version and the first live run showed why: of six candidates, four were games
+already in progress, two of them at +323% and +108% EV. Those are not edges.
+Books run live markets at different speeds, so a slow book against a moving
+game reads as enormous value and is gone before it can be taken. Kickoff is
+read from the pull's own clock, rows past it are logged `IN_PLAY`, and they
+never bet.
+
 **Nothing here is a fill.** A median is what was quoted, not what you would be
 filled at, and the gap between the two is where this kind of edge usually dies.
 Every row carries `priceSource` and SHADOW grading is what decides whether the
@@ -45,7 +53,7 @@ to find out whether they were worth finding.
 from __future__ import annotations
 
 from dataclasses import dataclass
-from datetime import datetime
+from datetime import datetime, timezone
 from typing import Any, Mapping, Sequence
 
 from .engine import config, reasons
@@ -186,6 +194,8 @@ def shop(
                     flags: list[str] = []
                     if market != "h2h" and _line_differs(view.venue_line, ref_line):
                         flags.append(reasons.LINE_MISMATCH)
+                    if _has_started(view.commence_time, now):
+                        flags.append(reasons.IN_PLAY)
 
                     d = decide(
                         quote, (), cfg=cfg,
@@ -193,8 +203,10 @@ def shop(
                         stale_sources=stale,
                         integrity_flags=flags,
                     )
-                    if reasons.LINE_MISMATCH in d.reason_codes:
-                        # Logged, never bet: it is a different wager.
+                    if (reasons.LINE_MISMATCH in d.reason_codes
+                            or reasons.IN_PLAY in d.reason_codes):
+                        # Logged, never bet. One is a different wager; the
+                        # other is a price that has already gone.
                         d.decision = reasons.PASS
                         d.stake_units = 0.0
                     rows.append(ShopRow(
@@ -215,6 +227,26 @@ def shop(
                     ))
 
     return _one_per_game_and_side(rows)
+
+
+def _has_started(commence_time: str | None, now: datetime) -> bool:
+    """Whether kickoff is in the past, measured against the pull's own clock.
+
+    An unparseable or missing kickoff counts as started. The failure that costs
+    money is betting a game already in progress, so the unknown case takes the
+    side that only ever skips a bet.
+    """
+    if not commence_time:
+        return True
+    try:
+        text = str(commence_time).replace("Z", "+00:00")
+        kickoff = datetime.fromisoformat(text)
+    except ValueError:
+        return True
+    if kickoff.tzinfo is None:
+        kickoff = kickoff.replace(tzinfo=timezone.utc)
+    ref = now if now.tzinfo else now.replace(tzinfo=timezone.utc)
+    return kickoff <= ref
 
 
 def _line_differs(a: float | None, b: float | None) -> bool:
@@ -276,10 +308,17 @@ def summary(rows: Sequence[ShopRow]) -> str:
         for code in r.decision.reason_codes:
             counts[code] = counts.get(code, 0) + 1
     games = {r.event_id for r in rows}
+    in_play = {r.event_id for r in rows
+               if reasons.IN_PLAY in r.decision.reason_codes}
     lines = [
         f"{len(rows)} priced quotes across {len(games)} games, "
         f"{len(bets)} clear the gate",
     ]
+    if in_play:
+        lines.append(
+            f"{len(in_play)} of those games had already kicked off and are "
+            f"logged IN_PLAY; none of them bet"
+        )
     fallback = sum(1 for r in rows if r.reference == "soft_median")
     if fallback:
         lines.append(

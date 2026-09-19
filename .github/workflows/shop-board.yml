@@ -51,6 +51,7 @@ jobs:
         run: |
           python3 - <<'PY'
           import json, os, sys
+          from datetime import datetime
           from cfb_edge import shop
           from cfb_edge.engine import config
           from cfb_edge.providers.oddsapi import fetch_pull, OddsApiUnreachable
@@ -71,8 +72,11 @@ jobs:
                 f"|lastCost={pull.last_cost}")
 
           cfg = config.load("config/edge_os.json")
+          # The pull's own clock, not the runner's, so "has this kicked off"
+          # is answered against the moment the prices were read.
+          now = datetime.fromisoformat(pull.fetched_at)
           rows = shop.shop(pull.__dict__ | {"events": list(pull.events)},
-                           cfg=cfg, markets=markets, age_seconds=0.0)
+                           cfg=cfg, markets=markets, age_seconds=0.0, now=now)
 
           # away|home|startsAt|market|side|line|venue|venuePrice|refPrice|
           # refLine|reference|pBaseline|ev|stakeUnits|decision|reasons

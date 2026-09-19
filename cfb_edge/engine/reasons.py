@@ -40,12 +40,20 @@ UNGRADEABLE_PRICE = "UNGRADEABLE_PRICE"
 # not bet.
 LINE_MISMATCH = "LINE_MISMATCH"
 
+# The game has already kicked off, so these are in-play prices. Books update
+# live markets at very different speeds, and the gap between a fast book and a
+# slow one is latency rather than value: by the time the slow number is taken
+# it is gone, and the "edge" was never available. The first live run of
+# `shop.py` produced six candidates and four of them were this, including a
+# +323% and a +108% that were simply a stale book against a moving game.
+IN_PLAY = "IN_PLAY"
+
 ALL = frozenset({
     NO_EVIDENCE, AGGREGATE_ONLY, CLV_KILL, LUCK_RISK,
     FAMILY_DUP, OPPOSED, NEG_EV, DEVIG_SENSITIVE, DOMINATED,
     SUB_MIN, CEILING_HIT,
     STALE, UNMAPPED, DEVIG_IMPLAUSIBLE, BOOK_DISAGREE, LOOKAHEAD,
-    UNGRADEABLE_PRICE, LINE_MISMATCH,
+    UNGRADEABLE_PRICE, LINE_MISMATCH, IN_PLAY,
 })
 
 # Decisions
