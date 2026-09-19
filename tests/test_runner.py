@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import gzip
 import json
+import os
 import tempfile
 import unittest
 from datetime import datetime, timedelta, timezone
@@ -340,6 +341,52 @@ class ARefusalIsNotADenial(unittest.TestCase):
         message = str(caught.exception)
         self.assertIn("Nothing answered", message)
         self.assertIn("has to be allowed", message)
+
+
+class APheKeyIsStrippedBeforeUse(unittest.TestCase):
+    """A secret pasted with a trailing newline is still the secret.
+
+    Found live: the CFBD probe's first run died on `Invalid header value`
+    because the GitHub secret carried a trailing newline from the paste. The
+    two APIs fail differently on it — CFBD sends its key in a header and
+    refuses outright, this one sends it in a query string and comes back as a
+    plain 401 — and the quiet failure is the dangerous one, because a 401 reads
+    as a wrong key.
+    """
+
+    def setUp(self):
+        self._saved = os.environ.get("ODDS_API_KEY")
+
+    def tearDown(self):
+        if self._saved is None:
+            os.environ.pop("ODDS_API_KEY", None)
+        else:
+            os.environ["ODDS_API_KEY"] = self._saved
+
+    def test_a_whitespace_only_key_is_no_key(self):
+        from cfb_edge.providers.oddsapi import OddsApiUnreachable, fetch_pull
+        os.environ["ODDS_API_KEY"] = "  \n\t "
+        with self.assertRaises(OddsApiUnreachable):
+            fetch_pull(sport="ncaaf", bookmakers=["kalshi"])
+
+    def test_a_padded_key_reaches_the_url_clean(self):
+        from cfb_edge.providers.oddsapi import fetch_pull
+        seen = {}
+
+        def opener(url):
+            seen["url"] = url
+            return b"[]", {}
+
+        fetch_pull(sport="ncaaf", bookmakers=["kalshi"],
+                   api_key="  abc123\n", opener=opener)
+        self.assertIn("apiKey=abc123", seen["url"])
+        self.assertNotIn("%0A", seen["url"])
+        self.assertNotIn(" ", seen["url"])
+
+    def test_the_probe_strips_its_own_key_too(self):
+        wf = (Path(__file__).resolve().parents[1]
+              / ".github/workflows/cfbd-probe.yml").read_text(encoding="utf-8")
+        self.assertIn('os.environ.get("CFBD_API_KEY", "").strip()', wf)
 
 
 class InboxIsDataNotInstructions(unittest.TestCase):

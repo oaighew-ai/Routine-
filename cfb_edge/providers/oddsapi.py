@@ -16,6 +16,14 @@ Set the key in the environment rather than passing it around:
 
     export ODDS_API_KEY=...          # or setx on Windows
 
+The key is stripped before use. A secret pasted into a GitHub Actions box with
+a trailing newline arrives carrying it, and the two APIs this project talks to
+fail differently on that: CFBD takes its key in a header, where urllib refuses
+outright with "Invalid header value", and this one takes it in a query string,
+where the newline is percent-encoded into the URL and comes back as a plain
+401. The loud failure costs a minute. The quiet one looks exactly like a wrong
+key, and this project has already spent time reading a 401 that way.
+
 The adapter deliberately does no filtering, deduplication or averaging. It
 turns one HTTP response into quotes and stops. Everything else is a pure
 function of the raw log, which is the only part that cannot be recomputed.
@@ -99,7 +107,7 @@ def fetch_board(
     up to ten named keys bill as one region and can span `us`, `us_ex` and `eu`
     in a single request, so the exchange and Pinnacle arrive together.
     """
-    key = api_key or os.environ.get("ODDS_API_KEY")
+    key = (api_key or os.environ.get("ODDS_API_KEY") or "").strip()
     if not key:
         raise OddsApiUnreachable(
             "no API key. Set ODDS_API_KEY in the environment.\n"
@@ -392,7 +400,7 @@ def fetch_pull(
     refusing this one: the credits for this request are already spent by the
     time the header arrives.
     """
-    key = api_key or os.environ.get("ODDS_API_KEY")
+    key = (api_key or os.environ.get("ODDS_API_KEY") or "").strip()
     if not key:
         raise OddsApiUnreachable(
             "no API key. Set ODDS_API_KEY in the environment. Requesting by "

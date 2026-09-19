@@ -66,7 +66,11 @@ jobs:
           python3 - <<'PY' | tee -a "$GITHUB_STEP_SUMMARY"
           import collections, json, os, urllib.error, urllib.request
 
-          key = os.environ.get("CFBD_API_KEY", "")
+          # .strip() is not defensive clutter. A secret pasted into the
+          # GitHub box with a trailing newline arrives with it attached,
+          # and urllib refuses any header containing one: "Invalid header
+          # value". The key is fine; the whitespace is not.
+          key = os.environ.get("CFBD_API_KEY", "").strip()
           year, week = os.environ["YEAR"], os.environ["WEEK"]
           ROOT = "https://api.collegefootballdata.com"
 
