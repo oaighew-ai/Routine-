@@ -1,16 +1,34 @@
 # The capture, running where it can actually reach the exchange.
+#
+# This is the only thing in the repository that produces observations, and it
+# had never run. The reason was a chain of wrong assumptions rather than one
+# bug: the parser had never seen a real response, `capture.bat` exited before
+# it started, and every session concluded from its own blocked egress that no
+# environment could reach Kalshi. A GitHub-hosted runner reaches it fine.
+#
+# Timing is not decoration. The strategy's only measured edge is +0.44 points
+# of closing line value against the OPENING number and nothing at all against
+# the current one, so a line captured on Wednesday is a line whose value
+# someone else already took. `RELEASE_WINDOW_UTC` in cfb_edge/watch.py puts the
+# window at Sunday 22:00 UTC through Tuesday 18:00 UTC, and these crons cover
+# exactly that.
+#
+# Scheduled workflows only run from the default branch, so this file has to
+# live on main to fire at all.
 name: capture
 
 on:
   schedule:
-    - cron: "*/10 22,23 * 9-11 0"
-    - cron: "*/10 * * 9-11 1"
-    - cron: "*/10 0-17 * 9-11 2"
-  workflow_dispatch:
+    - cron: "*/10 22,23 * 9-11 0"   # Sunday evening, once the window opens
+    - cron: "*/10 * * 9-11 1"       # Monday, all day
+    - cron: "*/10 0-17 * 9-11 2"    # Tuesday, until the window closes
+  workflow_dispatch:                 # and on demand, to prove it works
 
 permissions:
   contents: write
 
+# Runs must not overlap: two of them would race to push the same log and one
+# would lose its poll. Queued rather than cancelled where possible.
 concurrency:
   group: cfb-capture
   cancel-in-progress: false
@@ -36,7 +54,8 @@ jobs:
         id: slate
         run: |
           set -o pipefail
-          if python3 -m cfb_edge.slate --season "$(date -u +%Y)"                --out capture-data/data/slate_current.csv 2>&1 | tee /tmp/slate.log; then
+          if python3 -m cfb_edge.slate --season "$(date -u +%Y)" \
+               --out capture-data/data/slate_current.csv 2>&1 | tee /tmp/slate.log; then
             echo "ok=1" >> "$GITHUB_OUTPUT"
           else
             echo "Slate generation failed; see logs. No successful capture claimed." >> "$GITHUB_STEP_SUMMARY"
@@ -47,14 +66,21 @@ jobs:
         id: poll
         if: steps.slate.outputs.ok == '1'
         run: |
-          python3 -m cfb_edge.watch --source kalshi             --slate capture-data/data/slate_current.csv             --log capture-data/data/opens.jsonl.gz             --out capture-data/data/opens.csv --once
+          python3 -m cfb_edge.watch --source kalshi \
+            --slate capture-data/data/slate_current.csv \
+            --log capture-data/data/opens.jsonl.gz \
+            --out capture-data/data/opens.csv --once
 
       - name: Build read-only capture report
         if: always()
         env:
           CAPTURE_OUTCOME: ${{ steps.poll.outcome }}
         run: |
-          python3 -m cfb_edge.capture_report             --log capture-data/data/opens.jsonl.gz             --slate capture-data/data/slate_current.csv             --out capture-data/data             --capture-outcome "$CAPTURE_OUTCOME" --revision "$GITHUB_SHA"
+          python3 -m cfb_edge.capture_report \
+            --log capture-data/data/opens.jsonl.gz \
+            --slate capture-data/data/slate_current.csv \
+            --out capture-data/data \
+            --capture-outcome "$CAPTURE_OUTCOME" --revision "$GITHUB_SHA"
 
       - name: Retain diagnostic report even when capture fails
         if: always()
@@ -80,7 +106,7 @@ jobs:
         if: steps.slate.outputs.ok == '1'
         working-directory: capture-data
         run: |
-          git config user.name "github-actions[bot]"
+          git config user.name  "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add -A data
           if git diff --cached --quiet; then
@@ -88,6 +114,9 @@ jobs:
             exit 0
           fi
           git commit -q -m "capture $(date -u '+%Y-%m-%d %H:%M UTC')"
+          # Serialised by `concurrency`, so a conflict means something unusual.
+          # Re-poll against the branch as it actually is rather than forcing:
+          # the first-seen guarantee is the whole point and force would break it.
           for attempt in 1 2 3; do
             if git push; then exit 0; fi
             echo "push rejected, rebuilding on the current branch (attempt $attempt)"
@@ -95,8 +124,14 @@ jobs:
             git fetch origin capture-data
             git reset --hard origin/capture-data
             cd "$GITHUB_WORKSPACE"
-            python3 -m cfb_edge.watch --source kalshi               --slate capture-data/data/slate_current.csv               --log capture-data/data/opens.jsonl.gz               --out capture-data/data/opens.csv --once
-            python3 -m cfb_edge.capture_report               --log capture-data/data/opens.jsonl.gz               --slate capture-data/data/slate_current.csv               --out capture-data/data --revision "$GITHUB_SHA"
+            python3 -m cfb_edge.watch --source kalshi \
+              --slate capture-data/data/slate_current.csv \
+              --log capture-data/data/opens.jsonl.gz \
+              --out capture-data/data/opens.csv --once
+            python3 -m cfb_edge.capture_report \
+              --log capture-data/data/opens.jsonl.gz \
+              --slate capture-data/data/slate_current.csv \
+              --out capture-data/data --revision "$GITHUB_SHA"
             cd capture-data
             git add -A data
             git diff --cached --quiet && exit 0
