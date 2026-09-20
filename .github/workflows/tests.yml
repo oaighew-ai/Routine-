@@ -105,6 +105,20 @@ jobs:
           python -m cfb_edge play --slate data/example_play.csv --book-price -105
           python -m cfb_edge clv  --bets data/example_bets.csv
 
+      # The golden vectors are the only guard on the engine's arithmetic, and
+      # they are generated from the engine itself (DECISIONS.md D1), so a
+      # regeneration that nobody noticed turns them into a test that agrees
+      # with whatever the code now does. Fail the build when they drift.
+      - name: Golden vectors are not stale
+        run: python3 scripts/golden_vectors.py --check
+
+      - name: EDGE OS CLI smoke test
+        run: |
+          set -eux
+          python3 -m cfb_edge.edgeos --ledger "$RUNNER_TEMP/ledger" scan --dry-run
+          python3 -m cfb_edge.edgeos --ledger "$RUNNER_TEMP/ledger" grade
+          test -n "$(ls "$RUNNER_TEMP/ledger/runs")"
+
       # A card that prices off the model instead of the market is the most
       # expensive bug this project has had. It is cheap to assert it is gone.
       - name: The projection must not price anything

@@ -97,7 +97,7 @@ class Play:
 
     game: str
     side: str
-    number: int
+    number: float
     venue: str
     # Price of the side actually being backed. `survival(number)` is the home
     # side's price, so an away bet pays its complement, and quoting the home
@@ -114,7 +114,7 @@ class Play:
 
     def describe(self) -> str:
         return (
-            f"{self.game}: {self.side} at {self.number:+d} on {self.venue} "
+            f"{self.game}: {self.side} at {self.number:+g} on {self.venue} "
             f"({self.strike_price:.0%}) | gain {self.gain:.2%} "
             f"- cost {self.cost:.2%} = {self.net:+.2%} | stake {self.stake:.2%}"
         )
@@ -142,7 +142,7 @@ def find_plays(
     total: float = 52.0,
     clv_points: float = DEFAULT_CLV_POINTS,
     key_numbers: tuple[int, ...] = TRADEABLE_KEY_NUMBERS,
-    listed_strikes: Sequence[int] | None = None,
+    listed_strikes: Sequence[float] | None = None,
 ) -> list[Play]:
     """Every way to express one game's edge that clears its own cost.
 
@@ -207,7 +207,7 @@ def find_plays(
 
     # The venue's ladder wins when it is known. Sorted and de-duplicated so the
     # output order is the edge, not the caller's argument order.
-    candidates = (tuple(sorted({int(k) for k in listed_strikes}))
+    candidates = (tuple(sorted({float(k) for k in listed_strikes}))
                   if listed_strikes is not None else tuple(key_numbers))
 
     out: list[Play] = []
@@ -224,7 +224,8 @@ def find_plays(
         for venue in venues:
             if not venue.is_exchange:
                 # A book is only usable when the number it posted is this one.
-                if posted_line is None or int(abs(posted_line)) != number:
+                if (posted_line is None
+                        or abs(abs(float(posted_line)) - float(number)) > 1e-9):
                     continue
             # The fee is symmetric in P, so cost is unchanged; the quoted price
             # is not, and that is what a person reads off the screen.
@@ -278,8 +279,8 @@ def signal_side(
 
     `week` is the week of the season. Weeks before `min_week` return no side at
     all, whatever the disagreement, because the signal has no measurable edge
-    there. Passing None skips the check and says so by omission: a caller that
-    does not know the week cannot be protected from it.
+    there. A missing week also returns no side. Unknown timing is not evidence
+    that the early-season gate passed.
 
     A large disagreement is *not* treated as suspect, which was worth testing
     because it looks like it should be. Bucketing the same 1,375 bets by size
@@ -294,7 +295,7 @@ def signal_side(
     """
     fair = -projected_margin
     gap = fair - opening_home_line
-    if week is not None and week < min_week:
+    if week is None or week < min_week:
         return None, gap
     if abs(gap) < min_disagreement:
         return None, gap

@@ -97,6 +97,59 @@ when nothing is expected and every five minutes once anything opens: six hours
 early costs six requests, and being late costs the week.
 
 
+## `cfb_edge/engine/` and `cfb_edge/ledger/` — EDGE OS
+
+The execution and validation layer: an append-only shadow ledger that records
+every candidate with frozen inputs, its decision and its closing-line value.
+Phase is SHADOW, so stakes are paper until Gate 2 clears.
+
+```bash
+python3 -m cfb_edge.edgeos --ledger ledger scan --dry-run   # decide, write nothing
+python3 -m cfb_edge.edgeos --ledger ledger grade            # Gate 2 from rows
+```
+
+- `spec/BUILD_PROMPT.md` is the build's source of truth.
+- `spec/EDGE_OS_v2_DERIVED.md` is a **reconstruction** of the real specification,
+  which was never supplied. Read `DECISIONS.md` D1 before trusting any constant
+  in it; the ones it invented are tagged PRIOR.
+- `DECISIONS.md` is append-only and every entry carries a reversal criterion.
+- `GRAVEYARD.md` holds what died. New evidence or nothing.
+
+The decision is made on EV at the executable price net of venue fees, gated once
+on `f_full > 0`, and sized at quarter Kelly with a correlation haircut, rounded
+down. CLV is EV at the closing no-vig price, not a move in implied probability:
++1.5 points of the latter at a -110 entry is still -1.8% EV, which is why the
+distinction gets its own amendment and its own test.
+
+## One source of truth for picks
+
+`capture-data/data/picks.json` is the only delivery contract. The dashboard,
+raw capture exports, shop scans, preview candidates, historical cards and
+shadow models are diagnostic inputs. None of them is an alternate pick feed.
+
+The contract is built by `python3 -m cfb_edge.source_of_truth`. It fails closed
+unless the current capture is fresh, the registered validation is complete and
+replay-verified, every evidence gate recomputes as passed, and the candidate's
+S02 version, model SHA-256 and protocol match exactly. It then emits at most one
+paper action per game and market and at most five actions total. Any conflict,
+missing provenance, stale quote or `NO_EVIDENCE` row produces `NO_BET`.
+
+```bash
+python3 -m cfb_edge.source_of_truth \
+  --authority config/delivery_authority.json \
+  --registry config/model_registry.json \
+  --capture-report data/capture-report.json \
+  --candidates ledger/candidates.jsonl \
+  --previous data/picks.json \
+  --out data/picks.json
+```
+
+`config/model_registry.json` owns model roles. S02 is the sole possible paper
+delivery candidate. S01 is quarantined, S03 is input-integrity only, S04 is
+unfitted, S05 is monitor-only, and F03 plus ROUTINE_SHOP cannot deliver.
+Delivery is paper research only, records zero actual exposure, and never places
+a wager.
+
 Full documentation, including every result and every result that did not
 survive, is in [MODEL.md](MODEL.md).
 

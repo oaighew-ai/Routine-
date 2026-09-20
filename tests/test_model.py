@@ -1285,12 +1285,12 @@ class TestEarlySeasonGate(unittest.TestCase):
         side, _ = signal_side("Ole Miss", "Charlotte", week=MIN_SEASON_WEEK, **kw)
         self.assertIsNotNone(side)
 
-    def test_omitting_the_week_skips_the_check_rather_than_guessing_one(self):
+    def test_omitting_the_week_fails_closed(self):
         from cfb_edge.strategy import signal_side
 
         side, _ = signal_side("B", "A", projected_margin=0.0,
                               opening_home_line=8.0, week=None)
-        self.assertEqual(side, "B")
+        self.assertIsNone(side)
 
     def test_a_large_disagreement_is_not_capped(self):
         """Worth a test because the opposite looks obviously right.
@@ -1323,9 +1323,11 @@ class TestEarlySeasonGate(unittest.TestCase):
         fd, slate = tempfile.mkstemp(suffix=".csv"); os.close(fd)
         fd, opens = tempfile.mkstemp(suffix=".csv"); os.close(fd)
         self.addCleanup(os.unlink, slate); self.addCleanup(os.unlink, opens)
-        open(slate, "w").write("game,projected_margin,side,posted_line,total\n"
-                               "Missouri @ Kansas,-0.07,,,52\n")
-        open(opens, "w").write("game,opening_line\nMissouri @ Kansas,6.5\n")
+        from pathlib import Path
+        Path(slate).write_text("game,projected_margin,side,posted_line,total\n"
+                               "Missouri @ Kansas,-0.07,,,52\n", encoding="utf-8")
+        Path(opens).write_text("game,opening_line\nMissouri @ Kansas,6.5\n",
+                               encoding="utf-8")
         buf = io.StringIO()
         with contextlib.redirect_stdout(buf):
             main(["play", "--slate", slate, "--opens", opens, "--week", "2"])
@@ -1378,26 +1380,27 @@ class TestPaperSignals(unittest.TestCase):
 
         # Home line +6.5, model near a pick'em: the home side is underpriced.
         home, = signals_for({"Missouri @ Kansas": -0.07},
-                            {"Missouri @ Kansas": 6.5}, date="2026-09-08")
+                            {"Missouri @ Kansas": 6.5}, date="2026-09-08", week=3)
         self.assertEqual(home.side, "Kansas")
         self.assertEqual(home.line_taken, 6.5)
 
         # Home line -2.5, model has the away side better: the away number is
         # the negation of the home one.
         away, = signals_for({"Oklahoma @ Michigan": -2.67},
-                            {"Oklahoma @ Michigan": -2.5}, date="2026-09-08")
+                            {"Oklahoma @ Michigan": -2.5}, date="2026-09-08", week=3)
         self.assertEqual(away.side, "Oklahoma")
         self.assertEqual(away.line_taken, 2.5)
 
     def test_games_under_the_bar_are_not_recorded(self):
         from cfb_edge.paper import signals_for
 
-        # The real week 2 board: two fire, two do not.
+        # The same board evaluated after the registered early-season gate:
+        # two fire, two do not.
         slate = {"Missouri @ Kansas": -0.07, "Oklahoma @ Michigan": -2.67,
                  "Ohio State @ Texas": -0.86, "Arizona State @ Texas A&M": 12.52}
         opens = {"Missouri @ Kansas": 6.5, "Oklahoma @ Michigan": -2.5,
                  "Ohio State @ Texas": -2.5, "Arizona State @ Texas A&M": -14.5}
-        sides = {s.side for s in signals_for(slate, opens, date="2026-09-08")}
+        sides = {s.side for s in signals_for(slate, opens, date="2026-09-08", week=3)}
         self.assertEqual(sides, {"Kansas", "Oklahoma"})
 
     def test_recording_the_same_week_twice_adds_nothing(self):
@@ -1405,7 +1408,8 @@ class TestPaperSignals(unittest.TestCase):
         from cfb_edge.paper import record, signals_for
 
         path = self._tmp()
-        sigs = signals_for({"A @ B": 0.0}, {"A @ B": 6.5}, date="2026-09-08")
+        sigs = signals_for({"A @ B": 0.0}, {"A @ B": 6.5},
+                           date="2026-09-08", week=3)
         self.assertEqual(record(path, sigs), (1, 0))
         self.assertEqual(record(path, sigs), (0, 1))
 
@@ -1417,7 +1421,8 @@ class TestPaperSignals(unittest.TestCase):
 
         path = self._tmp()
         record(path, signals_for({"Oklahoma @ Michigan": -2.67},
-                                 {"Oklahoma @ Michigan": -2.5}, date="2026-09-08"))
+                                 {"Oklahoma @ Michigan": -2.5},
+                                 date="2026-09-08", week=3))
         # Home line moved -2.5 -> +6.5, nine points toward the away side.
         graded, still_open = grade(path, {"Oklahoma @ Michigan": 6.5})
         self.assertEqual((graded, still_open), (1, 0))
@@ -1430,7 +1435,8 @@ class TestPaperSignals(unittest.TestCase):
         from cfb_edge.paper import grade, record, signals_for
 
         path = self._tmp()
-        record(path, signals_for({"A @ B": 0.0}, {"A @ B": 6.5}, date="2026-09-08"))
+        record(path, signals_for({"A @ B": 0.0}, {"A @ B": 6.5},
+                                 date="2026-09-08", week=3))
         grade(path, {"A @ B": 5.5})
         grade(path, {"A @ B": 1.0})
         self.assertEqual(load_bets(path)[0].closing_line, 5.5)
@@ -1442,6 +1448,7 @@ class TestPaperSignals(unittest.TestCase):
         path = self._tmp()
         record(path, signals_for({"A @ B": 0.0, "C @ D": 0.0},
                                  {"A @ B": 6.5, "C @ D": 7.0}, date="2026-09-08",
+                                 week=3,
                                  sources={"A @ B": CAPTURED, "C @ D": CAPTURED}))
         grade(path, {"A @ B": 5.5, "C @ D": 6.0})
         report = build_report(load_bets(path))
@@ -2897,6 +2904,20 @@ class TestStrategy(unittest.TestCase):
                              venues=self._venues(), posted_line=-8.5)
         self.assertFalse(any(p.venue.startswith("book") for p in off_key))
 
+    def test_a_half_point_never_matches_the_integer_key_below_it(self):
+        """A posted 3.5 is not a posted 3; truncation created a false play."""
+        from cfb_edge.strategy import find_plays
+
+        plays = find_plays("g", market_line=-3.5, side="home",
+                           venues=self._venues(), posted_line=-3.5)
+        self.assertFalse(any(p.venue.startswith("book") for p in plays))
+
+        # A fractional exchange strike also stays fractional instead of being
+        # silently rewritten into a different contract.
+        listed = find_plays("g", market_line=-3.5, side="home",
+                            venues=self._venues(), listed_strikes=[3.5])
+        self.assertEqual(listed, [])
+
     def test_a_reduced_juice_book_on_a_key_number_beats_the_exchange(self):
         from cfb_edge.strategy import find_plays
 
@@ -3081,13 +3102,13 @@ class TestStrategy(unittest.TestCase):
 
         # Model wants home laying 10; the open only asks 3. Home is underpriced.
         side, gap = signal_side("Home", "Away", projected_margin=10.0,
-                                opening_home_line=-3.0)
+                                opening_home_line=-3.0, week=3)
         self.assertEqual(side, "Home")
         self.assertLess(gap, 0)
 
         # Model wants home laying 3; the open asks 10. Away is underpriced.
         side, gap = signal_side("Home", "Away", projected_margin=3.0,
-                                opening_home_line=-10.0)
+                                opening_home_line=-10.0, week=3)
         self.assertEqual(side, "Away")
         self.assertGreater(gap, 0)
 
@@ -3095,14 +3116,14 @@ class TestStrategy(unittest.TestCase):
         from cfb_edge.strategy import signal_side
 
         side, gap = signal_side("Home", "Away", projected_margin=7.0,
-                                opening_home_line=-6.0)
+                                opening_home_line=-6.0, week=3)
         self.assertIsNone(side)
         self.assertLess(abs(gap), 4.0)
 
     def test_the_disagreement_threshold_is_adjustable(self):
         from cfb_edge.strategy import signal_side
 
-        kw = dict(projected_margin=7.0, opening_home_line=-5.0)
+        kw = dict(projected_margin=7.0, opening_home_line=-5.0, week=3)
         self.assertIsNone(signal_side("H", "A", **kw)[0])
         self.assertIsNotNone(
             signal_side("H", "A", min_disagreement=1.0, **kw)[0])
@@ -3504,8 +3525,8 @@ class TestRatingScale(unittest.TestCase):
         market_line = -raw_gap              # market has it right
         compressed = raw_gap / RATING_SCALE
         side_wrong, _ = signal_side("Home", "Away", projected_margin=compressed,
-                                    opening_home_line=market_line)
+                                    opening_home_line=market_line, week=3)
         side_right, _ = signal_side("Home", "Away", projected_margin=raw_gap,
-                                    opening_home_line=market_line)
+                                    opening_home_line=market_line, week=3)
         self.assertEqual(side_wrong, "Away")   # the false underdog signal
         self.assertIsNone(side_right)          # corrected: no signal at all

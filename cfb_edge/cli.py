@@ -257,12 +257,10 @@ def _warn_if_unverified(sources: dict[str, str]) -> None:
 
 
 def _warn_if_ungated(week: int | None) -> None:
-    """Say so when the week gate is not being applied.
+    """Say so when the week gate blocks the run.
 
-    `signal_side` deliberately skips the check when it is not told the week: a
-    caller that does not know the week cannot be protected by it. That is the
-    right library contract and the wrong silence at a command line, because the
-    result looks identical to a gated run that happened to find plays.
+    `signal_side` fails closed when it is not told the week. A caller that does
+    not know the week cannot establish that the early-season gate passed.
 
     This is not hypothetical. `scripts/card.bat`, the documented weekly
     workflow, called `play` without `--week` from the day the gate was added,
@@ -270,7 +268,7 @@ def _warn_if_ungated(week: int | None) -> None:
     the gate worked stayed green.
     """
     if week is None:
-        print("warning: no --week, so the week gate is off. Weeks 1 and 2 "
+        print("warning: no --week, so every derived signal is blocked. Weeks 1 and 2 "
               "return +0.049 points of CLV at t = 0.28 against +0.440 at "
               "t = 5.31 from week 3 on; pass --week to enforce it.\n")
 
@@ -451,7 +449,7 @@ def cmd_play(args: argparse.Namespace) -> int:
                                          min_disagreement=args.min_disagreement,
                                          week=args.week)
                 if side is None:
-                    if args.week is not None and args.week < MIN_SEASON_WEEK:
+                    if args.week is None or args.week < MIN_SEASON_WEEK:
                         too_early += 1
                     else:
                         no_signal += 1
