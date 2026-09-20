@@ -1,0 +1,79 @@
+{
+  "phase": "SHADOW",
+  "timezone": "America/New_York",
+  "bankroll_usd": 9925.0,
+  "unit_fraction": 0.01,
+  "sports": [
+    "americanfootball_ncaaf"
+  ],
+  "markets": [
+    "h2h",
+    "spreads",
+    "totals"
+  ],
+  "credit_cap_monthly": 500,
+  "blend": {
+    "w0": 0.5,
+    "n_half": 50.0,
+    "near_even_band": [
+      0.4,
+      0.6
+    ],
+    "own_n_for_variable_price": 30
+  },
+  "sizing": {
+    "kelly_fraction": 0.25,
+    "rho": 0.3,
+    "round_to_units": 0.05,
+    "ceiling_units": 2.0
+  },
+  "clv": {
+    "lag_minutes": 30,
+    "kill_min_own_grades": 60,
+    "sigma_prior": 0.04
+  },
+  "gate2": {
+    "min_rows": 60,
+    "min_clusters": 12,
+    "alpha": 0.05
+  },
+  "price_grid": {
+    "low_american": -400,
+    "high_american": 400,
+    "step": 1
+  },
+  "integrity": {
+    "implied_sum_band": [
+      1.0,
+      1.12
+    ],
+    "book_disagree_points": 3.0
+  },
+  "max_source_age_seconds": {
+    "odds": 5400,
+    "signal": 21600,
+    "scores": 86400
+  },
+  "venues": {
+    "kalshi": {
+      "fee_rule": "kalshi_general",
+      "fee_coefficient": 0.07,
+      "min_stake_units": 0.05,
+      "source_url": null,
+      "verified": false,
+      "unverified_reason": "BUILD_PROMPT 6.12 requires the fee rule to be encoded from the published schedule with a unit test citing its URL. This container's egress proxy refuses all odds and exchange hosts, so the schedule could not be fetched and no URL is recorded from memory. The coefficient carried here is the documented general case already used by cfb_edge/kalshi_fees.py, which itself says to read the real rate off the account before staking. Fill source_url and set verified true only from a fetched schedule.",
+      "default_price_kind": "american",
+      "price_kind_note": "The Odds API returns Kalshi in American odds under oddsFormat=american. A hand-entered contract price is exchange_cents. The format belongs to the quote; only the fee rule belongs to the venue."
+    },
+    "book_default": {
+      "fee_rule": "none",
+      "min_stake_units": 0.05,
+      "source_url": null,
+      "verified": false,
+      "unverified_reason": "Priced in the posted line; no separate fee schedule. Named venues that charge one need their own entry.",
+      "default_price_kind": "american"
+    }
+  },
+  "credit_cap_note": "Free tier, measured 2026-09-19: x-requests-used 171 + x-requests-remaining 329 = 500. Billing is regions x markets; a 3-market CFB pull costs 3. A full 15-week season of four-window scan days costs 180, which fits. The 10-minute capture in watch.py does not: ~2,800 a month even stripped to spreads alone, 5.6x the allowance. Historical odds, which A3 and A4 need, are paid-plan only.",
+  "sports_note": "CFB only (D10). NBA is out of scope, which retires the two venue gaps D9 found on it and halves the cost of every pull."
+}

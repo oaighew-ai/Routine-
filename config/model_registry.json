@@ -1,0 +1,61 @@
+{
+  "schemaVersion": 1,
+  "registryId": "cfb-edge-model-registry-2026",
+  "models": [
+    {
+      "id": "S01",
+      "role": "QUARANTINED_INCUMBENT",
+      "market": "spread",
+      "deliveryEligible": false,
+      "note": "Historical incumbent. Never supplies the authoritative card."
+    },
+    {
+      "id": "S02",
+      "role": "SOLE_PAPER_DELIVERY_CANDIDATE",
+      "market": "spread",
+      "version": "market-anchor-shrinkage-1",
+      "modelSha256": "eb79385a8b492855b219a2417858a57fb61482014c1e375546dd3a166c4a10c8",
+      "protocol": "s02-sequential-1",
+      "deliveryEligible": true,
+      "note": "Frozen prospective benchmark. Eligibility does not imply current authorization."
+    },
+    {
+      "id": "S03",
+      "role": "INPUT_INTEGRITY_SHADOW",
+      "market": "spread",
+      "modelStatus": "UNFITTED",
+      "deliveryEligible": false,
+      "note": "Immutable inputs and replay only. Zero forecasts and never a pick source."
+    },
+    {
+      "id": "S04",
+      "role": "PLANNED_FOOTBALL_CONTEXT_CHALLENGER",
+      "market": "spread",
+      "modelStatus": "UNFITTED",
+      "deliveryEligible": false,
+      "note": "May be fitted only under a registered training cohort and untouched holdout."
+    },
+    {
+      "id": "S05",
+      "role": "INFORMATION_FLOW_MONITOR",
+      "market": "multi",
+      "modelStatus": "MONITOR_ONLY",
+      "deliveryEligible": false,
+      "note": "Information-flow signals remain context until independently validated."
+    },
+    {
+      "id": "F03",
+      "role": "REJECTED_MONEYLINE_EXPERIMENT",
+      "market": "moneyline",
+      "deliveryEligible": false,
+      "note": "Separate cohort. Never pooled with spread evidence or used for delivery."
+    },
+    {
+      "id": "ROUTINE_SHOP",
+      "role": "PRICE_DISLOCATION_MONITOR",
+      "market": "multi",
+      "deliveryEligible": false,
+      "note": "Quoted price differences are candidates, not validated prediction evidence."
+    }
+  ]
+}

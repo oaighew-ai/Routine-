@@ -1,0 +1,90 @@
+# This week's CFB board, from CFBD, as compact text.
+#
+# Exists so a board can be built from real lines rather than invented ones.
+# CLAUDE.md's rule is absolute: never invent odds, results, injuries or
+# records, and missing data is a reason code rather than a guess. A dashboard
+# full of plausible numbers is the most expensive possible way to break that
+# rule, because it looks right.
+#
+# Prints one row per game per provider, pipe-delimited and nothing else, so the
+# output can be read without pulling a megabyte of JSON into a conversation
+# (§4). Costs no Odds API credits; CFBD is a separate quota.
+name: cfbd board
+
+on:
+  push:
+    branches: [claude/jolly-feynman-p2rb1h]
+    paths:
+      - .github/workflows/cfbd-board.yml
+  workflow_dispatch:
+    inputs:
+      year:
+        description: "Season"
+        default: "2026"
+        required: false
+      week:
+        description: "Week"
+        default: "3"
+        required: false
+
+permissions:
+  contents: read
+
+jobs:
+  board:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+
+      - name: Dump the week's lines
+        env:
+          CFBD_API_KEY: ${{ secrets.CFBD_API_KEY }}
+          YEAR: ${{ inputs.year || '2026' }}
+          WEEK: ${{ inputs.week || '3' }}
+        run: |
+          python3 - <<'PY'
+          import json, os, urllib.error, urllib.request
+
+          key = os.environ.get("CFBD_API_KEY", "").strip()
+          year, week = os.environ["YEAR"], os.environ["WEEK"]
+          if not key:
+              print("NO_KEY")
+              raise SystemExit(0)
+
+          req = urllib.request.Request(
+              f"https://api.collegefootballdata.com/lines"
+              f"?year={year}&week={week}&seasonType=regular",
+              headers={"Authorization": f"Bearer {key}",
+                       "Accept": "application/json",
+                       "User-Agent": "cfb-edge/1.0"},
+          )
+          try:
+              with urllib.request.urlopen(req, timeout=30) as r:
+                  games = json.loads(r.read())
+          except urllib.error.HTTPError as e:
+              print(f"HTTP_{e.code}")
+              raise SystemExit(0)
+
+          # away|home|startDate|provider|spreadOpen|spread|ouOpen|ou|homeML|awayML
+          # Home-team perspective on the spread, matching every other convention
+          # in this package.
+          print("BOARD_BEGIN")
+          rows = 0
+          for g in games:
+              for ln in (g.get("lines") or []):
+                  if ln.get("spread") is None or ln.get("spreadOpen") is None:
+                      continue
+                  print("|".join(str(x) for x in (
+                      g.get("awayTeam", ""), g.get("homeTeam", ""),
+                      (g.get("startDate") or "")[:16],
+                      ln.get("provider", ""),
+                      ln.get("spreadOpen"), ln.get("spread"),
+                      ln.get("overUnderOpen"), ln.get("overUnder"),
+                      ln.get("homeMoneyline"), ln.get("awayMoneyline"),
+                  )))
+                  rows += 1
+          print(f"BOARD_END rows={rows} games={len(games)}")
+          PY

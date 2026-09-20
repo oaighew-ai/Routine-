@@ -58,19 +58,56 @@ jobs:
                --out capture-data/data/slate_current.csv 2>&1 | tee /tmp/slate.log; then
             echo "ok=1" >> "$GITHUB_OUTPUT"
           else
-            # Out of season the slate builder reports no unfinished week and
-            # exits non-zero. That is the correct answer, not a failure.
-            echo "ok=0" >> "$GITHUB_OUTPUT"
-            echo "no slate; nothing to capture" >> "$GITHUB_STEP_SUMMARY"
+            echo "Slate generation failed; see logs. No successful capture claimed." >> "$GITHUB_STEP_SUMMARY"
+            exit 1
           fi
 
       - name: One poll
+        id: poll
         if: steps.slate.outputs.ok == '1'
         run: |
           python3 -m cfb_edge.watch --source kalshi \
             --slate capture-data/data/slate_current.csv \
             --log capture-data/data/opens.jsonl.gz \
             --out capture-data/data/opens.csv --once
+
+      - name: Build read-only capture report
+        if: always()
+        env:
+          CAPTURE_OUTCOME: ${{ steps.poll.outcome }}
+        run: |
+          python3 -m cfb_edge.capture_report \
+            --log capture-data/data/opens.jsonl.gz \
+            --slate capture-data/data/slate_current.csv \
+            --out capture-data/data \
+            --capture-outcome "$CAPTURE_OUTCOME" --revision "$GITHUB_SHA"
+
+      - name: Publish the one authoritative picks contract
+        if: always()
+        run: |
+          args=(
+            --authority config/delivery_authority.json
+            --registry config/model_registry.json
+            --capture-report capture-data/data/capture-report.json
+            --previous capture-data/data/picks.json
+            --out capture-data/data/picks.json
+            --revision "$GITHUB_SHA"
+          )
+          if [ -f capture-data/ledger/candidates.jsonl ]; then
+            args+=(--candidates capture-data/ledger/candidates.jsonl)
+          fi
+          python3 -m cfb_edge.source_of_truth "${args[@]}"
+
+      - name: Retain diagnostic report even when capture fails
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: capture-report-${{ github.run_id }}-${{ github.run_attempt }}
+          path: |
+            capture-data/data/capture-report.*
+            capture-data/data/picks.json
+          if-no-files-found: error
+          retention-days: 30
 
       - name: Record what the log now holds
         if: steps.slate.outputs.ok == '1'
@@ -109,6 +146,22 @@ jobs:
               --slate capture-data/data/slate_current.csv \
               --log capture-data/data/opens.jsonl.gz \
               --out capture-data/data/opens.csv --once
+            python3 -m cfb_edge.capture_report \
+              --log capture-data/data/opens.jsonl.gz \
+              --slate capture-data/data/slate_current.csv \
+              --out capture-data/data --revision "$GITHUB_SHA"
+            args=(
+              --authority config/delivery_authority.json
+              --registry config/model_registry.json
+              --capture-report capture-data/data/capture-report.json
+              --previous capture-data/data/picks.json
+              --out capture-data/data/picks.json
+              --revision "$GITHUB_SHA"
+            )
+            if [ -f capture-data/ledger/candidates.jsonl ]; then
+              args+=(--candidates capture-data/ledger/candidates.jsonl)
+            fi
+            python3 -m cfb_edge.source_of_truth "${args[@]}"
             cd capture-data
             git add -A data
             git diff --cached --quiet && exit 0

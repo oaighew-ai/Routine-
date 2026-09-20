@@ -18,3 +18,13 @@ data/*
 *.jsonl
 *.jsonl.gz
 capture.log
+
+# The EDGE OS ledger. D3 puts it on the `capture-data` branch, never on main:
+# automation appends rows there and code changes here by pull request, and the
+# two must not be able to arrive in the same commit. `*.jsonl` above already
+# catches the row files; this catches the snapshots, receipts and inbox beside
+# them.
+#
+# Anchored at the root. A bare `ledger/` also matches `cfb_edge/ledger/`,
+# which is the writer's own source code, and silently kept it out of a commit.
+/ledger/
