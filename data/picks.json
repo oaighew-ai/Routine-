@@ -1,0 +1,146 @@
+{
+  "actualBetsRecorded": false,
+  "actualExposureUnits": 0.0,
+  "allowPaperDelivery": false,
+  "authorityReasons": [
+    "ANYTIME_E_VALUE",
+    "BRIER_NO_WORSE",
+    "CAPTURE_NOT_CURRENT",
+    "LOG_LOSS_ADVANTAGE",
+    "MINIMUM_FORECASTS",
+    "MINIMUM_WEEKS",
+    "PAPER_DELIVERY_BLOCKED",
+    "REGISTERED_GATES_FAILED",
+    "VALIDATION_NOT_PASSED"
+  ],
+  "candidateAudit": [],
+  "candidatesInspected": 0,
+  "capture": {
+    "current": false,
+    "outcome": null,
+    "pollAt": null
+  },
+  "cardHash": "4f45bfb0e7d7406b230040e4eec702b18073ba06d492dddfd1cc09d30468e0a3",
+  "changedSincePreviousCard": false,
+  "contract": "CFB_EDGE_PICKS_V1",
+  "fileHashes": {
+    "authority": "6ed5f323dfa2cdcb6f2fa89d2b9c7ebfb08319a798bf64b95638a02f22551bd9",
+    "candidates": null,
+    "captureReport": null,
+    "registry": "96cac78c391772129c84e3255427f81986c9a6b4c2914c838e49a2683a6c5aae"
+  },
+  "generatedAt": "2026-09-20T19:55:50.745725+00:00",
+  "limitations": [
+    "Research and paper display only; no wager is placed by this system.",
+    "Injuries, rosters, weather, executable fills, CLV and betting edge remain unverified unless explicitly present in the authority export.",
+    "Raw captures, preview rows, historical cards, S01, F03, S03 inputs and monitor-only systems cannot supply picks."
+  ],
+  "model": {
+    "id": "S02",
+    "protocol": "s02-sequential-1",
+    "sha256": "eb79385a8b492855b219a2417858a57fb61482014c1e375546dd3a166c4a10c8",
+    "version": "market-anchor-shrinkage-1"
+  },
+  "paperExposureUnits": 0.0,
+  "picks": [],
+  "previousCardHash": null,
+  "registry": {
+    "models": [
+      {
+        "deliveryEligible": false,
+        "id": "S01",
+        "market": "spread",
+        "note": "Historical incumbent. Never supplies the authoritative card.",
+        "role": "QUARANTINED_INCUMBENT"
+      },
+      {
+        "deliveryEligible": true,
+        "id": "S02",
+        "market": "spread",
+        "modelSha256": "eb79385a8b492855b219a2417858a57fb61482014c1e375546dd3a166c4a10c8",
+        "note": "Frozen prospective benchmark. Eligibility does not imply current authorization.",
+        "protocol": "s02-sequential-1",
+        "role": "SOLE_PAPER_DELIVERY_CANDIDATE",
+        "version": "market-anchor-shrinkage-1"
+      },
+      {
+        "deliveryEligible": false,
+        "id": "S03",
+        "market": "spread",
+        "modelStatus": "UNFITTED",
+        "note": "Immutable inputs and replay only. Zero forecasts and never a pick source.",
+        "role": "INPUT_INTEGRITY_SHADOW"
+      },
+      {
+        "deliveryEligible": false,
+        "id": "S04",
+        "market": "spread",
+        "modelStatus": "UNFITTED",
+        "note": "May be fitted only under a registered training cohort and untouched holdout.",
+        "role": "PLANNED_FOOTBALL_CONTEXT_CHALLENGER"
+      },
+      {
+        "deliveryEligible": false,
+        "id": "S05",
+        "market": "multi",
+        "modelStatus": "MONITOR_ONLY",
+        "note": "Information-flow signals remain context until independently validated.",
+        "role": "INFORMATION_FLOW_MONITOR"
+      },
+      {
+        "deliveryEligible": false,
+        "id": "F03",
+        "market": "moneyline",
+        "note": "Separate cohort. Never pooled with spread evidence or used for delivery.",
+        "role": "REJECTED_MONEYLINE_EXPERIMENT"
+      },
+      {
+        "deliveryEligible": false,
+        "id": "ROUTINE_SHOP",
+        "market": "multi",
+        "note": "Quoted price differences are candidates, not validated prediction evidence.",
+        "role": "PRICE_DISLOCATION_MONITOR"
+      }
+    ],
+    "registryId": "cfb-edge-model-registry-2026",
+    "schemaVersion": 1
+  },
+  "schemaVersion": 1,
+  "sourceRevision": "local-verified",
+  "status": "NO_BET",
+  "validation": {
+    "asOf": "2026-09-18T18:02:10.143Z",
+    "failedGates": [
+      "MINIMUM_FORECASTS",
+      "MINIMUM_WEEKS",
+      "LOG_LOSS_ADVANTAGE",
+      "BRIER_NO_WORSE",
+      "ANYTIME_E_VALUE"
+    ],
+    "observed": {
+      "marketBrier": 0.25,
+      "marketEce": 0.0995,
+      "marketLogLoss": 0.6931946474,
+      "maximumAnytimeEValue": 1.024,
+      "modelBrier": 0.2528,
+      "modelEce": 0.0964,
+      "modelLogLoss": 0.6987048803,
+      "nonPushForecasts": 48,
+      "outcomeCoverage": 1.0,
+      "weekClusters": 2
+    },
+    "requirements": {
+      "brierNoWorseThanMarket": true,
+      "maximumEceDisadvantage": 0.01,
+      "maximumQuoteAgeSeconds": 900,
+      "maximumValidationAgeSeconds": 604800,
+      "minimumAnytimeEValue": 20.0,
+      "minimumLogLossAdvantage": 0.003,
+      "minimumNonPushForecasts": 200,
+      "minimumOutcomeCoverage": 0.95,
+      "minimumSamePointBooks": 3,
+      "minimumWeekClusters": 8
+    },
+    "status": "MODEL_REVIEW_REQUIRED"
+  }
+}
