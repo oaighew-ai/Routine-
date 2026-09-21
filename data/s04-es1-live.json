@@ -1,0 +1,50 @@
+{
+  "actualStakeUnits": 0,
+  "contract": "CFB_EDGE_S04_ES1_LIVE_V1",
+  "deliveryEffect": "NONE",
+  "generatedAt": "2026-09-21T07:55:07.950395+00:00",
+  "historicalCohort": {
+    "beatCloseRate": 0.5882352941176471,
+    "byWeek": {
+      "1": {
+        "beatCloseRate": 0.5,
+        "meanDirectionalClv": 0.3125,
+        "n": 4.0
+      },
+      "2": {
+        "beatCloseRate": 0.6666666666666666,
+        "meanDirectionalClv": 2.125,
+        "n": 6.0
+      },
+      "3": {
+        "beatCloseRate": 0.5714285714285714,
+        "meanDirectionalClv": 1.1785714285714286,
+        "n": 7.0
+      }
+    },
+    "failedChecks": [],
+    "gapMax": 6.0,
+    "gapMin": 4.0,
+    "meanDirectionalClv": 1.3088235294117647,
+    "n": 17,
+    "qualifiedForProspectiveShadow": true
+  },
+  "inspectedLiveRows": [],
+  "limitations": [
+    "Weeks 1-3 were inspected before S04_ES1 was frozen; they do not validate it.",
+    "Week 4 is the first prospective test of this exact challenger.",
+    "Pinnacle is a market reference, not ground truth.",
+    "Historical mean directional CLV is a timing budget, not guaranteed future CLV.",
+    "No row from this contract may enter the authoritative picks feed."
+  ],
+  "modelId": "S04_ES1",
+  "modelVersion": "week4-4to6-market-confirmed-1",
+  "promotionEffect": "NONE",
+  "qualifiedCount": 0,
+  "schemaVersion": 1,
+  "season": 2026,
+  "status": "SHADOW_ONLY",
+  "topFive": [],
+  "week": 4,
+  "week4CapturedCandidates": 12
+}
