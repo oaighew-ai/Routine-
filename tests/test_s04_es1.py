@@ -59,12 +59,15 @@ def shop_row(
     venue_line=-3.5,
     ev=0.02,
     reason_codes=None,
+    away="Away",
+    home="Home",
+    side="Home",
 ):
     quote = Quote(
         event_id="evt",
         sport="americanfootball_ncaaf",
         market="spreads",
-        side="Home",
+        side=side,
         line=venue_line,
         price=-105.0,
         consensus_price=-110.0,
@@ -86,11 +89,11 @@ def shop_row(
     return ShopRow(
         decision=d,
         event_id="evt",
-        home="Home",
-        away="Away",
+        home=home,
+        away=away,
         commence_time="2026-09-26T19:30:00Z",
         market="spreads",
-        side="Home",
+        side=side,
         venue="draftkings",
         venue_line=venue_line,
         venue_price=-105.0,
@@ -152,6 +155,22 @@ class S04ES1Tests(unittest.TestCase):
         self.assertEqual(report["topFive"][0]["actualStakeUnits"], 0)
         self.assertEqual(report["deliveryEffect"], "NONE")
         self.assertEqual(report["promotionEffect"], "NONE")
+
+    def test_mascot_suffixes_resolve_without_fuzzy_matching(self):
+        report = evaluate(
+            learning=learning(),
+            week4=week4(),
+            shop_rows=[shop_row(
+                away="Away Bears", home="Home Hawks", side="Home Hawks"
+            )],
+            challenger_cfg=self.ch,
+            edge_cfg=self.edge,
+            fetched_at="2026-09-21T12:00:00Z",
+        )
+        self.assertEqual(report["qualifiedCount"], 1)
+        self.assertEqual(report["topFive"][0]["game"], "Away @ Home")
+        self.assertEqual(report["topFive"][0]["side"], "Home")
+        self.assertEqual(report["mappingFailures"], [])
 
     def test_soft_reference_never_qualifies(self):
         report = evaluate(
