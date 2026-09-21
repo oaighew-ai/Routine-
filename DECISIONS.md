@@ -760,3 +760,58 @@ early-season split is retired in favor of the registered multi-week prospective
 promotion framework. Week 3 is never moved from holdout into training for the
 2026 Week 4 decision after its result is known. Any future refit must start from
 Week 4 forward under a separately versioned challenger.
+
+
+## 2026-09-21 — D21. S04_ES1 freezes the 4–6 point early-season cohort for a Week 4 prospective test
+
+**Decision.** After the D20 early-season learning run rejected the simple linear
+residual learner, one narrower challenger is frozen for prospective Week 4:
+`S04_ES1 / week4-4to6-market-confirmed-1`.
+
+The signal is not the raw projection and the projection is not treated as fair
+value. A game enters the challenger only when this system's timely captured
+opening line differs from the frozen pregame projection by **at least 4.0 and
+less than 6.0 points**.
+
+That bucket is not new to the project. The historical strategy already reported
+the 4–6 disagreement band before this 2026 review. The completed 2026 Weeks 1–3
+then showed positive mean directional CLV in that same band in every week. Those
+observations justify a prospective experiment, not a promotion, because the
+2026 bucket was selected for renewed attention after its results were visible.
+
+A Week 4 row can surface as `EXECUTABLE_SHADOW` only when all of the following
+also hold:
+
+- the Weeks 1–3 4–6 cohort meets the frozen minimum sample and per-week checks;
+- the current sportsbook is offering the **same spread** as Pinnacle;
+- Pinnacle supplies the two-way market reference;
+- both de-vig methods agree on the sign of the live price opportunity;
+- market-relative EV at the offered sportsbook price is at least the frozen
+  threshold in `config/s04_es1.json`;
+- the move from the captured open to the current Pinnacle line has not already
+  consumed the historical cohort's mean directional CLV.
+
+The historical CLV is a timing budget, not a forecast of future profit. The
+live market-relative EV is a price-dislocation check, not proof Pinnacle is
+truth. Passing both keys still produces **zero stake**, `promotionEffect:
+NONE`, and `deliveryEffect: NONE`.
+
+The live workflow requests spreads only and no more than five named books,
+making each pull one Odds API billing unit. It scans more frequently late in
+the week, but first checks that the current season week is still Week 4; after
+that it exits before an Odds API call.
+
+**Why.** The simple Weeks 1–2 residual fit learned negative coefficients and
+failed the Week 3 MAE/movement checks. Increasing model complexity after that
+failure would be fitting noise. The 4–6 band is the only pre-existing
+disagreement band that also stayed directionally positive across all three
+completed 2026 weeks, so it is the narrowest defensible hypothesis to freeze
+for a genuine forward test.
+
+**Reversal criterion.** Week 4 is graded exactly as frozen. A negative or
+non-positive Week 4 directional CLV result retires S04_ES1 from automatic
+forward use unless a separately pre-registered explanation survives a new
+prospective cohort. A positive Week 4 result still does not promote it; it
+becomes one prospective week in the normal multi-week validation framework.
+The 4–6 boundaries, EV floor, Pinnacle requirement and movement rule may not be
+changed using Week 4 outcomes and then re-scored as though they were unchanged.
