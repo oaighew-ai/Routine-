@@ -1,6 +1,6 @@
 ---
 name: run-edge
-description: Run one EDGE OS cycle in capture, scan or grade mode. Use when a routine fires (edge-scan, edge-grade) or when the owner asks to run a scan, pull odds, grade results, or check Gate 2. Runs deterministic scripts and reports their summaries; never computes a number itself.
+description: Run one CFB EDGE OS cycle in capture, scan, grade, health or challenger mode. Use for scheduled reviews and owner requests. Runs deterministic scripts and reports their summaries; never computes a ledger number itself.
 ---
 
 # run-edge
@@ -28,7 +28,7 @@ Two further rules from `spec/BUILD_PROMPT.md` §4 and §7:
 
 ## Modes
 
-All three write a run receipt under `ledger/runs/`, including on failure. A run
+Capture, scan and grade write a run receipt under `ledger/runs/`, including on failure. A run
 that dies quietly is the failure this project exists to prevent.
 
 ### capture
@@ -77,9 +77,50 @@ python3 -m cfb_edge.edgeos --ledger ledger grade
 Recomputes Gate 2 from ledger rows, every time, and prints it split by sport and
 with and without `pmf` rows. Reports `LUCK_RISK`, `STALE` and `UNMAPPED` counts.
 
+### health
+
+Build the read-only control-plane contract. This never creates a pick and never
+changes model authority.
+
+```bash
+python3 -m cfb_edge.ops_health \
+  --config config/edge_os.json \
+  --authority config/delivery_authority.json \
+  --registry config/model_registry.json \
+  --implementations config/model_implementation_registry.json \
+  --capture-report ledger/data/capture-report.json \
+  --candidates ledger/candidates.jsonl \
+  --grades ledger/grades.jsonl \
+  --runs-dir ledger/runs \
+  --stage manual --out ledger/data/ops-health.json
+```
+
+If optional ledger files do not exist, omit those arguments. The health contract
+must still render the missing evidence as missing rather than inventing it.
+
+S02 is currently implemented outside this repository. The implementation
+registry records that fact explicitly. Do not recreate S02 from the model name,
+its validation metrics, or prior chat context.
+
+### challenger
+
+S04 is research only. It predicts residual information beyond the market and
+must be evaluated chronologically.
+
+```bash
+python3 -m cfb_edge.challenger \
+  --data <timestamped historical feature CSV> \
+  --config config/s04_challenger.json \
+  --out <report.json>
+```
+
+A challenger report can reject S04. It cannot make S04 delivery-eligible, alter
+S02, or produce an authoritative card. Promotion requires prospective evidence
+and an explicit registry/authority change through review.
+
 ## Reporting back
 
-**scan** — the execution queue, or the counts:
+**health** — state, failed gates, capture coverage, model provenance and next actions. Never summarize a blocked state as a lean.\n\n**challenger** — report market-vs-S04 walk-forward metrics, tested seasons and skipped cohorts. State explicitly that promotionEffect is NONE.\n\n**scan** — the execution queue, or the counts:
 
 > 2 qualifying bets:
 >   evt-1 spreads Kansas -3 @ -104 (kalshi)  stake 0.25u  EV +1.06%  max playable -112  signals 1
