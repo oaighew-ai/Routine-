@@ -148,6 +148,7 @@ function captureItems(c){
 }
 function ledgerItems(l){
   const arr=[
+    ["Forecast rows",l.forecastRows??0],
     ["Candidate rows",l.candidateRows??0],
     ["BET rows",l.betRows??0],
     ["Grade rows",l.gradeRows??0],
@@ -170,7 +171,7 @@ async function fallback(){
     validation:{requirements:a.requirements||{},observed:a.observed||{},gates:[]},
     capture:{pollAt:c.pollAt,codeRevision:c.codeRevision,gamesTotal:(c.games||[]).length,gamesObserved:(c.games||[]).filter(g=>(g.observations||[]).length).length,gamesMissing:(c.games||[]).filter(g=>(g.exclusions||[]).includes("ABSENT_FROM_LATEST_POLL")).length,freshNow:false,topExclusions:[]},
     models:(r.models||[]).map(m=>({...m,implementationStatus:impl.get(m.id)?.status,implementationLocation:impl.get(m.id)?.location,reproducibleInRepo:!!impl.get(m.id)?.reproducibleInRepo})),
-    ledger:{candidateRows:0,betRows:0,gradeRows:0,ungradedBetRows:0},
+    ledger:{forecastRows:0,candidateRows:0,betRows:0,gradeRows:0,ungradedBetRows:0},
     nextActions:["Operating-health artifact has not been published yet. Open the private board for the authoritative decision."]
   }
 }
