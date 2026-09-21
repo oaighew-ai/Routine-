@@ -1,0 +1,276 @@
+{
+  "authority": {
+    "allowPaperDelivery": false,
+    "asOf": "2026-09-18T18:02:10.143Z",
+    "authorityId": "CFB_EDGE_PICKS_V1",
+    "deterministicReplay": "VERIFIED",
+    "modelId": "S02",
+    "modelSha256": "eb79385a8b492855b219a2417858a57fb61482014c1e375546dd3a166c4a10c8",
+    "modelVersion": "market-anchor-shrinkage-1",
+    "protocol": "s02-sequential-1",
+    "recomputedReasons": [
+      "ANYTIME_E_VALUE",
+      "BRIER_NO_WORSE",
+      "LOG_LOSS_ADVANTAGE",
+      "MINIMUM_FORECASTS",
+      "MINIMUM_WEEKS",
+      "PAPER_DELIVERY_BLOCKED",
+      "REGISTERED_GATES_FAILED",
+      "VALIDATION_NOT_PASSED"
+    ],
+    "registeredFailedGates": [
+      "MINIMUM_FORECASTS",
+      "MINIMUM_WEEKS",
+      "LOG_LOSS_ADVANTAGE",
+      "BRIER_NO_WORSE",
+      "ANYTIME_E_VALUE"
+    ],
+    "status": "MODEL_REVIEW_REQUIRED"
+  },
+  "capture": {
+    "allowDelivery": false,
+    "codeRevision": "7bf01fbd4c60515eb55e065c145e08cab7b7f0e8",
+    "freshAtGeneration": true,
+    "freshNow": true,
+    "gamesMissing": 23,
+    "gamesObserved": 35,
+    "gamesTotal": 58,
+    "logSha256": "5c4fd1a5f936b9176af4c34f79a088885db1bc114ba9313610a74de07ac6ca54",
+    "outcome": "success",
+    "pollAt": "2026-09-21T14:22:41.078526+00:00",
+    "slateSha256": "60ce02d79bf0892d3f753ab3e664f84e5f3f445c04c3db8fece60db05be7008c",
+    "topExclusions": [
+      {
+        "code": "DECISION_EVIDENCE_UNVERIFIED",
+        "count": 58
+      },
+      {
+        "code": "EXECUTABLE_CONTRACT_UNVERIFIED",
+        "count": 58
+      },
+      {
+        "code": "ABSENT_FROM_LATEST_POLL",
+        "count": 23
+      }
+    ]
+  },
+  "contract": "CFB_EDGE_OPS_HEALTH_V1",
+  "delivery": {
+    "actualExposureAuthorized": false,
+    "authoritativeContract": "https://cfb-edge-research.oaighew.chatgpt.site/api/picks",
+    "githubDiagnosticOnly": true
+  },
+  "generatedAt": "2026-09-21T14:22:57.125018+00:00",
+  "latestRun": {},
+  "ledger": {
+    "betRows": 0,
+    "candidateRows": 0,
+    "decisionCounts": {},
+    "forecastModelCounts": {},
+    "forecastRows": 0,
+    "gradeRows": 0,
+    "modelCounts": {},
+    "ungradedBetRows": 0
+  },
+  "models": [
+    {
+      "deliveryContract": null,
+      "deliveryEligible": false,
+      "id": "S01",
+      "implementationLocation": "repository-history",
+      "implementationStatus": "QUARANTINED",
+      "modelStatus": null,
+      "reproducibleInRepo": false,
+      "role": "QUARANTINED_INCUMBENT"
+    },
+    {
+      "deliveryContract": "https://cfb-edge-research.oaighew.chatgpt.site/api/picks",
+      "deliveryEligible": true,
+      "id": "S02",
+      "implementationLocation": "private-site",
+      "implementationStatus": "EXTERNAL_PRODUCTION_CANDIDATE",
+      "modelStatus": null,
+      "reproducibleInRepo": false,
+      "role": "SOLE_PAPER_DELIVERY_CANDIDATE"
+    },
+    {
+      "deliveryContract": null,
+      "deliveryEligible": false,
+      "id": "S03",
+      "implementationLocation": "cfb_edge/source_of_truth.py + capture pipeline",
+      "implementationStatus": "ACTIVE_INPUT_INTEGRITY",
+      "modelStatus": "UNFITTED",
+      "reproducibleInRepo": true,
+      "role": "INPUT_INTEGRITY_SHADOW"
+    },
+    {
+      "deliveryContract": null,
+      "deliveryEligible": false,
+      "id": "S03_M1",
+      "implementationLocation": "cfb_edge/market_quality.py",
+      "implementationStatus": "ACTIVE_MONITOR_ONLY",
+      "modelStatus": "MONITOR_ONLY",
+      "reproducibleInRepo": true,
+      "role": "MARKET_QUALITY_MICROSTRUCTURE_MONITOR"
+    },
+    {
+      "deliveryContract": null,
+      "deliveryEligible": false,
+      "id": "S04",
+      "implementationLocation": null,
+      "implementationStatus": "NOT_BUILT",
+      "modelStatus": "UNFITTED",
+      "reproducibleInRepo": false,
+      "role": "PLANNED_FOOTBALL_CONTEXT_CHALLENGER"
+    },
+    {
+      "deliveryContract": null,
+      "deliveryEligible": false,
+      "id": "S04_ES1",
+      "implementationLocation": "cfb_edge/s04_es1.py",
+      "implementationStatus": "PROSPECTIVE_WEEK4_SHADOW",
+      "modelStatus": "PROSPECTIVE_SHADOW",
+      "reproducibleInRepo": true,
+      "role": "EARLY_SEASON_4_6_GAP_CHALLENGER"
+    },
+    {
+      "deliveryContract": null,
+      "deliveryEligible": false,
+      "id": "S04_ES2",
+      "implementationLocation": "config/s04_es2.json",
+      "implementationStatus": "PREREGISTERED_CONFIG_ONLY",
+      "modelStatus": "PREREGISTERED_NOT_ACTIVE",
+      "reproducibleInRepo": true,
+      "role": "PREREGISTERED_GAP_PLUS_MARKET_QUALITY_CHALLENGER"
+    },
+    {
+      "deliveryContract": null,
+      "deliveryEligible": false,
+      "id": "S05",
+      "implementationLocation": "cfb_edge/line_movement.py",
+      "implementationStatus": "MONITOR_ONLY",
+      "modelStatus": "MONITOR_ONLY",
+      "reproducibleInRepo": true,
+      "role": "INFORMATION_FLOW_MONITOR"
+    },
+    {
+      "deliveryContract": null,
+      "deliveryEligible": false,
+      "id": "F03",
+      "implementationLocation": null,
+      "implementationStatus": "REJECTED",
+      "modelStatus": null,
+      "reproducibleInRepo": false,
+      "role": "REJECTED_MONEYLINE_EXPERIMENT"
+    },
+    {
+      "deliveryContract": null,
+      "deliveryEligible": false,
+      "id": "ROUTINE_SHOP",
+      "implementationLocation": "cfb_edge/shop.py",
+      "implementationStatus": "PRICE_MONITOR",
+      "modelStatus": null,
+      "reproducibleInRepo": true,
+      "role": "PRICE_DISLOCATION_MONITOR"
+    }
+  ],
+  "nextActions": [
+    "Collect 152 more prospective non-push forecasts.",
+    "Accumulate 6 more independent week clusters.",
+    "Keep S02 in shadow. Do not tune on the validation cohort; collect prospective evidence or test a pre-registered challenger.",
+    "Continue sequential evidence collection. Do not lower the evidence threshold.",
+    "Preserve the private Site as S02 authority until its exact implementation and source hash can be reproduced here. Do not reverse-engineer it from metadata."
+  ],
+  "phase": "SHADOW",
+  "revision": "7bf01fbd4c60515eb55e065c145e08cab7b7f0e8",
+  "schemaVersion": 1,
+  "stage": "capture_refresh",
+  "state": "SHADOW_BLOCKED",
+  "validation": {
+    "gates": [
+      {
+        "code": "MINIMUM_FORECASTS",
+        "comparator": ">=",
+        "current": 48.0,
+        "detail": "Prospective non-push forecasts",
+        "passed": false,
+        "threshold": 200.0
+      },
+      {
+        "code": "MINIMUM_WEEKS",
+        "comparator": ">=",
+        "current": 2.0,
+        "detail": "Independent week clusters",
+        "passed": false,
+        "threshold": 8.0
+      },
+      {
+        "code": "OUTCOME_COVERAGE",
+        "comparator": ">=",
+        "current": 1.0,
+        "detail": "Forecasts with known outcomes",
+        "passed": true,
+        "threshold": 0.95
+      },
+      {
+        "code": "LOG_LOSS_ADVANTAGE",
+        "comparator": ">=",
+        "current": -0.005510232899999967,
+        "detail": "Market log loss minus model log loss",
+        "passed": false,
+        "threshold": 0.003
+      },
+      {
+        "code": "BRIER_NO_WORSE",
+        "comparator": "<=",
+        "current": 0.2528,
+        "detail": "Model Brier versus market Brier",
+        "passed": false,
+        "threshold": 0.25
+      },
+      {
+        "code": "ECE_DISADVANTAGE",
+        "comparator": "<=",
+        "current": -0.0031000000000000055,
+        "detail": "Model ECE minus market ECE",
+        "passed": true,
+        "threshold": 0.01
+      },
+      {
+        "code": "ANYTIME_E_VALUE",
+        "comparator": ">=",
+        "current": 1.024,
+        "detail": "Sequential evidence threshold",
+        "passed": false,
+        "threshold": 20.0
+      }
+    ],
+    "observed": {
+      "marketBrier": 0.25,
+      "marketEce": 0.0995,
+      "marketLogLoss": 0.6931946474,
+      "maximumAnytimeEValue": 1.024,
+      "modelBrier": 0.2528,
+      "modelEce": 0.0964,
+      "modelLogLoss": 0.6987048803,
+      "nonPushForecasts": 48,
+      "outcomeCoverage": 1.0,
+      "weekClusters": 2
+    },
+    "requirements": {
+      "brierNoWorseThanMarket": true,
+      "maximumEceDisadvantage": 0.01,
+      "maximumQuoteAgeSeconds": 900,
+      "maximumValidationAgeSeconds": 604800,
+      "minimumAnytimeEValue": 20.0,
+      "minimumLogLossAdvantage": 0.003,
+      "minimumNonPushForecasts": 200,
+      "minimumOutcomeCoverage": 0.95,
+      "minimumSamePointBooks": 3,
+      "minimumWeekClusters": 8
+    }
+  },
+  "warnings": [
+    "PRODUCTION_MODEL_EXTERNAL_TO_REPO"
+  ]
+}
