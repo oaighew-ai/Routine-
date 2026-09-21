@@ -2,7 +2,7 @@
   "actualStakeUnits": 0,
   "contract": "CFB_EDGE_S04_ES1_LIVE_V1",
   "deliveryEffect": "NONE",
-  "generatedAt": "2026-09-21T07:58:46.965211+00:00",
+  "generatedAt": "2026-09-21T08:22:18.350611+00:00",
   "historicalCohort": {
     "beatCloseRate": 0.5882352941176471,
     "byWeek": {
@@ -43,6 +43,64 @@
       "game": "Northwestern @ Indiana",
       "historicalMeanDirectionalClv": 1.3088235294117647,
       "livePriceEv": -0.02380952380952378,
+      "marketQuality": {
+        "conservativeExecutableEv": -0.02380952380952378,
+        "currentReferenceSideLine": 21.0,
+        "devigExecutableEv": {
+          "power": -0.02380952380952378,
+          "proportional": -0.02380952380952378
+        },
+        "directionalAuthority": false,
+        "freshSameLineBookCount": 3,
+        "freshSameLineBooks": [
+          "betmgm",
+          "draftkings",
+          "pinnacle"
+        ],
+        "keyNumberCrossings": [],
+        "keyNumberMassTracked": {
+          "10": 1.39,
+          "14": 1.48,
+          "3": 2.64,
+          "7": 2.44
+        },
+        "lineDispersion": {
+          "max": 22.5,
+          "median": 21.0,
+          "min": 21.0,
+          "range": 1.5
+        },
+        "movement": {
+          "hoursCovered": 0.45288894888888886,
+          "latestVelocityPointsPerHour": 0.0,
+          "observations": 3,
+          "previousVelocityPointsPerHour": 0.0,
+          "reversal": false
+        },
+        "openingSideLine": 21.4,
+        "reasons": [],
+        "referenceQuoteAgeSeconds": 3.350611,
+        "sameLineNoVigProbabilities": {
+          "betmgm": {
+            "power": 0.4883955455016475,
+            "proportional": 0.4891657638136511
+          },
+          "draftkings": {
+            "power": 0.4883955455016475,
+            "proportional": 0.4891657638136511
+          },
+          "pinnacle": {
+            "power": 0.5,
+            "proportional": 0.5
+          }
+        },
+        "sameLineNoVigProbabilityRange": {
+          "power": 0.011604454498352512,
+          "proportional": 0.010834236186348878
+        },
+        "status": "PASS",
+        "venueQuoteAgeSeconds": 3.350611
+      },
       "maxPlayablePriceVsPinnacle": 101.0,
       "openingHomeLine": -21.4,
       "pinnacleFairProbability": 0.5,
@@ -68,6 +126,66 @@
       "game": "Northwestern @ Indiana",
       "historicalMeanDirectionalClv": 1.3088235294117647,
       "livePriceEv": -0.06140350877192979,
+      "marketQuality": {
+        "conservativeExecutableEv": -0.06140350877192979,
+        "currentReferenceSideLine": 21.0,
+        "devigExecutableEv": {
+          "power": -0.06140350877192979,
+          "proportional": -0.06140350877192979
+        },
+        "directionalAuthority": false,
+        "freshSameLineBookCount": 3,
+        "freshSameLineBooks": [
+          "betmgm",
+          "draftkings",
+          "pinnacle"
+        ],
+        "keyNumberCrossings": [],
+        "keyNumberMassTracked": {
+          "10": 1.39,
+          "14": 1.48,
+          "3": 2.64,
+          "7": 2.44
+        },
+        "lineDispersion": {
+          "max": 22.5,
+          "median": 21.0,
+          "min": 21.0,
+          "range": 1.5
+        },
+        "movement": {
+          "hoursCovered": 0.45288894888888886,
+          "latestVelocityPointsPerHour": 0.0,
+          "observations": 3,
+          "previousVelocityPointsPerHour": 0.0,
+          "reversal": false
+        },
+        "openingSideLine": 21.4,
+        "reasons": [
+          "LINE_MISMATCH"
+        ],
+        "referenceQuoteAgeSeconds": 3.350611,
+        "sameLineNoVigProbabilities": {
+          "betmgm": {
+            "power": 0.4883955455016475,
+            "proportional": 0.4891657638136511
+          },
+          "draftkings": {
+            "power": 0.4883955455016475,
+            "proportional": 0.4891657638136511
+          },
+          "pinnacle": {
+            "power": 0.5,
+            "proportional": 0.5
+          }
+        },
+        "sameLineNoVigProbabilityRange": {
+          "power": 0.011604454498352512,
+          "proportional": 0.010834236186348878
+        },
+        "status": "BLOCKED",
+        "venueQuoteAgeSeconds": 18.350611
+      },
       "maxPlayablePriceVsPinnacle": 101.0,
       "openingHomeLine": -21.4,
       "pinnacleFairProbability": 0.5,
@@ -92,6 +210,64 @@
       "game": "Northwestern @ Indiana",
       "historicalMeanDirectionalClv": 1.3088235294117647,
       "livePriceEv": -0.02380952380952378,
+      "marketQuality": {
+        "conservativeExecutableEv": -0.02380952380952378,
+        "currentReferenceSideLine": 21.0,
+        "devigExecutableEv": {
+          "power": -0.02380952380952378,
+          "proportional": -0.02380952380952378
+        },
+        "directionalAuthority": false,
+        "freshSameLineBookCount": 3,
+        "freshSameLineBooks": [
+          "betmgm",
+          "draftkings",
+          "pinnacle"
+        ],
+        "keyNumberCrossings": [],
+        "keyNumberMassTracked": {
+          "10": 1.39,
+          "14": 1.48,
+          "3": 2.64,
+          "7": 2.44
+        },
+        "lineDispersion": {
+          "max": 22.5,
+          "median": 21.0,
+          "min": 21.0,
+          "range": 1.5
+        },
+        "movement": {
+          "hoursCovered": 0.45288894888888886,
+          "latestVelocityPointsPerHour": 0.0,
+          "observations": 3,
+          "previousVelocityPointsPerHour": 0.0,
+          "reversal": false
+        },
+        "openingSideLine": 21.4,
+        "reasons": [],
+        "referenceQuoteAgeSeconds": 3.350611,
+        "sameLineNoVigProbabilities": {
+          "betmgm": {
+            "power": 0.4883955455016475,
+            "proportional": 0.4891657638136511
+          },
+          "draftkings": {
+            "power": 0.4883955455016475,
+            "proportional": 0.4891657638136511
+          },
+          "pinnacle": {
+            "power": 0.5,
+            "proportional": 0.5
+          }
+        },
+        "sameLineNoVigProbabilityRange": {
+          "power": 0.011604454498352512,
+          "proportional": 0.010834236186348878
+        },
+        "status": "PASS",
+        "venueQuoteAgeSeconds": 41.350611
+      },
       "maxPlayablePriceVsPinnacle": 101.0,
       "openingHomeLine": -21.4,
       "pinnacleFairProbability": 0.5,
@@ -117,6 +293,66 @@
       "game": "Northwestern @ Indiana",
       "historicalMeanDirectionalClv": 1.3088235294117647,
       "livePriceEv": -0.04545454545454558,
+      "marketQuality": {
+        "conservativeExecutableEv": -0.04545454545454558,
+        "currentReferenceSideLine": 21.0,
+        "devigExecutableEv": {
+          "power": -0.04545454545454558,
+          "proportional": -0.04545454545454558
+        },
+        "directionalAuthority": false,
+        "freshSameLineBookCount": 3,
+        "freshSameLineBooks": [
+          "betmgm",
+          "draftkings",
+          "pinnacle"
+        ],
+        "keyNumberCrossings": [],
+        "keyNumberMassTracked": {
+          "10": 1.39,
+          "14": 1.48,
+          "3": 2.64,
+          "7": 2.44
+        },
+        "lineDispersion": {
+          "max": 22.5,
+          "median": 21.0,
+          "min": 21.0,
+          "range": 1.5
+        },
+        "movement": {
+          "hoursCovered": 0.45288894888888886,
+          "latestVelocityPointsPerHour": 0.0,
+          "observations": 3,
+          "previousVelocityPointsPerHour": 0.0,
+          "reversal": false
+        },
+        "openingSideLine": 21.4,
+        "reasons": [
+          "LINE_MISMATCH"
+        ],
+        "referenceQuoteAgeSeconds": 3.350611,
+        "sameLineNoVigProbabilities": {
+          "betmgm": {
+            "power": 0.4883955455016475,
+            "proportional": 0.4891657638136511
+          },
+          "draftkings": {
+            "power": 0.4883955455016475,
+            "proportional": 0.4891657638136511
+          },
+          "pinnacle": {
+            "power": 0.5,
+            "proportional": 0.5
+          }
+        },
+        "sameLineNoVigProbabilityRange": {
+          "power": 0.011604454498352512,
+          "proportional": 0.010834236186348878
+        },
+        "status": "BLOCKED",
+        "venueQuoteAgeSeconds": 40.350611
+      },
       "maxPlayablePriceVsPinnacle": 101.0,
       "openingHomeLine": -21.4,
       "pinnacleFairProbability": 0.5,
@@ -141,6 +377,62 @@
       "game": "UNLV @ Akron",
       "historicalMeanDirectionalClv": 1.3088235294117647,
       "livePriceEv": 0.012987012987012936,
+      "marketQuality": {
+        "conservativeExecutableEv": 0.012987012987012936,
+        "currentReferenceSideLine": 13.5,
+        "devigExecutableEv": {
+          "power": 0.015146686730953318,
+          "proportional": 0.012987012987012936
+        },
+        "directionalAuthority": false,
+        "freshSameLineBookCount": 2,
+        "freshSameLineBooks": [
+          "betrivers",
+          "pinnacle"
+        ],
+        "keyNumberCrossings": [],
+        "keyNumberMassTracked": {
+          "10": 1.39,
+          "14": 1.48,
+          "3": 2.64,
+          "7": 2.44
+        },
+        "lineDispersion": {
+          "max": 13.5,
+          "median": 13.0,
+          "min": 12.5,
+          "range": 1.0
+        },
+        "movement": {
+          "hoursCovered": 0.45288894888888886,
+          "latestVelocityPointsPerHour": 0.0,
+          "observations": 3,
+          "previousVelocityPointsPerHour": 0.0,
+          "reversal": false
+        },
+        "openingSideLine": 13.5,
+        "reasons": [
+          "INSUFFICIENT_FRESH_SAME_LINE_BOOKS",
+          "LINE_MISMATCH"
+        ],
+        "referenceQuoteAgeSeconds": 2.350611,
+        "sameLineNoVigProbabilities": {
+          "betrivers": {
+            "power": 0.5023037647991048,
+            "proportional": 0.502134927412468
+          },
+          "pinnacle": {
+            "power": 0.519953181008537,
+            "proportional": 0.5188470066518847
+          }
+        },
+        "sameLineNoVigProbabilityRange": {
+          "power": 0.017649416209432278,
+          "proportional": 0.016712079239416644
+        },
+        "status": "BLOCKED",
+        "venueQuoteAgeSeconds": 3.350611
+      },
       "maxPlayablePriceVsPinnacle": -107.0,
       "openingHomeLine": 13.5,
       "pinnacleFairProbability": 0.5188470066518847,
@@ -166,6 +458,62 @@
       "game": "UNLV @ Akron",
       "historicalMeanDirectionalClv": 1.3088235294117647,
       "livePriceEv": -0.009473896391856695,
+      "marketQuality": {
+        "conservativeExecutableEv": -0.009473896391856695,
+        "currentReferenceSideLine": 13.5,
+        "devigExecutableEv": {
+          "power": -0.007362108983702154,
+          "proportional": -0.009473896391856695
+        },
+        "directionalAuthority": false,
+        "freshSameLineBookCount": 2,
+        "freshSameLineBooks": [
+          "betrivers",
+          "pinnacle"
+        ],
+        "keyNumberCrossings": [],
+        "keyNumberMassTracked": {
+          "10": 1.39,
+          "14": 1.48,
+          "3": 2.64,
+          "7": 2.44
+        },
+        "lineDispersion": {
+          "max": 13.5,
+          "median": 13.0,
+          "min": 12.5,
+          "range": 1.0
+        },
+        "movement": {
+          "hoursCovered": 0.45288894888888886,
+          "latestVelocityPointsPerHour": 0.0,
+          "observations": 3,
+          "previousVelocityPointsPerHour": 0.0,
+          "reversal": false
+        },
+        "openingSideLine": 13.5,
+        "reasons": [
+          "INSUFFICIENT_FRESH_SAME_LINE_BOOKS",
+          "LINE_MISMATCH"
+        ],
+        "referenceQuoteAgeSeconds": 2.350611,
+        "sameLineNoVigProbabilities": {
+          "betrivers": {
+            "power": 0.5023037647991048,
+            "proportional": 0.502134927412468
+          },
+          "pinnacle": {
+            "power": 0.519953181008537,
+            "proportional": 0.5188470066518847
+          }
+        },
+        "sameLineNoVigProbabilityRange": {
+          "power": 0.017649416209432278,
+          "proportional": 0.016712079239416644
+        },
+        "status": "BLOCKED",
+        "venueQuoteAgeSeconds": 18.350611
+      },
       "maxPlayablePriceVsPinnacle": -107.0,
       "openingHomeLine": 13.5,
       "pinnacleFairProbability": 0.5188470066518847,
@@ -191,6 +539,62 @@
       "game": "UNLV @ Akron",
       "historicalMeanDirectionalClv": 1.3088235294117647,
       "livePriceEv": -0.009473896391856695,
+      "marketQuality": {
+        "conservativeExecutableEv": -0.009473896391856695,
+        "currentReferenceSideLine": 13.5,
+        "devigExecutableEv": {
+          "power": -0.007362108983702154,
+          "proportional": -0.009473896391856695
+        },
+        "directionalAuthority": false,
+        "freshSameLineBookCount": 2,
+        "freshSameLineBooks": [
+          "betrivers",
+          "pinnacle"
+        ],
+        "keyNumberCrossings": [],
+        "keyNumberMassTracked": {
+          "10": 1.39,
+          "14": 1.48,
+          "3": 2.64,
+          "7": 2.44
+        },
+        "lineDispersion": {
+          "max": 13.5,
+          "median": 13.0,
+          "min": 12.5,
+          "range": 1.0
+        },
+        "movement": {
+          "hoursCovered": 0.45288894888888886,
+          "latestVelocityPointsPerHour": 0.0,
+          "observations": 3,
+          "previousVelocityPointsPerHour": 0.0,
+          "reversal": false
+        },
+        "openingSideLine": 13.5,
+        "reasons": [
+          "INSUFFICIENT_FRESH_SAME_LINE_BOOKS",
+          "LINE_MISMATCH"
+        ],
+        "referenceQuoteAgeSeconds": 2.350611,
+        "sameLineNoVigProbabilities": {
+          "betrivers": {
+            "power": 0.5023037647991048,
+            "proportional": 0.502134927412468
+          },
+          "pinnacle": {
+            "power": 0.519953181008537,
+            "proportional": 0.5188470066518847
+          }
+        },
+        "sameLineNoVigProbabilityRange": {
+          "power": 0.017649416209432278,
+          "proportional": 0.016712079239416644
+        },
+        "status": "BLOCKED",
+        "venueQuoteAgeSeconds": 41.350611
+      },
       "maxPlayablePriceVsPinnacle": -107.0,
       "openingHomeLine": 13.5,
       "pinnacleFairProbability": 0.5188470066518847,
@@ -215,6 +619,61 @@
       "game": "UNLV @ Akron",
       "historicalMeanDirectionalClv": 1.3088235294117647,
       "livePriceEv": -0.017896737408932606,
+      "marketQuality": {
+        "conservativeExecutableEv": -0.017896737408932606,
+        "currentReferenceSideLine": 13.5,
+        "devigExecutableEv": {
+          "power": -0.015802907376697706,
+          "proportional": -0.017896737408932606
+        },
+        "directionalAuthority": false,
+        "freshSameLineBookCount": 2,
+        "freshSameLineBooks": [
+          "betrivers",
+          "pinnacle"
+        ],
+        "keyNumberCrossings": [],
+        "keyNumberMassTracked": {
+          "10": 1.39,
+          "14": 1.48,
+          "3": 2.64,
+          "7": 2.44
+        },
+        "lineDispersion": {
+          "max": 13.5,
+          "median": 13.0,
+          "min": 12.5,
+          "range": 1.0
+        },
+        "movement": {
+          "hoursCovered": 0.45288894888888886,
+          "latestVelocityPointsPerHour": 0.0,
+          "observations": 3,
+          "previousVelocityPointsPerHour": 0.0,
+          "reversal": false
+        },
+        "openingSideLine": 13.5,
+        "reasons": [
+          "INSUFFICIENT_FRESH_SAME_LINE_BOOKS"
+        ],
+        "referenceQuoteAgeSeconds": 2.350611,
+        "sameLineNoVigProbabilities": {
+          "betrivers": {
+            "power": 0.5023037647991048,
+            "proportional": 0.502134927412468
+          },
+          "pinnacle": {
+            "power": 0.519953181008537,
+            "proportional": 0.5188470066518847
+          }
+        },
+        "sameLineNoVigProbabilityRange": {
+          "power": 0.017649416209432278,
+          "proportional": 0.016712079239416644
+        },
+        "status": "BLOCKED",
+        "venueQuoteAgeSeconds": 40.350611
+      },
       "maxPlayablePriceVsPinnacle": -107.0,
       "openingHomeLine": 13.5,
       "pinnacleFairProbability": 0.5188470066518847,
@@ -240,6 +699,64 @@
       "game": "Virginia Tech @ Boston College",
       "historicalMeanDirectionalClv": 1.3088235294117647,
       "livePriceEv": -0.056893414379186324,
+      "marketQuality": {
+        "conservativeExecutableEv": -0.056893414379186324,
+        "currentReferenceSideLine": 14.0,
+        "devigExecutableEv": {
+          "power": -0.0564152411454113,
+          "proportional": -0.056893414379186324
+        },
+        "directionalAuthority": false,
+        "freshSameLineBookCount": 2,
+        "freshSameLineBooks": [
+          "betmgm",
+          "pinnacle"
+        ],
+        "keyNumberCrossings": [
+          14
+        ],
+        "keyNumberMassTracked": {
+          "10": 1.39,
+          "14": 1.48,
+          "3": 2.64,
+          "7": 2.44
+        },
+        "lineDispersion": {
+          "max": 14.5,
+          "median": 14.5,
+          "min": 14.0,
+          "range": 0.5
+        },
+        "movement": {
+          "hoursCovered": 0.45288894888888886,
+          "latestVelocityPointsPerHour": 0.0,
+          "observations": 3,
+          "previousVelocityPointsPerHour": 0.0,
+          "reversal": false
+        },
+        "openingSideLine": 13.9,
+        "reasons": [
+          "INSUFFICIENT_FRESH_SAME_LINE_BOOKS",
+          "LINE_MISMATCH"
+        ],
+        "referenceQuoteAgeSeconds": 2.350611,
+        "sameLineNoVigProbabilities": {
+          "betmgm": {
+            "power": 0.4976630152340158,
+            "proportional": 0.4978050921861282
+          },
+          "pinnacle": {
+            "power": 0.5047081268291986,
+            "proportional": 0.5044523597506678
+          }
+        },
+        "sameLineNoVigProbabilityRange": {
+          "power": 0.00704511159518284,
+          "proportional": 0.0066472675645396495
+        },
+        "status": "BLOCKED",
+        "venueQuoteAgeSeconds": 3.350611
+      },
       "maxPlayablePriceVsPinnacle": -101.0,
       "openingHomeLine": 13.9,
       "pinnacleFairProbability": 0.5044523597506678,
@@ -265,6 +782,64 @@
       "game": "Virginia Tech @ Boston College",
       "historicalMeanDirectionalClv": 1.3088235294117647,
       "livePriceEv": -0.06804564046063066,
+      "marketQuality": {
+        "conservativeExecutableEv": -0.06804564046063066,
+        "currentReferenceSideLine": 14.0,
+        "devigExecutableEv": {
+          "power": -0.06757312162063306,
+          "proportional": -0.06804564046063066
+        },
+        "directionalAuthority": false,
+        "freshSameLineBookCount": 2,
+        "freshSameLineBooks": [
+          "betmgm",
+          "pinnacle"
+        ],
+        "keyNumberCrossings": [
+          14
+        ],
+        "keyNumberMassTracked": {
+          "10": 1.39,
+          "14": 1.48,
+          "3": 2.64,
+          "7": 2.44
+        },
+        "lineDispersion": {
+          "max": 14.5,
+          "median": 14.5,
+          "min": 14.0,
+          "range": 0.5
+        },
+        "movement": {
+          "hoursCovered": 0.45288894888888886,
+          "latestVelocityPointsPerHour": 0.0,
+          "observations": 3,
+          "previousVelocityPointsPerHour": 0.0,
+          "reversal": false
+        },
+        "openingSideLine": 13.9,
+        "reasons": [
+          "INSUFFICIENT_FRESH_SAME_LINE_BOOKS",
+          "LINE_MISMATCH"
+        ],
+        "referenceQuoteAgeSeconds": 2.350611,
+        "sameLineNoVigProbabilities": {
+          "betmgm": {
+            "power": 0.4976630152340158,
+            "proportional": 0.4978050921861282
+          },
+          "pinnacle": {
+            "power": 0.5047081268291986,
+            "proportional": 0.5044523597506678
+          }
+        },
+        "sameLineNoVigProbabilityRange": {
+          "power": 0.00704511159518284,
+          "proportional": 0.0066472675645396495
+        },
+        "status": "BLOCKED",
+        "venueQuoteAgeSeconds": 18.350611
+      },
       "maxPlayablePriceVsPinnacle": -101.0,
       "openingHomeLine": 13.9,
       "pinnacleFairProbability": 0.5044523597506678,
@@ -289,6 +864,63 @@
       "game": "Virginia Tech @ Boston College",
       "historicalMeanDirectionalClv": 1.3088235294117647,
       "livePriceEv": -0.028462121961676745,
+      "marketQuality": {
+        "conservativeExecutableEv": -0.028462121961676745,
+        "currentReferenceSideLine": 14.0,
+        "devigExecutableEv": {
+          "power": -0.02796953351413589,
+          "proportional": -0.028462121961676745
+        },
+        "directionalAuthority": false,
+        "freshSameLineBookCount": 2,
+        "freshSameLineBooks": [
+          "betmgm",
+          "pinnacle"
+        ],
+        "keyNumberCrossings": [
+          14
+        ],
+        "keyNumberMassTracked": {
+          "10": 1.39,
+          "14": 1.48,
+          "3": 2.64,
+          "7": 2.44
+        },
+        "lineDispersion": {
+          "max": 14.5,
+          "median": 14.5,
+          "min": 14.0,
+          "range": 0.5
+        },
+        "movement": {
+          "hoursCovered": 0.45288894888888886,
+          "latestVelocityPointsPerHour": 0.0,
+          "observations": 3,
+          "previousVelocityPointsPerHour": 0.0,
+          "reversal": false
+        },
+        "openingSideLine": 13.9,
+        "reasons": [
+          "INSUFFICIENT_FRESH_SAME_LINE_BOOKS"
+        ],
+        "referenceQuoteAgeSeconds": 2.350611,
+        "sameLineNoVigProbabilities": {
+          "betmgm": {
+            "power": 0.4976630152340158,
+            "proportional": 0.4978050921861282
+          },
+          "pinnacle": {
+            "power": 0.5047081268291986,
+            "proportional": 0.5044523597506678
+          }
+        },
+        "sameLineNoVigProbabilityRange": {
+          "power": 0.00704511159518284,
+          "proportional": 0.0066472675645396495
+        },
+        "status": "BLOCKED",
+        "venueQuoteAgeSeconds": 40.350611
+      },
       "maxPlayablePriceVsPinnacle": -101.0,
       "openingHomeLine": 13.9,
       "pinnacleFairProbability": 0.5044523597506678,
@@ -314,6 +946,64 @@
       "game": "Virginia Tech @ Boston College",
       "historicalMeanDirectionalClv": 1.3088235294117647,
       "livePriceEv": -0.03695458593054335,
+      "marketQuality": {
+        "conservativeExecutableEv": -0.03695458593054335,
+        "currentReferenceSideLine": 14.0,
+        "devigExecutableEv": {
+          "power": -0.03646630332607548,
+          "proportional": -0.03695458593054335
+        },
+        "directionalAuthority": false,
+        "freshSameLineBookCount": 2,
+        "freshSameLineBooks": [
+          "betmgm",
+          "pinnacle"
+        ],
+        "keyNumberCrossings": [
+          14
+        ],
+        "keyNumberMassTracked": {
+          "10": 1.39,
+          "14": 1.48,
+          "3": 2.64,
+          "7": 2.44
+        },
+        "lineDispersion": {
+          "max": 14.5,
+          "median": 14.5,
+          "min": 14.0,
+          "range": 0.5
+        },
+        "movement": {
+          "hoursCovered": 0.45288894888888886,
+          "latestVelocityPointsPerHour": 0.0,
+          "observations": 3,
+          "previousVelocityPointsPerHour": 0.0,
+          "reversal": false
+        },
+        "openingSideLine": 13.9,
+        "reasons": [
+          "INSUFFICIENT_FRESH_SAME_LINE_BOOKS",
+          "LINE_MISMATCH"
+        ],
+        "referenceQuoteAgeSeconds": 2.350611,
+        "sameLineNoVigProbabilities": {
+          "betmgm": {
+            "power": 0.4976630152340158,
+            "proportional": 0.4978050921861282
+          },
+          "pinnacle": {
+            "power": 0.5047081268291986,
+            "proportional": 0.5044523597506678
+          }
+        },
+        "sameLineNoVigProbabilityRange": {
+          "power": 0.00704511159518284,
+          "proportional": 0.0066472675645396495
+        },
+        "status": "BLOCKED",
+        "venueQuoteAgeSeconds": 40.350611
+      },
       "maxPlayablePriceVsPinnacle": -101.0,
       "openingHomeLine": 13.9,
       "pinnacleFairProbability": 0.5044523597506678,
@@ -338,6 +1028,64 @@
       "game": "Wake Forest @ Louisville",
       "historicalMeanDirectionalClv": 1.3088235294117647,
       "livePriceEv": -0.019463753092386737,
+      "marketQuality": {
+        "conservativeExecutableEv": -0.019463753092386737,
+        "currentReferenceSideLine": 12.5,
+        "devigExecutableEv": {
+          "power": -0.019213660019249068,
+          "proportional": -0.019463753092386737
+        },
+        "directionalAuthority": false,
+        "freshSameLineBookCount": 3,
+        "freshSameLineBooks": [
+          "draftkings",
+          "fanduel",
+          "pinnacle"
+        ],
+        "keyNumberCrossings": [],
+        "keyNumberMassTracked": {
+          "10": 1.39,
+          "14": 1.48,
+          "3": 2.64,
+          "7": 2.44
+        },
+        "lineDispersion": {
+          "max": 13.5,
+          "median": 12.5,
+          "min": 12.5,
+          "range": 1.0
+        },
+        "movement": {
+          "hoursCovered": 0.45288894888888886,
+          "latestVelocityPointsPerHour": 0.0,
+          "observations": 3,
+          "previousVelocityPointsPerHour": 0.0,
+          "reversal": false
+        },
+        "openingSideLine": 12.0,
+        "reasons": [],
+        "referenceQuoteAgeSeconds": 3.350611,
+        "sameLineNoVigProbabilities": {
+          "draftkings": {
+            "power": 0.4883955455016475,
+            "proportional": 0.4891657638136511
+          },
+          "fanduel": {
+            "power": 0.5,
+            "proportional": 0.5
+          },
+          "pinnacle": {
+            "power": 0.5023539790145309,
+            "proportional": 0.502225882562436
+          }
+        },
+        "sameLineNoVigProbabilityRange": {
+          "power": 0.01395843351288345,
+          "proportional": 0.013060118748784932
+        },
+        "status": "PASS",
+        "venueQuoteAgeSeconds": 3.350611
+      },
       "maxPlayablePriceVsPinnacle": -100.0,
       "openingHomeLine": -12.0,
       "pinnacleFairProbability": 0.502225882562436,
@@ -362,6 +1110,64 @@
       "game": "Wake Forest @ Louisville",
       "historicalMeanDirectionalClv": 1.3088235294117647,
       "livePriceEv": -0.041205133289894946,
+      "marketQuality": {
+        "conservativeExecutableEv": -0.041205133289894946,
+        "currentReferenceSideLine": 12.5,
+        "devigExecutableEv": {
+          "power": -0.04096058551771381,
+          "proportional": -0.041205133289894946
+        },
+        "directionalAuthority": false,
+        "freshSameLineBookCount": 3,
+        "freshSameLineBooks": [
+          "draftkings",
+          "fanduel",
+          "pinnacle"
+        ],
+        "keyNumberCrossings": [],
+        "keyNumberMassTracked": {
+          "10": 1.39,
+          "14": 1.48,
+          "3": 2.64,
+          "7": 2.44
+        },
+        "lineDispersion": {
+          "max": 13.5,
+          "median": 12.5,
+          "min": 12.5,
+          "range": 1.0
+        },
+        "movement": {
+          "hoursCovered": 0.45288894888888886,
+          "latestVelocityPointsPerHour": 0.0,
+          "observations": 3,
+          "previousVelocityPointsPerHour": 0.0,
+          "reversal": false
+        },
+        "openingSideLine": 12.0,
+        "reasons": [],
+        "referenceQuoteAgeSeconds": 3.350611,
+        "sameLineNoVigProbabilities": {
+          "draftkings": {
+            "power": 0.4883955455016475,
+            "proportional": 0.4891657638136511
+          },
+          "fanduel": {
+            "power": 0.5,
+            "proportional": 0.5
+          },
+          "pinnacle": {
+            "power": 0.5023539790145309,
+            "proportional": 0.502225882562436
+          }
+        },
+        "sameLineNoVigProbabilityRange": {
+          "power": 0.01395843351288345,
+          "proportional": 0.013060118748784932
+        },
+        "status": "PASS",
+        "venueQuoteAgeSeconds": 18.350611
+      },
       "maxPlayablePriceVsPinnacle": -100.0,
       "openingHomeLine": -12.0,
       "pinnacleFairProbability": 0.502225882562436,
@@ -387,6 +1193,66 @@
       "game": "Wake Forest @ Louisville",
       "historicalMeanDirectionalClv": 1.3088235294117647,
       "livePriceEv": -0.041205133289894946,
+      "marketQuality": {
+        "conservativeExecutableEv": -0.041205133289894946,
+        "currentReferenceSideLine": 12.5,
+        "devigExecutableEv": {
+          "power": -0.04096058551771381,
+          "proportional": -0.041205133289894946
+        },
+        "directionalAuthority": false,
+        "freshSameLineBookCount": 3,
+        "freshSameLineBooks": [
+          "draftkings",
+          "fanduel",
+          "pinnacle"
+        ],
+        "keyNumberCrossings": [],
+        "keyNumberMassTracked": {
+          "10": 1.39,
+          "14": 1.48,
+          "3": 2.64,
+          "7": 2.44
+        },
+        "lineDispersion": {
+          "max": 13.5,
+          "median": 12.5,
+          "min": 12.5,
+          "range": 1.0
+        },
+        "movement": {
+          "hoursCovered": 0.45288894888888886,
+          "latestVelocityPointsPerHour": 0.0,
+          "observations": 3,
+          "previousVelocityPointsPerHour": 0.0,
+          "reversal": false
+        },
+        "openingSideLine": 12.0,
+        "reasons": [
+          "LINE_MISMATCH"
+        ],
+        "referenceQuoteAgeSeconds": 3.350611,
+        "sameLineNoVigProbabilities": {
+          "draftkings": {
+            "power": 0.4883955455016475,
+            "proportional": 0.4891657638136511
+          },
+          "fanduel": {
+            "power": 0.5,
+            "proportional": 0.5
+          },
+          "pinnacle": {
+            "power": 0.5023539790145309,
+            "proportional": 0.502225882562436
+          }
+        },
+        "sameLineNoVigProbabilityRange": {
+          "power": 0.01395843351288345,
+          "proportional": 0.013060118748784932
+        },
+        "status": "BLOCKED",
+        "venueQuoteAgeSeconds": 40.350611
+      },
       "maxPlayablePriceVsPinnacle": -100.0,
       "openingHomeLine": -12.0,
       "pinnacleFairProbability": 0.502225882562436,
@@ -412,6 +1278,66 @@
       "game": "Wake Forest @ Louisville",
       "historicalMeanDirectionalClv": 1.3088235294117647,
       "livePriceEv": -0.04935815086396028,
+      "marketQuality": {
+        "conservativeExecutableEv": -0.04935815086396028,
+        "currentReferenceSideLine": 12.5,
+        "devigExecutableEv": {
+          "power": -0.04911568257963783,
+          "proportional": -0.04935815086396028
+        },
+        "directionalAuthority": false,
+        "freshSameLineBookCount": 3,
+        "freshSameLineBooks": [
+          "draftkings",
+          "fanduel",
+          "pinnacle"
+        ],
+        "keyNumberCrossings": [],
+        "keyNumberMassTracked": {
+          "10": 1.39,
+          "14": 1.48,
+          "3": 2.64,
+          "7": 2.44
+        },
+        "lineDispersion": {
+          "max": 13.5,
+          "median": 12.5,
+          "min": 12.5,
+          "range": 1.0
+        },
+        "movement": {
+          "hoursCovered": 0.45288894888888886,
+          "latestVelocityPointsPerHour": 0.0,
+          "observations": 3,
+          "previousVelocityPointsPerHour": 0.0,
+          "reversal": false
+        },
+        "openingSideLine": 12.0,
+        "reasons": [
+          "LINE_MISMATCH"
+        ],
+        "referenceQuoteAgeSeconds": 3.350611,
+        "sameLineNoVigProbabilities": {
+          "draftkings": {
+            "power": 0.4883955455016475,
+            "proportional": 0.4891657638136511
+          },
+          "fanduel": {
+            "power": 0.5,
+            "proportional": 0.5
+          },
+          "pinnacle": {
+            "power": 0.5023539790145309,
+            "proportional": 0.502225882562436
+          }
+        },
+        "sameLineNoVigProbabilityRange": {
+          "power": 0.01395843351288345,
+          "proportional": 0.013060118748784932
+        },
+        "status": "BLOCKED",
+        "venueQuoteAgeSeconds": 40.350611
+      },
       "maxPlayablePriceVsPinnacle": -100.0,
       "openingHomeLine": -12.0,
       "pinnacleFairProbability": 0.502225882562436,
@@ -437,6 +1363,57 @@
       "game": "Texas @ Tennessee",
       "historicalMeanDirectionalClv": 1.3088235294117647,
       "livePriceEv": -0.02825231216081947,
+      "marketQuality": {
+        "conservativeExecutableEv": -0.02825231216081947,
+        "currentReferenceSideLine": 4.0,
+        "devigExecutableEv": {
+          "power": -0.026825756638384934,
+          "proportional": -0.02825231216081947
+        },
+        "directionalAuthority": false,
+        "freshSameLineBookCount": 1,
+        "freshSameLineBooks": [
+          "pinnacle"
+        ],
+        "keyNumberCrossings": [],
+        "keyNumberMassTracked": {
+          "10": 1.39,
+          "14": 1.48,
+          "3": 2.64,
+          "7": 2.44
+        },
+        "lineDispersion": {
+          "max": 4.0,
+          "median": 3.5,
+          "min": 3.5,
+          "range": 0.5
+        },
+        "movement": {
+          "hoursCovered": 0.45288894888888886,
+          "latestVelocityPointsPerHour": 0.0,
+          "observations": 3,
+          "previousVelocityPointsPerHour": 0.0,
+          "reversal": false
+        },
+        "openingSideLine": 3.5,
+        "reasons": [
+          "INSUFFICIENT_FRESH_SAME_LINE_BOOKS",
+          "LINE_MISMATCH"
+        ],
+        "referenceQuoteAgeSeconds": 2.350611,
+        "sameLineNoVigProbabilities": {
+          "pinnacle": {
+            "power": 0.5141297889457589,
+            "proportional": 0.5133761369716425
+          }
+        },
+        "sameLineNoVigProbabilityRange": {
+          "power": 0.0,
+          "proportional": 0.0
+        },
+        "status": "BLOCKED",
+        "venueQuoteAgeSeconds": 3.350611
+      },
       "maxPlayablePriceVsPinnacle": -105.0,
       "openingHomeLine": 3.5,
       "pinnacleFairProbability": 0.5133761369716425,
@@ -462,6 +1439,57 @@
       "game": "Texas @ Tennessee",
       "historicalMeanDirectionalClv": 1.3088235294117647,
       "livePriceEv": 0.0023057912303497408,
+      "marketQuality": {
+        "conservativeExecutableEv": 0.0023057912303497408,
+        "currentReferenceSideLine": 4.0,
+        "devigExecutableEv": {
+          "power": 0.0037772069893388105,
+          "proportional": 0.0023057912303497408
+        },
+        "directionalAuthority": false,
+        "freshSameLineBookCount": 1,
+        "freshSameLineBooks": [
+          "pinnacle"
+        ],
+        "keyNumberCrossings": [],
+        "keyNumberMassTracked": {
+          "10": 1.39,
+          "14": 1.48,
+          "3": 2.64,
+          "7": 2.44
+        },
+        "lineDispersion": {
+          "max": 4.0,
+          "median": 3.5,
+          "min": 3.5,
+          "range": 0.5
+        },
+        "movement": {
+          "hoursCovered": 0.45288894888888886,
+          "latestVelocityPointsPerHour": 0.0,
+          "observations": 3,
+          "previousVelocityPointsPerHour": 0.0,
+          "reversal": false
+        },
+        "openingSideLine": 3.5,
+        "reasons": [
+          "INSUFFICIENT_FRESH_SAME_LINE_BOOKS",
+          "LINE_MISMATCH"
+        ],
+        "referenceQuoteAgeSeconds": 2.350611,
+        "sameLineNoVigProbabilities": {
+          "pinnacle": {
+            "power": 0.5141297889457589,
+            "proportional": 0.5133761369716425
+          }
+        },
+        "sameLineNoVigProbabilityRange": {
+          "power": 0.0,
+          "proportional": 0.0
+        },
+        "status": "BLOCKED",
+        "venueQuoteAgeSeconds": 18.350611
+      },
       "maxPlayablePriceVsPinnacle": -105.0,
       "openingHomeLine": 3.5,
       "pinnacleFairProbability": 0.5133761369716425,
@@ -487,6 +1515,57 @@
       "game": "Texas @ Tennessee",
       "historicalMeanDirectionalClv": 1.3088235294117647,
       "livePriceEv": -0.019918283963228034,
+      "marketQuality": {
+        "conservativeExecutableEv": -0.019918283963228034,
+        "currentReferenceSideLine": 4.0,
+        "devigExecutableEv": {
+          "power": -0.01847949383082409,
+          "proportional": -0.019918283963228034
+        },
+        "directionalAuthority": false,
+        "freshSameLineBookCount": 1,
+        "freshSameLineBooks": [
+          "pinnacle"
+        ],
+        "keyNumberCrossings": [],
+        "keyNumberMassTracked": {
+          "10": 1.39,
+          "14": 1.48,
+          "3": 2.64,
+          "7": 2.44
+        },
+        "lineDispersion": {
+          "max": 4.0,
+          "median": 3.5,
+          "min": 3.5,
+          "range": 0.5
+        },
+        "movement": {
+          "hoursCovered": 0.45288894888888886,
+          "latestVelocityPointsPerHour": 0.0,
+          "observations": 3,
+          "previousVelocityPointsPerHour": 0.0,
+          "reversal": false
+        },
+        "openingSideLine": 3.5,
+        "reasons": [
+          "INSUFFICIENT_FRESH_SAME_LINE_BOOKS",
+          "LINE_MISMATCH"
+        ],
+        "referenceQuoteAgeSeconds": 2.350611,
+        "sameLineNoVigProbabilities": {
+          "pinnacle": {
+            "power": 0.5141297889457589,
+            "proportional": 0.5133761369716425
+          }
+        },
+        "sameLineNoVigProbabilityRange": {
+          "power": 0.0,
+          "proportional": 0.0
+        },
+        "status": "BLOCKED",
+        "venueQuoteAgeSeconds": 40.350611
+      },
       "maxPlayablePriceVsPinnacle": -105.0,
       "openingHomeLine": 3.5,
       "pinnacleFairProbability": 0.5133761369716425,
@@ -512,6 +1591,57 @@
       "game": "Texas @ Tennessee",
       "historicalMeanDirectionalClv": 1.3088235294117647,
       "livePriceEv": -0.02825231216081947,
+      "marketQuality": {
+        "conservativeExecutableEv": -0.02825231216081947,
+        "currentReferenceSideLine": 4.0,
+        "devigExecutableEv": {
+          "power": -0.026825756638384934,
+          "proportional": -0.02825231216081947
+        },
+        "directionalAuthority": false,
+        "freshSameLineBookCount": 1,
+        "freshSameLineBooks": [
+          "pinnacle"
+        ],
+        "keyNumberCrossings": [],
+        "keyNumberMassTracked": {
+          "10": 1.39,
+          "14": 1.48,
+          "3": 2.64,
+          "7": 2.44
+        },
+        "lineDispersion": {
+          "max": 4.0,
+          "median": 3.5,
+          "min": 3.5,
+          "range": 0.5
+        },
+        "movement": {
+          "hoursCovered": 0.45288894888888886,
+          "latestVelocityPointsPerHour": 0.0,
+          "observations": 3,
+          "previousVelocityPointsPerHour": 0.0,
+          "reversal": false
+        },
+        "openingSideLine": 3.5,
+        "reasons": [
+          "INSUFFICIENT_FRESH_SAME_LINE_BOOKS",
+          "LINE_MISMATCH"
+        ],
+        "referenceQuoteAgeSeconds": 2.350611,
+        "sameLineNoVigProbabilities": {
+          "pinnacle": {
+            "power": 0.5141297889457589,
+            "proportional": 0.5133761369716425
+          }
+        },
+        "sameLineNoVigProbabilityRange": {
+          "power": 0.0,
+          "proportional": 0.0
+        },
+        "status": "BLOCKED",
+        "venueQuoteAgeSeconds": 40.350611
+      },
       "maxPlayablePriceVsPinnacle": -105.0,
       "openingHomeLine": 3.5,
       "pinnacleFairProbability": 0.5133761369716425,
@@ -537,6 +1667,62 @@
       "game": "Notre Dame @ Purdue",
       "historicalMeanDirectionalClv": 1.3088235294117647,
       "livePriceEv": -0.04438797357861024,
+      "marketQuality": {
+        "conservativeExecutableEv": -0.04438797357861024,
+        "currentReferenceSideLine": 27.0,
+        "devigExecutableEv": {
+          "power": -0.043206488403592036,
+          "proportional": -0.04438797357861024
+        },
+        "directionalAuthority": false,
+        "freshSameLineBookCount": 2,
+        "freshSameLineBooks": [
+          "betmgm",
+          "pinnacle"
+        ],
+        "keyNumberCrossings": [],
+        "keyNumberMassTracked": {
+          "10": 1.39,
+          "14": 1.48,
+          "3": 2.64,
+          "7": 2.44
+        },
+        "lineDispersion": {
+          "max": 27.5,
+          "median": 27.0,
+          "min": 26.5,
+          "range": 1.0
+        },
+        "movement": {
+          "hoursCovered": 0.45288894888888886,
+          "latestVelocityPointsPerHour": 0.0,
+          "observations": 3,
+          "previousVelocityPointsPerHour": 0.0,
+          "reversal": false
+        },
+        "openingSideLine": 26.6,
+        "reasons": [
+          "INSUFFICIENT_FRESH_SAME_LINE_BOOKS",
+          "LINE_MISMATCH"
+        ],
+        "referenceQuoteAgeSeconds": 3.350611,
+        "sameLineNoVigProbabilities": {
+          "betmgm": {
+            "power": 0.5023369847659842,
+            "proportional": 0.5021949078138719
+          },
+          "pinnacle": {
+            "power": 0.5117732736445904,
+            "proportional": 0.5111413164579527
+          }
+        },
+        "sameLineNoVigProbabilityRange": {
+          "power": 0.009436288878606147,
+          "proportional": 0.008946408644080805
+        },
+        "status": "BLOCKED",
+        "venueQuoteAgeSeconds": 3.350611
+      },
       "maxPlayablePriceVsPinnacle": -104.0,
       "openingHomeLine": 26.6,
       "pinnacleFairProbability": 0.5111413164579527,
@@ -562,6 +1748,62 @@
       "game": "Notre Dame @ Purdue",
       "historicalMeanDirectionalClv": 1.3088235294117647,
       "livePriceEv": -0.02418475948936316,
+      "marketQuality": {
+        "conservativeExecutableEv": -0.02418475948936316,
+        "currentReferenceSideLine": 27.0,
+        "devigExecutableEv": {
+          "power": -0.022978295769418566,
+          "proportional": -0.02418475948936316
+        },
+        "directionalAuthority": false,
+        "freshSameLineBookCount": 2,
+        "freshSameLineBooks": [
+          "betmgm",
+          "pinnacle"
+        ],
+        "keyNumberCrossings": [],
+        "keyNumberMassTracked": {
+          "10": 1.39,
+          "14": 1.48,
+          "3": 2.64,
+          "7": 2.44
+        },
+        "lineDispersion": {
+          "max": 27.5,
+          "median": 27.0,
+          "min": 26.5,
+          "range": 1.0
+        },
+        "movement": {
+          "hoursCovered": 0.45288894888888886,
+          "latestVelocityPointsPerHour": 0.0,
+          "observations": 3,
+          "previousVelocityPointsPerHour": 0.0,
+          "reversal": false
+        },
+        "openingSideLine": 26.6,
+        "reasons": [
+          "INSUFFICIENT_FRESH_SAME_LINE_BOOKS",
+          "LINE_MISMATCH"
+        ],
+        "referenceQuoteAgeSeconds": 3.350611,
+        "sameLineNoVigProbabilities": {
+          "betmgm": {
+            "power": 0.5023369847659842,
+            "proportional": 0.5021949078138719
+          },
+          "pinnacle": {
+            "power": 0.5117732736445904,
+            "proportional": 0.5111413164579527
+          }
+        },
+        "sameLineNoVigProbabilityRange": {
+          "power": 0.009436288878606147,
+          "proportional": 0.008946408644080805
+        },
+        "status": "BLOCKED",
+        "venueQuoteAgeSeconds": 18.350611
+      },
       "maxPlayablePriceVsPinnacle": -104.0,
       "openingHomeLine": 26.6,
       "pinnacleFairProbability": 0.5111413164579527,
@@ -586,6 +1828,61 @@
       "game": "Notre Dame @ Purdue",
       "historicalMeanDirectionalClv": 1.3088235294117647,
       "livePriceEv": -0.02418475948936316,
+      "marketQuality": {
+        "conservativeExecutableEv": -0.02418475948936316,
+        "currentReferenceSideLine": 27.0,
+        "devigExecutableEv": {
+          "power": -0.022978295769418566,
+          "proportional": -0.02418475948936316
+        },
+        "directionalAuthority": false,
+        "freshSameLineBookCount": 2,
+        "freshSameLineBooks": [
+          "betmgm",
+          "pinnacle"
+        ],
+        "keyNumberCrossings": [],
+        "keyNumberMassTracked": {
+          "10": 1.39,
+          "14": 1.48,
+          "3": 2.64,
+          "7": 2.44
+        },
+        "lineDispersion": {
+          "max": 27.5,
+          "median": 27.0,
+          "min": 26.5,
+          "range": 1.0
+        },
+        "movement": {
+          "hoursCovered": 0.45288894888888886,
+          "latestVelocityPointsPerHour": 0.0,
+          "observations": 3,
+          "previousVelocityPointsPerHour": 0.0,
+          "reversal": false
+        },
+        "openingSideLine": 26.6,
+        "reasons": [
+          "INSUFFICIENT_FRESH_SAME_LINE_BOOKS"
+        ],
+        "referenceQuoteAgeSeconds": 3.350611,
+        "sameLineNoVigProbabilities": {
+          "betmgm": {
+            "power": 0.5023369847659842,
+            "proportional": 0.5021949078138719
+          },
+          "pinnacle": {
+            "power": 0.5117732736445904,
+            "proportional": 0.5111413164579527
+          }
+        },
+        "sameLineNoVigProbabilityRange": {
+          "power": 0.009436288878606147,
+          "proportional": 0.008946408644080805
+        },
+        "status": "BLOCKED",
+        "venueQuoteAgeSeconds": 40.350611
+      },
       "maxPlayablePriceVsPinnacle": -104.0,
       "openingHomeLine": 26.6,
       "pinnacleFairProbability": 0.5111413164579527,
@@ -611,6 +1908,62 @@
       "game": "Notre Dame @ Purdue",
       "historicalMeanDirectionalClv": 1.3088235294117647,
       "livePriceEv": -0.019921695965943897,
+      "marketQuality": {
+        "conservativeExecutableEv": -0.019921695965943897,
+        "currentReferenceSideLine": 27.0,
+        "devigExecutableEv": {
+          "power": -0.018709961543858844,
+          "proportional": -0.019921695965943897
+        },
+        "directionalAuthority": false,
+        "freshSameLineBookCount": 2,
+        "freshSameLineBooks": [
+          "betmgm",
+          "pinnacle"
+        ],
+        "keyNumberCrossings": [],
+        "keyNumberMassTracked": {
+          "10": 1.39,
+          "14": 1.48,
+          "3": 2.64,
+          "7": 2.44
+        },
+        "lineDispersion": {
+          "max": 27.5,
+          "median": 27.0,
+          "min": 26.5,
+          "range": 1.0
+        },
+        "movement": {
+          "hoursCovered": 0.45288894888888886,
+          "latestVelocityPointsPerHour": 0.0,
+          "observations": 3,
+          "previousVelocityPointsPerHour": 0.0,
+          "reversal": false
+        },
+        "openingSideLine": 26.6,
+        "reasons": [
+          "INSUFFICIENT_FRESH_SAME_LINE_BOOKS",
+          "LINE_MISMATCH"
+        ],
+        "referenceQuoteAgeSeconds": 3.350611,
+        "sameLineNoVigProbabilities": {
+          "betmgm": {
+            "power": 0.5023369847659842,
+            "proportional": 0.5021949078138719
+          },
+          "pinnacle": {
+            "power": 0.5117732736445904,
+            "proportional": 0.5111413164579527
+          }
+        },
+        "sameLineNoVigProbabilityRange": {
+          "power": 0.009436288878606147,
+          "proportional": 0.008946408644080805
+        },
+        "status": "BLOCKED",
+        "venueQuoteAgeSeconds": 40.350611
+      },
       "maxPlayablePriceVsPinnacle": -104.0,
       "openingHomeLine": 26.6,
       "pinnacleFairProbability": 0.5111413164579527,
@@ -635,6 +1988,69 @@
       "game": "Ole Miss @ Florida",
       "historicalMeanDirectionalClv": 1.3088235294117647,
       "livePriceEv": -0.03769401330376937,
+      "marketQuality": {
+        "conservativeExecutableEv": -0.03990636201707426,
+        "currentReferenceSideLine": 3.0,
+        "devigExecutableEv": {
+          "power": -0.03990636201707426,
+          "proportional": -0.03769401330376937
+        },
+        "directionalAuthority": false,
+        "freshSameLineBookCount": 4,
+        "freshSameLineBooks": [
+          "betmgm",
+          "betrivers",
+          "draftkings",
+          "pinnacle"
+        ],
+        "keyNumberCrossings": [],
+        "keyNumberMassTracked": {
+          "10": 1.39,
+          "14": 1.48,
+          "3": 2.64,
+          "7": 2.44
+        },
+        "lineDispersion": {
+          "max": 3.5,
+          "median": 3.0,
+          "min": 3.0,
+          "range": 0.5
+        },
+        "movement": {
+          "hoursCovered": 0.45288894888888886,
+          "latestVelocityPointsPerHour": 0.0,
+          "observations": 3,
+          "previousVelocityPointsPerHour": 0.0,
+          "reversal": false
+        },
+        "openingSideLine": 3.0,
+        "reasons": [],
+        "referenceQuoteAgeSeconds": 3.350611,
+        "sameLineNoVigProbabilities": {
+          "betmgm": {
+            "power": 0.4814245062799814,
+            "proportional": 0.4826358742837298
+          },
+          "betrivers": {
+            "power": 0.5057393768103301,
+            "proportional": 0.5053020020359688
+          },
+          "draftkings": {
+            "power": 0.4767709538475988,
+            "proportional": 0.4782608695652174
+          },
+          "pinnacle": {
+            "power": 0.4800468189914629,
+            "proportional": 0.4811529933481153
+          }
+        },
+        "sameLineNoVigProbabilityRange": {
+          "power": 0.028968422962731277,
+          "proportional": 0.02704113247075135
+        },
+        "status": "PASS",
+        "venueQuoteAgeSeconds": 3.350611
+      },
       "maxPlayablePriceVsPinnacle": 108.0,
       "openingHomeLine": -3.0,
       "pinnacleFairProbability": 0.4811529933481153,
@@ -660,6 +2076,71 @@
       "game": "Ole Miss @ Florida",
       "historicalMeanDirectionalClv": 1.3088235294117647,
       "livePriceEv": -0.12445930718621634,
+      "marketQuality": {
+        "conservativeExecutableEv": -0.12647218183520686,
+        "currentReferenceSideLine": 3.0,
+        "devigExecutableEv": {
+          "power": -0.12647218183520686,
+          "proportional": -0.12445930718621634
+        },
+        "directionalAuthority": false,
+        "freshSameLineBookCount": 4,
+        "freshSameLineBooks": [
+          "betmgm",
+          "betrivers",
+          "draftkings",
+          "pinnacle"
+        ],
+        "keyNumberCrossings": [],
+        "keyNumberMassTracked": {
+          "10": 1.39,
+          "14": 1.48,
+          "3": 2.64,
+          "7": 2.44
+        },
+        "lineDispersion": {
+          "max": 3.5,
+          "median": 3.0,
+          "min": 3.0,
+          "range": 0.5
+        },
+        "movement": {
+          "hoursCovered": 0.45288894888888886,
+          "latestVelocityPointsPerHour": 0.0,
+          "observations": 3,
+          "previousVelocityPointsPerHour": 0.0,
+          "reversal": false
+        },
+        "openingSideLine": 3.0,
+        "reasons": [
+          "LINE_MISMATCH"
+        ],
+        "referenceQuoteAgeSeconds": 3.350611,
+        "sameLineNoVigProbabilities": {
+          "betmgm": {
+            "power": 0.4814245062799814,
+            "proportional": 0.4826358742837298
+          },
+          "betrivers": {
+            "power": 0.5057393768103301,
+            "proportional": 0.5053020020359688
+          },
+          "draftkings": {
+            "power": 0.4767709538475988,
+            "proportional": 0.4782608695652174
+          },
+          "pinnacle": {
+            "power": 0.4800468189914629,
+            "proportional": 0.4811529933481153
+          }
+        },
+        "sameLineNoVigProbabilityRange": {
+          "power": 0.028968422962731277,
+          "proportional": 0.02704113247075135
+        },
+        "status": "BLOCKED",
+        "venueQuoteAgeSeconds": 18.350611
+      },
       "maxPlayablePriceVsPinnacle": 108.0,
       "openingHomeLine": -3.0,
       "pinnacleFairProbability": 0.4811529933481153,
@@ -684,6 +2165,69 @@
       "game": "Ole Miss @ Florida",
       "historicalMeanDirectionalClv": 1.3088235294117647,
       "livePriceEv": -0.047128385722359833,
+      "marketQuality": {
+        "conservativeExecutableEv": -0.04931904474239701,
+        "currentReferenceSideLine": 3.0,
+        "devigExecutableEv": {
+          "power": -0.04931904474239701,
+          "proportional": -0.047128385722359833
+        },
+        "directionalAuthority": false,
+        "freshSameLineBookCount": 4,
+        "freshSameLineBooks": [
+          "betmgm",
+          "betrivers",
+          "draftkings",
+          "pinnacle"
+        ],
+        "keyNumberCrossings": [],
+        "keyNumberMassTracked": {
+          "10": 1.39,
+          "14": 1.48,
+          "3": 2.64,
+          "7": 2.44
+        },
+        "lineDispersion": {
+          "max": 3.5,
+          "median": 3.0,
+          "min": 3.0,
+          "range": 0.5
+        },
+        "movement": {
+          "hoursCovered": 0.45288894888888886,
+          "latestVelocityPointsPerHour": 0.0,
+          "observations": 3,
+          "previousVelocityPointsPerHour": 0.0,
+          "reversal": false
+        },
+        "openingSideLine": 3.0,
+        "reasons": [],
+        "referenceQuoteAgeSeconds": 3.350611,
+        "sameLineNoVigProbabilities": {
+          "betmgm": {
+            "power": 0.4814245062799814,
+            "proportional": 0.4826358742837298
+          },
+          "betrivers": {
+            "power": 0.5057393768103301,
+            "proportional": 0.5053020020359688
+          },
+          "draftkings": {
+            "power": 0.4767709538475988,
+            "proportional": 0.4782608695652174
+          },
+          "pinnacle": {
+            "power": 0.4800468189914629,
+            "proportional": 0.4811529933481153
+          }
+        },
+        "sameLineNoVigProbabilityRange": {
+          "power": 0.028968422962731277,
+          "proportional": 0.02704113247075135
+        },
+        "status": "PASS",
+        "venueQuoteAgeSeconds": 40.350611
+      },
       "maxPlayablePriceVsPinnacle": 108.0,
       "openingHomeLine": -3.0,
       "pinnacleFairProbability": 0.4811529933481153,
@@ -708,6 +2252,69 @@
       "game": "Ole Miss @ Florida",
       "historicalMeanDirectionalClv": 1.3088235294117647,
       "livePriceEv": -0.09678297739915193,
+      "marketQuality": {
+        "conservativeExecutableEv": -0.09885948013883283,
+        "currentReferenceSideLine": 3.0,
+        "devigExecutableEv": {
+          "power": -0.09885948013883283,
+          "proportional": -0.09678297739915193
+        },
+        "directionalAuthority": false,
+        "freshSameLineBookCount": 4,
+        "freshSameLineBooks": [
+          "betmgm",
+          "betrivers",
+          "draftkings",
+          "pinnacle"
+        ],
+        "keyNumberCrossings": [],
+        "keyNumberMassTracked": {
+          "10": 1.39,
+          "14": 1.48,
+          "3": 2.64,
+          "7": 2.44
+        },
+        "lineDispersion": {
+          "max": 3.5,
+          "median": 3.0,
+          "min": 3.0,
+          "range": 0.5
+        },
+        "movement": {
+          "hoursCovered": 0.45288894888888886,
+          "latestVelocityPointsPerHour": 0.0,
+          "observations": 3,
+          "previousVelocityPointsPerHour": 0.0,
+          "reversal": false
+        },
+        "openingSideLine": 3.0,
+        "reasons": [],
+        "referenceQuoteAgeSeconds": 3.350611,
+        "sameLineNoVigProbabilities": {
+          "betmgm": {
+            "power": 0.4814245062799814,
+            "proportional": 0.4826358742837298
+          },
+          "betrivers": {
+            "power": 0.5057393768103301,
+            "proportional": 0.5053020020359688
+          },
+          "draftkings": {
+            "power": 0.4767709538475988,
+            "proportional": 0.4782608695652174
+          },
+          "pinnacle": {
+            "power": 0.4800468189914629,
+            "proportional": 0.4811529933481153
+          }
+        },
+        "sameLineNoVigProbabilityRange": {
+          "power": 0.028968422962731277,
+          "proportional": 0.02704113247075135
+        },
+        "status": "PASS",
+        "venueQuoteAgeSeconds": 40.350611
+      },
       "maxPlayablePriceVsPinnacle": 108.0,
       "openingHomeLine": -3.0,
       "pinnacleFairProbability": 0.4811529933481153,
@@ -732,6 +2339,69 @@
       "game": "UConn @ Miami (OH)",
       "historicalMeanDirectionalClv": 1.3088235294117647,
       "livePriceEv": -0.03703703703703698,
+      "marketQuality": {
+        "conservativeExecutableEv": -0.03703703703703698,
+        "currentReferenceSideLine": 4.5,
+        "devigExecutableEv": {
+          "power": -0.03703703703703698,
+          "proportional": -0.03703703703703698
+        },
+        "directionalAuthority": false,
+        "freshSameLineBookCount": 4,
+        "freshSameLineBooks": [
+          "betmgm",
+          "draftkings",
+          "fanduel",
+          "pinnacle"
+        ],
+        "keyNumberCrossings": [],
+        "keyNumberMassTracked": {
+          "10": 1.39,
+          "14": 1.48,
+          "3": 2.64,
+          "7": 2.44
+        },
+        "lineDispersion": {
+          "max": 4.5,
+          "median": 4.5,
+          "min": 3.5,
+          "range": 1.0
+        },
+        "movement": {
+          "hoursCovered": 0.45288894888888886,
+          "latestVelocityPointsPerHour": 0.0,
+          "observations": 3,
+          "previousVelocityPointsPerHour": 0.0,
+          "reversal": false
+        },
+        "openingSideLine": 4.1,
+        "reasons": [],
+        "referenceQuoteAgeSeconds": 3.350611,
+        "sameLineNoVigProbabilities": {
+          "betmgm": {
+            "power": 0.4976630152340158,
+            "proportional": 0.4978050921861282
+          },
+          "draftkings": {
+            "power": 0.49535934211149835,
+            "proportional": 0.4956702459300312
+          },
+          "fanduel": {
+            "power": 0.5,
+            "proportional": 0.5
+          },
+          "pinnacle": {
+            "power": 0.5,
+            "proportional": 0.5
+          }
+        },
+        "sameLineNoVigProbabilityRange": {
+          "power": 0.004640657888501654,
+          "proportional": 0.0043297540699688275
+        },
+        "status": "PASS",
+        "venueQuoteAgeSeconds": 3.350611
+      },
       "maxPlayablePriceVsPinnacle": 101.0,
       "openingHomeLine": -4.1,
       "pinnacleFairProbability": 0.5,
@@ -756,6 +2426,69 @@
       "game": "UConn @ Miami (OH)",
       "historicalMeanDirectionalClv": 1.3088235294117647,
       "livePriceEv": -0.04545454545454558,
+      "marketQuality": {
+        "conservativeExecutableEv": -0.04545454545454558,
+        "currentReferenceSideLine": 4.5,
+        "devigExecutableEv": {
+          "power": -0.04545454545454558,
+          "proportional": -0.04545454545454558
+        },
+        "directionalAuthority": false,
+        "freshSameLineBookCount": 4,
+        "freshSameLineBooks": [
+          "betmgm",
+          "draftkings",
+          "fanduel",
+          "pinnacle"
+        ],
+        "keyNumberCrossings": [],
+        "keyNumberMassTracked": {
+          "10": 1.39,
+          "14": 1.48,
+          "3": 2.64,
+          "7": 2.44
+        },
+        "lineDispersion": {
+          "max": 4.5,
+          "median": 4.5,
+          "min": 3.5,
+          "range": 1.0
+        },
+        "movement": {
+          "hoursCovered": 0.45288894888888886,
+          "latestVelocityPointsPerHour": 0.0,
+          "observations": 3,
+          "previousVelocityPointsPerHour": 0.0,
+          "reversal": false
+        },
+        "openingSideLine": 4.1,
+        "reasons": [],
+        "referenceQuoteAgeSeconds": 3.350611,
+        "sameLineNoVigProbabilities": {
+          "betmgm": {
+            "power": 0.4976630152340158,
+            "proportional": 0.4978050921861282
+          },
+          "draftkings": {
+            "power": 0.49535934211149835,
+            "proportional": 0.4956702459300312
+          },
+          "fanduel": {
+            "power": 0.5,
+            "proportional": 0.5
+          },
+          "pinnacle": {
+            "power": 0.5,
+            "proportional": 0.5
+          }
+        },
+        "sameLineNoVigProbabilityRange": {
+          "power": 0.004640657888501654,
+          "proportional": 0.0043297540699688275
+        },
+        "status": "PASS",
+        "venueQuoteAgeSeconds": 18.350611
+      },
       "maxPlayablePriceVsPinnacle": 101.0,
       "openingHomeLine": -4.1,
       "pinnacleFairProbability": 0.5,
@@ -780,6 +2513,69 @@
       "game": "UConn @ Miami (OH)",
       "historicalMeanDirectionalClv": 1.3088235294117647,
       "livePriceEv": -0.03703703703703698,
+      "marketQuality": {
+        "conservativeExecutableEv": -0.03703703703703698,
+        "currentReferenceSideLine": 4.5,
+        "devigExecutableEv": {
+          "power": -0.03703703703703698,
+          "proportional": -0.03703703703703698
+        },
+        "directionalAuthority": false,
+        "freshSameLineBookCount": 4,
+        "freshSameLineBooks": [
+          "betmgm",
+          "draftkings",
+          "fanduel",
+          "pinnacle"
+        ],
+        "keyNumberCrossings": [],
+        "keyNumberMassTracked": {
+          "10": 1.39,
+          "14": 1.48,
+          "3": 2.64,
+          "7": 2.44
+        },
+        "lineDispersion": {
+          "max": 4.5,
+          "median": 4.5,
+          "min": 3.5,
+          "range": 1.0
+        },
+        "movement": {
+          "hoursCovered": 0.45288894888888886,
+          "latestVelocityPointsPerHour": 0.0,
+          "observations": 3,
+          "previousVelocityPointsPerHour": 0.0,
+          "reversal": false
+        },
+        "openingSideLine": 4.1,
+        "reasons": [],
+        "referenceQuoteAgeSeconds": 3.350611,
+        "sameLineNoVigProbabilities": {
+          "betmgm": {
+            "power": 0.4976630152340158,
+            "proportional": 0.4978050921861282
+          },
+          "draftkings": {
+            "power": 0.49535934211149835,
+            "proportional": 0.4956702459300312
+          },
+          "fanduel": {
+            "power": 0.5,
+            "proportional": 0.5
+          },
+          "pinnacle": {
+            "power": 0.5,
+            "proportional": 0.5
+          }
+        },
+        "sameLineNoVigProbabilityRange": {
+          "power": 0.004640657888501654,
+          "proportional": 0.0043297540699688275
+        },
+        "status": "PASS",
+        "venueQuoteAgeSeconds": 40.350611
+      },
       "maxPlayablePriceVsPinnacle": 101.0,
       "openingHomeLine": -4.1,
       "pinnacleFairProbability": 0.5,
@@ -794,7 +2590,7 @@
     {
       "actualStakeUnits": 0,
       "currentLine": 3.5,
-      "currentPrice": -112.0,
+      "currentPrice": -113.0,
       "currentReferenceHomeLine": -4.5,
       "estimatedMovementRemaining": 1.708823529411765,
       "exclusions": [
@@ -804,7 +2600,72 @@
       "firstSeen": "2026-09-21T01:04:50.274619+00:00",
       "game": "UConn @ Miami (OH)",
       "historicalMeanDirectionalClv": 1.3088235294117647,
-      "livePriceEv": -0.05357142857142855,
+      "livePriceEv": -0.057522123893805344,
+      "marketQuality": {
+        "conservativeExecutableEv": -0.057522123893805344,
+        "currentReferenceSideLine": 4.5,
+        "devigExecutableEv": {
+          "power": -0.057522123893805344,
+          "proportional": -0.057522123893805344
+        },
+        "directionalAuthority": false,
+        "freshSameLineBookCount": 4,
+        "freshSameLineBooks": [
+          "betmgm",
+          "draftkings",
+          "fanduel",
+          "pinnacle"
+        ],
+        "keyNumberCrossings": [],
+        "keyNumberMassTracked": {
+          "10": 1.39,
+          "14": 1.48,
+          "3": 2.64,
+          "7": 2.44
+        },
+        "lineDispersion": {
+          "max": 4.5,
+          "median": 4.5,
+          "min": 3.5,
+          "range": 1.0
+        },
+        "movement": {
+          "hoursCovered": 0.45288894888888886,
+          "latestVelocityPointsPerHour": 0.0,
+          "observations": 3,
+          "previousVelocityPointsPerHour": 0.0,
+          "reversal": false
+        },
+        "openingSideLine": 4.1,
+        "reasons": [
+          "LINE_MISMATCH"
+        ],
+        "referenceQuoteAgeSeconds": 3.350611,
+        "sameLineNoVigProbabilities": {
+          "betmgm": {
+            "power": 0.4976630152340158,
+            "proportional": 0.4978050921861282
+          },
+          "draftkings": {
+            "power": 0.49535934211149835,
+            "proportional": 0.4956702459300312
+          },
+          "fanduel": {
+            "power": 0.5,
+            "proportional": 0.5
+          },
+          "pinnacle": {
+            "power": 0.5,
+            "proportional": 0.5
+          }
+        },
+        "sameLineNoVigProbabilityRange": {
+          "power": 0.004640657888501654,
+          "proportional": 0.0043297540699688275
+        },
+        "status": "BLOCKED",
+        "venueQuoteAgeSeconds": 40.350611
+      },
       "maxPlayablePriceVsPinnacle": 101.0,
       "openingHomeLine": -4.1,
       "pinnacleFairProbability": 0.5,
@@ -831,6 +2692,62 @@
       "game": "James Madison @ Old Dominion",
       "historicalMeanDirectionalClv": 1.3088235294117647,
       "livePriceEv": -0.06199910952804999,
+      "marketQuality": {
+        "conservativeExecutableEv": -0.062483240069554524,
+        "currentReferenceSideLine": -6.0,
+        "devigExecutableEv": {
+          "power": -0.062483240069554524,
+          "proportional": -0.06199910952804999
+        },
+        "directionalAuthority": false,
+        "freshSameLineBookCount": 2,
+        "freshSameLineBooks": [
+          "betmgm",
+          "pinnacle"
+        ],
+        "keyNumberCrossings": [],
+        "keyNumberMassTracked": {
+          "10": 1.39,
+          "14": 1.48,
+          "3": 2.64,
+          "7": 2.44
+        },
+        "lineDispersion": {
+          "max": -5.0,
+          "median": -5.5,
+          "min": -6.0,
+          "range": 1.0
+        },
+        "movement": {
+          "hoursCovered": 0.45288894888888886,
+          "latestVelocityPointsPerHour": 0.0,
+          "observations": 3,
+          "previousVelocityPointsPerHour": 0.0,
+          "reversal": false
+        },
+        "openingSideLine": -4.5,
+        "reasons": [
+          "INSUFFICIENT_FRESH_SAME_LINE_BOOKS",
+          "LINE_MISMATCH"
+        ],
+        "referenceQuoteAgeSeconds": 3.350611,
+        "sameLineNoVigProbabilities": {
+          "betmgm": {
+            "power": 0.4976630152340158,
+            "proportional": 0.4978050921861282
+          },
+          "pinnacle": {
+            "power": 0.49529187317080137,
+            "proportional": 0.49554764024933207
+          }
+        },
+        "sameLineNoVigProbabilityRange": {
+          "power": 0.0023711420632144264,
+          "proportional": 0.0022574519367961066
+        },
+        "status": "BLOCKED",
+        "venueQuoteAgeSeconds": 3.350611
+      },
       "maxPlayablePriceVsPinnacle": 102.0,
       "openingHomeLine": 4.5,
       "pinnacleFairProbability": 0.49554764024933207,
@@ -857,6 +2774,62 @@
       "game": "James Madison @ Old Dominion",
       "historicalMeanDirectionalClv": 1.3088235294117647,
       "livePriceEv": -0.07354136822950968,
+      "marketQuality": {
+        "conservativeExecutableEv": -0.07401954146328449,
+        "currentReferenceSideLine": -6.0,
+        "devigExecutableEv": {
+          "power": -0.07401954146328449,
+          "proportional": -0.07354136822950968
+        },
+        "directionalAuthority": false,
+        "freshSameLineBookCount": 2,
+        "freshSameLineBooks": [
+          "betmgm",
+          "pinnacle"
+        ],
+        "keyNumberCrossings": [],
+        "keyNumberMassTracked": {
+          "10": 1.39,
+          "14": 1.48,
+          "3": 2.64,
+          "7": 2.44
+        },
+        "lineDispersion": {
+          "max": -5.0,
+          "median": -5.5,
+          "min": -6.0,
+          "range": 1.0
+        },
+        "movement": {
+          "hoursCovered": 0.45288894888888886,
+          "latestVelocityPointsPerHour": 0.0,
+          "observations": 3,
+          "previousVelocityPointsPerHour": 0.0,
+          "reversal": false
+        },
+        "openingSideLine": -4.5,
+        "reasons": [
+          "INSUFFICIENT_FRESH_SAME_LINE_BOOKS",
+          "LINE_MISMATCH"
+        ],
+        "referenceQuoteAgeSeconds": 3.350611,
+        "sameLineNoVigProbabilities": {
+          "betmgm": {
+            "power": 0.4976630152340158,
+            "proportional": 0.4978050921861282
+          },
+          "pinnacle": {
+            "power": 0.49529187317080137,
+            "proportional": 0.49554764024933207
+          }
+        },
+        "sameLineNoVigProbabilityRange": {
+          "power": 0.0023711420632144264,
+          "proportional": 0.0022574519367961066
+        },
+        "status": "BLOCKED",
+        "venueQuoteAgeSeconds": 18.350611
+      },
       "maxPlayablePriceVsPinnacle": 102.0,
       "openingHomeLine": 4.5,
       "pinnacleFairProbability": 0.49554764024933207,
@@ -882,6 +2855,61 @@
       "game": "James Madison @ Old Dominion",
       "historicalMeanDirectionalClv": 1.3088235294117647,
       "livePriceEv": -0.045611952112397436,
+      "marketQuality": {
+        "conservativeExecutableEv": -0.04610454055993807,
+        "currentReferenceSideLine": -6.0,
+        "devigExecutableEv": {
+          "power": -0.04610454055993807,
+          "proportional": -0.045611952112397436
+        },
+        "directionalAuthority": false,
+        "freshSameLineBookCount": 2,
+        "freshSameLineBooks": [
+          "betmgm",
+          "pinnacle"
+        ],
+        "keyNumberCrossings": [],
+        "keyNumberMassTracked": {
+          "10": 1.39,
+          "14": 1.48,
+          "3": 2.64,
+          "7": 2.44
+        },
+        "lineDispersion": {
+          "max": -5.0,
+          "median": -5.5,
+          "min": -6.0,
+          "range": 1.0
+        },
+        "movement": {
+          "hoursCovered": 0.45288894888888886,
+          "latestVelocityPointsPerHour": 0.0,
+          "observations": 3,
+          "previousVelocityPointsPerHour": 0.0,
+          "reversal": false
+        },
+        "openingSideLine": -4.5,
+        "reasons": [
+          "INSUFFICIENT_FRESH_SAME_LINE_BOOKS"
+        ],
+        "referenceQuoteAgeSeconds": 3.350611,
+        "sameLineNoVigProbabilities": {
+          "betmgm": {
+            "power": 0.4976630152340158,
+            "proportional": 0.4978050921861282
+          },
+          "pinnacle": {
+            "power": 0.49529187317080137,
+            "proportional": 0.49554764024933207
+          }
+        },
+        "sameLineNoVigProbabilityRange": {
+          "power": 0.0023711420632144264,
+          "proportional": 0.0022574519367961066
+        },
+        "status": "BLOCKED",
+        "venueQuoteAgeSeconds": 40.350611
+      },
       "maxPlayablePriceVsPinnacle": 102.0,
       "openingHomeLine": 4.5,
       "pinnacleFairProbability": 0.49554764024933207,
@@ -908,6 +2936,62 @@
       "game": "James Madison @ Old Dominion",
       "historicalMeanDirectionalClv": 1.3088235294117647,
       "livePriceEv": -0.06199910952804999,
+      "marketQuality": {
+        "conservativeExecutableEv": -0.062483240069554524,
+        "currentReferenceSideLine": -6.0,
+        "devigExecutableEv": {
+          "power": -0.062483240069554524,
+          "proportional": -0.06199910952804999
+        },
+        "directionalAuthority": false,
+        "freshSameLineBookCount": 2,
+        "freshSameLineBooks": [
+          "betmgm",
+          "pinnacle"
+        ],
+        "keyNumberCrossings": [],
+        "keyNumberMassTracked": {
+          "10": 1.39,
+          "14": 1.48,
+          "3": 2.64,
+          "7": 2.44
+        },
+        "lineDispersion": {
+          "max": -5.0,
+          "median": -5.5,
+          "min": -6.0,
+          "range": 1.0
+        },
+        "movement": {
+          "hoursCovered": 0.45288894888888886,
+          "latestVelocityPointsPerHour": 0.0,
+          "observations": 3,
+          "previousVelocityPointsPerHour": 0.0,
+          "reversal": false
+        },
+        "openingSideLine": -4.5,
+        "reasons": [
+          "INSUFFICIENT_FRESH_SAME_LINE_BOOKS",
+          "LINE_MISMATCH"
+        ],
+        "referenceQuoteAgeSeconds": 3.350611,
+        "sameLineNoVigProbabilities": {
+          "betmgm": {
+            "power": 0.4976630152340158,
+            "proportional": 0.4978050921861282
+          },
+          "pinnacle": {
+            "power": 0.49529187317080137,
+            "proportional": 0.49554764024933207
+          }
+        },
+        "sameLineNoVigProbabilityRange": {
+          "power": 0.0023711420632144264,
+          "proportional": 0.0022574519367961066
+        },
+        "status": "BLOCKED",
+        "venueQuoteAgeSeconds": 40.350611
+      },
       "maxPlayablePriceVsPinnacle": 102.0,
       "openingHomeLine": 4.5,
       "pinnacleFairProbability": 0.49554764024933207,
@@ -933,6 +3017,62 @@
       "game": "Louisiana @ Charlotte",
       "historicalMeanDirectionalClv": 1.3088235294117647,
       "livePriceEv": -0.0624635521285557,
+      "marketQuality": {
+        "conservativeExecutableEv": -0.06343360915127944,
+        "currentReferenceSideLine": 10.0,
+        "devigExecutableEv": {
+          "power": -0.06343360915127944,
+          "proportional": -0.0624635521285557
+        },
+        "directionalAuthority": false,
+        "freshSameLineBookCount": 2,
+        "freshSameLineBooks": [
+          "betrivers",
+          "pinnacle"
+        ],
+        "keyNumberCrossings": [],
+        "keyNumberMassTracked": {
+          "10": 1.39,
+          "14": 1.48,
+          "3": 2.64,
+          "7": 2.44
+        },
+        "lineDispersion": {
+          "max": 10.5,
+          "median": 10.5,
+          "min": 10.0,
+          "range": 0.5
+        },
+        "movement": {
+          "hoursCovered": 0.45288894888888886,
+          "latestVelocityPointsPerHour": 0.0,
+          "observations": 3,
+          "previousVelocityPointsPerHour": 0.0,
+          "reversal": false
+        },
+        "openingSideLine": 10.2,
+        "reasons": [
+          "INSUFFICIENT_FRESH_SAME_LINE_BOOKS",
+          "LINE_MISMATCH"
+        ],
+        "referenceQuoteAgeSeconds": 2.350611,
+        "sameLineNoVigProbabilities": {
+          "betrivers": {
+            "power": 0.49196433142338925,
+            "proportional": 0.4925753075943996
+          },
+          "pinnacle": {
+            "power": 0.49058239520647273,
+            "proportional": 0.4910905203136137
+          }
+        },
+        "sameLineNoVigProbabilityRange": {
+          "power": 0.0013819362169165128,
+          "proportional": 0.001484787280785882
+        },
+        "status": "BLOCKED",
+        "venueQuoteAgeSeconds": 3.350611
+      },
       "maxPlayablePriceVsPinnacle": 104.0,
       "openingHomeLine": 10.2,
       "pinnacleFairProbability": 0.4910905203136137,
@@ -958,6 +3098,62 @@
       "game": "Louisiana @ Charlotte",
       "historicalMeanDirectionalClv": 1.3088235294117647,
       "livePriceEv": -0.0624635521285557,
+      "marketQuality": {
+        "conservativeExecutableEv": -0.06343360915127944,
+        "currentReferenceSideLine": 10.0,
+        "devigExecutableEv": {
+          "power": -0.06343360915127944,
+          "proportional": -0.0624635521285557
+        },
+        "directionalAuthority": false,
+        "freshSameLineBookCount": 2,
+        "freshSameLineBooks": [
+          "betrivers",
+          "pinnacle"
+        ],
+        "keyNumberCrossings": [],
+        "keyNumberMassTracked": {
+          "10": 1.39,
+          "14": 1.48,
+          "3": 2.64,
+          "7": 2.44
+        },
+        "lineDispersion": {
+          "max": 10.5,
+          "median": 10.5,
+          "min": 10.0,
+          "range": 0.5
+        },
+        "movement": {
+          "hoursCovered": 0.45288894888888886,
+          "latestVelocityPointsPerHour": 0.0,
+          "observations": 3,
+          "previousVelocityPointsPerHour": 0.0,
+          "reversal": false
+        },
+        "openingSideLine": 10.2,
+        "reasons": [
+          "INSUFFICIENT_FRESH_SAME_LINE_BOOKS",
+          "LINE_MISMATCH"
+        ],
+        "referenceQuoteAgeSeconds": 2.350611,
+        "sameLineNoVigProbabilities": {
+          "betrivers": {
+            "power": 0.49196433142338925,
+            "proportional": 0.4925753075943996
+          },
+          "pinnacle": {
+            "power": 0.49058239520647273,
+            "proportional": 0.4910905203136137
+          }
+        },
+        "sameLineNoVigProbabilityRange": {
+          "power": 0.0013819362169165128,
+          "proportional": 0.001484787280785882
+        },
+        "status": "BLOCKED",
+        "venueQuoteAgeSeconds": 18.350611
+      },
       "maxPlayablePriceVsPinnacle": 104.0,
       "openingHomeLine": 10.2,
       "pinnacleFairProbability": 0.4910905203136137,
@@ -971,17 +3167,74 @@
     },
     {
       "actualStakeUnits": 0,
-      "currentLine": 10.0,
-      "currentPrice": -105.0,
+      "currentLine": 10.5,
+      "currentPrice": -115.0,
       "currentReferenceHomeLine": 10.0,
       "estimatedMovementRemaining": 1.1088235294117654,
       "exclusions": [
+        "LINE_MISMATCH",
         "LIVE_PRICE_EV_BELOW_FLOOR"
       ],
       "firstSeen": "2026-09-21T01:04:50.274619+00:00",
       "game": "Louisiana @ Charlotte",
       "historicalMeanDirectionalClv": 1.3088235294117647,
-      "livePriceEv": -0.04120422224484932,
+      "livePriceEv": -0.08187424463107001,
+      "marketQuality": {
+        "conservativeExecutableEv": -0.08282421765746406,
+        "currentReferenceSideLine": 10.0,
+        "devigExecutableEv": {
+          "power": -0.08282421765746406,
+          "proportional": -0.08187424463107001
+        },
+        "directionalAuthority": false,
+        "freshSameLineBookCount": 2,
+        "freshSameLineBooks": [
+          "betrivers",
+          "pinnacle"
+        ],
+        "keyNumberCrossings": [],
+        "keyNumberMassTracked": {
+          "10": 1.39,
+          "14": 1.48,
+          "3": 2.64,
+          "7": 2.44
+        },
+        "lineDispersion": {
+          "max": 10.5,
+          "median": 10.5,
+          "min": 10.0,
+          "range": 0.5
+        },
+        "movement": {
+          "hoursCovered": 0.45288894888888886,
+          "latestVelocityPointsPerHour": 0.0,
+          "observations": 3,
+          "previousVelocityPointsPerHour": 0.0,
+          "reversal": false
+        },
+        "openingSideLine": 10.2,
+        "reasons": [
+          "INSUFFICIENT_FRESH_SAME_LINE_BOOKS",
+          "LINE_MISMATCH"
+        ],
+        "referenceQuoteAgeSeconds": 2.350611,
+        "sameLineNoVigProbabilities": {
+          "betrivers": {
+            "power": 0.49196433142338925,
+            "proportional": 0.4925753075943996
+          },
+          "pinnacle": {
+            "power": 0.49058239520647273,
+            "proportional": 0.4910905203136137
+          }
+        },
+        "sameLineNoVigProbabilityRange": {
+          "power": 0.0013819362169165128,
+          "proportional": 0.001484787280785882
+        },
+        "status": "BLOCKED",
+        "venueQuoteAgeSeconds": 40.350611
+      },
       "maxPlayablePriceVsPinnacle": 104.0,
       "openingHomeLine": 10.2,
       "pinnacleFairProbability": 0.4910905203136137,
@@ -1006,6 +3259,61 @@
       "game": "Louisiana @ Charlotte",
       "historicalMeanDirectionalClv": 1.3088235294117647,
       "livePriceEv": -0.05419603495155867,
+      "marketQuality": {
+        "conservativeExecutableEv": -0.055174646269015415,
+        "currentReferenceSideLine": 10.0,
+        "devigExecutableEv": {
+          "power": -0.055174646269015415,
+          "proportional": -0.05419603495155867
+        },
+        "directionalAuthority": false,
+        "freshSameLineBookCount": 2,
+        "freshSameLineBooks": [
+          "betrivers",
+          "pinnacle"
+        ],
+        "keyNumberCrossings": [],
+        "keyNumberMassTracked": {
+          "10": 1.39,
+          "14": 1.48,
+          "3": 2.64,
+          "7": 2.44
+        },
+        "lineDispersion": {
+          "max": 10.5,
+          "median": 10.5,
+          "min": 10.0,
+          "range": 0.5
+        },
+        "movement": {
+          "hoursCovered": 0.45288894888888886,
+          "latestVelocityPointsPerHour": 0.0,
+          "observations": 3,
+          "previousVelocityPointsPerHour": 0.0,
+          "reversal": false
+        },
+        "openingSideLine": 10.2,
+        "reasons": [
+          "INSUFFICIENT_FRESH_SAME_LINE_BOOKS"
+        ],
+        "referenceQuoteAgeSeconds": 2.350611,
+        "sameLineNoVigProbabilities": {
+          "betrivers": {
+            "power": 0.49196433142338925,
+            "proportional": 0.4925753075943996
+          },
+          "pinnacle": {
+            "power": 0.49058239520647273,
+            "proportional": 0.4910905203136137
+          }
+        },
+        "sameLineNoVigProbabilityRange": {
+          "power": 0.0013819362169165128,
+          "proportional": 0.001484787280785882
+        },
+        "status": "BLOCKED",
+        "venueQuoteAgeSeconds": 40.350611
+      },
       "maxPlayablePriceVsPinnacle": 104.0,
       "openingHomeLine": 10.2,
       "pinnacleFairProbability": 0.4910905203136137,
@@ -1031,6 +3339,66 @@
       "game": "South Carolina @ Alabama",
       "historicalMeanDirectionalClv": 1.3088235294117647,
       "livePriceEv": -0.019878039122515123,
+      "marketQuality": {
+        "conservativeExecutableEv": -0.019878039122515123,
+        "currentReferenceSideLine": -13.0,
+        "devigExecutableEv": {
+          "power": -0.018899427805058766,
+          "proportional": -0.019878039122515123
+        },
+        "directionalAuthority": false,
+        "freshSameLineBookCount": 3,
+        "freshSameLineBooks": [
+          "betmgm",
+          "betrivers",
+          "pinnacle"
+        ],
+        "keyNumberCrossings": [],
+        "keyNumberMassTracked": {
+          "10": 1.39,
+          "14": 1.48,
+          "3": 2.64,
+          "7": 2.44
+        },
+        "lineDispersion": {
+          "max": -12.5,
+          "median": -13.0,
+          "min": -13.5,
+          "range": 1.0
+        },
+        "movement": {
+          "hoursCovered": 0.45288894888888886,
+          "latestVelocityPointsPerHour": 0.0,
+          "observations": 3,
+          "previousVelocityPointsPerHour": 0.0,
+          "reversal": false
+        },
+        "openingSideLine": -13.0,
+        "reasons": [
+          "LINE_MISMATCH"
+        ],
+        "referenceQuoteAgeSeconds": 2.350611,
+        "sameLineNoVigProbabilities": {
+          "betmgm": {
+            "power": 0.4976630152340158,
+            "proportional": 0.4978050921861282
+          },
+          "betrivers": {
+            "power": 0.5,
+            "proportional": 0.5
+          },
+          "pinnacle": {
+            "power": 0.5094176047935272,
+            "proportional": 0.5089094796863863
+          }
+        },
+        "sameLineNoVigProbabilityRange": {
+          "power": 0.011754589559511364,
+          "proportional": 0.011104387500258162
+        },
+        "status": "BLOCKED",
+        "venueQuoteAgeSeconds": 3.350611
+      },
       "maxPlayablePriceVsPinnacle": -103.0,
       "openingHomeLine": -13.0,
       "pinnacleFairProbability": 0.5089094796863863,
@@ -1056,6 +3424,66 @@
       "game": "South Carolina @ Alabama",
       "historicalMeanDirectionalClv": 1.3088235294117647,
       "livePriceEv": -0.028445538780535295,
+      "marketQuality": {
+        "conservativeExecutableEv": -0.028445538780535295,
+        "currentReferenceSideLine": -13.0,
+        "devigExecutableEv": {
+          "power": -0.027475481757811893,
+          "proportional": -0.028445538780535295
+        },
+        "directionalAuthority": false,
+        "freshSameLineBookCount": 3,
+        "freshSameLineBooks": [
+          "betmgm",
+          "betrivers",
+          "pinnacle"
+        ],
+        "keyNumberCrossings": [],
+        "keyNumberMassTracked": {
+          "10": 1.39,
+          "14": 1.48,
+          "3": 2.64,
+          "7": 2.44
+        },
+        "lineDispersion": {
+          "max": -12.5,
+          "median": -13.0,
+          "min": -13.5,
+          "range": 1.0
+        },
+        "movement": {
+          "hoursCovered": 0.45288894888888886,
+          "latestVelocityPointsPerHour": 0.0,
+          "observations": 3,
+          "previousVelocityPointsPerHour": 0.0,
+          "reversal": false
+        },
+        "openingSideLine": -13.0,
+        "reasons": [
+          "LINE_MISMATCH"
+        ],
+        "referenceQuoteAgeSeconds": 2.350611,
+        "sameLineNoVigProbabilities": {
+          "betmgm": {
+            "power": 0.4976630152340158,
+            "proportional": 0.4978050921861282
+          },
+          "betrivers": {
+            "power": 0.5,
+            "proportional": 0.5
+          },
+          "pinnacle": {
+            "power": 0.5094176047935272,
+            "proportional": 0.5089094796863863
+          }
+        },
+        "sameLineNoVigProbabilityRange": {
+          "power": 0.011754589559511364,
+          "proportional": 0.011104387500258162
+        },
+        "status": "BLOCKED",
+        "venueQuoteAgeSeconds": 17.350611
+      },
       "maxPlayablePriceVsPinnacle": -103.0,
       "openingHomeLine": -13.0,
       "pinnacleFairProbability": 0.5089094796863863,
@@ -1080,6 +3508,64 @@
       "game": "South Carolina @ Alabama",
       "historicalMeanDirectionalClv": 1.3088235294117647,
       "livePriceEv": -0.019878039122515123,
+      "marketQuality": {
+        "conservativeExecutableEv": -0.019878039122515123,
+        "currentReferenceSideLine": -13.0,
+        "devigExecutableEv": {
+          "power": -0.018899427805058766,
+          "proportional": -0.019878039122515123
+        },
+        "directionalAuthority": false,
+        "freshSameLineBookCount": 3,
+        "freshSameLineBooks": [
+          "betmgm",
+          "betrivers",
+          "pinnacle"
+        ],
+        "keyNumberCrossings": [],
+        "keyNumberMassTracked": {
+          "10": 1.39,
+          "14": 1.48,
+          "3": 2.64,
+          "7": 2.44
+        },
+        "lineDispersion": {
+          "max": -12.5,
+          "median": -13.0,
+          "min": -13.5,
+          "range": 1.0
+        },
+        "movement": {
+          "hoursCovered": 0.45288894888888886,
+          "latestVelocityPointsPerHour": 0.0,
+          "observations": 3,
+          "previousVelocityPointsPerHour": 0.0,
+          "reversal": false
+        },
+        "openingSideLine": -13.0,
+        "reasons": [],
+        "referenceQuoteAgeSeconds": 2.350611,
+        "sameLineNoVigProbabilities": {
+          "betmgm": {
+            "power": 0.4976630152340158,
+            "proportional": 0.4978050921861282
+          },
+          "betrivers": {
+            "power": 0.5,
+            "proportional": 0.5
+          },
+          "pinnacle": {
+            "power": 0.5094176047935272,
+            "proportional": 0.5089094796863863
+          }
+        },
+        "sameLineNoVigProbabilityRange": {
+          "power": 0.011754589559511364,
+          "proportional": 0.011104387500258162
+        },
+        "status": "PASS",
+        "venueQuoteAgeSeconds": 40.350611
+      },
       "maxPlayablePriceVsPinnacle": -103.0,
       "openingHomeLine": -13.0,
       "pinnacleFairProbability": 0.5089094796863863,
@@ -1104,6 +3590,64 @@
       "game": "South Carolina @ Alabama",
       "historicalMeanDirectionalClv": 1.3088235294117647,
       "livePriceEv": -0.036707056307911545,
+      "marketQuality": {
+        "conservativeExecutableEv": -0.036707056307911545,
+        "currentReferenceSideLine": -13.0,
+        "devigExecutableEv": {
+          "power": -0.035745248069395,
+          "proportional": -0.036707056307911545
+        },
+        "directionalAuthority": false,
+        "freshSameLineBookCount": 3,
+        "freshSameLineBooks": [
+          "betmgm",
+          "betrivers",
+          "pinnacle"
+        ],
+        "keyNumberCrossings": [],
+        "keyNumberMassTracked": {
+          "10": 1.39,
+          "14": 1.48,
+          "3": 2.64,
+          "7": 2.44
+        },
+        "lineDispersion": {
+          "max": -12.5,
+          "median": -13.0,
+          "min": -13.5,
+          "range": 1.0
+        },
+        "movement": {
+          "hoursCovered": 0.45288894888888886,
+          "latestVelocityPointsPerHour": 0.0,
+          "observations": 3,
+          "previousVelocityPointsPerHour": 0.0,
+          "reversal": false
+        },
+        "openingSideLine": -13.0,
+        "reasons": [],
+        "referenceQuoteAgeSeconds": 2.350611,
+        "sameLineNoVigProbabilities": {
+          "betmgm": {
+            "power": 0.4976630152340158,
+            "proportional": 0.4978050921861282
+          },
+          "betrivers": {
+            "power": 0.5,
+            "proportional": 0.5
+          },
+          "pinnacle": {
+            "power": 0.5094176047935272,
+            "proportional": 0.5089094796863863
+          }
+        },
+        "sameLineNoVigProbabilityRange": {
+          "power": 0.011754589559511364,
+          "proportional": 0.011104387500258162
+        },
+        "status": "PASS",
+        "venueQuoteAgeSeconds": 40.350611
+      },
       "maxPlayablePriceVsPinnacle": -103.0,
       "openingHomeLine": -13.0,
       "pinnacleFairProbability": 0.5089094796863863,
@@ -1129,6 +3673,68 @@
       "game": "Texas A&M @ LSU",
       "historicalMeanDirectionalClv": 1.3088235294117647,
       "livePriceEv": -0.01862133989838155,
+      "marketQuality": {
+        "conservativeExecutableEv": -0.019127859014687443,
+        "currentReferenceSideLine": 10.0,
+        "devigExecutableEv": {
+          "power": -0.019127859014687443,
+          "proportional": -0.01862133989838155
+        },
+        "directionalAuthority": false,
+        "freshSameLineBookCount": 3,
+        "freshSameLineBooks": [
+          "betmgm",
+          "betrivers",
+          "pinnacle"
+        ],
+        "keyNumberCrossings": [
+          10
+        ],
+        "keyNumberMassTracked": {
+          "10": 1.39,
+          "14": 1.48,
+          "3": 2.64,
+          "7": 2.44
+        },
+        "lineDispersion": {
+          "max": 10.0,
+          "median": 10.0,
+          "min": 9.5,
+          "range": 0.5
+        },
+        "movement": {
+          "hoursCovered": 0.45288894888888886,
+          "latestVelocityPointsPerHour": 0.0,
+          "observations": 3,
+          "previousVelocityPointsPerHour": 0.0,
+          "reversal": false
+        },
+        "openingSideLine": 9.7,
+        "reasons": [
+          "LINE_MISMATCH"
+        ],
+        "referenceQuoteAgeSeconds": 2.350611,
+        "sameLineNoVigProbabilities": {
+          "betmgm": {
+            "power": 0.5023369847659842,
+            "proportional": 0.5021949078138719
+          },
+          "betrivers": {
+            "power": 0.5,
+            "proportional": 0.5
+          },
+          "pinnacle": {
+            "power": 0.49529187317080137,
+            "proportional": 0.49554764024933207
+          }
+        },
+        "sameLineNoVigProbabilityRange": {
+          "power": 0.00704511159518284,
+          "proportional": 0.006647267564539816
+        },
+        "status": "BLOCKED",
+        "venueQuoteAgeSeconds": 3.350611
+      },
       "maxPlayablePriceVsPinnacle": 102.0,
       "openingHomeLine": -9.7,
       "pinnacleFairProbability": 0.49554764024933207,
@@ -1154,6 +3760,68 @@
       "game": "Texas A&M @ LSU",
       "historicalMeanDirectionalClv": 1.3088235294117647,
       "livePriceEv": -0.05395450497854798,
+      "marketQuality": {
+        "conservativeExecutableEv": -0.054442787583015684,
+        "currentReferenceSideLine": 10.0,
+        "devigExecutableEv": {
+          "power": -0.054442787583015684,
+          "proportional": -0.05395450497854798
+        },
+        "directionalAuthority": false,
+        "freshSameLineBookCount": 3,
+        "freshSameLineBooks": [
+          "betmgm",
+          "betrivers",
+          "pinnacle"
+        ],
+        "keyNumberCrossings": [
+          10
+        ],
+        "keyNumberMassTracked": {
+          "10": 1.39,
+          "14": 1.48,
+          "3": 2.64,
+          "7": 2.44
+        },
+        "lineDispersion": {
+          "max": 10.0,
+          "median": 10.0,
+          "min": 9.5,
+          "range": 0.5
+        },
+        "movement": {
+          "hoursCovered": 0.45288894888888886,
+          "latestVelocityPointsPerHour": 0.0,
+          "observations": 3,
+          "previousVelocityPointsPerHour": 0.0,
+          "reversal": false
+        },
+        "openingSideLine": 9.7,
+        "reasons": [
+          "LINE_MISMATCH"
+        ],
+        "referenceQuoteAgeSeconds": 2.350611,
+        "sameLineNoVigProbabilities": {
+          "betmgm": {
+            "power": 0.5023369847659842,
+            "proportional": 0.5021949078138719
+          },
+          "betrivers": {
+            "power": 0.5,
+            "proportional": 0.5
+          },
+          "pinnacle": {
+            "power": 0.49529187317080137,
+            "proportional": 0.49554764024933207
+          }
+        },
+        "sameLineNoVigProbabilityRange": {
+          "power": 0.00704511159518284,
+          "proportional": 0.006647267564539816
+        },
+        "status": "BLOCKED",
+        "venueQuoteAgeSeconds": 17.350611
+      },
       "maxPlayablePriceVsPinnacle": 102.0,
       "openingHomeLine": -9.7,
       "pinnacleFairProbability": 0.49554764024933207,
@@ -1178,6 +3846,66 @@
       "game": "Texas A&M @ LSU",
       "historicalMeanDirectionalClv": 1.3088235294117647,
       "livePriceEv": -0.05395450497854798,
+      "marketQuality": {
+        "conservativeExecutableEv": -0.054442787583015684,
+        "currentReferenceSideLine": 10.0,
+        "devigExecutableEv": {
+          "power": -0.054442787583015684,
+          "proportional": -0.05395450497854798
+        },
+        "directionalAuthority": false,
+        "freshSameLineBookCount": 3,
+        "freshSameLineBooks": [
+          "betmgm",
+          "betrivers",
+          "pinnacle"
+        ],
+        "keyNumberCrossings": [
+          10
+        ],
+        "keyNumberMassTracked": {
+          "10": 1.39,
+          "14": 1.48,
+          "3": 2.64,
+          "7": 2.44
+        },
+        "lineDispersion": {
+          "max": 10.0,
+          "median": 10.0,
+          "min": 9.5,
+          "range": 0.5
+        },
+        "movement": {
+          "hoursCovered": 0.45288894888888886,
+          "latestVelocityPointsPerHour": 0.0,
+          "observations": 3,
+          "previousVelocityPointsPerHour": 0.0,
+          "reversal": false
+        },
+        "openingSideLine": 9.7,
+        "reasons": [],
+        "referenceQuoteAgeSeconds": 2.350611,
+        "sameLineNoVigProbabilities": {
+          "betmgm": {
+            "power": 0.5023369847659842,
+            "proportional": 0.5021949078138719
+          },
+          "betrivers": {
+            "power": 0.5,
+            "proportional": 0.5
+          },
+          "pinnacle": {
+            "power": 0.49529187317080137,
+            "proportional": 0.49554764024933207
+          }
+        },
+        "sameLineNoVigProbabilityRange": {
+          "power": 0.00704511159518284,
+          "proportional": 0.006647267564539816
+        },
+        "status": "PASS",
+        "venueQuoteAgeSeconds": 40.350611
+      },
       "maxPlayablePriceVsPinnacle": 102.0,
       "openingHomeLine": -9.7,
       "pinnacleFairProbability": 0.49554764024933207,
@@ -1202,6 +3930,66 @@
       "game": "Texas A&M @ LSU",
       "historicalMeanDirectionalClv": 1.3088235294117647,
       "livePriceEv": -0.06199910952804999,
+      "marketQuality": {
+        "conservativeExecutableEv": -0.062483240069554524,
+        "currentReferenceSideLine": 10.0,
+        "devigExecutableEv": {
+          "power": -0.062483240069554524,
+          "proportional": -0.06199910952804999
+        },
+        "directionalAuthority": false,
+        "freshSameLineBookCount": 3,
+        "freshSameLineBooks": [
+          "betmgm",
+          "betrivers",
+          "pinnacle"
+        ],
+        "keyNumberCrossings": [
+          10
+        ],
+        "keyNumberMassTracked": {
+          "10": 1.39,
+          "14": 1.48,
+          "3": 2.64,
+          "7": 2.44
+        },
+        "lineDispersion": {
+          "max": 10.0,
+          "median": 10.0,
+          "min": 9.5,
+          "range": 0.5
+        },
+        "movement": {
+          "hoursCovered": 0.45288894888888886,
+          "latestVelocityPointsPerHour": 0.0,
+          "observations": 3,
+          "previousVelocityPointsPerHour": 0.0,
+          "reversal": false
+        },
+        "openingSideLine": 9.7,
+        "reasons": [],
+        "referenceQuoteAgeSeconds": 2.350611,
+        "sameLineNoVigProbabilities": {
+          "betmgm": {
+            "power": 0.5023369847659842,
+            "proportional": 0.5021949078138719
+          },
+          "betrivers": {
+            "power": 0.5,
+            "proportional": 0.5
+          },
+          "pinnacle": {
+            "power": 0.49529187317080137,
+            "proportional": 0.49554764024933207
+          }
+        },
+        "sameLineNoVigProbabilityRange": {
+          "power": 0.00704511159518284,
+          "proportional": 0.006647267564539816
+        },
+        "status": "PASS",
+        "venueQuoteAgeSeconds": 40.350611
+      },
       "maxPlayablePriceVsPinnacle": 102.0,
       "openingHomeLine": -9.7,
       "pinnacleFairProbability": 0.49554764024933207,
@@ -1315,6 +4103,12 @@
     "Wisconsin Badgers @ Penn State Nittany Lions | Penn State Nittany Lions",
     "Wisconsin Badgers @ Penn State Nittany Lions | Wisconsin Badgers"
   ],
+  "marketQuality": {
+    "attached": true,
+    "blockedRows": 34,
+    "decisionEffect": "NONE",
+    "passRows": 14
+  },
   "matchedLiveRows": 48,
   "modelId": "S04_ES1",
   "modelVersion": "week4-4to6-market-confirmed-1",
