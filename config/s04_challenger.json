@@ -1,0 +1,28 @@
+{
+  "schemaVersion": 1,
+  "modelId": "S04",
+  "status": "SHADOW_ONLY",
+  "target": "actualHomeMargin - marketHomeMargin",
+  "objective": "Predict residual information beyond the market, not raw game outcomes.",
+  "features": [
+    "epaDiff",
+    "successRateDiff",
+    "explosivenessDiff",
+    "qbContinuityDiff",
+    "linePlayDiff",
+    "paceDiff",
+    "restDaysDiff",
+    "travelMilesDiff",
+    "windMph"
+  ],
+  "featureStatus": "PLANNED_INPUTS_NOT_CAPTURED",
+  "ridgeAlpha": 10.0,
+  "minimumTrainRows": 500,
+  "minimumTestRowsPerSeason": 100,
+  "promotionEffect": "NONE",
+  "notes": [
+    "All features must be timestamped as known before forecast generation.",
+    "No closing-line, final injury, end-of-season rating, or future-game data may enter training rows.",
+    "A historical backtest can reject S04 but cannot promote it. Promotion requires prospective shadow evidence."
+  ]
+}
