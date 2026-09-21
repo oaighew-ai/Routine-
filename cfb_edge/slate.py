@@ -196,20 +196,23 @@ class SlateRow:
     kickoff: str = ""
 
 
-def build(
-    season: int, week: int, *, opener: Opener | None = None,
+def build_from_rows(
+    season: int,
+    week: int,
+    *,
+    prior_rows: list[dict],
+    rows: list[dict],
     prior_regression: float = 0.5,
 ) -> list[SlateRow]:
-    """Project every FBS-vs-FBS game in a week, using only prior results.
+    """Project one week from frozen schedule rows.
 
-    Nothing from the target week or later enters the ratings, so a slate built
-    for week three cannot see week three.
+    This is the deterministic core used by both the live slate builder and
+    historical learning. Callers may fetch inputs however they want, but once
+    rows are frozen the projection is a pure function of those rows.
     """
-    prior_rows = fetch_season(season - 1, opener=opener)
     prior_model = solve_ratings(_fbs_results(prior_rows), prior_weight=4.0)
     priors = {t: v * prior_regression for t, v in prior_model.ratings.items()}
 
-    rows = fetch_season(season, opener=opener)
     model = solve_ratings(
         _fbs_results(rows, upto_week=week), priors=priors, prior_weight=4.0
     )
@@ -238,6 +241,22 @@ def build(
             kickoff=(r.get("start_date") or ""),
         ))
     return sorted(out, key=lambda s: (s.date, s.game))
+
+
+def build(
+    season: int, week: int, *, opener: Opener | None = None,
+    prior_regression: float = 0.5,
+) -> list[SlateRow]:
+    """Project every FBS-vs-FBS game in a week, using only prior results."""
+    prior_rows = fetch_season(season - 1, opener=opener)
+    rows = fetch_season(season, opener=opener)
+    return build_from_rows(
+        season,
+        week,
+        prior_rows=prior_rows,
+        rows=rows,
+        prior_regression=prior_regression,
+    )
 
 
 def write_csv(rows: list[SlateRow], path: str) -> int:
