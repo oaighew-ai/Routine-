@@ -2,7 +2,7 @@
   "actualStakeUnits": 0,
   "contract": "CFB_EDGE_S04_ES1_LIVE_V1",
   "deliveryEffect": "NONE",
-  "generatedAt": "2026-09-21T08:22:18.350611+00:00",
+  "generatedAt": "2026-09-21T17:27:29.222361+00:00",
   "historicalCohort": {
     "beatCloseRate": 0.5882352941176471,
     "byWeek": {
@@ -33,7 +33,7 @@
     {
       "actualStakeUnits": 0,
       "currentLine": 21.0,
-      "currentPrice": -105.0,
+      "currentPrice": -110.0,
       "currentReferenceHomeLine": -21.0,
       "estimatedMovementRemaining": 0.9088235294117661,
       "exclusions": [
@@ -42,13 +42,13 @@
       "firstSeen": "2026-09-21T01:04:50.274619+00:00",
       "game": "Northwestern @ Indiana",
       "historicalMeanDirectionalClv": 1.3088235294117647,
-      "livePriceEv": -0.02380952380952378,
+      "livePriceEv": -0.019918283963228034,
       "marketQuality": {
-        "conservativeExecutableEv": -0.02380952380952378,
+        "conservativeExecutableEv": -0.019918283963228034,
         "currentReferenceSideLine": 21.0,
         "devigExecutableEv": {
-          "power": -0.02380952380952378,
-          "proportional": -0.02380952380952378
+          "power": -0.01847949383082409,
+          "proportional": -0.019918283963228034
         },
         "directionalAuthority": false,
         "freshSameLineBookCount": 3,
@@ -65,45 +65,45 @@
           "7": 2.44
         },
         "lineDispersion": {
-          "max": 22.5,
+          "max": 21.5,
           "median": 21.0,
-          "min": 21.0,
-          "range": 1.5
+          "min": 20.5,
+          "range": 1.0
         },
         "movement": {
-          "hoursCovered": 0.45288894888888886,
+          "hoursCovered": 9.539242212777777,
           "latestVelocityPointsPerHour": 0.0,
-          "observations": 3,
+          "observations": 4,
           "previousVelocityPointsPerHour": 0.0,
           "reversal": false
         },
         "openingSideLine": 21.4,
         "reasons": [],
-        "referenceQuoteAgeSeconds": 3.350611,
+        "referenceQuoteAgeSeconds": 15.222361,
         "sameLineNoVigProbabilities": {
           "betmgm": {
-            "power": 0.4883955455016475,
-            "proportional": 0.4891657638136511
-          },
-          "draftkings": {
-            "power": 0.4883955455016475,
-            "proportional": 0.4891657638136511
-          },
-          "pinnacle": {
             "power": 0.5,
             "proportional": 0.5
+          },
+          "draftkings": {
+            "power": 0.5,
+            "proportional": 0.5
+          },
+          "pinnacle": {
+            "power": 0.5141297889457589,
+            "proportional": 0.5133761369716425
           }
         },
         "sameLineNoVigProbabilityRange": {
-          "power": 0.011604454498352512,
-          "proportional": 0.010834236186348878
+          "power": 0.014129788945758892,
+          "proportional": 0.013376136971642527
         },
         "status": "PASS",
-        "venueQuoteAgeSeconds": 3.350611
+        "venueQuoteAgeSeconds": 53.222361
       },
-      "maxPlayablePriceVsPinnacle": 101.0,
+      "maxPlayablePriceVsPinnacle": -105.0,
       "openingHomeLine": -21.4,
-      "pinnacleFairProbability": 0.5,
+      "pinnacleFairProbability": 0.5133761369716425,
       "pinnacleReferenceLine": 21.0,
       "projectionGapVsOpen": -4.549999999999997,
       "providerSide": "Northwestern Wildcats",
@@ -114,24 +114,23 @@
     },
     {
       "actualStakeUnits": 0,
-      "currentLine": 22.5,
-      "currentPrice": -114.0,
+      "currentLine": 20.5,
+      "currentPrice": -102.0,
       "currentReferenceHomeLine": -21.0,
       "estimatedMovementRemaining": 0.9088235294117661,
       "exclusions": [
-        "LINE_MISMATCH",
-        "LIVE_PRICE_EV_BELOW_FLOOR"
+        "LINE_MISMATCH"
       ],
       "firstSeen": "2026-09-21T01:04:50.274619+00:00",
       "game": "Northwestern @ Indiana",
       "historicalMeanDirectionalClv": 1.3088235294117647,
-      "livePriceEv": -0.06140350877192979,
+      "livePriceEv": 0.01668607517913523,
       "marketQuality": {
-        "conservativeExecutableEv": -0.06140350877192979,
+        "conservativeExecutableEv": 0.01668607517913523,
         "currentReferenceSideLine": 21.0,
         "devigExecutableEv": {
-          "power": -0.06140350877192979,
-          "proportional": -0.06140350877192979
+          "power": 0.01817860163767937,
+          "proportional": 0.01668607517913523
         },
         "directionalAuthority": false,
         "freshSameLineBookCount": 3,
@@ -148,15 +147,15 @@
           "7": 2.44
         },
         "lineDispersion": {
-          "max": 22.5,
+          "max": 21.5,
           "median": 21.0,
-          "min": 21.0,
-          "range": 1.5
+          "min": 20.5,
+          "range": 1.0
         },
         "movement": {
-          "hoursCovered": 0.45288894888888886,
+          "hoursCovered": 9.539242212777777,
           "latestVelocityPointsPerHour": 0.0,
-          "observations": 3,
+          "observations": 4,
           "previousVelocityPointsPerHour": 0.0,
           "reversal": false
         },
@@ -164,31 +163,31 @@
         "reasons": [
           "LINE_MISMATCH"
         ],
-        "referenceQuoteAgeSeconds": 3.350611,
+        "referenceQuoteAgeSeconds": 15.222361,
         "sameLineNoVigProbabilities": {
           "betmgm": {
-            "power": 0.4883955455016475,
-            "proportional": 0.4891657638136511
-          },
-          "draftkings": {
-            "power": 0.4883955455016475,
-            "proportional": 0.4891657638136511
-          },
-          "pinnacle": {
             "power": 0.5,
             "proportional": 0.5
+          },
+          "draftkings": {
+            "power": 0.5,
+            "proportional": 0.5
+          },
+          "pinnacle": {
+            "power": 0.5141297889457589,
+            "proportional": 0.5133761369716425
           }
         },
         "sameLineNoVigProbabilityRange": {
-          "power": 0.011604454498352512,
-          "proportional": 0.010834236186348878
+          "power": 0.014129788945758892,
+          "proportional": 0.013376136971642527
         },
         "status": "BLOCKED",
-        "venueQuoteAgeSeconds": 18.350611
+        "venueQuoteAgeSeconds": 31.222361
       },
-      "maxPlayablePriceVsPinnacle": 101.0,
+      "maxPlayablePriceVsPinnacle": -105.0,
       "openingHomeLine": -21.4,
-      "pinnacleFairProbability": 0.5,
+      "pinnacleFairProbability": 0.5133761369716425,
       "pinnacleReferenceLine": 21.0,
       "projectionGapVsOpen": -4.549999999999997,
       "providerSide": "Northwestern Wildcats",
@@ -200,7 +199,7 @@
     {
       "actualStakeUnits": 0,
       "currentLine": 21.0,
-      "currentPrice": -105.0,
+      "currentPrice": -110.0,
       "currentReferenceHomeLine": -21.0,
       "estimatedMovementRemaining": 0.9088235294117661,
       "exclusions": [
@@ -209,13 +208,13 @@
       "firstSeen": "2026-09-21T01:04:50.274619+00:00",
       "game": "Northwestern @ Indiana",
       "historicalMeanDirectionalClv": 1.3088235294117647,
-      "livePriceEv": -0.02380952380952378,
+      "livePriceEv": -0.019918283963228034,
       "marketQuality": {
-        "conservativeExecutableEv": -0.02380952380952378,
+        "conservativeExecutableEv": -0.019918283963228034,
         "currentReferenceSideLine": 21.0,
         "devigExecutableEv": {
-          "power": -0.02380952380952378,
-          "proportional": -0.02380952380952378
+          "power": -0.01847949383082409,
+          "proportional": -0.019918283963228034
         },
         "directionalAuthority": false,
         "freshSameLineBookCount": 3,
@@ -232,45 +231,45 @@
           "7": 2.44
         },
         "lineDispersion": {
-          "max": 22.5,
+          "max": 21.5,
           "median": 21.0,
-          "min": 21.0,
-          "range": 1.5
+          "min": 20.5,
+          "range": 1.0
         },
         "movement": {
-          "hoursCovered": 0.45288894888888886,
+          "hoursCovered": 9.539242212777777,
           "latestVelocityPointsPerHour": 0.0,
-          "observations": 3,
+          "observations": 4,
           "previousVelocityPointsPerHour": 0.0,
           "reversal": false
         },
         "openingSideLine": 21.4,
         "reasons": [],
-        "referenceQuoteAgeSeconds": 3.350611,
+        "referenceQuoteAgeSeconds": 15.222361,
         "sameLineNoVigProbabilities": {
           "betmgm": {
-            "power": 0.4883955455016475,
-            "proportional": 0.4891657638136511
-          },
-          "draftkings": {
-            "power": 0.4883955455016475,
-            "proportional": 0.4891657638136511
-          },
-          "pinnacle": {
             "power": 0.5,
             "proportional": 0.5
+          },
+          "draftkings": {
+            "power": 0.5,
+            "proportional": 0.5
+          },
+          "pinnacle": {
+            "power": 0.5141297889457589,
+            "proportional": 0.5133761369716425
           }
         },
         "sameLineNoVigProbabilityRange": {
-          "power": 0.011604454498352512,
-          "proportional": 0.010834236186348878
+          "power": 0.014129788945758892,
+          "proportional": 0.013376136971642527
         },
         "status": "PASS",
-        "venueQuoteAgeSeconds": 41.350611
+        "venueQuoteAgeSeconds": 14.222361
       },
-      "maxPlayablePriceVsPinnacle": 101.0,
+      "maxPlayablePriceVsPinnacle": -105.0,
       "openingHomeLine": -21.4,
-      "pinnacleFairProbability": 0.5,
+      "pinnacleFairProbability": 0.5133761369716425,
       "pinnacleReferenceLine": 21.0,
       "projectionGapVsOpen": -4.549999999999997,
       "providerSide": "Northwestern Wildcats",
@@ -281,7 +280,7 @@
     },
     {
       "actualStakeUnits": 0,
-      "currentLine": 22.0,
+      "currentLine": 21.5,
       "currentPrice": -110.0,
       "currentReferenceHomeLine": -21.0,
       "estimatedMovementRemaining": 0.9088235294117661,
@@ -292,13 +291,13 @@
       "firstSeen": "2026-09-21T01:04:50.274619+00:00",
       "game": "Northwestern @ Indiana",
       "historicalMeanDirectionalClv": 1.3088235294117647,
-      "livePriceEv": -0.04545454545454558,
+      "livePriceEv": -0.019918283963228034,
       "marketQuality": {
-        "conservativeExecutableEv": -0.04545454545454558,
+        "conservativeExecutableEv": -0.019918283963228034,
         "currentReferenceSideLine": 21.0,
         "devigExecutableEv": {
-          "power": -0.04545454545454558,
-          "proportional": -0.04545454545454558
+          "power": -0.01847949383082409,
+          "proportional": -0.019918283963228034
         },
         "directionalAuthority": false,
         "freshSameLineBookCount": 3,
@@ -315,15 +314,15 @@
           "7": 2.44
         },
         "lineDispersion": {
-          "max": 22.5,
+          "max": 21.5,
           "median": 21.0,
-          "min": 21.0,
-          "range": 1.5
+          "min": 20.5,
+          "range": 1.0
         },
         "movement": {
-          "hoursCovered": 0.45288894888888886,
+          "hoursCovered": 9.539242212777777,
           "latestVelocityPointsPerHour": 0.0,
-          "observations": 3,
+          "observations": 4,
           "previousVelocityPointsPerHour": 0.0,
           "reversal": false
         },
@@ -331,31 +330,31 @@
         "reasons": [
           "LINE_MISMATCH"
         ],
-        "referenceQuoteAgeSeconds": 3.350611,
+        "referenceQuoteAgeSeconds": 15.222361,
         "sameLineNoVigProbabilities": {
           "betmgm": {
-            "power": 0.4883955455016475,
-            "proportional": 0.4891657638136511
-          },
-          "draftkings": {
-            "power": 0.4883955455016475,
-            "proportional": 0.4891657638136511
-          },
-          "pinnacle": {
             "power": 0.5,
             "proportional": 0.5
+          },
+          "draftkings": {
+            "power": 0.5,
+            "proportional": 0.5
+          },
+          "pinnacle": {
+            "power": 0.5141297889457589,
+            "proportional": 0.5133761369716425
           }
         },
         "sameLineNoVigProbabilityRange": {
-          "power": 0.011604454498352512,
-          "proportional": 0.010834236186348878
+          "power": 0.014129788945758892,
+          "proportional": 0.013376136971642527
         },
         "status": "BLOCKED",
-        "venueQuoteAgeSeconds": 40.350611
+        "venueQuoteAgeSeconds": 11.222361
       },
-      "maxPlayablePriceVsPinnacle": 101.0,
+      "maxPlayablePriceVsPinnacle": -105.0,
       "openingHomeLine": -21.4,
-      "pinnacleFairProbability": 0.5,
+      "pinnacleFairProbability": 0.5133761369716425,
       "pinnacleReferenceLine": 21.0,
       "projectionGapVsOpen": -4.549999999999997,
       "providerSide": "Northwestern Wildcats",
@@ -366,28 +365,31 @@
     },
     {
       "actualStakeUnits": 0,
-      "currentLine": 12.5,
-      "currentPrice": -105.0,
+      "currentLine": 13.5,
+      "currentPrice": -108.0,
       "currentReferenceHomeLine": 13.5,
       "estimatedMovementRemaining": 1.3088235294117647,
       "exclusions": [
-        "LINE_MISMATCH"
+        "LIVE_PRICE_EV_BELOW_FLOOR"
       ],
       "firstSeen": "2026-09-21T01:04:50.274619+00:00",
       "game": "UNLV @ Akron",
       "historicalMeanDirectionalClv": 1.3088235294117647,
-      "livePriceEv": 0.012987012987012936,
+      "livePriceEv": -0.049902273683168685,
       "marketQuality": {
-        "conservativeExecutableEv": 0.012987012987012936,
+        "conservativeExecutableEv": -0.05063910529839882,
         "currentReferenceSideLine": 13.5,
         "devigExecutableEv": {
-          "power": 0.015146686730953318,
-          "proportional": 0.012987012987012936
+          "power": -0.05063910529839882,
+          "proportional": -0.049902273683168685
         },
         "directionalAuthority": false,
-        "freshSameLineBookCount": 2,
+        "freshSameLineBookCount": 5,
         "freshSameLineBooks": [
+          "betmgm",
           "betrivers",
+          "draftkings",
+          "fanduel",
           "pinnacle"
         ],
         "keyNumberCrossings": [],
@@ -399,43 +401,52 @@
         },
         "lineDispersion": {
           "max": 13.5,
-          "median": 13.0,
-          "min": 12.5,
-          "range": 1.0
+          "median": 13.5,
+          "min": 13.5,
+          "range": 0.0
         },
         "movement": {
-          "hoursCovered": 0.45288894888888886,
+          "hoursCovered": 9.539242212777777,
           "latestVelocityPointsPerHour": 0.0,
-          "observations": 3,
+          "observations": 4,
           "previousVelocityPointsPerHour": 0.0,
           "reversal": false
         },
         "openingSideLine": 13.5,
-        "reasons": [
-          "INSUFFICIENT_FRESH_SAME_LINE_BOOKS",
-          "LINE_MISMATCH"
-        ],
-        "referenceQuoteAgeSeconds": 2.350611,
+        "reasons": [],
+        "referenceQuoteAgeSeconds": 15.222361,
         "sameLineNoVigProbabilities": {
+          "betmgm": {
+            "power": 0.4917898337466569,
+            "proportional": 0.4922600619195047
+          },
           "betrivers": {
-            "power": 0.5023037647991048,
-            "proportional": 0.502134927412468
+            "power": 0.4942606231896699,
+            "proportional": 0.49469799796403124
+          },
+          "draftkings": {
+            "power": 0.49535934211149835,
+            "proportional": 0.4956702459300312
+          },
+          "fanduel": {
+            "power": 0.4883955455016475,
+            "proportional": 0.4891657638136511
           },
           "pinnacle": {
-            "power": 0.519953181008537,
-            "proportional": 0.5188470066518847
+            "power": 0.4929373876335236,
+            "proportional": 0.49331997327989313
           }
         },
         "sameLineNoVigProbabilityRange": {
-          "power": 0.017649416209432278,
-          "proportional": 0.016712079239416644
+          "power": 0.006963796609850859,
+          "proportional": 0.00650448211638005
         },
-        "status": "BLOCKED",
-        "venueQuoteAgeSeconds": 3.350611
+        "status": "PASS",
+        "venueQuoteAgeSeconds": 53.222361
       },
-      "maxPlayablePriceVsPinnacle": -107.0,
+      "maxPlayablePriceVsPinnacle": 103.0,
       "openingHomeLine": 13.5,
-      "pinnacleFairProbability": 0.5188470066518847,
+      "pinnacleFairProbability": 0.49331997327989313,
       "pinnacleReferenceLine": 13.5,
       "projectionGapVsOpen": 4.119999999999999,
       "providerSide": "Akron Zips",
@@ -446,29 +457,31 @@
     },
     {
       "actualStakeUnits": 0,
-      "currentLine": 12.5,
-      "currentPrice": -110.0,
+      "currentLine": 13.5,
+      "currentPrice": -105.0,
       "currentReferenceHomeLine": 13.5,
       "estimatedMovementRemaining": 1.3088235294117647,
       "exclusions": [
-        "LINE_MISMATCH",
         "LIVE_PRICE_EV_BELOW_FLOOR"
       ],
       "firstSeen": "2026-09-21T01:04:50.274619+00:00",
       "game": "UNLV @ Akron",
       "historicalMeanDirectionalClv": 1.3088235294117647,
-      "livePriceEv": -0.009473896391856695,
+      "livePriceEv": -0.036851480739256204,
       "marketQuality": {
-        "conservativeExecutableEv": -0.009473896391856695,
+        "conservativeExecutableEv": -0.03759843366788235,
         "currentReferenceSideLine": 13.5,
         "devigExecutableEv": {
-          "power": -0.007362108983702154,
-          "proportional": -0.009473896391856695
+          "power": -0.03759843366788235,
+          "proportional": -0.036851480739256204
         },
         "directionalAuthority": false,
-        "freshSameLineBookCount": 2,
+        "freshSameLineBookCount": 5,
         "freshSameLineBooks": [
+          "betmgm",
           "betrivers",
+          "draftkings",
+          "fanduel",
           "pinnacle"
         ],
         "keyNumberCrossings": [],
@@ -480,43 +493,52 @@
         },
         "lineDispersion": {
           "max": 13.5,
-          "median": 13.0,
-          "min": 12.5,
-          "range": 1.0
+          "median": 13.5,
+          "min": 13.5,
+          "range": 0.0
         },
         "movement": {
-          "hoursCovered": 0.45288894888888886,
+          "hoursCovered": 9.539242212777777,
           "latestVelocityPointsPerHour": 0.0,
-          "observations": 3,
+          "observations": 4,
           "previousVelocityPointsPerHour": 0.0,
           "reversal": false
         },
         "openingSideLine": 13.5,
-        "reasons": [
-          "INSUFFICIENT_FRESH_SAME_LINE_BOOKS",
-          "LINE_MISMATCH"
-        ],
-        "referenceQuoteAgeSeconds": 2.350611,
+        "reasons": [],
+        "referenceQuoteAgeSeconds": 15.222361,
         "sameLineNoVigProbabilities": {
+          "betmgm": {
+            "power": 0.4917898337466569,
+            "proportional": 0.4922600619195047
+          },
           "betrivers": {
-            "power": 0.5023037647991048,
-            "proportional": 0.502134927412468
+            "power": 0.4942606231896699,
+            "proportional": 0.49469799796403124
+          },
+          "draftkings": {
+            "power": 0.49535934211149835,
+            "proportional": 0.4956702459300312
+          },
+          "fanduel": {
+            "power": 0.4883955455016475,
+            "proportional": 0.4891657638136511
           },
           "pinnacle": {
-            "power": 0.519953181008537,
-            "proportional": 0.5188470066518847
+            "power": 0.4929373876335236,
+            "proportional": 0.49331997327989313
           }
         },
         "sameLineNoVigProbabilityRange": {
-          "power": 0.017649416209432278,
-          "proportional": 0.016712079239416644
+          "power": 0.006963796609850859,
+          "proportional": 0.00650448211638005
         },
-        "status": "BLOCKED",
-        "venueQuoteAgeSeconds": 18.350611
+        "status": "PASS",
+        "venueQuoteAgeSeconds": 31.222361
       },
-      "maxPlayablePriceVsPinnacle": -107.0,
+      "maxPlayablePriceVsPinnacle": 103.0,
       "openingHomeLine": 13.5,
-      "pinnacleFairProbability": 0.5188470066518847,
+      "pinnacleFairProbability": 0.49331997327989313,
       "pinnacleReferenceLine": 13.5,
       "projectionGapVsOpen": 4.119999999999999,
       "providerSide": "Akron Zips",
@@ -527,29 +549,31 @@
     },
     {
       "actualStakeUnits": 0,
-      "currentLine": 13.0,
-      "currentPrice": -110.0,
+      "currentLine": 13.5,
+      "currentPrice": -105.0,
       "currentReferenceHomeLine": 13.5,
       "estimatedMovementRemaining": 1.3088235294117647,
       "exclusions": [
-        "LINE_MISMATCH",
         "LIVE_PRICE_EV_BELOW_FLOOR"
       ],
       "firstSeen": "2026-09-21T01:04:50.274619+00:00",
       "game": "UNLV @ Akron",
       "historicalMeanDirectionalClv": 1.3088235294117647,
-      "livePriceEv": -0.009473896391856695,
+      "livePriceEv": -0.036851480739256204,
       "marketQuality": {
-        "conservativeExecutableEv": -0.009473896391856695,
+        "conservativeExecutableEv": -0.03759843366788235,
         "currentReferenceSideLine": 13.5,
         "devigExecutableEv": {
-          "power": -0.007362108983702154,
-          "proportional": -0.009473896391856695
+          "power": -0.03759843366788235,
+          "proportional": -0.036851480739256204
         },
         "directionalAuthority": false,
-        "freshSameLineBookCount": 2,
+        "freshSameLineBookCount": 5,
         "freshSameLineBooks": [
+          "betmgm",
           "betrivers",
+          "draftkings",
+          "fanduel",
           "pinnacle"
         ],
         "keyNumberCrossings": [],
@@ -561,43 +585,52 @@
         },
         "lineDispersion": {
           "max": 13.5,
-          "median": 13.0,
-          "min": 12.5,
-          "range": 1.0
+          "median": 13.5,
+          "min": 13.5,
+          "range": 0.0
         },
         "movement": {
-          "hoursCovered": 0.45288894888888886,
+          "hoursCovered": 9.539242212777777,
           "latestVelocityPointsPerHour": 0.0,
-          "observations": 3,
+          "observations": 4,
           "previousVelocityPointsPerHour": 0.0,
           "reversal": false
         },
         "openingSideLine": 13.5,
-        "reasons": [
-          "INSUFFICIENT_FRESH_SAME_LINE_BOOKS",
-          "LINE_MISMATCH"
-        ],
-        "referenceQuoteAgeSeconds": 2.350611,
+        "reasons": [],
+        "referenceQuoteAgeSeconds": 15.222361,
         "sameLineNoVigProbabilities": {
+          "betmgm": {
+            "power": 0.4917898337466569,
+            "proportional": 0.4922600619195047
+          },
           "betrivers": {
-            "power": 0.5023037647991048,
-            "proportional": 0.502134927412468
+            "power": 0.4942606231896699,
+            "proportional": 0.49469799796403124
+          },
+          "draftkings": {
+            "power": 0.49535934211149835,
+            "proportional": 0.4956702459300312
+          },
+          "fanduel": {
+            "power": 0.4883955455016475,
+            "proportional": 0.4891657638136511
           },
           "pinnacle": {
-            "power": 0.519953181008537,
-            "proportional": 0.5188470066518847
+            "power": 0.4929373876335236,
+            "proportional": 0.49331997327989313
           }
         },
         "sameLineNoVigProbabilityRange": {
-          "power": 0.017649416209432278,
-          "proportional": 0.016712079239416644
+          "power": 0.006963796609850859,
+          "proportional": 0.00650448211638005
         },
-        "status": "BLOCKED",
-        "venueQuoteAgeSeconds": 41.350611
+        "status": "PASS",
+        "venueQuoteAgeSeconds": 14.222361
       },
-      "maxPlayablePriceVsPinnacle": -107.0,
+      "maxPlayablePriceVsPinnacle": 103.0,
       "openingHomeLine": 13.5,
-      "pinnacleFairProbability": 0.5188470066518847,
+      "pinnacleFairProbability": 0.49331997327989313,
       "pinnacleReferenceLine": 13.5,
       "projectionGapVsOpen": 4.119999999999999,
       "providerSide": "Akron Zips",
@@ -609,7 +642,7 @@
     {
       "actualStakeUnits": 0,
       "currentLine": 13.5,
-      "currentPrice": -112.0,
+      "currentPrice": -109.0,
       "currentReferenceHomeLine": 13.5,
       "estimatedMovementRemaining": 1.3088235294117647,
       "exclusions": [
@@ -618,18 +651,21 @@
       "firstSeen": "2026-09-21T01:04:50.274619+00:00",
       "game": "UNLV @ Akron",
       "historicalMeanDirectionalClv": 1.3088235294117647,
-      "livePriceEv": -0.017896737408932606,
+      "livePriceEv": -0.05409289527066352,
       "marketQuality": {
-        "conservativeExecutableEv": -0.017896737408932606,
+        "conservativeExecutableEv": -0.05482647692287662,
         "currentReferenceSideLine": 13.5,
         "devigExecutableEv": {
-          "power": -0.015802907376697706,
-          "proportional": -0.017896737408932606
+          "power": -0.05482647692287662,
+          "proportional": -0.05409289527066352
         },
         "directionalAuthority": false,
-        "freshSameLineBookCount": 2,
+        "freshSameLineBookCount": 5,
         "freshSameLineBooks": [
+          "betmgm",
           "betrivers",
+          "draftkings",
+          "fanduel",
           "pinnacle"
         ],
         "keyNumberCrossings": [],
@@ -641,42 +677,52 @@
         },
         "lineDispersion": {
           "max": 13.5,
-          "median": 13.0,
-          "min": 12.5,
-          "range": 1.0
+          "median": 13.5,
+          "min": 13.5,
+          "range": 0.0
         },
         "movement": {
-          "hoursCovered": 0.45288894888888886,
+          "hoursCovered": 9.539242212777777,
           "latestVelocityPointsPerHour": 0.0,
-          "observations": 3,
+          "observations": 4,
           "previousVelocityPointsPerHour": 0.0,
           "reversal": false
         },
         "openingSideLine": 13.5,
-        "reasons": [
-          "INSUFFICIENT_FRESH_SAME_LINE_BOOKS"
-        ],
-        "referenceQuoteAgeSeconds": 2.350611,
+        "reasons": [],
+        "referenceQuoteAgeSeconds": 15.222361,
         "sameLineNoVigProbabilities": {
+          "betmgm": {
+            "power": 0.4917898337466569,
+            "proportional": 0.4922600619195047
+          },
           "betrivers": {
-            "power": 0.5023037647991048,
-            "proportional": 0.502134927412468
+            "power": 0.4942606231896699,
+            "proportional": 0.49469799796403124
+          },
+          "draftkings": {
+            "power": 0.49535934211149835,
+            "proportional": 0.4956702459300312
+          },
+          "fanduel": {
+            "power": 0.4883955455016475,
+            "proportional": 0.4891657638136511
           },
           "pinnacle": {
-            "power": 0.519953181008537,
-            "proportional": 0.5188470066518847
+            "power": 0.4929373876335236,
+            "proportional": 0.49331997327989313
           }
         },
         "sameLineNoVigProbabilityRange": {
-          "power": 0.017649416209432278,
-          "proportional": 0.016712079239416644
+          "power": 0.006963796609850859,
+          "proportional": 0.00650448211638005
         },
-        "status": "BLOCKED",
-        "venueQuoteAgeSeconds": 40.350611
+        "status": "PASS",
+        "venueQuoteAgeSeconds": 11.222361
       },
-      "maxPlayablePriceVsPinnacle": -107.0,
+      "maxPlayablePriceVsPinnacle": 103.0,
       "openingHomeLine": 13.5,
-      "pinnacleFairProbability": 0.5188470066518847,
+      "pinnacleFairProbability": 0.49331997327989313,
       "pinnacleReferenceLine": 13.5,
       "projectionGapVsOpen": 4.119999999999999,
       "providerSide": "Akron Zips",
@@ -687,29 +733,29 @@
     },
     {
       "actualStakeUnits": 0,
-      "currentLine": 14.5,
-      "currentPrice": -115.0,
+      "currentLine": 14.0,
+      "currentPrice": -110.0,
       "currentReferenceHomeLine": 14.0,
       "estimatedMovementRemaining": 1.4088235294117644,
       "exclusions": [
-        "LINE_MISMATCH",
         "LIVE_PRICE_EV_BELOW_FLOOR"
       ],
       "firstSeen": "2026-09-21T01:04:50.274619+00:00",
       "game": "Virginia Tech @ Boston College",
       "historicalMeanDirectionalClv": 1.3088235294117647,
-      "livePriceEv": -0.056893414379186324,
+      "livePriceEv": -0.028445538780535295,
       "marketQuality": {
-        "conservativeExecutableEv": -0.056893414379186324,
+        "conservativeExecutableEv": -0.028445538780535295,
         "currentReferenceSideLine": 14.0,
         "devigExecutableEv": {
-          "power": -0.0564152411454113,
-          "proportional": -0.056893414379186324
+          "power": -0.027475481757811893,
+          "proportional": -0.028445538780535295
         },
         "directionalAuthority": false,
-        "freshSameLineBookCount": 2,
+        "freshSameLineBookCount": 3,
         "freshSameLineBooks": [
           "betmgm",
+          "draftkings",
           "pinnacle"
         ],
         "keyNumberCrossings": [
@@ -723,43 +769,44 @@
         },
         "lineDispersion": {
           "max": 14.5,
-          "median": 14.5,
+          "median": 14.0,
           "min": 14.0,
           "range": 0.5
         },
         "movement": {
-          "hoursCovered": 0.45288894888888886,
+          "hoursCovered": 9.539242212777777,
           "latestVelocityPointsPerHour": 0.0,
-          "observations": 3,
+          "observations": 4,
           "previousVelocityPointsPerHour": 0.0,
           "reversal": false
         },
         "openingSideLine": 13.9,
-        "reasons": [
-          "INSUFFICIENT_FRESH_SAME_LINE_BOOKS",
-          "LINE_MISMATCH"
-        ],
-        "referenceQuoteAgeSeconds": 2.350611,
+        "reasons": [],
+        "referenceQuoteAgeSeconds": 15.222361,
         "sameLineNoVigProbabilities": {
           "betmgm": {
-            "power": 0.4976630152340158,
-            "proportional": 0.4978050921861282
+            "power": 0.5,
+            "proportional": 0.5
+          },
+          "draftkings": {
+            "power": 0.5,
+            "proportional": 0.5
           },
           "pinnacle": {
-            "power": 0.5047081268291986,
-            "proportional": 0.5044523597506678
+            "power": 0.5094176047935272,
+            "proportional": 0.5089094796863863
           }
         },
         "sameLineNoVigProbabilityRange": {
-          "power": 0.00704511159518284,
-          "proportional": 0.0066472675645396495
+          "power": 0.009417604793527157,
+          "proportional": 0.008909479686386335
         },
-        "status": "BLOCKED",
-        "venueQuoteAgeSeconds": 3.350611
+        "status": "PASS",
+        "venueQuoteAgeSeconds": 53.222361
       },
-      "maxPlayablePriceVsPinnacle": -101.0,
+      "maxPlayablePriceVsPinnacle": -103.0,
       "openingHomeLine": 13.9,
-      "pinnacleFairProbability": 0.5044523597506678,
+      "pinnacleFairProbability": 0.5089094796863863,
       "pinnacleReferenceLine": 14.0,
       "projectionGapVsOpen": 4.58,
       "providerSide": "Boston College Eagles",
@@ -781,18 +828,19 @@
       "firstSeen": "2026-09-21T01:04:50.274619+00:00",
       "game": "Virginia Tech @ Boston College",
       "historicalMeanDirectionalClv": 1.3088235294117647,
-      "livePriceEv": -0.06804564046063066,
+      "livePriceEv": -0.05981130024040493,
       "marketQuality": {
-        "conservativeExecutableEv": -0.06804564046063066,
+        "conservativeExecutableEv": -0.05981130024040493,
         "currentReferenceSideLine": 14.0,
         "devigExecutableEv": {
-          "power": -0.06757312162063306,
-          "proportional": -0.06804564046063066
+          "power": -0.05887256063568713,
+          "proportional": -0.05981130024040493
         },
         "directionalAuthority": false,
-        "freshSameLineBookCount": 2,
+        "freshSameLineBookCount": 3,
         "freshSameLineBooks": [
           "betmgm",
+          "draftkings",
           "pinnacle"
         ],
         "keyNumberCrossings": [
@@ -806,43 +854,46 @@
         },
         "lineDispersion": {
           "max": 14.5,
-          "median": 14.5,
+          "median": 14.0,
           "min": 14.0,
           "range": 0.5
         },
         "movement": {
-          "hoursCovered": 0.45288894888888886,
+          "hoursCovered": 9.539242212777777,
           "latestVelocityPointsPerHour": 0.0,
-          "observations": 3,
+          "observations": 4,
           "previousVelocityPointsPerHour": 0.0,
           "reversal": false
         },
         "openingSideLine": 13.9,
         "reasons": [
-          "INSUFFICIENT_FRESH_SAME_LINE_BOOKS",
           "LINE_MISMATCH"
         ],
-        "referenceQuoteAgeSeconds": 2.350611,
+        "referenceQuoteAgeSeconds": 15.222361,
         "sameLineNoVigProbabilities": {
           "betmgm": {
-            "power": 0.4976630152340158,
-            "proportional": 0.4978050921861282
+            "power": 0.5,
+            "proportional": 0.5
+          },
+          "draftkings": {
+            "power": 0.5,
+            "proportional": 0.5
           },
           "pinnacle": {
-            "power": 0.5047081268291986,
-            "proportional": 0.5044523597506678
+            "power": 0.5094176047935272,
+            "proportional": 0.5089094796863863
           }
         },
         "sameLineNoVigProbabilityRange": {
-          "power": 0.00704511159518284,
-          "proportional": 0.0066472675645396495
+          "power": 0.009417604793527157,
+          "proportional": 0.008909479686386335
         },
         "status": "BLOCKED",
-        "venueQuoteAgeSeconds": 18.350611
+        "venueQuoteAgeSeconds": 31.222361
       },
-      "maxPlayablePriceVsPinnacle": -101.0,
+      "maxPlayablePriceVsPinnacle": -103.0,
       "openingHomeLine": 13.9,
-      "pinnacleFairProbability": 0.5044523597506678,
+      "pinnacleFairProbability": 0.5089094796863863,
       "pinnacleReferenceLine": 14.0,
       "projectionGapVsOpen": 4.58,
       "providerSide": "Boston College Eagles",
@@ -854,7 +905,7 @@
     {
       "actualStakeUnits": 0,
       "currentLine": 14.0,
-      "currentPrice": -108.0,
+      "currentPrice": -110.0,
       "currentReferenceHomeLine": 14.0,
       "estimatedMovementRemaining": 1.4088235294117644,
       "exclusions": [
@@ -863,18 +914,19 @@
       "firstSeen": "2026-09-21T01:04:50.274619+00:00",
       "game": "Virginia Tech @ Boston College",
       "historicalMeanDirectionalClv": 1.3088235294117647,
-      "livePriceEv": -0.028462121961676745,
+      "livePriceEv": -0.028445538780535295,
       "marketQuality": {
-        "conservativeExecutableEv": -0.028462121961676745,
+        "conservativeExecutableEv": -0.028445538780535295,
         "currentReferenceSideLine": 14.0,
         "devigExecutableEv": {
-          "power": -0.02796953351413589,
-          "proportional": -0.028462121961676745
+          "power": -0.027475481757811893,
+          "proportional": -0.028445538780535295
         },
         "directionalAuthority": false,
-        "freshSameLineBookCount": 2,
+        "freshSameLineBookCount": 3,
         "freshSameLineBooks": [
           "betmgm",
+          "draftkings",
           "pinnacle"
         ],
         "keyNumberCrossings": [
@@ -888,42 +940,44 @@
         },
         "lineDispersion": {
           "max": 14.5,
-          "median": 14.5,
+          "median": 14.0,
           "min": 14.0,
           "range": 0.5
         },
         "movement": {
-          "hoursCovered": 0.45288894888888886,
+          "hoursCovered": 9.539242212777777,
           "latestVelocityPointsPerHour": 0.0,
-          "observations": 3,
+          "observations": 4,
           "previousVelocityPointsPerHour": 0.0,
           "reversal": false
         },
         "openingSideLine": 13.9,
-        "reasons": [
-          "INSUFFICIENT_FRESH_SAME_LINE_BOOKS"
-        ],
-        "referenceQuoteAgeSeconds": 2.350611,
+        "reasons": [],
+        "referenceQuoteAgeSeconds": 15.222361,
         "sameLineNoVigProbabilities": {
           "betmgm": {
-            "power": 0.4976630152340158,
-            "proportional": 0.4978050921861282
+            "power": 0.5,
+            "proportional": 0.5
+          },
+          "draftkings": {
+            "power": 0.5,
+            "proportional": 0.5
           },
           "pinnacle": {
-            "power": 0.5047081268291986,
-            "proportional": 0.5044523597506678
+            "power": 0.5094176047935272,
+            "proportional": 0.5089094796863863
           }
         },
         "sameLineNoVigProbabilityRange": {
-          "power": 0.00704511159518284,
-          "proportional": 0.0066472675645396495
+          "power": 0.009417604793527157,
+          "proportional": 0.008909479686386335
         },
-        "status": "BLOCKED",
-        "venueQuoteAgeSeconds": 40.350611
+        "status": "PASS",
+        "venueQuoteAgeSeconds": 14.222361
       },
-      "maxPlayablePriceVsPinnacle": -101.0,
+      "maxPlayablePriceVsPinnacle": -103.0,
       "openingHomeLine": 13.9,
-      "pinnacleFairProbability": 0.5044523597506678,
+      "pinnacleFairProbability": 0.5089094796863863,
       "pinnacleReferenceLine": 14.0,
       "projectionGapVsOpen": 4.58,
       "providerSide": "Boston College Eagles",
@@ -945,18 +999,19 @@
       "firstSeen": "2026-09-21T01:04:50.274619+00:00",
       "game": "Virginia Tech @ Boston College",
       "historicalMeanDirectionalClv": 1.3088235294117647,
-      "livePriceEv": -0.03695458593054335,
+      "livePriceEv": -0.028445538780535295,
       "marketQuality": {
-        "conservativeExecutableEv": -0.03695458593054335,
+        "conservativeExecutableEv": -0.028445538780535295,
         "currentReferenceSideLine": 14.0,
         "devigExecutableEv": {
-          "power": -0.03646630332607548,
-          "proportional": -0.03695458593054335
+          "power": -0.027475481757811893,
+          "proportional": -0.028445538780535295
         },
         "directionalAuthority": false,
-        "freshSameLineBookCount": 2,
+        "freshSameLineBookCount": 3,
         "freshSameLineBooks": [
           "betmgm",
+          "draftkings",
           "pinnacle"
         ],
         "keyNumberCrossings": [
@@ -970,43 +1025,46 @@
         },
         "lineDispersion": {
           "max": 14.5,
-          "median": 14.5,
+          "median": 14.0,
           "min": 14.0,
           "range": 0.5
         },
         "movement": {
-          "hoursCovered": 0.45288894888888886,
+          "hoursCovered": 9.539242212777777,
           "latestVelocityPointsPerHour": 0.0,
-          "observations": 3,
+          "observations": 4,
           "previousVelocityPointsPerHour": 0.0,
           "reversal": false
         },
         "openingSideLine": 13.9,
         "reasons": [
-          "INSUFFICIENT_FRESH_SAME_LINE_BOOKS",
           "LINE_MISMATCH"
         ],
-        "referenceQuoteAgeSeconds": 2.350611,
+        "referenceQuoteAgeSeconds": 15.222361,
         "sameLineNoVigProbabilities": {
           "betmgm": {
-            "power": 0.4976630152340158,
-            "proportional": 0.4978050921861282
+            "power": 0.5,
+            "proportional": 0.5
+          },
+          "draftkings": {
+            "power": 0.5,
+            "proportional": 0.5
           },
           "pinnacle": {
-            "power": 0.5047081268291986,
-            "proportional": 0.5044523597506678
+            "power": 0.5094176047935272,
+            "proportional": 0.5089094796863863
           }
         },
         "sameLineNoVigProbabilityRange": {
-          "power": 0.00704511159518284,
-          "proportional": 0.0066472675645396495
+          "power": 0.009417604793527157,
+          "proportional": 0.008909479686386335
         },
         "status": "BLOCKED",
-        "venueQuoteAgeSeconds": 40.350611
+        "venueQuoteAgeSeconds": 11.222361
       },
-      "maxPlayablePriceVsPinnacle": -101.0,
+      "maxPlayablePriceVsPinnacle": -103.0,
       "openingHomeLine": 13.9,
-      "pinnacleFairProbability": 0.5044523597506678,
+      "pinnacleFairProbability": 0.5089094796863863,
       "pinnacleReferenceLine": 14.0,
       "projectionGapVsOpen": 4.58,
       "providerSide": "Boston College Eagles",
@@ -1027,17 +1085,18 @@
       "firstSeen": "2026-09-21T01:04:50.274619+00:00",
       "game": "Wake Forest @ Louisville",
       "historicalMeanDirectionalClv": 1.3088235294117647,
-      "livePriceEv": -0.019463753092386737,
+      "livePriceEv": -0.0281552945266606,
       "marketQuality": {
-        "conservativeExecutableEv": -0.019463753092386737,
+        "conservativeExecutableEv": -0.02840538759979827,
         "currentReferenceSideLine": 12.5,
         "devigExecutableEv": {
-          "power": -0.019213660019249068,
-          "proportional": -0.019463753092386737
+          "power": -0.02840538759979827,
+          "proportional": -0.0281552945266606
         },
         "directionalAuthority": false,
-        "freshSameLineBookCount": 3,
+        "freshSameLineBookCount": 4,
         "freshSameLineBooks": [
+          "betmgm",
           "draftkings",
           "fanduel",
           "pinnacle"
@@ -1056,16 +1115,20 @@
           "range": 1.0
         },
         "movement": {
-          "hoursCovered": 0.45288894888888886,
+          "hoursCovered": 9.539242212777777,
           "latestVelocityPointsPerHour": 0.0,
-          "observations": 3,
+          "observations": 4,
           "previousVelocityPointsPerHour": 0.0,
           "reversal": false
         },
         "openingSideLine": 12.0,
         "reasons": [],
-        "referenceQuoteAgeSeconds": 3.350611,
+        "referenceQuoteAgeSeconds": 15.222361,
         "sameLineNoVigProbabilities": {
+          "betmgm": {
+            "power": 0.5,
+            "proportional": 0.5
+          },
           "draftkings": {
             "power": 0.4883955455016475,
             "proportional": 0.4891657638136511
@@ -1075,20 +1138,20 @@
             "proportional": 0.5
           },
           "pinnacle": {
-            "power": 0.5023539790145309,
-            "proportional": 0.502225882562436
+            "power": 0.4976460209854692,
+            "proportional": 0.49777411743756406
           }
         },
         "sameLineNoVigProbabilityRange": {
-          "power": 0.01395843351288345,
-          "proportional": 0.013060118748784932
+          "power": 0.011604454498352512,
+          "proportional": 0.010834236186348878
         },
         "status": "PASS",
-        "venueQuoteAgeSeconds": 3.350611
+        "venueQuoteAgeSeconds": 53.222361
       },
-      "maxPlayablePriceVsPinnacle": -100.0,
+      "maxPlayablePriceVsPinnacle": 101.0,
       "openingHomeLine": -12.0,
-      "pinnacleFairProbability": 0.502225882562436,
+      "pinnacleFairProbability": 0.49777411743756406,
       "pinnacleReferenceLine": 12.5,
       "projectionGapVsOpen": -4.52,
       "providerSide": "Wake Forest Demon Deacons",
@@ -1109,17 +1172,18 @@
       "firstSeen": "2026-09-21T01:04:50.274619+00:00",
       "game": "Wake Forest @ Louisville",
       "historicalMeanDirectionalClv": 1.3088235294117647,
-      "livePriceEv": -0.041205133289894946,
+      "livePriceEv": -0.04970395761919599,
       "marketQuality": {
-        "conservativeExecutableEv": -0.041205133289894946,
+        "conservativeExecutableEv": -0.049948505391377185,
         "currentReferenceSideLine": 12.5,
         "devigExecutableEv": {
-          "power": -0.04096058551771381,
-          "proportional": -0.041205133289894946
+          "power": -0.049948505391377185,
+          "proportional": -0.04970395761919599
         },
         "directionalAuthority": false,
-        "freshSameLineBookCount": 3,
+        "freshSameLineBookCount": 4,
         "freshSameLineBooks": [
+          "betmgm",
           "draftkings",
           "fanduel",
           "pinnacle"
@@ -1138,16 +1202,20 @@
           "range": 1.0
         },
         "movement": {
-          "hoursCovered": 0.45288894888888886,
+          "hoursCovered": 9.539242212777777,
           "latestVelocityPointsPerHour": 0.0,
-          "observations": 3,
+          "observations": 4,
           "previousVelocityPointsPerHour": 0.0,
           "reversal": false
         },
         "openingSideLine": 12.0,
         "reasons": [],
-        "referenceQuoteAgeSeconds": 3.350611,
+        "referenceQuoteAgeSeconds": 15.222361,
         "sameLineNoVigProbabilities": {
+          "betmgm": {
+            "power": 0.5,
+            "proportional": 0.5
+          },
           "draftkings": {
             "power": 0.4883955455016475,
             "proportional": 0.4891657638136511
@@ -1157,20 +1225,20 @@
             "proportional": 0.5
           },
           "pinnacle": {
-            "power": 0.5023539790145309,
-            "proportional": 0.502225882562436
+            "power": 0.4976460209854692,
+            "proportional": 0.49777411743756406
           }
         },
         "sameLineNoVigProbabilityRange": {
-          "power": 0.01395843351288345,
-          "proportional": 0.013060118748784932
+          "power": 0.011604454498352512,
+          "proportional": 0.010834236186348878
         },
         "status": "PASS",
-        "venueQuoteAgeSeconds": 18.350611
+        "venueQuoteAgeSeconds": 31.222361
       },
-      "maxPlayablePriceVsPinnacle": -100.0,
+      "maxPlayablePriceVsPinnacle": 101.0,
       "openingHomeLine": -12.0,
-      "pinnacleFairProbability": 0.502225882562436,
+      "pinnacleFairProbability": 0.49777411743756406,
       "pinnacleReferenceLine": 12.5,
       "projectionGapVsOpen": -4.52,
       "providerSide": "Wake Forest Demon Deacons",
@@ -1181,28 +1249,28 @@
     },
     {
       "actualStakeUnits": 0,
-      "currentLine": 13.0,
+      "currentLine": 12.5,
       "currentPrice": -110.0,
       "currentReferenceHomeLine": -12.5,
       "estimatedMovementRemaining": 1.8088235294117647,
       "exclusions": [
-        "LINE_MISMATCH",
         "LIVE_PRICE_EV_BELOW_FLOOR"
       ],
       "firstSeen": "2026-09-21T01:04:50.274619+00:00",
       "game": "Wake Forest @ Louisville",
       "historicalMeanDirectionalClv": 1.3088235294117647,
-      "livePriceEv": -0.041205133289894946,
+      "livePriceEv": -0.04970395761919599,
       "marketQuality": {
-        "conservativeExecutableEv": -0.041205133289894946,
+        "conservativeExecutableEv": -0.049948505391377185,
         "currentReferenceSideLine": 12.5,
         "devigExecutableEv": {
-          "power": -0.04096058551771381,
-          "proportional": -0.041205133289894946
+          "power": -0.049948505391377185,
+          "proportional": -0.04970395761919599
         },
         "directionalAuthority": false,
-        "freshSameLineBookCount": 3,
+        "freshSameLineBookCount": 4,
         "freshSameLineBooks": [
+          "betmgm",
           "draftkings",
           "fanduel",
           "pinnacle"
@@ -1221,18 +1289,20 @@
           "range": 1.0
         },
         "movement": {
-          "hoursCovered": 0.45288894888888886,
+          "hoursCovered": 9.539242212777777,
           "latestVelocityPointsPerHour": 0.0,
-          "observations": 3,
+          "observations": 4,
           "previousVelocityPointsPerHour": 0.0,
           "reversal": false
         },
         "openingSideLine": 12.0,
-        "reasons": [
-          "LINE_MISMATCH"
-        ],
-        "referenceQuoteAgeSeconds": 3.350611,
+        "reasons": [],
+        "referenceQuoteAgeSeconds": 15.222361,
         "sameLineNoVigProbabilities": {
+          "betmgm": {
+            "power": 0.5,
+            "proportional": 0.5
+          },
           "draftkings": {
             "power": 0.4883955455016475,
             "proportional": 0.4891657638136511
@@ -1242,20 +1312,20 @@
             "proportional": 0.5
           },
           "pinnacle": {
-            "power": 0.5023539790145309,
-            "proportional": 0.502225882562436
+            "power": 0.4976460209854692,
+            "proportional": 0.49777411743756406
           }
         },
         "sameLineNoVigProbabilityRange": {
-          "power": 0.01395843351288345,
-          "proportional": 0.013060118748784932
+          "power": 0.011604454498352512,
+          "proportional": 0.010834236186348878
         },
-        "status": "BLOCKED",
-        "venueQuoteAgeSeconds": 40.350611
+        "status": "PASS",
+        "venueQuoteAgeSeconds": 14.222361
       },
-      "maxPlayablePriceVsPinnacle": -100.0,
+      "maxPlayablePriceVsPinnacle": 101.0,
       "openingHomeLine": -12.0,
-      "pinnacleFairProbability": 0.502225882562436,
+      "pinnacleFairProbability": 0.49777411743756406,
       "pinnacleReferenceLine": 12.5,
       "projectionGapVsOpen": -4.52,
       "providerSide": "Wake Forest Demon Deacons",
@@ -1267,7 +1337,7 @@
     {
       "actualStakeUnits": 0,
       "currentLine": 13.5,
-      "currentPrice": -112.0,
+      "currentPrice": -113.0,
       "currentReferenceHomeLine": -12.5,
       "estimatedMovementRemaining": 1.8088235294117647,
       "exclusions": [
@@ -1277,17 +1347,18 @@
       "firstSeen": "2026-09-21T01:04:50.274619+00:00",
       "game": "Wake Forest @ Louisville",
       "historicalMeanDirectionalClv": 1.3088235294117647,
-      "livePriceEv": -0.04935815086396028,
+      "livePriceEv": -0.0617178140336182,
       "marketQuality": {
-        "conservativeExecutableEv": -0.04935815086396028,
+        "conservativeExecutableEv": -0.06195927017783248,
         "currentReferenceSideLine": 12.5,
         "devigExecutableEv": {
-          "power": -0.04911568257963783,
-          "proportional": -0.04935815086396028
+          "power": -0.06195927017783248,
+          "proportional": -0.0617178140336182
         },
         "directionalAuthority": false,
-        "freshSameLineBookCount": 3,
+        "freshSameLineBookCount": 4,
         "freshSameLineBooks": [
+          "betmgm",
           "draftkings",
           "fanduel",
           "pinnacle"
@@ -1306,9 +1377,9 @@
           "range": 1.0
         },
         "movement": {
-          "hoursCovered": 0.45288894888888886,
+          "hoursCovered": 9.539242212777777,
           "latestVelocityPointsPerHour": 0.0,
-          "observations": 3,
+          "observations": 4,
           "previousVelocityPointsPerHour": 0.0,
           "reversal": false
         },
@@ -1316,8 +1387,12 @@
         "reasons": [
           "LINE_MISMATCH"
         ],
-        "referenceQuoteAgeSeconds": 3.350611,
+        "referenceQuoteAgeSeconds": 15.222361,
         "sameLineNoVigProbabilities": {
+          "betmgm": {
+            "power": 0.5,
+            "proportional": 0.5
+          },
           "draftkings": {
             "power": 0.4883955455016475,
             "proportional": 0.4891657638136511
@@ -1327,20 +1402,20 @@
             "proportional": 0.5
           },
           "pinnacle": {
-            "power": 0.5023539790145309,
-            "proportional": 0.502225882562436
+            "power": 0.4976460209854692,
+            "proportional": 0.49777411743756406
           }
         },
         "sameLineNoVigProbabilityRange": {
-          "power": 0.01395843351288345,
-          "proportional": 0.013060118748784932
+          "power": 0.011604454498352512,
+          "proportional": 0.010834236186348878
         },
         "status": "BLOCKED",
-        "venueQuoteAgeSeconds": 40.350611
+        "venueQuoteAgeSeconds": 11.222361
       },
-      "maxPlayablePriceVsPinnacle": -100.0,
+      "maxPlayablePriceVsPinnacle": 101.0,
       "openingHomeLine": -12.0,
-      "pinnacleFairProbability": 0.502225882562436,
+      "pinnacleFairProbability": 0.49777411743756406,
       "pinnacleReferenceLine": 12.5,
       "projectionGapVsOpen": -4.52,
       "providerSide": "Wake Forest Demon Deacons",
@@ -1351,10 +1426,10 @@
     },
     {
       "actualStakeUnits": 0,
-      "currentLine": 3.5,
-      "currentPrice": -112.0,
-      "currentReferenceHomeLine": 4.0,
-      "estimatedMovementRemaining": 1.8088235294117647,
+      "currentLine": 4.5,
+      "currentPrice": -108.0,
+      "currentReferenceHomeLine": 5.0,
+      "estimatedMovementRemaining": 2.8088235294117645,
       "exclusions": [
         "LINE_MISMATCH",
         "LIVE_PRICE_EV_BELOW_FLOOR"
@@ -1362,17 +1437,18 @@
       "firstSeen": "2026-09-21T01:04:50.274619+00:00",
       "game": "Texas @ Tennessee",
       "historicalMeanDirectionalClv": 1.3088235294117647,
-      "livePriceEv": -0.02825231216081947,
+      "livePriceEv": -0.03275015210197496,
       "marketQuality": {
-        "conservativeExecutableEv": -0.02825231216081947,
-        "currentReferenceSideLine": 4.0,
+        "conservativeExecutableEv": -0.03275015210197496,
+        "currentReferenceSideLine": 5.0,
         "devigExecutableEv": {
-          "power": -0.026825756638384934,
-          "proportional": -0.02825231216081947
+          "power": -0.03250344782386627,
+          "proportional": -0.03275015210197496
         },
         "directionalAuthority": false,
-        "freshSameLineBookCount": 1,
+        "freshSameLineBookCount": 2,
         "freshSameLineBooks": [
+          "betmgm",
           "pinnacle"
         ],
         "keyNumberCrossings": [],
@@ -1383,15 +1459,15 @@
           "7": 2.44
         },
         "lineDispersion": {
-          "max": 4.0,
-          "median": 3.5,
-          "min": 3.5,
-          "range": 0.5
+          "max": 5.5,
+          "median": 5.0,
+          "min": 4.5,
+          "range": 1.0
         },
         "movement": {
-          "hoursCovered": 0.45288894888888886,
-          "latestVelocityPointsPerHour": 0.0,
-          "observations": 3,
+          "hoursCovered": 9.539242212777777,
+          "latestVelocityPointsPerHour": 0.11005515314644589,
+          "observations": 4,
           "previousVelocityPointsPerHour": 0.0,
           "reversal": false
         },
@@ -1400,24 +1476,28 @@
           "INSUFFICIENT_FRESH_SAME_LINE_BOOKS",
           "LINE_MISMATCH"
         ],
-        "referenceQuoteAgeSeconds": 2.350611,
+        "referenceQuoteAgeSeconds": 15.222361,
         "sameLineNoVigProbabilities": {
+          "betmgm": {
+            "power": 0.5023369847659842,
+            "proportional": 0.5021949078138719
+          },
           "pinnacle": {
-            "power": 0.5141297889457589,
-            "proportional": 0.5133761369716425
+            "power": 0.5023539790145309,
+            "proportional": 0.502225882562436
           }
         },
         "sameLineNoVigProbabilityRange": {
-          "power": 0.0,
-          "proportional": 0.0
+          "power": 1.699424854673115e-05,
+          "proportional": 3.097474856417204e-05
         },
         "status": "BLOCKED",
-        "venueQuoteAgeSeconds": 3.350611
+        "venueQuoteAgeSeconds": 53.222361
       },
-      "maxPlayablePriceVsPinnacle": -105.0,
+      "maxPlayablePriceVsPinnacle": -100.0,
       "openingHomeLine": 3.5,
-      "pinnacleFairProbability": 0.5133761369716425,
-      "pinnacleReferenceLine": 4.0,
+      "pinnacleFairProbability": 0.502225882562436,
+      "pinnacleReferenceLine": 5.0,
       "projectionGapVsOpen": 4.63,
       "providerSide": "Tennessee Volunteers",
       "side": "Tennessee",
@@ -1427,10 +1507,10 @@
     },
     {
       "actualStakeUnits": 0,
-      "currentLine": 3.5,
-      "currentPrice": -105.0,
-      "currentReferenceHomeLine": 4.0,
-      "estimatedMovementRemaining": 1.8088235294117647,
+      "currentLine": 4.5,
+      "currentPrice": -110.0,
+      "currentReferenceHomeLine": 5.0,
+      "estimatedMovementRemaining": 2.8088235294117645,
       "exclusions": [
         "LINE_MISMATCH",
         "LIVE_PRICE_EV_BELOW_FLOOR"
@@ -1438,17 +1518,18 @@
       "firstSeen": "2026-09-21T01:04:50.274619+00:00",
       "game": "Texas @ Tennessee",
       "historicalMeanDirectionalClv": 1.3088235294117647,
-      "livePriceEv": 0.0023057912303497408,
+      "livePriceEv": -0.041205133289894946,
       "marketQuality": {
-        "conservativeExecutableEv": 0.0023057912303497408,
-        "currentReferenceSideLine": 4.0,
+        "conservativeExecutableEv": -0.041205133289894946,
+        "currentReferenceSideLine": 5.0,
         "devigExecutableEv": {
-          "power": 0.0037772069893388105,
-          "proportional": 0.0023057912303497408
+          "power": -0.04096058551771381,
+          "proportional": -0.041205133289894946
         },
         "directionalAuthority": false,
-        "freshSameLineBookCount": 1,
+        "freshSameLineBookCount": 2,
         "freshSameLineBooks": [
+          "betmgm",
           "pinnacle"
         ],
         "keyNumberCrossings": [],
@@ -1459,15 +1540,15 @@
           "7": 2.44
         },
         "lineDispersion": {
-          "max": 4.0,
-          "median": 3.5,
-          "min": 3.5,
-          "range": 0.5
+          "max": 5.5,
+          "median": 5.0,
+          "min": 4.5,
+          "range": 1.0
         },
         "movement": {
-          "hoursCovered": 0.45288894888888886,
-          "latestVelocityPointsPerHour": 0.0,
-          "observations": 3,
+          "hoursCovered": 9.539242212777777,
+          "latestVelocityPointsPerHour": 0.11005515314644589,
+          "observations": 4,
           "previousVelocityPointsPerHour": 0.0,
           "reversal": false
         },
@@ -1476,24 +1557,28 @@
           "INSUFFICIENT_FRESH_SAME_LINE_BOOKS",
           "LINE_MISMATCH"
         ],
-        "referenceQuoteAgeSeconds": 2.350611,
+        "referenceQuoteAgeSeconds": 15.222361,
         "sameLineNoVigProbabilities": {
+          "betmgm": {
+            "power": 0.5023369847659842,
+            "proportional": 0.5021949078138719
+          },
           "pinnacle": {
-            "power": 0.5141297889457589,
-            "proportional": 0.5133761369716425
+            "power": 0.5023539790145309,
+            "proportional": 0.502225882562436
           }
         },
         "sameLineNoVigProbabilityRange": {
-          "power": 0.0,
-          "proportional": 0.0
+          "power": 1.699424854673115e-05,
+          "proportional": 3.097474856417204e-05
         },
         "status": "BLOCKED",
-        "venueQuoteAgeSeconds": 18.350611
+        "venueQuoteAgeSeconds": 31.222361
       },
-      "maxPlayablePriceVsPinnacle": -105.0,
+      "maxPlayablePriceVsPinnacle": -100.0,
       "openingHomeLine": 3.5,
-      "pinnacleFairProbability": 0.5133761369716425,
-      "pinnacleReferenceLine": 4.0,
+      "pinnacleFairProbability": 0.502225882562436,
+      "pinnacleReferenceLine": 5.0,
       "projectionGapVsOpen": 4.63,
       "providerSide": "Tennessee Volunteers",
       "side": "Tennessee",
@@ -1503,28 +1588,28 @@
     },
     {
       "actualStakeUnits": 0,
-      "currentLine": 3.5,
+      "currentLine": 5.0,
       "currentPrice": -110.0,
-      "currentReferenceHomeLine": 4.0,
-      "estimatedMovementRemaining": 1.8088235294117647,
+      "currentReferenceHomeLine": 5.0,
+      "estimatedMovementRemaining": 2.8088235294117645,
       "exclusions": [
-        "LINE_MISMATCH",
         "LIVE_PRICE_EV_BELOW_FLOOR"
       ],
       "firstSeen": "2026-09-21T01:04:50.274619+00:00",
       "game": "Texas @ Tennessee",
       "historicalMeanDirectionalClv": 1.3088235294117647,
-      "livePriceEv": -0.019918283963228034,
+      "livePriceEv": -0.041205133289894946,
       "marketQuality": {
-        "conservativeExecutableEv": -0.019918283963228034,
-        "currentReferenceSideLine": 4.0,
+        "conservativeExecutableEv": -0.041205133289894946,
+        "currentReferenceSideLine": 5.0,
         "devigExecutableEv": {
-          "power": -0.01847949383082409,
-          "proportional": -0.019918283963228034
+          "power": -0.04096058551771381,
+          "proportional": -0.041205133289894946
         },
         "directionalAuthority": false,
-        "freshSameLineBookCount": 1,
+        "freshSameLineBookCount": 2,
         "freshSameLineBooks": [
+          "betmgm",
           "pinnacle"
         ],
         "keyNumberCrossings": [],
@@ -1535,41 +1620,44 @@
           "7": 2.44
         },
         "lineDispersion": {
-          "max": 4.0,
-          "median": 3.5,
-          "min": 3.5,
-          "range": 0.5
+          "max": 5.5,
+          "median": 5.0,
+          "min": 4.5,
+          "range": 1.0
         },
         "movement": {
-          "hoursCovered": 0.45288894888888886,
-          "latestVelocityPointsPerHour": 0.0,
-          "observations": 3,
+          "hoursCovered": 9.539242212777777,
+          "latestVelocityPointsPerHour": 0.11005515314644589,
+          "observations": 4,
           "previousVelocityPointsPerHour": 0.0,
           "reversal": false
         },
         "openingSideLine": 3.5,
         "reasons": [
-          "INSUFFICIENT_FRESH_SAME_LINE_BOOKS",
-          "LINE_MISMATCH"
+          "INSUFFICIENT_FRESH_SAME_LINE_BOOKS"
         ],
-        "referenceQuoteAgeSeconds": 2.350611,
+        "referenceQuoteAgeSeconds": 15.222361,
         "sameLineNoVigProbabilities": {
+          "betmgm": {
+            "power": 0.5023369847659842,
+            "proportional": 0.5021949078138719
+          },
           "pinnacle": {
-            "power": 0.5141297889457589,
-            "proportional": 0.5133761369716425
+            "power": 0.5023539790145309,
+            "proportional": 0.502225882562436
           }
         },
         "sameLineNoVigProbabilityRange": {
-          "power": 0.0,
-          "proportional": 0.0
+          "power": 1.699424854673115e-05,
+          "proportional": 3.097474856417204e-05
         },
         "status": "BLOCKED",
-        "venueQuoteAgeSeconds": 40.350611
+        "venueQuoteAgeSeconds": 14.222361
       },
-      "maxPlayablePriceVsPinnacle": -105.0,
+      "maxPlayablePriceVsPinnacle": -100.0,
       "openingHomeLine": 3.5,
-      "pinnacleFairProbability": 0.5133761369716425,
-      "pinnacleReferenceLine": 4.0,
+      "pinnacleFairProbability": 0.502225882562436,
+      "pinnacleReferenceLine": 5.0,
       "projectionGapVsOpen": 4.63,
       "providerSide": "Tennessee Volunteers",
       "side": "Tennessee",
@@ -1579,10 +1667,10 @@
     },
     {
       "actualStakeUnits": 0,
-      "currentLine": 3.5,
-      "currentPrice": -112.0,
-      "currentReferenceHomeLine": 4.0,
-      "estimatedMovementRemaining": 1.8088235294117647,
+      "currentLine": 5.5,
+      "currentPrice": -113.0,
+      "currentReferenceHomeLine": 5.0,
+      "estimatedMovementRemaining": 2.8088235294117645,
       "exclusions": [
         "LINE_MISMATCH",
         "LIVE_PRICE_EV_BELOW_FLOOR"
@@ -1590,17 +1678,18 @@
       "firstSeen": "2026-09-21T01:04:50.274619+00:00",
       "game": "Texas @ Tennessee",
       "historicalMeanDirectionalClv": 1.3088235294117647,
-      "livePriceEv": -0.02825231216081947,
+      "livePriceEv": -0.053326433753992264,
       "marketQuality": {
-        "conservativeExecutableEv": -0.02825231216081947,
-        "currentReferenceSideLine": 4.0,
+        "conservativeExecutableEv": -0.053326433753992264,
+        "currentReferenceSideLine": 5.0,
         "devigExecutableEv": {
-          "power": -0.026825756638384934,
-          "proportional": -0.02825231216081947
+          "power": -0.053084977609777984,
+          "proportional": -0.053326433753992264
         },
         "directionalAuthority": false,
-        "freshSameLineBookCount": 1,
+        "freshSameLineBookCount": 2,
         "freshSameLineBooks": [
+          "betmgm",
           "pinnacle"
         ],
         "keyNumberCrossings": [],
@@ -1611,15 +1700,15 @@
           "7": 2.44
         },
         "lineDispersion": {
-          "max": 4.0,
-          "median": 3.5,
-          "min": 3.5,
-          "range": 0.5
+          "max": 5.5,
+          "median": 5.0,
+          "min": 4.5,
+          "range": 1.0
         },
         "movement": {
-          "hoursCovered": 0.45288894888888886,
-          "latestVelocityPointsPerHour": 0.0,
-          "observations": 3,
+          "hoursCovered": 9.539242212777777,
+          "latestVelocityPointsPerHour": 0.11005515314644589,
+          "observations": 4,
           "previousVelocityPointsPerHour": 0.0,
           "reversal": false
         },
@@ -1628,24 +1717,28 @@
           "INSUFFICIENT_FRESH_SAME_LINE_BOOKS",
           "LINE_MISMATCH"
         ],
-        "referenceQuoteAgeSeconds": 2.350611,
+        "referenceQuoteAgeSeconds": 15.222361,
         "sameLineNoVigProbabilities": {
+          "betmgm": {
+            "power": 0.5023369847659842,
+            "proportional": 0.5021949078138719
+          },
           "pinnacle": {
-            "power": 0.5141297889457589,
-            "proportional": 0.5133761369716425
+            "power": 0.5023539790145309,
+            "proportional": 0.502225882562436
           }
         },
         "sameLineNoVigProbabilityRange": {
-          "power": 0.0,
-          "proportional": 0.0
+          "power": 1.699424854673115e-05,
+          "proportional": 3.097474856417204e-05
         },
         "status": "BLOCKED",
-        "venueQuoteAgeSeconds": 40.350611
+        "venueQuoteAgeSeconds": 11.222361
       },
-      "maxPlayablePriceVsPinnacle": -105.0,
+      "maxPlayablePriceVsPinnacle": -100.0,
       "openingHomeLine": 3.5,
-      "pinnacleFairProbability": 0.5133761369716425,
-      "pinnacleReferenceLine": 4.0,
+      "pinnacleFairProbability": 0.502225882562436,
+      "pinnacleReferenceLine": 5.0,
       "projectionGapVsOpen": 4.63,
       "providerSide": "Tennessee Volunteers",
       "side": "Tennessee",
@@ -1656,28 +1749,26 @@
     {
       "actualStakeUnits": 0,
       "currentLine": 27.5,
-      "currentPrice": -115.0,
-      "currentReferenceHomeLine": 27.0,
-      "estimatedMovementRemaining": 1.7088235294117633,
+      "currentPrice": -102.0,
+      "currentReferenceHomeLine": 28.0,
+      "estimatedMovementRemaining": 2.708823529411763,
       "exclusions": [
-        "LINE_MISMATCH",
-        "LIVE_PRICE_EV_BELOW_FLOOR"
+        "LINE_MISMATCH"
       ],
       "firstSeen": "2026-09-21T01:04:50.274619+00:00",
       "game": "Notre Dame @ Purdue",
       "historicalMeanDirectionalClv": 1.3088235294117647,
-      "livePriceEv": -0.04438797357861024,
+      "livePriceEv": 0.007840342124020017,
       "marketQuality": {
-        "conservativeExecutableEv": -0.04438797357861024,
-        "currentReferenceSideLine": 27.0,
+        "conservativeExecutableEv": 0.007840342124020017,
+        "currentReferenceSideLine": 28.0,
         "devigExecutableEv": {
-          "power": -0.043206488403592036,
-          "proportional": -0.04438797357861024
+          "power": 0.008846629100906778,
+          "proportional": 0.007840342124020017
         },
         "directionalAuthority": false,
-        "freshSameLineBookCount": 2,
+        "freshSameLineBookCount": 1,
         "freshSameLineBooks": [
-          "betmgm",
           "pinnacle"
         ],
         "keyNumberCrossings": [],
@@ -1688,15 +1779,15 @@
           "7": 2.44
         },
         "lineDispersion": {
-          "max": 27.5,
-          "median": 27.0,
-          "min": 26.5,
-          "range": 1.0
+          "max": 28.0,
+          "median": 27.5,
+          "min": 27.5,
+          "range": 0.5
         },
         "movement": {
-          "hoursCovered": 0.45288894888888886,
-          "latestVelocityPointsPerHour": 0.0,
-          "observations": 3,
+          "hoursCovered": 9.539242212777777,
+          "latestVelocityPointsPerHour": 0.11005515314644589,
+          "observations": 4,
           "previousVelocityPointsPerHour": 0.0,
           "reversal": false
         },
@@ -1705,28 +1796,24 @@
           "INSUFFICIENT_FRESH_SAME_LINE_BOOKS",
           "LINE_MISMATCH"
         ],
-        "referenceQuoteAgeSeconds": 3.350611,
+        "referenceQuoteAgeSeconds": 15.222361,
         "sameLineNoVigProbabilities": {
-          "betmgm": {
-            "power": 0.5023369847659842,
-            "proportional": 0.5021949078138719
-          },
           "pinnacle": {
-            "power": 0.5117732736445904,
-            "proportional": 0.5111413164579527
+            "power": 0.5094176047935272,
+            "proportional": 0.5089094796863863
           }
         },
         "sameLineNoVigProbabilityRange": {
-          "power": 0.009436288878606147,
-          "proportional": 0.008946408644080805
+          "power": 0.0,
+          "proportional": 0.0
         },
         "status": "BLOCKED",
-        "venueQuoteAgeSeconds": 3.350611
+        "venueQuoteAgeSeconds": 53.222361
       },
-      "maxPlayablePriceVsPinnacle": -104.0,
+      "maxPlayablePriceVsPinnacle": -103.0,
       "openingHomeLine": 26.6,
-      "pinnacleFairProbability": 0.5111413164579527,
-      "pinnacleReferenceLine": 27.0,
+      "pinnacleFairProbability": 0.5089094796863863,
+      "pinnacleReferenceLine": 28.0,
       "projectionGapVsOpen": 4.960000000000001,
       "providerSide": "Purdue Boilermakers",
       "side": "Purdue",
@@ -1736,10 +1823,10 @@
     },
     {
       "actualStakeUnits": 0,
-      "currentLine": 26.5,
-      "currentPrice": -110.0,
-      "currentReferenceHomeLine": 27.0,
-      "estimatedMovementRemaining": 1.7088235294117633,
+      "currentLine": 27.5,
+      "currentPrice": -104.0,
+      "currentReferenceHomeLine": 28.0,
+      "estimatedMovementRemaining": 2.708823529411763,
       "exclusions": [
         "LINE_MISMATCH",
         "LIVE_PRICE_EV_BELOW_FLOOR"
@@ -1747,18 +1834,17 @@
       "firstSeen": "2026-09-21T01:04:50.274619+00:00",
       "game": "Notre Dame @ Purdue",
       "historicalMeanDirectionalClv": 1.3088235294117647,
-      "livePriceEv": -0.02418475948936316,
+      "livePriceEv": -0.001754482153626724,
       "marketQuality": {
-        "conservativeExecutableEv": -0.02418475948936316,
-        "currentReferenceSideLine": 27.0,
+        "conservativeExecutableEv": -0.001754482153626724,
+        "currentReferenceSideLine": 28.0,
         "devigExecutableEv": {
-          "power": -0.022978295769418566,
-          "proportional": -0.02418475948936316
+          "power": -0.0007577752126966542,
+          "proportional": -0.001754482153626724
         },
         "directionalAuthority": false,
-        "freshSameLineBookCount": 2,
+        "freshSameLineBookCount": 1,
         "freshSameLineBooks": [
-          "betmgm",
           "pinnacle"
         ],
         "keyNumberCrossings": [],
@@ -1769,15 +1855,15 @@
           "7": 2.44
         },
         "lineDispersion": {
-          "max": 27.5,
-          "median": 27.0,
-          "min": 26.5,
-          "range": 1.0
+          "max": 28.0,
+          "median": 27.5,
+          "min": 27.5,
+          "range": 0.5
         },
         "movement": {
-          "hoursCovered": 0.45288894888888886,
-          "latestVelocityPointsPerHour": 0.0,
-          "observations": 3,
+          "hoursCovered": 9.539242212777777,
+          "latestVelocityPointsPerHour": 0.11005515314644589,
+          "observations": 4,
           "previousVelocityPointsPerHour": 0.0,
           "reversal": false
         },
@@ -1786,28 +1872,24 @@
           "INSUFFICIENT_FRESH_SAME_LINE_BOOKS",
           "LINE_MISMATCH"
         ],
-        "referenceQuoteAgeSeconds": 3.350611,
+        "referenceQuoteAgeSeconds": 15.222361,
         "sameLineNoVigProbabilities": {
-          "betmgm": {
-            "power": 0.5023369847659842,
-            "proportional": 0.5021949078138719
-          },
           "pinnacle": {
-            "power": 0.5117732736445904,
-            "proportional": 0.5111413164579527
+            "power": 0.5094176047935272,
+            "proportional": 0.5089094796863863
           }
         },
         "sameLineNoVigProbabilityRange": {
-          "power": 0.009436288878606147,
-          "proportional": 0.008946408644080805
+          "power": 0.0,
+          "proportional": 0.0
         },
         "status": "BLOCKED",
-        "venueQuoteAgeSeconds": 18.350611
+        "venueQuoteAgeSeconds": 31.222361
       },
-      "maxPlayablePriceVsPinnacle": -104.0,
+      "maxPlayablePriceVsPinnacle": -103.0,
       "openingHomeLine": 26.6,
-      "pinnacleFairProbability": 0.5111413164579527,
-      "pinnacleReferenceLine": 27.0,
+      "pinnacleFairProbability": 0.5089094796863863,
+      "pinnacleReferenceLine": 28.0,
       "projectionGapVsOpen": 4.960000000000001,
       "providerSide": "Purdue Boilermakers",
       "side": "Purdue",
@@ -1817,28 +1899,28 @@
     },
     {
       "actualStakeUnits": 0,
-      "currentLine": 27.0,
-      "currentPrice": -110.0,
-      "currentReferenceHomeLine": 27.0,
-      "estimatedMovementRemaining": 1.7088235294117633,
+      "currentLine": 27.5,
+      "currentPrice": -105.0,
+      "currentReferenceHomeLine": 28.0,
+      "estimatedMovementRemaining": 2.708823529411763,
       "exclusions": [
+        "LINE_MISMATCH",
         "LIVE_PRICE_EV_BELOW_FLOOR"
       ],
       "firstSeen": "2026-09-21T01:04:50.274619+00:00",
       "game": "Notre Dame @ Purdue",
       "historicalMeanDirectionalClv": 1.3088235294117647,
-      "livePriceEv": -0.02418475948936316,
+      "livePriceEv": -0.006414825374198074,
       "marketQuality": {
-        "conservativeExecutableEv": -0.02418475948936316,
-        "currentReferenceSideLine": 27.0,
+        "conservativeExecutableEv": -0.006414825374198074,
+        "currentReferenceSideLine": 28.0,
         "devigExecutableEv": {
-          "power": -0.022978295769418566,
-          "proportional": -0.02418475948936316
+          "power": -0.005422771593589781,
+          "proportional": -0.006414825374198074
         },
         "directionalAuthority": false,
-        "freshSameLineBookCount": 2,
+        "freshSameLineBookCount": 1,
         "freshSameLineBooks": [
-          "betmgm",
           "pinnacle"
         ],
         "keyNumberCrossings": [],
@@ -1849,44 +1931,41 @@
           "7": 2.44
         },
         "lineDispersion": {
-          "max": 27.5,
-          "median": 27.0,
-          "min": 26.5,
-          "range": 1.0
+          "max": 28.0,
+          "median": 27.5,
+          "min": 27.5,
+          "range": 0.5
         },
         "movement": {
-          "hoursCovered": 0.45288894888888886,
-          "latestVelocityPointsPerHour": 0.0,
-          "observations": 3,
+          "hoursCovered": 9.539242212777777,
+          "latestVelocityPointsPerHour": 0.11005515314644589,
+          "observations": 4,
           "previousVelocityPointsPerHour": 0.0,
           "reversal": false
         },
         "openingSideLine": 26.6,
         "reasons": [
-          "INSUFFICIENT_FRESH_SAME_LINE_BOOKS"
+          "INSUFFICIENT_FRESH_SAME_LINE_BOOKS",
+          "LINE_MISMATCH"
         ],
-        "referenceQuoteAgeSeconds": 3.350611,
+        "referenceQuoteAgeSeconds": 15.222361,
         "sameLineNoVigProbabilities": {
-          "betmgm": {
-            "power": 0.5023369847659842,
-            "proportional": 0.5021949078138719
-          },
           "pinnacle": {
-            "power": 0.5117732736445904,
-            "proportional": 0.5111413164579527
+            "power": 0.5094176047935272,
+            "proportional": 0.5089094796863863
           }
         },
         "sameLineNoVigProbabilityRange": {
-          "power": 0.009436288878606147,
-          "proportional": 0.008946408644080805
+          "power": 0.0,
+          "proportional": 0.0
         },
         "status": "BLOCKED",
-        "venueQuoteAgeSeconds": 40.350611
+        "venueQuoteAgeSeconds": 14.222361
       },
-      "maxPlayablePriceVsPinnacle": -104.0,
+      "maxPlayablePriceVsPinnacle": -103.0,
       "openingHomeLine": 26.6,
-      "pinnacleFairProbability": 0.5111413164579527,
-      "pinnacleReferenceLine": 27.0,
+      "pinnacleFairProbability": 0.5089094796863863,
+      "pinnacleReferenceLine": 28.0,
       "projectionGapVsOpen": 4.960000000000001,
       "providerSide": "Purdue Boilermakers",
       "side": "Purdue",
@@ -1898,8 +1977,8 @@
       "actualStakeUnits": 0,
       "currentLine": 27.5,
       "currentPrice": -109.0,
-      "currentReferenceHomeLine": 27.0,
-      "estimatedMovementRemaining": 1.7088235294117633,
+      "currentReferenceHomeLine": 28.0,
+      "estimatedMovementRemaining": 2.708823529411763,
       "exclusions": [
         "LINE_MISMATCH",
         "LIVE_PRICE_EV_BELOW_FLOOR"
@@ -1907,18 +1986,17 @@
       "firstSeen": "2026-09-21T01:04:50.274619+00:00",
       "game": "Notre Dame @ Purdue",
       "historicalMeanDirectionalClv": 1.3088235294117647,
-      "livePriceEv": -0.019921695965943897,
+      "livePriceEv": -0.02420108940867205,
       "marketQuality": {
-        "conservativeExecutableEv": -0.019921695965943897,
-        "currentReferenceSideLine": 27.0,
+        "conservativeExecutableEv": -0.02420108940867205,
+        "currentReferenceSideLine": 28.0,
         "devigExecutableEv": {
-          "power": -0.018709961543858844,
-          "proportional": -0.019921695965943897
+          "power": -0.02322679447846626,
+          "proportional": -0.02420108940867205
         },
         "directionalAuthority": false,
-        "freshSameLineBookCount": 2,
+        "freshSameLineBookCount": 1,
         "freshSameLineBooks": [
-          "betmgm",
           "pinnacle"
         ],
         "keyNumberCrossings": [],
@@ -1929,15 +2007,15 @@
           "7": 2.44
         },
         "lineDispersion": {
-          "max": 27.5,
-          "median": 27.0,
-          "min": 26.5,
-          "range": 1.0
+          "max": 28.0,
+          "median": 27.5,
+          "min": 27.5,
+          "range": 0.5
         },
         "movement": {
-          "hoursCovered": 0.45288894888888886,
-          "latestVelocityPointsPerHour": 0.0,
-          "observations": 3,
+          "hoursCovered": 9.539242212777777,
+          "latestVelocityPointsPerHour": 0.11005515314644589,
+          "observations": 4,
           "previousVelocityPointsPerHour": 0.0,
           "reversal": false
         },
@@ -1946,28 +2024,24 @@
           "INSUFFICIENT_FRESH_SAME_LINE_BOOKS",
           "LINE_MISMATCH"
         ],
-        "referenceQuoteAgeSeconds": 3.350611,
+        "referenceQuoteAgeSeconds": 15.222361,
         "sameLineNoVigProbabilities": {
-          "betmgm": {
-            "power": 0.5023369847659842,
-            "proportional": 0.5021949078138719
-          },
           "pinnacle": {
-            "power": 0.5117732736445904,
-            "proportional": 0.5111413164579527
+            "power": 0.5094176047935272,
+            "proportional": 0.5089094796863863
           }
         },
         "sameLineNoVigProbabilityRange": {
-          "power": 0.009436288878606147,
-          "proportional": 0.008946408644080805
+          "power": 0.0,
+          "proportional": 0.0
         },
         "status": "BLOCKED",
-        "venueQuoteAgeSeconds": 40.350611
+        "venueQuoteAgeSeconds": 11.222361
       },
-      "maxPlayablePriceVsPinnacle": -104.0,
+      "maxPlayablePriceVsPinnacle": -103.0,
       "openingHomeLine": 26.6,
-      "pinnacleFairProbability": 0.5111413164579527,
-      "pinnacleReferenceLine": 27.0,
+      "pinnacleFairProbability": 0.5089094796863863,
+      "pinnacleReferenceLine": 28.0,
       "projectionGapVsOpen": 4.960000000000001,
       "providerSide": "Purdue Boilermakers",
       "side": "Purdue",
@@ -1977,30 +2051,30 @@
     },
     {
       "actualStakeUnits": 0,
-      "currentLine": 3.0,
-      "currentPrice": 100.0,
-      "currentReferenceHomeLine": -3.0,
-      "estimatedMovementRemaining": 1.3088235294117647,
+      "currentLine": 3.5,
+      "currentPrice": -115.0,
+      "currentReferenceHomeLine": -3.5,
+      "estimatedMovementRemaining": 1.8088235294117647,
       "exclusions": [
         "LIVE_PRICE_EV_BELOW_FLOOR"
       ],
       "firstSeen": "2026-09-21T01:04:50.274619+00:00",
       "game": "Ole Miss @ Florida",
       "historicalMeanDirectionalClv": 1.3088235294117647,
-      "livePriceEv": -0.03769401330376937,
+      "livePriceEv": -0.036024983270131594,
       "marketQuality": {
-        "conservativeExecutableEv": -0.03990636201707426,
-        "currentReferenceSideLine": 3.0,
+        "conservativeExecutableEv": -0.036024983270131594,
+        "currentReferenceSideLine": 3.5,
         "devigExecutableEv": {
-          "power": -0.03990636201707426,
-          "proportional": -0.03769401330376937
+          "power": -0.034393268800878674,
+          "proportional": -0.036024983270131594
         },
         "directionalAuthority": false,
         "freshSameLineBookCount": 4,
         "freshSameLineBooks": [
-          "betmgm",
           "betrivers",
           "draftkings",
+          "fanduel",
           "pinnacle"
         ],
         "keyNumberCrossings": [],
@@ -2012,49 +2086,49 @@
         },
         "lineDispersion": {
           "max": 3.5,
-          "median": 3.0,
+          "median": 3.5,
           "min": 3.0,
           "range": 0.5
         },
         "movement": {
-          "hoursCovered": 0.45288894888888886,
-          "latestVelocityPointsPerHour": 0.0,
-          "observations": 3,
+          "hoursCovered": 9.539242212777777,
+          "latestVelocityPointsPerHour": 0.05502757657322294,
+          "observations": 4,
           "previousVelocityPointsPerHour": 0.0,
           "reversal": false
         },
         "openingSideLine": 3.0,
         "reasons": [],
-        "referenceQuoteAgeSeconds": 3.350611,
+        "referenceQuoteAgeSeconds": 15.222361,
         "sameLineNoVigProbabilities": {
-          "betmgm": {
-            "power": 0.4814245062799814,
-            "proportional": 0.4826358742837298
-          },
           "betrivers": {
-            "power": 0.5057393768103301,
-            "proportional": 0.5053020020359688
+            "power": 0.503443471554799,
+            "proportional": 0.5031806615776081
           },
           "draftkings": {
-            "power": 0.4767709538475988,
-            "proportional": 0.4782608695652174
+            "power": 0.5116044544983526,
+            "proportional": 0.5108342361863489
+          },
+          "fanduel": {
+            "power": 0.5253759698132654,
+            "proportional": 0.5236051502145922
           },
           "pinnacle": {
-            "power": 0.4800468189914629,
-            "proportional": 0.4811529933481153
+            "power": 0.5164873213390649,
+            "proportional": 0.5156145438322552
           }
         },
         "sameLineNoVigProbabilityRange": {
-          "power": 0.028968422962731277,
-          "proportional": 0.02704113247075135
+          "power": 0.021932498258466437,
+          "proportional": 0.020424488636984095
         },
         "status": "PASS",
-        "venueQuoteAgeSeconds": 3.350611
+        "venueQuoteAgeSeconds": 53.222361
       },
-      "maxPlayablePriceVsPinnacle": 108.0,
+      "maxPlayablePriceVsPinnacle": -106.0,
       "openingHomeLine": -3.0,
-      "pinnacleFairProbability": 0.4811529933481153,
-      "pinnacleReferenceLine": 3.0,
+      "pinnacleFairProbability": 0.5156145438322552,
+      "pinnacleReferenceLine": 3.5,
       "projectionGapVsOpen": -4.26,
       "providerSide": "Ole Miss Rebels",
       "side": "Ole Miss",
@@ -2066,29 +2140,28 @@
       "actualStakeUnits": 0,
       "currentLine": 3.5,
       "currentPrice": -122.0,
-      "currentReferenceHomeLine": -3.0,
-      "estimatedMovementRemaining": 1.3088235294117647,
+      "currentReferenceHomeLine": -3.5,
+      "estimatedMovementRemaining": 1.8088235294117647,
       "exclusions": [
-        "LINE_MISMATCH",
         "LIVE_PRICE_EV_BELOW_FLOOR"
       ],
       "firstSeen": "2026-09-21T01:04:50.274619+00:00",
       "game": "Ole Miss @ Florida",
       "historicalMeanDirectionalClv": 1.3088235294117647,
-      "livePriceEv": -0.12445930718621634,
+      "livePriceEv": -0.06175058417409285,
       "marketQuality": {
-        "conservativeExecutableEv": -0.12647218183520686,
-        "currentReferenceSideLine": 3.0,
+        "conservativeExecutableEv": -0.06175058417409285,
+        "currentReferenceSideLine": 3.5,
         "devigExecutableEv": {
-          "power": -0.12647218183520686,
-          "proportional": -0.12445930718621634
+          "power": -0.06016241526825883,
+          "proportional": -0.06175058417409285
         },
         "directionalAuthority": false,
         "freshSameLineBookCount": 4,
         "freshSameLineBooks": [
-          "betmgm",
           "betrivers",
           "draftkings",
+          "fanduel",
           "pinnacle"
         ],
         "keyNumberCrossings": [],
@@ -2100,51 +2173,49 @@
         },
         "lineDispersion": {
           "max": 3.5,
-          "median": 3.0,
+          "median": 3.5,
           "min": 3.0,
           "range": 0.5
         },
         "movement": {
-          "hoursCovered": 0.45288894888888886,
-          "latestVelocityPointsPerHour": 0.0,
-          "observations": 3,
+          "hoursCovered": 9.539242212777777,
+          "latestVelocityPointsPerHour": 0.05502757657322294,
+          "observations": 4,
           "previousVelocityPointsPerHour": 0.0,
           "reversal": false
         },
         "openingSideLine": 3.0,
-        "reasons": [
-          "LINE_MISMATCH"
-        ],
-        "referenceQuoteAgeSeconds": 3.350611,
+        "reasons": [],
+        "referenceQuoteAgeSeconds": 15.222361,
         "sameLineNoVigProbabilities": {
-          "betmgm": {
-            "power": 0.4814245062799814,
-            "proportional": 0.4826358742837298
-          },
           "betrivers": {
-            "power": 0.5057393768103301,
-            "proportional": 0.5053020020359688
+            "power": 0.503443471554799,
+            "proportional": 0.5031806615776081
           },
           "draftkings": {
-            "power": 0.4767709538475988,
-            "proportional": 0.4782608695652174
+            "power": 0.5116044544983526,
+            "proportional": 0.5108342361863489
+          },
+          "fanduel": {
+            "power": 0.5253759698132654,
+            "proportional": 0.5236051502145922
           },
           "pinnacle": {
-            "power": 0.4800468189914629,
-            "proportional": 0.4811529933481153
+            "power": 0.5164873213390649,
+            "proportional": 0.5156145438322552
           }
         },
         "sameLineNoVigProbabilityRange": {
-          "power": 0.028968422962731277,
-          "proportional": 0.02704113247075135
+          "power": 0.021932498258466437,
+          "proportional": 0.020424488636984095
         },
-        "status": "BLOCKED",
-        "venueQuoteAgeSeconds": 18.350611
+        "status": "PASS",
+        "venueQuoteAgeSeconds": 31.222361
       },
-      "maxPlayablePriceVsPinnacle": 108.0,
+      "maxPlayablePriceVsPinnacle": -106.0,
       "openingHomeLine": -3.0,
-      "pinnacleFairProbability": 0.4811529933481153,
-      "pinnacleReferenceLine": 3.0,
+      "pinnacleFairProbability": 0.5156145438322552,
+      "pinnacleReferenceLine": 3.5,
       "projectionGapVsOpen": -4.26,
       "providerSide": "Ole Miss Rebels",
       "side": "Ole Miss",
@@ -2156,28 +2227,28 @@
       "actualStakeUnits": 0,
       "currentLine": 3.0,
       "currentPrice": -102.0,
-      "currentReferenceHomeLine": -3.0,
-      "estimatedMovementRemaining": 1.3088235294117647,
+      "currentReferenceHomeLine": -3.5,
+      "estimatedMovementRemaining": 1.8088235294117647,
       "exclusions": [
-        "LIVE_PRICE_EV_BELOW_FLOOR"
+        "LINE_MISMATCH"
       ],
       "firstSeen": "2026-09-21T01:04:50.274619+00:00",
       "game": "Ole Miss @ Florida",
       "historicalMeanDirectionalClv": 1.3088235294117647,
-      "livePriceEv": -0.047128385722359833,
+      "livePriceEv": 0.021118998569760405,
       "marketQuality": {
-        "conservativeExecutableEv": -0.04931904474239701,
-        "currentReferenceSideLine": 3.0,
+        "conservativeExecutableEv": 0.021118998569760405,
+        "currentReferenceSideLine": 3.5,
         "devigExecutableEv": {
-          "power": -0.04931904474239701,
-          "proportional": -0.047128385722359833
+          "power": 0.022847440298932598,
+          "proportional": 0.021118998569760405
         },
         "directionalAuthority": false,
         "freshSameLineBookCount": 4,
         "freshSameLineBooks": [
-          "betmgm",
           "betrivers",
           "draftkings",
+          "fanduel",
           "pinnacle"
         ],
         "keyNumberCrossings": [],
@@ -2189,49 +2260,51 @@
         },
         "lineDispersion": {
           "max": 3.5,
-          "median": 3.0,
+          "median": 3.5,
           "min": 3.0,
           "range": 0.5
         },
         "movement": {
-          "hoursCovered": 0.45288894888888886,
-          "latestVelocityPointsPerHour": 0.0,
-          "observations": 3,
+          "hoursCovered": 9.539242212777777,
+          "latestVelocityPointsPerHour": 0.05502757657322294,
+          "observations": 4,
           "previousVelocityPointsPerHour": 0.0,
           "reversal": false
         },
         "openingSideLine": 3.0,
-        "reasons": [],
-        "referenceQuoteAgeSeconds": 3.350611,
+        "reasons": [
+          "LINE_MISMATCH"
+        ],
+        "referenceQuoteAgeSeconds": 15.222361,
         "sameLineNoVigProbabilities": {
-          "betmgm": {
-            "power": 0.4814245062799814,
-            "proportional": 0.4826358742837298
-          },
           "betrivers": {
-            "power": 0.5057393768103301,
-            "proportional": 0.5053020020359688
+            "power": 0.503443471554799,
+            "proportional": 0.5031806615776081
           },
           "draftkings": {
-            "power": 0.4767709538475988,
-            "proportional": 0.4782608695652174
+            "power": 0.5116044544983526,
+            "proportional": 0.5108342361863489
+          },
+          "fanduel": {
+            "power": 0.5253759698132654,
+            "proportional": 0.5236051502145922
           },
           "pinnacle": {
-            "power": 0.4800468189914629,
-            "proportional": 0.4811529933481153
+            "power": 0.5164873213390649,
+            "proportional": 0.5156145438322552
           }
         },
         "sameLineNoVigProbabilityRange": {
-          "power": 0.028968422962731277,
-          "proportional": 0.02704113247075135
+          "power": 0.021932498258466437,
+          "proportional": 0.020424488636984095
         },
-        "status": "PASS",
-        "venueQuoteAgeSeconds": 40.350611
+        "status": "BLOCKED",
+        "venueQuoteAgeSeconds": 14.222361
       },
-      "maxPlayablePriceVsPinnacle": 108.0,
+      "maxPlayablePriceVsPinnacle": -106.0,
       "openingHomeLine": -3.0,
-      "pinnacleFairProbability": 0.4811529933481153,
-      "pinnacleReferenceLine": 3.0,
+      "pinnacleFairProbability": 0.5156145438322552,
+      "pinnacleReferenceLine": 3.5,
       "projectionGapVsOpen": -4.26,
       "providerSide": "Ole Miss Rebels",
       "side": "Ole Miss",
@@ -2241,30 +2314,30 @@
     },
     {
       "actualStakeUnits": 0,
-      "currentLine": 3.0,
-      "currentPrice": -114.0,
-      "currentReferenceHomeLine": -3.0,
-      "estimatedMovementRemaining": 1.3088235294117647,
+      "currentLine": 3.5,
+      "currentPrice": -113.0,
+      "currentReferenceHomeLine": -3.5,
+      "estimatedMovementRemaining": 1.8088235294117647,
       "exclusions": [
         "LIVE_PRICE_EV_BELOW_FLOOR"
       ],
       "firstSeen": "2026-09-21T01:04:50.274619+00:00",
       "game": "Ole Miss @ Florida",
       "historicalMeanDirectionalClv": 1.3088235294117647,
-      "livePriceEv": -0.09678297739915193,
+      "livePriceEv": -0.028089399679023352,
       "marketQuality": {
-        "conservativeExecutableEv": -0.09885948013883283,
-        "currentReferenceSideLine": 3.0,
+        "conservativeExecutableEv": -0.028089399679023352,
+        "currentReferenceSideLine": 3.5,
         "devigExecutableEv": {
-          "power": -0.09885948013883283,
-          "proportional": -0.09678297739915193
+          "power": -0.02644425269716083,
+          "proportional": -0.028089399679023352
         },
         "directionalAuthority": false,
         "freshSameLineBookCount": 4,
         "freshSameLineBooks": [
-          "betmgm",
           "betrivers",
           "draftkings",
+          "fanduel",
           "pinnacle"
         ],
         "keyNumberCrossings": [],
@@ -2276,49 +2349,49 @@
         },
         "lineDispersion": {
           "max": 3.5,
-          "median": 3.0,
+          "median": 3.5,
           "min": 3.0,
           "range": 0.5
         },
         "movement": {
-          "hoursCovered": 0.45288894888888886,
-          "latestVelocityPointsPerHour": 0.0,
-          "observations": 3,
+          "hoursCovered": 9.539242212777777,
+          "latestVelocityPointsPerHour": 0.05502757657322294,
+          "observations": 4,
           "previousVelocityPointsPerHour": 0.0,
           "reversal": false
         },
         "openingSideLine": 3.0,
         "reasons": [],
-        "referenceQuoteAgeSeconds": 3.350611,
+        "referenceQuoteAgeSeconds": 15.222361,
         "sameLineNoVigProbabilities": {
-          "betmgm": {
-            "power": 0.4814245062799814,
-            "proportional": 0.4826358742837298
-          },
           "betrivers": {
-            "power": 0.5057393768103301,
-            "proportional": 0.5053020020359688
+            "power": 0.503443471554799,
+            "proportional": 0.5031806615776081
           },
           "draftkings": {
-            "power": 0.4767709538475988,
-            "proportional": 0.4782608695652174
+            "power": 0.5116044544983526,
+            "proportional": 0.5108342361863489
+          },
+          "fanduel": {
+            "power": 0.5253759698132654,
+            "proportional": 0.5236051502145922
           },
           "pinnacle": {
-            "power": 0.4800468189914629,
-            "proportional": 0.4811529933481153
+            "power": 0.5164873213390649,
+            "proportional": 0.5156145438322552
           }
         },
         "sameLineNoVigProbabilityRange": {
-          "power": 0.028968422962731277,
-          "proportional": 0.02704113247075135
+          "power": 0.021932498258466437,
+          "proportional": 0.020424488636984095
         },
         "status": "PASS",
-        "venueQuoteAgeSeconds": 40.350611
+        "venueQuoteAgeSeconds": 11.222361
       },
-      "maxPlayablePriceVsPinnacle": 108.0,
+      "maxPlayablePriceVsPinnacle": -106.0,
       "openingHomeLine": -3.0,
-      "pinnacleFairProbability": 0.4811529933481153,
-      "pinnacleReferenceLine": 3.0,
+      "pinnacleFairProbability": 0.5156145438322552,
+      "pinnacleReferenceLine": 3.5,
       "projectionGapVsOpen": -4.26,
       "providerSide": "Ole Miss Rebels",
       "side": "Ole Miss",
@@ -2330,27 +2403,27 @@
       "actualStakeUnits": 0,
       "currentLine": 4.5,
       "currentPrice": -108.0,
-      "currentReferenceHomeLine": -4.5,
-      "estimatedMovementRemaining": 1.708823529411765,
+      "currentReferenceHomeLine": -3.5,
+      "estimatedMovementRemaining": 0.7088235294117651,
       "exclusions": [
+        "LINE_MISMATCH",
         "LIVE_PRICE_EV_BELOW_FLOOR"
       ],
       "firstSeen": "2026-09-21T01:04:50.274619+00:00",
       "game": "UConn @ Miami (OH)",
       "historicalMeanDirectionalClv": 1.3088235294117647,
-      "livePriceEv": -0.03703703703703698,
+      "livePriceEv": -0.045611952112397436,
       "marketQuality": {
-        "conservativeExecutableEv": -0.03703703703703698,
-        "currentReferenceSideLine": 4.5,
+        "conservativeExecutableEv": -0.04610454055993807,
+        "currentReferenceSideLine": 3.5,
         "devigExecutableEv": {
-          "power": -0.03703703703703698,
-          "proportional": -0.03703703703703698
+          "power": -0.04610454055993807,
+          "proportional": -0.045611952112397436
         },
         "directionalAuthority": false,
-        "freshSameLineBookCount": 4,
+        "freshSameLineBookCount": 3,
         "freshSameLineBooks": [
-          "betmgm",
-          "draftkings",
+          "betrivers",
           "fanduel",
           "pinnacle"
         ],
@@ -2363,49 +2436,47 @@
         },
         "lineDispersion": {
           "max": 4.5,
-          "median": 4.5,
+          "median": 3.5,
           "min": 3.5,
           "range": 1.0
         },
         "movement": {
-          "hoursCovered": 0.45288894888888886,
-          "latestVelocityPointsPerHour": 0.0,
-          "observations": 3,
+          "hoursCovered": 9.539242212777777,
+          "latestVelocityPointsPerHour": -0.11005515314644589,
+          "observations": 4,
           "previousVelocityPointsPerHour": 0.0,
           "reversal": false
         },
         "openingSideLine": 4.1,
-        "reasons": [],
-        "referenceQuoteAgeSeconds": 3.350611,
+        "reasons": [
+          "LINE_MISMATCH"
+        ],
+        "referenceQuoteAgeSeconds": 15.222361,
         "sameLineNoVigProbabilities": {
-          "betmgm": {
-            "power": 0.4976630152340158,
-            "proportional": 0.4978050921861282
-          },
-          "draftkings": {
-            "power": 0.49535934211149835,
-            "proportional": 0.4956702459300312
+          "betrivers": {
+            "power": 0.503443471554799,
+            "proportional": 0.5031806615776081
           },
           "fanduel": {
             "power": 0.5,
             "proportional": 0.5
           },
           "pinnacle": {
-            "power": 0.5,
-            "proportional": 0.5
+            "power": 0.49529187317080137,
+            "proportional": 0.49554764024933207
           }
         },
         "sameLineNoVigProbabilityRange": {
-          "power": 0.004640657888501654,
-          "proportional": 0.0043297540699688275
+          "power": 0.008151598383997594,
+          "proportional": 0.007633021328276035
         },
-        "status": "PASS",
-        "venueQuoteAgeSeconds": 3.350611
+        "status": "BLOCKED",
+        "venueQuoteAgeSeconds": 52.222361
       },
-      "maxPlayablePriceVsPinnacle": 101.0,
+      "maxPlayablePriceVsPinnacle": 102.0,
       "openingHomeLine": -4.1,
-      "pinnacleFairProbability": 0.5,
-      "pinnacleReferenceLine": 4.5,
+      "pinnacleFairProbability": 0.49554764024933207,
+      "pinnacleReferenceLine": 3.5,
       "projectionGapVsOpen": -5.26,
       "providerSide": "UConn Huskies",
       "side": "UConn",
@@ -2415,29 +2486,28 @@
     },
     {
       "actualStakeUnits": 0,
-      "currentLine": 4.5,
+      "currentLine": 3.5,
       "currentPrice": -110.0,
-      "currentReferenceHomeLine": -4.5,
-      "estimatedMovementRemaining": 1.708823529411765,
+      "currentReferenceHomeLine": -3.5,
+      "estimatedMovementRemaining": 0.7088235294117651,
       "exclusions": [
         "LIVE_PRICE_EV_BELOW_FLOOR"
       ],
       "firstSeen": "2026-09-21T01:04:50.274619+00:00",
       "game": "UConn @ Miami (OH)",
       "historicalMeanDirectionalClv": 1.3088235294117647,
-      "livePriceEv": -0.04545454545454558,
+      "livePriceEv": -0.05395450497854798,
       "marketQuality": {
-        "conservativeExecutableEv": -0.04545454545454558,
-        "currentReferenceSideLine": 4.5,
+        "conservativeExecutableEv": -0.054442787583015684,
+        "currentReferenceSideLine": 3.5,
         "devigExecutableEv": {
-          "power": -0.04545454545454558,
-          "proportional": -0.04545454545454558
+          "power": -0.054442787583015684,
+          "proportional": -0.05395450497854798
         },
         "directionalAuthority": false,
-        "freshSameLineBookCount": 4,
+        "freshSameLineBookCount": 3,
         "freshSameLineBooks": [
-          "betmgm",
-          "draftkings",
+          "betrivers",
           "fanduel",
           "pinnacle"
         ],
@@ -2450,49 +2520,45 @@
         },
         "lineDispersion": {
           "max": 4.5,
-          "median": 4.5,
+          "median": 3.5,
           "min": 3.5,
           "range": 1.0
         },
         "movement": {
-          "hoursCovered": 0.45288894888888886,
-          "latestVelocityPointsPerHour": 0.0,
-          "observations": 3,
+          "hoursCovered": 9.539242212777777,
+          "latestVelocityPointsPerHour": -0.11005515314644589,
+          "observations": 4,
           "previousVelocityPointsPerHour": 0.0,
           "reversal": false
         },
         "openingSideLine": 4.1,
         "reasons": [],
-        "referenceQuoteAgeSeconds": 3.350611,
+        "referenceQuoteAgeSeconds": 15.222361,
         "sameLineNoVigProbabilities": {
-          "betmgm": {
-            "power": 0.4976630152340158,
-            "proportional": 0.4978050921861282
-          },
-          "draftkings": {
-            "power": 0.49535934211149835,
-            "proportional": 0.4956702459300312
+          "betrivers": {
+            "power": 0.503443471554799,
+            "proportional": 0.5031806615776081
           },
           "fanduel": {
             "power": 0.5,
             "proportional": 0.5
           },
           "pinnacle": {
-            "power": 0.5,
-            "proportional": 0.5
+            "power": 0.49529187317080137,
+            "proportional": 0.49554764024933207
           }
         },
         "sameLineNoVigProbabilityRange": {
-          "power": 0.004640657888501654,
-          "proportional": 0.0043297540699688275
+          "power": 0.008151598383997594,
+          "proportional": 0.007633021328276035
         },
         "status": "PASS",
-        "venueQuoteAgeSeconds": 18.350611
+        "venueQuoteAgeSeconds": 31.222361
       },
-      "maxPlayablePriceVsPinnacle": 101.0,
+      "maxPlayablePriceVsPinnacle": 102.0,
       "openingHomeLine": -4.1,
-      "pinnacleFairProbability": 0.5,
-      "pinnacleReferenceLine": 4.5,
+      "pinnacleFairProbability": 0.49554764024933207,
+      "pinnacleReferenceLine": 3.5,
       "projectionGapVsOpen": -5.26,
       "providerSide": "UConn Huskies",
       "side": "UConn",
@@ -2502,29 +2568,29 @@
     },
     {
       "actualStakeUnits": 0,
-      "currentLine": 4.5,
-      "currentPrice": -108.0,
-      "currentReferenceHomeLine": -4.5,
-      "estimatedMovementRemaining": 1.708823529411765,
+      "currentLine": 4.0,
+      "currentPrice": -112.0,
+      "currentReferenceHomeLine": -3.5,
+      "estimatedMovementRemaining": 0.7088235294117651,
       "exclusions": [
+        "LINE_MISMATCH",
         "LIVE_PRICE_EV_BELOW_FLOOR"
       ],
       "firstSeen": "2026-09-21T01:04:50.274619+00:00",
       "game": "UConn @ Miami (OH)",
       "historicalMeanDirectionalClv": 1.3088235294117647,
-      "livePriceEv": -0.03703703703703698,
+      "livePriceEv": -0.06199910952804999,
       "marketQuality": {
-        "conservativeExecutableEv": -0.03703703703703698,
-        "currentReferenceSideLine": 4.5,
+        "conservativeExecutableEv": -0.062483240069554524,
+        "currentReferenceSideLine": 3.5,
         "devigExecutableEv": {
-          "power": -0.03703703703703698,
-          "proportional": -0.03703703703703698
+          "power": -0.062483240069554524,
+          "proportional": -0.06199910952804999
         },
         "directionalAuthority": false,
-        "freshSameLineBookCount": 4,
+        "freshSameLineBookCount": 3,
         "freshSameLineBooks": [
-          "betmgm",
-          "draftkings",
+          "betrivers",
           "fanduel",
           "pinnacle"
         ],
@@ -2537,49 +2603,47 @@
         },
         "lineDispersion": {
           "max": 4.5,
-          "median": 4.5,
+          "median": 3.5,
           "min": 3.5,
           "range": 1.0
         },
         "movement": {
-          "hoursCovered": 0.45288894888888886,
-          "latestVelocityPointsPerHour": 0.0,
-          "observations": 3,
+          "hoursCovered": 9.539242212777777,
+          "latestVelocityPointsPerHour": -0.11005515314644589,
+          "observations": 4,
           "previousVelocityPointsPerHour": 0.0,
           "reversal": false
         },
         "openingSideLine": 4.1,
-        "reasons": [],
-        "referenceQuoteAgeSeconds": 3.350611,
+        "reasons": [
+          "LINE_MISMATCH"
+        ],
+        "referenceQuoteAgeSeconds": 15.222361,
         "sameLineNoVigProbabilities": {
-          "betmgm": {
-            "power": 0.4976630152340158,
-            "proportional": 0.4978050921861282
-          },
-          "draftkings": {
-            "power": 0.49535934211149835,
-            "proportional": 0.4956702459300312
+          "betrivers": {
+            "power": 0.503443471554799,
+            "proportional": 0.5031806615776081
           },
           "fanduel": {
             "power": 0.5,
             "proportional": 0.5
           },
           "pinnacle": {
-            "power": 0.5,
-            "proportional": 0.5
+            "power": 0.49529187317080137,
+            "proportional": 0.49554764024933207
           }
         },
         "sameLineNoVigProbabilityRange": {
-          "power": 0.004640657888501654,
-          "proportional": 0.0043297540699688275
+          "power": 0.008151598383997594,
+          "proportional": 0.007633021328276035
         },
-        "status": "PASS",
-        "venueQuoteAgeSeconds": 40.350611
+        "status": "BLOCKED",
+        "venueQuoteAgeSeconds": 14.222361
       },
-      "maxPlayablePriceVsPinnacle": 101.0,
+      "maxPlayablePriceVsPinnacle": 102.0,
       "openingHomeLine": -4.1,
-      "pinnacleFairProbability": 0.5,
-      "pinnacleReferenceLine": 4.5,
+      "pinnacleFairProbability": 0.49554764024933207,
+      "pinnacleReferenceLine": 3.5,
       "projectionGapVsOpen": -5.26,
       "providerSide": "UConn Huskies",
       "side": "UConn",
@@ -2591,28 +2655,26 @@
       "actualStakeUnits": 0,
       "currentLine": 3.5,
       "currentPrice": -113.0,
-      "currentReferenceHomeLine": -4.5,
-      "estimatedMovementRemaining": 1.708823529411765,
+      "currentReferenceHomeLine": -3.5,
+      "estimatedMovementRemaining": 0.7088235294117651,
       "exclusions": [
-        "LINE_MISMATCH",
         "LIVE_PRICE_EV_BELOW_FLOOR"
       ],
       "firstSeen": "2026-09-21T01:04:50.274619+00:00",
       "game": "UConn @ Miami (OH)",
       "historicalMeanDirectionalClv": 1.3088235294117647,
-      "livePriceEv": -0.057522123893805344,
+      "livePriceEv": -0.06591462501674578,
       "marketQuality": {
-        "conservativeExecutableEv": -0.057522123893805344,
-        "currentReferenceSideLine": 4.5,
+        "conservativeExecutableEv": -0.06639673464264878,
+        "currentReferenceSideLine": 3.5,
         "devigExecutableEv": {
-          "power": -0.057522123893805344,
-          "proportional": -0.057522123893805344
+          "power": -0.06639673464264878,
+          "proportional": -0.06591462501674578
         },
         "directionalAuthority": false,
-        "freshSameLineBookCount": 4,
+        "freshSameLineBookCount": 3,
         "freshSameLineBooks": [
-          "betmgm",
-          "draftkings",
+          "betrivers",
           "fanduel",
           "pinnacle"
         ],
@@ -2625,51 +2687,45 @@
         },
         "lineDispersion": {
           "max": 4.5,
-          "median": 4.5,
+          "median": 3.5,
           "min": 3.5,
           "range": 1.0
         },
         "movement": {
-          "hoursCovered": 0.45288894888888886,
-          "latestVelocityPointsPerHour": 0.0,
-          "observations": 3,
+          "hoursCovered": 9.539242212777777,
+          "latestVelocityPointsPerHour": -0.11005515314644589,
+          "observations": 4,
           "previousVelocityPointsPerHour": 0.0,
           "reversal": false
         },
         "openingSideLine": 4.1,
-        "reasons": [
-          "LINE_MISMATCH"
-        ],
-        "referenceQuoteAgeSeconds": 3.350611,
+        "reasons": [],
+        "referenceQuoteAgeSeconds": 15.222361,
         "sameLineNoVigProbabilities": {
-          "betmgm": {
-            "power": 0.4976630152340158,
-            "proportional": 0.4978050921861282
-          },
-          "draftkings": {
-            "power": 0.49535934211149835,
-            "proportional": 0.4956702459300312
+          "betrivers": {
+            "power": 0.503443471554799,
+            "proportional": 0.5031806615776081
           },
           "fanduel": {
             "power": 0.5,
             "proportional": 0.5
           },
           "pinnacle": {
-            "power": 0.5,
-            "proportional": 0.5
+            "power": 0.49529187317080137,
+            "proportional": 0.49554764024933207
           }
         },
         "sameLineNoVigProbabilityRange": {
-          "power": 0.004640657888501654,
-          "proportional": 0.0043297540699688275
+          "power": 0.008151598383997594,
+          "proportional": 0.007633021328276035
         },
-        "status": "BLOCKED",
-        "venueQuoteAgeSeconds": 40.350611
+        "status": "PASS",
+        "venueQuoteAgeSeconds": 11.222361
       },
-      "maxPlayablePriceVsPinnacle": 101.0,
+      "maxPlayablePriceVsPinnacle": 102.0,
       "openingHomeLine": -4.1,
-      "pinnacleFairProbability": 0.5,
-      "pinnacleReferenceLine": 4.5,
+      "pinnacleFairProbability": 0.49554764024933207,
+      "pinnacleReferenceLine": 3.5,
       "projectionGapVsOpen": -5.26,
       "providerSide": "UConn Huskies",
       "side": "UConn",
@@ -2679,30 +2735,30 @@
     },
     {
       "actualStakeUnits": 0,
-      "currentLine": -5.5,
-      "currentPrice": -112.0,
+      "currentLine": -6.0,
+      "currentPrice": -108.0,
       "currentReferenceHomeLine": 6.0,
       "estimatedMovementRemaining": -0.19117647058823528,
       "exclusions": [
         "HISTORICAL_MOVEMENT_BUDGET_SPENT",
-        "LINE_MISMATCH",
         "LIVE_PRICE_EV_BELOW_FLOOR"
       ],
       "firstSeen": "2026-09-21T01:04:50.274619+00:00",
       "game": "James Madison @ Old Dominion",
       "historicalMeanDirectionalClv": 1.3088235294117647,
-      "livePriceEv": -0.06199910952804999,
+      "livePriceEv": -0.045611952112397436,
       "marketQuality": {
-        "conservativeExecutableEv": -0.062483240069554524,
+        "conservativeExecutableEv": -0.04610454055993807,
         "currentReferenceSideLine": -6.0,
         "devigExecutableEv": {
-          "power": -0.062483240069554524,
-          "proportional": -0.06199910952804999
+          "power": -0.04610454055993807,
+          "proportional": -0.045611952112397436
         },
         "directionalAuthority": false,
-        "freshSameLineBookCount": 2,
+        "freshSameLineBookCount": 3,
         "freshSameLineBooks": [
           "betmgm",
+          "draftkings",
           "pinnacle"
         ],
         "keyNumberCrossings": [],
@@ -2713,28 +2769,29 @@
           "7": 2.44
         },
         "lineDispersion": {
-          "max": -5.0,
-          "median": -5.5,
-          "min": -6.0,
+          "max": -5.5,
+          "median": -6.0,
+          "min": -6.5,
           "range": 1.0
         },
         "movement": {
-          "hoursCovered": 0.45288894888888886,
+          "hoursCovered": 9.539242212777777,
           "latestVelocityPointsPerHour": 0.0,
-          "observations": 3,
+          "observations": 4,
           "previousVelocityPointsPerHour": 0.0,
           "reversal": false
         },
         "openingSideLine": -4.5,
-        "reasons": [
-          "INSUFFICIENT_FRESH_SAME_LINE_BOOKS",
-          "LINE_MISMATCH"
-        ],
-        "referenceQuoteAgeSeconds": 3.350611,
+        "reasons": [],
+        "referenceQuoteAgeSeconds": 15.222361,
         "sameLineNoVigProbabilities": {
           "betmgm": {
-            "power": 0.4976630152340158,
-            "proportional": 0.4978050921861282
+            "power": 0.5023369847659842,
+            "proportional": 0.5021949078138719
+          },
+          "draftkings": {
+            "power": 0.49535934211149835,
+            "proportional": 0.4956702459300312
           },
           "pinnacle": {
             "power": 0.49529187317080137,
@@ -2742,11 +2799,11 @@
           }
         },
         "sameLineNoVigProbabilityRange": {
-          "power": 0.0023711420632144264,
-          "proportional": 0.0022574519367961066
+          "power": 0.00704511159518284,
+          "proportional": 0.006647267564539816
         },
-        "status": "BLOCKED",
-        "venueQuoteAgeSeconds": 3.350611
+        "status": "PASS",
+        "venueQuoteAgeSeconds": 52.222361
       },
       "maxPlayablePriceVsPinnacle": 102.0,
       "openingHomeLine": 4.5,
@@ -2782,9 +2839,10 @@
           "proportional": -0.07354136822950968
         },
         "directionalAuthority": false,
-        "freshSameLineBookCount": 2,
+        "freshSameLineBookCount": 3,
         "freshSameLineBooks": [
           "betmgm",
+          "draftkings",
           "pinnacle"
         ],
         "keyNumberCrossings": [],
@@ -2795,28 +2853,31 @@
           "7": 2.44
         },
         "lineDispersion": {
-          "max": -5.0,
-          "median": -5.5,
-          "min": -6.0,
+          "max": -5.5,
+          "median": -6.0,
+          "min": -6.5,
           "range": 1.0
         },
         "movement": {
-          "hoursCovered": 0.45288894888888886,
+          "hoursCovered": 9.539242212777777,
           "latestVelocityPointsPerHour": 0.0,
-          "observations": 3,
+          "observations": 4,
           "previousVelocityPointsPerHour": 0.0,
           "reversal": false
         },
         "openingSideLine": -4.5,
         "reasons": [
-          "INSUFFICIENT_FRESH_SAME_LINE_BOOKS",
           "LINE_MISMATCH"
         ],
-        "referenceQuoteAgeSeconds": 3.350611,
+        "referenceQuoteAgeSeconds": 15.222361,
         "sameLineNoVigProbabilities": {
           "betmgm": {
-            "power": 0.4976630152340158,
-            "proportional": 0.4978050921861282
+            "power": 0.5023369847659842,
+            "proportional": 0.5021949078138719
+          },
+          "draftkings": {
+            "power": 0.49535934211149835,
+            "proportional": 0.4956702459300312
           },
           "pinnacle": {
             "power": 0.49529187317080137,
@@ -2824,11 +2885,11 @@
           }
         },
         "sameLineNoVigProbabilityRange": {
-          "power": 0.0023711420632144264,
-          "proportional": 0.0022574519367961066
+          "power": 0.00704511159518284,
+          "proportional": 0.006647267564539816
         },
         "status": "BLOCKED",
-        "venueQuoteAgeSeconds": 18.350611
+        "venueQuoteAgeSeconds": 31.222361
       },
       "maxPlayablePriceVsPinnacle": 102.0,
       "openingHomeLine": 4.5,
@@ -2844,7 +2905,7 @@
     {
       "actualStakeUnits": 0,
       "currentLine": -6.0,
-      "currentPrice": -108.0,
+      "currentPrice": -110.0,
       "currentReferenceHomeLine": 6.0,
       "estimatedMovementRemaining": -0.19117647058823528,
       "exclusions": [
@@ -2854,18 +2915,19 @@
       "firstSeen": "2026-09-21T01:04:50.274619+00:00",
       "game": "James Madison @ Old Dominion",
       "historicalMeanDirectionalClv": 1.3088235294117647,
-      "livePriceEv": -0.045611952112397436,
+      "livePriceEv": -0.05395450497854798,
       "marketQuality": {
-        "conservativeExecutableEv": -0.04610454055993807,
+        "conservativeExecutableEv": -0.054442787583015684,
         "currentReferenceSideLine": -6.0,
         "devigExecutableEv": {
-          "power": -0.04610454055993807,
-          "proportional": -0.045611952112397436
+          "power": -0.054442787583015684,
+          "proportional": -0.05395450497854798
         },
         "directionalAuthority": false,
-        "freshSameLineBookCount": 2,
+        "freshSameLineBookCount": 3,
         "freshSameLineBooks": [
           "betmgm",
+          "draftkings",
           "pinnacle"
         ],
         "keyNumberCrossings": [],
@@ -2876,27 +2938,29 @@
           "7": 2.44
         },
         "lineDispersion": {
-          "max": -5.0,
-          "median": -5.5,
-          "min": -6.0,
+          "max": -5.5,
+          "median": -6.0,
+          "min": -6.5,
           "range": 1.0
         },
         "movement": {
-          "hoursCovered": 0.45288894888888886,
+          "hoursCovered": 9.539242212777777,
           "latestVelocityPointsPerHour": 0.0,
-          "observations": 3,
+          "observations": 4,
           "previousVelocityPointsPerHour": 0.0,
           "reversal": false
         },
         "openingSideLine": -4.5,
-        "reasons": [
-          "INSUFFICIENT_FRESH_SAME_LINE_BOOKS"
-        ],
-        "referenceQuoteAgeSeconds": 3.350611,
+        "reasons": [],
+        "referenceQuoteAgeSeconds": 15.222361,
         "sameLineNoVigProbabilities": {
           "betmgm": {
-            "power": 0.4976630152340158,
-            "proportional": 0.4978050921861282
+            "power": 0.5023369847659842,
+            "proportional": 0.5021949078138719
+          },
+          "draftkings": {
+            "power": 0.49535934211149835,
+            "proportional": 0.4956702459300312
           },
           "pinnacle": {
             "power": 0.49529187317080137,
@@ -2904,11 +2968,11 @@
           }
         },
         "sameLineNoVigProbabilityRange": {
-          "power": 0.0023711420632144264,
-          "proportional": 0.0022574519367961066
+          "power": 0.00704511159518284,
+          "proportional": 0.006647267564539816
         },
-        "status": "BLOCKED",
-        "venueQuoteAgeSeconds": 40.350611
+        "status": "PASS",
+        "venueQuoteAgeSeconds": 14.222361
       },
       "maxPlayablePriceVsPinnacle": 102.0,
       "openingHomeLine": 4.5,
@@ -2923,8 +2987,8 @@
     },
     {
       "actualStakeUnits": 0,
-      "currentLine": -5.0,
-      "currentPrice": -112.0,
+      "currentLine": -6.5,
+      "currentPrice": -110.0,
       "currentReferenceHomeLine": 6.0,
       "estimatedMovementRemaining": -0.19117647058823528,
       "exclusions": [
@@ -2935,18 +2999,19 @@
       "firstSeen": "2026-09-21T01:04:50.274619+00:00",
       "game": "James Madison @ Old Dominion",
       "historicalMeanDirectionalClv": 1.3088235294117647,
-      "livePriceEv": -0.06199910952804999,
+      "livePriceEv": -0.05395450497854798,
       "marketQuality": {
-        "conservativeExecutableEv": -0.062483240069554524,
+        "conservativeExecutableEv": -0.054442787583015684,
         "currentReferenceSideLine": -6.0,
         "devigExecutableEv": {
-          "power": -0.062483240069554524,
-          "proportional": -0.06199910952804999
+          "power": -0.054442787583015684,
+          "proportional": -0.05395450497854798
         },
         "directionalAuthority": false,
-        "freshSameLineBookCount": 2,
+        "freshSameLineBookCount": 3,
         "freshSameLineBooks": [
           "betmgm",
+          "draftkings",
           "pinnacle"
         ],
         "keyNumberCrossings": [],
@@ -2957,28 +3022,31 @@
           "7": 2.44
         },
         "lineDispersion": {
-          "max": -5.0,
-          "median": -5.5,
-          "min": -6.0,
+          "max": -5.5,
+          "median": -6.0,
+          "min": -6.5,
           "range": 1.0
         },
         "movement": {
-          "hoursCovered": 0.45288894888888886,
+          "hoursCovered": 9.539242212777777,
           "latestVelocityPointsPerHour": 0.0,
-          "observations": 3,
+          "observations": 4,
           "previousVelocityPointsPerHour": 0.0,
           "reversal": false
         },
         "openingSideLine": -4.5,
         "reasons": [
-          "INSUFFICIENT_FRESH_SAME_LINE_BOOKS",
           "LINE_MISMATCH"
         ],
-        "referenceQuoteAgeSeconds": 3.350611,
+        "referenceQuoteAgeSeconds": 15.222361,
         "sameLineNoVigProbabilities": {
           "betmgm": {
-            "power": 0.4976630152340158,
-            "proportional": 0.4978050921861282
+            "power": 0.5023369847659842,
+            "proportional": 0.5021949078138719
+          },
+          "draftkings": {
+            "power": 0.49535934211149835,
+            "proportional": 0.4956702459300312
           },
           "pinnacle": {
             "power": 0.49529187317080137,
@@ -2986,11 +3054,11 @@
           }
         },
         "sameLineNoVigProbabilityRange": {
-          "power": 0.0023711420632144264,
-          "proportional": 0.0022574519367961066
+          "power": 0.00704511159518284,
+          "proportional": 0.006647267564539816
         },
         "status": "BLOCKED",
-        "venueQuoteAgeSeconds": 40.350611
+        "venueQuoteAgeSeconds": 11.222361
       },
       "maxPlayablePriceVsPinnacle": 102.0,
       "openingHomeLine": 4.5,
@@ -3005,29 +3073,29 @@
     },
     {
       "actualStakeUnits": 0,
-      "currentLine": 10.5,
-      "currentPrice": -110.0,
+      "currentLine": 10.0,
+      "currentPrice": -105.0,
       "currentReferenceHomeLine": 10.0,
       "estimatedMovementRemaining": 1.1088235294117654,
       "exclusions": [
-        "LINE_MISMATCH",
         "LIVE_PRICE_EV_BELOW_FLOOR"
       ],
       "firstSeen": "2026-09-21T01:04:50.274619+00:00",
       "game": "Louisiana @ Charlotte",
       "historicalMeanDirectionalClv": 1.3088235294117647,
-      "livePriceEv": -0.0624635521285557,
+      "livePriceEv": -0.036851480739256204,
       "marketQuality": {
-        "conservativeExecutableEv": -0.06343360915127944,
+        "conservativeExecutableEv": -0.03759843366788235,
         "currentReferenceSideLine": 10.0,
         "devigExecutableEv": {
-          "power": -0.06343360915127944,
-          "proportional": -0.0624635521285557
+          "power": -0.03759843366788235,
+          "proportional": -0.036851480739256204
         },
         "directionalAuthority": false,
-        "freshSameLineBookCount": 2,
+        "freshSameLineBookCount": 3,
         "freshSameLineBooks": [
           "betrivers",
+          "draftkings",
           "pinnacle"
         ],
         "keyNumberCrossings": [],
@@ -3039,43 +3107,44 @@
         },
         "lineDispersion": {
           "max": 10.5,
-          "median": 10.5,
+          "median": 10.0,
           "min": 10.0,
           "range": 0.5
         },
         "movement": {
-          "hoursCovered": 0.45288894888888886,
+          "hoursCovered": 9.539242212777777,
           "latestVelocityPointsPerHour": 0.0,
-          "observations": 3,
+          "observations": 4,
           "previousVelocityPointsPerHour": 0.0,
           "reversal": false
         },
         "openingSideLine": 10.2,
-        "reasons": [
-          "INSUFFICIENT_FRESH_SAME_LINE_BOOKS",
-          "LINE_MISMATCH"
-        ],
-        "referenceQuoteAgeSeconds": 2.350611,
+        "reasons": [],
+        "referenceQuoteAgeSeconds": 15.222361,
         "sameLineNoVigProbabilities": {
           "betrivers": {
             "power": 0.49196433142338925,
             "proportional": 0.4925753075943996
           },
+          "draftkings": {
+            "power": 0.4883955455016475,
+            "proportional": 0.4891657638136511
+          },
           "pinnacle": {
-            "power": 0.49058239520647273,
-            "proportional": 0.4910905203136137
+            "power": 0.4929373876335236,
+            "proportional": 0.49331997327989313
           }
         },
         "sameLineNoVigProbabilityRange": {
-          "power": 0.0013819362169165128,
-          "proportional": 0.001484787280785882
+          "power": 0.004541842131876139,
+          "proportional": 0.004154209466242009
         },
-        "status": "BLOCKED",
-        "venueQuoteAgeSeconds": 3.350611
+        "status": "PASS",
+        "venueQuoteAgeSeconds": 52.222361
       },
-      "maxPlayablePriceVsPinnacle": 104.0,
+      "maxPlayablePriceVsPinnacle": 103.0,
       "openingHomeLine": 10.2,
-      "pinnacleFairProbability": 0.4910905203136137,
+      "pinnacleFairProbability": 0.49331997327989313,
       "pinnacleReferenceLine": 10.0,
       "projectionGapVsOpen": 5.1499999999999995,
       "providerSide": "Charlotte 49ers",
@@ -3097,18 +3166,19 @@
       "firstSeen": "2026-09-21T01:04:50.274619+00:00",
       "game": "Louisiana @ Charlotte",
       "historicalMeanDirectionalClv": 1.3088235294117647,
-      "livePriceEv": -0.0624635521285557,
+      "livePriceEv": -0.058207323738385885,
       "marketQuality": {
-        "conservativeExecutableEv": -0.06343360915127944,
+        "conservativeExecutableEv": -0.058937714517818596,
         "currentReferenceSideLine": 10.0,
         "devigExecutableEv": {
-          "power": -0.06343360915127944,
-          "proportional": -0.0624635521285557
+          "power": -0.058937714517818596,
+          "proportional": -0.058207323738385885
         },
         "directionalAuthority": false,
-        "freshSameLineBookCount": 2,
+        "freshSameLineBookCount": 3,
         "freshSameLineBooks": [
           "betrivers",
+          "draftkings",
           "pinnacle"
         ],
         "keyNumberCrossings": [],
@@ -3120,43 +3190,46 @@
         },
         "lineDispersion": {
           "max": 10.5,
-          "median": 10.5,
+          "median": 10.0,
           "min": 10.0,
           "range": 0.5
         },
         "movement": {
-          "hoursCovered": 0.45288894888888886,
+          "hoursCovered": 9.539242212777777,
           "latestVelocityPointsPerHour": 0.0,
-          "observations": 3,
+          "observations": 4,
           "previousVelocityPointsPerHour": 0.0,
           "reversal": false
         },
         "openingSideLine": 10.2,
         "reasons": [
-          "INSUFFICIENT_FRESH_SAME_LINE_BOOKS",
           "LINE_MISMATCH"
         ],
-        "referenceQuoteAgeSeconds": 2.350611,
+        "referenceQuoteAgeSeconds": 15.222361,
         "sameLineNoVigProbabilities": {
           "betrivers": {
             "power": 0.49196433142338925,
             "proportional": 0.4925753075943996
           },
+          "draftkings": {
+            "power": 0.4883955455016475,
+            "proportional": 0.4891657638136511
+          },
           "pinnacle": {
-            "power": 0.49058239520647273,
-            "proportional": 0.4910905203136137
+            "power": 0.4929373876335236,
+            "proportional": 0.49331997327989313
           }
         },
         "sameLineNoVigProbabilityRange": {
-          "power": 0.0013819362169165128,
-          "proportional": 0.001484787280785882
+          "power": 0.004541842131876139,
+          "proportional": 0.004154209466242009
         },
         "status": "BLOCKED",
-        "venueQuoteAgeSeconds": 18.350611
+        "venueQuoteAgeSeconds": 31.222361
       },
-      "maxPlayablePriceVsPinnacle": 104.0,
+      "maxPlayablePriceVsPinnacle": 103.0,
       "openingHomeLine": 10.2,
-      "pinnacleFairProbability": 0.4910905203136137,
+      "pinnacleFairProbability": 0.49331997327989313,
       "pinnacleReferenceLine": 10.0,
       "projectionGapVsOpen": 5.1499999999999995,
       "providerSide": "Charlotte 49ers",
@@ -3168,7 +3241,7 @@
     {
       "actualStakeUnits": 0,
       "currentLine": 10.5,
-      "currentPrice": -115.0,
+      "currentPrice": -112.0,
       "currentReferenceHomeLine": 10.0,
       "estimatedMovementRemaining": 1.1088235294117654,
       "exclusions": [
@@ -3178,18 +3251,19 @@
       "firstSeen": "2026-09-21T01:04:50.274619+00:00",
       "game": "Louisiana @ Charlotte",
       "historicalMeanDirectionalClv": 1.3088235294117647,
-      "livePriceEv": -0.08187424463107001,
+      "livePriceEv": -0.06621576486305936,
       "marketQuality": {
-        "conservativeExecutableEv": -0.08282421765746406,
+        "conservativeExecutableEv": -0.06693994483654447,
         "currentReferenceSideLine": 10.0,
         "devigExecutableEv": {
-          "power": -0.08282421765746406,
-          "proportional": -0.08187424463107001
+          "power": -0.06693994483654447,
+          "proportional": -0.06621576486305936
         },
         "directionalAuthority": false,
-        "freshSameLineBookCount": 2,
+        "freshSameLineBookCount": 3,
         "freshSameLineBooks": [
           "betrivers",
+          "draftkings",
           "pinnacle"
         ],
         "keyNumberCrossings": [],
@@ -3201,43 +3275,46 @@
         },
         "lineDispersion": {
           "max": 10.5,
-          "median": 10.5,
+          "median": 10.0,
           "min": 10.0,
           "range": 0.5
         },
         "movement": {
-          "hoursCovered": 0.45288894888888886,
+          "hoursCovered": 9.539242212777777,
           "latestVelocityPointsPerHour": 0.0,
-          "observations": 3,
+          "observations": 4,
           "previousVelocityPointsPerHour": 0.0,
           "reversal": false
         },
         "openingSideLine": 10.2,
         "reasons": [
-          "INSUFFICIENT_FRESH_SAME_LINE_BOOKS",
           "LINE_MISMATCH"
         ],
-        "referenceQuoteAgeSeconds": 2.350611,
+        "referenceQuoteAgeSeconds": 15.222361,
         "sameLineNoVigProbabilities": {
           "betrivers": {
             "power": 0.49196433142338925,
             "proportional": 0.4925753075943996
           },
+          "draftkings": {
+            "power": 0.4883955455016475,
+            "proportional": 0.4891657638136511
+          },
           "pinnacle": {
-            "power": 0.49058239520647273,
-            "proportional": 0.4910905203136137
+            "power": 0.4929373876335236,
+            "proportional": 0.49331997327989313
           }
         },
         "sameLineNoVigProbabilityRange": {
-          "power": 0.0013819362169165128,
-          "proportional": 0.001484787280785882
+          "power": 0.004541842131876139,
+          "proportional": 0.004154209466242009
         },
         "status": "BLOCKED",
-        "venueQuoteAgeSeconds": 40.350611
+        "venueQuoteAgeSeconds": 14.222361
       },
-      "maxPlayablePriceVsPinnacle": 104.0,
+      "maxPlayablePriceVsPinnacle": 103.0,
       "openingHomeLine": 10.2,
-      "pinnacleFairProbability": 0.4910905203136137,
+      "pinnacleFairProbability": 0.49331997327989313,
       "pinnacleReferenceLine": 10.0,
       "projectionGapVsOpen": 5.1499999999999995,
       "providerSide": "Charlotte 49ers",
@@ -3258,18 +3335,19 @@
       "firstSeen": "2026-09-21T01:04:50.274619+00:00",
       "game": "Louisiana @ Charlotte",
       "historicalMeanDirectionalClv": 1.3088235294117647,
-      "livePriceEv": -0.05419603495155867,
+      "livePriceEv": -0.049902273683168685,
       "marketQuality": {
-        "conservativeExecutableEv": -0.055174646269015415,
+        "conservativeExecutableEv": -0.05063910529839882,
         "currentReferenceSideLine": 10.0,
         "devigExecutableEv": {
-          "power": -0.055174646269015415,
-          "proportional": -0.05419603495155867
+          "power": -0.05063910529839882,
+          "proportional": -0.049902273683168685
         },
         "directionalAuthority": false,
-        "freshSameLineBookCount": 2,
+        "freshSameLineBookCount": 3,
         "freshSameLineBooks": [
           "betrivers",
+          "draftkings",
           "pinnacle"
         ],
         "keyNumberCrossings": [],
@@ -3281,42 +3359,44 @@
         },
         "lineDispersion": {
           "max": 10.5,
-          "median": 10.5,
+          "median": 10.0,
           "min": 10.0,
           "range": 0.5
         },
         "movement": {
-          "hoursCovered": 0.45288894888888886,
+          "hoursCovered": 9.539242212777777,
           "latestVelocityPointsPerHour": 0.0,
-          "observations": 3,
+          "observations": 4,
           "previousVelocityPointsPerHour": 0.0,
           "reversal": false
         },
         "openingSideLine": 10.2,
-        "reasons": [
-          "INSUFFICIENT_FRESH_SAME_LINE_BOOKS"
-        ],
-        "referenceQuoteAgeSeconds": 2.350611,
+        "reasons": [],
+        "referenceQuoteAgeSeconds": 15.222361,
         "sameLineNoVigProbabilities": {
           "betrivers": {
             "power": 0.49196433142338925,
             "proportional": 0.4925753075943996
           },
+          "draftkings": {
+            "power": 0.4883955455016475,
+            "proportional": 0.4891657638136511
+          },
           "pinnacle": {
-            "power": 0.49058239520647273,
-            "proportional": 0.4910905203136137
+            "power": 0.4929373876335236,
+            "proportional": 0.49331997327989313
           }
         },
         "sameLineNoVigProbabilityRange": {
-          "power": 0.0013819362169165128,
-          "proportional": 0.001484787280785882
+          "power": 0.004541842131876139,
+          "proportional": 0.004154209466242009
         },
-        "status": "BLOCKED",
-        "venueQuoteAgeSeconds": 40.350611
+        "status": "PASS",
+        "venueQuoteAgeSeconds": 11.222361
       },
-      "maxPlayablePriceVsPinnacle": 104.0,
+      "maxPlayablePriceVsPinnacle": 103.0,
       "openingHomeLine": 10.2,
-      "pinnacleFairProbability": 0.4910905203136137,
+      "pinnacleFairProbability": 0.49331997327989313,
       "pinnacleReferenceLine": 10.0,
       "projectionGapVsOpen": 5.1499999999999995,
       "providerSide": "Charlotte 49ers",
@@ -3347,9 +3427,8 @@
           "proportional": -0.019878039122515123
         },
         "directionalAuthority": false,
-        "freshSameLineBookCount": 3,
+        "freshSameLineBookCount": 2,
         "freshSameLineBooks": [
-          "betmgm",
           "betrivers",
           "pinnacle"
         ],
@@ -3367,22 +3446,19 @@
           "range": 1.0
         },
         "movement": {
-          "hoursCovered": 0.45288894888888886,
+          "hoursCovered": 9.539242212777777,
           "latestVelocityPointsPerHour": 0.0,
-          "observations": 3,
+          "observations": 4,
           "previousVelocityPointsPerHour": 0.0,
           "reversal": false
         },
         "openingSideLine": -13.0,
         "reasons": [
+          "INSUFFICIENT_FRESH_SAME_LINE_BOOKS",
           "LINE_MISMATCH"
         ],
-        "referenceQuoteAgeSeconds": 2.350611,
+        "referenceQuoteAgeSeconds": 15.222361,
         "sameLineNoVigProbabilities": {
-          "betmgm": {
-            "power": 0.4976630152340158,
-            "proportional": 0.4978050921861282
-          },
           "betrivers": {
             "power": 0.5,
             "proportional": 0.5
@@ -3393,11 +3469,11 @@
           }
         },
         "sameLineNoVigProbabilityRange": {
-          "power": 0.011754589559511364,
-          "proportional": 0.011104387500258162
+          "power": 0.009417604793527157,
+          "proportional": 0.008909479686386335
         },
         "status": "BLOCKED",
-        "venueQuoteAgeSeconds": 3.350611
+        "venueQuoteAgeSeconds": 52.222361
       },
       "maxPlayablePriceVsPinnacle": -103.0,
       "openingHomeLine": -13.0,
@@ -3432,9 +3508,8 @@
           "proportional": -0.028445538780535295
         },
         "directionalAuthority": false,
-        "freshSameLineBookCount": 3,
+        "freshSameLineBookCount": 2,
         "freshSameLineBooks": [
-          "betmgm",
           "betrivers",
           "pinnacle"
         ],
@@ -3452,22 +3527,19 @@
           "range": 1.0
         },
         "movement": {
-          "hoursCovered": 0.45288894888888886,
+          "hoursCovered": 9.539242212777777,
           "latestVelocityPointsPerHour": 0.0,
-          "observations": 3,
+          "observations": 4,
           "previousVelocityPointsPerHour": 0.0,
           "reversal": false
         },
         "openingSideLine": -13.0,
         "reasons": [
+          "INSUFFICIENT_FRESH_SAME_LINE_BOOKS",
           "LINE_MISMATCH"
         ],
-        "referenceQuoteAgeSeconds": 2.350611,
+        "referenceQuoteAgeSeconds": 15.222361,
         "sameLineNoVigProbabilities": {
-          "betmgm": {
-            "power": 0.4976630152340158,
-            "proportional": 0.4978050921861282
-          },
           "betrivers": {
             "power": 0.5,
             "proportional": 0.5
@@ -3478,11 +3550,11 @@
           }
         },
         "sameLineNoVigProbabilityRange": {
-          "power": 0.011754589559511364,
-          "proportional": 0.011104387500258162
+          "power": 0.009417604793527157,
+          "proportional": 0.008909479686386335
         },
         "status": "BLOCKED",
-        "venueQuoteAgeSeconds": 17.350611
+        "venueQuoteAgeSeconds": 31.222361
       },
       "maxPlayablePriceVsPinnacle": -103.0,
       "openingHomeLine": -13.0,
@@ -3497,28 +3569,28 @@
     },
     {
       "actualStakeUnits": 0,
-      "currentLine": -13.0,
-      "currentPrice": -108.0,
+      "currentLine": -12.5,
+      "currentPrice": -110.0,
       "currentReferenceHomeLine": -13.0,
       "estimatedMovementRemaining": 1.3088235294117647,
       "exclusions": [
+        "LINE_MISMATCH",
         "LIVE_PRICE_EV_BELOW_FLOOR"
       ],
       "firstSeen": "2026-09-21T01:04:50.274619+00:00",
       "game": "South Carolina @ Alabama",
       "historicalMeanDirectionalClv": 1.3088235294117647,
-      "livePriceEv": -0.019878039122515123,
+      "livePriceEv": -0.028445538780535295,
       "marketQuality": {
-        "conservativeExecutableEv": -0.019878039122515123,
+        "conservativeExecutableEv": -0.028445538780535295,
         "currentReferenceSideLine": -13.0,
         "devigExecutableEv": {
-          "power": -0.018899427805058766,
-          "proportional": -0.019878039122515123
+          "power": -0.027475481757811893,
+          "proportional": -0.028445538780535295
         },
         "directionalAuthority": false,
-        "freshSameLineBookCount": 3,
+        "freshSameLineBookCount": 2,
         "freshSameLineBooks": [
-          "betmgm",
           "betrivers",
           "pinnacle"
         ],
@@ -3536,20 +3608,19 @@
           "range": 1.0
         },
         "movement": {
-          "hoursCovered": 0.45288894888888886,
+          "hoursCovered": 9.539242212777777,
           "latestVelocityPointsPerHour": 0.0,
-          "observations": 3,
+          "observations": 4,
           "previousVelocityPointsPerHour": 0.0,
           "reversal": false
         },
         "openingSideLine": -13.0,
-        "reasons": [],
-        "referenceQuoteAgeSeconds": 2.350611,
+        "reasons": [
+          "INSUFFICIENT_FRESH_SAME_LINE_BOOKS",
+          "LINE_MISMATCH"
+        ],
+        "referenceQuoteAgeSeconds": 15.222361,
         "sameLineNoVigProbabilities": {
-          "betmgm": {
-            "power": 0.4976630152340158,
-            "proportional": 0.4978050921861282
-          },
           "betrivers": {
             "power": 0.5,
             "proportional": 0.5
@@ -3560,11 +3631,11 @@
           }
         },
         "sameLineNoVigProbabilityRange": {
-          "power": 0.011754589559511364,
-          "proportional": 0.011104387500258162
+          "power": 0.009417604793527157,
+          "proportional": 0.008909479686386335
         },
-        "status": "PASS",
-        "venueQuoteAgeSeconds": 40.350611
+        "status": "BLOCKED",
+        "venueQuoteAgeSeconds": 14.222361
       },
       "maxPlayablePriceVsPinnacle": -103.0,
       "openingHomeLine": -13.0,
@@ -3598,9 +3669,8 @@
           "proportional": -0.036707056307911545
         },
         "directionalAuthority": false,
-        "freshSameLineBookCount": 3,
+        "freshSameLineBookCount": 2,
         "freshSameLineBooks": [
-          "betmgm",
           "betrivers",
           "pinnacle"
         ],
@@ -3618,20 +3688,18 @@
           "range": 1.0
         },
         "movement": {
-          "hoursCovered": 0.45288894888888886,
+          "hoursCovered": 9.539242212777777,
           "latestVelocityPointsPerHour": 0.0,
-          "observations": 3,
+          "observations": 4,
           "previousVelocityPointsPerHour": 0.0,
           "reversal": false
         },
         "openingSideLine": -13.0,
-        "reasons": [],
-        "referenceQuoteAgeSeconds": 2.350611,
+        "reasons": [
+          "INSUFFICIENT_FRESH_SAME_LINE_BOOKS"
+        ],
+        "referenceQuoteAgeSeconds": 15.222361,
         "sameLineNoVigProbabilities": {
-          "betmgm": {
-            "power": 0.4976630152340158,
-            "proportional": 0.4978050921861282
-          },
           "betrivers": {
             "power": 0.5,
             "proportional": 0.5
@@ -3642,11 +3710,11 @@
           }
         },
         "sameLineNoVigProbabilityRange": {
-          "power": 0.011754589559511364,
-          "proportional": 0.011104387500258162
+          "power": 0.009417604793527157,
+          "proportional": 0.008909479686386335
         },
-        "status": "PASS",
-        "venueQuoteAgeSeconds": 40.350611
+        "status": "BLOCKED",
+        "venueQuoteAgeSeconds": 11.222361
       },
       "maxPlayablePriceVsPinnacle": -103.0,
       "openingHomeLine": -13.0,
@@ -3672,13 +3740,13 @@
       "firstSeen": "2026-09-21T01:04:50.274619+00:00",
       "game": "Texas A&M @ LSU",
       "historicalMeanDirectionalClv": 1.3088235294117647,
-      "livePriceEv": -0.01862133989838155,
+      "livePriceEv": -0.009803921568627416,
       "marketQuality": {
-        "conservativeExecutableEv": -0.019127859014687443,
+        "conservativeExecutableEv": -0.009803921568627416,
         "currentReferenceSideLine": 10.0,
         "devigExecutableEv": {
-          "power": -0.019127859014687443,
-          "proportional": -0.01862133989838155
+          "power": -0.009803921568627416,
+          "proportional": -0.009803921568627416
         },
         "directionalAuthority": false,
         "freshSameLineBookCount": 3,
@@ -3703,9 +3771,9 @@
           "range": 0.5
         },
         "movement": {
-          "hoursCovered": 0.45288894888888886,
+          "hoursCovered": 9.539242212777777,
           "latestVelocityPointsPerHour": 0.0,
-          "observations": 3,
+          "observations": 4,
           "previousVelocityPointsPerHour": 0.0,
           "reversal": false
         },
@@ -3713,31 +3781,31 @@
         "reasons": [
           "LINE_MISMATCH"
         ],
-        "referenceQuoteAgeSeconds": 2.350611,
+        "referenceQuoteAgeSeconds": 15.222361,
         "sameLineNoVigProbabilities": {
           "betmgm": {
-            "power": 0.5023369847659842,
-            "proportional": 0.5021949078138719
+            "power": 0.5082101662533431,
+            "proportional": 0.5077399380804954
           },
           "betrivers": {
             "power": 0.5,
             "proportional": 0.5
           },
           "pinnacle": {
-            "power": 0.49529187317080137,
-            "proportional": 0.49554764024933207
+            "power": 0.5,
+            "proportional": 0.5
           }
         },
         "sameLineNoVigProbabilityRange": {
-          "power": 0.00704511159518284,
-          "proportional": 0.006647267564539816
+          "power": 0.008210166253343143,
+          "proportional": 0.007739938080495445
         },
         "status": "BLOCKED",
-        "venueQuoteAgeSeconds": 3.350611
+        "venueQuoteAgeSeconds": 52.222361
       },
-      "maxPlayablePriceVsPinnacle": 102.0,
+      "maxPlayablePriceVsPinnacle": 101.0,
       "openingHomeLine": -9.7,
-      "pinnacleFairProbability": 0.49554764024933207,
+      "pinnacleFairProbability": 0.5,
       "pinnacleReferenceLine": 10.0,
       "projectionGapVsOpen": -5.499999999999999,
       "providerSide": "Texas A&M Aggies",
@@ -3759,13 +3827,13 @@
       "firstSeen": "2026-09-21T01:04:50.274619+00:00",
       "game": "Texas A&M @ LSU",
       "historicalMeanDirectionalClv": 1.3088235294117647,
-      "livePriceEv": -0.05395450497854798,
+      "livePriceEv": -0.04545454545454558,
       "marketQuality": {
-        "conservativeExecutableEv": -0.054442787583015684,
+        "conservativeExecutableEv": -0.04545454545454558,
         "currentReferenceSideLine": 10.0,
         "devigExecutableEv": {
-          "power": -0.054442787583015684,
-          "proportional": -0.05395450497854798
+          "power": -0.04545454545454558,
+          "proportional": -0.04545454545454558
         },
         "directionalAuthority": false,
         "freshSameLineBookCount": 3,
@@ -3790,9 +3858,9 @@
           "range": 0.5
         },
         "movement": {
-          "hoursCovered": 0.45288894888888886,
+          "hoursCovered": 9.539242212777777,
           "latestVelocityPointsPerHour": 0.0,
-          "observations": 3,
+          "observations": 4,
           "previousVelocityPointsPerHour": 0.0,
           "reversal": false
         },
@@ -3800,31 +3868,31 @@
         "reasons": [
           "LINE_MISMATCH"
         ],
-        "referenceQuoteAgeSeconds": 2.350611,
+        "referenceQuoteAgeSeconds": 15.222361,
         "sameLineNoVigProbabilities": {
           "betmgm": {
-            "power": 0.5023369847659842,
-            "proportional": 0.5021949078138719
+            "power": 0.5082101662533431,
+            "proportional": 0.5077399380804954
           },
           "betrivers": {
             "power": 0.5,
             "proportional": 0.5
           },
           "pinnacle": {
-            "power": 0.49529187317080137,
-            "proportional": 0.49554764024933207
+            "power": 0.5,
+            "proportional": 0.5
           }
         },
         "sameLineNoVigProbabilityRange": {
-          "power": 0.00704511159518284,
-          "proportional": 0.006647267564539816
+          "power": 0.008210166253343143,
+          "proportional": 0.007739938080495445
         },
         "status": "BLOCKED",
-        "venueQuoteAgeSeconds": 17.350611
+        "venueQuoteAgeSeconds": 31.222361
       },
-      "maxPlayablePriceVsPinnacle": 102.0,
+      "maxPlayablePriceVsPinnacle": 101.0,
       "openingHomeLine": -9.7,
-      "pinnacleFairProbability": 0.49554764024933207,
+      "pinnacleFairProbability": 0.5,
       "pinnacleReferenceLine": 10.0,
       "projectionGapVsOpen": -5.499999999999999,
       "providerSide": "Texas A&M Aggies",
@@ -3836,7 +3904,7 @@
     {
       "actualStakeUnits": 0,
       "currentLine": 10.0,
-      "currentPrice": -110.0,
+      "currentPrice": -112.0,
       "currentReferenceHomeLine": -10.0,
       "estimatedMovementRemaining": 1.6088235294117654,
       "exclusions": [
@@ -3845,13 +3913,13 @@
       "firstSeen": "2026-09-21T01:04:50.274619+00:00",
       "game": "Texas A&M @ LSU",
       "historicalMeanDirectionalClv": 1.3088235294117647,
-      "livePriceEv": -0.05395450497854798,
+      "livePriceEv": -0.05357142857142855,
       "marketQuality": {
-        "conservativeExecutableEv": -0.054442787583015684,
+        "conservativeExecutableEv": -0.05357142857142855,
         "currentReferenceSideLine": 10.0,
         "devigExecutableEv": {
-          "power": -0.054442787583015684,
-          "proportional": -0.05395450497854798
+          "power": -0.05357142857142855,
+          "proportional": -0.05357142857142855
         },
         "directionalAuthority": false,
         "freshSameLineBookCount": 3,
@@ -3876,39 +3944,39 @@
           "range": 0.5
         },
         "movement": {
-          "hoursCovered": 0.45288894888888886,
+          "hoursCovered": 9.539242212777777,
           "latestVelocityPointsPerHour": 0.0,
-          "observations": 3,
+          "observations": 4,
           "previousVelocityPointsPerHour": 0.0,
           "reversal": false
         },
         "openingSideLine": 9.7,
         "reasons": [],
-        "referenceQuoteAgeSeconds": 2.350611,
+        "referenceQuoteAgeSeconds": 15.222361,
         "sameLineNoVigProbabilities": {
           "betmgm": {
-            "power": 0.5023369847659842,
-            "proportional": 0.5021949078138719
+            "power": 0.5082101662533431,
+            "proportional": 0.5077399380804954
           },
           "betrivers": {
             "power": 0.5,
             "proportional": 0.5
           },
           "pinnacle": {
-            "power": 0.49529187317080137,
-            "proportional": 0.49554764024933207
+            "power": 0.5,
+            "proportional": 0.5
           }
         },
         "sameLineNoVigProbabilityRange": {
-          "power": 0.00704511159518284,
-          "proportional": 0.006647267564539816
+          "power": 0.008210166253343143,
+          "proportional": 0.007739938080495445
         },
         "status": "PASS",
-        "venueQuoteAgeSeconds": 40.350611
+        "venueQuoteAgeSeconds": 14.222361
       },
-      "maxPlayablePriceVsPinnacle": 102.0,
+      "maxPlayablePriceVsPinnacle": 101.0,
       "openingHomeLine": -9.7,
-      "pinnacleFairProbability": 0.49554764024933207,
+      "pinnacleFairProbability": 0.5,
       "pinnacleReferenceLine": 10.0,
       "projectionGapVsOpen": -5.499999999999999,
       "providerSide": "Texas A&M Aggies",
@@ -3929,13 +3997,13 @@
       "firstSeen": "2026-09-21T01:04:50.274619+00:00",
       "game": "Texas A&M @ LSU",
       "historicalMeanDirectionalClv": 1.3088235294117647,
-      "livePriceEv": -0.06199910952804999,
+      "livePriceEv": -0.05357142857142855,
       "marketQuality": {
-        "conservativeExecutableEv": -0.062483240069554524,
+        "conservativeExecutableEv": -0.05357142857142855,
         "currentReferenceSideLine": 10.0,
         "devigExecutableEv": {
-          "power": -0.062483240069554524,
-          "proportional": -0.06199910952804999
+          "power": -0.05357142857142855,
+          "proportional": -0.05357142857142855
         },
         "directionalAuthority": false,
         "freshSameLineBookCount": 3,
@@ -3960,39 +4028,39 @@
           "range": 0.5
         },
         "movement": {
-          "hoursCovered": 0.45288894888888886,
+          "hoursCovered": 9.539242212777777,
           "latestVelocityPointsPerHour": 0.0,
-          "observations": 3,
+          "observations": 4,
           "previousVelocityPointsPerHour": 0.0,
           "reversal": false
         },
         "openingSideLine": 9.7,
         "reasons": [],
-        "referenceQuoteAgeSeconds": 2.350611,
+        "referenceQuoteAgeSeconds": 15.222361,
         "sameLineNoVigProbabilities": {
           "betmgm": {
-            "power": 0.5023369847659842,
-            "proportional": 0.5021949078138719
+            "power": 0.5082101662533431,
+            "proportional": 0.5077399380804954
           },
           "betrivers": {
             "power": 0.5,
             "proportional": 0.5
           },
           "pinnacle": {
-            "power": 0.49529187317080137,
-            "proportional": 0.49554764024933207
+            "power": 0.5,
+            "proportional": 0.5
           }
         },
         "sameLineNoVigProbabilityRange": {
-          "power": 0.00704511159518284,
-          "proportional": 0.006647267564539816
+          "power": 0.008210166253343143,
+          "proportional": 0.007739938080495445
         },
         "status": "PASS",
-        "venueQuoteAgeSeconds": 40.350611
+        "venueQuoteAgeSeconds": 11.222361
       },
-      "maxPlayablePriceVsPinnacle": 102.0,
+      "maxPlayablePriceVsPinnacle": 101.0,
       "openingHomeLine": -9.7,
-      "pinnacleFairProbability": 0.49554764024933207,
+      "pinnacleFairProbability": 0.5,
       "pinnacleReferenceLine": 10.0,
       "projectionGapVsOpen": -5.499999999999999,
       "providerSide": "Texas A&M Aggies",
@@ -4105,9 +4173,9 @@
   ],
   "marketQuality": {
     "attached": true,
-    "blockedRows": 34,
+    "blockedRows": 26,
     "decisionEffect": "NONE",
-    "passRows": 14
+    "passRows": 22
   },
   "matchedLiveRows": 48,
   "modelId": "S04_ES1",
