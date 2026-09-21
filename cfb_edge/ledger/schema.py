@@ -94,6 +94,7 @@ FORECAST = Schema("model_forecasts", (
     Field("id", (str,)),
     Field("gameId", (str,)),
     Field("generatedAt", (str,)),
+    Field("startsAt", (str,), nullable=True),
     Field("modelId", (str,)),
     Field("modelVersion", (str,)),
     Field("modelSha256", (str,)),
