@@ -423,6 +423,24 @@ def _slate_games(path: str) -> list[str]:
         return [r["game"].strip() for r in csv.DictReader(fh) if r.get("game")]
 
 
+def _slate_kickoffs(path: str) -> dict[str, str]:
+    """Authoritative kickoff timestamps keyed by canonical slate game.
+
+    The exchange contract close time is not the game kickoff. A missing schedule
+    kickoff stays missing so downstream pre-kickoff gates fail closed.
+    """
+    import csv
+
+    out: dict[str, str] = {}
+    with open(path, newline="", encoding="utf-8") as fh:
+        for row in csv.DictReader(fh):
+            game = (row.get("game") or "").strip()
+            kickoff = (row.get("kickoff") or "").strip()
+            if game and kickoff:
+                out[game] = kickoff
+    return out
+
+
 def main(argv: list[str] | None = None) -> int:
     """Run the capture.
 
@@ -491,7 +509,10 @@ def main(argv: list[str] | None = None) -> int:
 
             def fetch() -> list[Quote]:
                 # The slate names the home team; a Kalshi market does not.
-                return board_quotes(games=_slate_games(args.slate))
+                return board_quotes(
+                    games=_slate_games(args.slate),
+                    kickoffs=_slate_kickoffs(args.slate),
+                )
 
             unreachable: tuple[type[Exception], ...] = (KalshiUnreachable,)
         else:
