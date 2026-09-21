@@ -19,7 +19,7 @@ from pathlib import Path
 from typing import Any, Iterable, Mapping
 from zoneinfo import ZoneInfo
 
-from .ledger import CANDIDATE, GRADE, load
+from .ledger import CANDIDATE, FORECAST, GRADE, load
 from .ledger.writer import write_json
 from .source_of_truth import _capture_is_fresh, _validation_reasons
 
@@ -229,8 +229,10 @@ def _implementation_rows(
     return rows
 
 
-def _ledger_summary(candidates: Iterable[Mapping[str, Any]],
+def _ledger_summary(forecasts: Iterable[Mapping[str, Any]],
+                    candidates: Iterable[Mapping[str, Any]],
                     grades: Iterable[Mapping[str, Any]]) -> dict:
+    forecast_rows = list(forecasts)
     candidate_rows = list(candidates)
     grade_rows = list(grades)
     decision_counts = Counter(str(r.get("decision") or "UNKNOWN") for r in candidate_rows)
@@ -240,7 +242,12 @@ def _ledger_summary(candidates: Iterable[Mapping[str, Any]],
         str(r.get("id")) for r in candidate_rows
         if r.get("decision") == "BET" and r.get("id") is not None
     }
+    forecast_models = Counter(
+        str(r.get("modelId") or "UNSPECIFIED") for r in forecast_rows
+    )
     return {
+        "forecastRows": len(forecast_rows),
+        "forecastModelCounts": dict(sorted(forecast_models.items())),
         "candidateRows": len(candidate_rows),
         "gradeRows": len(grade_rows),
         "decisionCounts": dict(sorted(decision_counts.items())),
@@ -290,6 +297,7 @@ def build_health(
     registry: Mapping[str, Any],
     implementations: Mapping[str, Any],
     capture_report: Mapping[str, Any] | None = None,
+    forecasts: Iterable[Mapping[str, Any]] = (),
     candidates: Iterable[Mapping[str, Any]] = (),
     grades: Iterable[Mapping[str, Any]] = (),
     latest_receipt: Mapping[str, Any] | None = None,
@@ -341,7 +349,7 @@ def build_health(
     if latest_receipt and latest_receipt.get("status") not in {"ok", None}:
         warnings.append("LATEST_RUN_NOT_OK")
 
-    ledger = _ledger_summary(candidates, grades)
+    ledger = _ledger_summary(forecasts, candidates, grades)
     if ledger["ungradedBetRows"]:
         warnings.append("UNGRADED_BET_ROWS")
 
@@ -405,6 +413,7 @@ def _parser() -> argparse.ArgumentParser:
         "--implementations", default="config/model_implementation_registry.json"
     )
     p.add_argument("--capture-report")
+    p.add_argument("--forecasts")
     p.add_argument("--candidates")
     p.add_argument("--grades")
     p.add_argument("--runs-dir")
@@ -430,6 +439,7 @@ def main(argv: list[str] | None = None) -> int:
         registry=_json(args.registry, {}),
         implementations=_json(args.implementations, {}),
         capture_report=_json(args.capture_report, {}),
+        forecasts=_rows(args.forecasts, FORECAST),
         candidates=_rows(args.candidates, CANDIDATE),
         grades=_rows(args.grades, GRADE),
         latest_receipt=_latest_receipt(args.runs_dir),
