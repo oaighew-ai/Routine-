@@ -22,7 +22,7 @@ from __future__ import annotations
 import argparse
 import json
 import math
-from dataclasses import dataclass
+from dataclasses import asdict, dataclass
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any, Mapping, Sequence
@@ -358,6 +358,7 @@ def main(argv: list[str] | None = None) -> int:
     p.add_argument("--challenger", default="config/s04_es1.json")
     p.add_argument("--edge-config", default="config/edge_os.json")
     p.add_argument("--out", required=True)
+    p.add_argument("--snapshot-out")
     args = p.parse_args(argv)
 
     learning = json.loads(Path(args.learning).read_text(encoding="utf-8"))
@@ -376,6 +377,14 @@ def main(argv: list[str] | None = None) -> int:
         json.dumps(report, indent=2, sort_keys=True, allow_nan=False) + "\n",
         encoding="utf-8",
     )
+    if args.snapshot_out:
+        snapshot = asdict(pull)
+        snapshot["events"] = list(pull.events)
+        Path(args.snapshot_out).parent.mkdir(parents=True, exist_ok=True)
+        Path(args.snapshot_out).write_text(
+            json.dumps(snapshot, indent=2, sort_keys=True, allow_nan=False) + "\n",
+            encoding="utf-8",
+        )
     print(
         f"S04_ES1 shadow: historical={report['historicalCohort']['n']} "
         f"captured={report['week4CapturedCandidates']} "
