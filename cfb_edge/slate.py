@@ -193,6 +193,7 @@ class SlateRow:
     projected_margin: float
     neutral: bool
     date: str
+    kickoff: str = ""
 
 
 def build(
@@ -234,6 +235,7 @@ def build(
                 + (0.0 if neutral else model.hfa), 2),
             neutral=neutral,
             date=(r.get("start_date") or "")[:10],
+            kickoff=(r.get("start_date") or ""),
         ))
     return sorted(out, key=lambda s: (s.date, s.game))
 
@@ -241,9 +243,11 @@ def build(
 def write_csv(rows: list[SlateRow], path: str) -> int:
     with open(path, "w", newline="", encoding="utf-8") as fh:
         w = csv.writer(fh)
-        w.writerow(["game", "projected_margin", "side", "posted_line", "total"])
+        w.writerow([
+            "game", "projected_margin", "side", "posted_line", "total", "kickoff"
+        ])
         for r in rows:
-            w.writerow([r.game, r.projected_margin, "", "", 52.0])
+            w.writerow([r.game, r.projected_margin, "", "", 52.0, r.kickoff])
     return len(rows)
 
 

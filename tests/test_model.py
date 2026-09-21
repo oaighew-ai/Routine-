@@ -2551,7 +2551,8 @@ class TestKickoffGuard(unittest.TestCase):
         quotes = board_quotes(
             games=["Kentucky @ Texas A&M", "Georgia @ Arkansas"],
             opener=lambda url: json.dumps(page).encode(),
-            seen_at="2026-09-14T22:00:00Z")
+            seen_at="2026-09-14T22:00:00Z",
+            kickoffs={"Kentucky @ Texas A&M": "2026-09-19T19:30:00Z"})
 
         self.assertEqual(len(quotes), 1)
         q = quotes[0]
@@ -2559,7 +2560,8 @@ class TestKickoffGuard(unittest.TestCase):
         self.assertEqual(q.book, "kalshi")
         self.assertEqual(q.line, -16.5)
         self.assertEqual(q.seen_at, "2026-09-14T22:00:00Z")
-        # The kickoff gate needs this, and it comes free from close_time.
+        # The kickoff gate needs schedule time. Exchange close_time is not kickoff.
+        self.assertEqual(q.commence_time, "2026-09-19T19:30:00Z")
         self.assertIs(q.before_kickoff, True)
 
         # Orientation comes from the slate and nowhere else. Reverse the
@@ -2567,13 +2569,55 @@ class TestKickoffGuard(unittest.TestCase):
         flipped = board_quotes(
             games=["Texas A&M @ Kentucky"],
             opener=lambda url: json.dumps(page).encode(),
-            seen_at="2026-09-14T22:00:00Z")
+            seen_at="2026-09-14T22:00:00Z",
+            kickoffs={"Texas A&M @ Kentucky": "2026-09-19T19:30:00Z"})
         self.assertEqual(flipped[0].game, "Texas A&M @ Kentucky")
         self.assertEqual(flipped[0].line, 16.5)
 
         self.assertEqual(
             board_quotes(games=[],
                          opener=lambda url: json.dumps(page).encode()), [])
+
+
+    def test_kalshi_close_time_is_never_used_as_kickoff(self):
+        """A contract may close after the game. Treating that as kickoff keeps
+        stale or in-play quotes eligible and moves the chronology gate."""
+        import json
+
+        from cfb_edge.providers.kalshi import board_quotes
+
+        page = {"markets": [
+            {"event_ticker": "26SEP19KYTAM",
+             "close_time": "2026-09-22T23:00:00Z",
+             "yes_sub_title": "Texas A&M wins by over 3.5 points",
+             "yes_bid": 88, "yes_ask": 90},
+            {"event_ticker": "26SEP19KYTAM",
+             "close_time": "2026-09-22T23:00:00Z",
+             "yes_sub_title": "Texas A&M wins by over 16.5 points",
+             "yes_bid": 49, "yes_ask": 51},
+            {"event_ticker": "26SEP19KYTAM",
+             "close_time": "2026-09-22T23:00:00Z",
+             "yes_sub_title": "Kentucky wins by over 2.5 points",
+             "yes_bid": 6, "yes_ask": 8},
+        ]}
+        without_schedule = board_quotes(
+            games=["Kentucky @ Texas A&M"],
+            opener=lambda url: json.dumps(page).encode(),
+            seen_at="2026-09-14T22:00:00Z",
+        )
+        self.assertIsNone(without_schedule[0].commence_time)
+        self.assertIsNone(without_schedule[0].before_kickoff)
+
+        with_schedule = board_quotes(
+            games=["Kentucky @ Texas A&M"],
+            opener=lambda url: json.dumps(page).encode(),
+            seen_at="2026-09-14T22:00:00Z",
+            kickoffs={"Kentucky @ Texas A&M": "2026-09-19T19:30:00Z"},
+        )
+        self.assertEqual(
+            with_schedule[0].commence_time, "2026-09-19T19:30:00Z"
+        )
+        self.assertIs(with_schedule[0].before_kickoff, True)
 
     def test_a_strike_the_venue_does_not_list_is_never_quoted(self):
         """The defect that made the card unfillable.
@@ -3592,7 +3636,7 @@ class TestSlateBuilder(unittest.TestCase):
             with open(path, newline="", encoding="utf-8") as fh:
                 cols = _csv.DictReader(fh).fieldnames
             self.assertEqual(
-                cols, ["game", "projected_margin", "side", "posted_line", "total"])
+                cols, ["game", "projected_margin", "side", "posted_line", "total", "kickoff"])
         finally:
             os.unlink(path)
 

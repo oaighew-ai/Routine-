@@ -414,7 +414,7 @@ def implied_line(curve: dict[float, float]) -> float | None:
 
 def board_quotes(
     *, games: Sequence[str], opener: Opener | None = None, limit: int = 1000,
-    seen_at: str | None = None,
+    seen_at: str | None = None, kickoffs: dict[str, str] | None = None,
 ) -> list["object"]:
     """One poll of the whole spread board, as Quotes the capture already eats.
 
@@ -457,6 +457,7 @@ def board_quotes(
     from ..watch import Quote
 
     stamp = seen_at or datetime.now(timezone.utc).isoformat()
+    kickoffs = kickoffs or {}
     by_event: dict[str, list[dict]] = {}
     for m in fetch_markets(SERIES["spread"], opener=opener, limit=limit):
         ev = m.get("event_ticker")
@@ -496,9 +497,12 @@ def board_quotes(
         line = implied_line(survival_curve(markets, home=home, away=away))
         if line is None:
             continue
-        commence = next((m.get("close_time") for m in markets if m.get("close_time")), None)
+        game = f"{away} @ {home}"
+        # Contract close_time is an exchange settlement/trading timestamp, not
+        # necessarily the football kickoff. Only the schedule may supply kickoff.
+        commence = kickoffs.get(game)
         out.append(Quote(
-            game=f"{away} @ {home}", book="kalshi", market="spread",
+            game=game, book="kalshi", market="spread",
             line=round(line, 1), price=None, seen_at=stamp,
             commence_time=str(commence) if commence else None,
         ))
