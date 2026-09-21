@@ -100,6 +100,23 @@ table{width:100%;border-collapse:collapse;font-size:13px}th{text-align:left;colo
     </div>
   </section>
 
+  <section class="card" style="margin-top:14px">
+    <div class="cardHead">
+      <div>
+        <h2 style="margin-bottom:3px">Week 4 early-season shadow board</h2>
+        <div class="small" id="learningSummary">Weeks 1–2 train · Week 3 pseudo-holdout · Week 4 prospective</div>
+      </div>
+      <div class="pill warn" id="learningPill">PENDING</div>
+    </div>
+    <div style="overflow:auto;margin-top:12px">
+      <table>
+        <thead><tr><th>Game</th><th>Side</th><th>Open</th><th>Adjusted fair</th><th>Expected CLV</th><th class="right">Status</th></tr></thead>
+        <tbody id="shadowRows"><tr><td colspan="6">Learning evidence has not published yet.</td></tr></tbody>
+      </table>
+    </div>
+    <div class="small" style="margin-top:10px">Research only. Zero stake. This surface cannot override S02 delivery authority.</div>
+  </section>
+
   <footer class="footer">
     <span>GitHub is diagnostics only. The private /api/picks contract is the sole delivery authority.</span>
     <span id="revision">revision —</span>
@@ -175,6 +192,32 @@ async function fallback(){
     nextActions:["Operating-health artifact has not been published yet. Open the private board for the authoritative decision."]
   }
 }
+function esc(v){return String(v??"").replace(/[&<>"']/g,ch=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[ch]))}
+function renderLearning(l,b){
+  const s=l?.summary||{};
+  const p=$("learningPill");
+  const qualified=!!s.shadowQualified;
+  p.textContent=qualified?"HOLDOUT PASS":"HOLDOUT BLOCKED";
+  p.className="pill "+(qualified?"ok":"bad");
+  const lift=s.holdoutMaeImprovementVsOpen;
+  const clv=s.holdoutMeanDirectionalClv;
+  $("learningSummary").textContent=
+    `Train ${s.trainGames??"—"} · Holdout ${s.holdoutGames??"—"} · MAE lift ${fmt(lift)} · directional CLV ${fmt(clv)}`;
+  const rows=(b?.topFive||[]);
+  if(rows.length){
+    $("shadowRows").innerHTML=rows.map(r=>`<tr>
+      <td><b>${esc(r.game)}</b><div class="small">${esc(r.kickoff||"")}</div></td>
+      <td>${esc(r.side||"—")}</td>
+      <td>${fmt(r.openingHomeLine)}</td>
+      <td>${fmt(r.adjustedFairHomeLine)}</td>
+      <td>${fmt(r.learnedExpectedDirectionalClv)}</td>
+      <td class="right"><b>SHADOW</b></td>
+    </tr>`).join("");
+  }else{
+    const failed=(b?.failedShadowChecks||s.failedShadowChecks||[]);
+    $("shadowRows").innerHTML=`<tr><td colspan="6"><b>No qualified Week 4 shadow watches.</b><div class="small">${esc(failed.join(", ")||"learning evidence pending")}</div></td></tr>`;
+  }
+}
 function render(h){
   pill(h.state); headline(h.state);
   $("stage").textContent=(h.stage||"manual").replaceAll("_"," ")+" · "+(h.phase||"UNKNOWN");
@@ -202,6 +245,16 @@ async function load(){
     let h;
     try{h=await get(EVIDENCE+"data/ops-health.json")}catch{h=await fallback()}
     render(h);
+    try{
+      const [learning,shadow]=await Promise.all([
+        get(EVIDENCE+"data/early-season-learning.json"),
+        get(EVIDENCE+"data/week4-shadow.json")
+      ]);
+      renderLearning(learning,shadow);
+    }catch{
+      $("learningPill").textContent="PENDING";
+      $("learningPill").className="pill warn";
+    }
   }catch(e){
     $("error").style.display="block";$("error").textContent="Could not load the evidence plane: "+e.message;
     pill("UNRESOLVED");headline("UNRESOLVED");
