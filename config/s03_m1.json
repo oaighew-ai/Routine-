@@ -1,0 +1,20 @@
+{
+  "schemaVersion": 1,
+  "modelId": "S03_M1",
+  "version": "market-quality-monitor-1",
+  "status": "MONITOR_ONLY",
+  "market": "spreads",
+  "referenceBook": "pinnacle",
+  "minimumFreshSameLineBooks": 3,
+  "maximumQuoteAgeSeconds": 900,
+  "keyNumbers": [3, 7, 10, 14],
+  "directionalAuthority": false,
+  "deliveryEligible": false,
+  "promotionEffect": "NONE",
+  "notes": [
+    "Implements the market-quality layer from the recovered CFB Edge blueprint without changing the frozen S04_ES1 Week 4 decision rule.",
+    "Same-line depth and quote freshness are hard quality checks. Dispersion, movement velocity, reversal and key-number crossings are diagnostics until prospectively validated.",
+    "Conservative EV is the minimum executable EV across the existing proportional and power de-vig methods.",
+    "No S03_M1 field is allowed to create a pick or supply a football probability."
+  ]
+}
