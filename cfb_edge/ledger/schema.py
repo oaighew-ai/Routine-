@@ -90,6 +90,25 @@ CANDIDATE = Schema("candidates", (
     Field("sample", (bool,), required=False),
 ))
 
+FORECAST = Schema("model_forecasts", (
+    Field("id", (str,)),
+    Field("gameId", (str,)),
+    Field("generatedAt", (str,)),
+    Field("startsAt", (str,), nullable=True),
+    Field("modelId", (str,)),
+    Field("modelVersion", (str,)),
+    Field("modelSha256", (str,)),
+    Field("protocol", (str,)),
+    Field("market", (str,)),
+    Field("side", (str,), nullable=True),
+    Field("fairLine", NUMBER, nullable=True),
+    Field("fairProbability", NUMBER, nullable=True),
+    Field("uncertainty", NUMBER, nullable=True),
+    Field("featureSnapshotHash", (str,)),
+    Field("sourceSnapshotId", (str,), nullable=True),
+    Field("sample", (bool,), required=False),
+))
+
 GRADE = Schema("grades", (
     Field("candidateId", (str,)),
     Field("closeRef", (str,)),
@@ -129,7 +148,7 @@ RUN = Schema("runs", (
     Field("sample", (bool,), required=False),
 ))
 
-SCHEMAS = {s.name: s for s in (SYSTEM, CANDIDATE, GRADE, PLACEMENT, RUN)}
+SCHEMAS = {s.name: s for s in (SYSTEM, FORECAST, CANDIDATE, GRADE, PLACEMENT, RUN)}
 
 
 def validate(row: Mapping[str, Any], schema: Schema, *, strict: bool = True) -> None:

@@ -1,0 +1,62 @@
+{
+  "schemaVersion": 1,
+  "registryId": "cfb-edge-model-implementations-2026",
+  "implementations": [
+    {
+      "modelId": "S01",
+      "location": "repository-history",
+      "reproducibleInRepo": false,
+      "status": "QUARANTINED",
+      "deliveryContract": null,
+      "note": "Historical incumbent. No delivery authority."
+    },
+    {
+      "modelId": "S02",
+      "location": "private-site",
+      "reproducibleInRepo": false,
+      "status": "EXTERNAL_PRODUCTION_CANDIDATE",
+      "deliveryContract": "https://cfb-edge-research.oaighew.chatgpt.site/api/picks",
+      "note": "The repository carries S02 identity, validation and delivery gates but not its forecast implementation. Do not reconstruct it from the name or validation snapshot."
+    },
+    {
+      "modelId": "S03",
+      "location": "cfb_edge/source_of_truth.py + capture pipeline",
+      "reproducibleInRepo": true,
+      "status": "ACTIVE_INPUT_INTEGRITY",
+      "deliveryContract": null,
+      "note": "Input integrity, replay and provenance only. Never supplies picks."
+    },
+    {
+      "modelId": "S04",
+      "location": null,
+      "reproducibleInRepo": false,
+      "status": "NOT_BUILT",
+      "deliveryContract": null,
+      "note": "Planned regularized football-context residual challenger. Shadow only until prospective promotion gates clear."
+    },
+    {
+      "modelId": "S05",
+      "location": "cfb_edge/line_movement.py",
+      "reproducibleInRepo": true,
+      "status": "MONITOR_ONLY",
+      "deliveryContract": null,
+      "note": "Information-flow monitor. Context only."
+    },
+    {
+      "modelId": "F03",
+      "location": null,
+      "reproducibleInRepo": false,
+      "status": "REJECTED",
+      "deliveryContract": null,
+      "note": "Rejected moneyline experiment."
+    },
+    {
+      "modelId": "ROUTINE_SHOP",
+      "location": "cfb_edge/shop.py",
+      "reproducibleInRepo": true,
+      "status": "PRICE_MONITOR",
+      "deliveryContract": null,
+      "note": "Price dislocation monitor, never an alternate pick feed."
+    }
+  ]
+}

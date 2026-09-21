@@ -1,0 +1,163 @@
+# CFB Edge operating cadence.
+#
+# This workflow does not invent or publish picks. It materializes a derived
+# health contract from the committed authority and append-only evidence so the
+# dashboard can show exactly why the system is ready or blocked.
+#
+# Two UTC hours are scheduled around every local target because college football
+# season crosses the US DST boundary. cfb_edge.ops_health resolves America/New_York
+# and only one of the two invocations actually runs.
+name: cfb operating review
+
+on:
+  schedule:
+    - cron: "0 12,13 * 9-11 1"   # Monday 08:00 ET model review
+    - cron: "0 13,14 * 9-11 2"   # Tuesday 09:00 ET opening board
+    - cron: "0 11,12 * 9-11 4"   # Thursday 07:00 ET midweek refresh
+    - cron: "0 21,22 * 9-11 5"   # Friday 17:00 ET pre-final
+    - cron: "0 12,13 * 9-11 6"   # Saturday 08:00 ET final board
+  workflow_dispatch:
+    inputs:
+      stage:
+        description: "Operating stage. Auto uses New York local time."
+        type: choice
+        required: false
+        default: auto
+        options:
+          - auto
+          - manual
+          - model_review
+          - opening_board
+          - midweek_refresh
+          - pre_final
+          - final_board
+
+permissions:
+  contents: write
+
+concurrency:
+  group: cfb-operating-review
+  cancel-in-progress: false
+
+jobs:
+  health:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Code
+        uses: actions/checkout@v4
+
+      - name: Evidence branch
+        uses: actions/checkout@v4
+        with:
+          ref: capture-data
+          path: capture-data
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+
+      - name: Resolve operating stage
+        id: stage
+        env:
+          REQUESTED_STAGE: ${{ inputs.stage || 'auto' }}
+          EVENT_NAME: ${{ github.event_name }}
+        run: |
+          if [ "$EVENT_NAME" = "workflow_dispatch" ]; then
+            if [ "$REQUESTED_STAGE" = "auto" ]; then
+              STAGE=manual
+            else
+              STAGE="$REQUESTED_STAGE"
+            fi
+            echo "run=1" >> "$GITHUB_OUTPUT"
+            echo "stage=$STAGE" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+
+          STAGE="$(python3 -m cfb_edge.ops_health --stage-only)"
+          if [ "$STAGE" = "none" ]; then
+            echo "run=0" >> "$GITHUB_OUTPUT"
+            echo "Scheduled duplicate is outside the New York target hour." >> "$GITHUB_STEP_SUMMARY"
+          else
+            echo "run=1" >> "$GITHUB_OUTPUT"
+            echo "stage=$STAGE" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Build operating health contract
+        if: steps.stage.outputs.run == '1'
+        run: |
+          args=(
+            --config config/edge_os.json
+            --authority config/delivery_authority.json
+            --registry config/model_registry.json
+            --implementations config/model_implementation_registry.json
+            --capture-report capture-data/data/capture-report.json
+            --out capture-data/data/ops-health.json
+            --stage "${{ steps.stage.outputs.stage }}"
+            --revision "$GITHUB_SHA"
+          )
+
+          if [ -f capture-data/ledger/forecasts.jsonl ]; then
+            args+=(--forecasts capture-data/ledger/forecasts.jsonl)
+          fi
+          if [ -f capture-data/ledger/candidates.jsonl ]; then
+            args+=(--candidates capture-data/ledger/candidates.jsonl)
+          fi
+          if [ -f capture-data/ledger/grades.jsonl ]; then
+            args+=(--grades capture-data/ledger/grades.jsonl)
+          fi
+          if [ -d capture-data/ledger/runs ]; then
+            args+=(--runs-dir capture-data/ledger/runs)
+          fi
+
+          python3 -m cfb_edge.ops_health "${args[@]}"
+
+          {
+            echo "## CFB Edge operating review"
+            echo "- stage: **${{ steps.stage.outputs.stage }}**"
+            python3 - <<'PY'
+          import json
+          from pathlib import Path
+
+          h = json.loads(Path("capture-data/data/ops-health.json").read_text())
+          print(f"- state: **{h['state']}**")
+          print(f"- capture: **{h['capture']['gamesObserved']}/{h['capture']['gamesTotal']}** games observed")
+          print(f"- authority blockers: **{len(h['authority']['recomputedReasons'])}**")
+          for action in h["nextActions"][:4]:
+              print(f"- next: {action}")
+          PY
+          } >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Archive health contract
+        if: steps.stage.outputs.run == '1'
+        uses: actions/upload-artifact@v4
+        with:
+          name: cfb-ops-health-${{ github.run_id }}-${{ github.run_attempt }}
+          path: capture-data/data/ops-health.json
+          if-no-files-found: error
+          retention-days: 90
+
+      - name: Publish derived health to evidence branch
+        if: steps.stage.outputs.run == '1'
+        working-directory: capture-data
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/ops-health.json
+          if git diff --cached --quiet; then
+            echo "Health contract unchanged." >> "$GITHUB_STEP_SUMMARY"
+            exit 0
+          fi
+          git commit -q -m "ops health ${{ steps.stage.outputs.stage }} $(date -u '+%Y-%m-%d %H:%M UTC')"
+
+          for attempt in 1 2 3; do
+            git fetch origin capture-data
+            if git rebase origin/capture-data && git push origin HEAD:capture-data; then
+              exit 0
+            fi
+            git rebase --abort || true
+            sleep $((attempt * 2))
+          done
+
+          echo "Could not publish ops-health after three attempts." >> "$GITHUB_STEP_SUMMARY"
+          exit 1
