@@ -7,12 +7,12 @@ does there is no way to tell which one is wrong.
 """
 
 from .schema import (
-    CANDIDATE, GRADE, PLACEMENT, RUN, SYSTEM, SchemaError, validate,
+    CANDIDATE, FORECAST, GRADE, PLACEMENT, RUN, SYSTEM, SchemaError, validate,
 )
 from .writer import LedgerError, append, append_many, load
 
 __all__ = [
-    "CANDIDATE", "GRADE", "PLACEMENT", "RUN", "SYSTEM",
+    "CANDIDATE", "FORECAST", "GRADE", "PLACEMENT", "RUN", "SYSTEM",
     "SchemaError", "validate",
     "LedgerError", "append", "append_many", "load",
 ]
