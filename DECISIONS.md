@@ -636,3 +636,87 @@ Both behaviours turned missing or different inputs into positive evidence.
 distribution prices their exact settlement boundary and a test proves the
 contract mapping. Unknown weeks may pass only if a different registered timing
 source proves the same season gate before the decision is made.
+
+
+## 2026-09-21 — D17. Model identity and model implementation provenance are separate facts
+
+**Decision.** `config/model_registry.json` continues to own model role and delivery
+eligibility. `config/model_implementation_registry.json` owns where the
+implementation actually lives and whether this repository can reproduce it.
+
+S02 is explicitly **external to this repository** today. The private Site owns
+its forecast implementation and authoritative delivery surface. The repository
+must not reconstruct S02 from its name, validation metrics, previous outputs, or
+chat context.
+
+When S02 remains external, the only admissible bridge into this evidence plane
+is a frozen `CFB_EDGE_S02_FORECASTS_V1` export validated by
+`cfb_edge.external_forecast`. The envelope and every row must match the
+committed model ID, version, SHA-256 and protocol exactly, carry pre-kickoff
+timestamps and frozen input hashes, and append without rewriting history.
+
+**Why.** A model hash is evidence about identity, not source code. Treating the
+registry metadata as enough to rebuild the model would create a new,
+unvalidated S02 that merely shares the old one's name. The external contract
+lets prospective evidence be audited without making that substitution.
+
+**Reversal criterion.** The exact S02 implementation and frozen artifacts are
+brought into this repository and deterministic parity against the private Site
+is proven on registered test vectors. At that point
+`reproducibleInRepo` becomes true and the external import is retained only as
+a delivery/export compatibility check.
+
+
+## 2026-09-21 — D18. S04 predicts market residuals and can only earn authority prospectively
+
+**Decision.** S04 begins as one regularized residual challenger, not a
+multi-model ensemble. Its target is the realized home margin minus the market
+home-margin baseline. It trains chronologically on prior seasons only.
+
+The initial harness in `cfb_edge.challenger` exists to answer whether
+football-context features add information **beyond the market**. Historical
+walk-forward evidence may reject S04. It has `promotionEffect: NONE` and cannot
+alter S02, the card, or delivery eligibility.
+
+**Why.** The repository's strongest existing evidence says the closing market
+contains nearly all of the raw game-prediction information tested so far. A
+larger ensemble built to predict scores from scratch would add degrees of
+freedom before proving incremental value. Residual prediction makes the hurdle
+explicit and reduces the temptation to celebrate accuracy the market already
+owned.
+
+**Reversal criterion.** At least two independently specified challengers each
+show stable prospective incremental calibration/loss improvement across the
+registered minimum sample and week clusters. Only then is an ensemble design
+worth testing, and its weights must be learned from prospective performance
+rather than assigned by narrative confidence.
+
+
+## 2026-09-21 — D19. Operating health is observable, derived, and never a second pick feed
+
+**Decision.** `cfb_edge.ops_health` produces
+`CFB_EDGE_OPS_HEALTH_V1`, a derived control-plane contract containing
+validation progress, capture freshness, model provenance, immutable ledger
+counts, and next actions. It cannot promote a model or create a pick.
+
+The scheduled operating rhythm is Monday model review, Tuesday opening board,
+Thursday midweek refresh, Friday pre-final, and Saturday final board, resolved
+in `America/New_York` so daylight-saving changes do not silently move the
+window.
+
+The private Site `/api/picks` is the sole delivery authority. This **supersedes
+D15 only on the physical location/name of the delivery contract**; D15's
+single-source principle and NO_EVIDENCE rule remain in force. GitHub Pages,
+`ops-health.json`, capture reports, shadow forecasts, challenger reports and
+local diagnostic cards are observability/research surfaces only.
+
+**Why.** The project had accumulated multiple technically plausible surfaces
+that could be mistaken for picks. A control-plane dashboard is useful only if
+it makes authority clearer, not if it becomes another board with different
+rules. The health contract therefore reports the same committed gates and
+links to the private decision surface rather than publishing its own card.
+
+**Reversal criterion.** The delivery surface may move again only if one new
+contract can preserve immutable model identity, fail-closed gate recomputation,
+frozen input lineage and deterministic replay. There must still be exactly one
+authoritative card.
