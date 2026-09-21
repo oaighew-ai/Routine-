@@ -1,9 +1,212 @@
 <!doctype html>
-<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>CFB Edge</title>
-<style>:root{color-scheme:light dark;font-family:system-ui,sans-serif}body{margin:0;background:#f5f6f7;color:#17211d}main{max-width:640px;margin:12vh auto;padding:24px}h1{font-size:clamp(30px,7vw,48px);line-height:1.1}p{line-height:1.6}a{color:#12633c}.open{display:inline-block;background:#12633c;color:white;padding:14px 20px;border-radius:8px;font-weight:700;text-decoration:none}small{display:block;margin-top:32px;color:#57645d}@media(prefers-color-scheme:dark){body{background:#101713;color:#edf5ef}a{color:#8be0ad}small{color:#acbdb2}}</style></head>
-<body><main><p>CFB EDGE · RESEARCH</p><h1>One board. One live decision.</h1>
-<p>The private dashboard is the source of truth for current S02 paper picks, validation gates and saved capture lineage.</p>
-<p><a class="open" href="https://cfb-edge-research.oaighew.chatgpt.site">Open CFB Edge dashboard</a></p>
-<p>Sign in with your authorized account. If the evidence or quote checks fail, the dashboard returns NO BET with the reason.</p>
-<small>This repository contains code and capture diagnostics. Local exports and historical cards do not authorize picks. Paper research only; no stakes or wagers are assigned here.</small>
-</main></body></html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="color-scheme" content="dark">
+<title>CFB Edge Control Plane</title>
+<style>
+:root{
+  --bg:#090d0b;--panel:#111814;--panel2:#151f19;--line:#263229;
+  --text:#f2f7f3;--muted:#8fa095;--green:#66d38b;--green2:#183b25;
+  --amber:#f2bf62;--amber2:#3c2d12;--red:#ef7f79;--red2:#401d1c;--blue:#83b7ff;
+}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font:15px/1.45 ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
+button,a{font:inherit}.shell{max-width:1180px;margin:auto;padding:22px 18px 56px}
+.top{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-bottom:26px}
+.brand{display:flex;align-items:center;gap:11px;font-weight:800;letter-spacing:.08em}.mark{width:12px;height:12px;border-radius:50%;background:var(--green);box-shadow:0 0 22px rgba(102,211,139,.45)}
+.sub{color:var(--muted);font-size:12px;font-weight:600;letter-spacing:.12em}.sync{font-size:12px;color:var(--muted)}
+.hero{border:1px solid var(--line);background:linear-gradient(145deg,#101712,#0d120f);border-radius:22px;padding:26px;margin-bottom:18px}
+.eyebrow{font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);font-weight:700}
+.heroRow{display:flex;justify-content:space-between;align-items:flex-end;gap:22px;margin-top:10px}
+h1{font-size:clamp(30px,5vw,54px);line-height:1.04;letter-spacing:-.045em;margin:4px 0 12px;max-width:760px}.lede{color:#bdc9c1;max-width:720px;margin:0;font-size:16px}
+.cta{display:inline-flex;align-items:center;justify-content:center;min-height:48px;padding:0 18px;border-radius:12px;background:var(--green);color:#07100a;text-decoration:none;font-weight:800;white-space:nowrap}
+.pill{display:inline-flex;align-items:center;gap:7px;border:1px solid var(--line);padding:7px 10px;border-radius:999px;font-size:12px;font-weight:800}
+.pill.ok{color:var(--green);background:var(--green2)}.pill.warn{color:var(--amber);background:var(--amber2)}.pill.bad{color:var(--red);background:var(--red2)}
+.metrics{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin-bottom:18px}.metric{border:1px solid var(--line);background:var(--panel);border-radius:16px;padding:16px;min-width:0}.metric .k{color:var(--muted);font-size:11px;text-transform:uppercase;letter-spacing:.1em;font-weight:700}.metric .v{font-size:26px;font-weight:800;margin-top:5px;letter-spacing:-.03em}.metric .d{font-size:12px;color:var(--muted);margin-top:3px}
+.grid{display:grid;grid-template-columns:1.2fr .8fr;gap:14px}.stack{display:grid;gap:14px}.card{border:1px solid var(--line);background:var(--panel);border-radius:18px;padding:18px;min-width:0}.card h2{font-size:16px;margin:0 0 14px;letter-spacing:-.01em}.cardHead{display:flex;justify-content:space-between;gap:12px;align-items:center}
+table{width:100%;border-collapse:collapse;font-size:13px}th{text-align:left;color:var(--muted);font-size:11px;text-transform:uppercase;letter-spacing:.08em;padding:9px 8px;border-bottom:1px solid var(--line)}td{padding:11px 8px;border-bottom:1px solid #1d2721;vertical-align:top}.right{text-align:right}.statusDot{display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:7px;background:var(--muted)}.statusDot.pass{background:var(--green)}.statusDot.fail{background:var(--red)}.statusDot.unknown{background:var(--amber)}
+.progress{height:7px;background:#202923;border-radius:999px;overflow:hidden;margin-top:8px}.bar{height:100%;background:var(--green);border-radius:inherit;min-width:0}
+.list{display:grid;gap:10px}.item{display:flex;gap:10px;align-items:flex-start;padding:11px 0;border-bottom:1px solid #1d2721}.item:last-child{border-bottom:0}.badge{font-size:10px;font-weight:800;letter-spacing:.08em;border-radius:7px;padding:4px 6px;background:#202923;color:#a8b6ad;white-space:nowrap}.item strong{display:block;font-size:13px}.item span{color:var(--muted);font-size:12px}
+.actions{margin:0;padding-left:20px;color:#d8e0da}.actions li{margin:9px 0;padding-left:4px}.small{color:var(--muted);font-size:12px}.error{display:none;border:1px solid #66312e;background:#2b1615;color:#ffc2bd;padding:12px 14px;border-radius:12px;margin-bottom:14px}
+.footer{color:var(--muted);font-size:11px;margin-top:22px;display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
+@media(max-width:820px){.heroRow{display:block}.cta{margin-top:18px;width:100%}.metrics{grid-template-columns:repeat(2,1fr)}.grid{grid-template-columns:1fr}}
+@media(max-width:440px){.shell{padding:16px 12px 42px}.hero{padding:20px}.metrics{grid-template-columns:1fr 1fr;gap:8px}.metric{padding:13px}.metric .v{font-size:22px}.top{align-items:flex-start}.sync{text-align:right}}
+</style>
+</head>
+<body>
+<div class="shell">
+  <header class="top">
+    <div><div class="brand"><span class="mark"></span>CFB EDGE</div><div class="sub">CONTROL PLANE · RESEARCH</div></div>
+    <div class="sync" id="sync">Loading evidence…</div>
+  </header>
+
+  <div class="error" id="error"></div>
+
+  <section class="hero">
+    <div class="cardHead">
+      <div class="eyebrow" id="stage">Operating state</div>
+      <div class="pill warn" id="statePill">LOADING</div>
+    </div>
+    <div class="heroRow">
+      <div>
+        <h1 id="headline">Checking whether the system has earned a decision.</h1>
+        <p class="lede" id="lede">One authoritative card. Every other surface is evidence, diagnostics, or research.</p>
+      </div>
+      <a class="cta" href="https://cfb-edge-research.oaighew.chatgpt.site">Open decision board →</a>
+    </div>
+  </section>
+
+  <section class="metrics">
+    <div class="metric"><div class="k">Capture coverage</div><div class="v" id="captureMetric">—</div><div class="d" id="captureDetail">latest opening-board observation</div></div>
+    <div class="metric"><div class="k">Prospective forecasts</div><div class="v" id="forecastMetric">—</div><div class="progress"><div class="bar" id="forecastBar"></div></div></div>
+    <div class="metric"><div class="k">Week clusters</div><div class="v" id="weekMetric">—</div><div class="progress"><div class="bar" id="weekBar"></div></div></div>
+    <div class="metric"><div class="k">Gate failures</div><div class="v" id="gateMetric">—</div><div class="d">recomputed, not label-trusted</div></div>
+  </section>
+
+  <section class="grid">
+    <div class="stack">
+      <article class="card">
+        <div class="cardHead"><h2>Validation gates</h2><span class="small" id="validationAsOf"></span></div>
+        <div style="overflow:auto">
+          <table>
+            <thead><tr><th>Gate</th><th>Current</th><th>Requirement</th><th class="right">Status</th></tr></thead>
+            <tbody id="gates"></tbody>
+          </table>
+        </div>
+      </article>
+
+      <article class="card">
+        <div class="cardHead"><h2>Model stack</h2><span class="small">production + quarantined challengers</span></div>
+        <div class="list" id="models"></div>
+      </article>
+    </div>
+
+    <div class="stack">
+      <article class="card">
+        <h2>Capture integrity</h2>
+        <div class="list" id="captureList"></div>
+      </article>
+
+      <article class="card">
+        <h2>Next actions</h2>
+        <ol class="actions" id="actions"></ol>
+      </article>
+
+      <article class="card">
+        <h2>Ledger</h2>
+        <div class="list" id="ledger"></div>
+      </article>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <span>GitHub is diagnostics only. The private /api/picks contract is the sole delivery authority.</span>
+    <span id="revision">revision —</span>
+  </footer>
+</div>
+
+<script>
+const MAIN="https://raw.githubusercontent.com/oaighew-ai/Routine-/main/";
+const EVIDENCE="https://raw.githubusercontent.com/oaighew-ai/Routine-/capture-data/";
+const $=id=>document.getElementById(id);
+const fmt=v=>v==null?"—":typeof v==="number"?Number.isInteger(v)?String(v):v.toFixed(4):String(v);
+const pct=(a,b)=>!b?0:Math.max(0,Math.min(100,(a/b)*100));
+async function get(url){const r=await fetch(url,{cache:"no-store"});if(!r.ok)throw new Error(url+" → "+r.status);return r.json()}
+function pill(state){
+  const el=$("statePill"); el.textContent=state||"UNKNOWN";
+  el.className="pill "+(state==="LIVE_READY"||state==="PAPER_READY"?"ok":state==="SHADOW_BLOCKED"||state==="DATA_BLOCKED"?"bad":"warn");
+}
+function headline(state){
+  const map={
+    SHADOW_BLOCKED:["Shadow mode. No validated card yet.","The system is collecting evidence but has not cleared its promotion gates. NO BET is the correct default."],
+    DATA_BLOCKED:["Model gates may be clear, but current data is not.","A current quote or capture requirement failed. The system will not publish from stale evidence."],
+    PAPER_READY:["Paper delivery gates are clear.","The research card may publish through the private authority. Actual exposure remains disabled."],
+    LIVE_READY:["Live-ready controls are clear.","Execution still requires the authorized queue and actual fill logging."]
+  };
+  const x=map[state]||["System state unresolved.","The control plane could not establish an authoritative operating state."];
+  $("headline").textContent=x[0]; $("lede").textContent=x[1];
+}
+function gateRow(g){
+  const s=g.passed===true?"pass":g.passed===false?"fail":"unknown";
+  return `<tr><td><span class="statusDot ${s}"></span>${g.detail||g.code}<div class="small">${g.code}</div></td><td>${fmt(g.current)}</td><td>${g.comparator||""} ${fmt(g.threshold)}</td><td class="right"><b>${g.passed===true?"PASS":g.passed===false?"FAIL":"UNKNOWN"}</b></td></tr>`;
+}
+function modelRow(m){
+  const tag=m.deliveryEligible?"DELIVERY CANDIDATE":m.implementationStatus||m.modelStatus||"SHADOW";
+  const note=m.reproducibleInRepo?"replayable in repo":m.implementationLocation==="private-site"?"external private implementation":"not reproducible here";
+  return `<div class="item"><span class="badge">${m.id||"?"}</span><div><strong>${m.role||"Unregistered role"}</strong><span>${tag} · ${note}</span></div></div>`;
+}
+function captureItems(c){
+  const arr=[
+    ["Latest poll",c.pollAt||"missing"],
+    ["Code revision",c.codeRevision?String(c.codeRevision).slice(0,10):"missing"],
+    ["Fresh now",c.freshNow?"yes":"no"],
+    ["Games absent",String(c.gamesMissing??"—")]
+  ];
+  for(const x of (c.topExclusions||[]).slice(0,4))arr.push([x.code,String(x.count)]);
+  $("captureList").innerHTML=arr.map(x=>`<div class="item"><span class="badge">${x[1]}</span><div><strong>${x[0]}</strong></div></div>`).join("");
+}
+function ledgerItems(l){
+  const arr=[
+    ["Candidate rows",l.candidateRows??0],
+    ["BET rows",l.betRows??0],
+    ["Grade rows",l.gradeRows??0],
+    ["Ungraded BET rows",l.ungradedBetRows??0]
+  ];
+  $("ledger").innerHTML=arr.map(x=>`<div class="item"><span class="badge">${x[1]}</span><div><strong>${x[0]}</strong></div></div>`).join("");
+}
+async function fallback(){
+  const [a,c,r,i]=await Promise.all([
+    get(MAIN+"config/delivery_authority.json"),
+    get(EVIDENCE+"data/capture-report.json"),
+    get(MAIN+"config/model_registry.json"),
+    get(MAIN+"config/model_implementation_registry.json").catch(()=>({implementations:[]}))
+  ]);
+  const impl=new Map((i.implementations||[]).map(x=>[x.modelId,x]));
+  return {
+    generatedAt:new Date().toISOString(),revision:c.codeRevision||"unknown",stage:"fallback",phase:"SHADOW",
+    state:a.allowPaperDelivery?"PAPER_READY":"SHADOW_BLOCKED",
+    authority:{...a,recomputedReasons:a.failedGates||[]},
+    validation:{requirements:a.requirements||{},observed:a.observed||{},gates:[]},
+    capture:{pollAt:c.pollAt,codeRevision:c.codeRevision,gamesTotal:(c.games||[]).length,gamesObserved:(c.games||[]).filter(g=>(g.observations||[]).length).length,gamesMissing:(c.games||[]).filter(g=>(g.exclusions||[]).includes("ABSENT_FROM_LATEST_POLL")).length,freshNow:false,topExclusions:[]},
+    models:(r.models||[]).map(m=>({...m,implementationStatus:impl.get(m.id)?.status,implementationLocation:impl.get(m.id)?.location,reproducibleInRepo:!!impl.get(m.id)?.reproducibleInRepo})),
+    ledger:{candidateRows:0,betRows:0,gradeRows:0,ungradedBetRows:0},
+    nextActions:["Operating-health artifact has not been published yet. Open the private board for the authoritative decision."]
+  }
+}
+function render(h){
+  pill(h.state); headline(h.state);
+  $("stage").textContent=(h.stage||"manual").replaceAll("_"," ")+" · "+(h.phase||"UNKNOWN");
+  $("sync").textContent="Updated "+new Date(h.generatedAt).toLocaleString();
+  $("revision").textContent="revision "+String(h.revision||"—").slice(0,12);
+  const c=h.capture||{};
+  $("captureMetric").textContent=(c.gamesObserved??0)+"/"+(c.gamesTotal??0);
+  $("captureDetail").textContent=c.pollAt?"poll "+new Date(c.pollAt).toLocaleString():"no capture timestamp";
+
+  const o=h.validation?.observed||{}, q=h.validation?.requirements||{};
+  $("forecastMetric").textContent=(o.nonPushForecasts??"—")+"/"+(q.minimumNonPushForecasts??"—");
+  $("forecastBar").style.width=pct(o.nonPushForecasts,q.minimumNonPushForecasts)+"%";
+  $("weekMetric").textContent=(o.weekClusters??"—")+"/"+(q.minimumWeekClusters??"—");
+  $("weekBar").style.width=pct(o.weekClusters,q.minimumWeekClusters)+"%";
+  const failed=(h.validation?.gates||[]).filter(g=>g.passed===false);
+  $("gateMetric").textContent=failed.length||((h.authority?.recomputedReasons||[]).length);
+  $("validationAsOf").textContent=h.authority?.asOf?"as of "+new Date(h.authority.asOf).toLocaleString():"";
+  $("gates").innerHTML=(h.validation?.gates||[]).map(gateRow).join("")||"<tr><td colspan='4'>Health artifact pending. Use the private board for decisions.</td></tr>";
+  $("models").innerHTML=(h.models||[]).map(modelRow).join("");
+  captureItems(c); ledgerItems(h.ledger||{});
+  $("actions").innerHTML=(h.nextActions||[]).map(x=>"<li>"+x+"</li>").join("");
+}
+async function load(){
+  try{
+    let h;
+    try{h=await get(EVIDENCE+"data/ops-health.json")}catch{h=await fallback()}
+    render(h);
+  }catch(e){
+    $("error").style.display="block";$("error").textContent="Could not load the evidence plane: "+e.message;
+    pill("UNRESOLVED");headline("UNRESOLVED");
+  }
+}
+load(); setInterval(load,60000);
+</script>
+</body>
+</html>
