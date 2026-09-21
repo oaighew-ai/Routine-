@@ -51,6 +51,14 @@
       "note": "Reproducible Week 4 exploratory challenger. Historical Weeks 1-3 do not validate it; no delivery path."
     },
     {
+      "modelId": "S04_ES2",
+      "location": "config/s04_es2.json",
+      "reproducibleInRepo": true,
+      "status": "PREREGISTERED_CONFIG_ONLY",
+      "deliveryContract": null,
+      "note": "Week 5 challenger rule is frozen; runtime activation waits for the next prospective cohort and cannot use Week 4 outcomes to change its rule."
+    },
+    {
       "modelId": "S05",
       "location": "cfb_edge/line_movement.py",
       "reproducibleInRepo": true,
