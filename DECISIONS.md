@@ -720,3 +720,43 @@ links to the private decision surface rather than publishing its own card.
 contract can preserve immutable model identity, fail-closed gate recomputation,
 frozen input lineage and deterministic replay. There must still be exactly one
 authoritative card.
+
+
+## 2026-09-21 — D20. Weeks 1–3 are learning evidence, but Week 3 is not training data
+
+**Decision.** The first three 2026 weeks are incorporated through
+`CFB_EDGE_EARLY_SEASON_LEARNING_V1` with a fixed chronology:
+
+- Weeks 1–2: **TRAIN**.
+- Week 3: **PSEUDO_HOLDOUT** exactly once.
+- Week 4: **PROSPECTIVE**, never fitted in this module.
+
+The learner is market-anchored. Its only explanatory variable is the frozen
+pregame disagreement between the weekly projection and the opening
+market-implied home margin. It estimates two quantities from Weeks 1–2:
+incremental realized-margin residual and open-to-close movement. Both learned
+weights are hard-capped at 0.25 during this early-season phase.
+
+Week 3 qualifies the challenger for a Week 4 **shadow watchlist only** when all
+registered checks pass: enough training and holdout games, positive MAE
+improvement versus the opening market, positive mean directional CLV, a
+majority of holdout games beating the close in the predicted direction, and a
+positive movement slope.
+
+CFBD `spreadOpen` / `spread` are reference evidence only. They may train and
+score the historical hypothesis, but they never become executable entry prices.
+The Week 4 shadow board accepts only this system's own timely
+`source=capture` opening rows. The shadow board has zero stake and
+`deliveryEffect: NONE`.
+
+**Why.** Using all three completed weeks to fit and then reporting their
+performance would convert hindsight into apparent validation. Refusing all three
+weeks would discard useful information. A train / pseudo-holdout / prospective
+split extracts the information while preserving one uncontaminated check before
+Week 4.
+
+**Reversal criterion.** Once enough prospective weeks exist, this temporary
+early-season split is retired in favor of the registered multi-week prospective
+promotion framework. Week 3 is never moved from holdout into training for the
+2026 Week 4 decision after its result is known. Any future refit must start from
+Week 4 forward under a separately versioned challenger.
