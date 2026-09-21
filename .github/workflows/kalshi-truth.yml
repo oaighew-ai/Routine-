@@ -28,8 +28,14 @@ jobs:
         with:
           python-version: "3.13"
 
-      - name: Build the current slate
-        run: python3 -m cfb_edge.slate --season 2026 --out data/slate_current.csv
+      # The same week the capture asks for. A diagnostic that measures a
+      # different week than the capture polls is worse than none: on a Sunday
+      # night `current` and `opening` disagree, and this would report a board
+      # the capture never sees.
+      - name: Build the slate for the week the capture targets
+        run: |
+          python3 -m cfb_edge.slate --season 2026 --week opening \
+            --out data/slate_current.csv
 
       - name: What the board really looks like
         run: |
