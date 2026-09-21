@@ -1,234 +1,131 @@
 {
   "schemaVersion": 1,
   "cohort": "ROUTINE_KALSHI_CAPTURE",
-  "generatedAt": "2026-09-20T23:45:49.321540+00:00",
-  "pollAt": "2026-09-20T23:45:49.223334+00:00",
+  "generatedAt": "2026-09-21T01:04:50.848781+00:00",
+  "pollAt": "2026-09-21T01:04:50.765339+00:00",
   "captureOutcome": "success",
   "freshAtGeneration": true,
-  "codeRevision": "d0a6a0697e645839cc458ea0971b11d702e2730e",
-  "logSha256": "d27d30e780030ec30e9e47eef3674854643baa86f2b2df0713cd133c96023568",
-  "slateSha256": "39fc587ba16117003db4af9f71b19dffd42470ad753fc3c33c5a9b735282141c",
+  "codeRevision": "f85a6de6c277471cc86362b76ddf0f1d70d442ad",
+  "logSha256": "4fa650a4e9753418f01594b6a3b140f58482f504bd1fb1efc00e64671df1fc67",
+  "slateSha256": "d44cc3342f56de8b5f0e11c514033066bf7bbb0fb15805e08902b37a58724315",
   "allowDelivery": false,
   "actualStakeUnits": 0,
   "games": [
     {
-      "game": "Akron @ Minnesota",
-      "action": "NO BET",
-      "stakeUnits": 0,
-      "observations": [],
-      "exclusions": [
-        "ABSENT_FROM_LATEST_POLL",
-        "DECISION_EVIDENCE_UNVERIFIED",
-        "EXECUTABLE_CONTRACT_UNVERIFIED"
-      ]
-    },
-    {
-      "game": "Arizona State @ Kansas",
-      "action": "NO BET",
-      "stakeUnits": 0,
-      "observations": [],
-      "exclusions": [
-        "ABSENT_FROM_LATEST_POLL",
-        "DECISION_EVIDENCE_UNVERIFIED",
-        "EXECUTABLE_CONTRACT_UNVERIFIED"
-      ]
-    },
-    {
-      "game": "Arkansas State @ TCU",
-      "action": "NO BET",
-      "stakeUnits": 0,
-      "observations": [],
-      "exclusions": [
-        "ABSENT_FROM_LATEST_POLL",
-        "DECISION_EVIDENCE_UNVERIFIED",
-        "EXECUTABLE_CONTRACT_UNVERIFIED"
-      ]
-    },
-    {
-      "game": "BYU @ Colorado State",
-      "action": "NO BET",
-      "stakeUnits": 0,
-      "observations": [],
-      "exclusions": [
-        "ABSENT_FROM_LATEST_POLL",
-        "DECISION_EVIDENCE_UNVERIFIED",
-        "EXECUTABLE_CONTRACT_UNVERIFIED"
-      ]
-    },
-    {
-      "game": "Ball State @ Liberty",
-      "action": "NO BET",
-      "stakeUnits": 0,
-      "observations": [],
-      "exclusions": [
-        "ABSENT_FROM_LATEST_POLL",
-        "DECISION_EVIDENCE_UNVERIFIED",
-        "EXECUTABLE_CONTRACT_UNVERIFIED"
-      ]
-    },
-    {
-      "game": "Bowling Green @ Iowa State",
-      "action": "NO BET",
-      "stakeUnits": 0,
-      "observations": [],
-      "exclusions": [
-        "ABSENT_FROM_LATEST_POLL",
-        "DECISION_EVIDENCE_UNVERIFIED",
-        "EXECUTABLE_CONTRACT_UNVERIFIED"
-      ]
-    },
-    {
-      "game": "Buffalo @ Penn State",
-      "action": "NO BET",
-      "stakeUnits": 0,
-      "observations": [],
-      "exclusions": [
-        "ABSENT_FROM_LATEST_POLL",
-        "DECISION_EVIDENCE_UNVERIFIED",
-        "EXECUTABLE_CONTRACT_UNVERIFIED"
-      ]
-    },
-    {
-      "game": "Charlotte @ App State",
-      "action": "NO BET",
-      "stakeUnits": 0,
-      "observations": [],
-      "exclusions": [
-        "ABSENT_FROM_LATEST_POLL",
-        "DECISION_EVIDENCE_UNVERIFIED",
-        "EXECUTABLE_CONTRACT_UNVERIFIED"
-      ]
-    },
-    {
-      "game": "Coastal Carolina @ Delaware",
-      "action": "NO BET",
-      "stakeUnits": 0,
-      "observations": [],
-      "exclusions": [
-        "ABSENT_FROM_LATEST_POLL",
-        "DECISION_EVIDENCE_UNVERIFIED",
-        "EXECUTABLE_CONTRACT_UNVERIFIED"
-      ]
-    },
-    {
-      "game": "Colorado @ Northwestern",
-      "action": "NO BET",
-      "stakeUnits": 0,
-      "observations": [],
-      "exclusions": [
-        "ABSENT_FROM_LATEST_POLL",
-        "DECISION_EVIDENCE_UNVERIFIED",
-        "EXECUTABLE_CONTRACT_UNVERIFIED"
-      ]
-    },
-    {
-      "game": "East Carolina @ Old Dominion",
-      "action": "NO BET",
-      "stakeUnits": 0,
-      "observations": [],
-      "exclusions": [
-        "ABSENT_FROM_LATEST_POLL",
-        "DECISION_EVIDENCE_UNVERIFIED",
-        "EXECUTABLE_CONTRACT_UNVERIFIED"
-      ]
-    },
-    {
-      "game": "Eastern Michigan @ Wisconsin",
-      "action": "NO BET",
-      "stakeUnits": 0,
-      "observations": [],
-      "exclusions": [
-        "ABSENT_FROM_LATEST_POLL",
-        "DECISION_EVIDENCE_UNVERIFIED",
-        "EXECUTABLE_CONTRACT_UNVERIFIED"
-      ]
-    },
-    {
-      "game": "Florida @ Auburn",
-      "action": "NO BET",
-      "stakeUnits": 0,
-      "observations": [],
-      "exclusions": [
-        "ABSENT_FROM_LATEST_POLL",
-        "DECISION_EVIDENCE_UNVERIFIED",
-        "EXECUTABLE_CONTRACT_UNVERIFIED"
-      ]
-    },
-    {
-      "game": "Florida International @ Florida Atlantic",
-      "action": "NO BET",
-      "stakeUnits": 0,
-      "observations": [],
-      "exclusions": [
-        "ABSENT_FROM_LATEST_POLL",
-        "DECISION_EVIDENCE_UNVERIFIED",
-        "EXECUTABLE_CONTRACT_UNVERIFIED"
-      ]
-    },
-    {
-      "game": "Florida State @ Alabama",
-      "action": "NO BET",
-      "stakeUnits": 0,
-      "observations": [],
-      "exclusions": [
-        "ABSENT_FROM_LATEST_POLL",
-        "DECISION_EVIDENCE_UNVERIFIED",
-        "EXECUTABLE_CONTRACT_UNVERIFIED"
-      ]
-    },
-    {
-      "game": "Fresno State @ San Jos\u00e9 State",
-      "action": "NO BET",
-      "stakeUnits": 0,
-      "observations": [],
-      "exclusions": [
-        "ABSENT_FROM_LATEST_POLL",
-        "DECISION_EVIDENCE_UNVERIFIED",
-        "EXECUTABLE_CONTRACT_UNVERIFIED"
-      ]
-    },
-    {
-      "game": "Georgia @ Arkansas",
-      "action": "NO BET",
-      "stakeUnits": 0,
-      "observations": [],
-      "exclusions": [
-        "ABSENT_FROM_LATEST_POLL",
-        "DECISION_EVIDENCE_UNVERIFIED",
-        "EXECUTABLE_CONTRACT_UNVERIFIED"
-      ]
-    },
-    {
-      "game": "Georgia Southern @ Jacksonville State",
-      "action": "NO BET",
-      "stakeUnits": 0,
-      "observations": [],
-      "exclusions": [
-        "ABSENT_FROM_LATEST_POLL",
-        "DECISION_EVIDENCE_UNVERIFIED",
-        "EXECUTABLE_CONTRACT_UNVERIFIED"
-      ]
-    },
-    {
-      "game": "Georgia State @ UCF",
-      "action": "NO BET",
-      "stakeUnits": 0,
-      "observations": [],
-      "exclusions": [
-        "ABSENT_FROM_LATEST_POLL",
-        "DECISION_EVIDENCE_UNVERIFIED",
-        "EXECUTABLE_CONTRACT_UNVERIFIED"
-      ]
-    },
-    {
-      "game": "Houston @ Texas Tech",
+      "game": "Air Force @ Nevada",
       "action": "NO BET",
       "stakeUnits": 0,
       "observations": [
         {
           "book": "kalshi",
-          "derivedHomeLine": -35.7,
-          "observedAt": "2026-09-20T23:45:48.696312+00:00",
+          "derivedHomeLine": 3.8,
+          "observedAt": "2026-09-21T01:04:50.274619+00:00",
+          "kickoff": "2026-09-29T02:30:00Z"
+        }
+      ],
+      "exclusions": [
+        "DECISION_EVIDENCE_UNVERIFIED",
+        "EXECUTABLE_CONTRACT_UNVERIFIED"
+      ]
+    },
+    {
+      "game": "App State @ NC State",
+      "action": "NO BET",
+      "stakeUnits": 0,
+      "observations": [],
+      "exclusions": [
+        "ABSENT_FROM_LATEST_POLL",
+        "DECISION_EVIDENCE_UNVERIFIED",
+        "EXECUTABLE_CONTRACT_UNVERIFIED"
+      ]
+    },
+    {
+      "game": "Arizona @ Washington State",
+      "action": "NO BET",
+      "stakeUnits": 0,
+      "observations": [],
+      "exclusions": [
+        "ABSENT_FROM_LATEST_POLL",
+        "DECISION_EVIDENCE_UNVERIFIED",
+        "EXECUTABLE_CONTRACT_UNVERIFIED"
+      ]
+    },
+    {
+      "game": "Army @ Temple",
+      "action": "NO BET",
+      "stakeUnits": 0,
+      "observations": [
+        {
+          "book": "kalshi",
+          "derivedHomeLine": 3.0,
+          "observedAt": "2026-09-21T01:04:50.274619+00:00",
+          "kickoff": "2026-09-27T20:00:00Z"
+        }
+      ],
+      "exclusions": [
+        "DECISION_EVIDENCE_UNVERIFIED",
+        "EXECUTABLE_CONTRACT_UNVERIFIED"
+      ]
+    },
+    {
+      "game": "Ball State @ Kent State",
+      "action": "NO BET",
+      "stakeUnits": 0,
+      "observations": [],
+      "exclusions": [
+        "ABSENT_FROM_LATEST_POLL",
+        "DECISION_EVIDENCE_UNVERIFIED",
+        "EXECUTABLE_CONTRACT_UNVERIFIED"
+      ]
+    },
+    {
+      "game": "Boise State @ Western Michigan",
+      "action": "NO BET",
+      "stakeUnits": 0,
+      "observations": [],
+      "exclusions": [
+        "ABSENT_FROM_LATEST_POLL",
+        "DECISION_EVIDENCE_UNVERIFIED",
+        "EXECUTABLE_CONTRACT_UNVERIFIED"
+      ]
+    },
+    {
+      "game": "Central Michigan @ Miami",
+      "action": "NO BET",
+      "stakeUnits": 0,
+      "observations": [],
+      "exclusions": [
+        "ABSENT_FROM_LATEST_POLL",
+        "DECISION_EVIDENCE_UNVERIFIED",
+        "EXECUTABLE_CONTRACT_UNVERIFIED"
+      ]
+    },
+    {
+      "game": "Clemson @ California",
+      "action": "NO BET",
+      "stakeUnits": 0,
+      "observations": [
+        {
+          "book": "kalshi",
+          "derivedHomeLine": -0.3,
+          "observedAt": "2026-09-21T01:04:50.274619+00:00",
+          "kickoff": "2026-09-28T02:30:00Z"
+        }
+      ],
+      "exclusions": [
+        "DECISION_EVIDENCE_UNVERIFIED",
+        "EXECUTABLE_CONTRACT_UNVERIFIED"
+      ]
+    },
+    {
+      "game": "Colorado @ Baylor",
+      "action": "NO BET",
+      "stakeUnits": 0,
+      "observations": [
+        {
+          "book": "kalshi",
+          "derivedHomeLine": -9.9,
+          "observedAt": "2026-09-21T01:04:50.274619+00:00",
           "kickoff": "2026-09-28T16:00:00Z"
         }
       ],
@@ -238,7 +135,7 @@
       ]
     },
     {
-      "game": "James Madison @ San Diego State",
+      "game": "Colorado State @ UTSA",
       "action": "NO BET",
       "stakeUnits": 0,
       "observations": [],
@@ -249,378 +146,14 @@
       ]
     },
     {
-      "game": "Kennesaw State @ Tennessee",
-      "action": "NO BET",
-      "stakeUnits": 0,
-      "observations": [],
-      "exclusions": [
-        "ABSENT_FROM_LATEST_POLL",
-        "DECISION_EVIDENCE_UNVERIFIED",
-        "EXECUTABLE_CONTRACT_UNVERIFIED"
-      ]
-    },
-    {
-      "game": "Kent State @ Ohio State",
-      "action": "NO BET",
-      "stakeUnits": 0,
-      "observations": [],
-      "exclusions": [
-        "ABSENT_FROM_LATEST_POLL",
-        "DECISION_EVIDENCE_UNVERIFIED",
-        "EXECUTABLE_CONTRACT_UNVERIFIED"
-      ]
-    },
-    {
-      "game": "Kentucky @ Texas A&M",
-      "action": "NO BET",
-      "stakeUnits": 0,
-      "observations": [],
-      "exclusions": [
-        "ABSENT_FROM_LATEST_POLL",
-        "DECISION_EVIDENCE_UNVERIFIED",
-        "EXECUTABLE_CONTRACT_UNVERIFIED"
-      ]
-    },
-    {
-      "game": "LSU @ Ole Miss",
-      "action": "NO BET",
-      "stakeUnits": 0,
-      "observations": [],
-      "exclusions": [
-        "ABSENT_FROM_LATEST_POLL",
-        "DECISION_EVIDENCE_UNVERIFIED",
-        "EXECUTABLE_CONTRACT_UNVERIFIED"
-      ]
-    },
-    {
-      "game": "Louisiana Tech @ Baylor",
-      "action": "NO BET",
-      "stakeUnits": 0,
-      "observations": [],
-      "exclusions": [
-        "ABSENT_FROM_LATEST_POLL",
-        "DECISION_EVIDENCE_UNVERIFIED",
-        "EXECUTABLE_CONTRACT_UNVERIFIED"
-      ]
-    },
-    {
-      "game": "Marshall @ Missouri State",
-      "action": "NO BET",
-      "stakeUnits": 0,
-      "observations": [],
-      "exclusions": [
-        "ABSENT_FROM_LATEST_POLL",
-        "DECISION_EVIDENCE_UNVERIFIED",
-        "EXECUTABLE_CONTRACT_UNVERIFIED"
-      ]
-    },
-    {
-      "game": "Miami (OH) @ Cincinnati",
-      "action": "NO BET",
-      "stakeUnits": 0,
-      "observations": [],
-      "exclusions": [
-        "ABSENT_FROM_LATEST_POLL",
-        "DECISION_EVIDENCE_UNVERIFIED",
-        "EXECUTABLE_CONTRACT_UNVERIFIED"
-      ]
-    },
-    {
-      "game": "Miami @ Wake Forest",
-      "action": "NO BET",
-      "stakeUnits": 0,
-      "observations": [],
-      "exclusions": [
-        "ABSENT_FROM_LATEST_POLL",
-        "DECISION_EVIDENCE_UNVERIFIED",
-        "EXECUTABLE_CONTRACT_UNVERIFIED"
-      ]
-    },
-    {
-      "game": "Michigan State @ Notre Dame",
+      "game": "Delaware @ Virginia",
       "action": "NO BET",
       "stakeUnits": 0,
       "observations": [
         {
           "book": "kalshi",
-          "derivedHomeLine": -26.8,
-          "observedAt": "2026-09-20T23:45:48.696312+00:00",
-          "kickoff": "2026-09-28T18:00:00Z"
-        }
-      ],
-      "exclusions": [
-        "DECISION_EVIDENCE_UNVERIFIED",
-        "EXECUTABLE_CONTRACT_UNVERIFIED"
-      ]
-    },
-    {
-      "game": "Mississippi State @ South Carolina",
-      "action": "NO BET",
-      "stakeUnits": 0,
-      "observations": [],
-      "exclusions": [
-        "ABSENT_FROM_LATEST_POLL",
-        "DECISION_EVIDENCE_UNVERIFIED",
-        "EXECUTABLE_CONTRACT_UNVERIFIED"
-      ]
-    },
-    {
-      "game": "NC State @ Vanderbilt",
-      "action": "NO BET",
-      "stakeUnits": 0,
-      "observations": [],
-      "exclusions": [
-        "ABSENT_FROM_LATEST_POLL",
-        "DECISION_EVIDENCE_UNVERIFIED",
-        "EXECUTABLE_CONTRACT_UNVERIFIED"
-      ]
-    },
-    {
-      "game": "Nevada @ Middle Tennessee",
-      "action": "NO BET",
-      "stakeUnits": 0,
-      "observations": [],
-      "exclusions": [
-        "ABSENT_FROM_LATEST_POLL",
-        "DECISION_EVIDENCE_UNVERIFIED",
-        "EXECUTABLE_CONTRACT_UNVERIFIED"
-      ]
-    },
-    {
-      "game": "New Mexico @ Oklahoma",
-      "action": "NO BET",
-      "stakeUnits": 0,
-      "observations": [],
-      "exclusions": [
-        "ABSENT_FROM_LATEST_POLL",
-        "DECISION_EVIDENCE_UNVERIFIED",
-        "EXECUTABLE_CONTRACT_UNVERIFIED"
-      ]
-    },
-    {
-      "game": "North Carolina @ Clemson",
-      "action": "NO BET",
-      "stakeUnits": 0,
-      "observations": [],
-      "exclusions": [
-        "ABSENT_FROM_LATEST_POLL",
-        "DECISION_EVIDENCE_UNVERIFIED",
-        "EXECUTABLE_CONTRACT_UNVERIFIED"
-      ]
-    },
-    {
-      "game": "North Dakota State @ Sacramento State",
-      "action": "NO BET",
-      "stakeUnits": 0,
-      "observations": [],
-      "exclusions": [
-        "ABSENT_FROM_LATEST_POLL",
-        "DECISION_EVIDENCE_UNVERIFIED",
-        "EXECUTABLE_CONTRACT_UNVERIFIED"
-      ]
-    },
-    {
-      "game": "North Texas @ Texas State",
-      "action": "NO BET",
-      "stakeUnits": 0,
-      "observations": [],
-      "exclusions": [
-        "ABSENT_FROM_LATEST_POLL",
-        "DECISION_EVIDENCE_UNVERIFIED",
-        "EXECUTABLE_CONTRACT_UNVERIFIED"
-      ]
-    },
-    {
-      "game": "Northern Illinois @ Arizona",
-      "action": "NO BET",
-      "stakeUnits": 0,
-      "observations": [],
-      "exclusions": [
-        "ABSENT_FROM_LATEST_POLL",
-        "DECISION_EVIDENCE_UNVERIFIED",
-        "EXECUTABLE_CONTRACT_UNVERIFIED"
-      ]
-    },
-    {
-      "game": "Ohio @ South Alabama",
-      "action": "NO BET",
-      "stakeUnits": 0,
-      "observations": [],
-      "exclusions": [
-        "ABSENT_FROM_LATEST_POLL",
-        "DECISION_EVIDENCE_UNVERIFIED",
-        "EXECUTABLE_CONTRACT_UNVERIFIED"
-      ]
-    },
-    {
-      "game": "Purdue @ UCLA",
-      "action": "NO BET",
-      "stakeUnits": 0,
-      "observations": [],
-      "exclusions": [
-        "ABSENT_FROM_LATEST_POLL",
-        "DECISION_EVIDENCE_UNVERIFIED",
-        "EXECUTABLE_CONTRACT_UNVERIFIED"
-      ]
-    },
-    {
-      "game": "SMU @ Louisville",
-      "action": "NO BET",
-      "stakeUnits": 0,
-      "observations": [
-        {
-          "book": "kalshi",
-          "derivedHomeLine": 34.3,
-          "observedAt": "2026-09-20T23:45:48.696312+00:00",
-          "kickoff": "2026-09-29T01:00:00Z"
-        }
-      ],
-      "exclusions": [
-        "DECISION_EVIDENCE_UNVERIFIED",
-        "EXECUTABLE_CONTRACT_UNVERIFIED"
-      ]
-    },
-    {
-      "game": "Stanford @ Duke",
-      "action": "NO BET",
-      "stakeUnits": 0,
-      "observations": [],
-      "exclusions": [
-        "ABSENT_FROM_LATEST_POLL",
-        "DECISION_EVIDENCE_UNVERIFIED",
-        "EXECUTABLE_CONTRACT_UNVERIFIED"
-      ]
-    },
-    {
-      "game": "Syracuse @ Pittsburgh",
-      "action": "NO BET",
-      "stakeUnits": 0,
-      "observations": [],
-      "exclusions": [
-        "ABSENT_FROM_LATEST_POLL",
-        "DECISION_EVIDENCE_UNVERIFIED",
-        "EXECUTABLE_CONTRACT_UNVERIFIED"
-      ]
-    },
-    {
-      "game": "Temple @ Toledo",
-      "action": "NO BET",
-      "stakeUnits": 0,
-      "observations": [],
-      "exclusions": [
-        "ABSENT_FROM_LATEST_POLL",
-        "DECISION_EVIDENCE_UNVERIFIED",
-        "EXECUTABLE_CONTRACT_UNVERIFIED"
-      ]
-    },
-    {
-      "game": "Troy @ Missouri",
-      "action": "NO BET",
-      "stakeUnits": 0,
-      "observations": [],
-      "exclusions": [
-        "ABSENT_FROM_LATEST_POLL",
-        "DECISION_EVIDENCE_UNVERIFIED",
-        "EXECUTABLE_CONTRACT_UNVERIFIED"
-      ]
-    },
-    {
-      "game": "Tulane @ Kansas State",
-      "action": "NO BET",
-      "stakeUnits": 0,
-      "observations": [],
-      "exclusions": [
-        "ABSENT_FROM_LATEST_POLL",
-        "DECISION_EVIDENCE_UNVERIFIED",
-        "EXECUTABLE_CONTRACT_UNVERIFIED"
-      ]
-    },
-    {
-      "game": "UAB @ Louisiana",
-      "action": "NO BET",
-      "stakeUnits": 0,
-      "observations": [],
-      "exclusions": [
-        "ABSENT_FROM_LATEST_POLL",
-        "DECISION_EVIDENCE_UNVERIFIED",
-        "EXECUTABLE_CONTRACT_UNVERIFIED"
-      ]
-    },
-    {
-      "game": "UConn @ Southern Miss",
-      "action": "NO BET",
-      "stakeUnits": 0,
-      "observations": [],
-      "exclusions": [
-        "ABSENT_FROM_LATEST_POLL",
-        "DECISION_EVIDENCE_UNVERIFIED",
-        "EXECUTABLE_CONTRACT_UNVERIFIED"
-      ]
-    },
-    {
-      "game": "USC @ Rutgers",
-      "action": "NO BET",
-      "stakeUnits": 0,
-      "observations": [],
-      "exclusions": [
-        "ABSENT_FROM_LATEST_POLL",
-        "DECISION_EVIDENCE_UNVERIFIED",
-        "EXECUTABLE_CONTRACT_UNVERIFIED"
-      ]
-    },
-    {
-      "game": "UTEP @ Michigan",
-      "action": "NO BET",
-      "stakeUnits": 0,
-      "observations": [],
-      "exclusions": [
-        "ABSENT_FROM_LATEST_POLL",
-        "DECISION_EVIDENCE_UNVERIFIED",
-        "EXECUTABLE_CONTRACT_UNVERIFIED"
-      ]
-    },
-    {
-      "game": "UTSA @ Texas",
-      "action": "NO BET",
-      "stakeUnits": 0,
-      "observations": [],
-      "exclusions": [
-        "ABSENT_FROM_LATEST_POLL",
-        "DECISION_EVIDENCE_UNVERIFIED",
-        "EXECUTABLE_CONTRACT_UNVERIFIED"
-      ]
-    },
-    {
-      "game": "Utah State @ Utah",
-      "action": "NO BET",
-      "stakeUnits": 0,
-      "observations": [],
-      "exclusions": [
-        "ABSENT_FROM_LATEST_POLL",
-        "DECISION_EVIDENCE_UNVERIFIED",
-        "EXECUTABLE_CONTRACT_UNVERIFIED"
-      ]
-    },
-    {
-      "game": "Virginia Tech @ Maryland",
-      "action": "NO BET",
-      "stakeUnits": 0,
-      "observations": [],
-      "exclusions": [
-        "ABSENT_FROM_LATEST_POLL",
-        "DECISION_EVIDENCE_UNVERIFIED",
-        "EXECUTABLE_CONTRACT_UNVERIFIED"
-      ]
-    },
-    {
-      "game": "West Virginia @ Virginia",
-      "action": "NO BET",
-      "stakeUnits": 0,
-      "observations": [
-        {
-          "book": "kalshi",
-          "derivedHomeLine": -20.7,
-          "observedAt": "2026-09-20T23:45:48.696312+00:00",
+          "derivedHomeLine": -20.3,
+          "observedAt": "2026-09-21T01:04:50.274619+00:00",
           "kickoff": "2026-09-28T22:00:00Z"
         }
       ],
@@ -630,24 +163,7 @@
       ]
     },
     {
-      "game": "Western Kentucky @ Indiana",
-      "action": "NO BET",
-      "stakeUnits": 0,
-      "observations": [
-        {
-          "book": "kalshi",
-          "derivedHomeLine": -21.4,
-          "observedAt": "2026-09-20T23:45:48.696312+00:00",
-          "kickoff": "2026-09-28T00:00:00Z"
-        }
-      ],
-      "exclusions": [
-        "DECISION_EVIDENCE_UNVERIFIED",
-        "EXECUTABLE_CONTRACT_UNVERIFIED"
-      ]
-    },
-    {
-      "game": "Western Michigan @ Rice",
+      "game": "Florida Atlantic @ UL Monroe",
       "action": "NO BET",
       "stakeUnits": 0,
       "observations": [],
@@ -658,7 +174,682 @@
       ]
     },
     {
-      "game": "Wyoming @ Central Michigan",
+      "game": "Georgia Tech @ Stanford",
+      "action": "NO BET",
+      "stakeUnits": 0,
+      "observations": [
+        {
+          "book": "kalshi",
+          "derivedHomeLine": 3.3,
+          "observedAt": "2026-09-21T01:04:50.274619+00:00",
+          "kickoff": "2026-09-29T02:30:00Z"
+        }
+      ],
+      "exclusions": [
+        "DECISION_EVIDENCE_UNVERIFIED",
+        "EXECUTABLE_CONTRACT_UNVERIFIED"
+      ]
+    },
+    {
+      "game": "Hawai'i @ Wyoming",
+      "action": "NO BET",
+      "stakeUnits": 0,
+      "observations": [
+        {
+          "book": "kalshi",
+          "derivedHomeLine": 3.2,
+          "observedAt": "2026-09-21T01:04:50.274619+00:00",
+          "kickoff": "2026-09-28T19:00:00Z"
+        }
+      ],
+      "exclusions": [
+        "DECISION_EVIDENCE_UNVERIFIED",
+        "EXECUTABLE_CONTRACT_UNVERIFIED"
+      ]
+    },
+    {
+      "game": "Houston @ Georgia Southern",
+      "action": "NO BET",
+      "stakeUnits": 0,
+      "observations": [
+        {
+          "book": "kalshi",
+          "derivedHomeLine": 17.7,
+          "observedAt": "2026-09-21T01:04:50.274619+00:00",
+          "kickoff": "2026-09-28T20:00:00Z"
+        }
+      ],
+      "exclusions": [
+        "DECISION_EVIDENCE_UNVERIFIED",
+        "EXECUTABLE_CONTRACT_UNVERIFIED"
+      ]
+    },
+    {
+      "game": "Illinois @ Ohio State",
+      "action": "NO BET",
+      "stakeUnits": 0,
+      "observations": [],
+      "exclusions": [
+        "ABSENT_FROM_LATEST_POLL",
+        "DECISION_EVIDENCE_UNVERIFIED",
+        "EXECUTABLE_CONTRACT_UNVERIFIED"
+      ]
+    },
+    {
+      "game": "Iowa @ Michigan",
+      "action": "NO BET",
+      "stakeUnits": 0,
+      "observations": [
+        {
+          "book": "kalshi",
+          "derivedHomeLine": -3.8,
+          "observedAt": "2026-09-21T01:04:50.274619+00:00",
+          "kickoff": "2026-09-28T19:30:00Z"
+        }
+      ],
+      "exclusions": [
+        "DECISION_EVIDENCE_UNVERIFIED",
+        "EXECUTABLE_CONTRACT_UNVERIFIED"
+      ]
+    },
+    {
+      "game": "James Madison @ Old Dominion",
+      "action": "NO BET",
+      "stakeUnits": 0,
+      "observations": [
+        {
+          "book": "kalshi",
+          "derivedHomeLine": 4.5,
+          "observedAt": "2026-09-21T01:04:50.274619+00:00",
+          "kickoff": "2026-09-28T22:00:00Z"
+        }
+      ],
+      "exclusions": [
+        "DECISION_EVIDENCE_UNVERIFIED",
+        "EXECUTABLE_CONTRACT_UNVERIFIED"
+      ]
+    },
+    {
+      "game": "Kansas State @ Cincinnati",
+      "action": "NO BET",
+      "stakeUnits": 0,
+      "observations": [],
+      "exclusions": [
+        "ABSENT_FROM_LATEST_POLL",
+        "DECISION_EVIDENCE_UNVERIFIED",
+        "EXECUTABLE_CONTRACT_UNVERIFIED"
+      ]
+    },
+    {
+      "game": "Kennesaw State @ Arkansas State",
+      "action": "NO BET",
+      "stakeUnits": 0,
+      "observations": [],
+      "exclusions": [
+        "ABSENT_FROM_LATEST_POLL",
+        "DECISION_EVIDENCE_UNVERIFIED",
+        "EXECUTABLE_CONTRACT_UNVERIFIED"
+      ]
+    },
+    {
+      "game": "Liberty @ Coastal Carolina",
+      "action": "NO BET",
+      "stakeUnits": 0,
+      "observations": [
+        {
+          "book": "kalshi",
+          "derivedHomeLine": 2.6,
+          "observedAt": "2026-09-21T01:04:50.274619+00:00",
+          "kickoff": "2026-09-26T23:30:00Z"
+        }
+      ],
+      "exclusions": [
+        "DECISION_EVIDENCE_UNVERIFIED",
+        "EXECUTABLE_CONTRACT_UNVERIFIED"
+      ]
+    },
+    {
+      "game": "Louisiana @ Charlotte",
+      "action": "NO BET",
+      "stakeUnits": 0,
+      "observations": [
+        {
+          "book": "kalshi",
+          "derivedHomeLine": 10.2,
+          "observedAt": "2026-09-21T01:04:50.274619+00:00",
+          "kickoff": "2026-09-28T22:30:00Z"
+        }
+      ],
+      "exclusions": [
+        "DECISION_EVIDENCE_UNVERIFIED",
+        "EXECUTABLE_CONTRACT_UNVERIFIED"
+      ]
+    },
+    {
+      "game": "Massachusetts @ Sacramento State",
+      "action": "NO BET",
+      "stakeUnits": 0,
+      "observations": [],
+      "exclusions": [
+        "ABSENT_FROM_LATEST_POLL",
+        "DECISION_EVIDENCE_UNVERIFIED",
+        "EXECUTABLE_CONTRACT_UNVERIFIED"
+      ]
+    },
+    {
+      "game": "Middle Tennessee @ Jacksonville State",
+      "action": "NO BET",
+      "stakeUnits": 0,
+      "observations": [],
+      "exclusions": [
+        "ABSENT_FROM_LATEST_POLL",
+        "DECISION_EVIDENCE_UNVERIFIED",
+        "EXECUTABLE_CONTRACT_UNVERIFIED"
+      ]
+    },
+    {
+      "game": "Minnesota @ Washington",
+      "action": "NO BET",
+      "stakeUnits": 0,
+      "observations": [
+        {
+          "book": "kalshi",
+          "derivedHomeLine": -8.0,
+          "observedAt": "2026-09-21T01:04:50.274619+00:00",
+          "kickoff": "2026-09-29T03:00:00Z"
+        }
+      ],
+      "exclusions": [
+        "DECISION_EVIDENCE_UNVERIFIED",
+        "EXECUTABLE_CONTRACT_UNVERIFIED"
+      ]
+    },
+    {
+      "game": "Missouri @ Mississippi State",
+      "action": "NO BET",
+      "stakeUnits": 0,
+      "observations": [],
+      "exclusions": [
+        "ABSENT_FROM_LATEST_POLL",
+        "DECISION_EVIDENCE_UNVERIFIED",
+        "EXECUTABLE_CONTRACT_UNVERIFIED"
+      ]
+    },
+    {
+      "game": "Missouri State @ SMU",
+      "action": "NO BET",
+      "stakeUnits": 0,
+      "observations": [
+        {
+          "book": "kalshi",
+          "derivedHomeLine": -34.3,
+          "observedAt": "2026-09-21T01:04:50.274619+00:00",
+          "kickoff": "2026-09-29T01:00:00Z"
+        }
+      ],
+      "exclusions": [
+        "DECISION_EVIDENCE_UNVERIFIED",
+        "EXECUTABLE_CONTRACT_UNVERIFIED"
+      ]
+    },
+    {
+      "game": "Navy @ UAB",
+      "action": "NO BET",
+      "stakeUnits": 0,
+      "observations": [
+        {
+          "book": "kalshi",
+          "derivedHomeLine": 7.0,
+          "observedAt": "2026-09-21T01:04:50.274619+00:00",
+          "kickoff": "2026-09-27T23:00:00Z"
+        }
+      ],
+      "exclusions": [
+        "DECISION_EVIDENCE_UNVERIFIED",
+        "EXECUTABLE_CONTRACT_UNVERIFIED"
+      ]
+    },
+    {
+      "game": "Nebraska @ Michigan State",
+      "action": "NO BET",
+      "stakeUnits": 0,
+      "observations": [],
+      "exclusions": [
+        "ABSENT_FROM_LATEST_POLL",
+        "DECISION_EVIDENCE_UNVERIFIED",
+        "EXECUTABLE_CONTRACT_UNVERIFIED"
+      ]
+    },
+    {
+      "game": "New Mexico @ New Mexico State",
+      "action": "NO BET",
+      "stakeUnits": 0,
+      "observations": [],
+      "exclusions": [
+        "ABSENT_FROM_LATEST_POLL",
+        "DECISION_EVIDENCE_UNVERIFIED",
+        "EXECUTABLE_CONTRACT_UNVERIFIED"
+      ]
+    },
+    {
+      "game": "Northern Illinois @ Georgia State",
+      "action": "NO BET",
+      "stakeUnits": 0,
+      "observations": [],
+      "exclusions": [
+        "ABSENT_FROM_LATEST_POLL",
+        "DECISION_EVIDENCE_UNVERIFIED",
+        "EXECUTABLE_CONTRACT_UNVERIFIED"
+      ]
+    },
+    {
+      "game": "Northwestern @ Indiana",
+      "action": "NO BET",
+      "stakeUnits": 0,
+      "observations": [
+        {
+          "book": "kalshi",
+          "derivedHomeLine": -21.4,
+          "observedAt": "2026-09-21T01:04:50.274619+00:00",
+          "kickoff": "2026-09-28T00:00:00Z"
+        }
+      ],
+      "exclusions": [
+        "DECISION_EVIDENCE_UNVERIFIED",
+        "EXECUTABLE_CONTRACT_UNVERIFIED"
+      ]
+    },
+    {
+      "game": "Notre Dame @ Purdue",
+      "action": "NO BET",
+      "stakeUnits": 0,
+      "observations": [
+        {
+          "book": "kalshi",
+          "derivedHomeLine": 26.6,
+          "observedAt": "2026-09-21T01:04:50.274619+00:00",
+          "kickoff": "2026-09-28T18:00:00Z"
+        }
+      ],
+      "exclusions": [
+        "DECISION_EVIDENCE_UNVERIFIED",
+        "EXECUTABLE_CONTRACT_UNVERIFIED"
+      ]
+    },
+    {
+      "game": "Oklahoma @ Georgia",
+      "action": "NO BET",
+      "stakeUnits": 0,
+      "observations": [
+        {
+          "book": "kalshi",
+          "derivedHomeLine": -14.1,
+          "observedAt": "2026-09-21T01:04:50.274619+00:00",
+          "kickoff": "2026-09-28T19:30:00Z"
+        }
+      ],
+      "exclusions": [
+        "DECISION_EVIDENCE_UNVERIFIED",
+        "EXECUTABLE_CONTRACT_UNVERIFIED"
+      ]
+    },
+    {
+      "game": "Oklahoma State @ West Virginia",
+      "action": "NO BET",
+      "stakeUnits": 0,
+      "observations": [],
+      "exclusions": [
+        "ABSENT_FROM_LATEST_POLL",
+        "DECISION_EVIDENCE_UNVERIFIED",
+        "EXECUTABLE_CONTRACT_UNVERIFIED"
+      ]
+    },
+    {
+      "game": "Ole Miss @ Florida",
+      "action": "NO BET",
+      "stakeUnits": 0,
+      "observations": [
+        {
+          "book": "kalshi",
+          "derivedHomeLine": -3.0,
+          "observedAt": "2026-09-21T01:04:50.274619+00:00",
+          "kickoff": "2026-09-28T19:30:00Z"
+        }
+      ],
+      "exclusions": [
+        "DECISION_EVIDENCE_UNVERIFIED",
+        "EXECUTABLE_CONTRACT_UNVERIFIED"
+      ]
+    },
+    {
+      "game": "Oregon @ USC",
+      "action": "NO BET",
+      "stakeUnits": 0,
+      "observations": [
+        {
+          "book": "kalshi",
+          "derivedHomeLine": 2.8,
+          "observedAt": "2026-09-21T01:04:50.274619+00:00",
+          "kickoff": "2026-09-28T23:30:00Z"
+        }
+      ],
+      "exclusions": [
+        "DECISION_EVIDENCE_UNVERIFIED",
+        "EXECUTABLE_CONTRACT_UNVERIFIED"
+      ]
+    },
+    {
+      "game": "Oregon State @ UTEP",
+      "action": "NO BET",
+      "stakeUnits": 0,
+      "observations": [],
+      "exclusions": [
+        "ABSENT_FROM_LATEST_POLL",
+        "DECISION_EVIDENCE_UNVERIFIED",
+        "EXECUTABLE_CONTRACT_UNVERIFIED"
+      ]
+    },
+    {
+      "game": "Rice @ Fresno State",
+      "action": "NO BET",
+      "stakeUnits": 0,
+      "observations": [],
+      "exclusions": [
+        "ABSENT_FROM_LATEST_POLL",
+        "DECISION_EVIDENCE_UNVERIFIED",
+        "EXECUTABLE_CONTRACT_UNVERIFIED"
+      ]
+    },
+    {
+      "game": "Sam Houston @ Texas Tech",
+      "action": "NO BET",
+      "stakeUnits": 0,
+      "observations": [
+        {
+          "book": "kalshi",
+          "derivedHomeLine": -35.0,
+          "observedAt": "2026-09-21T01:04:50.274619+00:00",
+          "kickoff": "2026-09-28T16:00:00Z"
+        }
+      ],
+      "exclusions": [
+        "DECISION_EVIDENCE_UNVERIFIED",
+        "EXECUTABLE_CONTRACT_UNVERIFIED"
+      ]
+    },
+    {
+      "game": "San Diego State @ Toledo",
+      "action": "NO BET",
+      "stakeUnits": 0,
+      "observations": [],
+      "exclusions": [
+        "ABSENT_FROM_LATEST_POLL",
+        "DECISION_EVIDENCE_UNVERIFIED",
+        "EXECUTABLE_CONTRACT_UNVERIFIED"
+      ]
+    },
+    {
+      "game": "South Alabama @ Kentucky",
+      "action": "NO BET",
+      "stakeUnits": 0,
+      "observations": [
+        {
+          "book": "kalshi",
+          "derivedHomeLine": -20.6,
+          "observedAt": "2026-09-21T01:04:50.274619+00:00",
+          "kickoff": "2026-09-28T16:45:00Z"
+        }
+      ],
+      "exclusions": [
+        "DECISION_EVIDENCE_UNVERIFIED",
+        "EXECUTABLE_CONTRACT_UNVERIFIED"
+      ]
+    },
+    {
+      "game": "South Carolina @ Alabama",
+      "action": "NO BET",
+      "stakeUnits": 0,
+      "observations": [
+        {
+          "book": "kalshi",
+          "derivedHomeLine": -13.0,
+          "observedAt": "2026-09-21T01:04:50.274619+00:00",
+          "kickoff": "2026-09-28T23:00:00Z"
+        }
+      ],
+      "exclusions": [
+        "DECISION_EVIDENCE_UNVERIFIED",
+        "EXECUTABLE_CONTRACT_UNVERIFIED"
+      ]
+    },
+    {
+      "game": "South Florida @ Bowling Green",
+      "action": "NO BET",
+      "stakeUnits": 0,
+      "observations": [
+        {
+          "book": "kalshi",
+          "derivedHomeLine": 17.7,
+          "observedAt": "2026-09-21T01:04:50.274619+00:00",
+          "kickoff": "2026-09-28T21:00:00Z"
+        }
+      ],
+      "exclusions": [
+        "DECISION_EVIDENCE_UNVERIFIED",
+        "EXECUTABLE_CONTRACT_UNVERIFIED"
+      ]
+    },
+    {
+      "game": "Southern Miss @ Tulane",
+      "action": "NO BET",
+      "stakeUnits": 0,
+      "observations": [
+        {
+          "book": "kalshi",
+          "derivedHomeLine": -17.5,
+          "observedAt": "2026-09-21T01:04:50.274619+00:00",
+          "kickoff": "2026-09-28T23:00:00Z"
+        }
+      ],
+      "exclusions": [
+        "DECISION_EVIDENCE_UNVERIFIED",
+        "EXECUTABLE_CONTRACT_UNVERIFIED"
+      ]
+    },
+    {
+      "game": "TCU @ UCF",
+      "action": "NO BET",
+      "stakeUnits": 0,
+      "observations": [
+        {
+          "book": "kalshi",
+          "derivedHomeLine": 3.0,
+          "observedAt": "2026-09-21T01:04:50.274619+00:00",
+          "kickoff": "2026-09-28T19:30:00Z"
+        }
+      ],
+      "exclusions": [
+        "DECISION_EVIDENCE_UNVERIFIED",
+        "EXECUTABLE_CONTRACT_UNVERIFIED"
+      ]
+    },
+    {
+      "game": "Texas @ Tennessee",
+      "action": "NO BET",
+      "stakeUnits": 0,
+      "observations": [
+        {
+          "book": "kalshi",
+          "derivedHomeLine": 3.5,
+          "observedAt": "2026-09-21T01:04:50.274619+00:00",
+          "kickoff": "2026-09-28T16:00:00Z"
+        }
+      ],
+      "exclusions": [
+        "DECISION_EVIDENCE_UNVERIFIED",
+        "EXECUTABLE_CONTRACT_UNVERIFIED"
+      ]
+    },
+    {
+      "game": "Texas A&M @ LSU",
+      "action": "NO BET",
+      "stakeUnits": 0,
+      "observations": [
+        {
+          "book": "kalshi",
+          "derivedHomeLine": -9.7,
+          "observedAt": "2026-09-21T01:04:50.274619+00:00",
+          "kickoff": "2026-09-28T23:30:00Z"
+        }
+      ],
+      "exclusions": [
+        "DECISION_EVIDENCE_UNVERIFIED",
+        "EXECUTABLE_CONTRACT_UNVERIFIED"
+      ]
+    },
+    {
+      "game": "Troy @ Utah State",
+      "action": "NO BET",
+      "stakeUnits": 0,
+      "observations": [],
+      "exclusions": [
+        "ABSENT_FROM_LATEST_POLL",
+        "DECISION_EVIDENCE_UNVERIFIED",
+        "EXECUTABLE_CONTRACT_UNVERIFIED"
+      ]
+    },
+    {
+      "game": "Tulsa @ Arkansas",
+      "action": "NO BET",
+      "stakeUnits": 0,
+      "observations": [
+        {
+          "book": "kalshi",
+          "derivedHomeLine": -6.7,
+          "observedAt": "2026-09-21T01:04:50.274619+00:00",
+          "kickoff": "2026-09-29T00:00:00Z"
+        }
+      ],
+      "exclusions": [
+        "DECISION_EVIDENCE_UNVERIFIED",
+        "EXECUTABLE_CONTRACT_UNVERIFIED"
+      ]
+    },
+    {
+      "game": "UCLA @ Maryland",
+      "action": "NO BET",
+      "stakeUnits": 0,
+      "observations": [
+        {
+          "book": "kalshi",
+          "derivedHomeLine": 1.6,
+          "observedAt": "2026-09-21T01:04:50.274619+00:00",
+          "kickoff": "2026-09-28T17:30:00Z"
+        }
+      ],
+      "exclusions": [
+        "DECISION_EVIDENCE_UNVERIFIED",
+        "EXECUTABLE_CONTRACT_UNVERIFIED"
+      ]
+    },
+    {
+      "game": "UConn @ Miami (OH)",
+      "action": "NO BET",
+      "stakeUnits": 0,
+      "observations": [
+        {
+          "book": "kalshi",
+          "derivedHomeLine": -4.1,
+          "observedAt": "2026-09-21T01:04:50.274619+00:00",
+          "kickoff": "2026-09-28T19:30:00Z"
+        }
+      ],
+      "exclusions": [
+        "DECISION_EVIDENCE_UNVERIFIED",
+        "EXECUTABLE_CONTRACT_UNVERIFIED"
+      ]
+    },
+    {
+      "game": "UNLV @ Akron",
+      "action": "NO BET",
+      "stakeUnits": 0,
+      "observations": [
+        {
+          "book": "kalshi",
+          "derivedHomeLine": 13.5,
+          "observedAt": "2026-09-21T01:04:50.274619+00:00",
+          "kickoff": "2026-09-28T16:00:00Z"
+        }
+      ],
+      "exclusions": [
+        "DECISION_EVIDENCE_UNVERIFIED",
+        "EXECUTABLE_CONTRACT_UNVERIFIED"
+      ]
+    },
+    {
+      "game": "Utah @ Iowa State",
+      "action": "NO BET",
+      "stakeUnits": 0,
+      "observations": [],
+      "exclusions": [
+        "ABSENT_FROM_LATEST_POLL",
+        "DECISION_EVIDENCE_UNVERIFIED",
+        "EXECUTABLE_CONTRACT_UNVERIFIED"
+      ]
+    },
+    {
+      "game": "Vanderbilt @ Auburn",
+      "action": "NO BET",
+      "stakeUnits": 0,
+      "observations": [
+        {
+          "book": "kalshi",
+          "derivedHomeLine": -8.9,
+          "observedAt": "2026-09-21T01:04:50.274619+00:00",
+          "kickoff": "2026-09-28T20:15:00Z"
+        }
+      ],
+      "exclusions": [
+        "DECISION_EVIDENCE_UNVERIFIED",
+        "EXECUTABLE_CONTRACT_UNVERIFIED"
+      ]
+    },
+    {
+      "game": "Virginia Tech @ Boston College",
+      "action": "NO BET",
+      "stakeUnits": 0,
+      "observations": [
+        {
+          "book": "kalshi",
+          "derivedHomeLine": 13.9,
+          "observedAt": "2026-09-21T01:04:50.274619+00:00",
+          "kickoff": "2026-09-28T16:00:00Z"
+        }
+      ],
+      "exclusions": [
+        "DECISION_EVIDENCE_UNVERIFIED",
+        "EXECUTABLE_CONTRACT_UNVERIFIED"
+      ]
+    },
+    {
+      "game": "Wake Forest @ Louisville",
+      "action": "NO BET",
+      "stakeUnits": 0,
+      "observations": [
+        {
+          "book": "kalshi",
+          "derivedHomeLine": -12.0,
+          "observedAt": "2026-09-21T01:04:50.274619+00:00",
+          "kickoff": "2026-09-28T16:00:00Z"
+        }
+      ],
+      "exclusions": [
+        "DECISION_EVIDENCE_UNVERIFIED",
+        "EXECUTABLE_CONTRACT_UNVERIFIED"
+      ]
+    },
+    {
+      "game": "Wisconsin @ Penn State",
       "action": "NO BET",
       "stakeUnits": 0,
       "observations": [],
