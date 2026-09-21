@@ -52,6 +52,36 @@ def week4():
     }
 
 
+def quality_pull():
+    def book(key, mine, other):
+        return {
+            "key": key,
+            "markets": [{
+                "key": "spreads",
+                "lastUpdate": "2026-09-21T11:59:00Z",
+                "outcomes": [
+                    {"name": "Home", "price": mine, "point": -3.5},
+                    {"name": "Away", "price": other, "point": 3.5},
+                ],
+            }],
+        }
+
+    return {
+        "fetched_at": "2026-09-21T12:00:00Z",
+        "events": [{
+            "id": "evt",
+            "home": "Home",
+            "away": "Away",
+            "commenceTime": "2026-09-26T19:30:00Z",
+            "bookmakers": [
+                book("pinnacle", -110, -110),
+                book("draftkings", -105, -115),
+                book("fanduel", -108, -112),
+            ],
+        }],
+    }
+
+
 def shop_row(
     *,
     reference="pinnacle",
@@ -155,6 +185,25 @@ class S04ES1Tests(unittest.TestCase):
         self.assertEqual(report["topFive"][0]["actualStakeUnits"], 0)
         self.assertEqual(report["deliveryEffect"], "NONE")
         self.assertEqual(report["promotionEffect"], "NONE")
+
+    def test_market_quality_overlay_is_explicitly_non_binding_for_es1(self):
+        qcfg = json.loads((ROOT / "config/s03_m1.json").read_text())
+        report = evaluate(
+            learning=learning(),
+            week4=week4(),
+            shop_rows=[shop_row()],
+            challenger_cfg=self.ch,
+            edge_cfg=self.edge,
+            fetched_at="2026-09-21T12:00:00Z",
+            market_quality_cfg=qcfg,
+            pull=quality_pull(),
+        )
+        self.assertEqual(report["qualifiedCount"], 1)
+        self.assertEqual(report["marketQuality"]["decisionEffect"], "NONE")
+        self.assertEqual(report["marketQuality"]["passRows"], 1)
+        self.assertEqual(
+            report["topFive"][0]["marketQuality"]["status"], "PASS"
+        )
 
     def test_mascot_suffixes_resolve_without_fuzzy_matching(self):
         report = evaluate(

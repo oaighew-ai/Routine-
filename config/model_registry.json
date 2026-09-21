@@ -28,6 +28,15 @@
       "note": "Immutable inputs and replay only. Zero forecasts and never a pick source."
     },
     {
+      "id": "S03_M1",
+      "role": "MARKET_QUALITY_MICROSTRUCTURE_MONITOR",
+      "market": "spread",
+      "version": "market-quality-monitor-1",
+      "modelStatus": "MONITOR_ONLY",
+      "deliveryEligible": false,
+      "note": "Artifact-derived non-directional market-quality layer: exact-line depth, freshness, dispersion, movement state, key-number crossings and conservative de-vig EV. Cannot create picks."
+    },
+    {
       "id": "S04",
       "role": "PLANNED_FOOTBALL_CONTEXT_CHALLENGER",
       "market": "spread",
@@ -43,6 +52,15 @@
       "modelStatus": "PROSPECTIVE_SHADOW",
       "deliveryEligible": false,
       "note": "Frozen after inspecting Weeks 1-3. Week 4 is its first prospective test. Requires a 4-6 point captured-open disagreement plus live same-line Pinnacle-confirmed price value. Zero delivery authority."
+    },
+    {
+      "id": "S04_ES2",
+      "role": "PREREGISTERED_GAP_PLUS_MARKET_QUALITY_CHALLENGER",
+      "market": "spread",
+      "version": "gap-4to6-plus-market-quality-1",
+      "modelStatus": "PREREGISTERED_NOT_ACTIVE",
+      "deliveryEligible": false,
+      "note": "Frozen before Week 4 outcomes. First prospective week is Week 5. Requires S04_ES1 signal family, S03_M1 market-quality pass and conservative executable EV floor."
     },
     {
       "id": "S05",

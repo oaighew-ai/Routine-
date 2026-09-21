@@ -815,3 +815,70 @@ prospective cohort. A positive Week 4 result still does not promote it; it
 becomes one prospective week in the normal multi-week validation framework.
 The 4–6 boundaries, EV floor, Pinnacle requirement and movement rule may not be
 changed using Week 4 outcomes and then re-scored as though they were unchanged.
+
+
+## 2026-09-21 — D22. Artifact logic adds a market-quality layer, not a larger football model
+
+**Decision.** The recovered CFB Edge / Action-style blueprint is adopted only
+where it adds independently measurable information to the current system.
+
+The current Week 4 S04_ES1 rule is **not changed**. It remains a frozen
+prospective shadow test. Artifact-derived logic is attached as a non-binding
+monitor named `S03_M1 / market-quality-monitor-1`.
+
+S03_M1 measures, for each live spread candidate:
+
+- number of fresh books quoting the **same exact spread** as Pinnacle;
+- Pinnacle and target-venue quote age, with 15 minutes as the registered
+  freshness ceiling;
+- current line dispersion across fresh books;
+- same-line no-vig probability dispersion;
+- executable EV under both proportional and power de-vig, with the minimum
+  recorded as conservative executable EV;
+- line movement velocity and reversal when enough archived snapshots exist;
+- opening-to-current crossings of 3, 7, 10 and 14, using the repository's
+  existing measured discrete-margin structure.
+
+Only the first two items are hard **market-quality** checks in S03_M1:
+at least three fresh same-line books and quotes no older than 15 minutes.
+Dispersion, velocity, reversal and key-number state are logged as diagnostics.
+They do not receive directional weight because this repository has not yet
+shown prospectively that they improve the market baseline.
+
+**Pressure-test result.** On the Week 4 S04_ES1 live board available before this
+decision, requiring three books at Pinnacle's exact point would have reduced the
+12 frozen signal games to seven market-quality games. It would not have created
+a bet. That is the intended behavior: the overlay removes weak market states
+rather than manufacturing additional opportunities.
+
+**Selection-risk correction.** The 4–6 gap cohort was selected after inspecting
+multiple related cuts. The new `config/experiment_registry.json` permanently
+records the failed linear learner plus the broad and narrow gap buckets that
+were inspected. The Weeks 1–3 4–6 record is therefore classified as
+high-selection-risk exploratory evidence, never confirmatory evidence.
+
+**Next challenger.** `S04_ES2 / gap-4to6-plus-market-quality-1` is
+preregistered before Week 4 outcomes. Its first prospective week is Week 5. It
+keeps the 4–6 signal family but additionally requires the S03_M1 quote-quality
+pass and conservative executable EV of at least the existing 0.5% floor.
+Movement velocity, reversal, dispersion and key-number crossings remain
+diagnostic in this first version.
+
+**Explicit non-additions.** Injuries, weather, ticket/handle splits, sharp-money
+labels, historical systems and expert consensus are not added now. The
+blueprint itself requires point-in-time timestamps, stable definitions and
+independent incremental tests for those fields. Adding them without that
+provenance would increase degrees of freedom faster than information.
+
+**Why.** The repository already implements much of the blueprint's evidence
+discipline: one delivery authority, exact-contract matching, replay/provenance,
+chronological challengers, no-evidence fail-closed behavior, proper-score gates
+for S02 and immutable shadow cohorts. The missing high-value piece is market
+microstructure quality around a candidate. It is available from data already
+being captured and can be tested without inventing a new football probability.
+
+**Reversal criterion.** S03_M1 features may become directional only after a
+separately registered chronological test shows incremental proper-score or CLV
+value beyond the existing market baseline. S04_ES2 may be promoted only from
+prospective evidence beginning Week 5 under its frozen rule. Week 4 outcomes
+cannot be used to alter the rule and then be counted as validation.

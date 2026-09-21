@@ -27,6 +27,14 @@
       "note": "Input integrity, replay and provenance only. Never supplies picks."
     },
     {
+      "modelId": "S03_M1",
+      "location": "cfb_edge/market_quality.py",
+      "reproducibleInRepo": true,
+      "status": "ACTIVE_MONITOR_ONLY",
+      "deliveryContract": null,
+      "note": "Non-directional market microstructure diagnostics attached to challenger rows. No delivery effect."
+    },
+    {
       "modelId": "S04",
       "location": null,
       "reproducibleInRepo": false,
@@ -41,6 +49,14 @@
       "status": "PROSPECTIVE_WEEK4_SHADOW",
       "deliveryContract": null,
       "note": "Reproducible Week 4 exploratory challenger. Historical Weeks 1-3 do not validate it; no delivery path."
+    },
+    {
+      "modelId": "S04_ES2",
+      "location": "config/s04_es2.json",
+      "reproducibleInRepo": true,
+      "status": "PREREGISTERED_CONFIG_ONLY",
+      "deliveryContract": null,
+      "note": "Week 5 challenger rule is frozen; runtime activation waits for the next prospective cohort and cannot use Week 4 outcomes to change its rule."
     },
     {
       "modelId": "S05",

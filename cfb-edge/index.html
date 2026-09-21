@@ -127,8 +127,8 @@ table{width:100%;border-collapse:collapse;font-size:13px}th{text-align:left;colo
     </div>
     <div style="overflow:auto;margin-top:12px">
       <table>
-        <thead><tr><th>Game</th><th>Side</th><th>Sportsbook</th><th>Line / Price</th><th>EV vs Pinnacle</th><th>Max price</th><th class="right">Status</th></tr></thead>
-        <tbody id="es1Rows"><tr><td colspan="7">Live S04_ES1 evidence has not published yet.</td></tr></tbody>
+        <thead><tr><th>Game</th><th>Side</th><th>Sportsbook</th><th>Line / Price</th><th>EV vs Pinnacle</th><th>Market quality</th><th>Max price</th><th class="right">Status</th></tr></thead>
+        <tbody id="es1Rows"><tr><td colspan="8">Live S04_ES1 evidence has not published yet.</td></tr></tbody>
       </table>
     </div>
     <div class="small" style="margin-top:10px">Prospective research only. Zero stake. Week 4 is the first test of this exact challenger.</div>
@@ -241,21 +241,29 @@ function renderES1(r){
   const p=$("es1Pill");
   p.textContent=rows.length?("SHADOW "+rows.length):"NO LIVE MATCH";
   p.className="pill "+(rows.length?"ok":"warn");
+  const mqSummary=r?.marketQuality||{};
   $("es1Summary").textContent=
-    `Historical n=${h.n??"—"} · mean directional CLV ${fmt(h.meanDirectionalClv)} · beat close ${h.beatCloseRate==null?"—":(100*h.beatCloseRate).toFixed(1)+"%"} · captured candidates ${r?.week4CapturedCandidates??"—"}`;
+    `Historical n=${h.n??"—"} · selection risk HIGH · mean directional CLV ${fmt(h.meanDirectionalClv)} · captured ${r?.week4CapturedCandidates??"—"} · MQ ${mqSummary.passRows??0} pass / ${mqSummary.blockedRows??0} blocked`;
   if(rows.length){
-    $("es1Rows").innerHTML=rows.map(x=>`<tr>
-      <td><b>${esc(x.game)}</b><div class="small">${esc(x.startsAt||"")}</div></td>
-      <td>${esc(x.side)}</td>
-      <td>${esc(x.venue)}</td>
-      <td>${fmt(x.currentLine)} @ ${fmt(x.currentPrice)}</td>
-      <td>${x.livePriceEv==null?"—":(100*x.livePriceEv).toFixed(2)+"%"}</td>
-      <td>${fmt(x.maxPlayablePriceVsPinnacle)}</td>
-      <td class="right"><b>SHADOW</b></td>
-    </tr>`).join("");
+    $("es1Rows").innerHTML=rows.map(x=>{
+      const mq=x.marketQuality||{};
+      const q=mq.status||"PENDING";
+      const depth=mq.freshSameLineBookCount??"—";
+      const cev=mq.conservativeExecutableEv;
+      return `<tr>
+        <td><b>${esc(x.game)}</b><div class="small">${esc(x.startsAt||"")}</div></td>
+        <td>${esc(x.side)}</td>
+        <td>${esc(x.venue)}</td>
+        <td>${fmt(x.currentLine)} @ ${fmt(x.currentPrice)}</td>
+        <td>${x.livePriceEv==null?"—":(100*x.livePriceEv).toFixed(2)+"%"}</td>
+        <td><b>${esc(q)}</b><div class="small">${depth} same-line books · conservative EV ${cev==null?"—":(100*cev).toFixed(2)+"%"}</div></td>
+        <td>${fmt(x.maxPlayablePriceVsPinnacle)}</td>
+        <td class="right"><b>SHADOW</b></td>
+      </tr>`;
+    }).join("");
   }else{
     const failed=(h.failedChecks||[]);
-    $("es1Rows").innerHTML=`<tr><td colspan="7"><b>No fully qualified live shadow candidate.</b><div class="small">${esc(failed.join(", ")||"live market gates did not align")}</div></td></tr>`;
+    $("es1Rows").innerHTML=`<tr><td colspan="8"><b>No fully qualified live shadow candidate.</b><div class="small">${esc(failed.join(", ")||"live market gates did not align")}</div></td></tr>`;
   }
 }
 
