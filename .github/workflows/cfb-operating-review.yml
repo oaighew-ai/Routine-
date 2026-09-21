@@ -16,6 +16,9 @@ on:
     - cron: "0 11,12 * 9-11 4"   # Thursday 07:00 ET midweek refresh
     - cron: "0 21,22 * 9-11 5"   # Friday 17:00 ET pre-final
     - cron: "0 12,13 * 9-11 6"   # Saturday 08:00 ET final board
+  workflow_run:
+    workflows: ["capture"]
+    types: [completed]
   workflow_dispatch:
     inputs:
       stage:
@@ -71,6 +74,17 @@ jobs:
             fi
             echo "run=1" >> "$GITHUB_OUTPUT"
             echo "stage=$STAGE" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+
+          if [ "$EVENT_NAME" = "workflow_run" ]; then
+            if [ "${{ github.event.workflow_run.conclusion }}" = "success" ]; then
+              echo "run=1" >> "$GITHUB_OUTPUT"
+              echo "stage=capture_refresh" >> "$GITHUB_OUTPUT"
+            else
+              echo "run=0" >> "$GITHUB_OUTPUT"
+              echo "Capture did not succeed, so health refresh was not published." >> "$GITHUB_STEP_SUMMARY"
+            fi
             exit 0
           fi
 
