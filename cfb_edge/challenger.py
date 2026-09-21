@@ -127,12 +127,12 @@ def fit(rows: Sequence[Observation], *, alpha: float) -> RidgeResidualModel:
     )
 
 
-def _mae(errors: Sequence[float]) -> float:
-    return sum(abs(x) for x in errors) / len(errors) if errors else math.nan
+def _mae(errors: Sequence[float]) -> float | None:
+    return sum(abs(x) for x in errors) / len(errors) if errors else None
 
 
-def _rmse(errors: Sequence[float]) -> float:
-    return math.sqrt(sum(x * x for x in errors) / len(errors)) if errors else math.nan
+def _rmse(errors: Sequence[float]) -> float | None:
+    return math.sqrt(sum(x * x for x in errors) / len(errors)) if errors else None
 
 
 def walk_forward(
@@ -195,12 +195,14 @@ def walk_forward(
         "marketMae": market_mae,
         "challengerMae": challenger_mae,
         "maeImprovement": (
-            market_mae - challenger_mae if predictions else math.nan
+            market_mae - challenger_mae
+            if market_mae is not None and challenger_mae is not None else None
         ),
         "marketRmse": market_rmse,
         "challengerRmse": challenger_rmse,
         "rmseImprovement": (
-            market_rmse - challenger_rmse if predictions else math.nan
+            market_rmse - challenger_rmse
+            if market_rmse is not None and challenger_rmse is not None else None
         ),
         "predictions": predictions,
         "skippedSeasons": skipped,
@@ -265,11 +267,13 @@ def main(argv: list[str] | None = None) -> int:
         json.dumps(report, sort_keys=True, indent=2, allow_nan=False) + "\n",
         encoding="utf-8",
     )
-    print(
-        f"S04 shadow: n={report['n']} "
-        f"MAE lift={report['maeImprovement']:.4f}"
-        if report["n"] else "S04 shadow: no eligible walk-forward cohort"
-    )
+    if report["n"]:
+        print(
+            f"S04 shadow: n={report['n']} "
+            f"MAE lift={report['maeImprovement']:.4f}"
+        )
+    else:
+        print("S04 shadow: no eligible walk-forward cohort")
     return 0
 
 
