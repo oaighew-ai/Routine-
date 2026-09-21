@@ -121,6 +121,41 @@ down. CLV is EV at the closing no-vig price, not a move in implied probability:
 +1.5 points of the latter at a -110 entry is still -1.8% EV, which is why the
 distinction gets its own amendment and its own test.
 
+## Operating control plane
+
+The repository now has a machine-readable operating-health layer in addition to
+the decision engine:
+
+```bash
+python3 -m cfb_edge.ops_health \
+  --capture-report capture-data/data/capture-report.json \
+  --out /tmp/ops-health.json --stage manual
+```
+
+`.github/workflows/cfb-operating-review.yml` materializes that contract on the
+Monday review, Tuesday opening board, Thursday refresh, Friday pre-final and
+Saturday final-board cadence. It resolves those windows in
+`America/New_York`, so the season's DST change does not silently move a review
+by an hour.
+
+`config/model_implementation_registry.json` separates model identity from
+implementation provenance. In particular, S02 is explicitly recorded as an
+external private-Site implementation: this repository must not reconstruct it
+from a model name or validation snapshot.
+
+S04 is a quarantined football-context challenger. Its harness is intentionally
+market-residual and walk-forward:
+
+```bash
+python3 -m cfb_edge.challenger \
+  --data historical_features.csv \
+  --config config/s04_challenger.json \
+  --out /tmp/s04-report.json
+```
+
+A historical S04 report can reject the challenger. It cannot promote it or alter
+the card; prospective shadow validation is required.
+
 ## One source of truth for picks
 
 The private Site's [`/api/picks`](https://cfb-edge-research.oaighew.chatgpt.site/api/picks)
