@@ -21,6 +21,7 @@ for a game, it is a better locator than these are.
 from __future__ import annotations
 
 import csv
+import datetime as _dt
 import io
 import urllib.error
 import urllib.request
@@ -36,6 +37,10 @@ RAW_ROOT = (
 )
 
 Opener = Callable[[str], bytes]
+
+# The CLI's exit code for "there is no week to build", which is an answer and
+# not a failure. Anything else non-zero means the slate could not be built.
+SEASON_OVER = 3
 
 
 class ScheduleUnreachable(RuntimeError):
@@ -97,8 +102,6 @@ def current_week(
     returns None rather than the last week, because there is nothing left to
     capture and reporting week 15 forever would look like it was working.
     """
-    import datetime as _dt
-
     day = today or _dt.date.today().isoformat()
     rows = rows if rows is not None else fetch_season(season, opener=opener)
     last_day: dict[int, str] = {}
@@ -114,6 +117,74 @@ def current_week(
             last_day[week] = date
     upcoming = [w for w, end in sorted(last_day.items()) if end >= day]
     return upcoming[0] if upcoming else None
+
+
+def _instant(stamp: str) -> _dt.datetime | None:
+    """A timezone-aware datetime from a schedule stamp, or None.
+
+    Schedule rows carry `2026-09-17T23:30:00.000Z`; a caller may pass a bare
+    date, which means midnight UTC. Comparing the two as strings looks like it
+    works and does not: `.000Z` sorts after `+00:00` at the same instant. A
+    stamp without a zone is read as UTC, because every stamp in the source has
+    one and a naive one would otherwise raise when compared.
+    """
+    text = (stamp or "").strip()
+    if not text:
+        return None
+    if len(text) == 10:
+        text += "T00:00:00+00:00"
+    if text.endswith(("Z", "z")):
+        text = text[:-1] + "+00:00"
+    try:
+        when = _dt.datetime.fromisoformat(text)
+    except ValueError:
+        return None
+    return when if when.tzinfo else when.replace(tzinfo=_dt.timezone.utc)
+
+
+def opening_week(
+    season: int, *, now: str | None = None, opener: Opener | None = None,
+    rows: list[dict] | None = None,
+) -> int | None:
+    """The week whose lines can still be captured at their open, or None.
+
+    This is not `current_week`, and the gap between them is what a whole week
+    of capture was lost to. `current_week` answers which slate is being
+    played, so on the Sunday of week three it answers three, correctly. The
+    exchange has already moved on: week three's games are over or ending and
+    the board lists week four. `RELEASE_WINDOW_UTC` opens at 22:00 on that
+    same Sunday, so a capture that asks for the current week spends the entire
+    window polling a board that no longer lists the games it is holding. It
+    matches nothing, raises nothing, and records nothing.
+
+    The answer is the earliest regular-season week no game of which has
+    kicked off. Once a week's first game starts, its opening number is gone
+    and what is left on the board is a current number, which the strategy has
+    no measured edge against.
+
+    A bare date for `now` means midnight UTC that day, which keeps the week
+    of a Tuesday night game capturable through the Tuesday morning that the
+    window closes.
+    """
+    moment = _instant(now) if now else _dt.datetime.now(_dt.timezone.utc)
+    if moment is None:
+        raise ValueError(f"cannot read {now!r} as a date or a timestamp")
+    rows = rows if rows is not None else fetch_season(season, opener=opener)
+    first_kick: dict[int, _dt.datetime] = {}
+    for r in rows:
+        if (r.get("season_type") or "").strip().lower() != "regular":
+            continue
+        try:
+            week = int(float(r["week"]))
+        except (ValueError, TypeError, KeyError):
+            continue
+        kick = _instant(r.get("start_date") or "")
+        if kick is None:
+            continue
+        if week not in first_kick or kick < first_kick[week]:
+            first_kick[week] = kick
+    ahead = [w for w, kick in sorted(first_kick.items()) if kick > moment]
+    return ahead[0] if ahead else None
 
 
 @dataclass(frozen=True)
@@ -183,20 +254,32 @@ def main(argv: list[str] | None = None) -> int:
     p = argparse.ArgumentParser(prog="cfb_edge.slate", description=main.__doc__)
     p.add_argument("--season", type=int, required=True)
     p.add_argument("--week", default="current",
-                   help="week number, or 'current' (default) to derive the "
-                        "next unfinished week from the schedule")
+                   help="week number, 'current' (default) for the earliest "
+                        "unfinished week, or 'opening' for the earliest week "
+                        "no game of which has kicked off, which is the week a "
+                        "capture can still record at its open")
     p.add_argument("--out", required=True)
     args = p.parse_args(argv)
 
+    mode = str(args.week).strip().lower()
     try:
-        if str(args.week).strip().lower() == "current":
-            week = current_week(args.season)
+        if mode in ("current", "opening"):
+            if mode == "opening":
+                week = opening_week(args.season)
+                found = "is the next week of %d no game of which has started"
+                empty = "no %d regular-season week is still open for capture"
+            else:
+                week = current_week(args.season)
+                found = "is the next unfinished week of %d"
+                empty = "no %d regular-season week is unfinished"
             if week is None:
-                print(f"the {args.season} regular season is over. "
-                      f"Nothing left to capture; pass --week explicitly to "
-                      f"rebuild an earlier slate.")
-                return 2
-            print(f"week {week} is the next unfinished week of {args.season}.")
+                # Exit 3, not 2: a scheduled caller has to tell "nothing to do"
+                # apart from "the schedule is unreachable", or it goes red every
+                # half hour for nine months of the year.
+                print(empty % args.season + ". Nothing left to capture; pass "
+                      "--week explicitly to rebuild an earlier slate.")
+                return SEASON_OVER
+            print(f"week {week} " + found % args.season + ".")
         else:
             week = int(args.week)
         rows = build(args.season, week)
