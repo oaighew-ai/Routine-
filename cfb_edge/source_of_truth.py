@@ -1,7 +1,7 @@
-"""Build the one authoritative picks contract.
+"""Build a local diagnostic contract, never the live delivery authority.
 
-Everything upstream is evidence or a candidate.  Only this module can publish
-``picks.json``.  It is intentionally stricter than the individual scanners:
+The private Site /api/picks owns live delivery. This module produces offline
+``picks-diagnostic.json`` for regression and research only:
 an upstream row may be useful research while still being ineligible for the
 card.  Missing data, conflicting sides, stale quotes, unknown provenance, or a
 blocked model all resolve to NO BET and zero exposure.
@@ -288,7 +288,9 @@ def build(
     allow = bool(not authority_reasons and selected)
     return {
         "schemaVersion": SCHEMA_VERSION,
-        "contract": CONTRACT,
+        "contract": "CFB_EDGE_DIAGNOSTIC_V1",
+        "authoritative": False,
+        "canonicalUrl": "https://cfb-edge-research.oaighew.chatgpt.site/api/picks",
         "generatedAt": now.isoformat(),
         "sourceRevision": revision,
         "status": "PROVISIONAL_PAPER_CARD" if allow else "NO_BET",
