@@ -102,6 +102,23 @@ S02 is currently implemented outside this repository. The implementation
 registry records that fact explicitly. Do not recreate S02 from the model name,
 its validation metrics, or prior chat context.
 
+### import-forecast
+
+When S02 remains external, import only a frozen export that matches the committed
+authority exactly:
+
+```bash
+python3 -m cfb_edge.external_forecast \
+  --input <s02-export.json> \
+  --authority config/delivery_authority.json \
+  --out ledger/forecasts.jsonl
+```
+
+Use `--dry-run` first when validating a new publisher. The importer rejects
+model/version/hash/protocol mismatches, forecasts at or after kickoff, duplicate
+game-market-side rows, invalid probabilities and duplicate forecast IDs already
+in the append-only ledger. It does not compute a forecast or create a pick.
+
 ### challenger
 
 S04 is research only. It predicts residual information beyond the market and
