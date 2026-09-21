@@ -5,7 +5,10 @@ on:
     branches: [main]
     paths:
       - cfb_edge/s04_es1.py
+      - cfb_edge/market_quality.py
       - config/s04_es1.json
+      - config/s03_m1.json
+      - config/experiment_registry.json
       - config/model_registry.json
       - config/model_implementation_registry.json
       - .github/workflows/s04-es1-live.yml
@@ -73,7 +76,15 @@ jobs:
         run: |
           set -euo pipefail
           mkdir -p .tmp/s04-es1
-          python3 -m cfb_edge.s04_es1             --learning evidence/data/early-season-learning.json             --week4 evidence/data/week4-shadow.json             --challenger config/s04_es1.json             --edge-config config/edge_os.json             --out .tmp/s04-es1/live.json             --snapshot-out .tmp/s04-es1/snapshot.json
+          python3 -m cfb_edge.s04_es1 \
+            --learning evidence/data/early-season-learning.json \
+            --week4 evidence/data/week4-shadow.json \
+            --challenger config/s04_es1.json \
+            --edge-config config/edge_os.json \
+            --market-quality-config config/s03_m1.json \
+            --history-dir evidence/data/snapshots/s04_es1 \
+            --out .tmp/s04-es1/live.json \
+            --snapshot-out .tmp/s04-es1/snapshot.json
 
           python3 - <<'PY' >> "$GITHUB_STEP_SUMMARY"
           import json
@@ -87,6 +98,11 @@ jobs:
           print(f"- historical beat-close rate: **{h['beatCloseRate']:.1%}**")
           print(f"- captured Week 4 candidates: **{r['week4CapturedCandidates']}**")
           print(f"- executable shadow candidates now: **{r['qualifiedCount']}**")
+          mq = r.get("marketQuality") or {}
+          print(
+              f"- artifact market-quality rows: **{mq.get('passRows', 0)} pass / "
+              f"{mq.get('blockedRows', 0)} blocked** (non-binding for S04_ES1)"
+          )
           for x in r["topFive"]:
               print(
                   f"- {x['game']} | {x['side']} "
