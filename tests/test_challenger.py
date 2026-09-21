@@ -75,6 +75,16 @@ class S04ChallengerTests(unittest.TestCase):
         for p in report["predictions"]:
             self.assertLess(p["trainedThroughSeason"], p["season"])
 
+    def test_empty_eligible_cohort_uses_null_metrics_not_nan(self):
+        report = walk_forward(
+            rows()[:10], alpha=0.01, minimum_train_rows=100,
+            minimum_test_rows_per_season=20,
+        )
+        self.assertEqual(report["n"], 0)
+        self.assertIsNone(report["marketMae"])
+        self.assertIsNone(report["challengerMae"])
+        self.assertIsNone(report["maeImprovement"])
+
 
 if __name__ == "__main__":
     unittest.main()
