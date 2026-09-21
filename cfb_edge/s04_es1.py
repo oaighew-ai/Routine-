@@ -31,6 +31,7 @@ from . import teams
 from .engine import config as engine_config
 from .engine import reasons
 from .engine.pricing import max_playable_price
+from .market_quality import load_snapshot_history, quality_for_row
 from .providers.oddsapi import fetch_pull
 from .shop import ShopRow, shop
 
@@ -243,6 +244,9 @@ def evaluate(
     challenger_cfg: Mapping[str, Any],
     edge_cfg: engine_config.Config,
     fetched_at: str,
+    market_quality_cfg: Mapping[str, Any] | None = None,
+    pull: Mapping[str, Any] | None = None,
+    history: Sequence[Mapping[str, Any]] = (),
 ) -> dict[str, Any]:
     stats = cohort_stats(
         learning,
@@ -310,6 +314,15 @@ def evaluate(
             "exclusions": exclusions,
             "actualStakeUnits": 0,
         }
+        if market_quality_cfg is not None and pull is not None:
+            item["marketQuality"] = quality_for_row(
+                row=row,
+                candidate=candidate,
+                pull=pull,
+                history=history,
+                cfg=market_quality_cfg,
+                edge_cfg=edge_cfg,
+            )
         inspected.append(item)
         if not exclusions:
             qualified.append(item)
@@ -351,6 +364,18 @@ def evaluate(
         "inspectedLiveRows": inspected,
         "topFive": final[:5],
         "qualifiedCount": len(final),
+        "marketQuality": {
+            "attached": market_quality_cfg is not None and pull is not None,
+            "decisionEffect": "NONE",
+            "passRows": sum(
+                1 for item in inspected
+                if (item.get("marketQuality") or {}).get("status") == "PASS"
+            ),
+            "blockedRows": sum(
+                1 for item in inspected
+                if (item.get("marketQuality") or {}).get("status") == "BLOCKED"
+            ),
+        },
         "deliveryEffect": "NONE",
         "actualStakeUnits": 0,
         "promotionEffect": "NONE",
@@ -370,6 +395,8 @@ def run_live(
     week4: Mapping[str, Any],
     challenger_cfg: Mapping[str, Any],
     edge_cfg: engine_config.Config,
+    market_quality_cfg: Mapping[str, Any] | None = None,
+    history: Sequence[Mapping[str, Any]] = (),
 ) -> tuple[dict[str, Any], Any]:
     books = [str(challenger_cfg["referenceBook"])] + [
         str(x) for x in challenger_cfg.get("venues") or []
@@ -398,6 +425,9 @@ def run_live(
         challenger_cfg=challenger_cfg,
         edge_cfg=edge_cfg,
         fetched_at=pull.fetched_at,
+        market_quality_cfg=market_quality_cfg,
+        pull=pull.__dict__ | {"events": list(pull.events)},
+        history=history,
     )
     return report, pull
 
@@ -410,18 +440,28 @@ def main(argv: list[str] | None = None) -> int:
     p.add_argument("--edge-config", default="config/edge_os.json")
     p.add_argument("--out", required=True)
     p.add_argument("--snapshot-out")
+    p.add_argument("--market-quality-config", default="config/s03_m1.json")
+    p.add_argument("--history-dir")
     args = p.parse_args(argv)
 
     learning = json.loads(Path(args.learning).read_text(encoding="utf-8"))
     week4 = json.loads(Path(args.week4).read_text(encoding="utf-8"))
     challenger_cfg = json.loads(Path(args.challenger).read_text(encoding="utf-8"))
     edge_cfg = engine_config.load(args.edge_config)
+    market_quality_cfg = None
+    if args.market_quality_config:
+        quality_path = Path(args.market_quality_config)
+        if quality_path.exists():
+            market_quality_cfg = json.loads(quality_path.read_text(encoding="utf-8"))
+    history = load_snapshot_history(args.history_dir) if args.history_dir else []
 
     report, pull = run_live(
         learning=learning,
         week4=week4,
         challenger_cfg=challenger_cfg,
         edge_cfg=edge_cfg,
+        market_quality_cfg=market_quality_cfg,
+        history=history,
     )
     Path(args.out).parent.mkdir(parents=True, exist_ok=True)
     Path(args.out).write_text(
