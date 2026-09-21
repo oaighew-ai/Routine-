@@ -1,0 +1,173 @@
+name: early season learning
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - cfb_edge/early_season.py
+      - cfb_edge/slate.py
+      - .github/workflows/early-season-learning.yml
+      - tests/test_early_season.py
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: cfb-early-season-learning
+  cancel-in-progress: false
+
+jobs:
+  learn:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Code
+        uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+
+      - name: Freeze Weeks 1-3 source data
+        env:
+          CFBD_API_KEY: ${{ secrets.CFBD_API_KEY }}
+        run: |
+          set -euo pipefail
+          mkdir -p .tmp/early-season
+
+          python3 - <<'PY'
+          import os
+          import pathlib
+          import urllib.request
+
+          root = pathlib.Path(".tmp/early-season")
+          key = os.environ.get("CFBD_API_KEY", "").strip()
+          if not key:
+              raise SystemExit("CFBD_API_KEY is required for early-season learning")
+
+          for season in (2025, 2026):
+              url = (
+                  "https://raw.githubusercontent.com/sportsdataverse/"
+                  f"cfbfastR-data/main/schedules/csv/cfb_schedules_{season}.csv"
+              )
+              req = urllib.request.Request(
+                  url, headers={"User-Agent": "cfb-edge/1.0"}
+              )
+              with urllib.request.urlopen(req, timeout=60) as response:
+                  (root / f"schedule-{season}.csv").write_bytes(response.read())
+
+          for week in (1, 2, 3):
+              url = (
+                  "https://api.collegefootballdata.com/lines"
+                  f"?year=2026&week={week}&seasonType=regular"
+              )
+              req = urllib.request.Request(
+                  url,
+                  headers={
+                      "Authorization": f"Bearer {key}",
+                      "Accept": "application/json",
+                      "User-Agent": "cfb-edge/1.0",
+                  },
+              )
+              with urllib.request.urlopen(req, timeout=45) as response:
+                  (root / f"week{week}-lines.json").write_bytes(response.read())
+          PY
+
+      - name: Learn from Weeks 1-2 and test once on Week 3
+        run: |
+          python3 -m cfb_edge.early_season learn             --season 2026             --prior-schedule .tmp/early-season/schedule-2025.csv             --schedule .tmp/early-season/schedule-2026.csv             --week1-lines .tmp/early-season/week1-lines.json             --week2-lines .tmp/early-season/week2-lines.json             --week3-lines .tmp/early-season/week3-lines.json             --revision "$GITHUB_SHA"             --out .tmp/early-season/early-season-learning.json
+
+          python3 - <<'PY' >> "$GITHUB_STEP_SUMMARY"
+          import json
+          from pathlib import Path
+
+          r = json.loads(
+              Path(".tmp/early-season/early-season-learning.json").read_text()
+          )
+          s = r["summary"]
+          print("## Early-season learning")
+          print(f"- training games: **{s['trainGames']}**")
+          print(f"- Week 3 holdout games: **{s['holdoutGames']}**")
+          print(f"- outcome weight: **{s['week4OutcomeWeight']:.4f}**")
+          print(f"- movement weight: **{s['week4MovementWeight']:.4f}**")
+          print(f"- Week 3 MAE lift vs open: **{s['holdoutMaeImprovementVsOpen']}**")
+          print(f"- Week 3 directional CLV: **{s['holdoutMeanDirectionalClv']}**")
+          print(f"- Week 3 beat-close rate: **{s['holdoutBeatCloseRate']}**")
+          print(f"- Week 4 shadow qualified: **{s['shadowQualified']}**")
+          if s["failedShadowChecks"]:
+              print("- failed checks: " + ", ".join(s["failedShadowChecks"]))
+          PY
+
+      - name: Evidence branch
+        uses: actions/checkout@v4
+        with:
+          ref: capture-data
+          path: evidence
+
+      - name: Build Week 4 shadow board
+        run: |
+          set -euo pipefail
+          if [ -f evidence/data/slate_current.csv ] && [ -f evidence/data/opens.csv ]; then
+            python3 -m cfb_edge.early_season board               --learning .tmp/early-season/early-season-learning.json               --slate evidence/data/slate_current.csv               --opens evidence/data/opens.csv               --out .tmp/early-season/week4-shadow.json
+          else
+            python3 - <<'PY'
+          import json
+          from pathlib import Path
+          Path(".tmp/early-season/week4-shadow.json").write_text(
+              json.dumps({
+                  "schemaVersion": 1,
+                  "contract": "CFB_EDGE_WEEK4_SHADOW_V1",
+                  "season": 2026,
+                  "week": 4,
+                  "shadowQualified": False,
+                  "failedShadowChecks": ["CURRENT_CAPTURE_INPUTS_MISSING"],
+                  "topFive": [],
+                  "rows": [],
+                  "deliveryEffect": "NONE",
+                  "actualStakeUnits": 0,
+                  "status": "SHADOW_ONLY",
+              }, indent=2) + "\n"
+          )
+          PY
+          fi
+
+      - name: Archive frozen evidence
+        run: |
+          set -euo pipefail
+          mkdir -p evidence/data/history/2026
+          cp .tmp/early-season/early-season-learning.json              evidence/data/early-season-learning.json
+          cp .tmp/early-season/week4-shadow.json              evidence/data/week4-shadow.json
+
+          for week in 1 2 3; do
+            gzip -c ".tmp/early-season/week${week}-lines.json"               > "evidence/data/history/2026/week${week}-cfbd-lines.json.gz"
+          done
+          gzip -c .tmp/early-season/schedule-2025.csv             > evidence/data/history/2026/schedule-2025.csv.gz
+          gzip -c .tmp/early-season/schedule-2026.csv             > evidence/data/history/2026/schedule-2026.csv.gz
+
+      - name: Publish learning evidence
+        working-directory: evidence
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/early-season-learning.json data/week4-shadow.json data/history/2026
+
+          if git diff --cached --quiet; then
+            echo "No learning evidence changed." >> "$GITHUB_STEP_SUMMARY"
+            exit 0
+          fi
+
+          git commit -q -m "early-season learning 2026 weeks 1-3"
+
+          for attempt in 1 2 3; do
+            git fetch origin capture-data
+            if git rebase origin/capture-data && git push origin HEAD:capture-data; then
+              exit 0
+            fi
+            git rebase --abort || true
+            sleep $((attempt * 2))
+          done
+
+          echo "Could not publish early-season evidence after three attempts." >> "$GITHUB_STEP_SUMMARY"
+          exit 1
