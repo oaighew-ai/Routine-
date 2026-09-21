@@ -19,7 +19,7 @@
   "capture": {
     "current": true,
     "outcome": "success",
-    "pollAt": "2026-09-21T07:09:38.351797+00:00"
+    "pollAt": "2026-09-21T14:22:41.078526+00:00"
   },
   "cardHash": "4f45bfb0e7d7406b230040e4eec702b18073ba06d492dddfd1cc09d30468e0a3",
   "changedSincePreviousCard": false,
@@ -27,10 +27,10 @@
   "fileHashes": {
     "authority": "6ed5f323dfa2cdcb6f2fa89d2b9c7ebfb08319a798bf64b95638a02f22551bd9",
     "candidates": null,
-    "captureReport": "5f7be8dfeb9d9c736da92fe4fe24135d6f4ed5752786000a917d04a10502804d",
-    "registry": "96cac78c391772129c84e3255427f81986c9a6b4c2914c838e49a2683a6c5aae"
+    "captureReport": "98501da9cbc66f549d9f70493542233da4112c9f050a504591046c35958eee81",
+    "registry": "6e1888e3b13851fb7cc9c76cc64ee87397b6856f199f8dd2fbd7270a8cedcf82"
   },
-  "generatedAt": "2026-09-21T07:09:38.513262+00:00",
+  "generatedAt": "2026-09-21T14:22:41.247372+00:00",
   "limitations": [
     "Research and paper display only; no wager is placed by this system.",
     "Injuries, rosters, weather, executable fills, CLV and betting edge remain unverified unless explicitly present in the authority export.",
@@ -74,11 +74,38 @@
       },
       {
         "deliveryEligible": false,
+        "id": "S03_M1",
+        "market": "spread",
+        "modelStatus": "MONITOR_ONLY",
+        "note": "Artifact-derived non-directional market-quality layer: exact-line depth, freshness, dispersion, movement state, key-number crossings and conservative de-vig EV. Cannot create picks.",
+        "role": "MARKET_QUALITY_MICROSTRUCTURE_MONITOR",
+        "version": "market-quality-monitor-1"
+      },
+      {
+        "deliveryEligible": false,
         "id": "S04",
         "market": "spread",
         "modelStatus": "UNFITTED",
         "note": "May be fitted only under a registered training cohort and untouched holdout.",
         "role": "PLANNED_FOOTBALL_CONTEXT_CHALLENGER"
+      },
+      {
+        "deliveryEligible": false,
+        "id": "S04_ES1",
+        "market": "spread",
+        "modelStatus": "PROSPECTIVE_SHADOW",
+        "note": "Frozen after inspecting Weeks 1-3. Week 4 is its first prospective test. Requires a 4-6 point captured-open disagreement plus live same-line Pinnacle-confirmed price value. Zero delivery authority.",
+        "role": "EARLY_SEASON_4_6_GAP_CHALLENGER",
+        "version": "week4-4to6-market-confirmed-1"
+      },
+      {
+        "deliveryEligible": false,
+        "id": "S04_ES2",
+        "market": "spread",
+        "modelStatus": "PREREGISTERED_NOT_ACTIVE",
+        "note": "Frozen before Week 4 outcomes. First prospective week is Week 5. Requires S04_ES1 signal family, S03_M1 market-quality pass and conservative executable EV floor.",
+        "role": "PREREGISTERED_GAP_PLUS_MARKET_QUALITY_CHALLENGER",
+        "version": "gap-4to6-plus-market-quality-1"
       },
       {
         "deliveryEligible": false,
@@ -107,7 +134,7 @@
     "schemaVersion": 1
   },
   "schemaVersion": 1,
-  "sourceRevision": "386e223351ad246133ecab5901388f418caab319",
+  "sourceRevision": "7bf01fbd4c60515eb55e065c145e08cab7b7f0e8",
   "status": "NO_BET",
   "validation": {
     "asOf": "2026-09-18T18:02:10.143Z",
