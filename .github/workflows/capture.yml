@@ -115,15 +115,15 @@ jobs:
             --out capture-data/data \
             --capture-outcome "$CAPTURE_OUTCOME" --revision "$GITHUB_SHA"
 
-      - name: Publish the one authoritative picks contract
+      - name: Build offline diagnostics (live picks belong to the private Site)
         if: always()
         run: |
           args=(
             --authority config/delivery_authority.json
             --registry config/model_registry.json
             --capture-report capture-data/data/capture-report.json
-            --previous capture-data/data/picks.json
-            --out capture-data/data/picks.json
+            --previous capture-data/data/picks-diagnostic.json
+            --out capture-data/data/picks-diagnostic.json
             --revision "$GITHUB_SHA"
           )
           if [ -f capture-data/ledger/candidates.jsonl ]; then
@@ -138,7 +138,7 @@ jobs:
           name: capture-report-${{ github.run_id }}-${{ github.run_attempt }}
           path: |
             capture-data/data/capture-report.*
-            capture-data/data/picks.json
+            capture-data/data/picks-diagnostic.json
           if-no-files-found: error
           retention-days: 30
 
@@ -187,8 +187,8 @@ jobs:
               --authority config/delivery_authority.json
               --registry config/model_registry.json
               --capture-report capture-data/data/capture-report.json
-              --previous capture-data/data/picks.json
-              --out capture-data/data/picks.json
+              --previous capture-data/data/picks-diagnostic.json
+              --out capture-data/data/picks-diagnostic.json
               --revision "$GITHUB_SHA"
             )
             if [ -f capture-data/ledger/candidates.jsonl ]; then
