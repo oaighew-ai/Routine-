@@ -123,11 +123,17 @@ distinction gets its own amendment and its own test.
 
 ## One source of truth for picks
 
-`capture-data/data/picks.json` is the only delivery contract. The dashboard,
+The private Site's [`/api/picks`](https://cfb-edge-research.oaighew.chatgpt.site/api/picks)
+is the only live delivery contract. Its dashboard reads that same endpoint.
+The Site owns immutable S02 captures, validation and saved cards in D1/R2.
+GitHub's former `capture-data/data/picks.json` is a legacy, non-authoritative
+snapshot and must not be used for decisions. The GitHub dashboard links to the
+private Site and does not display a competing pick feed. The dashboard,
 raw capture exports, shop scans, preview candidates, historical cards and
 shadow models are diagnostic inputs. None of them is an alternate pick feed.
 
-The contract is built by `python3 -m cfb_edge.source_of_truth`. It fails closed
+The local diagnostic is built by `python3 -m cfb_edge.source_of_truth` and is
+marked `CFB_EDGE_DIAGNOSTIC_V1`, `authoritative: false`. It fails closed
 unless the current capture is fresh, the registered validation is complete and
 replay-verified, every evidence gate recomputes as passed, and the candidate's
 S02 version, model SHA-256 and protocol match exactly. It then emits at most one
@@ -140,8 +146,8 @@ python3 -m cfb_edge.source_of_truth \
   --registry config/model_registry.json \
   --capture-report data/capture-report.json \
   --candidates ledger/candidates.jsonl \
-  --previous data/picks.json \
-  --out data/picks.json
+  --previous data/picks-diagnostic.json \
+  --out data/picks-diagnostic.json
 ```
 
 `config/model_registry.json` owns model roles. S02 is the sole possible paper
