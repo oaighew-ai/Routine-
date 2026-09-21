@@ -97,6 +97,9 @@ jobs:
             --revision "$GITHUB_SHA"
           )
 
+          if [ -f capture-data/ledger/forecasts.jsonl ]; then
+            args+=(--forecasts capture-data/ledger/forecasts.jsonl)
+          fi
           if [ -f capture-data/ledger/candidates.jsonl ]; then
             args+=(--candidates capture-data/ledger/candidates.jsonl)
           fi
