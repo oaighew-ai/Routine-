@@ -1513,6 +1513,170 @@ class TestCurrentWeek(unittest.TestCase):
         self.assertIsNone(current_week(2026, today="2026-12-01", rows=self.ROWS))
 
 
+class TestOpeningWeek(unittest.TestCase):
+    """The week a capture can still record at its open, which is not the
+    current week.
+
+    The first scheduled capture of 2026 ran inside the release window, matched
+    nothing, and recorded nothing. It asked for the current week and got the
+    one being played: `current_week` holds week three until its last kickoff
+    passes, and week three's last kickoff is 2026-09-20T03:00Z, a Saturday
+    11pm ET game that reads as Sunday in UTC. The window opens at 22:00 that
+    Sunday. So for the two hours the Sunday cron covers, and only those two,
+    the capture polled a board that had already moved to week four.
+    """
+
+    # Week 3 ends with a Saturday night game that lands on Sunday in UTC,
+    # exactly as the real schedule does. Week 4 opens the following Thursday.
+    ROWS = [
+        {"season_type": "regular", "week": "3", "start_date": "2026-09-17T23:30:00.000Z"},
+        {"season_type": "regular", "week": "3", "start_date": "2026-09-20T03:00:00.000Z"},
+        {"season_type": "regular", "week": "4", "start_date": "2026-09-24T23:30:00.000Z"},
+        {"season_type": "regular", "week": "4", "start_date": "2026-09-27T03:00:00.000Z"},
+        {"season_type": "postseason", "week": "1", "start_date": "2026-12-20T16:00:00Z"},
+    ]
+
+    def test_the_window_opening_on_sunday_night_asks_for_next_week(self):
+        """22:00 UTC Sunday. This is the case that lost a week of capture."""
+        from cfb_edge.slate import current_week, opening_week
+
+        self.assertEqual(
+            opening_week(2026, now="2026-09-20T22:00:00Z", rows=self.ROWS), 4)
+        # And the selector it replaces disagrees, which is the whole point.
+        self.assertEqual(
+            current_week(2026, today="2026-09-20", rows=self.ROWS), 3)
+
+    def test_a_week_being_played_is_never_the_capturable_one(self):
+        """Once the first game kicks off, the opening number is gone."""
+        from cfb_edge.slate import opening_week
+
+        for moment in ("2026-09-17T23:31:00Z", "2026-09-19T12:00:00Z"):
+            self.assertEqual(
+                opening_week(2026, now=moment, rows=self.ROWS), 4, moment)
+
+    def test_the_week_stays_capturable_until_its_own_first_kickoff(self):
+        from cfb_edge.slate import opening_week
+
+        self.assertEqual(
+            opening_week(2026, now="2026-09-24T23:29:00Z", rows=self.ROWS), 4)
+        self.assertEqual(
+            opening_week(2026, now="2026-09-24T23:31:00Z", rows=self.ROWS), None)
+
+    def test_a_bare_date_means_midnight_so_tuesday_still_holds_its_week(self):
+        """The window closes Tuesday 18:00 UTC. A week whose first game is a
+        Tuesday night kickoff has to stay capturable that Tuesday morning."""
+        from cfb_edge.slate import opening_week
+
+        rows = [
+            {"season_type": "regular", "week": "9",
+             "start_date": "2026-10-27T23:00:00.000Z"},
+        ]
+        self.assertEqual(opening_week(2026, now="2026-10-27", rows=rows), 9)
+
+    def test_a_zulu_stamp_and_an_offset_stamp_compare_as_instants(self):
+        """`2026-09-24T00:00:00.000Z` sorts after `2026-09-24T00:00:00+00:00`
+        as text and is the same instant. Comparing them as strings looks like
+        it works."""
+        from cfb_edge.slate import opening_week
+
+        rows = [
+            {"season_type": "regular", "week": "4",
+             "start_date": "2026-09-24T00:00:00.000Z"},
+        ]
+        self.assertIsNone(
+            opening_week(2026, now="2026-09-24T00:00:00+00:00", rows=rows))
+
+    def test_nothing_ahead_reports_nothing_rather_than_the_last_week(self):
+        from cfb_edge.slate import opening_week
+
+        self.assertIsNone(
+            opening_week(2026, now="2026-12-01T00:00:00Z", rows=self.ROWS))
+
+    def test_the_postseason_is_not_a_capturable_regular_week(self):
+        from cfb_edge.slate import opening_week
+
+        self.assertIsNone(
+            opening_week(2026, now="2026-12-19T00:00:00Z", rows=self.ROWS))
+
+    def test_a_row_without_a_kickoff_is_skipped_not_guessed(self):
+        from cfb_edge.slate import opening_week
+
+        rows = [
+            {"season_type": "regular", "week": "4", "start_date": ""},
+            {"season_type": "regular", "week": "5",
+             "start_date": "2026-10-01T23:00:00.000Z"},
+        ]
+        self.assertEqual(
+            opening_week(2026, now="2026-09-21T00:00:00Z", rows=rows), 5)
+
+    def test_an_unreadable_moment_raises_rather_than_defaulting_to_now(self):
+        """Falling back to the clock would silently capture the wrong week."""
+        from cfb_edge.slate import opening_week
+
+        with self.assertRaises(ValueError):
+            opening_week(2026, now="week four", rows=self.ROWS)
+
+
+class TestSlateExitCodes(unittest.TestCase):
+    """A scheduled caller has to tell "nothing to do" from "broken".
+
+    Both answers exited 2, so the workflow could only treat the end of the
+    season as a failure and go red every ten minutes for nine months, or
+    treat an unreachable schedule as fine and capture nothing in silence.
+    """
+
+    @staticmethod
+    def _run(argv, **patches):
+        """`slate.main` with the schedule stubbed out, returning its exit code.
+
+        The season and the network both move, so a test that calls the real
+        thing passes or fails on the calendar rather than on the code.
+        """
+        import contextlib
+        import io
+        import unittest.mock as mock
+
+        from cfb_edge import slate
+
+        stack = contextlib.ExitStack()
+        with stack:
+            stack.enter_context(contextlib.redirect_stdout(io.StringIO()))
+            for name, value in patches.items():
+                stack.enter_context(mock.patch.object(slate, name, value))
+            return slate.main(argv)
+
+    def test_no_capturable_week_exits_season_over_not_failure(self):
+        from cfb_edge import slate
+
+        rc = self._run(
+            ["--season", "2026", "--week", "opening", "--out", "/dev/null"],
+            opening_week=lambda season, **kw: None,
+        )
+        self.assertEqual(rc, slate.SEASON_OVER)
+        self.assertNotEqual(slate.SEASON_OVER, 2)
+
+    def test_no_unfinished_week_also_exits_season_over(self):
+        from cfb_edge import slate
+
+        rc = self._run(
+            ["--season", "2026", "--week", "current", "--out", "/dev/null"],
+            current_week=lambda season, **kw: None,
+        )
+        self.assertEqual(rc, slate.SEASON_OVER)
+
+    def test_an_unreachable_schedule_exits_two(self):
+        from cfb_edge import slate
+
+        def unreachable(*a, **kw):
+            raise slate.ScheduleUnreachable("network policy denial")
+
+        rc = self._run(
+            ["--season", "2026", "--week", "4", "--out", "/dev/null"],
+            build=unreachable,
+        )
+        self.assertEqual(rc, 2)
+
+
 
 
 
