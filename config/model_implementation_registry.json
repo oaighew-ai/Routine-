@@ -27,6 +27,14 @@
       "note": "Input integrity, replay and provenance only. Never supplies picks."
     },
     {
+      "modelId": "S03_M1",
+      "location": "cfb_edge/market_quality.py",
+      "reproducibleInRepo": true,
+      "status": "ACTIVE_MONITOR_ONLY",
+      "deliveryContract": null,
+      "note": "Non-directional market microstructure diagnostics attached to challenger rows. No delivery effect."
+    },
+    {
       "modelId": "S04",
       "location": null,
       "reproducibleInRepo": false,
