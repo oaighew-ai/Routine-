@@ -28,6 +28,15 @@
       "note": "Immutable inputs and replay only. Zero forecasts and never a pick source."
     },
     {
+      "id": "S03_M1",
+      "role": "MARKET_QUALITY_MICROSTRUCTURE_MONITOR",
+      "market": "spread",
+      "version": "market-quality-monitor-1",
+      "modelStatus": "MONITOR_ONLY",
+      "deliveryEligible": false,
+      "note": "Artifact-derived non-directional market-quality layer: exact-line depth, freshness, dispersion, movement state, key-number crossings and conservative de-vig EV. Cannot create picks."
+    },
+    {
       "id": "S04",
       "role": "PLANNED_FOOTBALL_CONTEXT_CHALLENGER",
       "market": "spread",
