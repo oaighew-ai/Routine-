@@ -1,0 +1,28 @@
+{
+  "schemaVersion": 1,
+  "modelId": "S04_ES1",
+  "version": "week4-4to6-market-confirmed-1",
+  "status": "PROSPECTIVE_SHADOW_ONLY",
+  "season": 2026,
+  "prospectiveWeek": 4,
+  "gapMin": 4.0,
+  "gapMax": 6.0,
+  "minimumHistoricalGames": 15,
+  "minimumGamesPerWeek": 4,
+  "minimumLivePriceEv": 0.005,
+  "referenceBook": "pinnacle",
+  "venues": ["draftkings", "fanduel", "betmgm", "betrivers"],
+  "markets": ["spreads"],
+  "requirePositiveMeanClvEveryWeek": true,
+  "requireOverallBeatCloseMajority": true,
+  "requireMovementRemaining": true,
+  "promotionEffect": "NONE",
+  "actualStakeUnits": 0,
+  "notes": [
+    "The 4-6 point disagreement bucket existed in the historical model before the 2026 Week 1-3 review.",
+    "2026 Weeks 1-3 were inspected before freezing this challenger, so this is exploratory and cannot validate itself.",
+    "Week 4 is the first prospective test of this exact challenger.",
+    "A candidate must also have a same-line live sportsbook price with Pinnacle as the two-way reference.",
+    "No row from this challenger can enter the authoritative picks contract."
+  ]
+}
