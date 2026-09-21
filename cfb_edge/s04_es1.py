@@ -27,6 +27,7 @@ from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any, Mapping, Sequence
 
+from . import teams
 from .engine import config as engine_config
 from .engine import reasons
 from .engine.pricing import max_playable_price
@@ -147,11 +148,48 @@ def candidate_map(
     return out
 
 
-def _home_line(row: ShopRow, side: str) -> float | None:
+def _resolve_provider_team(name: str, known: set[str]) -> str | None:
+    """Resolve a provider team without fuzzy matching.
+
+    The Odds API commonly appends a mascot to the school name. We first use the
+    repository's exact/explicit alias resolver, then strip one, two, or three
+    trailing words and retry. Every successful result must still resolve exactly
+    or through an explicit alias. Ambiguity remains a hard failure.
+    """
+    direct = teams.resolve(name, known)
+    if direct:
+        return direct
+    words = str(name or "").strip().split()
+    for count in (1, 2, 3):
+        if len(words) <= count:
+            break
+        candidate = " ".join(words[:-count])
+        resolved = teams.resolve(candidate, known)
+        if resolved:
+            return resolved
+    return None
+
+
+def _candidate_teams(
+    candidates: Mapping[tuple[str, str], Mapping[str, Any]]
+) -> set[str]:
+    out: set[str] = set()
+    for game, _side in candidates:
+        if "@" in game:
+            away, home = (x.strip() for x in game.split("@", 1))
+            out.update((away, home))
+    return out
+
+
+def _home_line(row: ShopRow, candidate: Mapping[str, Any]) -> float | None:
     line = _number(row.consensus_line)
     if line is None:
         return None
-    return line if side == row.home else -line
+    game = str(candidate.get("game") or "")
+    if "@" not in game:
+        return None
+    _away, home = (x.strip() for x in game.split("@", 1))
+    return line if candidate.get("side") == home else -line
 
 
 def _row_reasons(
@@ -182,7 +220,7 @@ def _row_reasons(
     if d.ev < ev_floor:
         out.append("LIVE_PRICE_EV_BELOW_FLOOR")
 
-    current_home = _home_line(row, candidate["side"])
+    current_home = _home_line(row, candidate)
     remaining = None
     if current_home is None:
         out.append("CURRENT_REFERENCE_LINE_MISSING")
@@ -217,14 +255,24 @@ def evaluate(
     inspected: list[dict[str, Any]] = []
     qualified: list[dict[str, Any]] = []
     venues = set(challenger_cfg.get("venues") or [])
+    known_teams = _candidate_teams(candidates)
+    mapping_failures: set[str] = set()
+    matched_live_rows = 0
 
     for row in shop_rows:
         if row.market != "spreads" or row.venue not in venues:
             continue
-        game = f"{row.away} @ {row.home}"
-        candidate = candidates.get((game, row.side))
+        away = _resolve_provider_team(row.away, known_teams)
+        home = _resolve_provider_team(row.home, known_teams)
+        side = _resolve_provider_team(row.side, known_teams)
+        if not away or not home or not side:
+            mapping_failures.add(f"{row.away} @ {row.home} | {row.side}")
+            continue
+        game = f"{away} @ {home}"
+        candidate = candidates.get((game, side))
         if candidate is None:
             continue
+        matched_live_rows += 1
 
         exclusions, current_home, remaining = _row_reasons(
             row=row, candidate=candidate, stats=stats, cfg=challenger_cfg
@@ -242,7 +290,8 @@ def evaluate(
 
         item = {
             "game": game,
-            "side": row.side,
+            "side": candidate["side"],
+            "providerSide": row.side,
             "venue": row.venue,
             "currentLine": row.venue_line,
             "currentPrice": row.venue_price,
@@ -297,6 +346,8 @@ def evaluate(
             "failedChecks": history_reasons,
         },
         "week4CapturedCandidates": len(candidates),
+        "matchedLiveRows": matched_live_rows,
+        "mappingFailures": sorted(mapping_failures),
         "inspectedLiveRows": inspected,
         "topFive": final[:5],
         "qualifiedCount": len(final),
