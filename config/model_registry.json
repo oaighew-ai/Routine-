@@ -36,6 +36,15 @@
       "note": "May be fitted only under a registered training cohort and untouched holdout."
     },
     {
+      "id": "S04_ES1",
+      "role": "EARLY_SEASON_4_6_GAP_CHALLENGER",
+      "market": "spread",
+      "version": "week4-4to6-market-confirmed-1",
+      "modelStatus": "PROSPECTIVE_SHADOW",
+      "deliveryEligible": false,
+      "note": "Frozen after inspecting Weeks 1-3. Week 4 is its first prospective test. Requires a 4-6 point captured-open disagreement plus live same-line Pinnacle-confirmed price value. Zero delivery authority."
+    },
+    {
       "id": "S05",
       "role": "INFORMATION_FLOW_MONITOR",
       "market": "multi",

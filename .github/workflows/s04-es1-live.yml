@@ -1,0 +1,139 @@
+name: S04 ES1 live shadow
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - cfb_edge/s04_es1.py
+      - config/s04_es1.json
+      - config/model_registry.json
+      - config/model_implementation_registry.json
+      - .github/workflows/s04-es1-live.yml
+  schedule:
+    - cron: "0 */6 * 9-11 0-3"
+    - cron: "0 */2 * 9-11 4-6"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: s04-es1-live
+  cancel-in-progress: false
+
+jobs:
+  scan:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Code
+        uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+
+      - name: Confirm Week 4 is still active
+        id: active
+        run: |
+          WEEK="$(python3 - <<'PY'
+          from cfb_edge.slate import current_week
+          try:
+              print(current_week(2026) or "none")
+          except Exception as exc:
+              print(f"ERROR:{exc}")
+          PY
+          )"
+
+          echo "resolved=$WEEK" >> "$GITHUB_OUTPUT"
+          if [ "$WEEK" = "4" ]; then
+            echo "run=1" >> "$GITHUB_OUTPUT"
+          else
+            echo "run=0" >> "$GITHUB_OUTPUT"
+            echo "S04_ES1 is frozen for Week 4 only. Current week: $WEEK. No Odds API credit spent." >> "$GITHUB_STEP_SUMMARY"
+          fi
+
+      - name: Evidence branch
+        if: steps.active.outputs.run == '1'
+        uses: actions/checkout@v4
+        with:
+          ref: capture-data
+          path: evidence
+
+      - name: Validate evidence prerequisites
+        if: steps.active.outputs.run == '1'
+        run: |
+          test -f evidence/data/early-season-learning.json
+          test -f evidence/data/week4-shadow.json
+
+      - name: Pull one live spread board and evaluate S04_ES1
+        if: steps.active.outputs.run == '1'
+        env:
+          ODDS_API_KEY: ${{ secrets.ODDS_API_KEY }}
+        run: |
+          set -euo pipefail
+          mkdir -p .tmp/s04-es1
+          python3 -m cfb_edge.s04_es1             --learning evidence/data/early-season-learning.json             --week4 evidence/data/week4-shadow.json             --challenger config/s04_es1.json             --edge-config config/edge_os.json             --out .tmp/s04-es1/live.json             --snapshot-out .tmp/s04-es1/snapshot.json
+
+          python3 - <<'PY' >> "$GITHUB_STEP_SUMMARY"
+          import json
+          from pathlib import Path
+
+          r = json.loads(Path(".tmp/s04-es1/live.json").read_text())
+          h = r["historicalCohort"]
+          print("## S04_ES1 Week 4 shadow")
+          print(f"- historical 4-6 cohort: **{h['n']} games**")
+          print(f"- historical mean directional CLV: **{h['meanDirectionalClv']:+.3f} pts**")
+          print(f"- historical beat-close rate: **{h['beatCloseRate']:.1%}**")
+          print(f"- captured Week 4 candidates: **{r['week4CapturedCandidates']}**")
+          print(f"- executable shadow candidates now: **{r['qualifiedCount']}**")
+          for x in r["topFive"]:
+              print(
+                  f"- {x['game']} | {x['side']} "
+                  f"{x['currentLine']} @ {x['currentPrice']} {x['venue']} "
+                  f"| EV vs Pinnacle {x['livePriceEv']:+.2%}"
+              )
+          PY
+
+      - name: Archive snapshot and latest report
+        if: steps.active.outputs.run == '1'
+        run: |
+          set -euo pipefail
+          TS="$(python3 - <<'PY'
+          import json
+          from pathlib import Path
+          x=json.loads(Path(".tmp/s04-es1/live.json").read_text())["generatedAt"]
+          print(x.replace(":", "").replace("-", "").replace("+", "_").replace(".", "_"))
+          PY
+          )"
+          mkdir -p evidence/data/snapshots/s04_es1
+          gzip -c .tmp/s04-es1/snapshot.json             > "evidence/data/snapshots/s04_es1/${TS}.json.gz"
+          cp .tmp/s04-es1/live.json evidence/data/s04-es1-live.json
+
+      - name: Publish shadow evidence
+        if: steps.active.outputs.run == '1'
+        working-directory: evidence
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/s04-es1-live.json data/snapshots/s04_es1
+
+          if git diff --cached --quiet; then
+            echo "No S04_ES1 evidence changed." >> "$GITHUB_STEP_SUMMARY"
+            exit 0
+          fi
+
+          git commit -q -m "S04_ES1 live shadow $(date -u '+%Y-%m-%d %H:%M UTC')"
+
+          for attempt in 1 2 3; do
+            git fetch origin capture-data
+            if git rebase origin/capture-data && git push origin HEAD:capture-data; then
+              exit 0
+            fi
+            git rebase --abort || true
+            sleep $((attempt * 2))
+          done
+
+          echo "Could not publish S04_ES1 evidence after three attempts." >> "$GITHUB_STEP_SUMMARY"
+          exit 1
