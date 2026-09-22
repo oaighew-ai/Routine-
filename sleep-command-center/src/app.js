@@ -353,7 +353,7 @@ function nightView(events,plan,d,metrics) {
     <div class="instruction"><div class="instruction-kicker">Right now</div><h2>${esc(d.headline)}</h2><p>${esc(d.instruction)}</p></div>
     ${primary}${waitOverride}
     <div class="secondary-grid compact">${quick.map(([event,label])=>`<button class="secondary" data-event="${event}">${label}</button>`).join('')}</div>
-    <button class="more-btn" id="more-care">MORE OPTIONS</button>
+    <div class="night-tools"><button class="secondary" id="timer-tools">TIMER</button><button class="secondary" id="more-care">MORE OPTIONS</button></div>
   </section>
   <details class="card tonight-details"><summary>Tonight so far</summary><div class="metric"><span>Sleep</span><strong>${fmtDuration(metrics.totalNightSleepMs)}</strong></div><div class="metric"><span>Wakings</span><strong>${metrics.wakingCount}</strong></div><div class="metric"><span>Check-ins</span><strong>${metrics.checkInCount}</strong></div><div class="metric"><span>Feeds</span><strong>${metrics.feedCount}</strong></div></details>`;
 }
