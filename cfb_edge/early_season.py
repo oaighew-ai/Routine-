@@ -426,8 +426,8 @@ def build_shadow_board(
         exclusions: list[str] = []
         if op is None:
             exclusions.append("NO_CAPTURED_OPEN")
-        elif source != "capture":
-            exclusions.append("OPEN_NOT_TIMELY_CAPTURE")
+        elif source != "true_open":
+            exclusions.append("OPEN_NOT_AUDIT_GRADE_TRUE_OPEN")
         if projected is None:
             exclusions.append("PROJECTION_MISSING")
         if open_line is None:
