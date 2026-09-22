@@ -78,6 +78,25 @@
       "maximumOpenCaptureLagSeconds": 900,
       "auditGradeCohortStart": "2026 Week 5",
       "runtime": "cfb_edge/s04_es2.py"
+    },
+    {
+      "id": "S04_BR1",
+      "family": "bayesian-regime-market-residual",
+      "createdAt": "2026-09-22",
+      "status": "HISTORICAL_OOS_REJECTED_SHADOW",
+      "deliveryEligible": false,
+      "evidenceSeenBeforeFreeze": "2026 Weeks 1-2 only for fitting/selection; Week 3 untouched holdout",
+      "frozenComponents": [
+        "market-prior Bayesian residual slope",
+        "fixed absolute-gap regimes 0-4, 4-8, 8-12, 12+",
+        "dynamic team residual state",
+        "global/team ensemble",
+        "Bayesian movement residual variants"
+      ],
+      "holdoutResult": "All tested components worsened Week 3 MAE and RMSE versus the market/no-move baselines.",
+      "richerFeatureStatus": "DISABLED_UNTIL_POINT_IN_TIME_HISTORY_EXISTS",
+      "promotionEffect": "NONE",
+      "reason": "Complexity was evaluated as a challenger and rejected rather than added to the live rule."
     }
   ]
 }

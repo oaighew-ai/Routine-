@@ -156,6 +156,23 @@ python3 -m cfb_edge.challenger \
 A historical S04 report can reject the challenger. It cannot promote it or alter
 the card; prospective shadow validation is required.
 
+The Bayesian/regime architecture is also implemented as a rejection-first
+shadow harness. It keeps the opening market as the prior, uses Week 1 to fit,
+Week 2 to select registered hyperparameters, and Week 3 as an untouched
+holdout:
+
+```bash
+python3 -m cfb_edge.bayesian_regime \
+  --learning-report data/early-season-learning.json \
+  --out /tmp/s04-br1.json
+```
+
+The preserved 2026 Week 3 result rejects every tested Bayesian outcome-residual,
+fixed-regime, dynamic-team-state and ensemble variant versus the market
+baseline. `data/s04-br1-oos-2026.json` records that negative result. The
+richer EPA/QB/weather feature set remains disabled until point-in-time history
+exists.
+
 ## One source of truth for picks
 
 The private Site's [`/api/picks`](https://cfb-edge-research.oaighew.chatgpt.site/api/picks)

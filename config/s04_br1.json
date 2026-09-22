@@ -1,0 +1,48 @@
+{
+  "schemaVersion": 1,
+  "modelId": "S04_BR1",
+  "status": "SHADOW_ONLY",
+  "target": "actualHomeMargin - openMarketHomeMargin",
+  "marketPrior": "openMarketHomeMargin",
+  "chronology": {
+    "fitWeek": 1,
+    "selectionWeek": 2,
+    "untouchedHoldoutWeek": 3
+  },
+  "components": {
+    "globalBayesianResidual": true,
+    "fixedGapRegimeBayesian": true,
+    "dynamicTeamResidualState": true,
+    "ensemble": true,
+    "richerFootballContext": false
+  },
+  "regimeEdges": [4.0, 8.0, 12.0],
+  "priorPrecisionGrid": [1.0, 5.0, 10.0, 25.0, 50.0, 100.0, 250.0],
+  "teamGainGrid": [0.05, 0.10, 0.20, 0.30, 0.40, 0.50],
+  "ensembleGlobalWeightGrid": [0.0, 0.25, 0.50, 0.75, 1.0],
+  "selectionMetric": "week2_mae",
+  "holdoutPassRule": "candidate_mae < market_mae AND candidate_rmse < market_rmse",
+  "richerFootballContext": {
+    "status": "DISABLED_UNTIL_POINT_IN_TIME_HISTORY_EXISTS",
+    "plannedFeatures": [
+      "epaDiff",
+      "successRateDiff",
+      "explosivenessDiff",
+      "qbContinuityDiff",
+      "linePlayDiff",
+      "paceDiff",
+      "restDaysDiff",
+      "travelMilesDiff",
+      "windMph"
+    ]
+  },
+  "deliveryEligible": false,
+  "stakingEnabled": false,
+  "promotionEffect": "NONE",
+  "notes": [
+    "The market is the prior and zero correction is the default forecast.",
+    "Week 3 cannot tune any hyperparameter.",
+    "This experiment does not modify S02, S04_ES1, S04_ES2, the Week 5 freeze, or delivery authority.",
+    "Historical staged holdout may reject a component but cannot promote one."
+  ]
+}
