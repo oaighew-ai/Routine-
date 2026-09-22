@@ -31,6 +31,8 @@ def digest(path):
 
 
 def build(log, slate, now, outcome="success", revision="unknown"):
+    from .watch import OpeningBook, classify_open_provenance
+
     if now.tzinfo is None:
         raise ValueError("Report time must include timezone")
     log, slate = Path(log), Path(slate)
@@ -51,7 +53,10 @@ def build(log, slate, now, outcome="success", revision="unknown"):
     for q in (latest or {}).get("quotes", []):
         if q.get("market") == "spread":
             by_game.setdefault(q.get("game"), []).append(q)
+    book = OpeningBook.load(log)
+    first_quotes = book.first_quotes("spread")
     rows = []
+    class_counts = {}
     for game in games:
         reasons = []
         if outcome != "success":
@@ -76,14 +81,36 @@ def build(log, slate, now, outcome="success", revision="unknown"):
                 value = None
             observations.append({"book": q.get("book"), "derivedHomeLine": value,
                                  "observedAt": q.get("seen_at"), "kickoff": q.get("commence_time")})
+        first = first_quotes.get(game)
+        first_seen = str(getattr(first, "seen_at", "") or "") if first else ""
+        venue_open = str(getattr(first, "venue_open_time", "") or "") if first else ""
+        open_class, open_lag = classify_open_provenance(first_seen, venue_open)
+        class_counts[open_class] = class_counts.get(open_class, 0) + 1
+        if open_class != "true_open":
+            reasons.append("OPEN_NOT_AUDIT_GRADE_TRUE_OPEN")
         reasons.extend(["EXECUTABLE_CONTRACT_UNVERIFIED", "DECISION_EVIDENCE_UNVERIFIED"])
-        rows.append({"game": game, "action": "NO BET", "stakeUnits": 0,
-                     "observations": observations, "exclusions": sorted(set(reasons))})
+        rows.append({
+            "game": game, "action": "NO BET", "stakeUnits": 0,
+            "openClassification": open_class,
+            "auditGradeOpen": open_class == "true_open",
+            "firstSeen": first_seen or None,
+            "venueOpenTime": venue_open or None,
+            "openLagSeconds": open_lag,
+            "marketTickers": list(getattr(first, "market_tickers", ()) or ()) if first else [],
+            "observations": observations,
+            "exclusions": sorted(set(reasons)),
+        })
     return {"schemaVersion": 1, "cohort": "ROUTINE_KALSHI_CAPTURE",
             "generatedAt": now.isoformat(), "pollAt": poll.isoformat() if poll else None,
             "captureOutcome": outcome, "freshAtGeneration": fresh,
             "codeRevision": revision, "logSha256": digest(log), "slateSha256": digest(slate),
             "allowDelivery": False, "actualStakeUnits": 0, "games": rows,
+            "openEvidence": {
+                "trueOpenToleranceSeconds": 900,
+                "classificationCounts": class_counts,
+                "auditGradeCount": class_counts.get("true_open", 0),
+                "policy": "Only true_open may enter CLV promotion or stopping evidence."
+            },
             "limitations": ["Separate from S02/S01/F03/S03; not their evidence.",
                             "Derived exchange lines are not executable sportsbook spreads.",
                             "Freshness is measured at generation; this report is a dated snapshot.",
