@@ -1,5 +1,5 @@
 {
-  "schemaVersion": 1,
+  "schemaVersion": 2,
   "modelId": "S04_ES2",
   "version": "gap-4to6-plus-market-quality-1",
   "status": "PREREGISTERED_NOT_ACTIVE",
@@ -7,8 +7,8 @@
   "firstProspectiveWeek": 5,
   "signalFamily": "S04_ES1_4_TO_6_GAP",
   "marketQualityModel": "S03_M1",
-  "gapMin": 4.0,
-  "gapMax": 6.0,
+  "gapMin": 4,
+  "gapMax": 6,
   "minimumFreshSameLineBooks": 3,
   "maximumQuoteAgeSeconds": 900,
   "minimumConservativeExecutableEv": 0.005,
@@ -19,9 +19,13 @@
   "promotionEffect": "NONE",
   "actualStakeUnits": 0,
   "notes": [
+    "Week 5 is the first audit-grade cohort; rows not source=true_open are excluded from validation and the stop-rule sample.",
     "Frozen before Week 4 outcomes. Week 4 market-quality observations are development diagnostics and cannot validate S04_ES2.",
     "Conservative executable EV is the minimum EV across proportional and power de-vig methods at the exact offered contract.",
     "Movement velocity, reversal, dispersion and key-number crossings are logged but are not directional gates in this version.",
     "Injuries, weather, sharp-money labels, expert consensus and public splits remain excluded until point-in-time provenance and prospective incremental value are available."
-  ]
+  ],
+  "requiredOpenSource": "true_open",
+  "maximumOpenCaptureLagSeconds": 900,
+  "auditGradeOpenRequired": true
 }
