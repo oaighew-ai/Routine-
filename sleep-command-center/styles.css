@@ -130,3 +130,12 @@
 .sync-detail{display:flex;justify-content:space-between;gap:18px;padding:12px 0;border-bottom:1px solid rgba(120,135,160,.14);font-size:13px}.sync-detail span{opacity:.65}.sync-detail strong{text-align:right}
 .invite-box{margin:16px 0;padding:14px;border-radius:16px;background:rgba(115,137,174,.09)}.invite-box label{display:block;font-size:11px;text-transform:uppercase;letter-spacing:.08em;opacity:.65;margin-bottom:8px}.invite-link{font-size:12px;line-height:1.45;overflow-wrap:anywhere;margin-bottom:10px}
 @media(max-width:520px){.top-right{gap:6px}.sync-pill{padding:6px 8px;font-size:9px}.clock{display:none}}
+/* Simple operational timer controls */
+.night-tools{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:11px}
+.night-tools .secondary{min-height:48px}
+.timer-sheet .timer-readout{text-align:center;font-size:54px;line-height:1;font-variant-numeric:tabular-nums;font-weight:760;letter-spacing:-.045em;margin:18px 0 6px}
+.timer-master,.care-master{text-align:center;color:var(--muted);font-size:11px;font-weight:850;letter-spacing:.12em;text-transform:uppercase;font-variant-numeric:tabular-nums}
+.night .timer-master,.night .care-master{color:var(--night-muted)}
+.care-master{margin:-2px 0 16px}
+.timer-end{margin-top:10px;border-style:dashed}
+@media(max-width:380px){.night-tools{gap:8px}.timer-sheet .timer-readout{font-size:48px}}
