@@ -923,3 +923,36 @@ most generous possible open timestamp for an unknown historical pair. A
 first-seen observation more than 900 seconds after even that upper bound is
 definitively not a true open. A row inside the bound remains `unverified`;
 it is never promoted retroactively.
+
+
+## 2026-09-22 — D24. S04_ES2 Week 5 runtime implements the frozen rule without adding a new one
+
+**Decision.** Week 5 is operationally ready as the first audit-grade S04_ES2
+prospective cohort. The runtime is now implemented in `cfb_edge/s04_es2.py`
+and scheduled by `.github/workflows/s04-es2-week5.yml`.
+
+The runtime adds no directional feature and does not re-fit any parameter. It
+implements the rule already frozen before Week 4 outcomes:
+
+- opening evidence must be `source=true_open`;
+- recorded open lag must be no more than 900 seconds;
+- absolute projection/open disagreement must be at least 4 and below 6 points;
+- Pinnacle remains the reference and the target book must offer the exact same spread;
+- S03_M1 market quality must pass;
+- conservative executable EV must be at least 0.5%;
+- the inherited historical movement budget must remain positive.
+
+The Week 5 slate is frozen on the evidence branch when `opening_week == 5`.
+Later scans continue to use that frozen slate even after the capture pipeline
+moves on to Week 6. If no audit-grade signal exists, the runtime does not call
+the Odds API. Every qualifying row remains shadow-only with zero stake,
+`deliveryEffect: NONE`, and `promotionEffect: NONE`.
+
+**Why.** Preregistration without an executable runtime leaves room for
+implementation drift once outcomes begin arriving. Building the runtime before
+Week 5 opens fixes the exact selection and execution contract while it is still
+prospective.
+
+**Reversal criterion.** No Week 5 result may change these gates and remain part
+of the same experiment. Any rule change creates a separately versioned
+challenger whose prospective clock starts after that change.
