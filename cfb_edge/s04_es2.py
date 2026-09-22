@@ -30,6 +30,7 @@ from .market_quality import load_snapshot_history, quality_for_row
 from .providers.oddsapi import fetch_pull
 from .s04_es1 import cohort_stats
 from .shop import ShopRow, shop
+from .week5_freeze import assert_frozen_files
 
 CONTRACT = "CFB_EDGE_S04_ES2_LIVE_V1"
 
@@ -435,6 +436,7 @@ def main(argv: list[str] | None = None) -> int:
     p.add_argument("--challenger", default="config/s04_es2.json")
     p.add_argument("--edge-config", default="config/edge_os.json")
     p.add_argument("--market-quality-config", default="config/s03_m1.json")
+    p.add_argument("--freeze-manifest", default="config/week5_freeze.json")
     p.add_argument("--history-dir")
     p.add_argument("--out", required=True)
     p.add_argument("--snapshot-out")
@@ -443,6 +445,7 @@ def main(argv: list[str] | None = None) -> int:
     learning = json.loads(Path(args.learning).read_text(encoding="utf-8"))
     cfg = json.loads(Path(args.challenger).read_text(encoding="utf-8"))
     quality_cfg = json.loads(Path(args.market_quality_config).read_text(encoding="utf-8"))
+    assert_frozen_files(args.challenger, args.market_quality_config, args.freeze_manifest)
     edge_cfg = engine_config.load(args.edge_config)
     history = load_snapshot_history(args.history_dir) if args.history_dir else []
 
