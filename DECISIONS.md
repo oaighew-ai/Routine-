@@ -909,3 +909,17 @@ four minutes apart. Venue timestamps, not cron timing, decide classification.
 **Reversal criterion.** The 900-second tolerance may change only before a new
 prospective cohort under a separately registered rule. Week 4 outcomes or
 recovered classifications cannot tune it and then count as confirmation.
+
+
+### D23 clarification: historical recovery is one-way
+
+A legacy row may **not** be upgraded to `true_open` from metadata recovered
+later. The original raw schema did not persist the exact bracketing contracts
+or their two-sided quote state, so a later lookup cannot recreate that fact.
+
+The Week 4 recovery therefore uses a stricter one-way proof. For each Kalshi
+event it takes the **latest `open_time` of any available rung**. This is the
+most generous possible open timestamp for an unknown historical pair. A
+first-seen observation more than 900 seconds after even that upper bound is
+definitively not a true open. A row inside the bound remains `unverified`;
+it is never promoted retroactively.
