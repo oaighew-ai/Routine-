@@ -292,9 +292,10 @@ function authView() {
   const title = setup ? 'Set up your private family workspace' : (invite ? 'Join your family workspace' : 'Sign in to your family workspace');
   const action = setup ? 'CREATE OWNER ACCOUNT' : (invite ? 'CREATE & JOIN' : 'SIGN IN');
   return `<section class="card auth-card"><div class="eyebrow">Private family sync</div><h2>${title}</h2><p class="micro">One shared night across phones. Sleep events remain append-only, and access is limited to authenticated family members.</p>
-    ${setup?`<div class="field"><label>Family name</label><input id="auth-family" maxlength="80" autocomplete="organization" placeholder="Atlas's Family"></div>`:''}
-    <div class="field"><label>Email</label><input id="auth-email" type="email" autocomplete="email" inputmode="email" placeholder="you@example.com"></div>
-    <div class="field"><label>Password</label><input id="auth-password" type="password" autocomplete="${setup||invite?'new-password':'current-password'}" minlength="12" placeholder="12+ characters"></div>
+    ${setup?`<div class="field"><label>Family name</label><input id="auth-family" maxlength="80" autocomplete="organization" value="Aighewi’s" placeholder="Family name"></div>`:''}
+    <div class="field"><label>Email</label><input id="auth-email" type="email" autocomplete="email" inputmode="email" value="${setup?'aighewifamily@gmail.com':''}" placeholder="you@example.com"></div>
+    <div class="field"><label>Password</label><input id="auth-password" type="password" autocomplete="${setup||invite?'new-password':'current-password'}" minlength="12" placeholder="12+ characters" aria-describedby="password-help"></div>
+    <div id="password-help" class="micro">${setup||invite?'Use a new password with at least 12 characters.':'Enter your account password.'}</div>
     <button class="primary" id="${setup||invite?'access-signup':'password-signin'}" ${busy?'disabled':''}>${busy?'WORKING…':action}</button>
     ${invite?'<p class="micro">If you already have an account, open the normal app URL and sign in first, then reopen this invite link.</p>':''}
     ${setup?'<p class="micro">This one-time setup link expires after use. Save the normal app URL after setup.</p>':''}
