@@ -1,0 +1,100 @@
+name: Week 5 capture health
+
+on:
+  workflow_run:
+    workflows: ["capture"]
+    types: [completed]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: week5-capture-health
+  cancel-in-progress: true
+
+jobs:
+  audit:
+    if: github.event_name == 'workflow_dispatch' || github.event.workflow_run.conclusion == 'success'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Code
+        uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+
+      - name: Resolve Week 5 window
+        id: active
+        run: |
+          python3 - <<'PY' > /tmp/week.env
+          from cfb_edge.slate import current_week, opening_week
+          try:
+              current = current_week(2026)
+              opening = opening_week(2026)
+              print(f"current={current or 'none'}")
+              print(f"opening={opening or 'none'}")
+              print(f"run={1 if current == 5 or opening == 5 else 0}")
+          except Exception as exc:
+              print("current=error")
+              print("opening=error")
+              print("run=0")
+              print(f"error={type(exc).__name__}: {exc}")
+          PY
+          cat /tmp/week.env >> "$GITHUB_OUTPUT"
+          cat /tmp/week.env >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Evidence branch
+        if: steps.active.outputs.run == '1'
+        uses: actions/checkout@v4
+        with:
+          ref: capture-data
+          path: evidence
+
+      - name: Verify frozen Week 5 rule
+        if: steps.active.outputs.run == '1'
+        run: python3 -m cfb_edge.week5_freeze
+
+      - name: Measure capture quality
+        if: steps.active.outputs.run == '1'
+        run: |
+          set -euo pipefail
+          test -f evidence/data/slate_current.csv
+          test -f evidence/data/opens.csv
+          python3 -m cfb_edge.week5_capture_health             --slate evidence/data/slate_current.csv             --opens evidence/data/opens.csv             --out evidence/data/week5-capture-health.json
+
+          python3 - <<'PY' >> "$GITHUB_STEP_SUMMARY"
+          import json
+          from pathlib import Path
+          r=json.loads(Path("evidence/data/week5-capture-health.json").read_text())
+          s=r["summary"]
+          print("## Week 5 capture health")
+          print(f"- status: **{r['status']}**")
+          print(f"- TRUE_OPEN coverage: **{s['trueOpenRows']}/{s['slateRows']} ({s['trueOpenCoveragePct']:.1%})**")
+          print(f"- observed rows: **{s['observedRows']}/{s['slateRows']}**")
+          print(f"- source counts: **{s['sourceCounts']}**")
+          lag=s["trueOpenLagSeconds"]
+          print(f"- TRUE_OPEN lag median / p95 / max: **{lag['median']} / {lag['p95']} / {lag['max']} sec**")
+          print("- model signals consulted: **false**")
+          PY
+
+      - name: Persist capture-health artifact
+        if: steps.active.outputs.run == '1'
+        working-directory: evidence
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/week5-capture-health.json
+          git diff --cached --quiet && exit 0
+          git commit -q -m "audit: Week 5 capture health $(date -u '+%Y-%m-%d %H:%M UTC')"
+          for attempt in 1 2 3; do
+            git fetch origin capture-data
+            if git rebase origin/capture-data && git push origin HEAD:capture-data; then
+              exit 0
+            fi
+            git rebase --abort || true
+            sleep $((attempt * 2))
+          done
+          exit 1
