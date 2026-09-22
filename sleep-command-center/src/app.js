@@ -520,6 +520,11 @@ function bind() {
   const leave = document.querySelector('#leave-room'); if (leave) leave.onclick = () => { modal = { type:'after-checkin' }; render(); };
   const finish = document.querySelector('#finish-feed'); if (finish) finish.onclick = () => { modal = { type:'after-feed' }; render(); };
   const more = document.querySelector('#more-care'); if (more) more.onclick = () => { modal = { type:'more-care' }; render(); };
+  const timerTools = document.querySelector('#timer-tools'); if (timerTools) timerTools.onclick = () => { modal = { type:'timer-tools' }; render(); };
+  document.querySelectorAll('[data-timer-state]').forEach(b => b.onclick = () => { modal = null; fire(b.dataset.timerState, {}, { undoable:true }); });
+  const pauseForCare = document.querySelector('#pause-for-care'); if (pauseForCare) pauseForCare.onclick = () => { modal = null; fire('OTHER_CARE_STARTED', {}, { toastMessage:'Care pause started.', undoable:false }); };
+  const timerEndNight = document.querySelector('#timer-end-night'); if (timerEndNight) timerEndNight.onclick = () => { modal = { type:'confirm-end-night' }; render(); };
+  const confirmEndNight = document.querySelector('#confirm-end-night'); if (confirmEndNight) confirmEndNight.onclick = () => { modal = null; completeNight(); };
   const what = document.querySelector('#what-now'); if (what) what.onclick = () => { modal = { type:'what-now' }; render(); };
   const resolve = document.querySelector('#resolve-safety'); if (resolve) resolve.onclick = resolveSafety;
   const cancel = document.querySelector('#cancel-modal'); if (cancel) cancel.onclick = () => { modal = null; render(); };
