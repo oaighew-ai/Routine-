@@ -359,10 +359,10 @@ function nightView(events,plan,d,metrics) {
 }
 
 function checkinView(d) {
-  return `<section class="care-screen"><div class="eyebrow">Check-in</div><div class="timer">${fmtElapsed(msSince(d.timerStartedAt,now))}</div><div class="card"><div class="care-list"><div class="care-item">Quiet voice</div><div class="care-item">Minimal stimulation</div><div class="care-item">Reassure</div><div class="care-item">Keep lights low</div><div class="care-item">Avoid restarting bedtime</div><div class="care-item">Leave while baby is awake</div></div><p class="micro">Optional phrase: “You’re safe. It’s sleepy time. I love you.”</p></div><button class="primary" id="leave-room">LEAVE ROOM</button></section>`;
+  return `<section class="care-screen"><div class="eyebrow">Check-in</div><div class="timer">${fmtElapsed(msSince(d.timerStartedAt,now))}</div><div class="care-master">IN CRIB · ${fmtElapsed(msSince(d.state.cribPlacedAt,now))}</div><div class="card"><div class="care-list"><div class="care-item">Quiet voice</div><div class="care-item">Minimal stimulation</div><div class="care-item">Reassure</div><div class="care-item">Keep lights low</div><div class="care-item">Avoid restarting bedtime</div><div class="care-item">Leave while baby is awake</div></div><p class="micro">Optional phrase: “You’re safe. It’s sleepy time. I love you.”</p></div><button class="primary" id="leave-room">LEAVE ROOM</button></section>`;
 }
 function feedView(d) {
-  return `<section class="care-screen"><div class="eyebrow">Night feed</div><div class="timer">${fmtElapsed(msSince(d.timerStartedAt,now))}</div><div class="card"><div class="care-list"><div class="care-item">Keep room dark</div><div class="care-item">Keep interaction quiet</div><div class="care-item">No play</div></div></div><button class="primary" id="finish-feed">RETURN TO CRIB</button></section>`;
+  return `<section class="care-screen"><div class="eyebrow">Night feed</div><div class="timer">${fmtElapsed(msSince(d.timerStartedAt,now))}</div><div class="care-master">IN CRIB · ${fmtElapsed(msSince(d.state.cribPlacedAt,now))}</div><div class="card"><div class="care-list"><div class="care-item">Keep room dark</div><div class="care-item">Keep interaction quiet</div><div class="care-item">No play</div></div></div><button class="primary" id="finish-feed">RETURN TO CRIB</button></section>`;
 }
 function genericCareView(d) {
   const labels = { DIAPER:'DIAPER CARE', COMFORTING:'COMFORTING', OTHER_CARE:'CARE IN PROGRESS' };
