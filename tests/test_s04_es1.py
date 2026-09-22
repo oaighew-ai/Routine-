@@ -43,7 +43,7 @@ def week4():
         "rows": [{
             "game": "Away @ Home",
             "side": "Home",
-            "source": "capture",
+            "source": "true_open",
             "openingHomeLine": -3.0,
             "projectionGapVsOpen": 5.0,
             "firstSeen": "2026-09-20T23:00:00Z",

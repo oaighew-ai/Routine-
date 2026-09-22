@@ -26,7 +26,13 @@ from .market import american_to_probability, devig
 
 
 CAPTURED = "capture"
-"""`line_taken` was read from a capture log, stamped at the moment it was seen."""
+"""Legacy capture provenance: real observation, not proof of the venue open."""
+
+TRUE_OPEN = "true_open"
+"""Venue metadata proves the first valid observation was close enough to open."""
+
+FIRST_SEEN = "first_seen"
+"""The first price this system observed, without proof it was the venue open."""
 
 FILLED = "fill"
 """`line_taken` is the number a real order actually filled at.
@@ -59,8 +65,12 @@ conclusion would be that the strategy was never run.
 UNVERIFIED = "unverified"
 """`line_taken` came from somewhere with no timestamp and no audit trail."""
 
-GRADEABLE = frozenset({CAPTURED, FILLED})
-"""Sources whose CLV means something. `LATE` is deliberately not among them."""
+GRADEABLE = frozenset({TRUE_OPEN, FILLED})
+"""Only venue-proven opens and actual fills are gradeable.
+
+Legacy `capture`, `first_seen` and `late` rows remain auditable observations but
+cannot enter the stop rule or promotion evidence.
+"""
 
 
 @dataclass

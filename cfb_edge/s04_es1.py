@@ -130,7 +130,7 @@ def candidate_map(
         game = str(row.get("game") or "").strip()
         side = str(row.get("side") or "").strip()
         if (
-            row.get("source") != "capture"
+            row.get("source") != "true_open"
             or gap is None
             or opening is None
             or not game

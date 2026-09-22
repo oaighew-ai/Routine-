@@ -31,16 +31,27 @@ def digest(path):
 
 
 def build(log, slate, now, outcome="success", revision="unknown"):
+    from .watch import classify_open_provenance
+
     if now.tzinfo is None:
         raise ValueError("Report time must include timezone")
     log, slate = Path(log), Path(slate)
     latest = None
+    first_raw = {}
     if log.exists():
         opener = gzip.open if log.suffix == ".gz" else open
         with opener(log, "rt", encoding="utf-8") as stream:
             for line in stream:
-                if line.strip():
-                    latest = json.loads(line)
+                if not line.strip():
+                    continue
+                rec = json.loads(line)
+                latest = rec
+                for q in rec.get("quotes", []):
+                    if q.get("market") != "spread" or not q.get("game"):
+                        continue
+                    prior = first_raw.get(q["game"])
+                    if prior is None or str(q.get("seen_at") or "") < str(prior.get("seen_at") or ""):
+                        first_raw[q["game"]] = q
     games = []
     if slate.exists():
         with slate.open(newline="", encoding="utf-8") as stream:
@@ -52,6 +63,7 @@ def build(log, slate, now, outcome="success", revision="unknown"):
         if q.get("market") == "spread":
             by_game.setdefault(q.get("game"), []).append(q)
     rows = []
+    class_counts = {}
     for game in games:
         reasons = []
         if outcome != "success":
@@ -76,14 +88,36 @@ def build(log, slate, now, outcome="success", revision="unknown"):
                 value = None
             observations.append({"book": q.get("book"), "derivedHomeLine": value,
                                  "observedAt": q.get("seen_at"), "kickoff": q.get("commence_time")})
+        first = first_raw.get(game)
+        first_seen = str(first.get("seen_at") or "") if first else ""
+        venue_open = str(first.get("venue_open_time") or "") if first else ""
+        open_class, open_lag = classify_open_provenance(first_seen, venue_open)
+        class_counts[open_class] = class_counts.get(open_class, 0) + 1
+        if open_class != "true_open":
+            reasons.append("OPEN_NOT_AUDIT_GRADE_TRUE_OPEN")
         reasons.extend(["EXECUTABLE_CONTRACT_UNVERIFIED", "DECISION_EVIDENCE_UNVERIFIED"])
-        rows.append({"game": game, "action": "NO BET", "stakeUnits": 0,
-                     "observations": observations, "exclusions": sorted(set(reasons))})
+        rows.append({
+            "game": game, "action": "NO BET", "stakeUnits": 0,
+            "openClassification": open_class,
+            "auditGradeOpen": open_class == "true_open",
+            "firstSeen": first_seen or None,
+            "venueOpenTime": venue_open or None,
+            "openLagSeconds": open_lag,
+            "marketTickers": list(first.get("market_tickers") or []) if first else [],
+            "observations": observations,
+            "exclusions": sorted(set(reasons)),
+        })
     return {"schemaVersion": 1, "cohort": "ROUTINE_KALSHI_CAPTURE",
             "generatedAt": now.isoformat(), "pollAt": poll.isoformat() if poll else None,
             "captureOutcome": outcome, "freshAtGeneration": fresh,
             "codeRevision": revision, "logSha256": digest(log), "slateSha256": digest(slate),
             "allowDelivery": False, "actualStakeUnits": 0, "games": rows,
+            "openEvidence": {
+                "trueOpenToleranceSeconds": 900,
+                "classificationCounts": class_counts,
+                "auditGradeCount": class_counts.get("true_open", 0),
+                "policy": "Only true_open may enter CLV promotion or stopping evidence."
+            },
             "limitations": ["Separate from S02/S01/F03/S03; not their evidence.",
                             "Derived exchange lines are not executable sportsbook spreads.",
                             "Freshness is measured at generation; this report is a dated snapshot.",

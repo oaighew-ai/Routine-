@@ -1,0 +1,53 @@
+name: Week 4 open-time audit backfill
+
+on:
+  push:
+    branches: [operator/audit-grade-open-capture]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: cfb-open-time-backfill
+  cancel-in-progress: false
+
+jobs:
+  backfill:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Code
+        uses: actions/checkout@v4
+
+      - name: Capture data
+        uses: actions/checkout@v4
+        with:
+          ref: capture-data
+          path: capture-data
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+
+      - name: Recover Week 4 venue open metadata
+        run: |
+          mkdir -p capture-data/data/audit
+          python3 -m cfb_edge.open_time_backfill \
+            --opens capture-data/data/opens.csv \
+            --slate capture-data/data/slate_current.csv \
+            --out capture-data/data/audit/week4-open-time-backfill.json
+
+      - name: Persist recovery artifact without touching the raw log
+        working-directory: capture-data
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/audit/week4-open-time-backfill.json
+          git diff --cached --quiet && exit 0
+          git commit -m "audit: recover Week 4 Kalshi open_time metadata"
+          for attempt in 1 2 3; do
+            git pull --rebase origin capture-data
+            if git push origin HEAD:capture-data; then exit 0; fi
+            sleep 2
+          done
+          exit 1

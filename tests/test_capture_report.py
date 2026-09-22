@@ -14,8 +14,14 @@ class CaptureReportTests(unittest.TestCase):
         self.slate = Path(self.temp.name)/"slate.csv"
         self.slate.write_text('game,projected_margin\nAway @ Home,3\n')
         self.now = datetime(2026, 9, 20, 22, 5, tzinfo=timezone.utc)
-        self.quote = dict(game="Away @ Home", market="spread", book="kalshi", line=-3.5,
-                          seen_at="2026-09-20T22:04:00Z", commence_time="2026-09-26T16:00:00Z")
+        self.quote = dict(
+            game="Away @ Home", market="spread", book="kalshi", line=-3.5,
+            seen_at="2026-09-20T22:04:00Z", commence_time="2026-09-26T16:00:00Z",
+            venue_open_time="2026-09-20T22:00:00Z",
+            event_ticker="E", market_tickers=["M1", "M2"],
+            first_valid_two_sided_quote_time="2026-09-20T22:04:00Z",
+            poll_time="2026-09-20T22:04:00Z", code_revision="test",
+        )
         self.write([self.quote])
 
     def write(self, quotes):
@@ -27,6 +33,9 @@ class CaptureReportTests(unittest.TestCase):
         self.assertFalse(r["allowDelivery"])
         self.assertEqual(r["games"][0]["stakeUnits"], 0)
         self.assertEqual(r["games"][0]["observations"][0]["derivedHomeLine"], -3.5)
+        self.assertTrue(r["games"][0]["auditGradeOpen"])
+        self.assertEqual(r["games"][0]["openClassification"], "true_open")
+        self.assertEqual(r["openEvidence"]["auditGradeCount"], 1)
 
     def test_empty_poll_does_not_revive_old_quotes(self):
         with self.log.open("a") as f:

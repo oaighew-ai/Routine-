@@ -145,7 +145,7 @@ class EarlySeasonLearningTests(unittest.TestCase):
             with opens.open("w", newline="", encoding="utf-8") as fh:
                 w = csv.writer(fh)
                 w.writerow(["game", "opening_line", "source", "first_seen"])
-                w.writerow(["Away @ Home", -3.0, "capture", "2026-09-20T23:00:00Z"])
+                w.writerow(["Away @ Home", -3.0, "true_open", "2026-09-20T23:00:00Z"])
                 w.writerow(["Other @ Team", -3.0, "late", "2026-09-25T23:00:00Z"])
 
             board = build_shadow_board(
@@ -156,7 +156,7 @@ class EarlySeasonLearningTests(unittest.TestCase):
             self.assertEqual(len(board["topFive"]), 1)
             self.assertEqual(board["topFive"][0]["game"], "Away @ Home")
             late = next(r for r in board["rows"] if r["game"] == "Other @ Team")
-            self.assertIn("OPEN_NOT_TIMELY_CAPTURE", late["exclusions"])
+            self.assertIn("OPEN_NOT_AUDIT_GRADE_TRUE_OPEN", late["exclusions"])
 
     def test_unqualified_learning_report_produces_no_watchlist(self):
         report = {
@@ -180,7 +180,7 @@ class EarlySeasonLearningTests(unittest.TestCase):
             )
             opens.write_text(
                 "game,opening_line,source,first_seen\n"
-                "Away @ Home,-3,capture,2026-09-20T23:00:00Z\n",
+                "Away @ Home,-3,true_open,2026-09-20T23:00:00Z\n",
                 encoding="utf-8",
             )
             board = build_shadow_board(

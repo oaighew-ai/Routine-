@@ -9,7 +9,7 @@ from pathlib import Path
 from tempfile import TemporaryDirectory
 
 from . import slate, watch
-from .clv import CAPTURED, LATE
+from .clv import CAPTURED, FIRST_SEEN, LATE, TRUE_OPEN
 
 
 # What a parsed row may say about itself here. `LATE` counts: this function
@@ -18,7 +18,7 @@ from .clv import CAPTURED, LATE
 # refused by the closing line value, and reporting that as a broken capture
 # would send someone hunting a parser bug that is not there. `UNVERIFIED` does
 # not count, because a row with no provenance is not evidence the parse ran.
-PARSED = frozenset({CAPTURED, LATE})
+PARSED = frozenset({TRUE_OPEN, FIRST_SEEN, CAPTURED, LATE})
 
 REQUIRED_COLUMNS = ("game", "opening_line", "source")
 

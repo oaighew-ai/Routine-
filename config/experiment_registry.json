@@ -1,5 +1,5 @@
 {
-  "schemaVersion": 1,
+  "schemaVersion": 2,
   "registryId": "cfb-edge-experiments-2026",
   "principle": "Every tested threshold, transformation, interaction and subgroup is retained so a selected winner cannot hide the search that produced it.",
   "experiments": [
@@ -17,7 +17,19 @@
       "createdAt": "2026-09-21",
       "status": "POST_HOC_DIAGNOSTIC",
       "evidenceSeenBeforeFreeze": "2026 Weeks 1-3",
-      "testedBuckets": ["0-4", "4-8", "8-12", "12+", "4-6", "6-8", "8-10", "10-12", "12-14", "14-20", "20+"],
+      "testedBuckets": [
+        "0-4",
+        "4-8",
+        "8-12",
+        "12+",
+        "4-6",
+        "6-8",
+        "8-10",
+        "10-12",
+        "12-14",
+        "14-20",
+        "20+"
+      ],
       "selectedBucket": "4-6",
       "selectionRisk": "HIGH",
       "reason": "The 4-6 cohort was selected after inspecting multiple related bucket cuts. Its Weeks 1-3 record may motivate a prospective challenger but cannot validate one."
@@ -30,7 +42,9 @@
       "firstProspectiveWeek": 4,
       "deliveryEligible": false,
       "inheritsSelectionRiskFrom": "ES_GAP_BUCKET_SCAN_V1",
-      "frozenRule": "4 <= abs(projection gap vs timely captured open) < 6 plus same-line Pinnacle-confirmed live price value and movement budget remaining"
+      "frozenRule": "4 <= abs(projection gap vs timely captured open) < 6 plus same-line Pinnacle-confirmed live price value and movement budget remaining",
+      "measurementStatus": "WEEK4_OPEN_PROVENANCE_CONTAMINATED",
+      "promotionUse": "INELIGIBLE_UNLESS_ROW_IS_TRUE_OPEN"
     },
     {
       "id": "S03_M1",
@@ -39,7 +53,16 @@
       "status": "MONITOR_ONLY",
       "firstObservedWeek": 4,
       "deliveryEligible": false,
-      "frozenFeatures": ["fresh same-line book depth", "quote age", "line dispersion", "price dispersion", "movement velocity", "movement reversal", "key-number crossing", "conservative de-vig EV"],
+      "frozenFeatures": [
+        "fresh same-line book depth",
+        "quote age",
+        "line dispersion",
+        "price dispersion",
+        "movement velocity",
+        "movement reversal",
+        "key-number crossing",
+        "conservative de-vig EV"
+      ],
       "reason": "Artifact-derived market-state diagnostics. Directional value is unproven."
     },
     {
@@ -49,8 +72,11 @@
       "status": "PREREGISTERED_NOT_ACTIVE",
       "firstProspectiveWeek": 5,
       "deliveryEligible": false,
-      "frozenRule": "S04_ES1 signal family plus S03_M1 quote-quality pass and conservative EV floor; Week 4 observations are development only and cannot validate S04_ES2.",
-      "promotionEffect": "NONE"
+      "frozenRule": "S04_ES1 signal family plus S03_M1 quote-quality pass and conservative EV floor; prospective validation begins Week 5 and requires source=true_open proven from venue open_time within 900 seconds.",
+      "promotionEffect": "NONE",
+      "requiredOpenSource": "true_open",
+      "maximumOpenCaptureLagSeconds": 900,
+      "auditGradeCohortStart": "2026 Week 5"
     }
   ]
 }

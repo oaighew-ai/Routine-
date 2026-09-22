@@ -69,6 +69,9 @@ DENSE_INTERVAL_SECONDS = 300        # five minutes while numbers are landing
 POSTSEASON_INTERVAL_SECONDS = 1800  # half-hourly through the bowl trickle
 SPARSE_INTERVAL_SECONDS = 3600      # hourly when nothing is expected
 
+TRUE_OPEN_MAX_LAG_SECONDS = 15 * 60
+TRUE_OPEN_CLOCK_SKEW_SECONDS = 60
+
 
 def _as_utc(when: datetime | None) -> datetime:
     """The moment, in UTC, whatever timezone it arrived in.
@@ -105,6 +108,26 @@ def _parse_time(stamp: str) -> datetime | None:
         return _as_utc(datetime.fromisoformat(str(stamp).replace("Z", "+00:00")))
     except (ValueError, AttributeError, TypeError):
         return None
+
+
+def classify_open_provenance(
+    first_seen: str | None,
+    venue_open_time: str | None,
+) -> tuple[str, float | None]:
+    """Fail closed unless venue time proves the first valid quote was near open."""
+    from .clv import FIRST_SEEN, LATE, TRUE_OPEN, UNVERIFIED
+    seen = _parse_time(first_seen or "")
+    if seen is None:
+        return UNVERIFIED, None
+    opened = _parse_time(venue_open_time or "")
+    if opened is not None:
+        lag = (seen - opened).total_seconds()
+        if lag < -TRUE_OPEN_CLOCK_SKEW_SECONDS:
+            return UNVERIFIED, lag
+        if lag <= TRUE_OPEN_MAX_LAG_SECONDS:
+            return TRUE_OPEN, lag
+        return FIRST_SEEN, lag
+    return (FIRST_SEEN if in_release_window(seen) else LATE), None
 
 
 def in_release_window(when: datetime | None = None) -> bool:
@@ -155,6 +178,13 @@ class Quote:
     # provider that omits it should degrade to the old behaviour rather than
     # discard the poll.
     commence_time: str | None = None
+    venue_open_time: str | None = None
+    event_ticker: str | None = None
+    market_tickers: tuple[str, ...] = ()
+    quote_inputs: tuple[dict, ...] = ()
+    poll_time: str | None = None
+    first_valid_two_sided_quote_time: str | None = None
+    code_revision: str | None = None
 
     @property
     def key(self) -> tuple[str, str, str]:
@@ -313,63 +343,46 @@ class OpeningBook:
         """
         return self._consensus(self.opens, market)
 
-    def first_seen(self, market: str = "spread") -> dict[str, str]:
-        """Earliest timestamp on any book's first sighting, per game.
-
-        The open is the first price anyone posted, so across books the one that
-        counts is the earliest. Taking the latest would let a book that joined
-        on Tuesday decide whether Sunday's number was timely.
-        """
-        out: dict[str, str] = {}
+    def first_quotes(self, market: str = "spread") -> dict[str, Quote]:
+        """Earliest persisted quote per game, with its provenance."""
+        out: dict[str, Quote] = {}
         for (game, _book, mkt), q in self.opens.items():
             if mkt != market:
                 continue
-            stamp = str(getattr(q, "seen_at", "") or "")
-            if stamp and (game not in out or stamp < out[game]):
-                out[game] = stamp
+            prior = out.get(game)
+            if prior is None or str(q.seen_at or "") < str(prior.seen_at or ""):
+                out[game] = q
         return out
 
+    def first_seen(self, market: str = "spread") -> dict[str, str]:
+        return {game: str(q.seen_at or "") for game, q in self.first_quotes(market).items() if q.seen_at}
+
     def write_opens_csv(self, path: str | Path, market: str = "spread") -> int:
-        """Emit exactly what `cfb_edge play --opens` consumes.
-
-        The `source` column travels with the number, and it answers two
-        questions rather than one. Where did this come from, and was it still
-        new when it was seen.
-
-        Every line here came out of a capture log, stamped with the moment it
-        was seen, so the first question is settled. The second is what
-        `CAPTURED` on its own got wrong: a line first seen on the morning of
-        the game is captured honestly and is not an opening line, and grading
-        it as one prices roughly 0.10 points of remaining movement as 0.44.
-
-        So a row is `CAPTURED` only when its first sighting falls inside the
-        release window, which is the interval this module already defines as
-        when opening numbers appear. Outside it the row is `LATE`: written,
-        readable, usable for a card if someone insists, and refused by the
-        closing line value.
-
-        A row whose first sighting carries no timestamp is `LATE` too. An
-        unstamped quote cannot be shown to be timely, and defaulting the other
-        way would bless exactly the rows that cannot answer for themselves.
-        """
+        """Emit line plus audit provenance; only TRUE_OPEN is promotion-grade."""
         import csv
-
-        from .clv import CAPTURED, LATE
-
-        seen = self.first_seen(market)
         rows = sorted(self.consensus_opens(market).items())
+        evidence = self.first_quotes(market)
         with open(path, "w", newline="", encoding="utf-8") as fh:
             w = csv.writer(fh)
-            w.writerow(["game", "opening_line", "source", "first_seen"])
+            w.writerow(["game", "opening_line", "source", "first_seen",
+                        "venue_open_time", "open_lag_seconds", "event_ticker",
+                        "market_tickers", "first_valid_two_sided_quote_time",
+                        "poll_time", "code_revision"])
             for game, line in rows:
-                stamp = seen.get(game, "")
-                # `in_release_window(None)` means now, so the parse result is
-                # checked before it is passed: an unreadable stamp must not be
-                # judged against the current clock.
-                when = _parse_time(stamp)
-                timely = when is not None and in_release_window(when)
-                w.writerow([game, line, CAPTURED if timely else LATE, stamp])
+                q = evidence.get(game)
+                first_seen = str(getattr(q, "seen_at", "") or "") if q else ""
+                venue_open = str(getattr(q, "venue_open_time", "") or "") if q else ""
+                source, lag = classify_open_provenance(first_seen, venue_open)
+                tickers = "|".join(getattr(q, "market_tickers", ()) or ()) if q else ""
+                w.writerow([game, line, source, first_seen, venue_open,
+                            "" if lag is None else f"{lag:.3f}",
+                            str(getattr(q, "event_ticker", "") or "") if q else "",
+                            tickers,
+                            str(getattr(q, "first_valid_two_sided_quote_time", "") or "") if q else "",
+                            str(getattr(q, "poll_time", "") or "") if q else "",
+                            str(getattr(q, "code_revision", "") or "") if q else ""])
         return len(rows)
+
 
 
 # A fetcher takes nothing and returns quotes. Injectable so the loop can be
