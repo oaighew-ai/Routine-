@@ -1442,14 +1442,14 @@ class TestPaperSignals(unittest.TestCase):
         self.assertEqual(load_bets(path)[0].closing_line, 5.5)
 
     def test_paper_rows_can_never_read_as_realised_profit(self):
-        from cfb_edge.clv import CAPTURED, build_report, load_bets
+        from cfb_edge.clv import TRUE_OPEN, build_report, load_bets
         from cfb_edge.paper import grade, record, signals_for
 
         path = self._tmp()
         record(path, signals_for({"A @ B": 0.0, "C @ D": 0.0},
                                  {"A @ B": 6.5, "C @ D": 7.0}, date="2026-09-08",
                                  week=3,
-                                 sources={"A @ B": CAPTURED, "C @ D": CAPTURED}))
+                                 sources={"A @ B": TRUE_OPEN, "C @ D": TRUE_OPEN}))
         grade(path, {"A @ B": 5.5, "C @ D": 6.0})
         report = build_report(load_bets(path))
         self.assertEqual(report.staked, 0.0)
@@ -2244,14 +2244,12 @@ class TestCaptureTiming(unittest.TestCase):
         self.assertEqual(book.first_seen()["A @ B"], "2026-09-14T12:00:00+00:00")
         self.assertEqual(self._row(book)["source"], FIRST_SEEN)
 
-    def test_an_unreadable_stamp_is_late_rather_than_judged_against_now(self):
-        """`in_release_window(None)` means now. Passing an unparsed stamp
-        straight through would ask whether *this moment* is in the window,
-        which is the `seen_at` bug wearing a new hat."""
-        from cfb_edge.clv import LATE
+    def test_an_unreadable_stamp_is_unverified_rather_than_judged_against_now(self):
+        """An unreadable clock cannot prove timeliness and fails closed."""
+        from cfb_edge.clv import UNVERIFIED
 
         for stamp in ("", "not a timestamp", "2026-13-45T99:00:00Z"):
-            self.assertEqual(self._row(self._book(stamp))["source"], LATE,
+            self.assertEqual(self._row(self._book(stamp))["source"], UNVERIFIED,
                              f"{stamp!r} should not be treated as timely")
 
     def test_the_stamp_itself_is_written_so_the_call_can_be_audited(self):
@@ -2319,12 +2317,12 @@ class TestLineProvenance(unittest.TestCase):
         self.assertEqual(report.mean_line_clv, 0.0)
         self.assertIn("EXCLUDED", report.summary())
 
-    def test_a_captured_line_grades(self):
-        from cfb_edge.clv import CAPTURED, LoggedBet, build_report
+    def test_a_true_open_line_grades(self):
+        from cfb_edge.clv import TRUE_OPEN, LoggedBet, build_report
 
         seen = LoggedBet(date="2026-09-14", away="A", home="B", side="B",
                          line_taken=-6.5, price_taken=-110.0, stake=0.0,
-                         closing_line=-7.5, source=CAPTURED)
+                         closing_line=-7.5, source=TRUE_OPEN)
         report = build_report([seen])
         self.assertEqual(report.graded, 1)
         self.assertEqual(report.unverified, 0)
@@ -2376,9 +2374,9 @@ class TestLineProvenance(unittest.TestCase):
         self.assertEqual(bet.source, UNVERIFIED)
         self.assertFalse(bet.gradeable)
 
-    def test_the_capture_stamps_every_line_it_writes(self):
+    def test_capture_without_venue_open_metadata_stamps_first_seen(self):
         import csv
-        from cfb_edge.clv import CAPTURED
+        from cfb_edge.clv import FIRST_SEEN
         from cfb_edge.watch import OpeningBook, Quote
 
         book = OpeningBook(path=Path(self._tmp()))
@@ -2389,7 +2387,7 @@ class TestLineProvenance(unittest.TestCase):
         book.write_opens_csv(path)
         with open(path, newline="", encoding="utf-8") as fh:
             rows = list(csv.DictReader(fh))
-        self.assertEqual(rows[0]["source"], CAPTURED)
+        self.assertEqual(rows[0]["source"], FIRST_SEEN)
 
     def test_a_hand_written_opens_file_does_not_grade(self):
         """The end-to-end version of the defect, through the real commands."""
