@@ -54,9 +54,9 @@
       "modelId": "S04_ES2",
       "location": "config/s04_es2.json",
       "reproducibleInRepo": true,
-      "status": "PREREGISTERED_CONFIG_ONLY",
+      "status": "PREREGISTERED_AUDIT_GRADE_WEEK5",
       "deliveryContract": null,
-      "note": "Week 5 challenger rule is frozen; runtime activation waits for the next prospective cohort and cannot use Week 4 outcomes to change its rule."
+      "note": "Week 5 is the first prospective cohort eligible for S04_ES2 validation. Runtime must fail closed unless the opening row is source=true_open."
     },
     {
       "modelId": "S05",
