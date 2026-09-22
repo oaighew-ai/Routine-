@@ -979,3 +979,56 @@ is reported as collection state rather than converted into a model judgment.
 **Reversal criterion.** Any change to a frozen Week 5 rule creates a new version and
 a new prospective clock. Week 5 outcomes may not be used to alter this manifest and
 remain in the same validation cohort.
+
+
+## 2026-09-22 — D26. Bayesian/regime complexity is rejected unless it beats the market out of sample
+
+**Decision.** A new research harness, `S04_BR1 / bayesian-regime-residual-1`,
+tests the proposed Bayesian market-residual, fixed regime, dynamic team-state
+and ensemble architecture without changing S02, S04_ES1, S04_ES2, the Week 5
+freeze, staking, or delivery.
+
+The chronology is fixed from the preserved 2026 evidence: Week 1 fits candidate
+parameters, Week 2 selects only among the registered grids, and Week 3 is an
+untouched final holdout. The market remains the prior and a zero correction is
+the default forecast.
+
+**Untouched Week 3 result (57 games).** The opening-market margin baseline had
+MAE 8.8553 and RMSE 11.5427. Every outcome-residual challenger was worse:
+
+- global Bayesian residual: MAE 8.9933, RMSE 11.6330;
+- fixed-gap regime Bayesian: MAE 8.9140, RMSE 11.5643;
+- dynamic team residual state: MAE 9.2558, RMSE 11.9124;
+- ensemble: MAE 8.9933, RMSE 11.6330.
+
+The ensemble selected a global weight of 1.0, which is itself evidence that the
+team-state layer added no value in the selection week.
+
+The same architecture was tested against open-to-close movement. A no-move
+forecast had MAE 1.3991 and RMSE 1.8635. Global Bayesian movement worsened those
+to 1.5205 / 1.9796 and regime Bayesian movement to 1.6811 / 2.0877. Both learned
+movement variants were directionally correct on 38% of the 50 Week 3 games with
+a non-zero move.
+
+**Consequence.** None of these components is added to the live decision engine.
+They remain in the repository as an explicit negative result and reusable
+ablation harness. This is not evidence against Bayesian methods in general; it
+is evidence that these corrections, on the data presently available, do not
+improve the market baseline.
+
+The richer S04 football-context inputs (EPA, success rate, explosiveness, QB
+continuity, line play, pace, rest, travel and weather) remain disabled because
+the preserved evidence does not contain point-in-time clean histories for them.
+Executable historical prices are also absent, so this cohort cannot establish
+net betting ROI after vig or venue fees.
+
+**Why.** Adding sophistication after a failed simple residual model would create
+degrees of freedom faster than evidence. The correct use of Bayesian shrinkage
+here is to make the market hard to dislodge, and the correct use of regime
+testing is to reject unstable segmentation rather than rescue it post hoc.
+
+**Reversal criterion.** Reconsider a rejected component only after a separately
+registered, point-in-time dataset supports it on an untouched chronological
+cohort with both MAE and RMSE improvement over the market baseline. Delivery
+authority still requires prospective evidence and executable-price economics
+under the existing governance; historical improvement alone cannot promote it.
