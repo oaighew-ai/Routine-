@@ -1,0 +1,111 @@
+{
+  "schemaVersion": 1,
+  "contract": "CFB_EDGE_BAYESIAN_REGIME_RESIDUAL_V1",
+  "modelId": "S04_BR1",
+  "status": "SHADOW_ONLY",
+  "source": {
+    "branch": "capture-data",
+    "branchCommit": "c8e2d2e9d463abda829348a96f44ce835bfe0003",
+    "path": "data/early-season-learning.json",
+    "blobSha": "3ff59b2537896223fc22e610dd7390bf6759b8b7",
+    "rows": 155
+  },
+  "chronology": {
+    "fitWeek": 1,
+    "fitRows": 49,
+    "selectionWeek": 2,
+    "selectionRows": 49,
+    "untouchedHoldoutWeek": 3,
+    "holdoutRows": 57
+  },
+  "outcomeResidual": {
+    "marketBaseline": {
+      "mae": 8.855263157894736,
+      "rmse": 11.542683944021814
+    },
+    "globalBayesian": {
+      "selectedPriorPrecision": 1.0,
+      "posteriorMeanSlope": -0.09491112693260269,
+      "mae": 8.993250615594821,
+      "rmse": 11.633015347555334,
+      "directionalAccuracy": 0.4107142857142857,
+      "directionalN": 56,
+      "verdict": "REJECTED_OOS"
+    },
+    "regimeBayesian": {
+      "selectedPriorPrecision": 50.0,
+      "posteriorMeanSlopes": {
+        "0-4": 0.0009637608695541861,
+        "4-8": 0.02051570878830276,
+        "8-12": -0.035069174625278525,
+        "12+": -0.04203265614406519
+      },
+      "mae": 8.913952408267784,
+      "rmse": 11.564314108879444,
+      "directionalAccuracy": 0.5,
+      "directionalN": 56,
+      "verdict": "REJECTED_OOS"
+    },
+    "dynamicTeamState": {
+      "selectedGain": 0.10,
+      "mae": 9.255831414473684,
+      "rmse": 11.912424408039081,
+      "directionalAccuracy": 0.39285714285714285,
+      "directionalN": 56,
+      "verdict": "REJECTED_OOS"
+    },
+    "ensemble": {
+      "selectedGlobalWeight": 1.0,
+      "mae": 8.993250615594821,
+      "rmse": 11.633015347555334,
+      "directionalAccuracy": 0.4107142857142857,
+      "directionalN": 56,
+      "verdict": "REJECTED_OOS",
+      "interpretation": "Selection rejected the dynamic team-state contribution and collapsed to the global component."
+    }
+  },
+  "marketMovement": {
+    "noMoveBaseline": {
+      "mae": 1.3991228070175439,
+      "rmse": 1.863488051825996
+    },
+    "globalBayesian": {
+      "selectedPriorPrecision": 1.0,
+      "posteriorMeanSlope": -0.029568213210706122,
+      "mae": 1.5204821131829966,
+      "rmse": 1.9796010736260519,
+      "directionalAccuracy": 0.38,
+      "directionalN": 50,
+      "verdict": "REJECTED_OOS"
+    },
+    "regimeBayesian": {
+      "selectedPriorPrecision": 10.0,
+      "posteriorMeanSlopes": {
+        "0-4": -0.2127079806061397,
+        "4-8": 0.12690376695700273,
+        "8-12": -0.11443134610691262,
+        "12+": -0.027664477846562365
+      },
+      "mae": 1.6810909107398735,
+      "rmse": 2.0876966531621424,
+      "directionalAccuracy": 0.38,
+      "directionalN": 50,
+      "verdict": "REJECTED_OOS"
+    }
+  },
+  "decision": {
+    "componentsPromoted": [],
+    "componentsRejected": [
+      "globalBayesianResidual",
+      "fixedGapRegimeBayesian",
+      "dynamicTeamResidualState",
+      "ensemble",
+      "globalBayesianMovement",
+      "fixedGapRegimeBayesianMovement"
+    ],
+    "week5RuleChanged": false,
+    "deliveryEffect": "NONE",
+    "promotionEffect": "NONE"
+  },
+  "limitation": "This preserved 2026 evidence does not contain point-in-time EPA, quarterback, line-play, pace, rest, travel, weather, or executable historical prices. Those richer components remain disabled and net betting ROI cannot be established from this cohort."
+}
