@@ -83,6 +83,15 @@
       "market": "multi",
       "deliveryEligible": false,
       "note": "Quoted price differences are candidates, not validated prediction evidence."
+    },
+    {
+      "id": "S04_BR1",
+      "role": "BAYESIAN_REGIME_RESIDUAL_ABLATION",
+      "market": "spread",
+      "version": "bayesian-regime-residual-1",
+      "modelStatus": "HISTORICAL_OOS_REJECTED_SHADOW",
+      "deliveryEligible": false,
+      "note": "Market-anchored Bayesian, fixed-regime, dynamic-team-state and ensemble challengers. All failed the untouched 2026 Week 3 loss test; retained as rejection evidence and reusable harness only."
     }
   ]
 }
