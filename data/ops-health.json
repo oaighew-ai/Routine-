@@ -29,15 +29,15 @@
   },
   "capture": {
     "allowDelivery": false,
-    "codeRevision": "7bf01fbd4c60515eb55e065c145e08cab7b7f0e8",
+    "codeRevision": "53857723eb16d7af117a010e1fa2b94fd5d51ff0",
     "freshAtGeneration": true,
     "freshNow": true,
     "gamesMissing": 23,
     "gamesObserved": 35,
     "gamesTotal": 58,
-    "logSha256": "93ad2ac1a483ca9458facab07d295266191aa2866788f59ed5191636f0d95fff",
+    "logSha256": "c138f6a260d5b211fadfc720093b9ea03a36779888535dc26c9d4138c6d154b2",
     "outcome": "success",
-    "pollAt": "2026-09-22T01:56:51.925610+00:00",
+    "pollAt": "2026-09-22T07:11:24.976080+00:00",
     "slateSha256": "60ce02d79bf0892d3f753ab3e664f84e5f3f445c04c3db8fece60db05be7008c",
     "topExclusions": [
       {
@@ -46,6 +46,10 @@
       },
       {
         "code": "EXECUTABLE_CONTRACT_UNVERIFIED",
+        "count": 58
+      },
+      {
+        "code": "OPEN_NOT_AUDIT_GRADE_TRUE_OPEN",
         "count": 58
       },
       {
@@ -60,7 +64,7 @@
     "authoritativeContract": "https://cfb-edge-research.oaighew.chatgpt.site/api/picks",
     "githubDiagnosticOnly": true
   },
-  "generatedAt": "2026-09-22T01:57:05.646903+00:00",
+  "generatedAt": "2026-09-22T07:11:41.413420+00:00",
   "latestRun": {},
   "ledger": {
     "betRows": 0,
@@ -138,7 +142,7 @@
       "deliveryEligible": false,
       "id": "S04_ES2",
       "implementationLocation": "config/s04_es2.json",
-      "implementationStatus": "PREREGISTERED_CONFIG_ONLY",
+      "implementationStatus": "PREREGISTERED_AUDIT_GRADE_WEEK5",
       "modelStatus": "PREREGISTERED_NOT_ACTIVE",
       "reproducibleInRepo": true,
       "role": "PREREGISTERED_GAP_PLUS_MARKET_QUALITY_CHALLENGER"
@@ -182,7 +186,7 @@
     "Preserve the private Site as S02 authority until its exact implementation and source hash can be reproduced here. Do not reverse-engineer it from metadata."
   ],
   "phase": "SHADOW",
-  "revision": "7bf01fbd4c60515eb55e065c145e08cab7b7f0e8",
+  "revision": "2d5fcc942b7cff024fbf63a31639b2b5fd9320ba",
   "schemaVersion": 1,
   "stage": "capture_refresh",
   "state": "SHADOW_BLOCKED",
