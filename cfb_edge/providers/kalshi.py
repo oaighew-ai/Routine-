@@ -364,29 +364,39 @@ def _mid(market: dict) -> float | None:
     return (bid + ask) / 2.0
 
 
-def survival_curve(
-    markets: Sequence[dict], *, home: str, away: str,
-) -> dict[float, float]:
-    """P(home margin > x), read off both sides of the ladder.
-
-    Kalshi quotes each game from both directions: "Home wins by over 6.5" and
-    "Away wins by over 2.5" are rungs on one curve, because an away rung at N
-    is a home rung at -N with the probability complemented. Every strike is a
-    half-point, so there are no ties to worry about and the complement is exact.
-    """
-    out: dict[float, float] = {}
+def _curve_evidence(markets: Sequence[dict], *, home: str, away: str) -> dict[float, dict]:
+    """Survival-curve points plus exact listed-contract provenance."""
+    out: dict[float, dict] = {}
     for m in markets:
-        parsed = _team_and_strike(m)
-        price = _mid(m)
+        parsed = _team_and_strike(m); price = _mid(m)
         if parsed is None or price is None:
             continue
-        team, strike = parsed
-        low = team.lower()
+        team, strike = parsed; low = team.lower()
         if low in home.lower() or home.lower() in low:
-            out[strike] = price
+            x, p = strike, price
         elif low in away.lower() or away.lower() in low:
-            out[-strike] = 1.0 - price
+            x, p = -strike, 1.0 - price
+        else:
+            continue
+        out[x] = {"probability": p, "ticker": str(m.get("ticker") or ""),
+                  "event_ticker": str(m.get("event_ticker") or ""),
+                  "open_time": m.get("open_time") or m.get("openTime"),
+                  "yes_bid": _side_price(m, "yes_bid"), "yes_ask": _side_price(m, "yes_ask"),
+                  "strike": strike, "team": team}
     return dict(sorted(out.items()))
+
+def survival_curve(markets: Sequence[dict], *, home: str, away: str) -> dict[float, float]:
+    return {x: float(e["probability"]) for x, e in _curve_evidence(markets, home=home, away=away).items()}
+
+def implied_line_evidence(markets: Sequence[dict], *, home: str, away: str) -> tuple[float | None, list[dict]]:
+    pts = _curve_evidence(markets, home=home, away=away)
+    ordered = sorted(pts.items())
+    for (x1, e1), (x2, e2) in zip(ordered, ordered[1:]):
+        p1, p2 = float(e1["probability"]), float(e2["probability"])
+        if (p1 - 0.5) * (p2 - 0.5) <= 0 and p1 != p2:
+            margin = x1 + (x2 - x1) * (p1 - 0.5) / (p1 - p2)
+            return -margin, [dict(e1), dict(e2)]
+    return None, []
 
 
 def implied_line(curve: dict[float, float]) -> float | None:
@@ -494,16 +504,34 @@ def board_quotes(
         if fixture is None:
             continue
         away, home = fixture
-        line = implied_line(survival_curve(markets, home=home, away=away))
+        line, used = implied_line_evidence(markets, home=home, away=away)
         if line is None:
             continue
         game = f"{away} @ {home}"
         # Contract close_time is an exchange settlement/trading timestamp, not
         # necessarily the football kickoff. Only the schedule may supply kickoff.
         commence = kickoffs.get(game)
+        open_times = [str(e.get("open_time") or "") for e in used]
+        venue_open = None
+        if used and all(open_times):
+            try:
+                parsed_open = [datetime.fromisoformat(v.replace("Z", "+00:00")).astimezone(timezone.utc) for v in open_times]
+                venue_open = max(parsed_open).isoformat()
+            except (ValueError, TypeError):
+                venue_open = None
+        game_tickers = tuple(str(e.get("ticker") or "") for e in used if e.get("ticker"))
+        quote_inputs = tuple({"ticker": e.get("ticker"), "strike": e.get("strike"),
+                              "team": e.get("team"), "probability": e.get("probability"),
+                              "yesBid": e.get("yes_bid"), "yesAsk": e.get("yes_ask"),
+                              "openTime": e.get("open_time")} for e in used)
+        import os
         out.append(Quote(
             game=game, book="kalshi", market="spread",
             line=round(line, 1), price=None, seen_at=stamp,
             commence_time=str(commence) if commence else None,
+            venue_open_time=venue_open, event_ticker=event,
+            market_tickers=game_tickers, quote_inputs=quote_inputs,
+            poll_time=stamp, first_valid_two_sided_quote_time=stamp,
+            code_revision=os.getenv("GITHUB_SHA") or None,
         ))
     return out
