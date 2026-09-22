@@ -320,7 +320,7 @@ function prepView(plan) {
   </section>
   <div class="section-title">Bedtime checklist</div><section class="check-list">${checklistItems.map((x,i)=>`<label class="check"><input data-check="${i}" type="checkbox" ${checks[x]?'checked':''}><span>${esc(x)}</span></label>`).join('')}</section>
   <section class="card"><div class="metric"><span>Last nap ended</span><strong>${esc(plan.lastNapEnded || 'Not set')}</strong></div><div class="metric"><span>Final wake window</span><strong>${plan.finalWakeWindowMinutes ? `${Math.round(plan.finalWakeWindowMinutes/60*10)/10}h` : 'Not set'}</strong></div><div class="metric"><span>Check-ins</span><strong>${esc((plan.checkIn.intervalsMinutes||[]).join(' / '))} min</strong></div><div class="metric"><span>Planned feed</span><strong>${esc(feedText)}</strong></div></section>
-  <button class="primary" id="begin" ${ready?'':'disabled'}>PLACE IN CRIB AWAKE · BEGIN NIGHT</button>
+  <button class="primary" id="begin" ${ready?'':'disabled'}>START NIGHT</button>
   ${ready?'':'<p class="micro centered">Complete the checklist to begin.</p>'}
   <p class="micro centered">Safe sleep baseline: back for sleep, firm and flat approved sleep surface, fitted sheet only, clear sleep space, and non-weighted sleep products.</p>`;
 }
