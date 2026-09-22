@@ -156,7 +156,7 @@ class EarlySeasonLearningTests(unittest.TestCase):
             self.assertEqual(len(board["topFive"]), 1)
             self.assertEqual(board["topFive"][0]["game"], "Away @ Home")
             late = next(r for r in board["rows"] if r["game"] == "Other @ Team")
-            self.assertIn("OPEN_NOT_TIMELY_CAPTURE", late["exclusions"])
+            self.assertIn("OPEN_NOT_AUDIT_GRADE_TRUE_OPEN", late["exclusions"])
 
     def test_unqualified_learning_report_produces_no_watchlist(self):
         report = {
