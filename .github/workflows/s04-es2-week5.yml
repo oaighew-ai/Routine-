@@ -7,6 +7,8 @@ on:
       - cfb_edge/s04_es2.py
       - cfb_edge/market_quality.py
       - config/s04_es2.json
+      - config/week5_freeze.json
+      - cfb_edge/week5_freeze.py
       - config/s03_m1.json
       - config/model_registry.json
       - config/model_implementation_registry.json
