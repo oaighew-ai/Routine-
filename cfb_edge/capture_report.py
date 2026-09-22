@@ -31,18 +31,27 @@ def digest(path):
 
 
 def build(log, slate, now, outcome="success", revision="unknown"):
-    from .watch import OpeningBook, classify_open_provenance
+    from .watch import classify_open_provenance
 
     if now.tzinfo is None:
         raise ValueError("Report time must include timezone")
     log, slate = Path(log), Path(slate)
     latest = None
+    first_raw = {}
     if log.exists():
         opener = gzip.open if log.suffix == ".gz" else open
         with opener(log, "rt", encoding="utf-8") as stream:
             for line in stream:
-                if line.strip():
-                    latest = json.loads(line)
+                if not line.strip():
+                    continue
+                rec = json.loads(line)
+                latest = rec
+                for q in rec.get("quotes", []):
+                    if q.get("market") != "spread" or not q.get("game"):
+                        continue
+                    prior = first_raw.get(q["game"])
+                    if prior is None or str(q.get("seen_at") or "") < str(prior.get("seen_at") or ""):
+                        first_raw[q["game"]] = q
     games = []
     if slate.exists():
         with slate.open(newline="", encoding="utf-8") as stream:
@@ -53,8 +62,6 @@ def build(log, slate, now, outcome="success", revision="unknown"):
     for q in (latest or {}).get("quotes", []):
         if q.get("market") == "spread":
             by_game.setdefault(q.get("game"), []).append(q)
-    book = OpeningBook.load(log)
-    first_quotes = book.first_quotes("spread")
     rows = []
     class_counts = {}
     for game in games:
@@ -81,9 +88,9 @@ def build(log, slate, now, outcome="success", revision="unknown"):
                 value = None
             observations.append({"book": q.get("book"), "derivedHomeLine": value,
                                  "observedAt": q.get("seen_at"), "kickoff": q.get("commence_time")})
-        first = first_quotes.get(game)
-        first_seen = str(getattr(first, "seen_at", "") or "") if first else ""
-        venue_open = str(getattr(first, "venue_open_time", "") or "") if first else ""
+        first = first_raw.get(game)
+        first_seen = str(first.get("seen_at") or "") if first else ""
+        venue_open = str(first.get("venue_open_time") or "") if first else ""
         open_class, open_lag = classify_open_provenance(first_seen, venue_open)
         class_counts[open_class] = class_counts.get(open_class, 0) + 1
         if open_class != "true_open":
@@ -96,7 +103,7 @@ def build(log, slate, now, outcome="success", revision="unknown"):
             "firstSeen": first_seen or None,
             "venueOpenTime": venue_open or None,
             "openLagSeconds": open_lag,
-            "marketTickers": list(getattr(first, "market_tickers", ()) or ()) if first else [],
+            "marketTickers": list(first.get("market_tickers") or []) if first else [],
             "observations": observations,
             "exclusions": sorted(set(reasons)),
         })
