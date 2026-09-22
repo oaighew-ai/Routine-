@@ -1,0 +1,576 @@
+{
+  "schemaVersion": 1,
+  "contract": "CFB_EDGE_OPEN_TIME_BACKFILL_V1",
+  "generatedAt": "2026-09-22T06:57:48.776757+00:00",
+  "targetCount": 35,
+  "recoveredOpenTimeCount": 35,
+  "trueOpenCount": 0,
+  "firstSeenCount": 35,
+  "rows": [
+    {
+      "game": "Air Force @ Nevada",
+      "openingLine": 3.8,
+      "originalSource": "capture",
+      "firstSeen": "2026-09-21T01:04:50.274619+00:00",
+      "recoveredVenueOpenTime": "2026-09-20T07:07:00+00:00",
+      "openLagSeconds": 64670.274619,
+      "recoveredClassification": "first_seen",
+      "eventTicker": "KXNCAAFSPREAD-26SEP26AFANEV",
+      "marketTickers": [
+        "KXNCAAFSPREAD-26SEP26AFANEV-AFA6",
+        "KXNCAAFSPREAD-26SEP26AFANEV-AFA5"
+      ],
+      "recoveredAt": "2026-09-22T06:57:48.776757+00:00",
+      "recoveryMethod": "current_open_market_metadata"
+    },
+    {
+      "game": "Army @ Temple",
+      "openingLine": 3.0,
+      "originalSource": "capture",
+      "firstSeen": "2026-09-21T01:04:50.274619+00:00",
+      "recoveredVenueOpenTime": "2026-09-20T10:05:00+00:00",
+      "openLagSeconds": 53990.274619,
+      "recoveredClassification": "first_seen",
+      "eventTicker": "KXNCAAFSPREAD-26SEP25ARMYTEM",
+      "marketTickers": [
+        "KXNCAAFSPREAD-26SEP25ARMYTEM-ARMY4",
+        "KXNCAAFSPREAD-26SEP25ARMYTEM-ARMY3"
+      ],
+      "recoveredAt": "2026-09-22T06:57:48.776757+00:00",
+      "recoveryMethod": "current_open_market_metadata"
+    },
+    {
+      "game": "Clemson @ California",
+      "openingLine": -0.3,
+      "originalSource": "capture",
+      "firstSeen": "2026-09-21T01:04:50.274619+00:00",
+      "recoveredVenueOpenTime": "2026-09-20T10:06:00+00:00",
+      "openLagSeconds": 53930.274619,
+      "recoveredClassification": "first_seen",
+      "eventTicker": "KXNCAAFSPREAD-26SEP25CLEMCAL",
+      "marketTickers": [
+        "KXNCAAFSPREAD-26SEP25CLEMCAL-CLEM2",
+        "KXNCAAFSPREAD-26SEP25CLEMCAL-CAL2"
+      ],
+      "recoveredAt": "2026-09-22T06:57:48.776757+00:00",
+      "recoveryMethod": "current_open_market_metadata"
+    },
+    {
+      "game": "Colorado @ Baylor",
+      "openingLine": -9.9,
+      "originalSource": "capture",
+      "firstSeen": "2026-09-21T01:04:50.274619+00:00",
+      "recoveredVenueOpenTime": "2026-09-20T10:06:00+00:00",
+      "openLagSeconds": 53930.274619,
+      "recoveredClassification": "first_seen",
+      "eventTicker": "KXNCAAFSPREAD-26SEP26COLOBAY",
+      "marketTickers": [
+        "KXNCAAFSPREAD-26SEP26COLOBAY-BAY10",
+        "KXNCAAFSPREAD-26SEP26COLOBAY-BAY11"
+      ],
+      "recoveredAt": "2026-09-22T06:57:48.776757+00:00",
+      "recoveryMethod": "current_open_market_metadata"
+    },
+    {
+      "game": "Delaware @ Virginia",
+      "openingLine": -20.3,
+      "originalSource": "capture",
+      "firstSeen": "2026-09-21T01:04:50.274619+00:00",
+      "recoveredVenueOpenTime": "2026-09-20T10:06:00+00:00",
+      "openLagSeconds": 53930.274619,
+      "recoveredClassification": "first_seen",
+      "eventTicker": "KXNCAAFSPREAD-26SEP26DELUVA",
+      "marketTickers": [
+        "KXNCAAFSPREAD-26SEP26DELUVA-UVA18",
+        "KXNCAAFSPREAD-26SEP26DELUVA-UVA21"
+      ],
+      "recoveredAt": "2026-09-22T06:57:48.776757+00:00",
+      "recoveryMethod": "current_open_market_metadata"
+    },
+    {
+      "game": "Georgia Tech @ Stanford",
+      "openingLine": 3.3,
+      "originalSource": "capture",
+      "firstSeen": "2026-09-21T01:04:50.274619+00:00",
+      "recoveredVenueOpenTime": "2026-09-20T07:07:00+00:00",
+      "openLagSeconds": 64670.274619,
+      "recoveredClassification": "first_seen",
+      "eventTicker": "KXNCAAFSPREAD-26SEP26GTSTAN",
+      "marketTickers": [
+        "KXNCAAFSPREAD-26SEP26GTSTAN-GT4",
+        "KXNCAAFSPREAD-26SEP26GTSTAN-GT3"
+      ],
+      "recoveredAt": "2026-09-22T06:57:48.776757+00:00",
+      "recoveryMethod": "current_open_market_metadata"
+    },
+    {
+      "game": "Hawai'i @ Wyoming",
+      "openingLine": 3.2,
+      "originalSource": "capture",
+      "firstSeen": "2026-09-21T01:04:50.274619+00:00",
+      "recoveredVenueOpenTime": "2026-09-20T07:06:00+00:00",
+      "openLagSeconds": 64730.274619,
+      "recoveredClassification": "first_seen",
+      "eventTicker": "KXNCAAFSPREAD-26SEP26HAWWYO",
+      "marketTickers": [
+        "KXNCAAFSPREAD-26SEP26HAWWYO-HAW4",
+        "KXNCAAFSPREAD-26SEP26HAWWYO-HAW3"
+      ],
+      "recoveredAt": "2026-09-22T06:57:48.776757+00:00",
+      "recoveryMethod": "current_open_market_metadata"
+    },
+    {
+      "game": "Houston @ Georgia Southern",
+      "openingLine": 17.7,
+      "originalSource": "capture",
+      "firstSeen": "2026-09-21T01:04:50.274619+00:00",
+      "recoveredVenueOpenTime": "2026-09-20T07:06:00+00:00",
+      "openLagSeconds": 64730.274619,
+      "recoveredClassification": "first_seen",
+      "eventTicker": "KXNCAAFSPREAD-26SEP26HOUGASO",
+      "marketTickers": [
+        "KXNCAAFSPREAD-26SEP26HOUGASO-HOU21",
+        "KXNCAAFSPREAD-26SEP26HOUGASO-HOU18"
+      ],
+      "recoveredAt": "2026-09-22T06:57:48.776757+00:00",
+      "recoveryMethod": "current_open_market_metadata"
+    },
+    {
+      "game": "Iowa @ Michigan",
+      "openingLine": -3.8,
+      "originalSource": "capture",
+      "firstSeen": "2026-09-21T01:04:50.274619+00:00",
+      "recoveredVenueOpenTime": "2026-09-20T01:07:00+00:00",
+      "openLagSeconds": 86270.274619,
+      "recoveredClassification": "first_seen",
+      "eventTicker": "KXNCAAFSPREAD-26SEP26IOWAMICH",
+      "marketTickers": [
+        "KXNCAAFSPREAD-26SEP26IOWAMICH-MICH5",
+        "KXNCAAFSPREAD-26SEP26IOWAMICH-MICH6"
+      ],
+      "recoveredAt": "2026-09-22T06:57:48.776757+00:00",
+      "recoveryMethod": "current_open_market_metadata"
+    },
+    {
+      "game": "James Madison @ Old Dominion",
+      "openingLine": 4.5,
+      "originalSource": "capture",
+      "firstSeen": "2026-09-21T01:04:50.274619+00:00",
+      "recoveredVenueOpenTime": "2026-09-20T07:07:00+00:00",
+      "openLagSeconds": 64670.274619,
+      "recoveredClassification": "first_seen",
+      "eventTicker": "KXNCAAFSPREAD-26SEP26JMUODU",
+      "marketTickers": [
+        "KXNCAAFSPREAD-26SEP26JMUODU-JMU7",
+        "KXNCAAFSPREAD-26SEP26JMUODU-JMU6"
+      ],
+      "recoveredAt": "2026-09-22T06:57:48.776757+00:00",
+      "recoveryMethod": "current_open_market_metadata"
+    },
+    {
+      "game": "Liberty @ Coastal Carolina",
+      "openingLine": 2.6,
+      "originalSource": "capture",
+      "firstSeen": "2026-09-21T01:04:50.274619+00:00",
+      "recoveredVenueOpenTime": "2026-09-20T10:05:00+00:00",
+      "openLagSeconds": 53990.274619,
+      "recoveredClassification": "first_seen",
+      "eventTicker": "KXNCAAFSPREAD-26SEP24LIBCCAR",
+      "marketTickers": [
+        "KXNCAAFSPREAD-26SEP24LIBCCAR-LIB4",
+        "KXNCAAFSPREAD-26SEP24LIBCCAR-LIB3"
+      ],
+      "recoveredAt": "2026-09-22T06:57:48.776757+00:00",
+      "recoveryMethod": "current_open_market_metadata"
+    },
+    {
+      "game": "Louisiana @ Charlotte",
+      "openingLine": 10.2,
+      "originalSource": "capture",
+      "firstSeen": "2026-09-21T01:04:50.274619+00:00",
+      "recoveredVenueOpenTime": "2026-09-20T10:06:00+00:00",
+      "openLagSeconds": 53930.274619,
+      "recoveredClassification": "first_seen",
+      "eventTicker": "KXNCAAFSPREAD-26SEP26ULLCHAR",
+      "marketTickers": [
+        "KXNCAAFSPREAD-26SEP26ULLCHAR-ULL11",
+        "KXNCAAFSPREAD-26SEP26ULLCHAR-ULL10"
+      ],
+      "recoveredAt": "2026-09-22T06:57:48.776757+00:00",
+      "recoveryMethod": "current_open_market_metadata"
+    },
+    {
+      "game": "Minnesota @ Washington",
+      "openingLine": -8.0,
+      "originalSource": "capture",
+      "firstSeen": "2026-09-21T01:04:50.274619+00:00",
+      "recoveredVenueOpenTime": "2026-09-20T07:07:00+00:00",
+      "openLagSeconds": 64670.274619,
+      "recoveredClassification": "first_seen",
+      "eventTicker": "KXNCAAFSPREAD-26SEP26MINNWASH",
+      "marketTickers": [
+        "KXNCAAFSPREAD-26SEP26MINNWASH-WASH10",
+        "KXNCAAFSPREAD-26SEP26MINNWASH-WASH11"
+      ],
+      "recoveredAt": "2026-09-22T06:57:48.776757+00:00",
+      "recoveryMethod": "current_open_market_metadata"
+    },
+    {
+      "game": "Missouri State @ SMU",
+      "openingLine": -34.3,
+      "originalSource": "capture",
+      "firstSeen": "2026-09-21T01:04:50.274619+00:00",
+      "recoveredVenueOpenTime": "2026-09-20T10:06:00+00:00",
+      "openLagSeconds": 53930.274619,
+      "recoveredClassification": "first_seen",
+      "eventTicker": "KXNCAAFSPREAD-26SEP26MOSUSMU",
+      "marketTickers": [
+        "KXNCAAFSPREAD-26SEP26MOSUSMU-SMU34",
+        "KXNCAAFSPREAD-26SEP26MOSUSMU-SMU35"
+      ],
+      "recoveredAt": "2026-09-22T06:57:48.776757+00:00",
+      "recoveryMethod": "current_open_market_metadata"
+    },
+    {
+      "game": "Navy @ UAB",
+      "openingLine": 7.0,
+      "originalSource": "capture",
+      "firstSeen": "2026-09-21T01:04:50.274619+00:00",
+      "recoveredVenueOpenTime": "2026-09-20T10:06:00+00:00",
+      "openLagSeconds": 53930.274619,
+      "recoveredClassification": "first_seen",
+      "eventTicker": "KXNCAAFSPREAD-26SEP25NAVYUAB",
+      "marketTickers": [
+        "KXNCAAFSPREAD-26SEP25NAVYUAB-NAVY8",
+        "KXNCAAFSPREAD-26SEP25NAVYUAB-NAVY7"
+      ],
+      "recoveredAt": "2026-09-22T06:57:48.776757+00:00",
+      "recoveryMethod": "current_open_market_metadata"
+    },
+    {
+      "game": "Northwestern @ Indiana",
+      "openingLine": -21.4,
+      "originalSource": "capture",
+      "firstSeen": "2026-09-21T01:04:50.274619+00:00",
+      "recoveredVenueOpenTime": "2026-09-20T07:06:00+00:00",
+      "openLagSeconds": 64730.274619,
+      "recoveredClassification": "first_seen",
+      "eventTicker": "KXNCAAFSPREAD-26SEP25NWIND",
+      "marketTickers": [
+        "KXNCAAFSPREAD-26SEP25NWIND-IND21",
+        "KXNCAAFSPREAD-26SEP25NWIND-IND22"
+      ],
+      "recoveredAt": "2026-09-22T06:57:48.776757+00:00",
+      "recoveryMethod": "current_open_market_metadata"
+    },
+    {
+      "game": "Notre Dame @ Purdue",
+      "openingLine": 26.6,
+      "originalSource": "capture",
+      "firstSeen": "2026-09-21T01:04:50.274619+00:00",
+      "recoveredVenueOpenTime": "2026-09-20T07:06:00+00:00",
+      "openLagSeconds": 64730.274619,
+      "recoveredClassification": "first_seen",
+      "eventTicker": "KXNCAAFSPREAD-26SEP26NDPUR",
+      "marketTickers": [
+        "KXNCAAFSPREAD-26SEP26NDPUR-ND31",
+        "KXNCAAFSPREAD-26SEP26NDPUR-ND28"
+      ],
+      "recoveredAt": "2026-09-22T06:57:48.776757+00:00",
+      "recoveryMethod": "current_open_market_metadata"
+    },
+    {
+      "game": "Oklahoma @ Georgia",
+      "openingLine": -14.1,
+      "originalSource": "capture",
+      "firstSeen": "2026-09-21T01:04:50.274619+00:00",
+      "recoveredVenueOpenTime": "2026-09-20T04:06:00+00:00",
+      "openLagSeconds": 75530.274619,
+      "recoveredClassification": "first_seen",
+      "eventTicker": "KXNCAAFSPREAD-26SEP26OKLAUGA",
+      "marketTickers": [
+        "KXNCAAFSPREAD-26SEP26OKLAUGA-UGA14",
+        "KXNCAAFSPREAD-26SEP26OKLAUGA-UGA15"
+      ],
+      "recoveredAt": "2026-09-22T06:57:48.776757+00:00",
+      "recoveryMethod": "current_open_market_metadata"
+    },
+    {
+      "game": "Ole Miss @ Florida",
+      "openingLine": -3.0,
+      "originalSource": "capture",
+      "firstSeen": "2026-09-21T01:04:50.274619+00:00",
+      "recoveredVenueOpenTime": "2026-09-20T04:06:00+00:00",
+      "openLagSeconds": 75530.274619,
+      "recoveredClassification": "first_seen",
+      "eventTicker": "KXNCAAFSPREAD-26SEP26MISSFLA",
+      "marketTickers": [
+        "KXNCAAFSPREAD-26SEP26MISSFLA-FLA3",
+        "KXNCAAFSPREAD-26SEP26MISSFLA-FLA4"
+      ],
+      "recoveredAt": "2026-09-22T06:57:48.776757+00:00",
+      "recoveryMethod": "current_open_market_metadata"
+    },
+    {
+      "game": "Oregon @ USC",
+      "openingLine": 2.8,
+      "originalSource": "capture",
+      "firstSeen": "2026-09-21T01:04:50.274619+00:00",
+      "recoveredVenueOpenTime": "2026-09-20T01:08:00+00:00",
+      "openLagSeconds": 86210.274619,
+      "recoveredClassification": "first_seen",
+      "eventTicker": "KXNCAAFSPREAD-26SEP26OREUSC",
+      "marketTickers": [
+        "KXNCAAFSPREAD-26SEP26OREUSC-ORE4",
+        "KXNCAAFSPREAD-26SEP26OREUSC-ORE3"
+      ],
+      "recoveredAt": "2026-09-22T06:57:48.776757+00:00",
+      "recoveryMethod": "current_open_market_metadata"
+    },
+    {
+      "game": "Sam Houston @ Texas Tech",
+      "openingLine": -35.0,
+      "originalSource": "capture",
+      "firstSeen": "2026-09-21T01:04:50.274619+00:00",
+      "recoveredVenueOpenTime": "2026-09-20T10:06:00+00:00",
+      "openLagSeconds": 53930.274619,
+      "recoveredClassification": "first_seen",
+      "eventTicker": "KXNCAAFSPREAD-26SEP26SHSUTTU",
+      "marketTickers": [
+        "KXNCAAFSPREAD-26SEP26SHSUTTU-TTU34",
+        "KXNCAAFSPREAD-26SEP26SHSUTTU-TTU36"
+      ],
+      "recoveredAt": "2026-09-22T06:57:48.776757+00:00",
+      "recoveryMethod": "current_open_market_metadata"
+    },
+    {
+      "game": "South Alabama @ Kentucky",
+      "openingLine": -20.6,
+      "originalSource": "capture",
+      "firstSeen": "2026-09-21T01:04:50.274619+00:00",
+      "recoveredVenueOpenTime": "2026-09-20T07:06:00+00:00",
+      "openLagSeconds": 64730.274619,
+      "recoveredClassification": "first_seen",
+      "eventTicker": "KXNCAAFSPREAD-26SEP26USAUK",
+      "marketTickers": [
+        "KXNCAAFSPREAD-26SEP26USAUK-UK18",
+        "KXNCAAFSPREAD-26SEP26USAUK-UK21"
+      ],
+      "recoveredAt": "2026-09-22T06:57:48.776757+00:00",
+      "recoveryMethod": "current_open_market_metadata"
+    },
+    {
+      "game": "South Carolina @ Alabama",
+      "openingLine": -13.0,
+      "originalSource": "capture",
+      "firstSeen": "2026-09-21T01:04:50.274619+00:00",
+      "recoveredVenueOpenTime": "2026-09-20T04:06:00+00:00",
+      "openLagSeconds": 75530.274619,
+      "recoveredClassification": "first_seen",
+      "eventTicker": "KXNCAAFSPREAD-26SEP26SCARALA",
+      "marketTickers": [
+        "KXNCAAFSPREAD-26SEP26SCARALA-ALA12",
+        "KXNCAAFSPREAD-26SEP26SCARALA-ALA14"
+      ],
+      "recoveredAt": "2026-09-22T06:57:48.776757+00:00",
+      "recoveryMethod": "current_open_market_metadata"
+    },
+    {
+      "game": "South Florida @ Bowling Green",
+      "openingLine": 17.7,
+      "originalSource": "capture",
+      "firstSeen": "2026-09-21T01:04:50.274619+00:00",
+      "recoveredVenueOpenTime": "2026-09-20T07:07:00+00:00",
+      "openLagSeconds": 64670.274619,
+      "recoveredClassification": "first_seen",
+      "eventTicker": "KXNCAAFSPREAD-26SEP26USFBGSU",
+      "marketTickers": [
+        "KXNCAAFSPREAD-26SEP26USFBGSU-USF18",
+        "KXNCAAFSPREAD-26SEP26USFBGSU-USF17"
+      ],
+      "recoveredAt": "2026-09-22T06:57:48.776757+00:00",
+      "recoveryMethod": "current_open_market_metadata"
+    },
+    {
+      "game": "Southern Miss @ Tulane",
+      "openingLine": -17.5,
+      "originalSource": "capture",
+      "firstSeen": "2026-09-21T01:04:50.274619+00:00",
+      "recoveredVenueOpenTime": "2026-09-20T10:06:00+00:00",
+      "openLagSeconds": 53930.274619,
+      "recoveredClassification": "first_seen",
+      "eventTicker": "KXNCAAFSPREAD-26SEP26USMTULN",
+      "marketTickers": [
+        "KXNCAAFSPREAD-26SEP26USMTULN-TULN18",
+        "KXNCAAFSPREAD-26SEP26USMTULN-TULN19"
+      ],
+      "recoveredAt": "2026-09-22T06:57:48.776757+00:00",
+      "recoveryMethod": "current_open_market_metadata"
+    },
+    {
+      "game": "TCU @ UCF",
+      "openingLine": 3.0,
+      "originalSource": "capture",
+      "firstSeen": "2026-09-21T01:04:50.274619+00:00",
+      "recoveredVenueOpenTime": "2026-09-20T10:06:00+00:00",
+      "openLagSeconds": 53930.274619,
+      "recoveredClassification": "first_seen",
+      "eventTicker": "KXNCAAFSPREAD-26SEP26TCUUCF",
+      "marketTickers": [
+        "KXNCAAFSPREAD-26SEP26TCUUCF-TCU4",
+        "KXNCAAFSPREAD-26SEP26TCUUCF-TCU3"
+      ],
+      "recoveredAt": "2026-09-22T06:57:48.776757+00:00",
+      "recoveryMethod": "current_open_market_metadata"
+    },
+    {
+      "game": "Texas @ Tennessee",
+      "openingLine": 3.5,
+      "originalSource": "capture",
+      "firstSeen": "2026-09-21T01:04:50.274619+00:00",
+      "recoveredVenueOpenTime": "2026-09-19T16:06:00+00:00",
+      "openLagSeconds": 118730.274619,
+      "recoveredClassification": "first_seen",
+      "eventTicker": "KXNCAAFSPREAD-26SEP26TEXTENN",
+      "marketTickers": [
+        "KXNCAAFSPREAD-26SEP26TEXTENN-TEX6",
+        "KXNCAAFSPREAD-26SEP26TEXTENN-TEX5"
+      ],
+      "recoveredAt": "2026-09-22T06:57:48.776757+00:00",
+      "recoveryMethod": "current_open_market_metadata"
+    },
+    {
+      "game": "Texas A&M @ LSU",
+      "openingLine": -9.7,
+      "originalSource": "capture",
+      "firstSeen": "2026-09-21T01:04:50.274619+00:00",
+      "recoveredVenueOpenTime": "2026-09-20T04:06:00+00:00",
+      "openLagSeconds": 75530.274619,
+      "recoveredClassification": "first_seen",
+      "eventTicker": "KXNCAAFSPREAD-26SEP26TXAMLSU",
+      "marketTickers": [
+        "KXNCAAFSPREAD-26SEP26TXAMLSU-LSU9",
+        "KXNCAAFSPREAD-26SEP26TXAMLSU-LSU10"
+      ],
+      "recoveredAt": "2026-09-22T06:57:48.776757+00:00",
+      "recoveryMethod": "current_open_market_metadata"
+    },
+    {
+      "game": "Tulsa @ Arkansas",
+      "openingLine": -6.7,
+      "originalSource": "capture",
+      "firstSeen": "2026-09-21T01:04:50.274619+00:00",
+      "recoveredVenueOpenTime": "2026-09-20T10:06:00+00:00",
+      "openLagSeconds": 53930.274619,
+      "recoveredClassification": "first_seen",
+      "eventTicker": "KXNCAAFSPREAD-26SEP26TLSAARK",
+      "marketTickers": [
+        "KXNCAAFSPREAD-26SEP26TLSAARK-ARK7",
+        "KXNCAAFSPREAD-26SEP26TLSAARK-ARK8"
+      ],
+      "recoveredAt": "2026-09-22T06:57:48.776757+00:00",
+      "recoveryMethod": "current_open_market_metadata"
+    },
+    {
+      "game": "UCLA @ Maryland",
+      "openingLine": 1.6,
+      "originalSource": "capture",
+      "firstSeen": "2026-09-21T01:04:50.274619+00:00",
+      "recoveredVenueOpenTime": "2026-09-20T07:06:00+00:00",
+      "openLagSeconds": 64730.274619,
+      "recoveredClassification": "first_seen",
+      "eventTicker": "KXNCAAFSPREAD-26SEP26UCLAMD",
+      "marketTickers": [
+        "KXNCAAFSPREAD-26SEP26UCLAMD-UCLA3",
+        "KXNCAAFSPREAD-26SEP26UCLAMD-UCLA2"
+      ],
+      "recoveredAt": "2026-09-22T06:57:48.776757+00:00",
+      "recoveryMethod": "current_open_market_metadata"
+    },
+    {
+      "game": "UConn @ Miami (OH)",
+      "openingLine": -4.1,
+      "originalSource": "capture",
+      "firstSeen": "2026-09-21T01:04:50.274619+00:00",
+      "recoveredVenueOpenTime": "2026-09-20T10:06:00+00:00",
+      "openLagSeconds": 53930.274619,
+      "recoveredClassification": "first_seen",
+      "eventTicker": "KXNCAAFSPREAD-26SEP26CONNMOH",
+      "marketTickers": [
+        "KXNCAAFSPREAD-26SEP26CONNMOH-MOH3",
+        "KXNCAAFSPREAD-26SEP26CONNMOH-MOH4"
+      ],
+      "recoveredAt": "2026-09-22T06:57:48.776757+00:00",
+      "recoveryMethod": "current_open_market_metadata"
+    },
+    {
+      "game": "UNLV @ Akron",
+      "openingLine": 13.5,
+      "originalSource": "capture",
+      "firstSeen": "2026-09-21T01:04:50.274619+00:00",
+      "recoveredVenueOpenTime": "2026-09-20T10:06:00+00:00",
+      "openLagSeconds": 53930.274619,
+      "recoveredClassification": "first_seen",
+      "eventTicker": "KXNCAAFSPREAD-26SEP26UNLVAKR",
+      "marketTickers": [
+        "KXNCAAFSPREAD-26SEP26UNLVAKR-UNLV15",
+        "KXNCAAFSPREAD-26SEP26UNLVAKR-UNLV14"
+      ],
+      "recoveredAt": "2026-09-22T06:57:48.776757+00:00",
+      "recoveryMethod": "current_open_market_metadata"
+    },
+    {
+      "game": "Vanderbilt @ Auburn",
+      "openingLine": -8.9,
+      "originalSource": "capture",
+      "firstSeen": "2026-09-21T01:04:50.274619+00:00",
+      "recoveredVenueOpenTime": "2026-09-20T07:07:00+00:00",
+      "openLagSeconds": 64670.274619,
+      "recoveredClassification": "first_seen",
+      "eventTicker": "KXNCAAFSPREAD-26SEP26VANAUB",
+      "marketTickers": [
+        "KXNCAAFSPREAD-26SEP26VANAUB-AUB8",
+        "KXNCAAFSPREAD-26SEP26VANAUB-AUB10"
+      ],
+      "recoveredAt": "2026-09-22T06:57:48.776757+00:00",
+      "recoveryMethod": "current_open_market_metadata"
+    },
+    {
+      "game": "Virginia Tech @ Boston College",
+      "openingLine": 13.9,
+      "originalSource": "capture",
+      "firstSeen": "2026-09-21T01:04:50.274619+00:00",
+      "recoveredVenueOpenTime": "2026-09-20T07:06:00+00:00",
+      "openLagSeconds": 64730.274619,
+      "recoveredClassification": "first_seen",
+      "eventTicker": "KXNCAAFSPREAD-26SEP26VTBC",
+      "marketTickers": [
+        "KXNCAAFSPREAD-26SEP26VTBC-VT15",
+        "KXNCAAFSPREAD-26SEP26VTBC-VT14"
+      ],
+      "recoveredAt": "2026-09-22T06:57:48.776757+00:00",
+      "recoveryMethod": "current_open_market_metadata"
+    },
+    {
+      "game": "Wake Forest @ Louisville",
+      "openingLine": -12.0,
+      "originalSource": "capture",
+      "firstSeen": "2026-09-21T01:04:50.274619+00:00",
+      "recoveredVenueOpenTime": "2026-09-20T04:06:00+00:00",
+      "openLagSeconds": 75530.274619,
+      "recoveredClassification": "first_seen",
+      "eventTicker": "KXNCAAFSPREAD-26SEP26WAKELOU",
+      "marketTickers": [
+        "KXNCAAFSPREAD-26SEP26WAKELOU-LOU12",
+        "KXNCAAFSPREAD-26SEP26WAKELOU-LOU14"
+      ],
+      "recoveredAt": "2026-09-22T06:57:48.776757+00:00",
+      "recoveryMethod": "current_open_market_metadata"
+    }
+  ],
+  "limitations": [
+    "Recovery attaches current venue metadata and never rewrites the immutable raw capture.",
+    "Historical quote state is not reconstructed.",
+    "Only true_open rows may enter future audit-grade evidence."
+  ]
+}
