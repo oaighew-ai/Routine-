@@ -1,0 +1,164 @@
+name: S04 ES2 Week 5 audit shadow
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - cfb_edge/s04_es2.py
+      - cfb_edge/market_quality.py
+      - config/s04_es2.json
+      - config/s03_m1.json
+      - config/model_registry.json
+      - config/model_implementation_registry.json
+      - .github/workflows/s04-es2-week5.yml
+      - tests/test_s04_es2.py
+  schedule:
+    - cron: "0 */4 * 9-11 0-3"
+    - cron: "0 */2 * 9-11 4-6"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: s04-es2-week5
+  cancel-in-progress: false
+
+jobs:
+  scan:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Code
+        uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+
+      - name: Resolve Week 5 window
+        id: active
+        run: |
+          python3 - <<'PY' > /tmp/week.env
+          from cfb_edge.slate import current_week, opening_week
+          try:
+              current = current_week(2026)
+              opening = opening_week(2026)
+              print(f"current={current or 'none'}")
+              print(f"opening={opening or 'none'}")
+              print(f"run={1 if current == 5 or opening == 5 else 0}")
+          except Exception as exc:
+              print("current=error")
+              print("opening=error")
+              print("run=0")
+              print(f"error={type(exc).__name__}: {exc}")
+          PY
+          cat /tmp/week.env >> "$GITHUB_OUTPUT"
+          cat /tmp/week.env >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Evidence branch
+        if: steps.active.outputs.run == '1'
+        uses: actions/checkout@v4
+        with:
+          ref: capture-data
+          path: evidence
+
+      - name: Freeze Week 5 slate and validate prerequisites
+        if: steps.active.outputs.run == '1'
+        id: inputs
+        run: |
+          set -euo pipefail
+          test -f evidence/data/early-season-learning.json
+          test -f evidence/data/opens.csv
+
+          FROZEN="evidence/data/week5_2026_slate.csv"
+          if [ ! -f "$FROZEN" ]; then
+            if [ "${{ steps.active.outputs.opening }}" = "5" ] && [ -f evidence/data/slate_current.csv ]; then
+              cp evidence/data/slate_current.csv "$FROZEN"
+              echo "Frozen Week 5 slate from the opening-week capture." >> "$GITHUB_STEP_SUMMARY"
+            else
+              echo "ready=0" >> "$GITHUB_OUTPUT"
+              echo "Week 5 frozen slate is unavailable. Fail closed; no live odds request." >> "$GITHUB_STEP_SUMMARY"
+              exit 0
+            fi
+          fi
+          echo "ready=1" >> "$GITHUB_OUTPUT"
+
+      - name: Evaluate audit-grade Week 5 shadow
+        if: steps.active.outputs.run == '1' && steps.inputs.outputs.ready == '1'
+        env:
+          ODDS_API_KEY: ${{ secrets.ODDS_API_KEY }}
+        run: |
+          set -euo pipefail
+          mkdir -p .tmp/s04-es2
+          python3 -m cfb_edge.s04_es2 \
+            --learning evidence/data/early-season-learning.json \
+            --slate evidence/data/week5_2026_slate.csv \
+            --opens evidence/data/opens.csv \
+            --challenger config/s04_es2.json \
+            --edge-config config/edge_os.json \
+            --market-quality-config config/s03_m1.json \
+            --history-dir evidence/data/snapshots/s04_es2 \
+            --out .tmp/s04-es2/live.json \
+            --snapshot-out .tmp/s04-es2/snapshot.json
+
+          python3 - <<'PY' >> "$GITHUB_STEP_SUMMARY"
+          import json
+          from pathlib import Path
+          r = json.loads(Path(".tmp/s04-es2/live.json").read_text())
+          o = r["openCohort"]
+          print("## S04_ES2 Week 5 audit shadow")
+          print(f"- audit-grade signal candidates: **{o['auditGradeSignalCandidates']}**")
+          print(f"- open-source counts: **{o['sourceCounts']}**")
+          print(f"- fully qualified shadow rows: **{r['qualifiedCount']}**")
+          print("- actual stake: **0**")
+          for x in r["topFive"]:
+              print(
+                  f"- {x['game']} | {x['side']} | {x['venue']} "
+                  f"| conservative EV {x['conservativeExecutableEv']:+.2%} "
+                  f"| open lag {x['openLagSeconds']:.0f}s"
+              )
+          PY
+
+      - name: Archive Week 5 audit evidence
+        if: steps.active.outputs.run == '1' && steps.inputs.outputs.ready == '1'
+        run: |
+          set -euo pipefail
+          mkdir -p evidence/data/snapshots/s04_es2
+          cp .tmp/s04-es2/live.json evidence/data/s04-es2-live.json
+          if [ -f .tmp/s04-es2/snapshot.json ]; then
+            TS="$(python3 - <<'PY'
+          import json
+          from pathlib import Path
+          x=json.loads(Path(".tmp/s04-es2/live.json").read_text()).get("generatedAt") or "no-live-pull"
+          print(str(x).replace(":", "").replace("-", "").replace("+", "_").replace(".", "_"))
+          PY
+            )"
+            gzip -c .tmp/s04-es2/snapshot.json > "evidence/data/snapshots/s04_es2/${TS}.json.gz"
+          fi
+
+      - name: Publish Week 5 evidence
+        if: steps.active.outputs.run == '1' && steps.inputs.outputs.ready == '1'
+        working-directory: evidence
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/week5_2026_slate.csv data/s04-es2-live.json data/snapshots/s04_es2
+
+          if git diff --cached --quiet; then
+            echo "No S04_ES2 evidence changed." >> "$GITHUB_STEP_SUMMARY"
+            exit 0
+          fi
+
+          git commit -q -m "S04_ES2 Week 5 audit shadow $(date -u '+%Y-%m-%d %H:%M UTC')"
+          for attempt in 1 2 3; do
+            git fetch origin capture-data
+            if git rebase origin/capture-data && git push origin HEAD:capture-data; then
+              exit 0
+            fi
+            git rebase --abort || true
+            sleep $((attempt * 2))
+          done
+          echo "Could not publish S04_ES2 evidence after three attempts." >> "$GITHUB_STEP_SUMMARY"
+          exit 1

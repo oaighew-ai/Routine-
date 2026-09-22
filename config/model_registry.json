@@ -58,9 +58,9 @@
       "role": "PREREGISTERED_GAP_PLUS_MARKET_QUALITY_CHALLENGER",
       "market": "spread",
       "version": "gap-4to6-plus-market-quality-1",
-      "modelStatus": "PREREGISTERED_NOT_ACTIVE",
+      "modelStatus": "PROSPECTIVE_WEEK5_AUDIT_SHADOW_READY",
       "deliveryEligible": false,
-      "note": "Week 5 is the first audit-grade prospective cohort and requires source=true_open proven from Kalshi open_time within 900 seconds plus the frozen market-quality and executable-EV gates."
+      "note": "Week 5 is the first audit-grade prospective cohort. Runtime is implemented and fails closed unless source=true_open is proven within 900 seconds, then applies the frozen S03_M1 market-quality, conservative executable-EV, and movement-budget gates at zero stake."
     },
     {
       "id": "S05",

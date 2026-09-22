@@ -52,11 +52,11 @@
     },
     {
       "modelId": "S04_ES2",
-      "location": "config/s04_es2.json",
+      "location": "cfb_edge/s04_es2.py + .github/workflows/s04-es2-week5.yml",
       "reproducibleInRepo": true,
-      "status": "PREREGISTERED_AUDIT_GRADE_WEEK5",
+      "status": "PROSPECTIVE_WEEK5_AUDIT_SHADOW_READY",
       "deliveryContract": null,
-      "note": "Week 5 is the first prospective cohort eligible for S04_ES2 validation. Runtime must fail closed unless the opening row is source=true_open."
+      "note": "Executable Week 5 shadow runtime. Requires audit-grade true_open provenance and has no delivery path or nonzero stake."
     },
     {
       "modelId": "S05",

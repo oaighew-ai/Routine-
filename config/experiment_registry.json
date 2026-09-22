@@ -69,14 +69,15 @@
       "id": "S04_ES2",
       "family": "early-season-gap-plus-market-quality",
       "createdAt": "2026-09-21",
-      "status": "PREREGISTERED_NOT_ACTIVE",
+      "status": "PROSPECTIVE_WEEK5_AUDIT_SHADOW_READY",
       "firstProspectiveWeek": 5,
       "deliveryEligible": false,
       "frozenRule": "S04_ES1 signal family plus S03_M1 quote-quality pass and conservative EV floor; prospective validation begins Week 5 and requires source=true_open proven from venue open_time within 900 seconds.",
       "promotionEffect": "NONE",
       "requiredOpenSource": "true_open",
       "maximumOpenCaptureLagSeconds": 900,
-      "auditGradeCohortStart": "2026 Week 5"
+      "auditGradeCohortStart": "2026 Week 5",
+      "runtime": "cfb_edge/s04_es2.py"
     }
   ]
 }
