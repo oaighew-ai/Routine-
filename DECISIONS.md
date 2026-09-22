@@ -882,3 +882,30 @@ separately registered chronological test shows incremental proper-score or CLV
 value beyond the existing market baseline. S04_ES2 may be promoted only from
 prospective evidence beginning Week 5 under its frozen rule. Week 4 outcomes
 cannot be used to alter the rule and then be counted as validation.
+
+
+## 2026-09-22 — D23. Opening-line evidence requires venue-time proof; Week 5 is the first audit-grade cohort
+
+**Decision.** A timestamped first sighting is not an opening line. Capture now
+persists the exact Kalshi event and bracketing spread contracts used to derive
+the line, their venue `open_time`, quote inputs, poll time and code revision.
+A row is `true_open` only when both bracketing contracts expose venue-open
+metadata and the first valid quote arrives within 900 seconds of the later
+contract open. Legacy `capture` and `first_seen` observations remain
+research data but cannot enter CLV promotion or stopping evidence.
+
+Week 4 is quarantined unless an individual row can be recovered as
+`true_open`. The recovery artifact may attach still-available Kalshi
+`open_time` metadata but never rewrites the immutable raw capture.
+
+S04_ES2 Week 5 is the first audit-grade prospective cohort. Its frozen rule
+explicitly requires `source=true_open` in addition to the already registered
+market-quality and executable-EV gates.
+
+**Scheduler control.** Capture starts two hours before the nominal Sunday
+window, requests runners every 15 minutes, and each runner performs three polls
+four minutes apart. Venue timestamps, not cron timing, decide classification.
+
+**Reversal criterion.** The 900-second tolerance may change only before a new
+prospective cohort under a separately registered rule. Week 4 outcomes or
+recovered classifications cannot tune it and then count as confirmation.
