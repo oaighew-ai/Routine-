@@ -2,7 +2,7 @@ name: Week 4 open-time audit backfill
 
 on:
   push:
-    branches: [operator/audit-grade-open-capture]
+    branches: [operator/**]
   workflow_dispatch:
 
 permissions:
