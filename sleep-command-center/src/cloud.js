@@ -50,20 +50,28 @@ function extractAccess() {
     const u = new URL(window.location.href);
     const setup = u.searchParams.get('setup');
     const invite = u.searchParams.get('invite');
+    // Keep one-time access params in the URL until setup/join actually succeeds.
+    // This makes refreshes and Safari tab restores resilient.
     if (setup) sessionStorage.setItem('scc.setup.pending', setup);
     if (invite) sessionStorage.setItem('scc.invite.pending', invite);
-    if (setup || invite) {
-      u.searchParams.delete('setup');
-      u.searchParams.delete('invite');
-      history.replaceState({}, '', `${u.pathname}${u.search}${u.hash}`);
-    }
-    const setupPending = sessionStorage.getItem('scc.setup.pending');
-    const invitePending = sessionStorage.getItem('scc.invite.pending');
+    const setupPending = setup || sessionStorage.getItem('scc.setup.pending');
+    const invitePending = invite || sessionStorage.getItem('scc.invite.pending');
     const mode = setupPending ? 'setup' : (invitePending ? 'invite' : null);
     state.accessMode = mode;
     return { setup:setupPending, invite:invitePending, mode };
   } catch { return { setup:null, invite:null, mode:null }; }
 }
+
+function clearAccessParam(kind) {
+  try {
+    sessionStorage.removeItem(kind === 'setup' ? 'scc.setup.pending' : 'scc.invite.pending');
+    const u = new URL(window.location.href);
+    u.searchParams.delete(kind);
+    history.replaceState({}, '', `${u.pathname}${u.search}${u.hash}`);
+  } catch {}
+  state.accessMode = null;
+}
+
 function eventToRow(event) {
   return {
     household_id: state.household.id,
@@ -149,7 +157,11 @@ export async function signInPassword(email, password) {
   if (pass.length < 12) throw new Error('Password must be at least 12 characters.');
   setState({ status:'auth_sending', error:null });
   const { error } = await supabase.auth.signInWithPassword({ email:clean, password:pass });
-  if (error) { reportError(error); throw error; }
+  if (error) {
+    const message = errorText(error);
+    setState({ status:'signed_out', error:message });
+    throw new Error(message);
+  }
   setState({ error:null });
 }
 
@@ -171,23 +183,30 @@ export async function signUpAccess(email, password, familyName = '') {
   const pass = String(password || '');
   if (!/^\S+@\S+\.\S+$/.test(clean)) throw new Error('Enter a valid email address.');
   if (pass.length < 12) throw new Error('Password must be at least 12 characters.');
-  const setup = sessionStorage.getItem('scc.setup.pending');
-  const invite = sessionStorage.getItem('scc.invite.pending');
+  const access = extractAccess();
+  const setup = access.setup;
+  const invite = access.invite;
   if (!setup && !invite) throw new Error('This link does not contain an active setup or caregiver invite.');
   setState({ status:'auth_sending', error:null });
-  if (setup) {
-    const family = String(familyName || '').trim();
-    if (!family) throw new Error('Enter a family name.');
-    await accessSignup('/api/bootstrap-signup', { token:setup, email:clean, password:pass, familyName:family });
-    sessionStorage.removeItem('scc.setup.pending');
-    state.accessMode = null;
-  } else {
-    await accessSignup('/api/invite-signup', { inviteToken:invite, email:clean, password:pass });
-    sessionStorage.removeItem('scc.invite.pending');
-    state.accessMode = null;
+  try {
+    if (setup) {
+      const family = String(familyName || '').trim();
+      if (!family) throw new Error('Enter a family name.');
+      await accessSignup('/api/bootstrap-signup', { token:setup, email:clean, password:pass, familyName:family });
+      clearAccessParam('setup');
+    } else {
+      await accessSignup('/api/invite-signup', { inviteToken:invite, email:clean, password:pass });
+      clearAccessParam('invite');
+    }
+    const { error } = await supabase.auth.signInWithPassword({ email:clean, password:pass });
+    if (error) throw error;
+    setState({ error:null });
+  } catch (error) {
+    const message = errorText(error);
+    state.accessMode = setup ? 'setup' : 'invite';
+    setState({ status:'signed_out', error:message });
+    throw new Error(message);
   }
-  const { error } = await supabase.auth.signInWithPassword({ email:clean, password:pass });
-  if (error) { reportError(error); throw error; }
 }
 
 export async function signOutCloud() {
