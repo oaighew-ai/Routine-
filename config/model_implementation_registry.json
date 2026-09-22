@@ -81,6 +81,14 @@
       "status": "PRICE_MONITOR",
       "deliveryContract": null,
       "note": "Price dislocation monitor, never an alternate pick feed."
+    },
+    {
+      "modelId": "S04_BR1",
+      "location": "cfb_edge/bayesian_regime.py",
+      "reproducibleInRepo": true,
+      "status": "HISTORICAL_OOS_REJECTED_SHADOW",
+      "deliveryContract": null,
+      "note": "Chronology-safe ablation harness. Week 1 fits, Week 2 selects hyperparameters, Week 3 is untouched. No delivery or staking path."
     }
   ]
 }
