@@ -241,9 +241,9 @@ def _warn_if_unverified(sources: dict[str, str]) -> None:
     difference only surfaces later, as closing line value computed against a
     number that nothing ever recorded as true.
     """
-    from .clv import CAPTURED
+    from .clv import TRUE_OPEN
 
-    loose = sorted(g for g, src in sources.items() if src != CAPTURED)
+    loose = sorted(g for g, src in sources.items() if src != TRUE_OPEN)
     if not loose:
         return
     print(f"warning: {len(loose)} of {len(sources)} opening lines carry no "
