@@ -365,10 +365,11 @@ function feedView(d) {
   return `<section class="care-screen"><div class="eyebrow">Night feed</div><div class="timer">${fmtElapsed(msSince(d.timerStartedAt,now))}</div><div class="care-master">IN CRIB · ${fmtElapsed(msSince(d.state.cribPlacedAt,now))}</div><div class="card"><div class="care-list"><div class="care-item">Keep room dark</div><div class="care-item">Keep interaction quiet</div><div class="care-item">No play</div></div></div><button class="primary" id="finish-feed">RETURN TO CRIB</button></section>`;
 }
 function genericCareView(d) {
-  const labels = { DIAPER:'DIAPER CARE', COMFORTING:'COMFORTING', OTHER_CARE:'CARE IN PROGRESS' };
+  const labels = { DIAPER:'DIAPER CARE', COMFORTING:'COMFORTING', OTHER_CARE:'CARE PAUSED' };
   const endMap = { DIAPER:'DIAPER_ENDED', COMFORTING:'COMFORT_ENDED', OTHER_CARE:'OTHER_CARE_ENDED' };
   const end = endMap[d.state.caregiverAction] || 'OTHER_CARE_ENDED';
-  return `<section class="care-screen"><div class="eyebrow">Care mode</div><div class="timer">${fmtElapsed(msSince(d.timerStartedAt,now))}</div><div class="card"><h2 class="care-title">${labels[d.state.caregiverAction]||'CARE IN PROGRESS'}</h2><p class="micro">Sleep-training guidance is paused while you handle the care you selected.</p></div><button class="primary" data-care-end="${end}">CARE COMPLETE</button></section>`;
+  const actionLabel = d.state.caregiverAction === CaregiverAction.OTHER_CARE ? 'RESUME NIGHT' : 'CARE COMPLETE';
+  return `<section class="care-screen"><div class="eyebrow">Care mode</div><div class="timer">${fmtElapsed(msSince(d.timerStartedAt,now))}</div><div class="care-master">IN CRIB · ${fmtElapsed(msSince(d.state.cribPlacedAt,now))}</div><div class="card"><h2 class="care-title">${labels[d.state.caregiverAction]||'CARE IN PROGRESS'}</h2><p class="micro">Sleep-training guidance is paused while you handle the care you selected.</p></div><button class="primary" data-care-end="${end}">${actionLabel}</button></section>`;
 }
 function safetyView() {
   return `<section class="care-screen safety-screen"><div class="card safety-card"><div class="eyebrow danger-text">Safety override</div><h1>GO IN</h1><p>Check baby whenever something seems wrong. Sleep-training timers and prior care actions are suspended.</p><p class="micro">Examples include illness, breathing concern, vomiting, injury, dirty or leaking diaper, unusual or distressed crying, or parent concern.</p></div><button class="primary safety-primary" id="resolve-safety">CARE RESOLVED</button></section>`;
