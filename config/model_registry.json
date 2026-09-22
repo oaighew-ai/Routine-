@@ -1,5 +1,5 @@
 {
-  "schemaVersion": 1,
+  "schemaVersion": 2,
   "registryId": "cfb-edge-model-registry-2026",
   "models": [
     {
@@ -51,7 +51,7 @@
       "version": "week4-4to6-market-confirmed-1",
       "modelStatus": "PROSPECTIVE_SHADOW",
       "deliveryEligible": false,
-      "note": "Frozen after inspecting Weeks 1-3. Week 4 is its first prospective test. Requires a 4-6 point captured-open disagreement plus live same-line Pinnacle-confirmed price value. Zero delivery authority."
+      "note": "Week 4 is shadow-only and not audit-grade unless an individual row is recovered as source=true_open. First-seen capture alone cannot validate it."
     },
     {
       "id": "S04_ES2",
@@ -60,7 +60,7 @@
       "version": "gap-4to6-plus-market-quality-1",
       "modelStatus": "PREREGISTERED_NOT_ACTIVE",
       "deliveryEligible": false,
-      "note": "Frozen before Week 4 outcomes. First prospective week is Week 5. Requires S04_ES1 signal family, S03_M1 market-quality pass and conservative executable EV floor."
+      "note": "Week 5 is the first audit-grade prospective cohort and requires source=true_open proven from Kalshi open_time within 900 seconds plus the frozen market-quality and executable-EV gates."
     },
     {
       "id": "S05",
