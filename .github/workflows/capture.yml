@@ -28,9 +28,9 @@ name: capture
 
 on:
   schedule:
-    - cron: "*/30 22,23 * 9-11 0"   # Sunday evening, once the window opens
-    - cron: "*/30 * * 9-11 1"       # Monday, all day
-    - cron: "*/30 0-17 * 9-11 2"    # Tuesday, until the window closes
+    - cron: "*/15 20-23 * 9-11 0"   # Sunday: start two hours before nominal release
+    - cron: "*/15 * * 9-11 1"       # Monday
+    - cron: "*/15 0-17 * 9-11 2"    # Tuesday
   workflow_dispatch:                 # and on demand, to prove it works
 
 permissions:
@@ -95,14 +95,18 @@ jobs:
               ;;
           esac
 
-      - name: One poll
+      - name: Repeated polls around the scheduled trigger
         id: poll
         if: steps.slate.outputs.ok == '1'
+        timeout-minutes: 12
         run: |
-          python3 -m cfb_edge.watch --source kalshi \
-            --slate capture-data/data/slate_current.csv \
-            --log capture-data/data/opens.jsonl.gz \
-            --out capture-data/data/opens.csv --once
+          for attempt in 1 2 3; do
+            python3 -m cfb_edge.watch --source kalshi \
+              --slate capture-data/data/slate_current.csv \
+              --log capture-data/data/opens.jsonl.gz \
+              --out capture-data/data/opens.csv --once
+            [ "$attempt" -eq 3 ] || sleep 240
+          done
 
       - name: Build read-only capture report
         if: always()
