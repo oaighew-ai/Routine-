@@ -590,12 +590,26 @@ function bind() {
   const next = document.querySelector('#next-night'); if (next) next.onclick = nextNight;
 }
 
+function isEditingForm() {
+  const el = document.activeElement;
+  return Boolean(el && ['INPUT','TEXTAREA','SELECT'].includes(el.tagName));
+}
+
 window.addEventListener('online', render);
 window.addEventListener('offline', render);
-window.addEventListener('scc:cloud-state', e => { cloud = e.detail || getCloudState(); render(); });
-window.addEventListener('scc:local-change', () => { if (document.visibilityState === 'visible') render(); });
-document.addEventListener('visibilitychange', () => { if (document.visibilityState === 'visible') render(); });
-setInterval(() => { if (document.visibilityState === 'visible') render(); }, 1000);
+window.addEventListener('scc:cloud-state', e => {
+  cloud = e.detail || getCloudState();
+  if (!isEditingForm()) render();
+});
+window.addEventListener('scc:local-change', () => {
+  if (document.visibilityState === 'visible' && !isEditingForm()) render();
+});
+document.addEventListener('visibilitychange', () => {
+  if (document.visibilityState === 'visible' && !isEditingForm()) render();
+});
+setInterval(() => {
+  if (document.visibilityState === 'visible' && !isEditingForm()) render();
+}, 1000);
 
 render();
 startCloudSync().catch(e => { console.error('Cloud sync bootstrap failed', e); });
