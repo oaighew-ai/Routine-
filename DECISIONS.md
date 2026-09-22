@@ -956,3 +956,26 @@ prospective.
 **Reversal criterion.** No Week 5 result may change these gates and remain part
 of the same experiment. Any rule change creates a separately versioned
 challenger whose prospective clock starts after that change.
+
+
+## 2026-09-22 — D25. Week 5 rule is runtime-locked; capture quality is measured independently
+
+**Decision.** The S04_ES2 Week 5 rule is now frozen in `config/week5_freeze.json`.
+The runtime compares the active S04_ES2 and S03_M1 configurations to that manifest
+before any live odds request. Any drift in signal thresholds, open-lag tolerance,
+market-quality requirements, EV floor, reference book, venue set, staking state or
+delivery authority fails closed.
+
+Capture quality is evaluated by a separate `week5_capture_health` contract that
+reads every game on the Week 5 slate, not only games where the model generates a
+signal. It reports TRUE_OPEN coverage, source counts and capture-lag distribution,
+and it has no decision or promotion authority.
+
+The capture-health workflow runs after successful capture jobs while Week 5 is the
+current or opening week. It writes a versioned audit artifact to the evidence branch.
+An internally inconsistent TRUE_OPEN row is an integrity failure; incomplete coverage
+is reported as collection state rather than converted into a model judgment.
+
+**Reversal criterion.** Any change to a frozen Week 5 rule creates a new version and
+a new prospective clock. Week 5 outcomes may not be used to alter this manifest and
+remain in the same validation cohort.

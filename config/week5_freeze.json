@@ -1,0 +1,64 @@
+{
+  "schemaVersion": 1,
+  "freezeId": "S04_ES2_WEEK5_FREEZE_V1",
+  "createdAt": "2026-09-22",
+  "cohort": {
+    "season": 2026,
+    "week": 5,
+    "purpose": "First audit-grade prospective cohort. Freeze directional and execution gates before observing Week 5 outcomes."
+  },
+  "s04_es2": {
+    "modelId": "S04_ES2",
+    "version": "gap-4to6-plus-market-quality-1",
+    "season": 2026,
+    "firstProspectiveWeek": 5,
+    "signalFamily": "S04_ES1_4_TO_6_GAP",
+    "marketQualityModel": "S03_M1",
+    "gapMin": 4,
+    "gapMax": 6,
+    "minimumFreshSameLineBooks": 3,
+    "maximumQuoteAgeSeconds": 900,
+    "minimumConservativeExecutableEv": 0.005,
+    "requireExactPinnacleLine": true,
+    "requireMovementRemaining": true,
+    "requireMarketQualityPass": true,
+    "deliveryEligible": false,
+    "promotionEffect": "NONE",
+    "actualStakeUnits": 0,
+    "requiredOpenSource": "true_open",
+    "maximumOpenCaptureLagSeconds": 900,
+    "auditGradeOpenRequired": true,
+    "referenceBook": "pinnacle",
+    "venues": ["draftkings", "fanduel", "betmgm", "betrivers"],
+    "markets": ["spreads"],
+    "historicalMovementBudgetSource": "2026 Weeks 1-3 4-6 gap cohort"
+  },
+  "s03_m1": {
+    "modelId": "S03_M1",
+    "version": "market-quality-monitor-1",
+    "market": "spreads",
+    "referenceBook": "pinnacle",
+    "minimumFreshSameLineBooks": 3,
+    "maximumQuoteAgeSeconds": 900,
+    "keyNumbers": [3, 7, 10, 14],
+    "directionalAuthority": false,
+    "deliveryEligible": false,
+    "promotionEffect": "NONE"
+  },
+  "changePolicy": {
+    "rule": "Any mismatch fails the Week 5 runtime before live odds are requested.",
+    "allowedDuringWeek5": [
+      "capture reliability fixes that do not change classification thresholds",
+      "observability and reporting",
+      "bug fixes that make the implementation conform to this manifest"
+    ],
+    "notAllowedDuringWeek5": [
+      "signal threshold changes",
+      "EV floor changes",
+      "freshness or open-lag tolerance changes",
+      "new directional features",
+      "venue or reference-book changes",
+      "promotion or staking enablement"
+    ]
+  }
+}
