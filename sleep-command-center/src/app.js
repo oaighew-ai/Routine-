@@ -10,7 +10,7 @@ import {
 import {
   acceptCloudConflict, createFamilyInvite, createHousehold, getCloudState,
   isCloudConfigured, signInPassword, signOutCloud, signUpAccess, startCloudSync
-} from './cloud.js';
+} from './cloud.js?v=20260922-1627';
 
 const app = document.querySelector('#app');
 let view = 'tonight';
@@ -292,6 +292,7 @@ function authView() {
   const title = setup ? 'Set up your private family workspace' : (invite ? 'Join your family workspace' : 'Sign in to your family workspace');
   const action = setup ? 'CREATE OWNER ACCOUNT' : (invite ? 'CREATE & JOIN' : 'SIGN IN');
   return `<section class="card auth-card"><div class="eyebrow">Private family sync</div><h2>${title}</h2><p class="micro">One shared night across phones. Sleep events remain append-only, and access is limited to authenticated family members.</p>
+    ${cloud.error?`<div class="storage-warning"><strong>Account setup</strong><span>${esc(cloud.error)}</span></div>`:''}
     ${setup?`<div class="field"><label>Family name</label><input id="auth-family" maxlength="80" autocomplete="organization" value="Aighewi’s" placeholder="Family name"></div>`:''}
     <div class="field"><label>Email</label><input id="auth-email" type="email" autocomplete="email" inputmode="email" value="${setup?'aighewifamily@gmail.com':''}" placeholder="you@example.com"></div>
     <div class="field"><label>Password</label><input id="auth-password" type="password" autocomplete="${setup||invite?'new-password':'current-password'}" minlength="12" placeholder="12+ characters" aria-describedby="password-help"></div>
