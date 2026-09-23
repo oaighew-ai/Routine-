@@ -3,6 +3,7 @@ from __future__ import annotations
 import csv
 import tempfile
 import unittest
+from datetime import datetime, timezone
 from pathlib import Path
 
 from cfb_edge.week5_capture_health import build
@@ -27,7 +28,9 @@ class Week5CaptureHealthTests(unittest.TestCase):
                 "first_valid_two_sided_quote_time":"2026-09-20T20:00:00Z",
                 "poll_time":"2026-09-20T20:00:02Z","code_revision":"abc",
             }])
-            r=build(slate,opens)
+            now=datetime(2026,9,23,4,12,tzinfo=timezone.utc)
+            r=build(slate,opens,now=now)
+            self.assertEqual(r["generatedAt"],now.isoformat())
             self.assertEqual(r["status"],"AUDIT_GRADE_CAPTURE_COMPLETE")
             self.assertTrue(r["rows"][0]["provenanceComplete"])
             self.assertTrue(r["rows"][0]["evidenceSha256"])
