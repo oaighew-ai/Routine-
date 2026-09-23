@@ -109,7 +109,7 @@ def capture(
     now=retrieved_at or datetime.now(timezone.utc)
     gi=_game_index(games); vi=_venue_index(venues)
     raw_dir=Path(out_raw_dir); raw_dir.mkdir(parents=True,exist_ok=True)
-    rows=[]; manifest=[]
+    rows=[]; manifest=[]; fetched: dict[str, tuple[dict[str,Any],str,Path,int]] = {}
 
     for s in slate:
         game=str(s.get("game") or "").strip(); kickoff=_time(s.get("kickoff"))
@@ -137,13 +137,21 @@ def capture(
 
         url=forecast_url(float(venue["latitude"]),float(venue["longitude"]))
         try:
-            req=urllib.request.Request(url,headers={"User-Agent":"cfb-edge/1.0","Accept":"application/json"})
-            with opener(req,timeout=60) as resp:
-                raw=resp.read()
-            payload=json.loads(raw)
-            sha=hashlib.sha256(raw).hexdigest()
-            raw_path=raw_dir/f"{sha}.json"
-            if not raw_path.exists(): raw_path.write_bytes(raw)
+            if url in fetched:
+                payload,sha,raw_path,raw_bytes=fetched[url]
+            else:
+                req=urllib.request.Request(url,headers={"User-Agent":"cfb-edge/1.0","Accept":"application/json"})
+                with opener(req,timeout=60) as resp:
+                    raw=resp.read()
+                payload=json.loads(raw)
+                sha=hashlib.sha256(raw).hexdigest()
+                raw_path=raw_dir/f"{sha}.json"
+                if not raw_path.exists(): raw_path.write_bytes(raw)
+                raw_bytes=len(raw)
+                fetched[url]=(payload,sha,raw_path,raw_bytes)
+                manifest.append({"kind":"weather_forecast","source":"open-meteo","url":url,
+                                 "retrievedAt":now.isoformat(),"sha256":sha,"bytes":raw_bytes,
+                                 "path":str(raw_path)})
             point=_nearest_hour(payload,kickoff)
             if point is None:
                 exclusions.append("KICKOFF_OUTSIDE_FORECAST_HORIZON")
@@ -151,9 +159,6 @@ def capture(
             else:
                 wind=point["windMph"]
                 if wind is None: exclusions.append("WIND_MISSING")
-            manifest.append({"kind":"weather_forecast","source":"open-meteo","url":url,
-                             "retrievedAt":now.isoformat(),"sha256":sha,"bytes":len(raw),
-                             "path":str(raw_path)})
             rows.append({
                 "game":game,"kickoff":kickoff.isoformat(),"retrievedAt":now.isoformat(),
                 "venue":dict(venue),"auditGrade":not exclusions,"windMph":wind,
