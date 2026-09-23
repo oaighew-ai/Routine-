@@ -33,7 +33,23 @@ jobs:
         with:
           python-version: "3.13"
 
+      - name: Validate canonical Week 5 cohort
+        id: cohort
+        run: |
+          set -euo pipefail
+          FROZEN="capture-data/data/week5_2026_slate.csv"
+          if [ ! -f "$FROZEN" ]; then
+            echo "run=0" >> "$GITHUB_OUTPUT"
+            echo "Canonical Week 5 slate is not present yet." >> "$GITHUB_STEP_SUMMARY"
+            exit 0
+          fi
+          python3 -m cfb_edge.cohort validate-slate \
+            --config config/week5_cohort.json \
+            --slate "$FROZEN" >> "$GITHUB_STEP_SUMMARY"
+          echo "run=1" >> "$GITHUB_OUTPUT"
+
       - name: Grade eligible S04_ES2 signals
+        if: steps.cohort.outputs.run == '1'
         id: grade
         run: |
           set -euo pipefail
@@ -44,7 +60,10 @@ jobs:
             echo "Week 5 signal or capture report not present yet." >> "$GITHUB_STEP_SUMMARY"
             exit 0
           fi
-          python3 -m cfb_edge.signal_grader             --signals capture-data/data/s04-es2-live.json             --capture-report "$REPORT"             --out capture-data/data/s04-es2-grades.json
+          python3 -m cfb_edge.signal_grader \
+            --signals capture-data/data/s04-es2-live.json \
+            --capture-report "$REPORT" \
+            --out capture-data/data/s04-es2-grades.json
           echo "run=1" >> "$GITHUB_OUTPUT"
 
           python3 - <<'PY' >> "$GITHUB_STEP_SUMMARY"
@@ -53,6 +72,7 @@ jobs:
           r=json.loads(Path("capture-data/data/s04-es2-grades.json").read_text())
           s=r["summary"]
           print("## S04_ES2 automatic grading")
+          print("- canonical cohort: **CFB_2026_PRODUCT_WEEK5**")
           print(f"- signal rows: **{s['signalRows']}**")
           print(f"- gradeable: **{s['gradeableRows']}**")
           print(f"- mean line CLV: **{s['meanLineClvPoints']}**")
@@ -61,7 +81,7 @@ jobs:
           PY
 
       - name: Publish grading evidence
-        if: steps.grade.outputs.run == '1'
+        if: steps.cohort.outputs.run == '1' && steps.grade.outputs.run == '1'
         working-directory: capture-data
         run: |
           set -euo pipefail
