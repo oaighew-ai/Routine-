@@ -72,6 +72,7 @@ jobs:
           print("## Week 5 capture health")
           print(f"- status: **{r['status']}**")
           print(f"- TRUE_OPEN coverage: **{s['trueOpenRows']}/{s['slateRows']} ({s['trueOpenCoveragePct']:.1%})**")
+          print(f"- replay-complete audit coverage: **{s['provenanceCompleteTrueOpenRows']}/{s['slateRows']} ({s['auditGradeCoveragePct']:.1%})**")
           print(f"- observed rows: **{s['observedRows']}/{s['slateRows']}**")
           print(f"- source counts: **{s['sourceCounts']}**")
           lag=s["trueOpenLagSeconds"]
