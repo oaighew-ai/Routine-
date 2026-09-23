@@ -11,6 +11,7 @@ WORKFLOWS = [
     ROOT / ".github/workflows/week5-capture-health.yml",
     ROOT / ".github/workflows/week5-signal-grade.yml",
     ROOT / ".github/workflows/br2-feature-capture.yml",
+    ROOT / ".github/workflows/week5-late-open-capture.yml",
 ]
 
 
