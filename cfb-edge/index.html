@@ -341,8 +341,19 @@ function renderWeek5(health,es2,grades,br2){
   const active=["ppaDiff","successRateDiff","explosivenessDiff","paceDiff","restDaysDiff"];
   const populatedFamilies=Object.keys(cov).filter(k=>(cov[k]||0)>0).length;
   const plannedFamilies=Object.keys(cov).length||10;
+  const qbRows=cov.qbContinuityDiff??0;
+  const epaRows=cov.epaDiff??0;
+  const lineRows=cov.linePlayDiff??0;
+  const travelRows=cov.travelMilesDiff??0;
+  const windRows=cov.windMph??0;
+  const qbExample=(br2?.rows||[]).find(r=>r?.features?.qbContinuityDiff!=null);
+  const qbExampleText=qbExample
+    ? ` · ${qbExample.game}: ${Number(qbExample.features.qbContinuityDiff).toFixed(1)}`
+    : "";
   $("br2Coverage").textContent=br2?(populatedFamilies+"/"+plannedFamilies):"PENDING";
-  $("br2Note").textContent=br2?.status==="DATA_COLLECTION_ONLY"?(games+" games · collection only · no model fit"):"feature snapshot pending";
+  $("br2Note").textContent=br2?.status==="DATA_COLLECTION_ONLY"
+    ? `QB ${qbRows}/${games}${qbExampleText} · EPA ${epaRows}/${games} · line ${lineRows}/${games} · travel ${travelRows}/${games} · weather ${windRows}/${games} · collection only`
+    :"feature snapshot pending";
 
   let state=health?"COLLECTING":"PRE-WINDOW";
   let cls="warn";
