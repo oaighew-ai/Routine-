@@ -4,13 +4,13 @@
   "contract": "CFB_EDGE_POWERUP_HEALTH_V1",
   "deliveryEffect": "NONE",
   "freezeManifestSha256": "dcc2ad5deca6b252fbd653d350055e424cf56aea26a1b8a8c87f24d2e70be2d7",
-  "generatedAt": "2026-09-23T04:10:13.685634+00:00",
+  "generatedAt": "2026-09-23T04:10:35.507379+00:00",
   "metrics": {
     "artifactAgeHours": {
-      "br2Hours": 0.07657934277777778,
+      "br2Hours": 0.08264093861111112,
       "captureHealthHours": null,
       "es2Hours": null,
-      "gradesHours": 0.43035709944444445
+      "gradesHours": 0.0016694625
     },
     "auditGradeOpenRows": 0,
     "br2Games": 57,
@@ -19,10 +19,10 @@
     "br2SourceManifestComplete": true,
     "gradedExecutableShadowRows": 0,
     "qualifiedExecutableShadowRows": 0,
-    "slateRows": 0
+    "slateRows": 57
   },
   "nextUnlocks": [
-    "Publish the Week 5 capture-health contract for the active canonical cohort; do not infer capture quality from artifact absence.",
+    "Increase replay-complete TRUE_OPEN coverage; do not infer missing opens.",
     "Capture fresh pre-kickoff closes and grade the executable-shadow cohort automatically.",
     "Add timestamp-clean adapters for: epaDiff, qbContinuityDiff.",
     "Do not fit or promote BR2 until a separate feature freeze and future chronological holdout are registered."
@@ -41,8 +41,8 @@
     },
     "openProvenance": {
       "complete": false,
-      "detail": "Canonical Week 5 capture window is active, but the capture-health artifact has not published yet.",
-      "status": "AWAITING_ARTIFACT"
+      "detail": "0/57 Week 5 opens are replay-complete.",
+      "status": "COLLECTING"
     },
     "s04Es2": {
       "complete": true,
