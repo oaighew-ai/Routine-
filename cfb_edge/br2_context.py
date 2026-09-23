@@ -5,7 +5,8 @@ This module combines only replayable, timestamped evidence:
 - CFBD week-bounded advanced line-play statistics
 - CFBD team/venue coordinates
 - Open-Meteo point-in-time kickoff forecast
-- separately validated QB continuity evidence
+- CFBD week-bounded passer concentration for QB continuity
+- separately validated official QB/depth evidence as information-state context
 
 It cannot create a pick or change S04_ES2.
 """
@@ -201,6 +202,60 @@ def _qb_index(payload: Mapping[str, Any] | None) -> dict[str, Mapping[str, Any]]
     }
 
 
+def _qb_continuity_index(
+    rows: Sequence[Mapping[str, Any]],
+) -> dict[str, dict[str, Any]]:
+    """Primary-passer attempt share through the frozen prior-week cutoff.
+
+    CFBD's season player-stat endpoint is already bounded by startWeek/endWeek
+    upstream. This parser accepts the common attempt labels defensively and
+    aggregates duplicate rows by player. Trick-play passers remain in the
+    denominator by design: the feature measures how concentrated a team's
+    passing workload has been in its primary passer, not a subjective depth
+    chart label.
+    """
+    aliases = {
+        "att", "attempt", "attempts", "passatt", "passattempt",
+        "passattempts", "passingatt", "passingattempt", "passingattempts",
+    }
+    acc: dict[str, dict[str, Any]] = {}
+    for row in rows:
+        if _norm(row.get("category")) not in ("", "passing"):
+            continue
+        stat_type = "".join(ch for ch in _norm(row.get("statType")) if ch.isalnum())
+        if stat_type not in aliases:
+            continue
+        attempts = _num(row.get("stat"))
+        team = str(row.get("team") or "").strip()
+        player = str(row.get("player") or "").strip()
+        player_id = str(row.get("playerId") or player).strip()
+        if not team or not player_id or attempts is None or attempts < 0:
+            continue
+        t = acc.setdefault(_norm(team), {"team": team, "players": {}})
+        p = t["players"].setdefault(
+            player_id, {"playerId": player_id, "player": player or player_id, "attempts": 0.0}
+        )
+        p["attempts"] += attempts
+
+    out: dict[str, dict[str, Any]] = {}
+    for team_key, team in acc.items():
+        players = list(team["players"].values())
+        total = sum(float(p["attempts"]) for p in players)
+        if total <= 0:
+            continue
+        primary = max(players, key=lambda p: (float(p["attempts"]), p["playerId"]))
+        out[team_key] = {
+            "team": team["team"],
+            "primaryPlayerId": primary["playerId"],
+            "primaryPlayer": primary["player"],
+            "primaryAttempts": float(primary["attempts"]),
+            "teamAttempts": total,
+            "primaryAttemptShare": float(primary["attempts"]) / total,
+            "passers": len(players),
+        }
+    return out
+
+
 def build_context(
     *,
     slate: Sequence[Mapping[str, Any]],
@@ -209,6 +264,7 @@ def build_context(
     venues: Sequence[Mapping[str, Any]],
     wepa: Sequence[Mapping[str, Any]],
     advanced: Sequence[Mapping[str, Any]],
+    qb_stats: Sequence[Mapping[str, Any]],
     weather: Mapping[str, Any] | None,
     qb_evidence: Mapping[str, Any] | None,
     as_of: datetime,
@@ -219,6 +275,7 @@ def build_context(
     venue_idx = _index_venues(venues)
     wepa_idx = _wepa_index(wepa)
     adv_idx = _advanced_index(advanced)
+    qb_continuity = _qb_continuity_index(qb_stats)
     weather_idx = _weather_index(weather)
     qb_idx = _qb_index(qb_evidence)
     rows = []
@@ -309,14 +366,27 @@ def build_context(
             else:
                 audit["windMph"] = False
 
-            # QB continuity: only an independently validated official-source contract may populate it.
-            qr = qb_idx.get(_norm(game))
-            if qr and qr.get("auditGrade") is True and qr.get("featureValue") is not None:
-                features["qbContinuityDiff"] = _num(qr.get("featureValue"))
-                audit["qbContinuityDiff"] = features["qbContinuityDiff"] is not None
-                evidence["qbContinuity"] = dict(qr)
+            # QB continuity: primary-passer attempt concentration using only
+            # completed prior provider weeks. Current depth/injury information
+            # remains a separate information-state evidence channel.
+            hq = qb_continuity.get(_norm(home))
+            aq = qb_continuity.get(_norm(away))
+            if hq and aq:
+                features["qbContinuityDiff"] = (
+                    float(hq["primaryAttemptShare"]) - float(aq["primaryAttemptShare"])
+                )
+                audit["qbContinuityDiff"] = True
+                evidence["qbContinuity"] = {
+                    "definition": "home minus away primary-passer share of team passing attempts through the frozen prior-week cutoff",
+                    "home": dict(hq),
+                    "away": dict(aq),
+                }
             else:
                 audit["qbContinuityDiff"] = False
+
+            qr = qb_idx.get(_norm(game))
+            if qr and qr.get("auditGrade") is True:
+                evidence["qbInformationState"] = dict(qr)
 
         payload = {
             "game": game,
@@ -381,6 +451,7 @@ def main(argv: list[str] | None = None) -> int:
     p.add_argument("--venues", required=True)
     p.add_argument("--wepa", required=True)
     p.add_argument("--advanced", required=True)
+    p.add_argument("--qb-stats", required=True)
     p.add_argument("--weather")
     p.add_argument("--qb-evidence")
     p.add_argument("--as-of")
@@ -397,6 +468,7 @@ def main(argv: list[str] | None = None) -> int:
         venues=_load_list(args.venues),
         wepa=_load_list(args.wepa),
         advanced=_load_list(args.advanced),
+        qb_stats=_load_list(args.qb_stats),
         weather=_json(args.weather),
         qb_evidence=_json(args.qb_evidence),
         as_of=as_of,
