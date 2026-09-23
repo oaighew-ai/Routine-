@@ -112,16 +112,17 @@ def resolve(name: str, known: set[str]) -> str | None:
     if name in known:
         return name
     key = normalize(name)
-    by_key = {normalize(k): k for k in known}
-    if key in by_key:
-        return by_key[key]
+    if not key:
+        return None
     aliased = ALIASES.get(key)
-    if aliased and aliased in known:
-        return aliased
-    # A normalised alias target, for feeds that also differ in punctuation.
+    keys = {key}
     if aliased:
-        return by_key.get(normalize(aliased))
-    return None
+        keys.add(normalize(aliased))
+    # Never overwrite a normalized collision with whichever set member happens
+    # to be visited last. Exact input names above retain their identity; every
+    # non-exact spelling must identify exactly one known team across both paths.
+    candidates = {team for team in known if normalize(team) in keys}
+    return next(iter(candidates)) if len(candidates) == 1 else None
 
 
 def resolve_game(game: str, known: set[str]) -> str | None:
