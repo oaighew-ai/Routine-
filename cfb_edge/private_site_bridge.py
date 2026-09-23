@@ -30,16 +30,32 @@ def _feature_summary(br2: Mapping[str, Any] | None) -> dict[str, Any]:
     if not br2:
         return {
             "status":"PENDING","games":0,"populatedFamilies":[],
-            "missingFamilies":[],"sourceManifestComplete":False,
+            "missingFamilies":[],"coverageRows":{},"fullyPopulatedRows":0,
+            "qbContinuityExample":None,"sourceManifestComplete":False,
             "generatedAt":None,
         }
     s=br2.get("summary") or {}
     cov=s.get("featureCoverageRows") or {}
+    coverage={str(k):int(v or 0) for k,v in cov.items()}
+    qb_example=None
+    for row in br2.get("rows") or []:
+        features=row.get("features") or {}
+        value=features.get("qbContinuityDiff")
+        if value is not None:
+            qb_example={
+                "game":row.get("game"),
+                "value":float(value),
+                "kickoff":row.get("kickoff"),
+            }
+            break
     return {
         "status": br2.get("status") or "UNKNOWN",
         "games": int(s.get("games") or 0),
-        "populatedFamilies": sorted(k for k,v in cov.items() if int(v or 0)>0),
-        "missingFamilies": sorted(k for k,v in cov.items() if int(v or 0)==0),
+        "populatedFamilies": sorted(k for k,v in coverage.items() if v>0),
+        "missingFamilies": sorted(k for k,v in coverage.items() if v==0),
+        "coverageRows":coverage,
+        "fullyPopulatedRows":int(s.get("fullyPopulatedRows") or 0),
+        "qbContinuityExample":qb_example,
         "sourceManifestComplete": bool(br2.get("sourceManifest")) and all(
             x.get("sha256") and x.get("path") and x.get("kind")
             for x in (br2.get("sourceManifest") or [])
