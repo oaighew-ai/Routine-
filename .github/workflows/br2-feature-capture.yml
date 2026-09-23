@@ -22,7 +22,7 @@ permissions:
 
 concurrency:
   group: cfb-br2-feature-capture
-  cancel-in-progress: false
+  cancel-in-progress: true
 
 jobs:
   snapshot:
