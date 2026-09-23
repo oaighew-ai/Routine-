@@ -483,14 +483,14 @@ def board_quotes(
     # unresolved or ambiguous names still fail closed.
     from ..teams import resolve
 
-    schedule: dict[frozenset[str], tuple[str, str]] = {}
+    schedule: set[tuple[str, str]] = set()
     known_teams: set[str] = set()
     for g in games:
         if "@" not in g:
             continue
         a, h = (part.strip() for part in g.split("@", 1))
-        if a and h:
-            schedule[frozenset((a, h))] = (a, h)
+        if a and h and a != h:
+            schedule.add((a, h))
             known_teams.update((a, h))
 
     out = []
@@ -508,11 +508,11 @@ def board_quotes(
             # slate: exactly one fixture may contain this resolved team, or the
             # orientation is a guess again and the game is skipped.
             solo = next(iter(resolved_teams))
-            hits = [f for key, f in schedule.items() if solo in key]
+            hits = [f for f in schedule if solo in f]
             fixture = hits[0] if len(hits) == 1 else None
         else:
-            fixture = (schedule.get(frozenset(resolved_teams))
-                       if len(resolved_teams) == 2 else None)
+            hits = [f for f in schedule if frozenset(f) == frozenset(resolved_teams)]
+            fixture = hits[0] if len(resolved_teams) == 2 and len(hits) == 1 else None
         if fixture is None:
             continue
         away, home = fixture
