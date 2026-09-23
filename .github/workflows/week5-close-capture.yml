@@ -30,22 +30,29 @@ jobs:
         with:
           python-version: "3.13"
 
-      - name: Resolve active Week 5 game window
+      - name: Resolve canonical Week 5 game window
         id: active
         run: |
-          python3 - <<'PY' > /tmp/week.env
-          from cfb_edge.slate import current_week
-          try:
-              current=current_week(2026)
-              print(f"current={current or 'none'}")
-              print(f"run={1 if current == 5 else 0}")
-          except Exception as exc:
-              print("current=error")
-              print("run=0")
-              print(f"error={type(exc).__name__}: {exc}")
-          PY
+          set -euo pipefail
+          python3 -m cfb_edge.cohort status \
+            --config config/week5_cohort.json \
+            --mode game > /tmp/week.env
           cat /tmp/week.env >> "$GITHUB_OUTPUT"
           cat /tmp/week.env >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Prepare canonical Week 5 slate
+        if: steps.active.outputs.run == '1'
+        run: |
+          set -euo pipefail
+          FROZEN="evidence/data/week5_2026_slate.csv"
+          if [ ! -f "$FROZEN" ]; then
+            python3 -m cfb_edge.cohort build-slate \
+              --config config/week5_cohort.json \
+              --out "$FROZEN"
+          fi
+          python3 -m cfb_edge.cohort validate-slate \
+            --config config/week5_cohort.json \
+            --slate "$FROZEN" >> "$GITHUB_STEP_SUMMARY"
 
       - name: Poll Week 5 close series
         if: steps.active.outputs.run == '1'
@@ -54,7 +61,9 @@ jobs:
           test -f evidence/data/week5_2026_slate.csv
           test -f evidence/data/opens.jsonl.gz
           for attempt in 1 2 3; do
-            python3 -m cfb_edge.watch --source kalshi               --slate evidence/data/week5_2026_slate.csv               --log evidence/data/opens.jsonl.gz --once
+            python3 -m cfb_edge.watch --source kalshi \
+              --slate evidence/data/week5_2026_slate.csv \
+              --log evidence/data/opens.jsonl.gz --once
             [ "$attempt" -eq 3 ] || sleep 240
           done
 
@@ -63,8 +72,14 @@ jobs:
         run: |
           set -euo pipefail
           mkdir -p .tmp/week5-close
-          python3 -m cfb_edge.capture_report             --log evidence/data/opens.jsonl.gz             --slate evidence/data/week5_2026_slate.csv             --out .tmp/week5-close             --capture-outcome success             --revision "$GITHUB_SHA"
-          cp .tmp/week5-close/capture-report.json              evidence/data/week5-close-capture-report.json
+          python3 -m cfb_edge.capture_report \
+            --log evidence/data/opens.jsonl.gz \
+            --slate evidence/data/week5_2026_slate.csv \
+            --out .tmp/week5-close \
+            --capture-outcome success \
+            --revision "$GITHUB_SHA"
+          cp .tmp/week5-close/capture-report.json \
+            evidence/data/week5-close-capture-report.json
 
       - name: Publish close evidence
         if: steps.active.outputs.run == '1'
@@ -73,7 +88,7 @@ jobs:
           set -euo pipefail
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add data/opens.jsonl.gz data/week5-close-capture-report.json
+          git add data/week5_2026_slate.csv data/opens.jsonl.gz data/week5-close-capture-report.json
           git diff --cached --quiet && exit 0
           git commit -q -m "Week 5 close capture $(date -u '+%Y-%m-%d %H:%M UTC')"
           for attempt in 1 2 3; do
