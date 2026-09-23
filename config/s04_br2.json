@@ -1,7 +1,7 @@
 {
-  "schemaVersion": 3,
+  "schemaVersion": 4,
   "modelId": "S04_BR2",
-  "version": "point-in-time-football-context-collection-2",
+  "version": "point-in-time-football-context-collection-3",
   "status": "DATA_COLLECTION_ONLY",
   "deliveryEligible": false,
   "stakingEnabled": false,
@@ -32,10 +32,11 @@
     "linePlayDiff",
     "paceDiff",
     "restDaysDiff",
-    "travelMilesDiff"
+    "travelMilesDiff",
+    "qbContinuityDiff"
   ],
   "explicitlyNotSubstituted": {
-    "qbContinuityDiff": "Only two-sided, official, pre-kickoff, deterministically validated depth-chart/availability evidence may populate this feature. Search results, Action Network context, or LLM extraction alone cannot.",
+    "qbContinuityDiff": "Uses only week-bounded CFBD passing-attempt concentration through the prior provider week. Current depth-chart, injury, search, Action Network, or LLM-derived information cannot overwrite this numeric continuity feature.",
     "windMph": "Realized/reanalysis weather is not substituted for the forecast available at decision time.",
     "epaDiff": "PPA is not relabeled as EPA; EPA uses the prospectively archived CFBD opponent-adjusted WEPA response.",
     "linePlayDiff": "No subjective offensive-line grade is substituted; the registered feature is net CFBD line yards.",
@@ -61,15 +62,19 @@
   "currentlyCollectableFromExternalReplayableAPI": [
     "windMph"
   ],
-  "evidenceGatedFeatures": [
-    "qbContinuityDiff"
-  ],
+  "evidenceGatedFeatures": [],
   "sourceRegistry": "config/br2_source_registry.json",
   "featureCollectionDefinitions": {
     "epaDiff": "home minus away opponent-adjusted net EPA; team net = epa.total - epaAllowed.total from archived CFBD WEPA snapshot",
     "linePlayDiff": "home minus away net line yards; team net = offense.lineYards - defense.lineYards",
     "travelMilesDiff": "home minus away great-circle miles from registered CFBD team location to registered game venue",
     "windMph": "Open-Meteo 10m sustained wind nearest kickoff from the pregame forecast snapshot; confirmed dome = 0 with audit flag",
-    "qbContinuityDiff": "home continuity minus away continuity; each team continuity = 1 iff first-listed QB matches prior official depth chart, otherwise 0; both team packets required"
-  }
+    "qbContinuityDiff": "home minus away primary-passer share of team passing attempts from CFBD /stats/player/season bounded through the prior provider week; all credited passers remain in the denominator",
+    "qbInformationState": "separate non-feature evidence channel for timestamped official depth-chart/availability facts; discovery/search results and public corroboration cannot create or overwrite qbContinuityDiff"
+  },
+  "informationStateEvidence": [
+    "official_qb_depth_chart",
+    "official_availability_report",
+    "public_injury_context"
+  ]
 }
