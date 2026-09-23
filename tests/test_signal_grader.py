@@ -29,7 +29,18 @@ class SignalGraderTests(unittest.TestCase):
                     "source": "first_seen",
                     "auditGrade": False,
                 },
-            ]
+            ],
+            "inspectedLiveRows": [{
+                "game": "A @ H",
+                "side": "H",
+                "kickoff": "2026-09-26T16:00:00Z",
+                "openingHomeLine": -3.0,
+                "source": "true_open",
+                "firstSeen": "2026-09-20T20:00:00Z",
+                "venueOpenTime": "2026-09-20T19:58:00Z",
+                "openLagSeconds": 120,
+                "status": "EXECUTABLE_SHADOW",
+            }]
         }
         capture = {
             "games": [{
@@ -44,9 +55,10 @@ class SignalGraderTests(unittest.TestCase):
             capture,
             now=datetime(2026, 9, 26, 17, 0, tzinfo=timezone.utc),
         )
-        self.assertEqual(report["summary"]["signalRows"], 1)
-        self.assertEqual(report["summary"]["gradeableRows"], 1)
-        self.assertAlmostEqual(report["rows"][0]["lineClvPoints"], 1.0)
+        self.assertEqual(report["summary"]["signalRows"], 2)
+        self.assertEqual(report["summary"]["gradeableRows"], 2)
+        self.assertEqual(report["summary"]["executableShadow"]["gradeableRows"], 1)
+        self.assertAlmostEqual(report["summary"]["executableShadow"]["meanLineClvPoints"], 1.0)
 
     def test_stale_close_is_not_gradeable(self):
         signals = {"candidateAuditRows": [{
