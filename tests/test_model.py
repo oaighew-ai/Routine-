@@ -2108,6 +2108,42 @@ class TestOneSidedLadder(unittest.TestCase):
                               seen_at="2026-09-14T22:00:00+00:00")
         self.assertEqual(quotes, [])
 
+    def test_state_abbreviation_resolves_to_the_slate_team(self):
+        from cfb_edge.providers.kalshi import board_quotes
+
+        board = self._board("Washington St.", [(2.5, 91, 93), (10.5, 67, 71),
+                                                (16.5, 48, 52), (24.5, 26, 30)],
+                            event="26sep26arizwsu")
+        quotes = board_quotes(games=["Arizona @ Washington State"],
+                              opener=self._opener(board),
+                              seen_at="2026-09-20T10:10:00+00:00")
+        self.assertEqual(len(quotes), 1)
+        self.assertEqual(quotes[0].game, "Arizona @ Washington State")
+
+    def test_umass_resolves_without_fuzzy_matching(self):
+        from cfb_edge.providers.kalshi import board_quotes
+
+        board = self._board("UMass", [(2.5, 91, 93), (10.5, 67, 71),
+                                      (16.5, 48, 52), (24.5, 26, 30)],
+                            event="26sep26masssac")
+        quotes = board_quotes(games=["Massachusetts @ Sacramento State"],
+                              opener=self._opener(board),
+                              seen_at="2026-09-20T10:10:00+00:00")
+        self.assertEqual(len(quotes), 1)
+        self.assertEqual(quotes[0].game, "Massachusetts @ Sacramento State")
+
+    def test_louisiana_monroe_resolves_to_ul_monroe(self):
+        from cfb_edge.providers.kalshi import board_quotes
+
+        board = self._board("Louisiana-Monroe", [(2.5, 91, 93), (10.5, 67, 71),
+                                                 (16.5, 48, 52), (24.5, 26, 30)],
+                            event="26sep26fauulm")
+        quotes = board_quotes(games=["Florida Atlantic @ UL Monroe"],
+                              opener=self._opener(board),
+                              seen_at="2026-09-20T10:10:00+00:00")
+        self.assertEqual(len(quotes), 1)
+        self.assertEqual(quotes[0].game, "Florida Atlantic @ UL Monroe")
+
     def test_a_ladder_that_never_crosses_a_coin_flip_still_yields_nothing(self):
         """The one-sided fix must not weaken the refusal to extrapolate."""
         from cfb_edge.providers.kalshi import board_quotes
