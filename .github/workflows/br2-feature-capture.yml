@@ -8,11 +8,15 @@ on:
       - cfb_edge/br2_context.py
       - cfb_edge/br2_weather.py
       - cfb_edge/br2_web_evidence.py
+      - cfb_edge/cohort.py
       - config/s04_br2.json
+      - config/week5_cohort.json
       - config/br2_source_registry.json
       - config/br2_official_source_registry.json
       - config/br2_external_monitors.json
       - .github/workflows/br2-feature-capture.yml
+      - tests/test_cohort.py
+      - tests/test_week5_workflows.py
   schedule:
     - cron: "30 13 * 9-11 2,4,5"   # Tue/Thu/Fri morning ET during season
   workflow_dispatch:
@@ -41,57 +45,40 @@ jobs:
         with:
           python-version: "3.13"
 
-      - name: Build fixed Week 5 slate
-        run: |
-          set -euo pipefail
-          mkdir -p .tmp/br2
-          python3 -m cfb_edge.slate --season 2026 --week 5 --out .tmp/br2/week5.csv
-
-      - name: Enforce Week 5 prospective cutoff
+      - name: Resolve canonical Week 5 prospective window
         id: prospective
         run: |
           set -euo pipefail
-          python3 - <<'PY' > /tmp/br2-window.env
-          import csv
-          from datetime import datetime, timezone
-          from pathlib import Path
-
-          def parse(value):
-              if not value:
-                  return None
-              try:
-                  dt=datetime.fromisoformat(value.replace("Z","+00:00"))
-              except ValueError:
-                  return None
-              return dt if dt.tzinfo else dt.replace(tzinfo=timezone.utc)
-
-          rows=list(csv.DictReader(Path(".tmp/br2/week5.csv").open()))
-          starts=[parse(r.get("kickoff")) for r in rows]
-          starts=[x for x in starts if x is not None]
-          now=datetime.now(timezone.utc)
-          if not starts:
-              print("run=0")
-              print("reason=NO_VALID_KICKOFFS")
-          else:
-              first=min(starts)
-              print(f"first_kickoff={first.isoformat()}")
-              print(f"snapshot_time={now.isoformat()}")
-              print(f"run={1 if now < first else 0}")
-              print("reason=PRE_FIRST_KICKOFF" if now < first else "COHORT_ALREADY_STARTED")
-          PY
+          python3 -m cfb_edge.cohort status \
+            --config config/week5_cohort.json \
+            --mode prospective > /tmp/br2-window.env
           cat /tmp/br2-window.env >> "$GITHUB_OUTPUT"
           cat /tmp/br2-window.env >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Build canonical Week 5 slate
+        if: steps.prospective.outputs.run == '1'
+        run: |
+          set -euo pipefail
+          mkdir -p .tmp/br2
+          python3 -m cfb_edge.cohort build-slate \
+            --config config/week5_cohort.json \
+            --out .tmp/br2/week5.csv
+          python3 -m cfb_edge.cohort validate-slate \
+            --config config/week5_cohort.json \
+            --slate .tmp/br2/week5.csv >> "$GITHUB_STEP_SUMMARY"
 
       - name: Freeze CFBD source responses
         if: steps.prospective.outputs.run == '1'
         env:
           CFBD_API_KEY: ${{ secrets.CFBD_API_KEY }}
+          CFBD_TARGET_WEEK: ${{ steps.prospective.outputs.cfbd_week }}
         run: |
           set -euo pipefail
           python3 - <<'PY'
-          import json, os, pathlib, urllib.error, urllib.request
+          import json, os, pathlib, urllib.request
           root=pathlib.Path(".tmp/br2")
           key=os.environ.get("CFBD_API_KEY","").strip()
+          target_week=int(os.environ["CFBD_TARGET_WEEK"])
           if not key:
               raise SystemExit("CFBD_API_KEY is required for BR2 point-in-time capture")
           headers={
@@ -132,8 +119,9 @@ jobs:
                       raise
                   target.write_text("[]",encoding="utf-8")
 
-          # Incumbent BR2 inputs remain required. Never degrade proven inputs silently.
-          for week in (1,2,3,4):
+          # The target cohort is provider Week 4. Only completed provider weeks
+          # before it are eligible for incumbent BR2 football features.
+          for week in range(1,target_week):
               pull(
                   f"/plays?year=2026&week={week}&seasonType=regular",
                   f"plays-w{week}.json","plays",week=week,required=True,
@@ -143,14 +131,19 @@ jobs:
                   f"games-w{week}.json","games",week=week,required=True,
               )
 
-          # New context adapters fail closed to null and report source health.
-          pull("/games?year=2026&week=5&seasonType=regular",
-               "games-w5.json","week_games",week=5)
+          # Target-cohort schedule/context uses the explicit provider mapping.
+          pull(
+              f"/games?year=2026&week={target_week}&seasonType=regular",
+              "games-target.json","week_games",week=target_week,required=True,
+          )
           pull("/teams?year=2026","teams.json","teams")
           pull("/venues","venues.json","venues")
           pull("/wepa/team/season?year=2026","wepa.json","wepa")
-          pull("/stats/season/advanced?year=2026&startWeek=1&endWeek=4",
-               "advanced-through-w4.json","advanced_stats",week=4)
+          prior_week=target_week-1
+          pull(
+              f"/stats/season/advanced?year=2026&startWeek=1&endWeek={prior_week}",
+              "advanced-through-prior.json","advanced_stats",week=prior_week,
+          )
 
           (root/"source-meta.json").write_text(
               json.dumps(meta,indent=2,sort_keys=True)+"\n",encoding="utf-8"
@@ -159,6 +152,8 @@ jobs:
               json.dumps({
                   "schemaVersion":1,
                   "contract":"CFB_EDGE_BR2_SOURCE_HEALTH_V1",
+                  "cohortId":"CFB_2026_PRODUCT_WEEK5",
+                  "providerWeek":target_week,
                   "sources":health,
               },indent=2,sort_keys=True)+"\n",encoding="utf-8"
           )
@@ -199,6 +194,18 @@ jobs:
                   "bytes":len(raw),
                   "path":str(target.relative_to("capture-data")),
               })
+
+          cohort_raw=Path("config/week5_cohort.json").read_bytes()
+          cohort_sha=hashlib.sha256(cohort_raw).hexdigest()
+          manifest.append({
+              "kind":"cohort_contract",
+              "source":"github_main",
+              "cohortId":"CFB_2026_PRODUCT_WEEK5",
+              "retrievedAt":os.environ["ASOF"],
+              "sha256":cohort_sha,
+              "bytes":len(cohort_raw),
+              "path":"config/week5_cohort.json",
+          })
           (root/"source-manifest.json").write_text(
               json.dumps(manifest,indent=2,sort_keys=True)+"\n",encoding="utf-8"
           )
@@ -209,7 +216,12 @@ jobs:
         run: |
           set -euo pipefail
           mkdir -p capture-data/data/features/br2/weather/raw
-          python3 -m cfb_edge.br2_weather             --slate .tmp/br2/week5.csv             --games .tmp/br2/games-w5.json             --venues .tmp/br2/venues.json             --raw-dir capture-data/data/features/br2/weather/raw             --out .tmp/br2/weather.json
+          python3 -m cfb_edge.br2_weather \
+            --slate .tmp/br2/week5.csv \
+            --games .tmp/br2/games-target.json \
+            --venues .tmp/br2/venues.json \
+            --raw-dir capture-data/data/features/br2/weather/raw \
+            --out .tmp/br2/weather.json
 
           python3 - <<'PY'
           import json
@@ -237,14 +249,29 @@ jobs:
           else
             printf '[]\n' > .tmp/br2/qb-packets.json
           fi
-          python3 -m cfb_edge.br2_web_evidence             --packets .tmp/br2/qb-packets.json             --official-source-registry config/br2_official_source_registry.json             --evidence-root capture-data             --out .tmp/br2/qb-evidence.json
+          python3 -m cfb_edge.br2_web_evidence \
+            --packets .tmp/br2/qb-packets.json \
+            --official-source-registry config/br2_official_source_registry.json \
+            --evidence-root capture-data \
+            --out .tmp/br2/qb-evidence.json
 
       - name: Build audited context
         if: steps.prospective.outputs.run == '1'
         run: |
           set -euo pipefail
           ASOF="$(date -u '+%Y-%m-%dT%H:%M:%SZ')"
-          python3 -m cfb_edge.br2_context             --slate .tmp/br2/week5.csv             --week-games .tmp/br2/games-w5.json             --teams .tmp/br2/teams.json             --venues .tmp/br2/venues.json             --wepa .tmp/br2/wepa.json             --advanced .tmp/br2/advanced-through-w4.json             --weather .tmp/br2/weather.json             --qb-evidence .tmp/br2/qb-evidence.json             --as-of "$ASOF"             --revision "$GITHUB_SHA"             --out .tmp/br2/context.json
+          python3 -m cfb_edge.br2_context \
+            --slate .tmp/br2/week5.csv \
+            --week-games .tmp/br2/games-target.json \
+            --teams .tmp/br2/teams.json \
+            --venues .tmp/br2/venues.json \
+            --wepa .tmp/br2/wepa.json \
+            --advanced .tmp/br2/advanced-through-prior.json \
+            --weather .tmp/br2/weather.json \
+            --qb-evidence .tmp/br2/qb-evidence.json \
+            --as-of "$ASOF" \
+            --revision "$GITHUB_SHA" \
+            --out .tmp/br2/context.json
 
       - name: Build immutable point-in-time feature snapshot
         if: steps.prospective.outputs.run == '1'
@@ -255,9 +282,22 @@ jobs:
           mkdir -p "capture-data/data/features/br2/2026/week5"
           mkdir -p "capture-data/data/features/br2/qb"
 
-          python3 -m cfb_edge.feature_warehouse             --slate .tmp/br2/week5.csv             --plays-json .tmp/br2/plays-w1.json             --plays-json .tmp/br2/plays-w2.json             --plays-json .tmp/br2/plays-w3.json             --plays-json .tmp/br2/plays-w4.json             --games-json .tmp/br2/games-w1.json             --games-json .tmp/br2/games-w2.json             --games-json .tmp/br2/games-w3.json             --games-json .tmp/br2/games-w4.json             --context-json .tmp/br2/context.json             --source-manifest .tmp/br2/source-manifest.json             --as-of "$ASOF"             --revision "$GITHUB_SHA"             --out "capture-data/data/features/br2/2026/week5/$STAMP.json"
+          python3 -m cfb_edge.feature_warehouse \
+            --slate .tmp/br2/week5.csv \
+            --plays-json .tmp/br2/plays-w1.json \
+            --plays-json .tmp/br2/plays-w2.json \
+            --plays-json .tmp/br2/plays-w3.json \
+            --games-json .tmp/br2/games-w1.json \
+            --games-json .tmp/br2/games-w2.json \
+            --games-json .tmp/br2/games-w3.json \
+            --context-json .tmp/br2/context.json \
+            --source-manifest .tmp/br2/source-manifest.json \
+            --as-of "$ASOF" \
+            --revision "$GITHUB_SHA" \
+            --out "capture-data/data/features/br2/2026/week5/${STAMP}.json"
 
-          cp "capture-data/data/features/br2/2026/week5/$STAMP.json"              capture-data/data/br2-feature-status.json
+          cp "capture-data/data/features/br2/2026/week5/${STAMP}.json" \
+            capture-data/data/br2-feature-status.json
           cp .tmp/br2/context.json capture-data/data/br2-context-status.json
           cp .tmp/br2/weather.json capture-data/data/br2-weather-status.json
           cp .tmp/br2/qb-evidence.json capture-data/data/features/br2/qb/evidence-latest.json
@@ -270,6 +310,8 @@ jobs:
           c=json.loads(Path("capture-data/data/br2-context-status.json").read_text())
           s=r["summary"]; cs=c["summary"]
           print("## S04_BR2 PIT context warehouse")
+          print("- canonical cohort: **CFB_2026_PRODUCT_WEEK5**")
+          print("- provider mapping: **cfbfastR Week 4 / CFBD Week 4**")
           print(f"- games snapshotted: **{s['games']}**")
           print(f"- raw source objects: **{len(r.get('sourceManifest') or [])}**")
           print("- modeling eligible: **NO**")
@@ -287,7 +329,12 @@ jobs:
           set -euo pipefail
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add             data/features/br2             data/br2-feature-status.json             data/br2-context-status.json             data/br2-weather-status.json             data/br2-source-health.json
+          git add \
+            data/features/br2 \
+            data/br2-feature-status.json \
+            data/br2-context-status.json \
+            data/br2-weather-status.json \
+            data/br2-source-health.json
           git diff --cached --quiet && exit 0
           git commit -q -m "BR2 PIT context snapshot $(date -u '+%Y-%m-%d %H:%M UTC')"
           for attempt in 1 2 3; do
