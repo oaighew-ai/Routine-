@@ -143,42 +143,44 @@ def build_snapshot(
         kickoff = _time(raw.get("kickoff"))
         feature_values: dict[str, Any] = {name: None for name in FEATURES}
         feature_sources: dict[str, str | None] = {name: None for name in FEATURES}
+        pregame_eligible = kickoff is not None and as_of < kickoff
 
-        hm, am = metrics.get(home, {}), metrics.get(away, {})
-        for feature, metric in (
-            ("ppaDiff", "ppa"),
-            ("successRateDiff", "successRate"),
-            ("explosivenessDiff", "explosiveness"),
-            ("paceDiff", "pace"),
-        ):
-            hv, av = _number(hm.get(metric)), _number(am.get(metric))
-            if hv is not None and av is not None:
-                feature_values[feature] = hv - av
-                feature_sources[feature] = "cfbd_plays_completed_before_snapshot"
-
-        if home in last_games and away in last_games:
-            home_rest = (as_of - last_games[home]).total_seconds() / 86400.0
-            away_rest = (as_of - last_games[away]).total_seconds() / 86400.0
-            feature_values["restDaysDiff"] = home_rest - away_rest
-            feature_sources["restDaysDiff"] = "cfbd_games_completed_before_snapshot"
-
-        # Context features come only from the separately audited BR2 context contract.
-        ctx = context_rows.get(
-            " ".join(game.lower().replace("&", "and").split())
-        )
-        if ctx:
-            ctx_features = ctx.get("features") or {}
-            ctx_audit = ctx.get("audit") or {}
-            for feature in (
-                "epaDiff", "qbContinuityDiff", "linePlayDiff",
-                "travelMilesDiff", "windMph",
+        if pregame_eligible:
+            hm, am = metrics.get(home, {}), metrics.get(away, {})
+            for feature, metric in (
+                ("ppaDiff", "ppa"),
+                ("successRateDiff", "successRate"),
+                ("explosivenessDiff", "explosiveness"),
+                ("paceDiff", "pace"),
             ):
-                value = _number(ctx_features.get(feature))
-                if ctx_audit.get(feature) is True and value is not None:
-                    feature_values[feature] = value
-                    feature_sources[feature] = (
-                        f"{context.get('contract', 'BR2_CONTEXT')}:{ctx.get('rowSha256', 'unhashed')}"
-                    )
+                hv, av = _number(hm.get(metric)), _number(am.get(metric))
+                if hv is not None and av is not None:
+                    feature_values[feature] = hv - av
+                    feature_sources[feature] = "cfbd_plays_completed_before_snapshot"
+
+            if home in last_games and away in last_games:
+                home_rest = (as_of - last_games[home]).total_seconds() / 86400.0
+                away_rest = (as_of - last_games[away]).total_seconds() / 86400.0
+                feature_values["restDaysDiff"] = home_rest - away_rest
+                feature_sources["restDaysDiff"] = "cfbd_games_completed_before_snapshot"
+
+            # Context features come only from the separately audited BR2 context contract.
+            ctx = context_rows.get(
+                " ".join(game.lower().replace("&", "and").split())
+            )
+            if ctx:
+                ctx_features = ctx.get("features") or {}
+                ctx_audit = ctx.get("audit") or {}
+                for feature in (
+                    "epaDiff", "qbContinuityDiff", "linePlayDiff",
+                    "travelMilesDiff", "windMph",
+                ):
+                    value = _number(ctx_features.get(feature))
+                    if ctx_audit.get(feature) is True and value is not None:
+                        feature_values[feature] = value
+                        feature_sources[feature] = (
+                            f"{context.get('contract', 'BR2_CONTEXT')}:{ctx.get('rowSha256', 'unhashed')}"
+                        )
 
         complete = sum(v is not None for v in feature_values.values())
         row_payload = {
@@ -187,6 +189,10 @@ def build_snapshot(
             "home": home,
             "kickoff": None if kickoff is None else kickoff.isoformat(),
             "snapshotAt": as_of.isoformat(),
+            "pregameEligible": pregame_eligible,
+            "eligibilityExclusions": [] if pregame_eligible else [
+                "KICKOFF_MISSING" if kickoff is None else "SNAPSHOT_NOT_PRE_KICKOFF"
+            ],
             "features": feature_values,
             "featureSources": feature_sources,
             "availableFeatureCount": complete,
@@ -213,6 +219,7 @@ def build_snapshot(
             "futureDataAllowed": False,
             "missingValuesImputed": False,
             "proxyRelabelingAllowed": False,
+            "postKickoffRowsCanPopulateFeatures": False,
             "decisionEffect": "NONE",
             "promotionEffect": "NONE",
         },
@@ -230,6 +237,7 @@ def build_snapshot(
         },
         "summary": {
             "games": len(rows),
+            "pregameEligibleRows": sum(1 for r in rows if r["pregameEligible"]),
             "featureCoverageRows": feature_coverage,
             "fullyPopulatedRows": sum(
                 1 for r in rows if r["availableFeatureCount"] == len(FEATURES)
