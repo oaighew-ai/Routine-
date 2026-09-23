@@ -53,6 +53,7 @@ jobs:
           [ ! -f evidence/data/s04-es2-live.json ] || args+=(--es2 evidence/data/s04-es2-live.json)
           [ ! -f evidence/data/s04-es2-grades.json ] || args+=(--grades evidence/data/s04-es2-grades.json)
           [ ! -f evidence/data/br2-feature-status.json ] || args+=(--br2 evidence/data/br2-feature-status.json)
+          [ ! -f evidence/data/week5-market-match-audit.json ] || args+=(--market-audit evidence/data/week5-market-match-audit.json)
           python3 -m cfb_edge.private_site_bridge "${args[@]}"
 
           python3 - <<'PY' >> "$GITHUB_STEP_SUMMARY"
