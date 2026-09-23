@@ -37,6 +37,27 @@ class FeatureWarehouseContextTests(unittest.TestCase):
         self.assertIsNone(f["qbContinuityDiff"])
         self.assertTrue(r["rows"][0]["featureSources"]["epaDiff"].startswith("CFB_EDGE_BR2_CONTEXT_V1:"))
 
+    def test_post_kickoff_snapshot_cannot_populate_any_feature(self):
+        context={
+            "contract":"CFB_EDGE_BR2_CONTEXT_V1",
+            "rows":[{
+                "game":"A @ H","rowSha256":"x",
+                "features":{"epaDiff":1.0,"windMph":20.0},
+                "audit":{"epaDiff":True,"windMph":True},
+            }],
+        }
+        r=build_snapshot(
+            slate=[{"game":"A @ H","kickoff":"2026-09-26T16:00:00Z"}],
+            plays=[{"gameId":1,"offense":"H","ppa":1.0,"down":1,"distance":10,"yardsGained":6}],
+            prior_games=[],
+            as_of=datetime(2026,9,26,17,tzinfo=timezone.utc),
+            context=context,
+        )
+        row=r["rows"][0]
+        self.assertFalse(row["pregameEligible"])
+        self.assertTrue(all(v is None for v in row["features"].values()))
+        self.assertIn("SNAPSHOT_NOT_PRE_KICKOFF",row["eligibilityExclusions"])
+
 
 if __name__=="__main__":
     unittest.main()
