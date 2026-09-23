@@ -59,8 +59,10 @@
       "rows": 852
     },
     {
+      "availability": "ACCESS_TIER_BLOCKED",
       "endpoint": "/wepa/team/season?year=2026",
       "errorType": "HTTPError",
+      "httpStatus": 401,
       "kind": "wepa",
       "ok": false
     },
