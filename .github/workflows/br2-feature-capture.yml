@@ -144,6 +144,10 @@ jobs:
               f"/stats/season/advanced?year=2026&startWeek=1&endWeek={prior_week}",
               "advanced-through-prior.json","advanced_stats",week=prior_week,
           )
+          pull(
+              f"/stats/player/season?year=2026&startWeek=1&endWeek={prior_week}&seasonType=regular&category=passing",
+              "qb-passing-through-prior.json","player_passing_stats",week=prior_week,
+          )
 
           (root/"source-meta.json").write_text(
               json.dumps(meta,indent=2,sort_keys=True)+"\n",encoding="utf-8"
@@ -267,6 +271,7 @@ jobs:
             --venues .tmp/br2/venues.json \
             --wepa .tmp/br2/wepa.json \
             --advanced .tmp/br2/advanced-through-prior.json \
+            --qb-stats .tmp/br2/qb-passing-through-prior.json \
             --weather .tmp/br2/weather.json \
             --qb-evidence .tmp/br2/qb-evidence.json \
             --as-of "$ASOF" \
