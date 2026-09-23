@@ -1,0 +1,86 @@
+name: private Site evidence bridge
+
+on:
+  workflow_run:
+    workflows:
+      - "CFB evidence readiness"
+      - "Week 5 capture health"
+      - "S04 ES2 Week 5 audit shadow"
+      - "week5 automatic signal grading"
+      - "BR2 point-in-time feature capture"
+    types: [completed]
+  push:
+    branches: [main]
+    paths:
+      - cfb_edge/private_site_bridge.py
+      - .github/workflows/private-site-bridge.yml
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: cfb-private-site-bridge
+  cancel-in-progress: true
+
+jobs:
+  publish:
+    if: github.event_name != 'workflow_run' || github.event.workflow_run.conclusion == 'success'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Code
+        uses: actions/checkout@v4
+
+      - name: Evidence
+        uses: actions/checkout@v4
+        with:
+          ref: capture-data
+          path: evidence
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+
+      - name: Build compact private-Site bridge
+        run: |
+          set -euo pipefail
+          args=(
+            --authority config/delivery_authority.json
+            --out evidence/data/private-site-bridge.json
+          )
+          [ ! -f evidence/data/powerup-health.json ] || args+=(--readiness evidence/data/powerup-health.json)
+          [ ! -f evidence/data/week5-capture-health.json ] || args+=(--capture-health evidence/data/week5-capture-health.json)
+          [ ! -f evidence/data/s04-es2-live.json ] || args+=(--es2 evidence/data/s04-es2-live.json)
+          [ ! -f evidence/data/s04-es2-grades.json ] || args+=(--grades evidence/data/s04-es2-grades.json)
+          [ ! -f evidence/data/br2-feature-status.json ] || args+=(--br2 evidence/data/br2-feature-status.json)
+          python3 -m cfb_edge.private_site_bridge "${args[@]}"
+
+          python3 - <<'PY' >> "$GITHUB_STEP_SUMMARY"
+          import json
+          from pathlib import Path
+          r=json.loads(Path("evidence/data/private-site-bridge.json").read_text())
+          print("## Private Site evidence bridge")
+          print(f"- research: **{r['research']['status']}**")
+          print(f"- Week 5 opens: **{r['week5']['auditGradeOpenRows']}/{r['week5']['slateRows']}**")
+          print(f"- BR2 features: **{len(r['br2']['populatedFamilies'])}/{len(r['br2']['populatedFamilies'])+len(r['br2']['missingFamilies'])}**")
+          print("- picks authority: **PRIVATE SITE LOCAL /api/picks**")
+          PY
+
+      - name: Publish bridge
+        working-directory: evidence
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/private-site-bridge.json
+          git diff --cached --quiet && exit 0
+          git commit -q -m "private Site evidence bridge $(date -u '+%Y-%m-%d %H:%M UTC')"
+          for attempt in 1 2 3; do
+            git fetch origin capture-data
+            if git rebase origin/capture-data && git push origin HEAD:capture-data; then
+              exit 0
+            fi
+            git rebase --abort || true
+            sleep $((attempt * 2))
+          done
+          exit 1
