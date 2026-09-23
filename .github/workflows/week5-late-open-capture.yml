@@ -8,6 +8,7 @@ on:
       - cfb_edge/cohort.py
       - cfb_edge/providers/kalshi.py
       - cfb_edge/teams.py
+      - cfb_edge/kalshi_market_audit.py
       - config/week5_cohort.json
   # Poll throughout the configured Sep 20-25 prospective window.
   # cfb_edge.cohort is the runtime gate, so post-window invocations no-op.
@@ -86,6 +87,27 @@ jobs:
             [ "$attempt" -eq 3 ] || sleep 240
           done
 
+      - name: Audit live Kalshi market matching
+        if: steps.active.outputs.run == '1'
+        run: |
+          set -euo pipefail
+          python3 -m cfb_edge.kalshi_market_audit \
+            --slate capture-data/data/week5_2026_slate.csv \
+            --out capture-data/data/week5-market-match-audit.json
+
+          python3 - <<'PY' >> "$GITHUB_STEP_SUMMARY"
+          import json
+          from pathlib import Path
+          r=json.loads(Path("capture-data/data/week5-market-match-audit.json").read_text())
+          s=r.get("summary") or {}
+          print("## Kalshi market match audit")
+          print(f"- priceable: **{s.get('priceableRows', 0)}/{s.get('slateRows', 0)}**")
+          print(f"- event matched but unpriceable: **{s.get('matchedButUnpriceableRows', 0)}**")
+          print(f"- no matched event: **{s.get('noMatchedEventRows', 0)}**")
+          print(f"- unresolved provider names: **{s.get('unresolvedRawNameCount', 0)}**")
+          print("- decision effect: **NONE**")
+          PY
+
       - name: Rebuild canonical Week 5 capture report
         if: steps.active.outputs.run == '1'
         env:
@@ -122,7 +144,7 @@ jobs:
           set -euo pipefail
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add data/week5_2026_slate.csv data/opens.jsonl.gz data/opens.csv data/week5-tail-capture-report.json
+          git add data/week5_2026_slate.csv data/opens.jsonl.gz data/opens.csv data/week5-tail-capture-report.json data/week5-market-match-audit.json
           git diff --cached --quiet && exit 0
           git commit -q -m "Week 5 late-open tail $(date -u '+%Y-%m-%d %H:%M UTC')"
           for attempt in 1 2 3; do
@@ -145,8 +167,11 @@ jobs:
               --revision "$GITHUB_SHA"
             cp .tmp/week5-tail/capture-report.json \
               capture-data/data/week5-tail-capture-report.json
+            python3 -m cfb_edge.kalshi_market_audit \
+              --slate capture-data/data/week5_2026_slate.csv \
+              --out capture-data/data/week5-market-match-audit.json
             cd capture-data
-            git add data/opens.jsonl.gz data/opens.csv data/week5-tail-capture-report.json
+            git add data/opens.jsonl.gz data/opens.csv data/week5-tail-capture-report.json data/week5-market-match-audit.json
             git diff --cached --quiet && exit 0
             git commit -q -m "Week 5 late-open tail $(date -u '+%Y-%m-%d %H:%M UTC')"
           done
