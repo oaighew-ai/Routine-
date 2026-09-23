@@ -97,6 +97,17 @@
       "richerFeatureStatus": "DISABLED_UNTIL_POINT_IN_TIME_HISTORY_EXISTS",
       "promotionEffect": "NONE",
       "reason": "Complexity was evaluated as a challenger and rejected rather than added to the live rule."
+    },
+    {
+      "id": "S04_BR2",
+      "family": "point-in-time-football-context",
+      "createdAt": "2026-09-22",
+      "status": "DATA_COLLECTION_ONLY",
+      "deliveryEligible": false,
+      "firstCollectionWeek": 5,
+      "frozenDecisionEffect": "NONE",
+      "featureContract": "config/s04_br2.json",
+      "reason": "Collect point-in-time football context before any model fitting. Missing features remain explicit and Week 5 S04_ES2 is unchanged."
     }
   ]
 }
