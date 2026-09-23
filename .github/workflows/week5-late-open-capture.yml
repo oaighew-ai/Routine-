@@ -167,10 +167,10 @@ jobs:
               --revision "$GITHUB_SHA"
             cp .tmp/week5-tail/capture-report.json \
               capture-data/data/week5-tail-capture-report.json
-            cd capture-data
             python3 -m cfb_edge.kalshi_market_audit \
-              --slate data/week5_2026_slate.csv \
-              --out data/week5-market-match-audit.json
+              --slate capture-data/data/week5_2026_slate.csv \
+              --out capture-data/data/week5-market-match-audit.json
+            cd capture-data
             git add data/opens.jsonl.gz data/opens.csv data/week5-tail-capture-report.json data/week5-market-match-audit.json
             git diff --cached --quiet && exit 0
             git commit -q -m "Week 5 late-open tail $(date -u '+%Y-%m-%d %H:%M UTC')"
