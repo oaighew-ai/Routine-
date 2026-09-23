@@ -31,7 +31,50 @@ let channel = null;
 let started = false;
 let applyingRemote = false;
 let queuedStateSync = null;
+let listenersInstalled = false;
+let authSubscription = null;
 
+async function handleAuthSession(session) {
+  if (session?.user) {
+    await attachUser(session.user);
+    return;
+  }
+
+  if (channel) {
+    const staleChannel = channel;
+    channel = null;
+    try {
+      await supabase.removeChannel(staleChannel);
+    } catch (error) {
+      console.warn('[cloud] failed to remove realtime channel', error);
+    }
+  }
+
+  setState({
+    status: 'signed_out',
+    user: null,
+    household: null,
+    membership: null,
+    members: [],
+    conflict: null,
+    lastSyncedAt: null,
+  });
+}
+
+function installBaseListeners() {
+  if (listenersInstalled) return;
+  listenersInstalled = true;
+
+  window.addEventListener('scc:local-change', onLocalChange);
+
+  window.addEventListener('online', () => {
+    if (state.user) {
+      attachUser(state.user).catch(reportError);
+    } else if (!started) {
+      startCloudSync().catch(reportError);
+    }
+  });
+}
 function emit() {
   try { window.dispatchEvent(new CustomEvent('scc:cloud-state', { detail:getCloudState() })); } catch {}
 }
@@ -127,6 +170,47 @@ export function getCloudState() { return structuredClone(state); }
 export function isCloudConfigured() { return configured; }
 export function getSupabaseClient() { return supabase; }
 
+export async function startCloudSync() {
+  if (!configured || started) return getCloudState();
+
+  started = true;
+  extractAccess();
+  installBaseListeners();
+
+  if (!authSubscription) {
+    const { data } = supabase.auth.onAuthStateChange((event, session2) => {
+      if (event === 'INITIAL_SESSION') return;
+
+      setTimeout(() => {
+        handleAuthSession(session2).catch(reportError);
+      }, 0);
+    });
+
+    authSubscription = data?.subscription ?? null;
+  }
+
+  try {
+    const {
+      data: { session },
+      error,
+    } = await supabase.auth.getSession();
+
+    if (error) throw error;
+
+    await handleAuthSession(session);
+
+    return getCloudState();
+  } catch (error) {
+    started = false;
+
+    setState({
+      status: navigator.onLine ? 'signed_out' : 'offline_cached',
+      error: errorText(error),
+    });
+
+    throw error;
+  }
+}
 export async function startCloudSync() {
   if (!configured || started) return getCloudState();
   started = true;
