@@ -36,6 +36,13 @@ class Week5WorkflowCohortTests(unittest.TestCase):
                 for token in forbidden:
                     self.assertNotIn(token, text)
 
+    def test_br2_qb_continuity_is_bounded_to_prior_provider_week(self):
+        text = (ROOT / ".github/workflows/br2-feature-capture.yml").read_text(encoding="utf-8")
+        self.assertIn("/stats/player/season?year=2026&startWeek=1&endWeek={prior_week}", text)
+        self.assertIn("category=passing", text)
+        self.assertIn("--qb-stats .tmp/br2/qb-passing-through-prior.json", text)
+        self.assertNotIn("endWeek={target_week}", text)
+
     def test_es2_decision_files_are_not_part_of_cohort_fix_surface(self):
         # The cohort identity layer must remain independent from frozen
         # thresholds. This test makes the intended boundary explicit.
