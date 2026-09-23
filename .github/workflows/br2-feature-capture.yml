@@ -5,7 +5,13 @@ on:
     branches: [main]
     paths:
       - cfb_edge/feature_warehouse.py
+      - cfb_edge/br2_context.py
+      - cfb_edge/br2_weather.py
+      - cfb_edge/br2_web_evidence.py
       - config/s04_br2.json
+      - config/br2_source_registry.json
+      - config/br2_official_source_registry.json
+      - config/br2_external_monitors.json
       - .github/workflows/br2-feature-capture.yml
   schedule:
     - cron: "30 13 * 9-11 2,4,5"   # Tue/Thu/Fri morning ET during season
@@ -37,127 +43,253 @@ jobs:
 
       - name: Build fixed Week 5 slate
         run: |
+          set -euo pipefail
           mkdir -p .tmp/br2
           python3 -m cfb_edge.slate --season 2026 --week 5 --out .tmp/br2/week5.csv
 
+      - name: Enforce Week 5 prospective cutoff
+        id: prospective
+        run: |
+          set -euo pipefail
+          python3 - <<'PY' > /tmp/br2-window.env
+          import csv
+          from datetime import datetime, timezone
+          from pathlib import Path
+
+          def parse(value):
+              if not value:
+                  return None
+              try:
+                  dt=datetime.fromisoformat(value.replace("Z","+00:00"))
+              except ValueError:
+                  return None
+              return dt if dt.tzinfo else dt.replace(tzinfo=timezone.utc)
+
+          rows=list(csv.DictReader(Path(".tmp/br2/week5.csv").open()))
+          starts=[parse(r.get("kickoff")) for r in rows]
+          starts=[x for x in starts if x is not None]
+          now=datetime.now(timezone.utc)
+          if not starts:
+              print("run=0")
+              print("reason=NO_VALID_KICKOFFS")
+          else:
+              first=min(starts)
+              print(f"first_kickoff={first.isoformat()}")
+              print(f"snapshot_time={now.isoformat()}")
+              print(f"run={1 if now < first else 0}")
+              print("reason=PRE_FIRST_KICKOFF" if now < first else "COHORT_ALREADY_STARTED")
+          PY
+          cat /tmp/br2-window.env >> "$GITHUB_OUTPUT"
+          cat /tmp/br2-window.env >> "$GITHUB_STEP_SUMMARY"
+
       - name: Freeze CFBD source responses
+        if: steps.prospective.outputs.run == '1'
         env:
           CFBD_API_KEY: ${{ secrets.CFBD_API_KEY }}
         run: |
           set -euo pipefail
           python3 - <<'PY'
-          import json, os, pathlib, urllib.request
+          import json, os, pathlib, urllib.error, urllib.request
           root=pathlib.Path(".tmp/br2")
           key=os.environ.get("CFBD_API_KEY","").strip()
           if not key:
               raise SystemExit("CFBD_API_KEY is required for BR2 point-in-time capture")
           headers={
-              "Authorization": f"Bearer {key}",
+              "Authorization":f"Bearer {key}",
               "Accept":"application/json",
               "User-Agent":"cfb-edge/1.0",
           }
-          def pull(path, out):
+          meta=[]
+          health=[]
+
+          def pull(endpoint, out, kind, *, week=None, required=False):
+              target=root/out
               req=urllib.request.Request(
-                  "https://api.collegefootballdata.com"+path, headers=headers
+                  "https://api.collegefootballdata.com"+endpoint,headers=headers
               )
-              with urllib.request.urlopen(req,timeout=60) as r:
-                  payload=json.loads(r.read())
-              pathlib.Path(out).write_text(
-                  json.dumps(payload,sort_keys=True,separators=(",",":")),
-                  encoding="utf-8",
-              )
+              try:
+                  with urllib.request.urlopen(req,timeout=60) as resp:
+                      raw=resp.read()
+                  payload=json.loads(raw)
+                  target.write_text(
+                      json.dumps(payload,sort_keys=True,separators=(",",":")),
+                      encoding="utf-8",
+                  )
+                  meta.append({
+                      "kind":kind,"season":2026,"week":week,
+                      "endpoint":endpoint,"downloadPath":str(target),
+                  })
+                  health.append({
+                      "kind":kind,"endpoint":endpoint,"ok":True,
+                      "rows":len(payload) if isinstance(payload,list) else None,
+                  })
+              except Exception as exc:
+                  health.append({
+                      "kind":kind,"endpoint":endpoint,"ok":False,
+                      "errorType":type(exc).__name__,
+                  })
+                  if required:
+                      raise
+                  target.write_text("[]",encoding="utf-8")
+
+          # Incumbent BR2 inputs remain required. Never degrade proven inputs silently.
           for week in (1,2,3,4):
               pull(
                   f"/plays?year=2026&week={week}&seasonType=regular",
-                  root/f"plays-w{week}.json",
+                  f"plays-w{week}.json","plays",week=week,required=True,
               )
               pull(
                   f"/games?year=2026&week={week}&seasonType=regular",
-                  root/f"games-w{week}.json",
+                  f"games-w{week}.json","games",week=week,required=True,
               )
+
+          # New context adapters fail closed to null and report source health.
+          pull("/games?year=2026&week=5&seasonType=regular",
+               "games-w5.json","week_games",week=5)
+          pull("/teams?year=2026","teams.json","teams")
+          pull("/venues","venues.json","venues")
+          pull("/wepa/team/season?year=2026","wepa.json","wepa")
+          pull("/stats/season/advanced?year=2026&startWeek=1&endWeek=4",
+               "advanced-through-w4.json","advanced_stats",week=4)
+
+          (root/"source-meta.json").write_text(
+              json.dumps(meta,indent=2,sort_keys=True)+"\n",encoding="utf-8"
+          )
+          (root/"source-health.json").write_text(
+              json.dumps({
+                  "schemaVersion":1,
+                  "contract":"CFB_EDGE_BR2_SOURCE_HEALTH_V1",
+                  "sources":health,
+              },indent=2,sort_keys=True)+"\n",encoding="utf-8"
+          )
           PY
 
-      - name: Archive raw sources by content hash
+      - name: Archive CFBD sources by content hash
+        if: steps.prospective.outputs.run == '1'
         run: |
           set -euo pipefail
           ASOF="$(date -u '+%Y-%m-%dT%H:%M:%SZ')"
           export ASOF
           mkdir -p capture-data/data/features/br2/raw
-
           python3 - <<'PY'
           import gzip, hashlib, json, os
           from pathlib import Path
 
           root=Path(".tmp/br2")
           archive=Path("capture-data/data/features/br2/raw")
+          meta=json.loads((root/"source-meta.json").read_text())
           manifest=[]
-          for path in sorted(root.glob("*.json")):
-              raw=path.read_bytes()
+          for item in meta:
+              source=Path(item["downloadPath"])
+              raw=source.read_bytes()
               sha=hashlib.sha256(raw).hexdigest()
               target=archive/f"{sha}.json.gz"
               if not target.exists():
-                  with gzip.GzipFile(
-                      filename="", mode="wb", fileobj=target.open("wb"), mtime=0
-                  ) as z:
-                      z.write(raw)
-
-              stem=path.stem
-              kind="plays" if stem.startswith("plays-") else "games"
-              week=int(stem.split("-w",1)[1])
-              endpoint=(
-                  f"/{kind}?year=2026&week={week}&seasonType=regular"
-              )
+                  with target.open("wb") as fh:
+                      with gzip.GzipFile(filename="",mode="wb",fileobj=fh,mtime=0) as z:
+                          z.write(raw)
               manifest.append({
-                  "kind":kind,
-                  "season":2026,
-                  "week":week,
+                  "kind":item["kind"],
+                  "season":item.get("season"),
+                  "week":item.get("week"),
                   "source":"collegefootballdata",
-                  "endpoint":endpoint,
+                  "endpoint":item["endpoint"],
                   "retrievedAt":os.environ["ASOF"],
                   "sha256":sha,
                   "bytes":len(raw),
                   "path":str(target.relative_to("capture-data")),
               })
-          Path(".tmp/br2/source-manifest.json").write_text(
-              json.dumps(manifest,indent=2,sort_keys=True)+"\n",
-              encoding="utf-8",
+          (root/"source-manifest.json").write_text(
+              json.dumps(manifest,indent=2,sort_keys=True)+"\n",encoding="utf-8"
           )
           PY
 
-      - name: Build immutable point-in-time snapshot
+      - name: Capture point-in-time weather
+        if: steps.prospective.outputs.run == '1'
+        run: |
+          set -euo pipefail
+          mkdir -p capture-data/data/features/br2/weather/raw
+          python3 -m cfb_edge.br2_weather             --slate .tmp/br2/week5.csv             --games .tmp/br2/games-w5.json             --venues .tmp/br2/venues.json             --raw-dir capture-data/data/features/br2/weather/raw             --out .tmp/br2/weather.json
+
+          python3 - <<'PY'
+          import json
+          from pathlib import Path
+          manifest=json.loads(Path(".tmp/br2/source-manifest.json").read_text())
+          weather=json.loads(Path(".tmp/br2/weather.json").read_text())
+          for item in weather.get("sourceManifest") or []:
+              row=dict(item)
+              path=str(row.get("path") or "")
+              if path.startswith("capture-data/"):
+                  row["path"]=path[len("capture-data/"):]
+              manifest.append(row)
+          Path(".tmp/br2/source-manifest.json").write_text(
+              json.dumps(manifest,indent=2,sort_keys=True)+"\n",encoding="utf-8"
+          )
+          PY
+
+      - name: Validate official-source QB evidence
+        if: steps.prospective.outputs.run == '1'
+        run: |
+          set -euo pipefail
+          INBOX="capture-data/data/features/br2/qb/packets.json"
+          if [ -f "$INBOX" ]; then
+            cp "$INBOX" .tmp/br2/qb-packets.json
+          else
+            printf '[]\n' > .tmp/br2/qb-packets.json
+          fi
+          python3 -m cfb_edge.br2_web_evidence             --packets .tmp/br2/qb-packets.json             --official-source-registry config/br2_official_source_registry.json             --evidence-root capture-data             --out .tmp/br2/qb-evidence.json
+
+      - name: Build audited context
+        if: steps.prospective.outputs.run == '1'
+        run: |
+          set -euo pipefail
+          ASOF="$(date -u '+%Y-%m-%dT%H:%M:%SZ')"
+          python3 -m cfb_edge.br2_context             --slate .tmp/br2/week5.csv             --week-games .tmp/br2/games-w5.json             --teams .tmp/br2/teams.json             --venues .tmp/br2/venues.json             --wepa .tmp/br2/wepa.json             --advanced .tmp/br2/advanced-through-w4.json             --weather .tmp/br2/weather.json             --qb-evidence .tmp/br2/qb-evidence.json             --as-of "$ASOF"             --revision "$GITHUB_SHA"             --out .tmp/br2/context.json
+
+      - name: Build immutable point-in-time feature snapshot
+        if: steps.prospective.outputs.run == '1'
         run: |
           set -euo pipefail
           ASOF="$(date -u '+%Y-%m-%dT%H:%M:%SZ')"
           STAMP="$(date -u '+%Y%m%dT%H%M%SZ')"
           mkdir -p "capture-data/data/features/br2/2026/week5"
+          mkdir -p "capture-data/data/features/br2/qb"
 
-          python3 -m cfb_edge.feature_warehouse             --slate .tmp/br2/week5.csv             --plays-json .tmp/br2/plays-w1.json             --plays-json .tmp/br2/plays-w2.json             --plays-json .tmp/br2/plays-w3.json             --plays-json .tmp/br2/plays-w4.json             --games-json .tmp/br2/games-w1.json             --games-json .tmp/br2/games-w2.json             --games-json .tmp/br2/games-w3.json             --games-json .tmp/br2/games-w4.json             --source-manifest .tmp/br2/source-manifest.json             --as-of "$ASOF"             --revision "$GITHUB_SHA"             --out "capture-data/data/features/br2/2026/week5/$STAMP.json"
+          python3 -m cfb_edge.feature_warehouse             --slate .tmp/br2/week5.csv             --plays-json .tmp/br2/plays-w1.json             --plays-json .tmp/br2/plays-w2.json             --plays-json .tmp/br2/plays-w3.json             --plays-json .tmp/br2/plays-w4.json             --games-json .tmp/br2/games-w1.json             --games-json .tmp/br2/games-w2.json             --games-json .tmp/br2/games-w3.json             --games-json .tmp/br2/games-w4.json             --context-json .tmp/br2/context.json             --source-manifest .tmp/br2/source-manifest.json             --as-of "$ASOF"             --revision "$GITHUB_SHA"             --out "capture-data/data/features/br2/2026/week5/$STAMP.json"
 
           cp "capture-data/data/features/br2/2026/week5/$STAMP.json"              capture-data/data/br2-feature-status.json
+          cp .tmp/br2/context.json capture-data/data/br2-context-status.json
+          cp .tmp/br2/weather.json capture-data/data/br2-weather-status.json
+          cp .tmp/br2/qb-evidence.json capture-data/data/features/br2/qb/evidence-latest.json
+          cp .tmp/br2/source-health.json capture-data/data/br2-source-health.json
 
           python3 - <<'PY' >> "$GITHUB_STEP_SUMMARY"
           import json
           from pathlib import Path
           r=json.loads(Path("capture-data/data/br2-feature-status.json").read_text())
-          s=r["summary"]
-          print("## S04_BR2 feature warehouse")
+          c=json.loads(Path("capture-data/data/br2-context-status.json").read_text())
+          s=r["summary"]; cs=c["summary"]
+          print("## S04_BR2 PIT context warehouse")
           print(f"- games snapshotted: **{s['games']}**")
           print(f"- raw source objects: **{len(r.get('sourceManifest') or [])}**")
-          print(f"- fully populated rows: **{s['fullyPopulatedRows']}**")
           print("- modeling eligible: **NO**")
           for k,v in s["featureCoverageRows"].items():
               print(f"- {k}: **{v}/{s['games']}**")
+          print("### New context audit coverage")
+          for k,v in cs["auditGradeCoverageRows"].items():
+              print(f"- {k}: **{v}/{cs['games']}**")
           PY
 
       - name: Publish append-only feature evidence
+        if: steps.prospective.outputs.run == '1'
         working-directory: capture-data
         run: |
           set -euo pipefail
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add data/features/br2 data/br2-feature-status.json
+          git add             data/features/br2             data/br2-feature-status.json             data/br2-context-status.json             data/br2-weather-status.json             data/br2-source-health.json
           git diff --cached --quiet && exit 0
-          git commit -q -m "BR2 feature snapshot $(date -u '+%Y-%m-%d %H:%M UTC')"
+          git commit -q -m "BR2 PIT context snapshot $(date -u '+%Y-%m-%d %H:%M UTC')"
           for attempt in 1 2 3; do
             git fetch origin capture-data
             if git rebase origin/capture-data && git push origin HEAD:capture-data; then

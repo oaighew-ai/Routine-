@@ -124,9 +124,15 @@ def build_snapshot(
     as_of: datetime,
     source_revision: str | None = None,
     source_manifest: Sequence[Mapping[str, Any]] = (),
+    context: Mapping[str, Any] | None = None,
 ) -> dict[str, Any]:
     metrics = team_metrics(plays)
     last_games = _last_game_dates(prior_games, as_of)
+    context_rows = {
+        " ".join(str(r.get("game") or "").strip().lower().replace("&", "and").split()): r
+        for r in ((context or {}).get("rows") or [])
+        if str(r.get("game") or "").strip()
+    }
     rows = []
 
     for raw in slate:
@@ -137,24 +143,44 @@ def build_snapshot(
         kickoff = _time(raw.get("kickoff"))
         feature_values: dict[str, Any] = {name: None for name in FEATURES}
         feature_sources: dict[str, str | None] = {name: None for name in FEATURES}
+        pregame_eligible = kickoff is not None and as_of < kickoff
 
-        hm, am = metrics.get(home, {}), metrics.get(away, {})
-        for feature, metric in (
-            ("ppaDiff", "ppa"),
-            ("successRateDiff", "successRate"),
-            ("explosivenessDiff", "explosiveness"),
-            ("paceDiff", "pace"),
-        ):
-            hv, av = _number(hm.get(metric)), _number(am.get(metric))
-            if hv is not None and av is not None:
-                feature_values[feature] = hv - av
-                feature_sources[feature] = "cfbd_plays_completed_before_snapshot"
+        if pregame_eligible:
+            hm, am = metrics.get(home, {}), metrics.get(away, {})
+            for feature, metric in (
+                ("ppaDiff", "ppa"),
+                ("successRateDiff", "successRate"),
+                ("explosivenessDiff", "explosiveness"),
+                ("paceDiff", "pace"),
+            ):
+                hv, av = _number(hm.get(metric)), _number(am.get(metric))
+                if hv is not None and av is not None:
+                    feature_values[feature] = hv - av
+                    feature_sources[feature] = "cfbd_plays_completed_before_snapshot"
 
-        if home in last_games and away in last_games:
-            home_rest = (as_of - last_games[home]).total_seconds() / 86400.0
-            away_rest = (as_of - last_games[away]).total_seconds() / 86400.0
-            feature_values["restDaysDiff"] = home_rest - away_rest
-            feature_sources["restDaysDiff"] = "cfbd_games_completed_before_snapshot"
+            if home in last_games and away in last_games:
+                home_rest = (as_of - last_games[home]).total_seconds() / 86400.0
+                away_rest = (as_of - last_games[away]).total_seconds() / 86400.0
+                feature_values["restDaysDiff"] = home_rest - away_rest
+                feature_sources["restDaysDiff"] = "cfbd_games_completed_before_snapshot"
+
+            # Context features come only from the separately audited BR2 context contract.
+            ctx = context_rows.get(
+                " ".join(game.lower().replace("&", "and").split())
+            )
+            if ctx:
+                ctx_features = ctx.get("features") or {}
+                ctx_audit = ctx.get("audit") or {}
+                for feature in (
+                    "epaDiff", "qbContinuityDiff", "linePlayDiff",
+                    "travelMilesDiff", "windMph",
+                ):
+                    value = _number(ctx_features.get(feature))
+                    if ctx_audit.get(feature) is True and value is not None:
+                        feature_values[feature] = value
+                        feature_sources[feature] = (
+                            f"{context.get('contract', 'BR2_CONTEXT')}:{ctx.get('rowSha256', 'unhashed')}"
+                        )
 
         complete = sum(v is not None for v in feature_values.values())
         row_payload = {
@@ -163,6 +189,10 @@ def build_snapshot(
             "home": home,
             "kickoff": None if kickoff is None else kickoff.isoformat(),
             "snapshotAt": as_of.isoformat(),
+            "pregameEligible": pregame_eligible,
+            "eligibilityExclusions": [] if pregame_eligible else [
+                "KICKOFF_MISSING" if kickoff is None else "SNAPSHOT_NOT_PRE_KICKOFF"
+            ],
             "features": feature_values,
             "featureSources": feature_sources,
             "availableFeatureCount": complete,
@@ -189,23 +219,25 @@ def build_snapshot(
             "futureDataAllowed": False,
             "missingValuesImputed": False,
             "proxyRelabelingAllowed": False,
+            "postKickoffRowsCanPopulateFeatures": False,
             "decisionEffect": "NONE",
             "promotionEffect": "NONE",
         },
         "featureDefinitions": {
-            "epaDiff": "Reserved for a true point-in-time EPA source; PPA is not relabeled as EPA.",
+            "epaDiff": "Home minus away opponent-adjusted net EPA from the prospectively frozen CFBD WEPA snapshot; PPA remains separate.",
             "ppaDiff": "Home minus away mean CFBD play PPA through completed games before snapshot.",
             "successRateDiff": "Home minus away conventional down-and-distance success rate.",
             "explosivenessDiff": "Home minus away mean yards on successful offensive plays.",
-            "qbContinuityDiff": "Reserved until a timestamped QB participation/depth-chart adapter exists.",
-            "linePlayDiff": "Reserved until a timestamped line-play metric source exists.",
+            "qbContinuityDiff": "Home minus away audited QB continuity from official pregame depth-chart evidence; remains null without deterministic validation.",
+            "linePlayDiff": "Home minus away net line yards, where team net = offensive lineYards minus defensive lineYardsAllowed, from week-bounded CFBD advanced stats.",
             "paceDiff": "Home minus away offensive plays per completed game.",
             "restDaysDiff": "Home minus away days since most recent completed game.",
-            "travelMilesDiff": "Reserved until venue/team geospatial lineage exists.",
-            "windMph": "Reserved until timestamped forecast/observation provenance exists.",
+            "travelMilesDiff": "Home minus away great-circle miles from each program's registered CFBD home location to the game venue.",
+            "windMph": "Open-Meteo 10m sustained wind nearest kickoff from the forecast captured at snapshot time; confirmed domes are explicitly set to 0.",
         },
         "summary": {
             "games": len(rows),
+            "pregameEligibleRows": sum(1 for r in rows if r["pregameEligible"]),
             "featureCoverageRows": feature_coverage,
             "fullyPopulatedRows": sum(
                 1 for r in rows if r["availableFeatureCount"] == len(FEATURES)
@@ -225,6 +257,7 @@ def main(argv: list[str] | None = None) -> int:
     p.add_argument("--as-of")
     p.add_argument("--revision")
     p.add_argument("--source-manifest")
+    p.add_argument("--context-json")
     p.add_argument("--out", required=True)
     args = p.parse_args(argv)
 
@@ -251,6 +284,12 @@ def main(argv: list[str] | None = None) -> int:
         if not isinstance(source_manifest, list):
             raise SystemExit("--source-manifest must be a JSON array")
 
+    context = None
+    if args.context_json:
+        context = json.loads(Path(args.context_json).read_text(encoding="utf-8"))
+        if not isinstance(context, dict):
+            raise SystemExit("--context-json must be a JSON object")
+
     report = build_snapshot(
         slate=_read_slate(args.slate),
         plays=plays,
@@ -258,6 +297,7 @@ def main(argv: list[str] | None = None) -> int:
         as_of=as_of,
         source_revision=args.revision,
         source_manifest=source_manifest,
+        context=context,
     )
     out = Path(args.out)
     out.parent.mkdir(parents=True, exist_ok=True)

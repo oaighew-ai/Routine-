@@ -1,7 +1,7 @@
 {
-  "schemaVersion": 2,
+  "schemaVersion": 3,
   "modelId": "S04_BR2",
-  "version": "point-in-time-football-context-collection-1",
+  "version": "point-in-time-football-context-collection-2",
   "status": "DATA_COLLECTION_ONLY",
   "deliveryEligible": false,
   "stakingEnabled": false,
@@ -25,18 +25,21 @@
     "windMph"
   ],
   "currentlyCollectableFromExistingCFBDREST": [
+    "epaDiff",
     "ppaDiff",
     "successRateDiff",
     "explosivenessDiff",
+    "linePlayDiff",
     "paceDiff",
-    "restDaysDiff"
+    "restDaysDiff",
+    "travelMilesDiff"
   ],
   "explicitlyNotSubstituted": {
-    "epaDiff": "PPA is retained separately and is not relabeled as EPA.",
-    "qbContinuityDiff": "Requires timestamped QB participation/depth-chart provenance.",
-    "linePlayDiff": "Requires a stable timestamped line-play metric source.",
-    "travelMilesDiff": "Requires venue/team geospatial lineage.",
-    "windMph": "Requires timestamped weather forecast/observation provenance."
+    "qbContinuityDiff": "Only two-sided, official, pre-kickoff, deterministically validated depth-chart/availability evidence may populate this feature. Search results, Action Network context, or LLM extraction alone cannot.",
+    "windMph": "Realized/reanalysis weather is not substituted for the forecast available at decision time.",
+    "epaDiff": "PPA is not relabeled as EPA; EPA uses the prospectively archived CFBD opponent-adjusted WEPA response.",
+    "linePlayDiff": "No subjective offensive-line grade is substituted; the registered feature is net CFBD line yards.",
+    "travelMilesDiff": "No guessed itinerary is substituted; the registered feature is great-circle program-home-location to venue miles."
   },
   "activationRule": "No BR2 model fit until a separately frozen feature contract has adequate point-in-time coverage and a future chronological holdout is reserved.",
   "week5DecisionRuleChanged": false,
@@ -54,5 +57,19 @@
     "Multiple independent prospective week snapshots exist.",
     "A future chronological holdout is reserved before hyperparameter selection.",
     "No Week 5 S04_ES2 signal, threshold, stake, or delivery rule is changed."
-  ]
+  ],
+  "currentlyCollectableFromExternalReplayableAPI": [
+    "windMph"
+  ],
+  "evidenceGatedFeatures": [
+    "qbContinuityDiff"
+  ],
+  "sourceRegistry": "config/br2_source_registry.json",
+  "featureCollectionDefinitions": {
+    "epaDiff": "home minus away opponent-adjusted net EPA; team net = epa.total - epaAllowed.total from archived CFBD WEPA snapshot",
+    "linePlayDiff": "home minus away net line yards; team net = offense.lineYards - defense.lineYards",
+    "travelMilesDiff": "home minus away great-circle miles from registered CFBD team location to registered game venue",
+    "windMph": "Open-Meteo 10m sustained wind nearest kickoff from the pregame forecast snapshot; confirmed dome = 0 with audit flag",
+    "qbContinuityDiff": "home continuity minus away continuity; each team continuity = 1 iff first-listed QB matches prior official depth chart, otherwise 0; both team packets required"
+  }
 }

@@ -1093,3 +1093,42 @@ confidence from a clean-looking feature table.
 
 **Week 5 effect.** None. S04_ES2 remains the frozen prospective shadow. Zero
 stake and no delivery authority are unchanged.
+
+
+## 2026-09-22 — D29. BR2 context sources are admitted by evidence class, not convenience
+
+**Decision.** Implement the missing BR2 point-in-time context as separate,
+audited source contracts while preserving `DATA_COLLECTION_ONLY` and the frozen
+Week 5 S04_ES2 rule.
+
+Four previously missing families now have deterministic capture paths:
+
+- `epaDiff`: prospectively archived CFBD opponent-adjusted WEPA.
+- `linePlayDiff`: week-bounded CFBD advanced net line yards.
+- `travelMilesDiff`: CFBD team/venue coordinates and great-circle distance.
+- `windMph`: pregame Open-Meteo forecast captured and hashed before kickoff;
+  confirmed domes explicitly neutralize wind.
+
+`qbContinuityDiff` remains evidence-gated. Exa may discover primary sources.
+Firecrawl may capture pages/PDFs and monitor changes. Browser automation may
+inspect visible public context such as Action Network's injury and line-movement
+surfaces. None of those methods alone creates a feature. QB continuity requires
+two independently audit-grade official-source packets, one for each team, with
+pre-kickoff timestamps, content hashes and deterministic fact validation.
+
+Action Network is corroboration-only. Public odds and line movement may be
+archived as market context. Locked PRO fields are treated as unavailable and
+must not be bypassed, inferred, or used as labels.
+
+**Failure behavior.** New context adapters fail closed to null and publish
+source-health state. Failure of a new adapter must not erase the original BR2
+feature families.
+
+**Historical rule.** Prospective snapshots are the evidence. A later-season
+CFBD WEPA value cannot reconstruct an earlier week's opponent-adjusted EPA.
+Weather backtests must use archived forecast runs rather than realized or
+reanalysis weather.
+
+**Promotion effect.** None. These inputs cannot influence S02 or S04_ES2.
+A separately frozen BR2 feature contract, multiple independent prospective
+weeks and an untouched chronological holdout remain mandatory before any fit.
