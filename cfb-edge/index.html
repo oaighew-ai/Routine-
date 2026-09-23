@@ -259,29 +259,31 @@ function renderWeek5(health,es2,grades,br2){
   const hs=health?.summary||{}, gs=grades?.summary||{}, bs=br2?.summary||{};
   const audit=hs.provenanceCompleteTrueOpenRows??hs.trueOpenRows??0;
   const total=hs.slateRows??0;
-  $("w5Open").textContent=audit+"/"+total;
-  $("w5OpenNote").textContent=(health?.status||"PENDING").replaceAll("_"," ");
+  $("w5Open").textContent=health?(audit+"/"+total):"PENDING";
+  $("w5OpenNote").textContent=(health?.status||"Week 5 audit window not active").replaceAll("_"," ");
   const qualified=es2?.qualifiedCount??0;
-  $("w5Signals").textContent=String(qualified);
-  $("w5Grades").textContent=(gs.gradeableRows??0)+"/"+(gs.signalRows??0);
+  $("w5Signals").textContent=es2?String(qualified):"PENDING";
+  $("w5Grades").textContent=grades?((gs.gradeableRows??0)+"/"+(gs.signalRows??0)):"PENDING";
   $("w5GradeNote").textContent=gs.meanLineClvPoints==null?"grading waits for kickoff":("mean CLV "+Number(gs.meanLineClvPoints).toFixed(2)+" pts");
 
   const cov=bs.featureCoverageRows||{};
   const games=bs.games||0;
   const active=["ppaDiff","successRateDiff","explosivenessDiff","paceDiff","restDaysDiff"];
-  const available=active.reduce((n,k)=>n+(cov[k]||0),0);
-  const possible=games*active.length;
-  $("br2Coverage").textContent=possible?Math.round(100*available/possible)+"%":"—";
-  $("br2Note").textContent=br2?.status==="DATA_COLLECTION_ONLY"?"5 collectable fields · no model fit":"feature snapshot pending";
+  const populatedFamilies=Object.keys(cov).filter(k=>(cov[k]||0)>0).length;
+  const plannedFamilies=Object.keys(cov).length||10;
+  $("br2Coverage").textContent=br2?(populatedFamilies+"/"+plannedFamilies):"PENDING";
+  $("br2Note").textContent=br2?.status==="DATA_COLLECTION_ONLY"?(games+" games · collection only · no model fit"):"feature snapshot pending";
 
-  let state="COLLECTING";
+  let state=health?"COLLECTING":"PRE-WINDOW";
   let cls="warn";
   if(health?.status==="INTEGRITY_FAILURE"){state="INTEGRITY FAILURE";cls="bad"}
   else if(health?.status==="AUDIT_GRADE_CAPTURE_COMPLETE"){state="AUDIT READY";cls="ok"}
   $("w5Pill").textContent=state;
   $("w5Pill").className="pill "+cls;
   $("w5Summary").textContent=
-    `Week 5 freeze intact · ${audit}/${total} audit-grade opens · ${qualified} executable-shadow matches · BR2 decision effect NONE`;
+    health
+      ? `Week 5 freeze intact · ${audit}/${total} audit-grade opens · ${qualified} executable-shadow matches · BR2 decision effect NONE`
+      : `Week 5 freeze intact · audit window pre-start · BR2 snapshot active · decision effect NONE`;
 
   const layers=[
     ["Capture",health?.contract||"WEEK5_CAPTURE_HEALTH_V2",health?.status||"PENDING","NONE"],
