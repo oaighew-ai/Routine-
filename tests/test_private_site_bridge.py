@@ -17,14 +17,21 @@ class PrivateSiteBridgeTests(unittest.TestCase):
             br2={"status":"DATA_COLLECTION_ONLY","generatedAt":"2026-09-23T01:00:00Z",
                  "sourceManifest":[{"kind":"plays","path":"x","sha256":"abc"}],
                  "summary":{"games":56,"modelingEligible":False,
-                 "featureCoverageRows":{"ppaDiff":56,"epaDiff":0}}},
+                 "fullyPopulatedRows":0,
+                 "featureCoverageRows":{"ppaDiff":56,"epaDiff":0,"qbContinuityDiff":1}},
+                 "rows":[{"game":"A @ H","kickoff":"2026-09-26T16:00:00Z",
+                          "features":{"qbContinuityDiff":0.0}}]},
             generated_at=datetime(2026,9,23,1,tzinfo=timezone.utc),
         )
         self.assertFalse(r["authority"]["githubCanPublishPicks"])
         self.assertEqual(r["authority"]["picksSource"],"PRIVATE_SITE_LOCAL")
         self.assertEqual(r["research"]["deliveryEffect"],"NONE")
-        self.assertEqual(r["br2"]["populatedFamilies"],["ppaDiff"])
+        self.assertEqual(r["br2"]["populatedFamilies"],["ppaDiff","qbContinuityDiff"])
         self.assertEqual(r["br2"]["missingFamilies"],["epaDiff"])
+        self.assertEqual(r["br2"]["coverageRows"]["qbContinuityDiff"],1)
+        self.assertEqual(r["br2"]["fullyPopulatedRows"],0)
+        self.assertEqual(r["br2"]["qbContinuityExample"]["game"],"A @ H")
+        self.assertEqual(r["br2"]["qbContinuityExample"]["value"],0.0)
 
 
     def test_missing_capture_health_uses_readiness_window_state(self):

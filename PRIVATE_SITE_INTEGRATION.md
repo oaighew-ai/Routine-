@@ -19,7 +19,7 @@ The bridge contains four UI-ready blocks:
 
 - `authority`: confirms that picks remain private-Site local.
 - `week5`: audit-grade opening coverage, executable-shadow count and CLV grading.
-- `br2`: point-in-time feature coverage and raw-source replay status.
+- `br2`: point-in-time feature coverage and raw-source replay status, including per-family row counts, fully populated rows, and the first non-null QB-continuity example.
 - `runway`: the four-stage Evidence Runway for the command center.
 
 ## Required Site behavior
