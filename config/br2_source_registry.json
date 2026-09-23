@@ -89,12 +89,30 @@
       "domePolicy": "confirmed dome => windMph=0 with explicit weatherSuppressedByDome=true"
     },
     {
-      "id": "OFFICIAL_TEAM_MATERIALS",
-      "provider": "University/conference athletic departments",
-      "role": "CANDIDATE_EVIDENCE",
+      "id": "CFBD_PLAYER_PASSING",
+      "provider": "CollegeFootballData",
+      "role": "FEATURE_AUTHORITATIVE",
       "featureFamilies": [
         "qbContinuityDiff"
       ],
+      "endpoint": "/stats/player/season",
+      "definition": "team continuity = primary passer attempts / all team passing attempts through the frozen prior provider week; qbContinuityDiff = home continuity - away continuity",
+      "requirements": [
+        "explicit startWeek/endWeek cutoff ending before the target cohort",
+        "category=passing",
+        "raw payload SHA-256",
+        "all credited passers remain in the denominator"
+      ],
+      "limitations": [
+        "measures historical workload concentration, not current injury status",
+        "does not infer a starter from media reports"
+      ]
+    },
+    {
+      "id": "OFFICIAL_TEAM_MATERIALS",
+      "provider": "University/conference athletic departments",
+      "role": "INFORMATION_STATE_EVIDENCE",
+      "featureFamilies": [],
       "eligibleKinds": [
         "official_depth_chart",
         "official_game_notes",
@@ -110,8 +128,9 @@
         "deterministic fact validation",
         "both home and away team packets"
       ],
-      "featureRule": "team continuity = 1 if first-listed QB matches prior official depth chart, else 0; qbContinuityDiff = home continuity - away continuity",
-      "failClosed": true
+      "featureRule": "No numeric feature authority. Validated packets populate only qbInformationState evidence.",
+      "allowedUse": "timestamped current QB/depth/availability context stored separately from qbContinuityDiff",
+      "prohibitedUse": "cannot create, replace, or overwrite the numeric qbContinuityDiff feature"
     },
     {
       "id": "EXA_DISCOVERY",
