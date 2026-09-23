@@ -1,0 +1,144 @@
+name: Week 5 late-open tail capture
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - .github/workflows/week5-late-open-capture.yml
+      - cfb_edge/cohort.py
+      - config/week5_cohort.json
+  schedule:
+    - cron: "*/15 * * 9 3,4"
+    - cron: "*/15 0-19 * 9 5"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: cfb-capture
+  cancel-in-progress: false
+
+jobs:
+  poll:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Code
+        uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+
+      - name: Resolve canonical Week 5 prospective window
+        id: active
+        run: |
+          set -euo pipefail
+          python3 -m cfb_edge.cohort status \
+            --config config/week5_cohort.json \
+            --mode prospective > /tmp/week.env
+          cat /tmp/week.env >> "$GITHUB_OUTPUT"
+          cat /tmp/week.env >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Evidence branch
+        if: steps.active.outputs.run == '1'
+        uses: actions/checkout@v4
+        with:
+          ref: capture-data
+          path: capture-data
+
+      - name: Prepare canonical Week 5 slate
+        if: steps.active.outputs.run == '1'
+        run: |
+          set -euo pipefail
+          FROZEN="capture-data/data/week5_2026_slate.csv"
+          if [ ! -f "$FROZEN" ]; then
+            python3 -m cfb_edge.cohort build-slate \
+              --config config/week5_cohort.json \
+              --out "$FROZEN"
+          fi
+          python3 -m cfb_edge.cohort validate-slate \
+            --config config/week5_cohort.json \
+            --slate "$FROZEN" >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Poll only still-unseen Week 5 markets
+        if: steps.active.outputs.run == '1'
+        id: poll
+        timeout-minutes: 12
+        run: |
+          set -euo pipefail
+          test -f capture-data/data/opens.jsonl.gz
+          for attempt in 1 2 3; do
+            python3 -m cfb_edge.watch --source kalshi \
+              --slate capture-data/data/week5_2026_slate.csv \
+              --log capture-data/data/opens.jsonl.gz \
+              --out capture-data/data/opens.csv \
+              --once
+            [ "$attempt" -eq 3 ] || sleep 240
+          done
+
+      - name: Rebuild canonical Week 5 capture report
+        if: steps.active.outputs.run == '1'
+        env:
+          CAPTURE_OUTCOME: ${{ steps.poll.outcome }}
+        run: |
+          set -euo pipefail
+          mkdir -p .tmp/week5-tail
+          python3 -m cfb_edge.capture_report \
+            --log capture-data/data/opens.jsonl.gz \
+            --slate capture-data/data/week5_2026_slate.csv \
+            --out .tmp/week5-tail \
+            --capture-outcome "$CAPTURE_OUTCOME" \
+            --revision "$GITHUB_SHA"
+          cp .tmp/week5-tail/capture-report.json \
+            capture-data/data/week5-tail-capture-report.json
+
+          python3 - <<'PY' >> "$GITHUB_STEP_SUMMARY"
+          import json
+          from pathlib import Path
+          r=json.loads(Path("capture-data/data/week5-tail-capture-report.json").read_text())
+          s=r.get("summary") or {}
+          print("## Week 5 late-open tail")
+          print("- cohort: **CFB_2026_PRODUCT_WEEK5**")
+          print(f"- observed: **{s.get('observedRows', 0)}/{s.get('slateRows', 0)}**")
+          print(f"- TRUE_OPEN: **{s.get('trueOpenRows', 0)}**")
+          print(f"- source counts: **{s.get('sourceCounts', {})}**")
+          print("- decision effect: **NONE**")
+          PY
+
+      - name: Publish immutable opening evidence
+        if: steps.active.outputs.run == '1'
+        working-directory: capture-data
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/week5_2026_slate.csv data/opens.jsonl.gz data/opens.csv data/week5-tail-capture-report.json
+          git diff --cached --quiet && exit 0
+          git commit -q -m "Week 5 late-open tail $(date -u '+%Y-%m-%d %H:%M UTC')"
+          for attempt in 1 2 3; do
+            if git push origin HEAD:capture-data; then
+              exit 0
+            fi
+            git reset --hard HEAD~1
+            git fetch origin capture-data
+            git reset --hard origin/capture-data
+            cd "$GITHUB_WORKSPACE"
+            python3 -m cfb_edge.watch --source kalshi \
+              --slate capture-data/data/week5_2026_slate.csv \
+              --log capture-data/data/opens.jsonl.gz \
+              --out capture-data/data/opens.csv \
+              --once
+            python3 -m cfb_edge.capture_report \
+              --log capture-data/data/opens.jsonl.gz \
+              --slate capture-data/data/week5_2026_slate.csv \
+              --out .tmp/week5-tail \
+              --revision "$GITHUB_SHA"
+            cp .tmp/week5-tail/capture-report.json \
+              capture-data/data/week5-tail-capture-report.json
+            cd capture-data
+            git add data/opens.jsonl.gz data/opens.csv data/week5-tail-capture-report.json
+            git diff --cached --quiet && exit 0
+            git commit -q -m "Week 5 late-open tail $(date -u '+%Y-%m-%d %H:%M UTC')"
+          done
+          exit 1
