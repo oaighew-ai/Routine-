@@ -1,6 +1,5 @@
 from __future__ import annotations
 
-import io
 import json
 import tempfile
 import unittest
@@ -44,6 +43,47 @@ class Br2WeatherTests(unittest.TestCase):
             self.assertEqual(row["forecast"]["validTime"],"2026-09-26T16:00:00+00:00")
             self.assertEqual(len(r["sourceManifest"]),1)
             self.assertTrue(Path(r["sourceManifest"][0]["path"]).exists())
+
+    def test_two_outdoor_venues_share_one_batch_request(self):
+        payloads=[
+            {"hourly":{
+                "time":["2026-09-26T16:00"],
+                "temperature_2m":[70],"precipitation_probability":[0],
+                "precipitation":[0],"wind_speed_10m":[8],"wind_gusts_10m":[12],
+            }},
+            {"hourly":{
+                "time":["2026-09-26T16:00"],
+                "temperature_2m":[75],"precipitation_probability":[0],
+                "precipitation":[0],"wind_speed_10m":[14],"wind_gusts_10m":[20],
+            }},
+        ]
+        calls=[]
+        def opener(req,timeout=0):
+            calls.append(req.full_url)
+            return _Resp(payloads)
+        with tempfile.TemporaryDirectory() as td:
+            r=capture(
+                slate=[
+                    {"game":"A @ H","kickoff":"2026-09-26T16:00:00Z"},
+                    {"game":"B @ J","kickoff":"2026-09-26T16:00:00Z"},
+                ],
+                games=[
+                    {"awayTeam":"A","homeTeam":"H","venueId":1},
+                    {"awayTeam":"B","homeTeam":"J","venueId":2},
+                ],
+                venues=[
+                    {"id":1,"name":"One","latitude":40,"longitude":-80,"dome":False},
+                    {"id":2,"name":"Two","latitude":35,"longitude":-90,"dome":False},
+                ],
+                out_raw_dir=td,
+                retrieved_at=datetime(2026,9,23,tzinfo=timezone.utc),
+                opener=opener,
+            )
+            self.assertEqual(len(calls),1)
+            self.assertEqual(r["summary"]["batchRequests"],1)
+            self.assertEqual(r["summary"]["successfulBatchRequests"],1)
+            self.assertEqual([x["windMph"] for x in r["rows"]],[8.0,14.0])
+            self.assertEqual(r["rows"][1]["source"]["locationIndex"],1)
 
     def test_dome_neutralizes_wind_without_network(self):
         def opener(*args,**kwargs):
