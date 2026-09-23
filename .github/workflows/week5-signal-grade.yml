@@ -2,7 +2,7 @@ name: week5 automatic signal grading
 
 on:
   workflow_run:
-    workflows: ["capture"]
+    workflows: ["capture", "S04 ES2 Week 5 audit shadow"]
     types: [completed]
   schedule:
     - cron: "20 4 * 9-11 0,1"   # post-Saturday/Sunday grading sweep
