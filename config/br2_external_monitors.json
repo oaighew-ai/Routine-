@@ -13,7 +13,7 @@
       "maxResults": 15,
       "searchWindow": "24h",
       "estimatedCreditsPerMonthAtCreation": 630,
-      "outputPolicy": "Discovery results cannot populate qbContinuityDiff. A primary official source must be captured, hashed and deterministically validated."
+      "outputPolicy": "Discovery results cannot populate qbContinuityDiff. Official primary sources may become hashed qbInformationState evidence after deterministic validation."
     },
     {
       "id": "01a0cc2d-baaf-70c8-a4ea-b99f07ee0a88",
@@ -23,7 +23,7 @@
       "cadence": "every 6 hours America/New_York",
       "estimatedCreditsPerMonthAtCreation": 240,
       "target": "https://www.actionnetwork.com/ncaaf/injury-report",
-      "outputPolicy": "Visible public context only. Locked subscriber fields are unavailable and cannot become features."
+      "outputPolicy": "Visible public context only. Locked subscriber fields are unavailable. Injury context is corroboration-only and cannot overwrite qbContinuityDiff."
     }
   ],
   "onDemand": [
