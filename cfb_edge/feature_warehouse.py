@@ -123,6 +123,7 @@ def build_snapshot(
     prior_games: Sequence[Mapping[str, Any]],
     as_of: datetime,
     source_revision: str | None = None,
+    source_manifest: Sequence[Mapping[str, Any]] = (),
 ) -> dict[str, Any]:
     metrics = team_metrics(plays)
     last_games = _last_game_dates(prior_games, as_of)
@@ -183,6 +184,7 @@ def build_snapshot(
         "status": "DATA_COLLECTION_ONLY",
         "generatedAt": as_of.isoformat(),
         "sourceRevision": source_revision,
+        "sourceManifest": [dict(x) for x in source_manifest],
         "pointInTimePolicy": {
             "futureDataAllowed": False,
             "missingValuesImputed": False,
@@ -222,6 +224,7 @@ def main(argv: list[str] | None = None) -> int:
     p.add_argument("--games-json", action="append", default=[])
     p.add_argument("--as-of")
     p.add_argument("--revision")
+    p.add_argument("--source-manifest")
     p.add_argument("--out", required=True)
     args = p.parse_args(argv)
 
@@ -240,12 +243,21 @@ def main(argv: list[str] | None = None) -> int:
             raise SystemExit(f"{path}: expected JSON array")
         games.extend(payload)
 
+    source_manifest = []
+    if args.source_manifest:
+        source_manifest = json.loads(
+            Path(args.source_manifest).read_text(encoding="utf-8")
+        )
+        if not isinstance(source_manifest, list):
+            raise SystemExit("--source-manifest must be a JSON array")
+
     report = build_snapshot(
         slate=_read_slate(args.slate),
         plays=plays,
         prior_games=games,
         as_of=as_of,
         source_revision=args.revision,
+        source_manifest=source_manifest,
     )
     out = Path(args.out)
     out.parent.mkdir(parents=True, exist_ok=True)
