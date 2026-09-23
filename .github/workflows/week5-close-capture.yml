@@ -1,0 +1,87 @@
+name: Week 5 close capture
+
+on:
+  schedule:
+    - cron: "*/30 16-23 * 9-11 4,5,6"
+    - cron: "*/30 0-6 * 9-11 0"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: cfb-week5-close-capture
+  cancel-in-progress: false
+
+jobs:
+  close:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Code
+        uses: actions/checkout@v4
+
+      - name: Evidence branch
+        uses: actions/checkout@v4
+        with:
+          ref: capture-data
+          path: evidence
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+
+      - name: Resolve active Week 5 game window
+        id: active
+        run: |
+          python3 - <<'PY' > /tmp/week.env
+          from cfb_edge.slate import current_week
+          try:
+              current=current_week(2026)
+              print(f"current={current or 'none'}")
+              print(f"run={1 if current == 5 else 0}")
+          except Exception as exc:
+              print("current=error")
+              print("run=0")
+              print(f"error={type(exc).__name__}: {exc}")
+          PY
+          cat /tmp/week.env >> "$GITHUB_OUTPUT"
+          cat /tmp/week.env >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Poll Week 5 close series
+        if: steps.active.outputs.run == '1'
+        run: |
+          set -euo pipefail
+          test -f evidence/data/week5_2026_slate.csv
+          test -f evidence/data/opens.jsonl.gz
+          for attempt in 1 2 3; do
+            python3 -m cfb_edge.watch --source kalshi               --slate evidence/data/week5_2026_slate.csv               --log evidence/data/opens.jsonl.gz --once
+            [ "$attempt" -eq 3 ] || sleep 240
+          done
+
+      - name: Build Week 5 close report
+        if: steps.active.outputs.run == '1'
+        run: |
+          set -euo pipefail
+          mkdir -p .tmp/week5-close
+          python3 -m cfb_edge.capture_report             --log evidence/data/opens.jsonl.gz             --slate evidence/data/week5_2026_slate.csv             --out .tmp/week5-close             --capture-outcome success             --revision "$GITHUB_SHA"
+          cp .tmp/week5-close/capture-report.json              evidence/data/week5-close-capture-report.json
+
+      - name: Publish close evidence
+        if: steps.active.outputs.run == '1'
+        working-directory: evidence
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/opens.jsonl.gz data/week5-close-capture-report.json
+          git diff --cached --quiet && exit 0
+          git commit -q -m "Week 5 close capture $(date -u '+%Y-%m-%d %H:%M UTC')"
+          for attempt in 1 2 3; do
+            git fetch origin capture-data
+            if git rebase origin/capture-data && git push origin HEAD:capture-data; then
+              exit 0
+            fi
+            git rebase --abort || true
+            sleep $((attempt * 2))
+          done
+          exit 1

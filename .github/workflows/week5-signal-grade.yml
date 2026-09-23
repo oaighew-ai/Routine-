@@ -1,0 +1,81 @@
+name: week5 automatic signal grading
+
+on:
+  workflow_run:
+    workflows: ["capture", "S04 ES2 Week 5 audit shadow", "Week 5 close capture"]
+    types: [completed]
+  schedule:
+    - cron: "20 4 * 9-11 0,1"   # post-Saturday/Sunday grading sweep
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: cfb-week5-signal-grading
+  cancel-in-progress: false
+
+jobs:
+  grade:
+    if: github.event_name != 'workflow_run' || github.event.workflow_run.conclusion == 'success'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Code
+        uses: actions/checkout@v4
+
+      - name: Evidence
+        uses: actions/checkout@v4
+        with:
+          ref: capture-data
+          path: capture-data
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+
+      - name: Grade eligible S04_ES2 signals
+        id: grade
+        run: |
+          set -euo pipefail
+          REPORT="capture-data/data/week5-close-capture-report.json"
+          if [ ! -f "$REPORT" ]; then REPORT="capture-data/data/capture-report.json"; fi
+          if [ ! -f capture-data/data/s04-es2-live.json ] || [ ! -f "$REPORT" ]; then
+            echo "run=0" >> "$GITHUB_OUTPUT"
+            echo "Week 5 signal or capture report not present yet." >> "$GITHUB_STEP_SUMMARY"
+            exit 0
+          fi
+          python3 -m cfb_edge.signal_grader             --signals capture-data/data/s04-es2-live.json             --capture-report "$REPORT"             --out capture-data/data/s04-es2-grades.json
+          echo "run=1" >> "$GITHUB_OUTPUT"
+
+          python3 - <<'PY' >> "$GITHUB_STEP_SUMMARY"
+          import json
+          from pathlib import Path
+          r=json.loads(Path("capture-data/data/s04-es2-grades.json").read_text())
+          s=r["summary"]
+          print("## S04_ES2 automatic grading")
+          print(f"- signal rows: **{s['signalRows']}**")
+          print(f"- gradeable: **{s['gradeableRows']}**")
+          print(f"- mean line CLV: **{s['meanLineClvPoints']}**")
+          print(f"- beat-close rate: **{s['beatCloseRate']}**")
+          print("- decision effect: **NONE**")
+          PY
+
+      - name: Publish grading evidence
+        if: steps.grade.outputs.run == '1'
+        working-directory: capture-data
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/s04-es2-grades.json
+          git diff --cached --quiet && exit 0
+          git commit -q -m "S04_ES2 signal grades $(date -u '+%Y-%m-%d %H:%M UTC')"
+          for attempt in 1 2 3; do
+            git fetch origin capture-data
+            if git rebase origin/capture-data && git push origin HEAD:capture-data; then
+              exit 0
+            fi
+            git rebase --abort || true
+            sleep $((attempt * 2))
+          done
+          exit 1

@@ -1032,3 +1032,37 @@ registered, point-in-time dataset supports it on an untouched chronological
 cohort with both MAE and RMSE improvement over the market baseline. Delivery
 authority still requires prospective evidence and executable-price economics
 under the existing governance; historical improvement alone cannot promote it.
+
+
+## 2026-09-22 — D27. Week 5 evidence is graded automatically; BR2 is a separate point-in-time data plane
+
+**Decision.** Week 5 S04_ES2 remains frozen exactly as registered in
+`config/week5_freeze.json`. The system now adds verification around that rule,
+not new decision logic.
+
+`cfb_edge/week5_capture_health.py` requires complete replay lineage for every
+row labeled `true_open`: first-seen time, venue open time, event ticker,
+bracketing market tickers, first valid two-sided quote time, poll time, code
+revision and the frozen open-lag tolerance. Each row receives an evidence hash.
+
+`cfb_edge/signal_grader.py` automatically grades only signal rows that were
+already audit-grade at decision time. The close is the final captured derived
+home line at or before kickoff and must itself be fresh enough to grade.
+Grading has `decisionEffect: NONE` and cannot create or rescue a signal.
+
+`S04_BR2` is created as a collection-only point-in-time feature warehouse.
+The first schema records EPA, PPA, success rate, explosiveness, QB continuity,
+line play, pace, rest, travel and wind as distinct fields. Existing CFBD REST
+data can populate PPA, success, explosiveness, pace and rest. PPA is not
+relabeled as EPA, and unavailable QB, line-play, travel and weather fields stay
+null until timestamped source adapters exist.
+
+**Why.** The Week 4 failure was measurement provenance, not a shortage of model
+complexity. The next model should be trained on information that can be proven
+to have existed before the forecast, and its missingness must be visible rather
+than backfilled from future knowledge.
+
+**Reversal criterion.** None for Week 5. Any change to the frozen S04_ES2
+decision rule creates a new experiment. BR2 may move from collection to fitting
+only after a separately frozen feature contract has adequate point-in-time
+coverage and an untouched future chronological holdout is reserved.

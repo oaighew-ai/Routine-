@@ -92,6 +92,15 @@
       "modelStatus": "HISTORICAL_OOS_REJECTED_SHADOW",
       "deliveryEligible": false,
       "note": "Market-anchored Bayesian, fixed-regime, dynamic-team-state and ensemble challengers. All failed the untouched 2026 Week 3 loss test; retained as rejection evidence and reusable harness only."
+    },
+    {
+      "id": "S04_BR2",
+      "role": "POINT_IN_TIME_FOOTBALL_CONTEXT_WAREHOUSE",
+      "market": "spread",
+      "version": "point-in-time-football-context-collection-1",
+      "modelStatus": "DATA_COLLECTION_ONLY",
+      "deliveryEligible": false,
+      "note": "Append-only point-in-time feature warehouse. Missing EPA/QB/line-play/travel/weather remain missing; no proxy relabeling and no Week 5 decision effect."
     }
   ]
 }

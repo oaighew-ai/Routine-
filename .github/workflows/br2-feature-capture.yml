@@ -1,0 +1,110 @@
+name: BR2 point-in-time feature capture
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - cfb_edge/feature_warehouse.py
+      - config/s04_br2.json
+      - .github/workflows/br2-feature-capture.yml
+  schedule:
+    - cron: "30 13 * 9-11 2,4,5"   # Tue/Thu/Fri morning ET during season
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: cfb-br2-feature-capture
+  cancel-in-progress: false
+
+jobs:
+  snapshot:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Code
+        uses: actions/checkout@v4
+
+      - name: Evidence branch
+        uses: actions/checkout@v4
+        with:
+          ref: capture-data
+          path: capture-data
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+
+      - name: Build fixed Week 5 slate
+        run: |
+          mkdir -p .tmp/br2
+          python3 -m cfb_edge.slate --season 2026 --week 5 --out .tmp/br2/week5.csv
+
+      - name: Freeze CFBD source responses
+        env:
+          CFBD_API_KEY: ${{ secrets.CFBD_API_KEY }}
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          import json, os, pathlib, urllib.request
+          root=pathlib.Path(".tmp/br2")
+          key=os.environ.get("CFBD_API_KEY","").strip()
+          if not key:
+              raise SystemExit("CFBD_API_KEY is required for BR2 point-in-time capture")
+          headers={
+              "Authorization": f"Bearer {key}",
+              "Accept":"application/json",
+              "User-Agent":"cfb-edge/1.0",
+          }
+          def pull(path, out):
+              req=urllib.request.Request("https://api.collegefootballdata.com"+path,headers=headers)
+              with urllib.request.urlopen(req,timeout=60) as r:
+                  payload=json.loads(r.read())
+              pathlib.Path(out).write_text(json.dumps(payload,sort_keys=True),encoding="utf-8")
+          for week in (1,2,3,4):
+              pull(f"/plays?year=2026&week={week}&seasonType=regular",
+                   root/f"plays-w{week}.json")
+              pull(f"/games?year=2026&week={week}&seasonType=regular",
+                   root/f"games-w{week}.json")
+          PY
+
+      - name: Build immutable point-in-time snapshot
+        run: |
+          set -euo pipefail
+          ASOF="$(date -u '+%Y-%m-%dT%H:%M:%SZ')"
+          STAMP="$(date -u '+%Y%m%dT%H%M%SZ')"
+          mkdir -p "capture-data/data/features/br2/2026/week5"
+          python3 -m cfb_edge.feature_warehouse             --slate .tmp/br2/week5.csv             --plays-json .tmp/br2/plays-w1.json             --plays-json .tmp/br2/plays-w2.json             --plays-json .tmp/br2/plays-w3.json             --plays-json .tmp/br2/plays-w4.json             --games-json .tmp/br2/games-w1.json             --games-json .tmp/br2/games-w2.json             --games-json .tmp/br2/games-w3.json             --games-json .tmp/br2/games-w4.json             --as-of "$ASOF"             --revision "$GITHUB_SHA"             --out "capture-data/data/features/br2/2026/week5/$STAMP.json"
+          cp "capture-data/data/features/br2/2026/week5/$STAMP.json"              capture-data/data/br2-feature-status.json
+
+          python3 - <<'PY' >> "$GITHUB_STEP_SUMMARY"
+          import json
+          from pathlib import Path
+          r=json.loads(Path("capture-data/data/br2-feature-status.json").read_text())
+          s=r["summary"]
+          print("## S04_BR2 feature warehouse")
+          print(f"- games snapshotted: **{s['games']}**")
+          print(f"- fully populated rows: **{s['fullyPopulatedRows']}**")
+          print("- modeling eligible: **NO**")
+          for k,v in s["featureCoverageRows"].items():
+              print(f"- {k}: **{v}/{s['games']}**")
+          PY
+
+      - name: Publish append-only feature evidence
+        working-directory: capture-data
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/features/br2 data/br2-feature-status.json
+          git diff --cached --quiet && exit 0
+          git commit -q -m "BR2 feature snapshot $(date -u '+%Y-%m-%d %H:%M UTC')"
+          for attempt in 1 2 3; do
+            git fetch origin capture-data
+            if git rebase origin/capture-data && git push origin HEAD:capture-data; then
+              exit 0
+            fi
+            git rebase --abort || true
+            sleep $((attempt * 2))
+          done
+          exit 1
