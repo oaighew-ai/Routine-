@@ -25,23 +25,13 @@ jobs:
         with:
           python-version: "3.13"
 
-      - name: Resolve Week 5 window
+      - name: Resolve canonical Week 5 capture window
         id: active
         run: |
-          python3 - <<'PY' > /tmp/week.env
-          from cfb_edge.slate import current_week, opening_week
-          try:
-              current = current_week(2026)
-              opening = opening_week(2026)
-              print(f"current={current or 'none'}")
-              print(f"opening={opening or 'none'}")
-              print(f"run={1 if current == 5 or opening == 5 else 0}")
-          except Exception as exc:
-              print("current=error")
-              print("opening=error")
-              print("run=0")
-              print(f"error={type(exc).__name__}: {exc}")
-          PY
+          set -euo pipefail
+          python3 -m cfb_edge.cohort status \
+            --config config/week5_cohort.json \
+            --mode capture > /tmp/week.env
           cat /tmp/week.env >> "$GITHUB_OUTPUT"
           cat /tmp/week.env >> "$GITHUB_STEP_SUMMARY"
 
@@ -56,13 +46,30 @@ jobs:
         if: steps.active.outputs.run == '1'
         run: python3 -m cfb_edge.week5_freeze
 
+      - name: Prepare canonical Week 5 slate
+        if: steps.active.outputs.run == '1'
+        run: |
+          set -euo pipefail
+          FROZEN="evidence/data/week5_2026_slate.csv"
+          if [ ! -f "$FROZEN" ]; then
+            python3 -m cfb_edge.cohort build-slate \
+              --config config/week5_cohort.json \
+              --out "$FROZEN"
+          fi
+          python3 -m cfb_edge.cohort validate-slate \
+            --config config/week5_cohort.json \
+            --slate "$FROZEN" >> "$GITHUB_STEP_SUMMARY"
+
       - name: Measure capture quality
         if: steps.active.outputs.run == '1'
         run: |
           set -euo pipefail
-          test -f evidence/data/slate_current.csv
+          test -f evidence/data/week5_2026_slate.csv
           test -f evidence/data/opens.csv
-          python3 -m cfb_edge.week5_capture_health             --slate evidence/data/slate_current.csv             --opens evidence/data/opens.csv             --out evidence/data/week5-capture-health.json
+          python3 -m cfb_edge.week5_capture_health \
+            --slate evidence/data/week5_2026_slate.csv \
+            --opens evidence/data/opens.csv \
+            --out evidence/data/week5-capture-health.json
 
           python3 - <<'PY' >> "$GITHUB_STEP_SUMMARY"
           import json
@@ -70,6 +77,7 @@ jobs:
           r=json.loads(Path("evidence/data/week5-capture-health.json").read_text())
           s=r["summary"]
           print("## Week 5 capture health")
+          print("- canonical cohort: **CFB_2026_PRODUCT_WEEK5**")
           print(f"- status: **{r['status']}**")
           print(f"- TRUE_OPEN coverage: **{s['trueOpenRows']}/{s['slateRows']} ({s['trueOpenCoveragePct']:.1%})**")
           print(f"- replay-complete audit coverage: **{s['provenanceCompleteTrueOpenRows']}/{s['slateRows']} ({s['auditGradeCoveragePct']:.1%})**")
@@ -87,7 +95,7 @@ jobs:
           set -euo pipefail
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add data/week5-capture-health.json
+          git add data/week5_2026_slate.csv data/week5-capture-health.json
           git diff --cached --quiet && exit 0
           git commit -q -m "audit: Week 5 capture health $(date -u '+%Y-%m-%d %H:%M UTC')"
           for attempt in 1 2 3; do
