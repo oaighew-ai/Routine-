@@ -166,8 +166,10 @@ def capture(
     fetch_error_by_coord: dict[tuple[float,float],str]={}
     source_by_coord: dict[tuple[float,float],dict[str,Any]]={}
     manifest=[]
+    batch_requests=0
 
     for batch in _chunks(coords,max(1,int(batch_size))):
+        batch_requests += 1
         url=batch_forecast_url(batch)
         try:
             req=urllib.request.Request(
@@ -270,9 +272,8 @@ def capture(
             "auditGradeRows":sum(1 for r in rows if r.get("auditGrade")),
             "domeRows":sum(1 for r in rows if r.get("weatherSuppressedByDome")),
             "uniqueOutdoorLocations":len(coords),
-            "batchRequests":len(manifest)+(
-                1 if fetch_error_by_coord and not manifest else 0
-            ),
+            "batchRequests":batch_requests,
+            "successfulBatchRequests":len(manifest),
         },
         "sourceManifest":manifest,"rows":rows,
     }
