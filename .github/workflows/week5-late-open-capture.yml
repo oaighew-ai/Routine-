@@ -6,6 +6,8 @@ on:
     paths:
       - .github/workflows/week5-late-open-capture.yml
       - cfb_edge/cohort.py
+      - cfb_edge/providers/kalshi.py
+      - cfb_edge/teams.py
       - config/week5_cohort.json
   # Poll throughout the configured Sep 20-25 prospective window.
   # cfb_edge.cohort is the runtime gate, so post-window invocations no-op.
