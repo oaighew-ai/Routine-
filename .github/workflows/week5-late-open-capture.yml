@@ -11,6 +11,11 @@ on:
   # cfb_edge.cohort is the runtime gate, so post-window invocations no-op.
   schedule:
     - cron: "*/15 * 20-25 9 *"
+  workflow_run:
+    workflows:
+      - "S04 ES2 Week 5 audit shadow"
+      - "BR2 point-in-time feature capture"
+    types: [completed]
   workflow_dispatch:
 
 permissions:
@@ -22,6 +27,7 @@ concurrency:
 
 jobs:
   poll:
+    if: github.event_name != 'workflow_run' || github.event.workflow_run.conclusion == 'success'
     runs-on: ubuntu-latest
     steps:
       - name: Code
