@@ -97,10 +97,10 @@
       "id": "S04_BR2",
       "role": "POINT_IN_TIME_FOOTBALL_CONTEXT_WAREHOUSE",
       "market": "spread",
-      "version": "point-in-time-football-context-collection-1",
+      "version": "point-in-time-football-context-collection-2",
       "modelStatus": "DATA_COLLECTION_ONLY",
       "deliveryEligible": false,
-      "note": "Append-only point-in-time feature warehouse. Missing EPA/QB/line-play/travel/weather remain missing; no proxy relabeling and no Week 5 decision effect."
+      "note": "Point-in-time warehouse now captures deterministic EPA, line-play, travel and forecast-weather context in addition to the original five families. QB continuity remains fail-closed behind two-sided official-source validation. No Week 5 decision effect."
     }
   ]
 }
