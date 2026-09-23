@@ -1,0 +1,31 @@
+{
+  "schemaVersion": 1,
+  "contract": "CFB_EDGE_COHORT_IDENTITY_V1",
+  "cohortId": "CFB_2026_PRODUCT_WEEK5",
+  "season": 2026,
+  "productWeek": 5,
+  "gameWindow": {
+    "startsAt": "2026-09-25T00:00:00Z",
+    "endsAt": "2026-09-27T12:00:00Z"
+  },
+  "captureWindow": {
+    "startsAt": "2026-09-20T00:00:00Z",
+    "endsAt": "2026-09-27T12:00:00Z"
+  },
+  "prospectiveWindow": {
+    "startsAt": "2026-09-20T00:00:00Z",
+    "endsAt": "2026-09-25T20:00:00Z"
+  },
+  "providerWeeks": {
+    "cfbfastR": 4,
+    "collegefootballdata": 4
+  },
+  "policy": {
+    "identityUsesProviderWeek": false,
+    "frozenDecisionRuleChanged": false,
+    "s04Es2DecisionEffect": "NONE",
+    "stakingEffect": "NONE",
+    "deliveryEffect": "NONE",
+    "notes": "Product Week 5 is the Sep 25-26 cohort. cfbfastR and CFBD both label that cohort regular-season Week 4 in 2026."
+  }
+}
