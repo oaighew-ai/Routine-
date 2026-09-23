@@ -37,6 +37,14 @@ class Week5WorkflowCohortTests(unittest.TestCase):
                     self.assertNotIn(token, text)
 
 
+    def test_late_open_schedule_covers_week5_prospective_calendar_window(self):
+        text = (ROOT / ".github/workflows/week5-late-open-capture.yml").read_text(
+            encoding="utf-8"
+        )
+        self.assertIn('cron: "*/15 * 20-25 9 *"', text)
+        self.assertNotIn('cron: "*/15 * * 9 3,4"', text)
+        self.assertNotIn('cron: "*/15 0-19 * 9 5"', text)
+
     def test_capture_health_follows_both_capture_paths_and_runs_on_own_fix(self):
         text = (ROOT / ".github/workflows/week5-capture-health.yml").read_text(
             encoding="utf-8"
