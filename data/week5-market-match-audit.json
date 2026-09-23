@@ -1,0 +1,2541 @@
+{
+  "contract": "CFB_EDGE_KALSHI_MARKET_MATCH_AUDIT_V1",
+  "events": [
+    {
+      "bracketingMarketTickers": [],
+      "derivedHomeLine": null,
+      "eventTicker": "KXNCAAFSPREAD-26SEP24LIBCCAR",
+      "game": null,
+      "marketCount": 26,
+      "priceable": false,
+      "rawTeams": [
+        "Coastal Carolina",
+        "Liberty"
+      ],
+      "unresolvedRawTeams": [
+        "Coastal Carolina",
+        "Liberty"
+      ]
+    },
+    {
+      "bracketingMarketTickers": [
+        "KXNCAAFSPREAD-26SEP25ARMYTEM-ARMY4",
+        "KXNCAAFSPREAD-26SEP25ARMYTEM-ARMY3"
+      ],
+      "derivedHomeLine": 3.033,
+      "eventTicker": "KXNCAAFSPREAD-26SEP25ARMYTEM",
+      "game": "Army @ Temple",
+      "marketCount": 29,
+      "priceable": true,
+      "rawTeams": [
+        "Army",
+        "Temple"
+      ],
+      "unresolvedRawTeams": []
+    },
+    {
+      "bracketingMarketTickers": [
+        "KXNCAAFSPREAD-26SEP25CLEMCAL-CLEM2",
+        "KXNCAAFSPREAD-26SEP25CLEMCAL-CAL2"
+      ],
+      "derivedHomeLine": -0.0,
+      "eventTicker": "KXNCAAFSPREAD-26SEP25CLEMCAL",
+      "game": "Clemson @ California",
+      "marketCount": 26,
+      "priceable": true,
+      "rawTeams": [
+        "California",
+        "Clemson"
+      ],
+      "unresolvedRawTeams": []
+    },
+    {
+      "bracketingMarketTickers": [],
+      "derivedHomeLine": null,
+      "eventTicker": "KXNCAAFSPREAD-26SEP25HARVBRWN",
+      "game": null,
+      "marketCount": 13,
+      "priceable": false,
+      "rawTeams": [
+        "Brown",
+        "Harvard"
+      ],
+      "unresolvedRawTeams": [
+        "Brown",
+        "Harvard"
+      ]
+    },
+    {
+      "bracketingMarketTickers": [],
+      "derivedHomeLine": null,
+      "eventTicker": "KXNCAAFSPREAD-26SEP25HOWRUTG",
+      "game": null,
+      "marketCount": 17,
+      "priceable": false,
+      "rawTeams": [
+        "Rutgers"
+      ],
+      "unresolvedRawTeams": [
+        "Rutgers"
+      ]
+    },
+    {
+      "bracketingMarketTickers": [
+        "KXNCAAFSPREAD-26SEP25NAVYUAB-NAVY8",
+        "KXNCAAFSPREAD-26SEP25NAVYUAB-NAVY7"
+      ],
+      "derivedHomeLine": 6.917,
+      "eventTicker": "KXNCAAFSPREAD-26SEP25NAVYUAB",
+      "game": "Navy @ UAB",
+      "marketCount": 31,
+      "priceable": true,
+      "rawTeams": [
+        "Navy",
+        "UAB"
+      ],
+      "unresolvedRawTeams": []
+    },
+    {
+      "bracketingMarketTickers": [
+        "KXNCAAFSPREAD-26SEP25NWIND-IND21",
+        "KXNCAAFSPREAD-26SEP25NWIND-IND22"
+      ],
+      "derivedHomeLine": -20.917,
+      "eventTicker": "KXNCAAFSPREAD-26SEP25NWIND",
+      "game": "Northwestern @ Indiana",
+      "marketCount": 23,
+      "priceable": true,
+      "rawTeams": [
+        "Indiana"
+      ],
+      "unresolvedRawTeams": []
+    },
+    {
+      "bracketingMarketTickers": [],
+      "derivedHomeLine": null,
+      "eventTicker": "KXNCAAFSPREAD-26SEP26AAMUFAMU",
+      "game": null,
+      "marketCount": 13,
+      "priceable": false,
+      "rawTeams": [
+        "Alabama A&M",
+        "Florida A&M"
+      ],
+      "unresolvedRawTeams": [
+        "Alabama A&M",
+        "Florida A&M"
+      ]
+    },
+    {
+      "bracketingMarketTickers": [
+        "KXNCAAFSPREAD-26SEP26AFANEV-AFA6",
+        "KXNCAAFSPREAD-26SEP26AFANEV-AFA5"
+      ],
+      "derivedHomeLine": 5.333,
+      "eventTicker": "KXNCAAFSPREAD-26SEP26AFANEV",
+      "game": "Air Force @ Nevada",
+      "marketCount": 29,
+      "priceable": true,
+      "rawTeams": [
+        "Air Force",
+        "Nevada"
+      ],
+      "unresolvedRawTeams": []
+    },
+    {
+      "bracketingMarketTickers": [
+        "KXNCAAFSPREAD-26SEP26APPNCST-NCST14",
+        "KXNCAAFSPREAD-26SEP26APPNCST-NCST15"
+      ],
+      "derivedHomeLine": -14.0,
+      "eventTicker": "KXNCAAFSPREAD-26SEP26APPNCST",
+      "game": "App State @ NC State",
+      "marketCount": 32,
+      "priceable": true,
+      "rawTeams": [
+        "Appalachian St.",
+        "NC St."
+      ],
+      "unresolvedRawTeams": []
+    },
+    {
+      "bracketingMarketTickers": [
+        "KXNCAAFSPREAD-26SEP26ARIZWSU-ARIZ11",
+        "KXNCAAFSPREAD-26SEP26ARIZWSU-ARIZ10"
+      ],
+      "derivedHomeLine": 10.083,
+      "eventTicker": "KXNCAAFSPREAD-26SEP26ARIZWSU",
+      "game": "Arizona @ Washington State",
+      "marketCount": 32,
+      "priceable": true,
+      "rawTeams": [
+        "Arizona",
+        "Washington St."
+      ],
+      "unresolvedRawTeams": []
+    },
+    {
+      "bracketingMarketTickers": [
+        "KXNCAAFSPREAD-26SEP26BALLKENT-KENT3",
+        "KXNCAAFSPREAD-26SEP26BALLKENT-KENT4"
+      ],
+      "derivedHomeLine": -3.188,
+      "eventTicker": "KXNCAAFSPREAD-26SEP26BALLKENT",
+      "game": "Ball State @ Kent State",
+      "marketCount": 29,
+      "priceable": true,
+      "rawTeams": [
+        "Ball St.",
+        "Kent St."
+      ],
+      "unresolvedRawTeams": []
+    },
+    {
+      "bracketingMarketTickers": [
+        "KXNCAAFSPREAD-26SEP26BSUWMU-BSU8",
+        "KXNCAAFSPREAD-26SEP26BSUWMU-BSU7"
+      ],
+      "derivedHomeLine": 7.111,
+      "eventTicker": "KXNCAAFSPREAD-26SEP26BSUWMU",
+      "game": "Boise State @ Western Michigan",
+      "marketCount": 31,
+      "priceable": true,
+      "rawTeams": [
+        "Boise St.",
+        "Western Michigan"
+      ],
+      "unresolvedRawTeams": []
+    },
+    {
+      "bracketingMarketTickers": [],
+      "derivedHomeLine": null,
+      "eventTicker": "KXNCAAFSPREAD-26SEP26BUCKPITT",
+      "game": null,
+      "marketCount": 15,
+      "priceable": false,
+      "rawTeams": [
+        "Pittsburgh"
+      ],
+      "unresolvedRawTeams": [
+        "Pittsburgh"
+      ]
+    },
+    {
+      "bracketingMarketTickers": [],
+      "derivedHomeLine": null,
+      "eventTicker": "KXNCAAFSPREAD-26SEP26BUTVALP",
+      "game": null,
+      "marketCount": 13,
+      "priceable": false,
+      "rawTeams": [
+        "Butler",
+        "Valparaiso"
+      ],
+      "unresolvedRawTeams": [
+        "Butler",
+        "Valparaiso"
+      ]
+    },
+    {
+      "bracketingMarketTickers": [],
+      "derivedHomeLine": null,
+      "eventTicker": "KXNCAAFSPREAD-26SEP26CAMPHAMP",
+      "game": null,
+      "marketCount": 13,
+      "priceable": false,
+      "rawTeams": [
+        "Campbell",
+        "Hampton"
+      ],
+      "unresolvedRawTeams": [
+        "Campbell",
+        "Hampton"
+      ]
+    },
+    {
+      "bracketingMarketTickers": [],
+      "derivedHomeLine": null,
+      "eventTicker": "KXNCAAFSPREAD-26SEP26CARKFSU",
+      "game": null,
+      "marketCount": 16,
+      "priceable": false,
+      "rawTeams": [
+        "Florida St."
+      ],
+      "unresolvedRawTeams": [
+        "Florida St."
+      ]
+    },
+    {
+      "bracketingMarketTickers": [],
+      "derivedHomeLine": null,
+      "eventTicker": "KXNCAAFSPREAD-26SEP26CHATCIT",
+      "game": null,
+      "marketCount": 13,
+      "priceable": false,
+      "rawTeams": [
+        "Chattanooga",
+        "The Citadel"
+      ],
+      "unresolvedRawTeams": [
+        "Chattanooga",
+        "The Citadel"
+      ]
+    },
+    {
+      "bracketingMarketTickers": [],
+      "derivedHomeLine": null,
+      "eventTicker": "KXNCAAFSPREAD-26SEP26CLMBGTWN",
+      "game": null,
+      "marketCount": 13,
+      "priceable": false,
+      "rawTeams": [
+        "Columbia",
+        "Georgetown"
+      ],
+      "unresolvedRawTeams": [
+        "Columbia",
+        "Georgetown"
+      ]
+    },
+    {
+      "bracketingMarketTickers": [
+        "KXNCAAFSPREAD-26SEP26CMUMIA-MIA39",
+        "KXNCAAFSPREAD-26SEP26CMUMIA-MIA42"
+      ],
+      "derivedHomeLine": -40.971,
+      "eventTicker": "KXNCAAFSPREAD-26SEP26CMUMIA",
+      "game": "Central Michigan @ Miami",
+      "marketCount": 17,
+      "priceable": true,
+      "rawTeams": [
+        "Miami (FL)"
+      ],
+      "unresolvedRawTeams": []
+    },
+    {
+      "bracketingMarketTickers": [],
+      "derivedHomeLine": null,
+      "eventTicker": "KXNCAAFSPREAD-26SEP26COLGVILL",
+      "game": null,
+      "marketCount": 13,
+      "priceable": false,
+      "rawTeams": [
+        "Colgate",
+        "Villanova"
+      ],
+      "unresolvedRawTeams": [
+        "Colgate",
+        "Villanova"
+      ]
+    },
+    {
+      "bracketingMarketTickers": [
+        "KXNCAAFSPREAD-26SEP26COLOBAY-BAY10",
+        "KXNCAAFSPREAD-26SEP26COLOBAY-BAY11"
+      ],
+      "derivedHomeLine": -9.875,
+      "eventTicker": "KXNCAAFSPREAD-26SEP26COLOBAY",
+      "game": "Colorado @ Baylor",
+      "marketCount": 31,
+      "priceable": true,
+      "rawTeams": [
+        "Baylor",
+        "Colorado"
+      ],
+      "unresolvedRawTeams": []
+    },
+    {
+      "bracketingMarketTickers": [
+        "KXNCAAFSPREAD-26SEP26CONNMOH-MOH3",
+        "KXNCAAFSPREAD-26SEP26CONNMOH-MOH4"
+      ],
+      "derivedHomeLine": -3.429,
+      "eventTicker": "KXNCAAFSPREAD-26SEP26CONNMOH",
+      "game": "UConn @ Miami (OH)",
+      "marketCount": 29,
+      "priceable": true,
+      "rawTeams": [
+        "Miami (OH)",
+        "UConn"
+      ],
+      "unresolvedRawTeams": []
+    },
+    {
+      "bracketingMarketTickers": [],
+      "derivedHomeLine": null,
+      "eventTicker": "KXNCAAFSPREAD-26SEP26CPEWU",
+      "game": null,
+      "marketCount": 13,
+      "priceable": false,
+      "rawTeams": [
+        "Cal Poly",
+        "Eastern Washington"
+      ],
+      "unresolvedRawTeams": [
+        "Cal Poly",
+        "Eastern Washington"
+      ]
+    },
+    {
+      "bracketingMarketTickers": [
+        "KXNCAAFSPREAD-26SEP26CSUUTSA-UTSA13",
+        "KXNCAAFSPREAD-26SEP26CSUUTSA-UTSA14"
+      ],
+      "derivedHomeLine": -13.125,
+      "eventTicker": "KXNCAAFSPREAD-26SEP26CSUUTSA",
+      "game": "Colorado State @ UTSA",
+      "marketCount": 32,
+      "priceable": true,
+      "rawTeams": [
+        "Colorado St.",
+        "UTSA"
+      ],
+      "unresolvedRawTeams": []
+    },
+    {
+      "bracketingMarketTickers": [
+        "KXNCAAFSPREAD-26SEP26DELUVA-UVA18",
+        "KXNCAAFSPREAD-26SEP26DELUVA-UVA21"
+      ],
+      "derivedHomeLine": -19.3,
+      "eventTicker": "KXNCAAFSPREAD-26SEP26DELUVA",
+      "game": "Delaware @ Virginia",
+      "marketCount": 24,
+      "priceable": true,
+      "rawTeams": [
+        "Virginia"
+      ],
+      "unresolvedRawTeams": []
+    },
+    {
+      "bracketingMarketTickers": [],
+      "derivedHomeLine": null,
+      "eventTicker": "KXNCAAFSPREAD-26SEP26DRKEDAV",
+      "game": null,
+      "marketCount": 13,
+      "priceable": false,
+      "rawTeams": [
+        "Davidson",
+        "Drake"
+      ],
+      "unresolvedRawTeams": [
+        "Davidson",
+        "Drake"
+      ]
+    },
+    {
+      "bracketingMarketTickers": [],
+      "derivedHomeLine": null,
+      "eventTicker": "KXNCAAFSPREAD-26SEP26ETAMMCNS",
+      "game": null,
+      "marketCount": 13,
+      "priceable": false,
+      "rawTeams": [
+        "East Texas A&M",
+        "McNeese"
+      ],
+      "unresolvedRawTeams": [
+        "East Texas A&M",
+        "McNeese"
+      ]
+    },
+    {
+      "bracketingMarketTickers": [
+        "KXNCAAFSPREAD-26SEP26FAUULM-FAU14",
+        "KXNCAAFSPREAD-26SEP26FAUULM-FAU13"
+      ],
+      "derivedHomeLine": 13.0,
+      "eventTicker": "KXNCAAFSPREAD-26SEP26FAUULM",
+      "game": "Florida Atlantic @ UL Monroe",
+      "marketCount": 32,
+      "priceable": true,
+      "rawTeams": [
+        "Florida Atlantic",
+        "Louisiana-Monroe"
+      ],
+      "unresolvedRawTeams": []
+    },
+    {
+      "bracketingMarketTickers": [],
+      "derivedHomeLine": null,
+      "eventTicker": "KXNCAAFSPREAD-26SEP26FURRICH",
+      "game": null,
+      "marketCount": 13,
+      "priceable": false,
+      "rawTeams": [
+        "Furman",
+        "Richmond"
+      ],
+      "unresolvedRawTeams": [
+        "Furman",
+        "Richmond"
+      ]
+    },
+    {
+      "bracketingMarketTickers": [],
+      "derivedHomeLine": null,
+      "eventTicker": "KXNCAAFSPREAD-26SEP26GRAMPV",
+      "game": null,
+      "marketCount": 13,
+      "priceable": false,
+      "rawTeams": [
+        "Grambling St.",
+        "Prairie View A&M"
+      ],
+      "unresolvedRawTeams": [
+        "Grambling St.",
+        "Prairie View A&M"
+      ]
+    },
+    {
+      "bracketingMarketTickers": [
+        "KXNCAAFSPREAD-26SEP26GTSTAN-GT4",
+        "KXNCAAFSPREAD-26SEP26GTSTAN-GT3"
+      ],
+      "derivedHomeLine": 3.324,
+      "eventTicker": "KXNCAAFSPREAD-26SEP26GTSTAN",
+      "game": "Georgia Tech @ Stanford",
+      "marketCount": 29,
+      "priceable": true,
+      "rawTeams": [
+        "Georgia Tech",
+        "Stanford"
+      ],
+      "unresolvedRawTeams": []
+    },
+    {
+      "bracketingMarketTickers": [
+        "KXNCAAFSPREAD-26SEP26HAWWYO-HAW4",
+        "KXNCAAFSPREAD-26SEP26HAWWYO-HAW3"
+      ],
+      "derivedHomeLine": 2.813,
+      "eventTicker": "KXNCAAFSPREAD-26SEP26HAWWYO",
+      "game": "Hawai'i @ Wyoming",
+      "marketCount": 29,
+      "priceable": true,
+      "rawTeams": [
+        "Hawai'i",
+        "Wyoming"
+      ],
+      "unresolvedRawTeams": []
+    },
+    {
+      "bracketingMarketTickers": [],
+      "derivedHomeLine": null,
+      "eventTicker": "KXNCAAFSPREAD-26SEP26HCLAF",
+      "game": null,
+      "marketCount": 13,
+      "priceable": false,
+      "rawTeams": [
+        "Holy Cross",
+        "Lafayette"
+      ],
+      "unresolvedRawTeams": [
+        "Holy Cross",
+        "Lafayette"
+      ]
+    },
+    {
+      "bracketingMarketTickers": [],
+      "derivedHomeLine": null,
+      "eventTicker": "KXNCAAFSPREAD-26SEP26HCUUNT",
+      "game": null,
+      "marketCount": 16,
+      "priceable": false,
+      "rawTeams": [
+        "North Texas"
+      ],
+      "unresolvedRawTeams": [
+        "North Texas"
+      ]
+    },
+    {
+      "bracketingMarketTickers": [
+        "KXNCAAFSPREAD-26SEP26HOUGASO-HOU21",
+        "KXNCAAFSPREAD-26SEP26HOUGASO-HOU18"
+      ],
+      "derivedHomeLine": 18.5,
+      "eventTicker": "KXNCAAFSPREAD-26SEP26HOUGASO",
+      "game": "Houston @ Georgia Southern",
+      "marketCount": 25,
+      "priceable": true,
+      "rawTeams": [
+        "Georgia Southern",
+        "Houston"
+      ],
+      "unresolvedRawTeams": []
+    },
+    {
+      "bracketingMarketTickers": [],
+      "derivedHomeLine": null,
+      "eventTicker": "KXNCAAFSPREAD-26SEP26IDSTSUU",
+      "game": null,
+      "marketCount": 13,
+      "priceable": false,
+      "rawTeams": [
+        "Idaho St.",
+        "Southern Utah"
+      ],
+      "unresolvedRawTeams": [
+        "Idaho St.",
+        "Southern Utah"
+      ]
+    },
+    {
+      "bracketingMarketTickers": [
+        "KXNCAAFSPREAD-26SEP26ILLOSU-OSU25",
+        "KXNCAAFSPREAD-26SEP26ILLOSU-OSU28"
+      ],
+      "derivedHomeLine": -26.562,
+      "eventTicker": "KXNCAAFSPREAD-26SEP26ILLOSU",
+      "game": "Illinois @ Ohio State",
+      "marketCount": 21,
+      "priceable": true,
+      "rawTeams": [
+        "Ohio St."
+      ],
+      "unresolvedRawTeams": []
+    },
+    {
+      "bracketingMarketTickers": [],
+      "derivedHomeLine": null,
+      "eventTicker": "KXNCAAFSPREAD-26SEP26ILSTUNI",
+      "game": null,
+      "marketCount": 13,
+      "priceable": false,
+      "rawTeams": [
+        "Illinois St.",
+        "Northern Iowa"
+      ],
+      "unresolvedRawTeams": [
+        "Illinois St.",
+        "Northern Iowa"
+      ]
+    },
+    {
+      "bracketingMarketTickers": [
+        "KXNCAAFSPREAD-26SEP26IOWAMICH-MICH5",
+        "KXNCAAFSPREAD-26SEP26IOWAMICH-MICH6"
+      ],
+      "derivedHomeLine": -5.125,
+      "eventTicker": "KXNCAAFSPREAD-26SEP26IOWAMICH",
+      "game": "Iowa @ Michigan",
+      "marketCount": 29,
+      "priceable": true,
+      "rawTeams": [
+        "Iowa",
+        "Michigan"
+      ],
+      "unresolvedRawTeams": []
+    },
+    {
+      "bracketingMarketTickers": [],
+      "derivedHomeLine": null,
+      "eventTicker": "KXNCAAFSPREAD-26SEP26IWTXST",
+      "game": null,
+      "marketCount": 20,
+      "priceable": false,
+      "rawTeams": [
+        "Texas St."
+      ],
+      "unresolvedRawTeams": [
+        "Texas St."
+      ]
+    },
+    {
+      "bracketingMarketTickers": [
+        "KXNCAAFSPREAD-26SEP26JMUODU-JMU7",
+        "KXNCAAFSPREAD-26SEP26JMUODU-JMU6"
+      ],
+      "derivedHomeLine": 5.8,
+      "eventTicker": "KXNCAAFSPREAD-26SEP26JMUODU",
+      "game": "James Madison @ Old Dominion",
+      "marketCount": 29,
+      "priceable": true,
+      "rawTeams": [
+        "James Madison",
+        "Old Dominion"
+      ],
+      "unresolvedRawTeams": []
+    },
+    {
+      "bracketingMarketTickers": [
+        "KXNCAAFSPREAD-26SEP26KENNARST-ARST6",
+        "KXNCAAFSPREAD-26SEP26KENNARST-ARST7"
+      ],
+      "derivedHomeLine": -6.375,
+      "eventTicker": "KXNCAAFSPREAD-26SEP26KENNARST",
+      "game": "Kennesaw State @ Arkansas State",
+      "marketCount": 29,
+      "priceable": true,
+      "rawTeams": [
+        "Arkansas St.",
+        "Kennesaw St."
+      ],
+      "unresolvedRawTeams": []
+    },
+    {
+      "bracketingMarketTickers": [
+        "KXNCAAFSPREAD-26SEP26KSUCIN-KSU7",
+        "KXNCAAFSPREAD-26SEP26KSUCIN-KSU6"
+      ],
+      "derivedHomeLine": 6.0,
+      "eventTicker": "KXNCAAFSPREAD-26SEP26KSUCIN",
+      "game": "Kansas State @ Cincinnati",
+      "marketCount": 31,
+      "priceable": true,
+      "rawTeams": [
+        "Cincinnati",
+        "Kansas St."
+      ],
+      "unresolvedRawTeams": []
+    },
+    {
+      "bracketingMarketTickers": [],
+      "derivedHomeLine": null,
+      "eventTicker": "KXNCAAFSPREAD-26SEP26LAMNICH",
+      "game": null,
+      "marketCount": 13,
+      "priceable": false,
+      "rawTeams": [
+        "Lamar",
+        "Nicholls St."
+      ],
+      "unresolvedRawTeams": [
+        "Lamar",
+        "Nicholls St."
+      ]
+    },
+    {
+      "bracketingMarketTickers": [],
+      "derivedHomeLine": null,
+      "eventTicker": "KXNCAAFSPREAD-26SEP26LEHPENN",
+      "game": null,
+      "marketCount": 13,
+      "priceable": false,
+      "rawTeams": [
+        "Lehigh",
+        "Penn"
+      ],
+      "unresolvedRawTeams": [
+        "Lehigh",
+        "Penn"
+      ]
+    },
+    {
+      "bracketingMarketTickers": [],
+      "derivedHomeLine": null,
+      "eventTicker": "KXNCAAFSPREAD-26SEP26LINWEMU",
+      "game": null,
+      "marketCount": 22,
+      "priceable": false,
+      "rawTeams": [
+        "Eastern Michigan"
+      ],
+      "unresolvedRawTeams": [
+        "Eastern Michigan"
+      ]
+    },
+    {
+      "bracketingMarketTickers": [],
+      "derivedHomeLine": null,
+      "eventTicker": "KXNCAAFSPREAD-26SEP26LIUFIU",
+      "game": null,
+      "marketCount": 19,
+      "priceable": false,
+      "rawTeams": [
+        "Florida International"
+      ],
+      "unresolvedRawTeams": [
+        "Florida International"
+      ]
+    },
+    {
+      "bracketingMarketTickers": [
+        "KXNCAAFSPREAD-26SEP26MASSSAC-MASS5",
+        "KXNCAAFSPREAD-26SEP26MASSSAC-MASS4"
+      ],
+      "derivedHomeLine": 4.071,
+      "eventTicker": "KXNCAAFSPREAD-26SEP26MASSSAC",
+      "game": "Massachusetts @ Sacramento State",
+      "marketCount": 29,
+      "priceable": true,
+      "rawTeams": [
+        "Sacramento St.",
+        "UMass"
+      ],
+      "unresolvedRawTeams": []
+    },
+    {
+      "bracketingMarketTickers": [],
+      "derivedHomeLine": null,
+      "eventTicker": "KXNCAAFSPREAD-26SEP26MEELON",
+      "game": null,
+      "marketCount": 13,
+      "priceable": false,
+      "rawTeams": [
+        "Elon",
+        "Maine"
+      ],
+      "unresolvedRawTeams": [
+        "Elon",
+        "Maine"
+      ]
+    },
+    {
+      "bracketingMarketTickers": [],
+      "derivedHomeLine": null,
+      "eventTicker": "KXNCAAFSPREAD-26SEP26MERAC",
+      "game": null,
+      "marketCount": 13,
+      "priceable": false,
+      "rawTeams": [
+        "Abilene Christian",
+        "Mercer"
+      ],
+      "unresolvedRawTeams": [
+        "Abilene Christian",
+        "Mercer"
+      ]
+    },
+    {
+      "bracketingMarketTickers": [],
+      "derivedHomeLine": null,
+      "eventTicker": "KXNCAAFSPREAD-26SEP26MHUWKU",
+      "game": null,
+      "marketCount": 18,
+      "priceable": false,
+      "rawTeams": [
+        "Western Kentucky"
+      ],
+      "unresolvedRawTeams": [
+        "Western Kentucky"
+      ]
+    },
+    {
+      "bracketingMarketTickers": [
+        "KXNCAAFSPREAD-26SEP26MINNWASH-WASH8",
+        "KXNCAAFSPREAD-26SEP26MINNWASH-WASH10"
+      ],
+      "derivedHomeLine": -9.3,
+      "eventTicker": "KXNCAAFSPREAD-26SEP26MINNWASH",
+      "game": "Minnesota @ Washington",
+      "marketCount": 31,
+      "priceable": true,
+      "rawTeams": [
+        "Minnesota",
+        "Washington"
+      ],
+      "unresolvedRawTeams": []
+    },
+    {
+      "bracketingMarketTickers": [
+        "KXNCAAFSPREAD-26SEP26MISSFLA-FLA3",
+        "KXNCAAFSPREAD-26SEP26MISSFLA-FLA4"
+      ],
+      "derivedHomeLine": -3.188,
+      "eventTicker": "KXNCAAFSPREAD-26SEP26MISSFLA",
+      "game": "Ole Miss @ Florida",
+      "marketCount": 26,
+      "priceable": true,
+      "rawTeams": [
+        "Florida",
+        "Ole Miss"
+      ],
+      "unresolvedRawTeams": []
+    },
+    {
+      "bracketingMarketTickers": [
+        "KXNCAAFSPREAD-26SEP26MIZZMSST-MSST6",
+        "KXNCAAFSPREAD-26SEP26MIZZMSST-MSST7"
+      ],
+      "derivedHomeLine": -6.125,
+      "eventTicker": "KXNCAAFSPREAD-26SEP26MIZZMSST",
+      "game": "Missouri @ Mississippi State",
+      "marketCount": 29,
+      "priceable": true,
+      "rawTeams": [
+        "Mississippi St.",
+        "Missouri"
+      ],
+      "unresolvedRawTeams": []
+    },
+    {
+      "bracketingMarketTickers": [],
+      "derivedHomeLine": null,
+      "eventTicker": "KXNCAAFSPREAD-26SEP26MONTUCD",
+      "game": null,
+      "marketCount": 13,
+      "priceable": false,
+      "rawTeams": [
+        "Montana",
+        "UC Davis"
+      ],
+      "unresolvedRawTeams": [
+        "Montana",
+        "UC Davis"
+      ]
+    },
+    {
+      "bracketingMarketTickers": [
+        "KXNCAAFSPREAD-26SEP26MOSUSMU-SMU34",
+        "KXNCAAFSPREAD-26SEP26MOSUSMU-SMU35"
+      ],
+      "derivedHomeLine": -34.357,
+      "eventTicker": "KXNCAAFSPREAD-26SEP26MOSUSMU",
+      "game": "Missouri State @ SMU",
+      "marketCount": 19,
+      "priceable": true,
+      "rawTeams": [
+        "SMU"
+      ],
+      "unresolvedRawTeams": []
+    },
+    {
+      "bracketingMarketTickers": [
+        "KXNCAAFSPREAD-26SEP26MTUJVST-JVST7",
+        "KXNCAAFSPREAD-26SEP26MTUJVST-JVST8"
+      ],
+      "derivedHomeLine": -7.083,
+      "eventTicker": "KXNCAAFSPREAD-26SEP26MTUJVST",
+      "game": "Middle Tennessee @ Jacksonville State",
+      "marketCount": 31,
+      "priceable": true,
+      "rawTeams": [
+        "Jacksonville St.",
+        "Middle Tennessee"
+      ],
+      "unresolvedRawTeams": []
+    },
+    {
+      "bracketingMarketTickers": [],
+      "derivedHomeLine": null,
+      "eventTicker": "KXNCAAFSPREAD-26SEP26MVSUALST",
+      "game": null,
+      "marketCount": 13,
+      "priceable": false,
+      "rawTeams": [
+        "Alabama St."
+      ],
+      "unresolvedRawTeams": [
+        "Alabama St."
+      ]
+    },
+    {
+      "bracketingMarketTickers": [],
+      "derivedHomeLine": null,
+      "eventTicker": "KXNCAAFSPREAD-26SEP26NAUMTST",
+      "game": null,
+      "marketCount": 13,
+      "priceable": false,
+      "rawTeams": [
+        "Montana St.",
+        "Northern Arizona"
+      ],
+      "unresolvedRawTeams": [
+        "Montana St.",
+        "Northern Arizona"
+      ]
+    },
+    {
+      "bracketingMarketTickers": [],
+      "derivedHomeLine": null,
+      "eventTicker": "KXNCAAFSPREAD-26SEP26NCCUECU",
+      "game": null,
+      "marketCount": 20,
+      "priceable": false,
+      "rawTeams": [
+        "East Carolina"
+      ],
+      "unresolvedRawTeams": [
+        "East Carolina"
+      ]
+    },
+    {
+      "bracketingMarketTickers": [
+        "KXNCAAFSPREAD-26SEP26NDPUR-ND31",
+        "KXNCAAFSPREAD-26SEP26NDPUR-ND28"
+      ],
+      "derivedHomeLine": 28.0,
+      "eventTicker": "KXNCAAFSPREAD-26SEP26NDPUR",
+      "game": "Notre Dame @ Purdue",
+      "marketCount": 21,
+      "priceable": true,
+      "rawTeams": [
+        "Notre Dame"
+      ],
+      "unresolvedRawTeams": []
+    },
+    {
+      "bracketingMarketTickers": [
+        "KXNCAAFSPREAD-26SEP26NEBMSU-NEB7",
+        "KXNCAAFSPREAD-26SEP26NEBMSU-NEB6"
+      ],
+      "derivedHomeLine": 5.875,
+      "eventTicker": "KXNCAAFSPREAD-26SEP26NEBMSU",
+      "game": "Nebraska @ Michigan State",
+      "marketCount": 29,
+      "priceable": true,
+      "rawTeams": [
+        "Michigan St.",
+        "Nebraska"
+      ],
+      "unresolvedRawTeams": []
+    },
+    {
+      "bracketingMarketTickers": [],
+      "derivedHomeLine": null,
+      "eventTicker": "KXNCAAFSPREAD-26SEP26NHCMRMK",
+      "game": null,
+      "marketCount": 13,
+      "priceable": false,
+      "rawTeams": [
+        "Merrimack",
+        "New Haven"
+      ],
+      "unresolvedRawTeams": [
+        "Merrimack",
+        "New Haven"
+      ]
+    },
+    {
+      "bracketingMarketTickers": [
+        "KXNCAAFSPREAD-26SEP26NIUGAST-GAST10",
+        "KXNCAAFSPREAD-26SEP26NIUGAST-GAST11"
+      ],
+      "derivedHomeLine": -10.318,
+      "eventTicker": "KXNCAAFSPREAD-26SEP26NIUGAST",
+      "game": "Northern Illinois @ Georgia State",
+      "marketCount": 32,
+      "priceable": true,
+      "rawTeams": [
+        "Georgia St.",
+        "Northern Illinois"
+      ],
+      "unresolvedRawTeams": []
+    },
+    {
+      "bracketingMarketTickers": [
+        "KXNCAAFSPREAD-26SEP26OKLAUGA-UGA14",
+        "KXNCAAFSPREAD-26SEP26OKLAUGA-UGA15"
+      ],
+      "derivedHomeLine": -13.857,
+      "eventTicker": "KXNCAAFSPREAD-26SEP26OKLAUGA",
+      "game": "Oklahoma @ Georgia",
+      "marketCount": 31,
+      "priceable": true,
+      "rawTeams": [
+        "Georgia",
+        "Oklahoma"
+      ],
+      "unresolvedRawTeams": []
+    },
+    {
+      "bracketingMarketTickers": [
+        "KXNCAAFSPREAD-26SEP26OKSTWVU-OKST2",
+        "KXNCAAFSPREAD-26SEP26OKSTWVU-WVU2"
+      ],
+      "derivedHomeLine": -1.25,
+      "eventTicker": "KXNCAAFSPREAD-26SEP26OKSTWVU",
+      "game": "Oklahoma State @ West Virginia",
+      "marketCount": 26,
+      "priceable": true,
+      "rawTeams": [
+        "Oklahoma St.",
+        "West Virginia"
+      ],
+      "unresolvedRawTeams": []
+    },
+    {
+      "bracketingMarketTickers": [
+        "KXNCAAFSPREAD-26SEP26OREUSC-ORE4",
+        "KXNCAAFSPREAD-26SEP26OREUSC-ORE3"
+      ],
+      "derivedHomeLine": 3.111,
+      "eventTicker": "KXNCAAFSPREAD-26SEP26OREUSC",
+      "game": "Oregon @ USC",
+      "marketCount": 26,
+      "priceable": true,
+      "rawTeams": [
+        "Oregon",
+        "USC"
+      ],
+      "unresolvedRawTeams": []
+    },
+    {
+      "bracketingMarketTickers": [
+        "KXNCAAFSPREAD-26SEP26ORSTUTEP-ORST11",
+        "KXNCAAFSPREAD-26SEP26ORSTUTEP-ORST10"
+      ],
+      "derivedHomeLine": 10.4,
+      "eventTicker": "KXNCAAFSPREAD-26SEP26ORSTUTEP",
+      "game": "Oregon State @ UTEP",
+      "marketCount": 31,
+      "priceable": true,
+      "rawTeams": [
+        "Oregon St.",
+        "UTEP"
+      ],
+      "unresolvedRawTeams": []
+    },
+    {
+      "bracketingMarketTickers": [],
+      "derivedHomeLine": null,
+      "eventTicker": "KXNCAAFSPREAD-26SEP26PREMRST",
+      "game": null,
+      "marketCount": 13,
+      "priceable": false,
+      "rawTeams": [
+        "Marist",
+        "Presbyterian"
+      ],
+      "unresolvedRawTeams": [
+        "Marist",
+        "Presbyterian"
+      ]
+    },
+    {
+      "bracketingMarketTickers": [],
+      "derivedHomeLine": null,
+      "eventTicker": "KXNCAAFSPREAD-26SEP26PRSTWEB",
+      "game": null,
+      "marketCount": 13,
+      "priceable": false,
+      "rawTeams": [
+        "Portland St.",
+        "Weber St."
+      ],
+      "unresolvedRawTeams": [
+        "Portland St.",
+        "Weber St."
+      ]
+    },
+    {
+      "bracketingMarketTickers": [
+        "KXNCAAFSPREAD-26SEP26RICEFRES-FRES14",
+        "KXNCAAFSPREAD-26SEP26RICEFRES-FRES15"
+      ],
+      "derivedHomeLine": -13.731,
+      "eventTicker": "KXNCAAFSPREAD-26SEP26RICEFRES",
+      "game": "Rice @ Fresno State",
+      "marketCount": 32,
+      "priceable": true,
+      "rawTeams": [
+        "Fresno St.",
+        "Rice"
+      ],
+      "unresolvedRawTeams": []
+    },
+    {
+      "bracketingMarketTickers": [],
+      "derivedHomeLine": null,
+      "eventTicker": "KXNCAAFSPREAD-26SEP26RMUBUFF",
+      "game": null,
+      "marketCount": 21,
+      "priceable": false,
+      "rawTeams": [
+        "Buffalo"
+      ],
+      "unresolvedRawTeams": [
+        "Buffalo"
+      ]
+    },
+    {
+      "bracketingMarketTickers": [
+        "KXNCAAFSPREAD-26SEP26SCARALA-ALA12",
+        "KXNCAAFSPREAD-26SEP26SCARALA-ALA14"
+      ],
+      "derivedHomeLine": -12.0,
+      "eventTicker": "KXNCAAFSPREAD-26SEP26SCARALA",
+      "game": "South Carolina @ Alabama",
+      "marketCount": 31,
+      "priceable": true,
+      "rawTeams": [
+        "Alabama",
+        "South Carolina"
+      ],
+      "unresolvedRawTeams": []
+    },
+    {
+      "bracketingMarketTickers": [],
+      "derivedHomeLine": null,
+      "eventTicker": "KXNCAAFSPREAD-26SEP26SCSTCOOK",
+      "game": null,
+      "marketCount": 13,
+      "priceable": false,
+      "rawTeams": [
+        "Bethune-Cookman",
+        "South Carolina St."
+      ],
+      "unresolvedRawTeams": [
+        "Bethune-Cookman",
+        "South Carolina St."
+      ]
+    },
+    {
+      "bracketingMarketTickers": [],
+      "derivedHomeLine": null,
+      "eventTicker": "KXNCAAFSPREAD-26SEP26SDAKYSU",
+      "game": null,
+      "marketCount": 13,
+      "priceable": false,
+      "rawTeams": [
+        "South Dakota",
+        "Youngstown St."
+      ],
+      "unresolvedRawTeams": [
+        "South Dakota",
+        "Youngstown St."
+      ]
+    },
+    {
+      "bracketingMarketTickers": [
+        "KXNCAAFSPREAD-26SEP26SDSUTOL-TOL3",
+        "KXNCAAFSPREAD-26SEP26SDSUTOL-TOL4"
+      ],
+      "derivedHomeLine": -2.912,
+      "eventTicker": "KXNCAAFSPREAD-26SEP26SDSUTOL",
+      "game": "San Diego State @ Toledo",
+      "marketCount": 29,
+      "priceable": true,
+      "rawTeams": [
+        "San Diego St.",
+        "Toledo"
+      ],
+      "unresolvedRawTeams": []
+    },
+    {
+      "bracketingMarketTickers": [
+        "KXNCAAFSPREAD-26SEP26SHSUTTU-TTU34",
+        "KXNCAAFSPREAD-26SEP26SHSUTTU-TTU36"
+      ],
+      "derivedHomeLine": -33.875,
+      "eventTicker": "KXNCAAFSPREAD-26SEP26SHSUTTU",
+      "game": "Sam Houston @ Texas Tech",
+      "marketCount": 16,
+      "priceable": true,
+      "rawTeams": [
+        "Texas Tech"
+      ],
+      "unresolvedRawTeams": []
+    },
+    {
+      "bracketingMarketTickers": [],
+      "derivedHomeLine": null,
+      "eventTicker": "KXNCAAFSPREAD-26SEP26SIUMURR",
+      "game": null,
+      "marketCount": 13,
+      "priceable": false,
+      "rawTeams": [
+        "Murray St.",
+        "Southern Illinois"
+      ],
+      "unresolvedRawTeams": [
+        "Murray St.",
+        "Southern Illinois"
+      ]
+    },
+    {
+      "bracketingMarketTickers": [],
+      "derivedHomeLine": null,
+      "eventTicker": "KXNCAAFSPREAD-26SEP26SOUJKST",
+      "game": null,
+      "marketCount": 13,
+      "priceable": false,
+      "rawTeams": [
+        "Jackson St.",
+        "Southern University"
+      ],
+      "unresolvedRawTeams": [
+        "Jackson St.",
+        "Southern University"
+      ]
+    },
+    {
+      "bracketingMarketTickers": [],
+      "derivedHomeLine": null,
+      "eventTicker": "KXNCAAFSPREAD-26SEP26STNHOHIO",
+      "game": null,
+      "marketCount": 18,
+      "priceable": false,
+      "rawTeams": [
+        "Ohio"
+      ],
+      "unresolvedRawTeams": [
+        "Ohio"
+      ]
+    },
+    {
+      "bracketingMarketTickers": [],
+      "derivedHomeLine": null,
+      "eventTicker": "KXNCAAFSPREAD-26SEP26STONFOR",
+      "game": null,
+      "marketCount": 13,
+      "priceable": false,
+      "rawTeams": [
+        "Fordham",
+        "Stony Brook"
+      ],
+      "unresolvedRawTeams": [
+        "Fordham",
+        "Stony Brook"
+      ]
+    },
+    {
+      "bracketingMarketTickers": [
+        "KXNCAAFSPREAD-26SEP26TCUUCF-TCU4",
+        "KXNCAAFSPREAD-26SEP26TCUUCF-TCU3"
+      ],
+      "derivedHomeLine": 3.062,
+      "eventTicker": "KXNCAAFSPREAD-26SEP26TCUUCF",
+      "game": "TCU @ UCF",
+      "marketCount": 29,
+      "priceable": true,
+      "rawTeams": [
+        "TCU",
+        "UCF"
+      ],
+      "unresolvedRawTeams": []
+    },
+    {
+      "bracketingMarketTickers": [
+        "KXNCAAFSPREAD-26SEP26TEXTENN-TEX6",
+        "KXNCAAFSPREAD-26SEP26TEXTENN-TEX5"
+      ],
+      "derivedHomeLine": 5.125,
+      "eventTicker": "KXNCAAFSPREAD-26SEP26TEXTENN",
+      "game": "Texas @ Tennessee",
+      "marketCount": 29,
+      "priceable": true,
+      "rawTeams": [
+        "Tennessee",
+        "Texas"
+      ],
+      "unresolvedRawTeams": []
+    },
+    {
+      "bracketingMarketTickers": [
+        "KXNCAAFSPREAD-26SEP26TLSAARK-ARK7",
+        "KXNCAAFSPREAD-26SEP26TLSAARK-ARK8"
+      ],
+      "derivedHomeLine": -7.0,
+      "eventTicker": "KXNCAAFSPREAD-26SEP26TLSAARK",
+      "game": "Tulsa @ Arkansas",
+      "marketCount": 31,
+      "priceable": true,
+      "rawTeams": [
+        "Arkansas",
+        "Tulsa"
+      ],
+      "unresolvedRawTeams": []
+    },
+    {
+      "bracketingMarketTickers": [],
+      "derivedHomeLine": null,
+      "eventTicker": "KXNCAAFSPREAD-26SEP26TNTCWOF",
+      "game": null,
+      "marketCount": 13,
+      "priceable": false,
+      "rawTeams": [
+        "Tennessee Tech",
+        "Wofford"
+      ],
+      "unresolvedRawTeams": [
+        "Tennessee Tech",
+        "Wofford"
+      ]
+    },
+    {
+      "bracketingMarketTickers": [],
+      "derivedHomeLine": null,
+      "eventTicker": "KXNCAAFSPREAD-26SEP26TOWSDSU",
+      "game": null,
+      "marketCount": 13,
+      "priceable": false,
+      "rawTeams": [
+        "Delaware St.",
+        "Towson"
+      ],
+      "unresolvedRawTeams": [
+        "Delaware St.",
+        "Towson"
+      ]
+    },
+    {
+      "bracketingMarketTickers": [
+        "KXNCAAFSPREAD-26SEP26TROYUSU-USU3",
+        "KXNCAAFSPREAD-26SEP26TROYUSU-USU4"
+      ],
+      "derivedHomeLine": -3.1,
+      "eventTicker": "KXNCAAFSPREAD-26SEP26TROYUSU",
+      "game": "Troy @ Utah State",
+      "marketCount": 26,
+      "priceable": true,
+      "rawTeams": [
+        "Troy",
+        "Utah St."
+      ],
+      "unresolvedRawTeams": []
+    },
+    {
+      "bracketingMarketTickers": [
+        "KXNCAAFSPREAD-26SEP26TXAMLSU-LSU9",
+        "KXNCAAFSPREAD-26SEP26TXAMLSU-LSU10"
+      ],
+      "derivedHomeLine": -8.667,
+      "eventTicker": "KXNCAAFSPREAD-26SEP26TXAMLSU",
+      "game": "Texas A&M @ LSU",
+      "marketCount": 32,
+      "priceable": true,
+      "rawTeams": [
+        "LSU",
+        "Texas A&M"
+      ],
+      "unresolvedRawTeams": []
+    },
+    {
+      "bracketingMarketTickers": [],
+      "derivedHomeLine": null,
+      "eventTicker": "KXNCAAFSPREAD-26SEP26TXSOALCN",
+      "game": null,
+      "marketCount": 13,
+      "priceable": false,
+      "rawTeams": [
+        "Alcorn St.",
+        "Texas Southern"
+      ],
+      "unresolvedRawTeams": [
+        "Alcorn St.",
+        "Texas Southern"
+      ]
+    },
+    {
+      "bracketingMarketTickers": [
+        "KXNCAAFSPREAD-26SEP26UCLAMD-UCLA2",
+        "KXNCAAFSPREAD-26SEP26UCLAMD-MD2"
+      ],
+      "derivedHomeLine": 1.167,
+      "eventTicker": "KXNCAAFSPREAD-26SEP26UCLAMD",
+      "game": "UCLA @ Maryland",
+      "marketCount": 29,
+      "priceable": true,
+      "rawTeams": [
+        "Maryland",
+        "UCLA"
+      ],
+      "unresolvedRawTeams": []
+    },
+    {
+      "bracketingMarketTickers": [
+        "KXNCAAFSPREAD-26SEP26ULLCHAR-ULL11",
+        "KXNCAAFSPREAD-26SEP26ULLCHAR-ULL10"
+      ],
+      "derivedHomeLine": 9.875,
+      "eventTicker": "KXNCAAFSPREAD-26SEP26ULLCHAR",
+      "game": "Louisiana @ Charlotte",
+      "marketCount": 31,
+      "priceable": true,
+      "rawTeams": [
+        "Charlotte",
+        "Louisiana"
+      ],
+      "unresolvedRawTeams": []
+    },
+    {
+      "bracketingMarketTickers": [],
+      "derivedHomeLine": null,
+      "eventTicker": "KXNCAAFSPREAD-26SEP26UNDINST",
+      "game": null,
+      "marketCount": 13,
+      "priceable": false,
+      "rawTeams": [
+        "Indiana St.",
+        "North Dakota"
+      ],
+      "unresolvedRawTeams": [
+        "Indiana St.",
+        "North Dakota"
+      ]
+    },
+    {
+      "bracketingMarketTickers": [],
+      "derivedHomeLine": null,
+      "eventTicker": "KXNCAAFSPREAD-26SEP26UNHSHU",
+      "game": null,
+      "marketCount": 13,
+      "priceable": false,
+      "rawTeams": [
+        "New Hampshire",
+        "Sacred Heart"
+      ],
+      "unresolvedRawTeams": [
+        "New Hampshire",
+        "Sacred Heart"
+      ]
+    },
+    {
+      "bracketingMarketTickers": [
+        "KXNCAAFSPREAD-26SEP26UNLVAKR-UNLV14",
+        "KXNCAAFSPREAD-26SEP26UNLVAKR-UNLV12"
+      ],
+      "derivedHomeLine": 13.0,
+      "eventTicker": "KXNCAAFSPREAD-26SEP26UNLVAKR",
+      "game": "UNLV @ Akron",
+      "marketCount": 31,
+      "priceable": true,
+      "rawTeams": [
+        "Akron",
+        "UNLV"
+      ],
+      "unresolvedRawTeams": []
+    },
+    {
+      "bracketingMarketTickers": [
+        "KXNCAAFSPREAD-26SEP26UNMNMSU-UNM12",
+        "KXNCAAFSPREAD-26SEP26UNMNMSU-UNM11"
+      ],
+      "derivedHomeLine": 11.333,
+      "eventTicker": "KXNCAAFSPREAD-26SEP26UNMNMSU",
+      "game": "New Mexico @ New Mexico State",
+      "marketCount": 31,
+      "priceable": true,
+      "rawTeams": [
+        "New Mexico",
+        "New Mexico St."
+      ],
+      "unresolvedRawTeams": []
+    },
+    {
+      "bracketingMarketTickers": [],
+      "derivedHomeLine": null,
+      "eventTicker": "KXNCAAFSPREAD-26SEP26URINCAT",
+      "game": null,
+      "marketCount": 13,
+      "priceable": false,
+      "rawTeams": [
+        "Rhode Island"
+      ],
+      "unresolvedRawTeams": [
+        "Rhode Island"
+      ]
+    },
+    {
+      "bracketingMarketTickers": [
+        "KXNCAAFSPREAD-26SEP26USAUK-UK18",
+        "KXNCAAFSPREAD-26SEP26USAUK-UK21"
+      ],
+      "derivedHomeLine": -20.286,
+      "eventTicker": "KXNCAAFSPREAD-26SEP26USAUK",
+      "game": "South Alabama @ Kentucky",
+      "marketCount": 25,
+      "priceable": true,
+      "rawTeams": [
+        "Kentucky",
+        "South Alabama"
+      ],
+      "unresolvedRawTeams": []
+    },
+    {
+      "bracketingMarketTickers": [],
+      "derivedHomeLine": null,
+      "eventTicker": "KXNCAAFSPREAD-26SEP26USDUST",
+      "game": null,
+      "marketCount": 13,
+      "priceable": false,
+      "rawTeams": [
+        "San Diego",
+        "St. Thomas"
+      ],
+      "unresolvedRawTeams": [
+        "San Diego",
+        "St. Thomas"
+      ]
+    },
+    {
+      "bracketingMarketTickers": [
+        "KXNCAAFSPREAD-26SEP26USFBGSU-USF21",
+        "KXNCAAFSPREAD-26SEP26USFBGSU-USF18"
+      ],
+      "derivedHomeLine": 17.875,
+      "eventTicker": "KXNCAAFSPREAD-26SEP26USFBGSU",
+      "game": "South Florida @ Bowling Green",
+      "marketCount": 31,
+      "priceable": true,
+      "rawTeams": [
+        "Bowling Green",
+        "South Florida"
+      ],
+      "unresolvedRawTeams": []
+    },
+    {
+      "bracketingMarketTickers": [
+        "KXNCAAFSPREAD-26SEP26USMTULN-TULN18",
+        "KXNCAAFSPREAD-26SEP26USMTULN-TULN19"
+      ],
+      "derivedHomeLine": -17.667,
+      "eventTicker": "KXNCAAFSPREAD-26SEP26USMTULN",
+      "game": "Southern Miss @ Tulane",
+      "marketCount": 27,
+      "priceable": true,
+      "rawTeams": [
+        "Southern Miss",
+        "Tulane"
+      ],
+      "unresolvedRawTeams": []
+    },
+    {
+      "bracketingMarketTickers": [
+        "KXNCAAFSPREAD-26SEP26UTAHISU-UTAH10",
+        "KXNCAAFSPREAD-26SEP26UTAHISU-UTAH8"
+      ],
+      "derivedHomeLine": 8.389,
+      "eventTicker": "KXNCAAFSPREAD-26SEP26UTAHISU",
+      "game": "Utah @ Iowa State",
+      "marketCount": 31,
+      "priceable": true,
+      "rawTeams": [
+        "Iowa St.",
+        "Utah"
+      ],
+      "unresolvedRawTeams": []
+    },
+    {
+      "bracketingMarketTickers": [],
+      "derivedHomeLine": null,
+      "eventTicker": "KXNCAAFSPREAD-26SEP26UTMPEAY",
+      "game": null,
+      "marketCount": 13,
+      "priceable": false,
+      "rawTeams": [
+        "Austin Peay",
+        "Tennessee-Martin"
+      ],
+      "unresolvedRawTeams": [
+        "Austin Peay",
+        "Tennessee-Martin"
+      ]
+    },
+    {
+      "bracketingMarketTickers": [],
+      "derivedHomeLine": null,
+      "eventTicker": "KXNCAAFSPREAD-26SEP26UTUUNCO",
+      "game": null,
+      "marketCount": 13,
+      "priceable": false,
+      "rawTeams": [
+        "Northern Colorado",
+        "Utah Tech"
+      ],
+      "unresolvedRawTeams": [
+        "Northern Colorado",
+        "Utah Tech"
+      ]
+    },
+    {
+      "bracketingMarketTickers": [
+        "KXNCAAFSPREAD-26SEP26VANAUB-AUB10",
+        "KXNCAAFSPREAD-26SEP26VANAUB-AUB11"
+      ],
+      "derivedHomeLine": -9.6,
+      "eventTicker": "KXNCAAFSPREAD-26SEP26VANAUB",
+      "game": "Vanderbilt @ Auburn",
+      "marketCount": 31,
+      "priceable": true,
+      "rawTeams": [
+        "Auburn",
+        "Vanderbilt"
+      ],
+      "unresolvedRawTeams": []
+    },
+    {
+      "bracketingMarketTickers": [],
+      "derivedHomeLine": null,
+      "eventTicker": "KXNCAAFSPREAD-26SEP26VMISAM",
+      "game": null,
+      "marketCount": 13,
+      "priceable": false,
+      "rawTeams": [
+        "Samford",
+        "VMI"
+      ],
+      "unresolvedRawTeams": [
+        "Samford",
+        "VMI"
+      ]
+    },
+    {
+      "bracketingMarketTickers": [
+        "KXNCAAFSPREAD-26SEP26VTBC-VT15",
+        "KXNCAAFSPREAD-26SEP26VTBC-VT14"
+      ],
+      "derivedHomeLine": 13.917,
+      "eventTicker": "KXNCAAFSPREAD-26SEP26VTBC",
+      "game": "Virginia Tech @ Boston College",
+      "marketCount": 31,
+      "priceable": true,
+      "rawTeams": [
+        "Boston College",
+        "Virginia Tech"
+      ],
+      "unresolvedRawTeams": []
+    },
+    {
+      "bracketingMarketTickers": [
+        "KXNCAAFSPREAD-26SEP26WAKELOU-LOU12",
+        "KXNCAAFSPREAD-26SEP26WAKELOU-LOU14"
+      ],
+      "derivedHomeLine": -12.333,
+      "eventTicker": "KXNCAAFSPREAD-26SEP26WAKELOU",
+      "game": "Wake Forest @ Louisville",
+      "marketCount": 31,
+      "priceable": true,
+      "rawTeams": [
+        "Louisville",
+        "Wake Forest"
+      ],
+      "unresolvedRawTeams": []
+    },
+    {
+      "bracketingMarketTickers": [],
+      "derivedHomeLine": null,
+      "eventTicker": "KXNCAAFSPREAD-26SEP26WCUETSU",
+      "game": null,
+      "marketCount": 13,
+      "priceable": false,
+      "rawTeams": [
+        "East Tennessee St.",
+        "Western Carolina"
+      ],
+      "unresolvedRawTeams": [
+        "East Tennessee St.",
+        "Western Carolina"
+      ]
+    },
+    {
+      "bracketingMarketTickers": [],
+      "derivedHomeLine": null,
+      "eventTicker": "KXNCAAFSPREAD-26SEP26WEBBMRSH",
+      "game": null,
+      "marketCount": 22,
+      "priceable": false,
+      "rawTeams": [
+        "Marshall"
+      ],
+      "unresolvedRawTeams": [
+        "Marshall"
+      ]
+    },
+    {
+      "bracketingMarketTickers": [
+        "KXNCAAFSPREAD-26SEP26WISPSU-PSU10",
+        "KXNCAAFSPREAD-26SEP26WISPSU-PSU11"
+      ],
+      "derivedHomeLine": -9.75,
+      "eventTicker": "KXNCAAFSPREAD-26SEP26WISPSU",
+      "game": "Wisconsin @ Penn State",
+      "marketCount": 31,
+      "priceable": true,
+      "rawTeams": [
+        "Penn St.",
+        "Wisconsin"
+      ],
+      "unresolvedRawTeams": []
+    },
+    {
+      "bracketingMarketTickers": [],
+      "derivedHomeLine": null,
+      "eventTicker": "KXNCAAFSPREAD-26SEP26WIUUNA",
+      "game": null,
+      "marketCount": 13,
+      "priceable": false,
+      "rawTeams": [
+        "North Alabama",
+        "Western Illinois"
+      ],
+      "unresolvedRawTeams": [
+        "North Alabama",
+        "Western Illinois"
+      ]
+    },
+    {
+      "bracketingMarketTickers": [],
+      "derivedHomeLine": null,
+      "eventTicker": "KXNCAAFSPREAD-26SEP26WMDUKE",
+      "game": null,
+      "marketCount": 16,
+      "priceable": false,
+      "rawTeams": [
+        "Duke"
+      ],
+      "unresolvedRawTeams": [
+        "Duke"
+      ]
+    },
+    {
+      "bracketingMarketTickers": [],
+      "derivedHomeLine": null,
+      "eventTicker": "KXNCAAFSPREAD-26SEP26YALECOR",
+      "game": null,
+      "marketCount": 13,
+      "priceable": false,
+      "rawTeams": [
+        "Cornell",
+        "Yale"
+      ],
+      "unresolvedRawTeams": [
+        "Cornell",
+        "Yale"
+      ]
+    }
+  ],
+  "generatedAt": "2026-09-23T08:28:33.917787+00:00",
+  "policy": {
+    "decisionEffect": "NONE",
+    "deliveryEffect": "NONE",
+    "fuzzyMatchingAllowed": false,
+    "maximumQuotedSpread": 0.15,
+    "stakingEffect": "NONE"
+  },
+  "rows": [
+    {
+      "bracketingMarketTickers": [
+        "KXNCAAFSPREAD-26SEP25ARMYTEM-ARMY4",
+        "KXNCAAFSPREAD-26SEP25ARMYTEM-ARMY3"
+      ],
+      "derivedHomeLine": 3.033,
+      "eventTicker": "KXNCAAFSPREAD-26SEP25ARMYTEM",
+      "game": "Army @ Temple",
+      "matchedEventCount": 1,
+      "status": "PRICEABLE"
+    },
+    {
+      "bracketingMarketTickers": [
+        "KXNCAAFSPREAD-26SEP25NAVYUAB-NAVY8",
+        "KXNCAAFSPREAD-26SEP25NAVYUAB-NAVY7"
+      ],
+      "derivedHomeLine": 6.917,
+      "eventTicker": "KXNCAAFSPREAD-26SEP25NAVYUAB",
+      "game": "Navy @ UAB",
+      "matchedEventCount": 1,
+      "status": "PRICEABLE"
+    },
+    {
+      "bracketingMarketTickers": [
+        "KXNCAAFSPREAD-26SEP26APPNCST-NCST14",
+        "KXNCAAFSPREAD-26SEP26APPNCST-NCST15"
+      ],
+      "derivedHomeLine": -14.0,
+      "eventTicker": "KXNCAAFSPREAD-26SEP26APPNCST",
+      "game": "App State @ NC State",
+      "matchedEventCount": 1,
+      "status": "PRICEABLE"
+    },
+    {
+      "bracketingMarketTickers": [
+        "KXNCAAFSPREAD-26SEP26ARIZWSU-ARIZ11",
+        "KXNCAAFSPREAD-26SEP26ARIZWSU-ARIZ10"
+      ],
+      "derivedHomeLine": 10.083,
+      "eventTicker": "KXNCAAFSPREAD-26SEP26ARIZWSU",
+      "game": "Arizona @ Washington State",
+      "matchedEventCount": 1,
+      "status": "PRICEABLE"
+    },
+    {
+      "bracketingMarketTickers": [
+        "KXNCAAFSPREAD-26SEP26BALLKENT-KENT3",
+        "KXNCAAFSPREAD-26SEP26BALLKENT-KENT4"
+      ],
+      "derivedHomeLine": -3.188,
+      "eventTicker": "KXNCAAFSPREAD-26SEP26BALLKENT",
+      "game": "Ball State @ Kent State",
+      "matchedEventCount": 1,
+      "status": "PRICEABLE"
+    },
+    {
+      "bracketingMarketTickers": [
+        "KXNCAAFSPREAD-26SEP26BSUWMU-BSU8",
+        "KXNCAAFSPREAD-26SEP26BSUWMU-BSU7"
+      ],
+      "derivedHomeLine": 7.111,
+      "eventTicker": "KXNCAAFSPREAD-26SEP26BSUWMU",
+      "game": "Boise State @ Western Michigan",
+      "matchedEventCount": 1,
+      "status": "PRICEABLE"
+    },
+    {
+      "bracketingMarketTickers": [
+        "KXNCAAFSPREAD-26SEP26CMUMIA-MIA39",
+        "KXNCAAFSPREAD-26SEP26CMUMIA-MIA42"
+      ],
+      "derivedHomeLine": -40.971,
+      "eventTicker": "KXNCAAFSPREAD-26SEP26CMUMIA",
+      "game": "Central Michigan @ Miami",
+      "matchedEventCount": 1,
+      "status": "PRICEABLE"
+    },
+    {
+      "bracketingMarketTickers": [
+        "KXNCAAFSPREAD-26SEP25CLEMCAL-CLEM2",
+        "KXNCAAFSPREAD-26SEP25CLEMCAL-CAL2"
+      ],
+      "derivedHomeLine": -0.0,
+      "eventTicker": "KXNCAAFSPREAD-26SEP25CLEMCAL",
+      "game": "Clemson @ California",
+      "matchedEventCount": 1,
+      "status": "PRICEABLE"
+    },
+    {
+      "bracketingMarketTickers": [
+        "KXNCAAFSPREAD-26SEP26COLOBAY-BAY10",
+        "KXNCAAFSPREAD-26SEP26COLOBAY-BAY11"
+      ],
+      "derivedHomeLine": -9.875,
+      "eventTicker": "KXNCAAFSPREAD-26SEP26COLOBAY",
+      "game": "Colorado @ Baylor",
+      "matchedEventCount": 1,
+      "status": "PRICEABLE"
+    },
+    {
+      "bracketingMarketTickers": [
+        "KXNCAAFSPREAD-26SEP26CSUUTSA-UTSA13",
+        "KXNCAAFSPREAD-26SEP26CSUUTSA-UTSA14"
+      ],
+      "derivedHomeLine": -13.125,
+      "eventTicker": "KXNCAAFSPREAD-26SEP26CSUUTSA",
+      "game": "Colorado State @ UTSA",
+      "matchedEventCount": 1,
+      "status": "PRICEABLE"
+    },
+    {
+      "bracketingMarketTickers": [
+        "KXNCAAFSPREAD-26SEP26DELUVA-UVA18",
+        "KXNCAAFSPREAD-26SEP26DELUVA-UVA21"
+      ],
+      "derivedHomeLine": -19.3,
+      "eventTicker": "KXNCAAFSPREAD-26SEP26DELUVA",
+      "game": "Delaware @ Virginia",
+      "matchedEventCount": 1,
+      "status": "PRICEABLE"
+    },
+    {
+      "bracketingMarketTickers": [
+        "KXNCAAFSPREAD-26SEP26HAWWYO-HAW4",
+        "KXNCAAFSPREAD-26SEP26HAWWYO-HAW3"
+      ],
+      "derivedHomeLine": 2.813,
+      "eventTicker": "KXNCAAFSPREAD-26SEP26HAWWYO",
+      "game": "Hawai'i @ Wyoming",
+      "matchedEventCount": 1,
+      "status": "PRICEABLE"
+    },
+    {
+      "bracketingMarketTickers": [
+        "KXNCAAFSPREAD-26SEP26HOUGASO-HOU21",
+        "KXNCAAFSPREAD-26SEP26HOUGASO-HOU18"
+      ],
+      "derivedHomeLine": 18.5,
+      "eventTicker": "KXNCAAFSPREAD-26SEP26HOUGASO",
+      "game": "Houston @ Georgia Southern",
+      "matchedEventCount": 1,
+      "status": "PRICEABLE"
+    },
+    {
+      "bracketingMarketTickers": [
+        "KXNCAAFSPREAD-26SEP26ILLOSU-OSU25",
+        "KXNCAAFSPREAD-26SEP26ILLOSU-OSU28"
+      ],
+      "derivedHomeLine": -26.562,
+      "eventTicker": "KXNCAAFSPREAD-26SEP26ILLOSU",
+      "game": "Illinois @ Ohio State",
+      "matchedEventCount": 1,
+      "status": "PRICEABLE"
+    },
+    {
+      "bracketingMarketTickers": [
+        "KXNCAAFSPREAD-26SEP26IOWAMICH-MICH5",
+        "KXNCAAFSPREAD-26SEP26IOWAMICH-MICH6"
+      ],
+      "derivedHomeLine": -5.125,
+      "eventTicker": "KXNCAAFSPREAD-26SEP26IOWAMICH",
+      "game": "Iowa @ Michigan",
+      "matchedEventCount": 1,
+      "status": "PRICEABLE"
+    },
+    {
+      "bracketingMarketTickers": [
+        "KXNCAAFSPREAD-26SEP26JMUODU-JMU7",
+        "KXNCAAFSPREAD-26SEP26JMUODU-JMU6"
+      ],
+      "derivedHomeLine": 5.8,
+      "eventTicker": "KXNCAAFSPREAD-26SEP26JMUODU",
+      "game": "James Madison @ Old Dominion",
+      "matchedEventCount": 1,
+      "status": "PRICEABLE"
+    },
+    {
+      "bracketingMarketTickers": [
+        "KXNCAAFSPREAD-26SEP26KSUCIN-KSU7",
+        "KXNCAAFSPREAD-26SEP26KSUCIN-KSU6"
+      ],
+      "derivedHomeLine": 6.0,
+      "eventTicker": "KXNCAAFSPREAD-26SEP26KSUCIN",
+      "game": "Kansas State @ Cincinnati",
+      "matchedEventCount": 1,
+      "status": "PRICEABLE"
+    },
+    {
+      "bracketingMarketTickers": [
+        "KXNCAAFSPREAD-26SEP26KENNARST-ARST6",
+        "KXNCAAFSPREAD-26SEP26KENNARST-ARST7"
+      ],
+      "derivedHomeLine": -6.375,
+      "eventTicker": "KXNCAAFSPREAD-26SEP26KENNARST",
+      "game": "Kennesaw State @ Arkansas State",
+      "matchedEventCount": 1,
+      "status": "PRICEABLE"
+    },
+    {
+      "bracketingMarketTickers": [
+        "KXNCAAFSPREAD-26SEP26ULLCHAR-ULL11",
+        "KXNCAAFSPREAD-26SEP26ULLCHAR-ULL10"
+      ],
+      "derivedHomeLine": 9.875,
+      "eventTicker": "KXNCAAFSPREAD-26SEP26ULLCHAR",
+      "game": "Louisiana @ Charlotte",
+      "matchedEventCount": 1,
+      "status": "PRICEABLE"
+    },
+    {
+      "bracketingMarketTickers": [
+        "KXNCAAFSPREAD-26SEP26MTUJVST-JVST7",
+        "KXNCAAFSPREAD-26SEP26MTUJVST-JVST8"
+      ],
+      "derivedHomeLine": -7.083,
+      "eventTicker": "KXNCAAFSPREAD-26SEP26MTUJVST",
+      "game": "Middle Tennessee @ Jacksonville State",
+      "matchedEventCount": 1,
+      "status": "PRICEABLE"
+    },
+    {
+      "bracketingMarketTickers": [
+        "KXNCAAFSPREAD-26SEP26MIZZMSST-MSST6",
+        "KXNCAAFSPREAD-26SEP26MIZZMSST-MSST7"
+      ],
+      "derivedHomeLine": -6.125,
+      "eventTicker": "KXNCAAFSPREAD-26SEP26MIZZMSST",
+      "game": "Missouri @ Mississippi State",
+      "matchedEventCount": 1,
+      "status": "PRICEABLE"
+    },
+    {
+      "bracketingMarketTickers": [
+        "KXNCAAFSPREAD-26SEP26NEBMSU-NEB7",
+        "KXNCAAFSPREAD-26SEP26NEBMSU-NEB6"
+      ],
+      "derivedHomeLine": 5.875,
+      "eventTicker": "KXNCAAFSPREAD-26SEP26NEBMSU",
+      "game": "Nebraska @ Michigan State",
+      "matchedEventCount": 1,
+      "status": "PRICEABLE"
+    },
+    {
+      "bracketingMarketTickers": [
+        "KXNCAAFSPREAD-26SEP26UNMNMSU-UNM12",
+        "KXNCAAFSPREAD-26SEP26UNMNMSU-UNM11"
+      ],
+      "derivedHomeLine": 11.333,
+      "eventTicker": "KXNCAAFSPREAD-26SEP26UNMNMSU",
+      "game": "New Mexico @ New Mexico State",
+      "matchedEventCount": 1,
+      "status": "PRICEABLE"
+    },
+    {
+      "bracketingMarketTickers": [
+        "KXNCAAFSPREAD-26SEP26NIUGAST-GAST10",
+        "KXNCAAFSPREAD-26SEP26NIUGAST-GAST11"
+      ],
+      "derivedHomeLine": -10.318,
+      "eventTicker": "KXNCAAFSPREAD-26SEP26NIUGAST",
+      "game": "Northern Illinois @ Georgia State",
+      "matchedEventCount": 1,
+      "status": "PRICEABLE"
+    },
+    {
+      "bracketingMarketTickers": [
+        "KXNCAAFSPREAD-26SEP25NWIND-IND21",
+        "KXNCAAFSPREAD-26SEP25NWIND-IND22"
+      ],
+      "derivedHomeLine": -20.917,
+      "eventTicker": "KXNCAAFSPREAD-26SEP25NWIND",
+      "game": "Northwestern @ Indiana",
+      "matchedEventCount": 1,
+      "status": "PRICEABLE"
+    },
+    {
+      "bracketingMarketTickers": [
+        "KXNCAAFSPREAD-26SEP26NDPUR-ND31",
+        "KXNCAAFSPREAD-26SEP26NDPUR-ND28"
+      ],
+      "derivedHomeLine": 28.0,
+      "eventTicker": "KXNCAAFSPREAD-26SEP26NDPUR",
+      "game": "Notre Dame @ Purdue",
+      "matchedEventCount": 1,
+      "status": "PRICEABLE"
+    },
+    {
+      "bracketingMarketTickers": [
+        "KXNCAAFSPREAD-26SEP26OKLAUGA-UGA14",
+        "KXNCAAFSPREAD-26SEP26OKLAUGA-UGA15"
+      ],
+      "derivedHomeLine": -13.857,
+      "eventTicker": "KXNCAAFSPREAD-26SEP26OKLAUGA",
+      "game": "Oklahoma @ Georgia",
+      "matchedEventCount": 1,
+      "status": "PRICEABLE"
+    },
+    {
+      "bracketingMarketTickers": [
+        "KXNCAAFSPREAD-26SEP26OKSTWVU-OKST2",
+        "KXNCAAFSPREAD-26SEP26OKSTWVU-WVU2"
+      ],
+      "derivedHomeLine": -1.25,
+      "eventTicker": "KXNCAAFSPREAD-26SEP26OKSTWVU",
+      "game": "Oklahoma State @ West Virginia",
+      "matchedEventCount": 1,
+      "status": "PRICEABLE"
+    },
+    {
+      "bracketingMarketTickers": [
+        "KXNCAAFSPREAD-26SEP26MISSFLA-FLA3",
+        "KXNCAAFSPREAD-26SEP26MISSFLA-FLA4"
+      ],
+      "derivedHomeLine": -3.188,
+      "eventTicker": "KXNCAAFSPREAD-26SEP26MISSFLA",
+      "game": "Ole Miss @ Florida",
+      "matchedEventCount": 1,
+      "status": "PRICEABLE"
+    },
+    {
+      "bracketingMarketTickers": [
+        "KXNCAAFSPREAD-26SEP26OREUSC-ORE4",
+        "KXNCAAFSPREAD-26SEP26OREUSC-ORE3"
+      ],
+      "derivedHomeLine": 3.111,
+      "eventTicker": "KXNCAAFSPREAD-26SEP26OREUSC",
+      "game": "Oregon @ USC",
+      "matchedEventCount": 1,
+      "status": "PRICEABLE"
+    },
+    {
+      "bracketingMarketTickers": [
+        "KXNCAAFSPREAD-26SEP26SHSUTTU-TTU34",
+        "KXNCAAFSPREAD-26SEP26SHSUTTU-TTU36"
+      ],
+      "derivedHomeLine": -33.875,
+      "eventTicker": "KXNCAAFSPREAD-26SEP26SHSUTTU",
+      "game": "Sam Houston @ Texas Tech",
+      "matchedEventCount": 1,
+      "status": "PRICEABLE"
+    },
+    {
+      "bracketingMarketTickers": [
+        "KXNCAAFSPREAD-26SEP26SDSUTOL-TOL3",
+        "KXNCAAFSPREAD-26SEP26SDSUTOL-TOL4"
+      ],
+      "derivedHomeLine": -2.912,
+      "eventTicker": "KXNCAAFSPREAD-26SEP26SDSUTOL",
+      "game": "San Diego State @ Toledo",
+      "matchedEventCount": 1,
+      "status": "PRICEABLE"
+    },
+    {
+      "bracketingMarketTickers": [
+        "KXNCAAFSPREAD-26SEP26USAUK-UK18",
+        "KXNCAAFSPREAD-26SEP26USAUK-UK21"
+      ],
+      "derivedHomeLine": -20.286,
+      "eventTicker": "KXNCAAFSPREAD-26SEP26USAUK",
+      "game": "South Alabama @ Kentucky",
+      "matchedEventCount": 1,
+      "status": "PRICEABLE"
+    },
+    {
+      "bracketingMarketTickers": [
+        "KXNCAAFSPREAD-26SEP26SCARALA-ALA12",
+        "KXNCAAFSPREAD-26SEP26SCARALA-ALA14"
+      ],
+      "derivedHomeLine": -12.0,
+      "eventTicker": "KXNCAAFSPREAD-26SEP26SCARALA",
+      "game": "South Carolina @ Alabama",
+      "matchedEventCount": 1,
+      "status": "PRICEABLE"
+    },
+    {
+      "bracketingMarketTickers": [
+        "KXNCAAFSPREAD-26SEP26USFBGSU-USF21",
+        "KXNCAAFSPREAD-26SEP26USFBGSU-USF18"
+      ],
+      "derivedHomeLine": 17.875,
+      "eventTicker": "KXNCAAFSPREAD-26SEP26USFBGSU",
+      "game": "South Florida @ Bowling Green",
+      "matchedEventCount": 1,
+      "status": "PRICEABLE"
+    },
+    {
+      "bracketingMarketTickers": [
+        "KXNCAAFSPREAD-26SEP26USMTULN-TULN18",
+        "KXNCAAFSPREAD-26SEP26USMTULN-TULN19"
+      ],
+      "derivedHomeLine": -17.667,
+      "eventTicker": "KXNCAAFSPREAD-26SEP26USMTULN",
+      "game": "Southern Miss @ Tulane",
+      "matchedEventCount": 1,
+      "status": "PRICEABLE"
+    },
+    {
+      "bracketingMarketTickers": [
+        "KXNCAAFSPREAD-26SEP26TCUUCF-TCU4",
+        "KXNCAAFSPREAD-26SEP26TCUUCF-TCU3"
+      ],
+      "derivedHomeLine": 3.062,
+      "eventTicker": "KXNCAAFSPREAD-26SEP26TCUUCF",
+      "game": "TCU @ UCF",
+      "matchedEventCount": 1,
+      "status": "PRICEABLE"
+    },
+    {
+      "bracketingMarketTickers": [
+        "KXNCAAFSPREAD-26SEP26TEXTENN-TEX6",
+        "KXNCAAFSPREAD-26SEP26TEXTENN-TEX5"
+      ],
+      "derivedHomeLine": 5.125,
+      "eventTicker": "KXNCAAFSPREAD-26SEP26TEXTENN",
+      "game": "Texas @ Tennessee",
+      "matchedEventCount": 1,
+      "status": "PRICEABLE"
+    },
+    {
+      "bracketingMarketTickers": [
+        "KXNCAAFSPREAD-26SEP26TXAMLSU-LSU9",
+        "KXNCAAFSPREAD-26SEP26TXAMLSU-LSU10"
+      ],
+      "derivedHomeLine": -8.667,
+      "eventTicker": "KXNCAAFSPREAD-26SEP26TXAMLSU",
+      "game": "Texas A&M @ LSU",
+      "matchedEventCount": 1,
+      "status": "PRICEABLE"
+    },
+    {
+      "bracketingMarketTickers": [
+        "KXNCAAFSPREAD-26SEP26TROYUSU-USU3",
+        "KXNCAAFSPREAD-26SEP26TROYUSU-USU4"
+      ],
+      "derivedHomeLine": -3.1,
+      "eventTicker": "KXNCAAFSPREAD-26SEP26TROYUSU",
+      "game": "Troy @ Utah State",
+      "matchedEventCount": 1,
+      "status": "PRICEABLE"
+    },
+    {
+      "bracketingMarketTickers": [
+        "KXNCAAFSPREAD-26SEP26UCLAMD-UCLA2",
+        "KXNCAAFSPREAD-26SEP26UCLAMD-MD2"
+      ],
+      "derivedHomeLine": 1.167,
+      "eventTicker": "KXNCAAFSPREAD-26SEP26UCLAMD",
+      "game": "UCLA @ Maryland",
+      "matchedEventCount": 1,
+      "status": "PRICEABLE"
+    },
+    {
+      "bracketingMarketTickers": [
+        "KXNCAAFSPREAD-26SEP26CONNMOH-MOH3",
+        "KXNCAAFSPREAD-26SEP26CONNMOH-MOH4"
+      ],
+      "derivedHomeLine": -3.429,
+      "eventTicker": "KXNCAAFSPREAD-26SEP26CONNMOH",
+      "game": "UConn @ Miami (OH)",
+      "matchedEventCount": 1,
+      "status": "PRICEABLE"
+    },
+    {
+      "bracketingMarketTickers": [
+        "KXNCAAFSPREAD-26SEP26UNLVAKR-UNLV14",
+        "KXNCAAFSPREAD-26SEP26UNLVAKR-UNLV12"
+      ],
+      "derivedHomeLine": 13.0,
+      "eventTicker": "KXNCAAFSPREAD-26SEP26UNLVAKR",
+      "game": "UNLV @ Akron",
+      "matchedEventCount": 1,
+      "status": "PRICEABLE"
+    },
+    {
+      "bracketingMarketTickers": [
+        "KXNCAAFSPREAD-26SEP26UTAHISU-UTAH10",
+        "KXNCAAFSPREAD-26SEP26UTAHISU-UTAH8"
+      ],
+      "derivedHomeLine": 8.389,
+      "eventTicker": "KXNCAAFSPREAD-26SEP26UTAHISU",
+      "game": "Utah @ Iowa State",
+      "matchedEventCount": 1,
+      "status": "PRICEABLE"
+    },
+    {
+      "bracketingMarketTickers": [
+        "KXNCAAFSPREAD-26SEP26VANAUB-AUB10",
+        "KXNCAAFSPREAD-26SEP26VANAUB-AUB11"
+      ],
+      "derivedHomeLine": -9.6,
+      "eventTicker": "KXNCAAFSPREAD-26SEP26VANAUB",
+      "game": "Vanderbilt @ Auburn",
+      "matchedEventCount": 1,
+      "status": "PRICEABLE"
+    },
+    {
+      "bracketingMarketTickers": [
+        "KXNCAAFSPREAD-26SEP26VTBC-VT15",
+        "KXNCAAFSPREAD-26SEP26VTBC-VT14"
+      ],
+      "derivedHomeLine": 13.917,
+      "eventTicker": "KXNCAAFSPREAD-26SEP26VTBC",
+      "game": "Virginia Tech @ Boston College",
+      "matchedEventCount": 1,
+      "status": "PRICEABLE"
+    },
+    {
+      "bracketingMarketTickers": [
+        "KXNCAAFSPREAD-26SEP26WAKELOU-LOU12",
+        "KXNCAAFSPREAD-26SEP26WAKELOU-LOU14"
+      ],
+      "derivedHomeLine": -12.333,
+      "eventTicker": "KXNCAAFSPREAD-26SEP26WAKELOU",
+      "game": "Wake Forest @ Louisville",
+      "matchedEventCount": 1,
+      "status": "PRICEABLE"
+    },
+    {
+      "bracketingMarketTickers": [
+        "KXNCAAFSPREAD-26SEP26WISPSU-PSU10",
+        "KXNCAAFSPREAD-26SEP26WISPSU-PSU11"
+      ],
+      "derivedHomeLine": -9.75,
+      "eventTicker": "KXNCAAFSPREAD-26SEP26WISPSU",
+      "game": "Wisconsin @ Penn State",
+      "matchedEventCount": 1,
+      "status": "PRICEABLE"
+    },
+    {
+      "bracketingMarketTickers": [
+        "KXNCAAFSPREAD-26SEP26AFANEV-AFA6",
+        "KXNCAAFSPREAD-26SEP26AFANEV-AFA5"
+      ],
+      "derivedHomeLine": 5.333,
+      "eventTicker": "KXNCAAFSPREAD-26SEP26AFANEV",
+      "game": "Air Force @ Nevada",
+      "matchedEventCount": 1,
+      "status": "PRICEABLE"
+    },
+    {
+      "bracketingMarketTickers": [
+        "KXNCAAFSPREAD-26SEP26FAUULM-FAU14",
+        "KXNCAAFSPREAD-26SEP26FAUULM-FAU13"
+      ],
+      "derivedHomeLine": 13.0,
+      "eventTicker": "KXNCAAFSPREAD-26SEP26FAUULM",
+      "game": "Florida Atlantic @ UL Monroe",
+      "matchedEventCount": 1,
+      "status": "PRICEABLE"
+    },
+    {
+      "bracketingMarketTickers": [
+        "KXNCAAFSPREAD-26SEP26GTSTAN-GT4",
+        "KXNCAAFSPREAD-26SEP26GTSTAN-GT3"
+      ],
+      "derivedHomeLine": 3.324,
+      "eventTicker": "KXNCAAFSPREAD-26SEP26GTSTAN",
+      "game": "Georgia Tech @ Stanford",
+      "matchedEventCount": 1,
+      "status": "PRICEABLE"
+    },
+    {
+      "bracketingMarketTickers": [
+        "KXNCAAFSPREAD-26SEP26MASSSAC-MASS5",
+        "KXNCAAFSPREAD-26SEP26MASSSAC-MASS4"
+      ],
+      "derivedHomeLine": 4.071,
+      "eventTicker": "KXNCAAFSPREAD-26SEP26MASSSAC",
+      "game": "Massachusetts @ Sacramento State",
+      "matchedEventCount": 1,
+      "status": "PRICEABLE"
+    },
+    {
+      "bracketingMarketTickers": [
+        "KXNCAAFSPREAD-26SEP26MINNWASH-WASH8",
+        "KXNCAAFSPREAD-26SEP26MINNWASH-WASH10"
+      ],
+      "derivedHomeLine": -9.3,
+      "eventTicker": "KXNCAAFSPREAD-26SEP26MINNWASH",
+      "game": "Minnesota @ Washington",
+      "matchedEventCount": 1,
+      "status": "PRICEABLE"
+    },
+    {
+      "bracketingMarketTickers": [
+        "KXNCAAFSPREAD-26SEP26MOSUSMU-SMU34",
+        "KXNCAAFSPREAD-26SEP26MOSUSMU-SMU35"
+      ],
+      "derivedHomeLine": -34.357,
+      "eventTicker": "KXNCAAFSPREAD-26SEP26MOSUSMU",
+      "game": "Missouri State @ SMU",
+      "matchedEventCount": 1,
+      "status": "PRICEABLE"
+    },
+    {
+      "bracketingMarketTickers": [
+        "KXNCAAFSPREAD-26SEP26ORSTUTEP-ORST11",
+        "KXNCAAFSPREAD-26SEP26ORSTUTEP-ORST10"
+      ],
+      "derivedHomeLine": 10.4,
+      "eventTicker": "KXNCAAFSPREAD-26SEP26ORSTUTEP",
+      "game": "Oregon State @ UTEP",
+      "matchedEventCount": 1,
+      "status": "PRICEABLE"
+    },
+    {
+      "bracketingMarketTickers": [
+        "KXNCAAFSPREAD-26SEP26RICEFRES-FRES14",
+        "KXNCAAFSPREAD-26SEP26RICEFRES-FRES15"
+      ],
+      "derivedHomeLine": -13.731,
+      "eventTicker": "KXNCAAFSPREAD-26SEP26RICEFRES",
+      "game": "Rice @ Fresno State",
+      "matchedEventCount": 1,
+      "status": "PRICEABLE"
+    },
+    {
+      "bracketingMarketTickers": [
+        "KXNCAAFSPREAD-26SEP26TLSAARK-ARK7",
+        "KXNCAAFSPREAD-26SEP26TLSAARK-ARK8"
+      ],
+      "derivedHomeLine": -7.0,
+      "eventTicker": "KXNCAAFSPREAD-26SEP26TLSAARK",
+      "game": "Tulsa @ Arkansas",
+      "matchedEventCount": 1,
+      "status": "PRICEABLE"
+    }
+  ],
+  "schemaVersion": 1,
+  "status": "OK",
+  "summary": {
+    "ambiguousRows": 0,
+    "kalshiEvents": 114,
+    "matchedButUnpriceableRows": 0,
+    "noMatchedEventRows": 0,
+    "priceableRows": 57,
+    "slateRows": 57,
+    "unresolvedRawNameCount": 99
+  },
+  "unresolvedRawNames": [
+    "Abilene Christian",
+    "Alabama A&M",
+    "Alabama St.",
+    "Alcorn St.",
+    "Austin Peay",
+    "Bethune-Cookman",
+    "Brown",
+    "Buffalo",
+    "Butler",
+    "Cal Poly",
+    "Campbell",
+    "Chattanooga",
+    "Coastal Carolina",
+    "Colgate",
+    "Columbia",
+    "Cornell",
+    "Davidson",
+    "Delaware St.",
+    "Drake",
+    "Duke",
+    "East Carolina",
+    "East Tennessee St.",
+    "East Texas A&M",
+    "Eastern Michigan",
+    "Eastern Washington",
+    "Elon",
+    "Florida A&M",
+    "Florida International",
+    "Florida St.",
+    "Fordham",
+    "Furman",
+    "Georgetown",
+    "Grambling St.",
+    "Hampton",
+    "Harvard",
+    "Holy Cross",
+    "Idaho St.",
+    "Illinois St.",
+    "Indiana St.",
+    "Jackson St.",
+    "Lafayette",
+    "Lamar",
+    "Lehigh",
+    "Liberty",
+    "Maine",
+    "Marist",
+    "Marshall",
+    "McNeese",
+    "Mercer",
+    "Merrimack",
+    "Montana",
+    "Montana St.",
+    "Murray St.",
+    "New Hampshire",
+    "New Haven",
+    "Nicholls St.",
+    "North Alabama",
+    "North Dakota",
+    "North Texas",
+    "Northern Arizona",
+    "Northern Colorado",
+    "Northern Iowa",
+    "Ohio",
+    "Penn",
+    "Pittsburgh",
+    "Portland St.",
+    "Prairie View A&M",
+    "Presbyterian",
+    "Rhode Island",
+    "Richmond",
+    "Rutgers",
+    "Sacred Heart",
+    "Samford",
+    "San Diego",
+    "South Carolina St.",
+    "South Dakota",
+    "Southern Illinois",
+    "Southern University",
+    "Southern Utah",
+    "St. Thomas",
+    "Stony Brook",
+    "Tennessee Tech",
+    "Tennessee-Martin",
+    "Texas Southern",
+    "Texas St.",
+    "The Citadel",
+    "Towson",
+    "UC Davis",
+    "Utah Tech",
+    "VMI",
+    "Valparaiso",
+    "Villanova",
+    "Weber St.",
+    "Western Carolina",
+    "Western Illinois",
+    "Western Kentucky",
+    "Wofford",
+    "Yale",
+    "Youngstown St."
+  ]
+}
