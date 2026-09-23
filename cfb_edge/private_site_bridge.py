@@ -68,6 +68,7 @@ def build(
     exec_grade=gs.get("executableShadow") or {}
     power=readiness or {}
     metrics=power.get("metrics") or {}
+    open_stage=(power.get("stages") or {}).get("openProvenance") or {}
 
     return {
         "schemaVersion":1,
@@ -92,7 +93,11 @@ def build(
             "nextUnlocks":list(power.get("nextUnlocks") or []),
         },
         "week5":{
-            "captureStatus":(capture_health or {}).get("status") or "PRE_WINDOW",
+            "captureStatus":(
+                (capture_health or {}).get("status")
+                or open_stage.get("status")
+                or "PENDING"
+            ),
             "slateRows":int(cs.get("slateRows") or 0),
             "auditGradeOpenRows":int(cs.get("provenanceCompleteTrueOpenRows") or 0),
             "qualifiedExecutableShadowRows":int((es2 or {}).get("qualifiedCount") or 0),
@@ -103,7 +108,7 @@ def build(
         },
         "br2":_feature_summary(br2),
         "runway":power.get("stages") or {
-            "openProvenance":{"status":"PRE_WINDOW","detail":"Week 5 audit window has not opened."},
+            "openProvenance":{"status":"PENDING","detail":"Week 5 capture-window state is unavailable."},
             "s04Es2":{"status":"PENDING","detail":"Frozen Week 5 shadow not active yet."},
             "closeGrading":{"status":"PENDING","detail":"No gradeable closes yet."},
             "br2Warehouse":{"status":"PENDING","detail":"BR2 snapshot not published yet."},

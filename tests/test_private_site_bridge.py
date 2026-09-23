@@ -26,6 +26,30 @@ class PrivateSiteBridgeTests(unittest.TestCase):
         self.assertEqual(r["br2"]["populatedFamilies"],["ppaDiff"])
         self.assertEqual(r["br2"]["missingFamilies"],["epaDiff"])
 
+
+    def test_missing_capture_health_uses_readiness_window_state(self):
+        r=build(
+            authority={},
+            readiness={
+                "status":"PROSPECTIVE_COLLECTION_ACTIVE",
+                "warnings":[],
+                "nextUnlocks":[],
+                "metrics":{},
+                "stages":{
+                    "openProvenance":{
+                        "status":"AWAITING_ARTIFACT",
+                        "detail":"Capture window active, health artifact pending.",
+                        "complete":False,
+                    }
+                },
+            },
+            capture_health=None, es2={"status":"SHADOW_ONLY"}, grades=None,
+            br2=None,
+            generated_at=datetime(2026,9,23,1,tzinfo=timezone.utc),
+        )
+        self.assertEqual(r["week5"]["captureStatus"],"AWAITING_ARTIFACT")
+        self.assertEqual(r["research"]["status"],"PROSPECTIVE_COLLECTION_ACTIVE")
+
     def test_week5_exec_grade_is_kept_separate(self):
         r=build(
             authority={},readiness={},capture_health={"status":"COLLECTING","summary":{

@@ -13,6 +13,8 @@ on:
     branches: [main]
     paths:
       - cfb_edge/powerup_health.py
+      - cfb_edge/cohort.py
+      - config/week5_cohort.json
       - .github/workflows/powerup-health.yml
   workflow_dispatch:
 
@@ -44,7 +46,7 @@ jobs:
       - name: Build cross-layer evidence contract
         run: |
           set -euo pipefail
-          args=(--freeze config/week5_freeze.json --out evidence/data/powerup-health.json)
+          args=(--freeze config/week5_freeze.json --cohort config/week5_cohort.json --out evidence/data/powerup-health.json)
           [ ! -f evidence/data/week5-capture-health.json ] || args+=(--capture-health evidence/data/week5-capture-health.json)
           [ ! -f evidence/data/s04-es2-live.json ] || args+=(--es2 evidence/data/s04-es2-live.json)
           [ ! -f evidence/data/s04-es2-grades.json ] || args+=(--grades evidence/data/s04-es2-grades.json)

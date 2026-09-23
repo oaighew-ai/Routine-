@@ -13,6 +13,8 @@ from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any, Mapping
 
+from .cohort import status as cohort_status
+
 CONTRACT = "CFB_EDGE_POWERUP_HEALTH_V1"
 
 
@@ -53,17 +55,43 @@ def build(
     grades: Mapping[str, Any] | None,
     br2: Mapping[str, Any] | None,
     freeze_manifest: Mapping[str, Any] | None,
+    cohort: Mapping[str, Any] | None = None,
     now: datetime | None = None,
 ) -> dict[str, Any]:
     now = now or datetime.now(timezone.utc)
     if now.tzinfo is None:
         raise ValueError("now must be timezone-aware")
 
-    # 1. Week 5 open provenance
+    # 1. Week 5 open provenance. Artifact absence is not itself proof that
+    # the window has not started, so resolve the canonical cohort window first.
+    capture_window_state = None
+    cohort_id = None
+    if cohort is not None:
+        window_report = cohort_status(cohort, now=now, mode="capture")
+        capture_window_state = str(window_report["state"])
+        cohort_id = str(window_report["cohortId"])
+
     if capture_health is None:
-        open_stage = _stage("PRE_WINDOW", "Week 5 capture-health artifact not published yet.", complete=None)
         audit_open_rows = 0
         slate_rows = 0
+        if capture_window_state == "ACTIVE":
+            open_stage = _stage(
+                "AWAITING_ARTIFACT",
+                "Canonical Week 5 capture window is active, but the capture-health artifact has not published yet.",
+                complete=False,
+            )
+        elif capture_window_state == "CLOSED":
+            open_stage = _stage(
+                "MISSING_ARTIFACT",
+                "Canonical Week 5 capture window is closed and no capture-health artifact was published.",
+                complete=False,
+            )
+        else:
+            open_stage = _stage(
+                "PRE_WINDOW",
+                "Canonical Week 5 capture window has not opened yet.",
+                complete=None,
+            )
     else:
         cs = capture_health.get("summary") or {}
         audit_open_rows = int(cs.get("provenanceCompleteTrueOpenRows") or 0)
@@ -143,14 +171,16 @@ def build(
     warnings: list[str] = []
     if capture_health and open_stage["status"] == "BLOCKED":
         warnings.append("WEEK5_OPEN_PROVENANCE_FAILURE")
+    if capture_health is None and open_stage["status"] == "MISSING_ARTIFACT":
+        warnings.append("WEEK5_CAPTURE_HEALTH_MISSING_AFTER_WINDOW")
     if br2 and not manifest_complete:
         warnings.append("BR2_SOURCE_LINEAGE_INCOMPLETE")
     if ages["br2Hours"] is not None and ages["br2Hours"] > 72:
         warnings.append("BR2_SNAPSHOT_STALE")
 
-    if open_stage["status"] == "BLOCKED":
+    if open_stage["status"] in {"BLOCKED", "MISSING_ARTIFACT"}:
         overall = "EVIDENCE_BLOCKED"
-    elif capture_health is None:
+    elif capture_health is None and open_stage["status"] == "PRE_WINDOW":
         overall = "PRE_WINDOW"
     elif exec_graded:
         overall = "PROSPECTIVE_GRADING_ACTIVE"
@@ -158,8 +188,10 @@ def build(
         overall = "PROSPECTIVE_COLLECTION_ACTIVE"
 
     next_unlocks: list[str] = []
-    if capture_health is None:
-        next_unlocks.append("Publish the first Week 5 capture-health contract when the opening window begins.")
+    if capture_health is None and open_stage["status"] == "PRE_WINDOW":
+        next_unlocks.append("Publish the first Week 5 capture-health contract when the canonical capture window begins.")
+    elif capture_health is None:
+        next_unlocks.append("Publish the Week 5 capture-health contract for the active canonical cohort; do not infer capture quality from artifact absence.")
     elif open_stage["status"] != "COMPLETE":
         next_unlocks.append("Increase replay-complete TRUE_OPEN coverage; do not infer missing opens.")
     if es2 is None:
@@ -178,6 +210,8 @@ def build(
         "contract": CONTRACT,
         "generatedAt": now.isoformat(),
         "status": overall,
+        "cohortId": cohort_id,
+        "captureWindowState": capture_window_state,
         "week5DecisionRuleChanged": False,
         "deliveryEffect": "NONE",
         "stakingEffect": "NONE",
@@ -211,6 +245,7 @@ def main(argv: list[str] | None = None) -> int:
     p.add_argument("--grades")
     p.add_argument("--br2")
     p.add_argument("--freeze", default="config/week5_freeze.json")
+    p.add_argument("--cohort")
     p.add_argument("--out", required=True)
     args = p.parse_args(argv)
     report = build(
@@ -219,6 +254,7 @@ def main(argv: list[str] | None = None) -> int:
         grades=_json(args.grades),
         br2=_json(args.br2),
         freeze_manifest=_json(args.freeze),
+        cohort=_json(args.cohort),
     )
     out = Path(args.out)
     out.parent.mkdir(parents=True, exist_ok=True)
