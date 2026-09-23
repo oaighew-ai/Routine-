@@ -75,7 +75,7 @@ jobs:
         run: |
           set -euo pipefail
           python3 - <<'PY'
-          import json, os, pathlib, urllib.request
+          import json, os, pathlib, urllib.error, urllib.request
           root=pathlib.Path(".tmp/br2")
           key=os.environ.get("CFBD_API_KEY","").strip()
           target_week=int(os.environ["CFBD_TARGET_WEEK"])
@@ -111,10 +111,15 @@ jobs:
                       "rows":len(payload) if isinstance(payload,list) else None,
                   })
               except Exception as exc:
-                  health.append({
+                  failure={
                       "kind":kind,"endpoint":endpoint,"ok":False,
                       "errorType":type(exc).__name__,
-                  })
+                  }
+                  if isinstance(exc, urllib.error.HTTPError):
+                      failure["httpStatus"]=exc.code
+                      if kind == "wepa" and exc.code in (401,403):
+                          failure["availability"]="ACCESS_TIER_BLOCKED"
+                  health.append(failure)
                   if required:
                       raise
                   target.write_text("[]",encoding="utf-8")

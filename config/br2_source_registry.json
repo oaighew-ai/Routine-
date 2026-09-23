@@ -34,7 +34,14 @@
         "snapshot before cohort outcomes",
         "raw payload SHA-256",
         "never retroactively reconstruct a prior week's value from a later-season response"
-      ]
+      ],
+      "accessRequirement": {
+        "asOf": "2026-09-23",
+        "minimumTier": "Tier 1",
+        "reason": "CFBD classifies opponent-adjusted metrics as Tier 1+; Free includes general advanced metrics but not opponent-adjusted metrics.",
+        "source": "https://collegefootballdata.com/api-tiers"
+      },
+      "failurePolicy": "If opponent-adjusted access is unavailable, epaDiff remains null. Never substitute PPA or unadjusted EPA under this feature name."
     },
     {
       "id": "CFBD_ADVANCED",
