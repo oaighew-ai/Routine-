@@ -1,0 +1,32 @@
+{
+  "contract": "CFB_EDGE_S04_ES2_SIGNAL_GRADES_V1",
+  "generatedAt": "2026-09-23T03:36:25.881362+00:00",
+  "gradingPolicy": {
+    "closeDefinition": "last captured derived home line at or before kickoff",
+    "decisionEffect": "NONE",
+    "entryMustBeTrueOpen": true,
+    "maximumCloseAgeSeconds": 1800,
+    "promotionEffect": "NONE"
+  },
+  "modelId": "S04_ES2",
+  "rows": [],
+  "schemaVersion": 1,
+  "status": "RESEARCH_ONLY",
+  "summary": {
+    "beatCloseRate": null,
+    "directionalSignal": {
+      "beatCloseRate": null,
+      "gradeableRows": 0,
+      "meanLineClvPoints": null
+    },
+    "executableShadow": {
+      "beatCloseRate": null,
+      "gradeableRows": 0,
+      "meanLineClvPoints": null
+    },
+    "gradeableRows": 0,
+    "meanLineClvPoints": null,
+    "pendingOrExcludedRows": 0,
+    "signalRows": 0
+  }
+}
