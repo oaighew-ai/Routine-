@@ -45,7 +45,43 @@ jobs:
           mkdir -p .tmp/br2
           python3 -m cfb_edge.slate --season 2026 --week 5 --out .tmp/br2/week5.csv
 
+      - name: Enforce Week 5 prospective cutoff
+        id: prospective
+        run: |
+          set -euo pipefail
+          python3 - <<'PY' > /tmp/br2-window.env
+          import csv
+          from datetime import datetime, timezone
+          from pathlib import Path
+
+          def parse(value):
+              if not value:
+                  return None
+              try:
+                  dt=datetime.fromisoformat(value.replace("Z","+00:00"))
+              except ValueError:
+                  return None
+              return dt if dt.tzinfo else dt.replace(tzinfo=timezone.utc)
+
+          rows=list(csv.DictReader(Path(".tmp/br2/week5.csv").open()))
+          starts=[parse(r.get("kickoff")) for r in rows]
+          starts=[x for x in starts if x is not None]
+          now=datetime.now(timezone.utc)
+          if not starts:
+              print("run=0")
+              print("reason=NO_VALID_KICKOFFS")
+          else:
+              first=min(starts)
+              print(f"first_kickoff={first.isoformat()}")
+              print(f"snapshot_time={now.isoformat()}")
+              print(f"run={1 if now < first else 0}")
+              print("reason=PRE_FIRST_KICKOFF" if now < first else "COHORT_ALREADY_STARTED")
+          PY
+          cat /tmp/br2-window.env >> "$GITHUB_OUTPUT"
+          cat /tmp/br2-window.env >> "$GITHUB_STEP_SUMMARY"
+
       - name: Freeze CFBD source responses
+        if: steps.prospective.outputs.run == '1'
         env:
           CFBD_API_KEY: ${{ secrets.CFBD_API_KEY }}
         run: |
@@ -127,6 +163,7 @@ jobs:
           PY
 
       - name: Archive CFBD sources by content hash
+        if: steps.prospective.outputs.run == '1'
         run: |
           set -euo pipefail
           ASOF="$(date -u '+%Y-%m-%dT%H:%M:%SZ')"
@@ -166,6 +203,7 @@ jobs:
           PY
 
       - name: Capture point-in-time weather
+        if: steps.prospective.outputs.run == '1'
         run: |
           set -euo pipefail
           mkdir -p capture-data/data/features/br2/weather/raw
@@ -188,6 +226,7 @@ jobs:
           PY
 
       - name: Validate official-source QB evidence
+        if: steps.prospective.outputs.run == '1'
         run: |
           set -euo pipefail
           INBOX="capture-data/data/features/br2/qb/packets.json"
@@ -199,12 +238,14 @@ jobs:
           python3 -m cfb_edge.br2_web_evidence             --packets .tmp/br2/qb-packets.json             --out .tmp/br2/qb-evidence.json
 
       - name: Build audited context
+        if: steps.prospective.outputs.run == '1'
         run: |
           set -euo pipefail
           ASOF="$(date -u '+%Y-%m-%dT%H:%M:%SZ')"
           python3 -m cfb_edge.br2_context             --slate .tmp/br2/week5.csv             --week-games .tmp/br2/games-w5.json             --teams .tmp/br2/teams.json             --venues .tmp/br2/venues.json             --wepa .tmp/br2/wepa.json             --advanced .tmp/br2/advanced-through-w4.json             --weather .tmp/br2/weather.json             --qb-evidence .tmp/br2/qb-evidence.json             --as-of "$ASOF"             --revision "$GITHUB_SHA"             --out .tmp/br2/context.json
 
       - name: Build immutable point-in-time feature snapshot
+        if: steps.prospective.outputs.run == '1'
         run: |
           set -euo pipefail
           ASOF="$(date -u '+%Y-%m-%dT%H:%M:%SZ')"
@@ -238,6 +279,7 @@ jobs:
           PY
 
       - name: Publish append-only feature evidence
+        if: steps.prospective.outputs.run == '1'
         working-directory: capture-data
         run: |
           set -euo pipefail
