@@ -1,0 +1,41 @@
+{
+  "schemaVersion": 1,
+  "registryId": "cfb-edge-br2-official-team-sources",
+  "status": "PARTIAL_SEED_REGISTRY",
+  "policy": {
+    "unknownDomainEligible": false,
+    "fanOrMediaSitesEligible": false,
+    "conferenceOrUniversityPrimarySourcesOnly": true,
+    "note": "Coverage is intentionally incomplete. Unknown teams remain null until an official domain is verified and registered."
+  },
+  "teams": {
+    "boston college": {
+      "officialDomains": ["bceagles.com"],
+      "verification": "Firecrawl baseline discovery of Boston College Athletics Week 4 game notes on 2026-09-22"
+    },
+    "iowa state": {
+      "officialDomains": ["cyclones.com"],
+      "verification": "Official Iowa State Athletics depth-chart PDF observed during BR2 source validation"
+    },
+    "virginia": {
+      "officialDomains": ["virginiasports.com", "static.virginiasports.com"],
+      "verification": "Official Virginia Football Media Center observed during BR2 source validation"
+    },
+    "duke": {
+      "officialDomains": ["goduke.com"],
+      "verification": "Official Duke Athletics game-notes source observed during BR2 source validation"
+    },
+    "stanford": {
+      "officialDomains": ["gostanford.com"],
+      "verification": "Official Stanford Athletics game-notes source observed during BR2 source validation"
+    },
+    "california": {
+      "officialDomains": ["calbears.com"],
+      "verification": "Official California Athletics game-notes source observed during BR2 source validation"
+    },
+    "baylor": {
+      "officialDomains": ["baylorbears.com"],
+      "verification": "Official Baylor Athletics depth-chart source observed during BR2 source validation"
+    }
+  }
+}
