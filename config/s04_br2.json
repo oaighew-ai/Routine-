@@ -1,12 +1,17 @@
 {
-  "schemaVersion": 1,
+  "schemaVersion": 2,
   "modelId": "S04_BR2",
   "version": "point-in-time-football-context-collection-1",
   "status": "DATA_COLLECTION_ONLY",
   "deliveryEligible": false,
   "stakingEnabled": false,
   "promotionEffect": "NONE",
-  "inheritsNoAuthorityFrom": ["S02", "S04_ES1", "S04_ES2", "S04_BR1"],
+  "inheritsNoAuthorityFrom": [
+    "S02",
+    "S04_ES1",
+    "S04_ES2",
+    "S04_BR1"
+  ],
   "targetFeatures": [
     "epaDiff",
     "ppaDiff",
@@ -34,5 +39,20 @@
     "windMph": "Requires timestamped weather forecast/observation provenance."
   },
   "activationRule": "No BR2 model fit until a separately frozen feature contract has adequate point-in-time coverage and a future chronological holdout is reserved.",
-  "week5DecisionRuleChanged": false
+  "week5DecisionRuleChanged": false,
+  "rawSourceLineage": {
+    "sourceManifestRequired": true,
+    "rawPayloadArchiveRequired": true,
+    "contentHash": "sha256",
+    "contentAddressedArchive": true,
+    "futureKnownDataAllowed": false
+  },
+  "futureFitPrerequisites": [
+    "Feature contract frozen before the evaluation cohort outcomes are observed.",
+    "Every modeled feature has timestamp-clean source lineage or remains explicitly missing.",
+    "Raw source payloads are preserved by content hash and replayable.",
+    "Multiple independent prospective week snapshots exist.",
+    "A future chronological holdout is reserved before hyperparameter selection.",
+    "No Week 5 S04_ES2 signal, threshold, stake, or delivery rule is changed."
+  ]
 }

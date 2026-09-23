@@ -16,12 +16,14 @@ class FeatureWarehouseTests(unittest.TestCase):
         r = build_snapshot(
             slate=slate, plays=plays, prior_games=[],
             as_of=datetime(2026, 9, 23, tzinfo=timezone.utc),
+            source_manifest=[{"kind":"plays","path":"raw/abc.json.gz","sha256":"abc"}],
         )
         f = r["rows"][0]["features"]
         self.assertAlmostEqual(f["ppaDiff"], 0.3)
         self.assertIsNone(f["epaDiff"])
         self.assertIsNone(f["qbContinuityDiff"])
         self.assertFalse(r["summary"]["modelingEligible"])
+        self.assertEqual(r["sourceManifest"][0]["sha256"], "abc")
 
     def test_future_games_do_not_create_rest_features(self):
         slate = [{"game": "A @ H", "kickoff": "2026-09-26T16:00:00Z"}]

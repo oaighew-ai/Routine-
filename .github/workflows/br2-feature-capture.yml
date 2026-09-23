@@ -57,15 +57,71 @@ jobs:
               "User-Agent":"cfb-edge/1.0",
           }
           def pull(path, out):
-              req=urllib.request.Request("https://api.collegefootballdata.com"+path,headers=headers)
+              req=urllib.request.Request(
+                  "https://api.collegefootballdata.com"+path, headers=headers
+              )
               with urllib.request.urlopen(req,timeout=60) as r:
                   payload=json.loads(r.read())
-              pathlib.Path(out).write_text(json.dumps(payload,sort_keys=True),encoding="utf-8")
+              pathlib.Path(out).write_text(
+                  json.dumps(payload,sort_keys=True,separators=(",",":")),
+                  encoding="utf-8",
+              )
           for week in (1,2,3,4):
-              pull(f"/plays?year=2026&week={week}&seasonType=regular",
-                   root/f"plays-w{week}.json")
-              pull(f"/games?year=2026&week={week}&seasonType=regular",
-                   root/f"games-w{week}.json")
+              pull(
+                  f"/plays?year=2026&week={week}&seasonType=regular",
+                  root/f"plays-w{week}.json",
+              )
+              pull(
+                  f"/games?year=2026&week={week}&seasonType=regular",
+                  root/f"games-w{week}.json",
+              )
+          PY
+
+      - name: Archive raw sources by content hash
+        run: |
+          set -euo pipefail
+          ASOF="$(date -u '+%Y-%m-%dT%H:%M:%SZ')"
+          export ASOF
+          mkdir -p capture-data/data/features/br2/raw
+
+          python3 - <<'PY'
+          import gzip, hashlib, json, os
+          from pathlib import Path
+
+          root=Path(".tmp/br2")
+          archive=Path("capture-data/data/features/br2/raw")
+          manifest=[]
+          for path in sorted(root.glob("*.json")):
+              raw=path.read_bytes()
+              sha=hashlib.sha256(raw).hexdigest()
+              target=archive/f"{sha}.json.gz"
+              if not target.exists():
+                  with gzip.GzipFile(
+                      filename="", mode="wb", fileobj=target.open("wb"), mtime=0
+                  ) as z:
+                      z.write(raw)
+
+              stem=path.stem
+              kind="plays" if stem.startswith("plays-") else "games"
+              week=int(stem.split("-w",1)[1])
+              endpoint=(
+                  f"/{kind}?year=2026&week={week}&seasonType=regular"
+              )
+              manifest.append({
+                  "kind":kind,
+                  "season":2026,
+                  "week":week,
+                  "source":"collegefootballdata",
+                  "endpoint":endpoint,
+                  "retrievedAt":os.environ["ASOF"],
+                  "sha256":sha,
+                  "bytes":len(raw),
+                  "path":str(target.relative_to("capture-data")),
+              })
+          Path(".tmp/br2/source-manifest.json").write_text(
+              json.dumps(manifest,indent=2,sort_keys=True)+"\n",
+              encoding="utf-8",
+          )
           PY
 
       - name: Build immutable point-in-time snapshot
@@ -74,7 +130,9 @@ jobs:
           ASOF="$(date -u '+%Y-%m-%dT%H:%M:%SZ')"
           STAMP="$(date -u '+%Y%m%dT%H%M%SZ')"
           mkdir -p "capture-data/data/features/br2/2026/week5"
-          python3 -m cfb_edge.feature_warehouse             --slate .tmp/br2/week5.csv             --plays-json .tmp/br2/plays-w1.json             --plays-json .tmp/br2/plays-w2.json             --plays-json .tmp/br2/plays-w3.json             --plays-json .tmp/br2/plays-w4.json             --games-json .tmp/br2/games-w1.json             --games-json .tmp/br2/games-w2.json             --games-json .tmp/br2/games-w3.json             --games-json .tmp/br2/games-w4.json             --as-of "$ASOF"             --revision "$GITHUB_SHA"             --out "capture-data/data/features/br2/2026/week5/$STAMP.json"
+
+          python3 -m cfb_edge.feature_warehouse             --slate .tmp/br2/week5.csv             --plays-json .tmp/br2/plays-w1.json             --plays-json .tmp/br2/plays-w2.json             --plays-json .tmp/br2/plays-w3.json             --plays-json .tmp/br2/plays-w4.json             --games-json .tmp/br2/games-w1.json             --games-json .tmp/br2/games-w2.json             --games-json .tmp/br2/games-w3.json             --games-json .tmp/br2/games-w4.json             --source-manifest .tmp/br2/source-manifest.json             --as-of "$ASOF"             --revision "$GITHUB_SHA"             --out "capture-data/data/features/br2/2026/week5/$STAMP.json"
+
           cp "capture-data/data/features/br2/2026/week5/$STAMP.json"              capture-data/data/br2-feature-status.json
 
           python3 - <<'PY' >> "$GITHUB_STEP_SUMMARY"
@@ -84,6 +142,7 @@ jobs:
           s=r["summary"]
           print("## S04_BR2 feature warehouse")
           print(f"- games snapshotted: **{s['games']}**")
+          print(f"- raw source objects: **{len(r.get('sourceManifest') or [])}**")
           print(f"- fully populated rows: **{s['fullyPopulatedRows']}**")
           print("- modeling eligible: **NO**")
           for k,v in s["featureCoverageRows"].items():

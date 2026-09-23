@@ -1066,3 +1066,30 @@ than backfilled from future knowledge.
 decision rule creates a new experiment. BR2 may move from collection to fitting
 only after a separately frozen feature contract has adequate point-in-time
 coverage and an untouched future chronological holdout is reserved.
+
+
+## 2026-09-22 — D28. Promotion readiness becomes a first-class evidence contract
+
+**Decision.** Add a cross-layer evidence-readiness contract and content-addressed
+raw-source archive without changing any Week 5 decision rule.
+
+`cfb_edge/powerup_health.py` reports four independent layers: replay-complete
+opening provenance, the frozen S04_ES2 shadow, fresh pre-kickoff close grading,
+and the S04_BR2 point-in-time warehouse. It reports status and next unlocks but
+has no delivery, staking, or promotion authority.
+
+BR2 snapshots must now preserve a manifest of the exact CFBD payloads used to
+produce features. Each raw response is archived once under its SHA-256 content
+hash. A future BR2 fit is not allowed merely because a feature matrix exists.
+The feature contract must be frozen before outcomes, modeled fields need
+timestamp-clean lineage, raw inputs must be replayable, multiple independent
+prospective weeks must exist, and a future chronological holdout must be
+reserved before hyperparameter selection.
+
+**Why.** The project has already demonstrated that model complexity is easier
+to add than trustworthy evidence. The control plane should make missing lineage
+and missing evaluation runway visible before another model can inherit apparent
+confidence from a clean-looking feature table.
+
+**Week 5 effect.** None. S04_ES2 remains the frozen prospective shadow. Zero
+stake and no delivery authority are unchanged.

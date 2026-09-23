@@ -1,0 +1,85 @@
+name: CFB evidence readiness
+
+on:
+  workflow_run:
+    workflows:
+      - "Week 5 capture health"
+      - "S04 ES2 Week 5 audit shadow"
+      - "week5 automatic signal grading"
+      - "BR2 point-in-time feature capture"
+      - "Week 5 close capture"
+    types: [completed]
+  push:
+    branches: [main]
+    paths:
+      - cfb_edge/powerup_health.py
+      - .github/workflows/powerup-health.yml
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: cfb-powerup-health
+  cancel-in-progress: true
+
+jobs:
+  health:
+    if: github.event_name != 'workflow_run' || github.event.workflow_run.conclusion == 'success'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Code
+        uses: actions/checkout@v4
+
+      - name: Evidence
+        uses: actions/checkout@v4
+        with:
+          ref: capture-data
+          path: evidence
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+
+      - name: Build cross-layer evidence contract
+        run: |
+          set -euo pipefail
+          args=(--freeze config/week5_freeze.json --out evidence/data/powerup-health.json)
+          [ ! -f evidence/data/week5-capture-health.json ] || args+=(--capture-health evidence/data/week5-capture-health.json)
+          [ ! -f evidence/data/s04-es2-live.json ] || args+=(--es2 evidence/data/s04-es2-live.json)
+          [ ! -f evidence/data/s04-es2-grades.json ] || args+=(--grades evidence/data/s04-es2-grades.json)
+          [ ! -f evidence/data/br2-feature-status.json ] || args+=(--br2 evidence/data/br2-feature-status.json)
+          python3 -m cfb_edge.powerup_health "${args[@]}"
+
+          python3 - <<'PY' >> "$GITHUB_STEP_SUMMARY"
+          import json
+          from pathlib import Path
+          r=json.loads(Path("evidence/data/powerup-health.json").read_text())
+          print("## Evidence readiness")
+          print(f"- state: **{r['status']}**")
+          for key,value in r["stages"].items():
+              print(f"- {key}: **{value['status']}** — {value['detail']}")
+          print("- Week 5 decision rule changed: **NO**")
+          print("- next unlock:")
+          for x in r["nextUnlocks"][:5]:
+              print(f"  - {x}")
+          PY
+
+      - name: Publish readiness evidence
+        working-directory: evidence
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/powerup-health.json
+          git diff --cached --quiet && exit 0
+          git commit -q -m "evidence readiness $(date -u '+%Y-%m-%d %H:%M UTC')"
+          for attempt in 1 2 3; do
+            git fetch origin capture-data
+            if git rebase origin/capture-data && git push origin HEAD:capture-data; then
+              exit 0
+            fi
+            git rebase --abort || true
+            sleep $((attempt * 2))
+          done
+          exit 1
