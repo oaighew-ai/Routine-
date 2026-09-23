@@ -1,15 +1,105 @@
 {
   "contract": "CFB_EDGE_BR2_QB_EVIDENCE_V3",
   "decisionEffect": "NONE",
-  "generatedAt": "2026-09-23T03:36:44.798724+00:00",
-  "rows": [],
+  "generatedAt": "2026-09-23T03:58:00.304853+00:00",
+  "rows": [
+    {
+      "auditGrade": false,
+      "away": null,
+      "candidatePacketCount": 1,
+      "exclusions": [
+        "AWAY_QB_PACKET_NOT_UNIQUE_AUDIT_GRADE"
+      ],
+      "featureValue": null,
+      "game": "Virginia Tech @ Boston College",
+      "home": {
+        "auditGrade": true,
+        "captureMethod": "firecrawl_pdf_extract",
+        "contentPath": "data/features/br2/qb/raw/boston-college-vt-week4-2026-09-23.md",
+        "contentSha256": "a4d8fd0ae05df884bc768e674a2d9d882058efcbe0df347bc53be1b6d6fea77c",
+        "deterministicallyValidated": true,
+        "exclusions": [],
+        "firstListedQb": "Mason McKenzie",
+        "game": "Virginia Tech @ Boston College",
+        "kickoff": "2026-09-26T16:00:00Z",
+        "packetSha256": "fc04edc3d0d22938eb19d958e7343a6067d8300013064bf4008e6ba11a488002",
+        "parserVersion": "depth-chart-v1",
+        "policy": {
+          "bothSidesRequiredForGameFeature": true,
+          "deterministicValidationRequired": true,
+          "llmExtractionAutoEligible": false,
+          "officialSourceRequired": true,
+          "rawCaptureHashVerificationRequired": true,
+          "registeredTeamDomainRequired": true,
+          "searchResultsCanBecomeFeatures": false
+        },
+        "priorContentPath": "data/features/br2/qb/raw/boston-college-maine-week3-2026-09-23.md",
+        "priorContentSha256": "ab036eb6f1f5781f00e7ba0f4a81c1c832fa6c6c4599bf45ae996aa5b5e2c850",
+        "priorFirstListedQb": "Mason McKenzie",
+        "priorPublishedAt": "2026-09-15T00:00:00Z",
+        "priorRetrievedAt": "2026-09-23T03:54:46Z",
+        "priorSourceDomain": "bceagles.com",
+        "priorSourceUrl": "https://bceagles.com/documents/download/2026/9/15/BC_MAINE_DEPTH_WK3.pdf",
+        "publishedAt": "2026-09-21T00:00:00Z",
+        "rawCaptureVerified": true,
+        "retrievedAt": "2026-09-23T03:54:46Z",
+        "side": "home",
+        "sourceDomain": "bceagles.com",
+        "sourceKind": "official_depth_chart",
+        "sourceUrl": "https://bceagles.com/documents/download/2026/9/21/BC_VT_DEPTH_WK4.pdf",
+        "team": "Boston College",
+        "teamContinuity": 1.0
+      },
+      "kickoff": "2026-09-26T16:00:00Z",
+      "rowSha256": "655120582d4d1bba4da1079952afe57c7b047cce14b1dd34dd58bf573c6a9e35"
+    }
+  ],
   "schemaVersion": 3,
   "status": "DATA_COLLECTION_ONLY",
   "summary": {
     "auditGradeGameRows": 0,
-    "auditGradeTeamPackets": 0,
-    "games": 0,
-    "packets": 0
+    "auditGradeTeamPackets": 1,
+    "games": 1,
+    "packets": 1
   },
-  "teamPackets": []
+  "teamPackets": [
+    {
+      "auditGrade": true,
+      "captureMethod": "firecrawl_pdf_extract",
+      "contentPath": "data/features/br2/qb/raw/boston-college-vt-week4-2026-09-23.md",
+      "contentSha256": "a4d8fd0ae05df884bc768e674a2d9d882058efcbe0df347bc53be1b6d6fea77c",
+      "deterministicallyValidated": true,
+      "exclusions": [],
+      "firstListedQb": "Mason McKenzie",
+      "game": "Virginia Tech @ Boston College",
+      "kickoff": "2026-09-26T16:00:00Z",
+      "packetSha256": "fc04edc3d0d22938eb19d958e7343a6067d8300013064bf4008e6ba11a488002",
+      "parserVersion": "depth-chart-v1",
+      "policy": {
+        "bothSidesRequiredForGameFeature": true,
+        "deterministicValidationRequired": true,
+        "llmExtractionAutoEligible": false,
+        "officialSourceRequired": true,
+        "rawCaptureHashVerificationRequired": true,
+        "registeredTeamDomainRequired": true,
+        "searchResultsCanBecomeFeatures": false
+      },
+      "priorContentPath": "data/features/br2/qb/raw/boston-college-maine-week3-2026-09-23.md",
+      "priorContentSha256": "ab036eb6f1f5781f00e7ba0f4a81c1c832fa6c6c4599bf45ae996aa5b5e2c850",
+      "priorFirstListedQb": "Mason McKenzie",
+      "priorPublishedAt": "2026-09-15T00:00:00Z",
+      "priorRetrievedAt": "2026-09-23T03:54:46Z",
+      "priorSourceDomain": "bceagles.com",
+      "priorSourceUrl": "https://bceagles.com/documents/download/2026/9/15/BC_MAINE_DEPTH_WK3.pdf",
+      "publishedAt": "2026-09-21T00:00:00Z",
+      "rawCaptureVerified": true,
+      "retrievedAt": "2026-09-23T03:54:46Z",
+      "side": "home",
+      "sourceDomain": "bceagles.com",
+      "sourceKind": "official_depth_chart",
+      "sourceUrl": "https://bceagles.com/documents/download/2026/9/21/BC_VT_DEPTH_WK4.pdf",
+      "team": "Boston College",
+      "teamContinuity": 1.0
+    }
+  ]
 }
