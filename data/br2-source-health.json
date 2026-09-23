@@ -1,5 +1,7 @@
 {
+  "cohortId": "CFB_2026_PRODUCT_WEEK5",
   "contract": "CFB_EDGE_BR2_SOURCE_HEALTH_V1",
+  "providerWeek": 4,
   "schemaVersion": 1,
   "sources": [
     {
@@ -39,22 +41,10 @@
       "rows": 311
     },
     {
-      "endpoint": "/plays?year=2026&week=4&seasonType=regular",
-      "kind": "plays",
-      "ok": true,
-      "rows": 0
-    },
-    {
       "endpoint": "/games?year=2026&week=4&seasonType=regular",
-      "kind": "games",
-      "ok": true,
-      "rows": 285
-    },
-    {
-      "endpoint": "/games?year=2026&week=5&seasonType=regular",
       "kind": "week_games",
       "ok": true,
-      "rows": 304
+      "rows": 285
     },
     {
       "endpoint": "/teams?year=2026",
@@ -75,7 +65,7 @@
       "ok": false
     },
     {
-      "endpoint": "/stats/season/advanced?year=2026&startWeek=1&endWeek=4",
+      "endpoint": "/stats/season/advanced?year=2026&startWeek=1&endWeek=3",
       "kind": "advanced_stats",
       "ok": true,
       "rows": 138
