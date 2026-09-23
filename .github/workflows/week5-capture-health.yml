@@ -1,8 +1,16 @@
 name: Week 5 capture health
 
 on:
+  push:
+    branches: [main]
+    paths:
+      - .github/workflows/week5-capture-health.yml
+      - cfb_edge/week5_capture_health.py
+      - cfb_edge/cohort.py
+      - config/week5_cohort.json
+      - config/week5_freeze.json
   workflow_run:
-    workflows: ["capture"]
+    workflows: ["capture", "Week 5 late-open tail capture"]
     types: [completed]
   workflow_dispatch:
 
@@ -15,7 +23,7 @@ concurrency:
 
 jobs:
   audit:
-    if: github.event_name == 'workflow_dispatch' || github.event.workflow_run.conclusion == 'success'
+    if: github.event_name != 'workflow_run' || github.event.workflow_run.conclusion == 'success'
     runs-on: ubuntu-latest
     steps:
       - name: Code
