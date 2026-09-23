@@ -10,6 +10,8 @@ on:
       - cfb_edge/br2_web_evidence.py
       - config/s04_br2.json
       - config/br2_source_registry.json
+      - config/br2_official_source_registry.json
+      - config/br2_external_monitors.json
       - .github/workflows/br2-feature-capture.yml
   schedule:
     - cron: "30 13 * 9-11 2,4,5"   # Tue/Thu/Fri morning ET during season
