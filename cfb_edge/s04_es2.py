@@ -243,6 +243,8 @@ def evaluate(
             "game": game,
             "side": candidate["side"],
             "venue": row.venue,
+            "source": "true_open",
+            "kickoff": candidate.get("kickoff"),
             "openingHomeLine": candidate["openingHomeLine"],
             "projectionGapVsOpen": candidate["gap"],
             "firstSeen": candidate.get("firstSeen"),
