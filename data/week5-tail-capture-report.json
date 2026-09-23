@@ -1,0 +1,1260 @@
+{
+  "schemaVersion": 1,
+  "cohort": "ROUTINE_KALSHI_CAPTURE",
+  "generatedAt": "2026-09-23T03:52:09.400719+00:00",
+  "pollAt": "2026-09-23T03:52:09.342401+00:00",
+  "captureOutcome": "success",
+  "freshAtGeneration": true,
+  "codeRevision": "db6f177e7124c972acebed5c4c15ffda57a5003f",
+  "logSha256": "02703679327e0e28e8ae6301055268493929a50e5ab8d283bf45d1c4562881f0",
+  "slateSha256": "ef1d851841fa2b3eebdb941aa8956f1966db584356a6b6abbdd9afb323dceb2c",
+  "allowDelivery": false,
+  "actualStakeUnits": 0,
+  "games": [
+    {
+      "game": "Air Force @ Nevada",
+      "action": "NO BET",
+      "stakeUnits": 0,
+      "openClassification": "first_seen",
+      "auditGradeOpen": false,
+      "firstSeen": "2026-09-21T01:04:50.274619+00:00",
+      "venueOpenTime": null,
+      "openLagSeconds": null,
+      "marketTickers": [],
+      "observations": [
+        {
+          "book": "kalshi",
+          "derivedHomeLine": 5.2,
+          "observedAt": "2026-09-23T03:52:09.080491+00:00",
+          "kickoff": "2026-09-27T02:30:00.000Z"
+        }
+      ],
+      "exclusions": [
+        "DECISION_EVIDENCE_UNVERIFIED",
+        "EXECUTABLE_CONTRACT_UNVERIFIED",
+        "OPEN_NOT_AUDIT_GRADE_TRUE_OPEN"
+      ]
+    },
+    {
+      "game": "App State @ NC State",
+      "action": "NO BET",
+      "stakeUnits": 0,
+      "openClassification": "unverified",
+      "auditGradeOpen": false,
+      "firstSeen": null,
+      "venueOpenTime": null,
+      "openLagSeconds": null,
+      "marketTickers": [],
+      "observations": [],
+      "exclusions": [
+        "ABSENT_FROM_LATEST_POLL",
+        "DECISION_EVIDENCE_UNVERIFIED",
+        "EXECUTABLE_CONTRACT_UNVERIFIED",
+        "OPEN_NOT_AUDIT_GRADE_TRUE_OPEN"
+      ]
+    },
+    {
+      "game": "Arizona @ Washington State",
+      "action": "NO BET",
+      "stakeUnits": 0,
+      "openClassification": "unverified",
+      "auditGradeOpen": false,
+      "firstSeen": null,
+      "venueOpenTime": null,
+      "openLagSeconds": null,
+      "marketTickers": [],
+      "observations": [],
+      "exclusions": [
+        "ABSENT_FROM_LATEST_POLL",
+        "DECISION_EVIDENCE_UNVERIFIED",
+        "EXECUTABLE_CONTRACT_UNVERIFIED",
+        "OPEN_NOT_AUDIT_GRADE_TRUE_OPEN"
+      ]
+    },
+    {
+      "game": "Army @ Temple",
+      "action": "NO BET",
+      "stakeUnits": 0,
+      "openClassification": "first_seen",
+      "auditGradeOpen": false,
+      "firstSeen": "2026-09-21T01:04:50.274619+00:00",
+      "venueOpenTime": null,
+      "openLagSeconds": null,
+      "marketTickers": [],
+      "observations": [
+        {
+          "book": "kalshi",
+          "derivedHomeLine": 3.0,
+          "observedAt": "2026-09-23T03:52:09.080491+00:00",
+          "kickoff": "2026-09-25T20:00:00.000Z"
+        }
+      ],
+      "exclusions": [
+        "DECISION_EVIDENCE_UNVERIFIED",
+        "EXECUTABLE_CONTRACT_UNVERIFIED",
+        "OPEN_NOT_AUDIT_GRADE_TRUE_OPEN"
+      ]
+    },
+    {
+      "game": "Ball State @ Kent State",
+      "action": "NO BET",
+      "stakeUnits": 0,
+      "openClassification": "unverified",
+      "auditGradeOpen": false,
+      "firstSeen": null,
+      "venueOpenTime": null,
+      "openLagSeconds": null,
+      "marketTickers": [],
+      "observations": [],
+      "exclusions": [
+        "ABSENT_FROM_LATEST_POLL",
+        "DECISION_EVIDENCE_UNVERIFIED",
+        "EXECUTABLE_CONTRACT_UNVERIFIED",
+        "OPEN_NOT_AUDIT_GRADE_TRUE_OPEN"
+      ]
+    },
+    {
+      "game": "Boise State @ Western Michigan",
+      "action": "NO BET",
+      "stakeUnits": 0,
+      "openClassification": "unverified",
+      "auditGradeOpen": false,
+      "firstSeen": null,
+      "venueOpenTime": null,
+      "openLagSeconds": null,
+      "marketTickers": [],
+      "observations": [],
+      "exclusions": [
+        "ABSENT_FROM_LATEST_POLL",
+        "DECISION_EVIDENCE_UNVERIFIED",
+        "EXECUTABLE_CONTRACT_UNVERIFIED",
+        "OPEN_NOT_AUDIT_GRADE_TRUE_OPEN"
+      ]
+    },
+    {
+      "game": "Central Michigan @ Miami",
+      "action": "NO BET",
+      "stakeUnits": 0,
+      "openClassification": "unverified",
+      "auditGradeOpen": false,
+      "firstSeen": null,
+      "venueOpenTime": null,
+      "openLagSeconds": null,
+      "marketTickers": [],
+      "observations": [],
+      "exclusions": [
+        "ABSENT_FROM_LATEST_POLL",
+        "DECISION_EVIDENCE_UNVERIFIED",
+        "EXECUTABLE_CONTRACT_UNVERIFIED",
+        "OPEN_NOT_AUDIT_GRADE_TRUE_OPEN"
+      ]
+    },
+    {
+      "game": "Clemson @ California",
+      "action": "NO BET",
+      "stakeUnits": 0,
+      "openClassification": "first_seen",
+      "auditGradeOpen": false,
+      "firstSeen": "2026-09-21T01:04:50.274619+00:00",
+      "venueOpenTime": null,
+      "openLagSeconds": null,
+      "marketTickers": [],
+      "observations": [
+        {
+          "book": "kalshi",
+          "derivedHomeLine": -0.0,
+          "observedAt": "2026-09-23T03:52:09.080491+00:00",
+          "kickoff": "2026-09-26T02:30:00.000Z"
+        }
+      ],
+      "exclusions": [
+        "DECISION_EVIDENCE_UNVERIFIED",
+        "EXECUTABLE_CONTRACT_UNVERIFIED",
+        "OPEN_NOT_AUDIT_GRADE_TRUE_OPEN"
+      ]
+    },
+    {
+      "game": "Colorado @ Baylor",
+      "action": "NO BET",
+      "stakeUnits": 0,
+      "openClassification": "first_seen",
+      "auditGradeOpen": false,
+      "firstSeen": "2026-09-21T01:04:50.274619+00:00",
+      "venueOpenTime": null,
+      "openLagSeconds": null,
+      "marketTickers": [],
+      "observations": [
+        {
+          "book": "kalshi",
+          "derivedHomeLine": -9.9,
+          "observedAt": "2026-09-23T03:52:09.080491+00:00",
+          "kickoff": "2026-09-26T16:00:00.000Z"
+        }
+      ],
+      "exclusions": [
+        "DECISION_EVIDENCE_UNVERIFIED",
+        "EXECUTABLE_CONTRACT_UNVERIFIED",
+        "OPEN_NOT_AUDIT_GRADE_TRUE_OPEN"
+      ]
+    },
+    {
+      "game": "Colorado State @ UTSA",
+      "action": "NO BET",
+      "stakeUnits": 0,
+      "openClassification": "unverified",
+      "auditGradeOpen": false,
+      "firstSeen": null,
+      "venueOpenTime": null,
+      "openLagSeconds": null,
+      "marketTickers": [],
+      "observations": [],
+      "exclusions": [
+        "ABSENT_FROM_LATEST_POLL",
+        "DECISION_EVIDENCE_UNVERIFIED",
+        "EXECUTABLE_CONTRACT_UNVERIFIED",
+        "OPEN_NOT_AUDIT_GRADE_TRUE_OPEN"
+      ]
+    },
+    {
+      "game": "Delaware @ Virginia",
+      "action": "NO BET",
+      "stakeUnits": 0,
+      "openClassification": "first_seen",
+      "auditGradeOpen": false,
+      "firstSeen": "2026-09-21T01:04:50.274619+00:00",
+      "venueOpenTime": null,
+      "openLagSeconds": null,
+      "marketTickers": [],
+      "observations": [
+        {
+          "book": "kalshi",
+          "derivedHomeLine": -19.3,
+          "observedAt": "2026-09-23T03:52:09.080491+00:00",
+          "kickoff": "2026-09-26T22:00:00.000Z"
+        }
+      ],
+      "exclusions": [
+        "DECISION_EVIDENCE_UNVERIFIED",
+        "EXECUTABLE_CONTRACT_UNVERIFIED",
+        "OPEN_NOT_AUDIT_GRADE_TRUE_OPEN"
+      ]
+    },
+    {
+      "game": "Florida Atlantic @ UL Monroe",
+      "action": "NO BET",
+      "stakeUnits": 0,
+      "openClassification": "unverified",
+      "auditGradeOpen": false,
+      "firstSeen": null,
+      "venueOpenTime": null,
+      "openLagSeconds": null,
+      "marketTickers": [],
+      "observations": [],
+      "exclusions": [
+        "ABSENT_FROM_LATEST_POLL",
+        "DECISION_EVIDENCE_UNVERIFIED",
+        "EXECUTABLE_CONTRACT_UNVERIFIED",
+        "OPEN_NOT_AUDIT_GRADE_TRUE_OPEN"
+      ]
+    },
+    {
+      "game": "Georgia Tech @ Stanford",
+      "action": "NO BET",
+      "stakeUnits": 0,
+      "openClassification": "first_seen",
+      "auditGradeOpen": false,
+      "firstSeen": "2026-09-21T01:04:50.274619+00:00",
+      "venueOpenTime": null,
+      "openLagSeconds": null,
+      "marketTickers": [],
+      "observations": [
+        {
+          "book": "kalshi",
+          "derivedHomeLine": 3.3,
+          "observedAt": "2026-09-23T03:52:09.080491+00:00",
+          "kickoff": "2026-09-27T02:30:00.000Z"
+        }
+      ],
+      "exclusions": [
+        "DECISION_EVIDENCE_UNVERIFIED",
+        "EXECUTABLE_CONTRACT_UNVERIFIED",
+        "OPEN_NOT_AUDIT_GRADE_TRUE_OPEN"
+      ]
+    },
+    {
+      "game": "Hawai'i @ Wyoming",
+      "action": "NO BET",
+      "stakeUnits": 0,
+      "openClassification": "first_seen",
+      "auditGradeOpen": false,
+      "firstSeen": "2026-09-21T01:04:50.274619+00:00",
+      "venueOpenTime": null,
+      "openLagSeconds": null,
+      "marketTickers": [],
+      "observations": [
+        {
+          "book": "kalshi",
+          "derivedHomeLine": 2.8,
+          "observedAt": "2026-09-23T03:52:09.080491+00:00",
+          "kickoff": "2026-09-26T19:00:00.000Z"
+        }
+      ],
+      "exclusions": [
+        "DECISION_EVIDENCE_UNVERIFIED",
+        "EXECUTABLE_CONTRACT_UNVERIFIED",
+        "OPEN_NOT_AUDIT_GRADE_TRUE_OPEN"
+      ]
+    },
+    {
+      "game": "Houston @ Georgia Southern",
+      "action": "NO BET",
+      "stakeUnits": 0,
+      "openClassification": "first_seen",
+      "auditGradeOpen": false,
+      "firstSeen": "2026-09-21T01:04:50.274619+00:00",
+      "venueOpenTime": null,
+      "openLagSeconds": null,
+      "marketTickers": [],
+      "observations": [
+        {
+          "book": "kalshi",
+          "derivedHomeLine": 18.4,
+          "observedAt": "2026-09-23T03:52:09.080491+00:00",
+          "kickoff": "2026-09-26T20:00:00.000Z"
+        }
+      ],
+      "exclusions": [
+        "DECISION_EVIDENCE_UNVERIFIED",
+        "EXECUTABLE_CONTRACT_UNVERIFIED",
+        "OPEN_NOT_AUDIT_GRADE_TRUE_OPEN"
+      ]
+    },
+    {
+      "game": "Illinois @ Ohio State",
+      "action": "NO BET",
+      "stakeUnits": 0,
+      "openClassification": "unverified",
+      "auditGradeOpen": false,
+      "firstSeen": null,
+      "venueOpenTime": null,
+      "openLagSeconds": null,
+      "marketTickers": [],
+      "observations": [],
+      "exclusions": [
+        "ABSENT_FROM_LATEST_POLL",
+        "DECISION_EVIDENCE_UNVERIFIED",
+        "EXECUTABLE_CONTRACT_UNVERIFIED",
+        "OPEN_NOT_AUDIT_GRADE_TRUE_OPEN"
+      ]
+    },
+    {
+      "game": "Iowa @ Michigan",
+      "action": "NO BET",
+      "stakeUnits": 0,
+      "openClassification": "first_seen",
+      "auditGradeOpen": false,
+      "firstSeen": "2026-09-21T01:04:50.274619+00:00",
+      "venueOpenTime": null,
+      "openLagSeconds": null,
+      "marketTickers": [],
+      "observations": [
+        {
+          "book": "kalshi",
+          "derivedHomeLine": -5.1,
+          "observedAt": "2026-09-23T03:52:09.080491+00:00",
+          "kickoff": "2026-09-26T19:30:00.000Z"
+        }
+      ],
+      "exclusions": [
+        "DECISION_EVIDENCE_UNVERIFIED",
+        "EXECUTABLE_CONTRACT_UNVERIFIED",
+        "OPEN_NOT_AUDIT_GRADE_TRUE_OPEN"
+      ]
+    },
+    {
+      "game": "James Madison @ Old Dominion",
+      "action": "NO BET",
+      "stakeUnits": 0,
+      "openClassification": "first_seen",
+      "auditGradeOpen": false,
+      "firstSeen": "2026-09-21T01:04:50.274619+00:00",
+      "venueOpenTime": null,
+      "openLagSeconds": null,
+      "marketTickers": [],
+      "observations": [
+        {
+          "book": "kalshi",
+          "derivedHomeLine": 5.8,
+          "observedAt": "2026-09-23T03:52:09.080491+00:00",
+          "kickoff": "2026-09-26T22:00:00.000Z"
+        }
+      ],
+      "exclusions": [
+        "DECISION_EVIDENCE_UNVERIFIED",
+        "EXECUTABLE_CONTRACT_UNVERIFIED",
+        "OPEN_NOT_AUDIT_GRADE_TRUE_OPEN"
+      ]
+    },
+    {
+      "game": "Kansas State @ Cincinnati",
+      "action": "NO BET",
+      "stakeUnits": 0,
+      "openClassification": "unverified",
+      "auditGradeOpen": false,
+      "firstSeen": null,
+      "venueOpenTime": null,
+      "openLagSeconds": null,
+      "marketTickers": [],
+      "observations": [],
+      "exclusions": [
+        "ABSENT_FROM_LATEST_POLL",
+        "DECISION_EVIDENCE_UNVERIFIED",
+        "EXECUTABLE_CONTRACT_UNVERIFIED",
+        "OPEN_NOT_AUDIT_GRADE_TRUE_OPEN"
+      ]
+    },
+    {
+      "game": "Kennesaw State @ Arkansas State",
+      "action": "NO BET",
+      "stakeUnits": 0,
+      "openClassification": "unverified",
+      "auditGradeOpen": false,
+      "firstSeen": null,
+      "venueOpenTime": null,
+      "openLagSeconds": null,
+      "marketTickers": [],
+      "observations": [],
+      "exclusions": [
+        "ABSENT_FROM_LATEST_POLL",
+        "DECISION_EVIDENCE_UNVERIFIED",
+        "EXECUTABLE_CONTRACT_UNVERIFIED",
+        "OPEN_NOT_AUDIT_GRADE_TRUE_OPEN"
+      ]
+    },
+    {
+      "game": "Louisiana @ Charlotte",
+      "action": "NO BET",
+      "stakeUnits": 0,
+      "openClassification": "first_seen",
+      "auditGradeOpen": false,
+      "firstSeen": "2026-09-21T01:04:50.274619+00:00",
+      "venueOpenTime": null,
+      "openLagSeconds": null,
+      "marketTickers": [],
+      "observations": [
+        {
+          "book": "kalshi",
+          "derivedHomeLine": 9.9,
+          "observedAt": "2026-09-23T03:52:09.080491+00:00",
+          "kickoff": "2026-09-26T22:30:00.000Z"
+        }
+      ],
+      "exclusions": [
+        "DECISION_EVIDENCE_UNVERIFIED",
+        "EXECUTABLE_CONTRACT_UNVERIFIED",
+        "OPEN_NOT_AUDIT_GRADE_TRUE_OPEN"
+      ]
+    },
+    {
+      "game": "Massachusetts @ Sacramento State",
+      "action": "NO BET",
+      "stakeUnits": 0,
+      "openClassification": "unverified",
+      "auditGradeOpen": false,
+      "firstSeen": null,
+      "venueOpenTime": null,
+      "openLagSeconds": null,
+      "marketTickers": [],
+      "observations": [],
+      "exclusions": [
+        "ABSENT_FROM_LATEST_POLL",
+        "DECISION_EVIDENCE_UNVERIFIED",
+        "EXECUTABLE_CONTRACT_UNVERIFIED",
+        "OPEN_NOT_AUDIT_GRADE_TRUE_OPEN"
+      ]
+    },
+    {
+      "game": "Middle Tennessee @ Jacksonville State",
+      "action": "NO BET",
+      "stakeUnits": 0,
+      "openClassification": "unverified",
+      "auditGradeOpen": false,
+      "firstSeen": null,
+      "venueOpenTime": null,
+      "openLagSeconds": null,
+      "marketTickers": [],
+      "observations": [],
+      "exclusions": [
+        "ABSENT_FROM_LATEST_POLL",
+        "DECISION_EVIDENCE_UNVERIFIED",
+        "EXECUTABLE_CONTRACT_UNVERIFIED",
+        "OPEN_NOT_AUDIT_GRADE_TRUE_OPEN"
+      ]
+    },
+    {
+      "game": "Minnesota @ Washington",
+      "action": "NO BET",
+      "stakeUnits": 0,
+      "openClassification": "first_seen",
+      "auditGradeOpen": false,
+      "firstSeen": "2026-09-21T01:04:50.274619+00:00",
+      "venueOpenTime": null,
+      "openLagSeconds": null,
+      "marketTickers": [],
+      "observations": [
+        {
+          "book": "kalshi",
+          "derivedHomeLine": -9.6,
+          "observedAt": "2026-09-23T03:52:09.080491+00:00",
+          "kickoff": "2026-09-27T03:00:00.000Z"
+        }
+      ],
+      "exclusions": [
+        "DECISION_EVIDENCE_UNVERIFIED",
+        "EXECUTABLE_CONTRACT_UNVERIFIED",
+        "OPEN_NOT_AUDIT_GRADE_TRUE_OPEN"
+      ]
+    },
+    {
+      "game": "Missouri @ Mississippi State",
+      "action": "NO BET",
+      "stakeUnits": 0,
+      "openClassification": "unverified",
+      "auditGradeOpen": false,
+      "firstSeen": null,
+      "venueOpenTime": null,
+      "openLagSeconds": null,
+      "marketTickers": [],
+      "observations": [],
+      "exclusions": [
+        "ABSENT_FROM_LATEST_POLL",
+        "DECISION_EVIDENCE_UNVERIFIED",
+        "EXECUTABLE_CONTRACT_UNVERIFIED",
+        "OPEN_NOT_AUDIT_GRADE_TRUE_OPEN"
+      ]
+    },
+    {
+      "game": "Missouri State @ SMU",
+      "action": "NO BET",
+      "stakeUnits": 0,
+      "openClassification": "first_seen",
+      "auditGradeOpen": false,
+      "firstSeen": "2026-09-21T01:04:50.274619+00:00",
+      "venueOpenTime": null,
+      "openLagSeconds": null,
+      "marketTickers": [],
+      "observations": [
+        {
+          "book": "kalshi",
+          "derivedHomeLine": -34.4,
+          "observedAt": "2026-09-23T03:52:09.080491+00:00",
+          "kickoff": "2026-09-27T01:00:00.000Z"
+        }
+      ],
+      "exclusions": [
+        "DECISION_EVIDENCE_UNVERIFIED",
+        "EXECUTABLE_CONTRACT_UNVERIFIED",
+        "OPEN_NOT_AUDIT_GRADE_TRUE_OPEN"
+      ]
+    },
+    {
+      "game": "Navy @ UAB",
+      "action": "NO BET",
+      "stakeUnits": 0,
+      "openClassification": "first_seen",
+      "auditGradeOpen": false,
+      "firstSeen": "2026-09-21T01:04:50.274619+00:00",
+      "venueOpenTime": null,
+      "openLagSeconds": null,
+      "marketTickers": [],
+      "observations": [
+        {
+          "book": "kalshi",
+          "derivedHomeLine": 6.9,
+          "observedAt": "2026-09-23T03:52:09.080491+00:00",
+          "kickoff": "2026-09-25T23:00:00.000Z"
+        }
+      ],
+      "exclusions": [
+        "DECISION_EVIDENCE_UNVERIFIED",
+        "EXECUTABLE_CONTRACT_UNVERIFIED",
+        "OPEN_NOT_AUDIT_GRADE_TRUE_OPEN"
+      ]
+    },
+    {
+      "game": "Nebraska @ Michigan State",
+      "action": "NO BET",
+      "stakeUnits": 0,
+      "openClassification": "unverified",
+      "auditGradeOpen": false,
+      "firstSeen": null,
+      "venueOpenTime": null,
+      "openLagSeconds": null,
+      "marketTickers": [],
+      "observations": [],
+      "exclusions": [
+        "ABSENT_FROM_LATEST_POLL",
+        "DECISION_EVIDENCE_UNVERIFIED",
+        "EXECUTABLE_CONTRACT_UNVERIFIED",
+        "OPEN_NOT_AUDIT_GRADE_TRUE_OPEN"
+      ]
+    },
+    {
+      "game": "New Mexico @ New Mexico State",
+      "action": "NO BET",
+      "stakeUnits": 0,
+      "openClassification": "unverified",
+      "auditGradeOpen": false,
+      "firstSeen": null,
+      "venueOpenTime": null,
+      "openLagSeconds": null,
+      "marketTickers": [],
+      "observations": [],
+      "exclusions": [
+        "ABSENT_FROM_LATEST_POLL",
+        "DECISION_EVIDENCE_UNVERIFIED",
+        "EXECUTABLE_CONTRACT_UNVERIFIED",
+        "OPEN_NOT_AUDIT_GRADE_TRUE_OPEN"
+      ]
+    },
+    {
+      "game": "Northern Illinois @ Georgia State",
+      "action": "NO BET",
+      "stakeUnits": 0,
+      "openClassification": "unverified",
+      "auditGradeOpen": false,
+      "firstSeen": null,
+      "venueOpenTime": null,
+      "openLagSeconds": null,
+      "marketTickers": [],
+      "observations": [],
+      "exclusions": [
+        "ABSENT_FROM_LATEST_POLL",
+        "DECISION_EVIDENCE_UNVERIFIED",
+        "EXECUTABLE_CONTRACT_UNVERIFIED",
+        "OPEN_NOT_AUDIT_GRADE_TRUE_OPEN"
+      ]
+    },
+    {
+      "game": "Northwestern @ Indiana",
+      "action": "NO BET",
+      "stakeUnits": 0,
+      "openClassification": "first_seen",
+      "auditGradeOpen": false,
+      "firstSeen": "2026-09-21T01:04:50.274619+00:00",
+      "venueOpenTime": null,
+      "openLagSeconds": null,
+      "marketTickers": [],
+      "observations": [
+        {
+          "book": "kalshi",
+          "derivedHomeLine": -20.9,
+          "observedAt": "2026-09-23T03:52:09.080491+00:00",
+          "kickoff": "2026-09-26T00:00:00.000Z"
+        }
+      ],
+      "exclusions": [
+        "DECISION_EVIDENCE_UNVERIFIED",
+        "EXECUTABLE_CONTRACT_UNVERIFIED",
+        "OPEN_NOT_AUDIT_GRADE_TRUE_OPEN"
+      ]
+    },
+    {
+      "game": "Notre Dame @ Purdue",
+      "action": "NO BET",
+      "stakeUnits": 0,
+      "openClassification": "first_seen",
+      "auditGradeOpen": false,
+      "firstSeen": "2026-09-21T01:04:50.274619+00:00",
+      "venueOpenTime": null,
+      "openLagSeconds": null,
+      "marketTickers": [],
+      "observations": [
+        {
+          "book": "kalshi",
+          "derivedHomeLine": 28.0,
+          "observedAt": "2026-09-23T03:52:09.080491+00:00",
+          "kickoff": "2026-09-26T18:00:00.000Z"
+        }
+      ],
+      "exclusions": [
+        "DECISION_EVIDENCE_UNVERIFIED",
+        "EXECUTABLE_CONTRACT_UNVERIFIED",
+        "OPEN_NOT_AUDIT_GRADE_TRUE_OPEN"
+      ]
+    },
+    {
+      "game": "Oklahoma @ Georgia",
+      "action": "NO BET",
+      "stakeUnits": 0,
+      "openClassification": "first_seen",
+      "auditGradeOpen": false,
+      "firstSeen": "2026-09-21T01:04:50.274619+00:00",
+      "venueOpenTime": null,
+      "openLagSeconds": null,
+      "marketTickers": [],
+      "observations": [
+        {
+          "book": "kalshi",
+          "derivedHomeLine": -13.9,
+          "observedAt": "2026-09-23T03:52:09.080491+00:00",
+          "kickoff": "2026-09-26T19:30:00.000Z"
+        }
+      ],
+      "exclusions": [
+        "DECISION_EVIDENCE_UNVERIFIED",
+        "EXECUTABLE_CONTRACT_UNVERIFIED",
+        "OPEN_NOT_AUDIT_GRADE_TRUE_OPEN"
+      ]
+    },
+    {
+      "game": "Oklahoma State @ West Virginia",
+      "action": "NO BET",
+      "stakeUnits": 0,
+      "openClassification": "unverified",
+      "auditGradeOpen": false,
+      "firstSeen": null,
+      "venueOpenTime": null,
+      "openLagSeconds": null,
+      "marketTickers": [],
+      "observations": [],
+      "exclusions": [
+        "ABSENT_FROM_LATEST_POLL",
+        "DECISION_EVIDENCE_UNVERIFIED",
+        "EXECUTABLE_CONTRACT_UNVERIFIED",
+        "OPEN_NOT_AUDIT_GRADE_TRUE_OPEN"
+      ]
+    },
+    {
+      "game": "Ole Miss @ Florida",
+      "action": "NO BET",
+      "stakeUnits": 0,
+      "openClassification": "first_seen",
+      "auditGradeOpen": false,
+      "firstSeen": "2026-09-21T01:04:50.274619+00:00",
+      "venueOpenTime": null,
+      "openLagSeconds": null,
+      "marketTickers": [],
+      "observations": [
+        {
+          "book": "kalshi",
+          "derivedHomeLine": -3.2,
+          "observedAt": "2026-09-23T03:52:09.080491+00:00",
+          "kickoff": "2026-09-26T19:30:00.000Z"
+        }
+      ],
+      "exclusions": [
+        "DECISION_EVIDENCE_UNVERIFIED",
+        "EXECUTABLE_CONTRACT_UNVERIFIED",
+        "OPEN_NOT_AUDIT_GRADE_TRUE_OPEN"
+      ]
+    },
+    {
+      "game": "Oregon @ USC",
+      "action": "NO BET",
+      "stakeUnits": 0,
+      "openClassification": "first_seen",
+      "auditGradeOpen": false,
+      "firstSeen": "2026-09-21T01:04:50.274619+00:00",
+      "venueOpenTime": null,
+      "openLagSeconds": null,
+      "marketTickers": [],
+      "observations": [
+        {
+          "book": "kalshi",
+          "derivedHomeLine": 3.1,
+          "observedAt": "2026-09-23T03:52:09.080491+00:00",
+          "kickoff": "2026-09-26T23:30:00.000Z"
+        }
+      ],
+      "exclusions": [
+        "DECISION_EVIDENCE_UNVERIFIED",
+        "EXECUTABLE_CONTRACT_UNVERIFIED",
+        "OPEN_NOT_AUDIT_GRADE_TRUE_OPEN"
+      ]
+    },
+    {
+      "game": "Oregon State @ UTEP",
+      "action": "NO BET",
+      "stakeUnits": 0,
+      "openClassification": "unverified",
+      "auditGradeOpen": false,
+      "firstSeen": null,
+      "venueOpenTime": null,
+      "openLagSeconds": null,
+      "marketTickers": [],
+      "observations": [],
+      "exclusions": [
+        "ABSENT_FROM_LATEST_POLL",
+        "DECISION_EVIDENCE_UNVERIFIED",
+        "EXECUTABLE_CONTRACT_UNVERIFIED",
+        "OPEN_NOT_AUDIT_GRADE_TRUE_OPEN"
+      ]
+    },
+    {
+      "game": "Rice @ Fresno State",
+      "action": "NO BET",
+      "stakeUnits": 0,
+      "openClassification": "unverified",
+      "auditGradeOpen": false,
+      "firstSeen": null,
+      "venueOpenTime": null,
+      "openLagSeconds": null,
+      "marketTickers": [],
+      "observations": [],
+      "exclusions": [
+        "ABSENT_FROM_LATEST_POLL",
+        "DECISION_EVIDENCE_UNVERIFIED",
+        "EXECUTABLE_CONTRACT_UNVERIFIED",
+        "OPEN_NOT_AUDIT_GRADE_TRUE_OPEN"
+      ]
+    },
+    {
+      "game": "Sam Houston @ Texas Tech",
+      "action": "NO BET",
+      "stakeUnits": 0,
+      "openClassification": "first_seen",
+      "auditGradeOpen": false,
+      "firstSeen": "2026-09-21T01:04:50.274619+00:00",
+      "venueOpenTime": null,
+      "openLagSeconds": null,
+      "marketTickers": [],
+      "observations": [
+        {
+          "book": "kalshi",
+          "derivedHomeLine": -33.5,
+          "observedAt": "2026-09-23T03:52:09.080491+00:00",
+          "kickoff": "2026-09-26T16:00:00.000Z"
+        }
+      ],
+      "exclusions": [
+        "DECISION_EVIDENCE_UNVERIFIED",
+        "EXECUTABLE_CONTRACT_UNVERIFIED",
+        "OPEN_NOT_AUDIT_GRADE_TRUE_OPEN"
+      ]
+    },
+    {
+      "game": "San Diego State @ Toledo",
+      "action": "NO BET",
+      "stakeUnits": 0,
+      "openClassification": "unverified",
+      "auditGradeOpen": false,
+      "firstSeen": null,
+      "venueOpenTime": null,
+      "openLagSeconds": null,
+      "marketTickers": [],
+      "observations": [],
+      "exclusions": [
+        "ABSENT_FROM_LATEST_POLL",
+        "DECISION_EVIDENCE_UNVERIFIED",
+        "EXECUTABLE_CONTRACT_UNVERIFIED",
+        "OPEN_NOT_AUDIT_GRADE_TRUE_OPEN"
+      ]
+    },
+    {
+      "game": "South Alabama @ Kentucky",
+      "action": "NO BET",
+      "stakeUnits": 0,
+      "openClassification": "first_seen",
+      "auditGradeOpen": false,
+      "firstSeen": "2026-09-21T01:04:50.274619+00:00",
+      "venueOpenTime": null,
+      "openLagSeconds": null,
+      "marketTickers": [],
+      "observations": [
+        {
+          "book": "kalshi",
+          "derivedHomeLine": -20.3,
+          "observedAt": "2026-09-23T03:52:09.080491+00:00",
+          "kickoff": "2026-09-26T16:45:00.000Z"
+        }
+      ],
+      "exclusions": [
+        "DECISION_EVIDENCE_UNVERIFIED",
+        "EXECUTABLE_CONTRACT_UNVERIFIED",
+        "OPEN_NOT_AUDIT_GRADE_TRUE_OPEN"
+      ]
+    },
+    {
+      "game": "South Carolina @ Alabama",
+      "action": "NO BET",
+      "stakeUnits": 0,
+      "openClassification": "first_seen",
+      "auditGradeOpen": false,
+      "firstSeen": "2026-09-21T01:04:50.274619+00:00",
+      "venueOpenTime": null,
+      "openLagSeconds": null,
+      "marketTickers": [],
+      "observations": [
+        {
+          "book": "kalshi",
+          "derivedHomeLine": -12.0,
+          "observedAt": "2026-09-23T03:52:09.080491+00:00",
+          "kickoff": "2026-09-26T23:00:00.000Z"
+        }
+      ],
+      "exclusions": [
+        "DECISION_EVIDENCE_UNVERIFIED",
+        "EXECUTABLE_CONTRACT_UNVERIFIED",
+        "OPEN_NOT_AUDIT_GRADE_TRUE_OPEN"
+      ]
+    },
+    {
+      "game": "South Florida @ Bowling Green",
+      "action": "NO BET",
+      "stakeUnits": 0,
+      "openClassification": "first_seen",
+      "auditGradeOpen": false,
+      "firstSeen": "2026-09-21T01:04:50.274619+00:00",
+      "venueOpenTime": null,
+      "openLagSeconds": null,
+      "marketTickers": [],
+      "observations": [
+        {
+          "book": "kalshi",
+          "derivedHomeLine": 17.5,
+          "observedAt": "2026-09-23T03:52:09.080491+00:00",
+          "kickoff": "2026-09-26T21:00:00.000Z"
+        }
+      ],
+      "exclusions": [
+        "DECISION_EVIDENCE_UNVERIFIED",
+        "EXECUTABLE_CONTRACT_UNVERIFIED",
+        "OPEN_NOT_AUDIT_GRADE_TRUE_OPEN"
+      ]
+    },
+    {
+      "game": "Southern Miss @ Tulane",
+      "action": "NO BET",
+      "stakeUnits": 0,
+      "openClassification": "first_seen",
+      "auditGradeOpen": false,
+      "firstSeen": "2026-09-21T01:04:50.274619+00:00",
+      "venueOpenTime": null,
+      "openLagSeconds": null,
+      "marketTickers": [],
+      "observations": [
+        {
+          "book": "kalshi",
+          "derivedHomeLine": -17.7,
+          "observedAt": "2026-09-23T03:52:09.080491+00:00",
+          "kickoff": "2026-09-26T23:00:00.000Z"
+        }
+      ],
+      "exclusions": [
+        "DECISION_EVIDENCE_UNVERIFIED",
+        "EXECUTABLE_CONTRACT_UNVERIFIED",
+        "OPEN_NOT_AUDIT_GRADE_TRUE_OPEN"
+      ]
+    },
+    {
+      "game": "TCU @ UCF",
+      "action": "NO BET",
+      "stakeUnits": 0,
+      "openClassification": "first_seen",
+      "auditGradeOpen": false,
+      "firstSeen": "2026-09-21T01:04:50.274619+00:00",
+      "venueOpenTime": null,
+      "openLagSeconds": null,
+      "marketTickers": [],
+      "observations": [
+        {
+          "book": "kalshi",
+          "derivedHomeLine": 3.1,
+          "observedAt": "2026-09-23T03:52:09.080491+00:00",
+          "kickoff": "2026-09-26T19:30:00.000Z"
+        }
+      ],
+      "exclusions": [
+        "DECISION_EVIDENCE_UNVERIFIED",
+        "EXECUTABLE_CONTRACT_UNVERIFIED",
+        "OPEN_NOT_AUDIT_GRADE_TRUE_OPEN"
+      ]
+    },
+    {
+      "game": "Texas @ Tennessee",
+      "action": "NO BET",
+      "stakeUnits": 0,
+      "openClassification": "first_seen",
+      "auditGradeOpen": false,
+      "firstSeen": "2026-09-21T01:04:50.274619+00:00",
+      "venueOpenTime": null,
+      "openLagSeconds": null,
+      "marketTickers": [],
+      "observations": [
+        {
+          "book": "kalshi",
+          "derivedHomeLine": 5.3,
+          "observedAt": "2026-09-23T03:52:09.080491+00:00",
+          "kickoff": "2026-09-26T16:00:00.000Z"
+        }
+      ],
+      "exclusions": [
+        "DECISION_EVIDENCE_UNVERIFIED",
+        "EXECUTABLE_CONTRACT_UNVERIFIED",
+        "OPEN_NOT_AUDIT_GRADE_TRUE_OPEN"
+      ]
+    },
+    {
+      "game": "Texas A&M @ LSU",
+      "action": "NO BET",
+      "stakeUnits": 0,
+      "openClassification": "first_seen",
+      "auditGradeOpen": false,
+      "firstSeen": "2026-09-21T01:04:50.274619+00:00",
+      "venueOpenTime": null,
+      "openLagSeconds": null,
+      "marketTickers": [],
+      "observations": [
+        {
+          "book": "kalshi",
+          "derivedHomeLine": -8.7,
+          "observedAt": "2026-09-23T03:52:09.080491+00:00",
+          "kickoff": "2026-09-26T23:30:00.000Z"
+        }
+      ],
+      "exclusions": [
+        "DECISION_EVIDENCE_UNVERIFIED",
+        "EXECUTABLE_CONTRACT_UNVERIFIED",
+        "OPEN_NOT_AUDIT_GRADE_TRUE_OPEN"
+      ]
+    },
+    {
+      "game": "Troy @ Utah State",
+      "action": "NO BET",
+      "stakeUnits": 0,
+      "openClassification": "unverified",
+      "auditGradeOpen": false,
+      "firstSeen": null,
+      "venueOpenTime": null,
+      "openLagSeconds": null,
+      "marketTickers": [],
+      "observations": [],
+      "exclusions": [
+        "ABSENT_FROM_LATEST_POLL",
+        "DECISION_EVIDENCE_UNVERIFIED",
+        "EXECUTABLE_CONTRACT_UNVERIFIED",
+        "OPEN_NOT_AUDIT_GRADE_TRUE_OPEN"
+      ]
+    },
+    {
+      "game": "Tulsa @ Arkansas",
+      "action": "NO BET",
+      "stakeUnits": 0,
+      "openClassification": "first_seen",
+      "auditGradeOpen": false,
+      "firstSeen": "2026-09-21T01:04:50.274619+00:00",
+      "venueOpenTime": null,
+      "openLagSeconds": null,
+      "marketTickers": [],
+      "observations": [
+        {
+          "book": "kalshi",
+          "derivedHomeLine": -7.0,
+          "observedAt": "2026-09-23T03:52:09.080491+00:00",
+          "kickoff": "2026-09-27T00:00:00.000Z"
+        }
+      ],
+      "exclusions": [
+        "DECISION_EVIDENCE_UNVERIFIED",
+        "EXECUTABLE_CONTRACT_UNVERIFIED",
+        "OPEN_NOT_AUDIT_GRADE_TRUE_OPEN"
+      ]
+    },
+    {
+      "game": "UCLA @ Maryland",
+      "action": "NO BET",
+      "stakeUnits": 0,
+      "openClassification": "first_seen",
+      "auditGradeOpen": false,
+      "firstSeen": "2026-09-21T01:04:50.274619+00:00",
+      "venueOpenTime": null,
+      "openLagSeconds": null,
+      "marketTickers": [],
+      "observations": [
+        {
+          "book": "kalshi",
+          "derivedHomeLine": 1.2,
+          "observedAt": "2026-09-23T03:52:09.080491+00:00",
+          "kickoff": "2026-09-26T17:30:00.000Z"
+        }
+      ],
+      "exclusions": [
+        "DECISION_EVIDENCE_UNVERIFIED",
+        "EXECUTABLE_CONTRACT_UNVERIFIED",
+        "OPEN_NOT_AUDIT_GRADE_TRUE_OPEN"
+      ]
+    },
+    {
+      "game": "UConn @ Miami (OH)",
+      "action": "NO BET",
+      "stakeUnits": 0,
+      "openClassification": "first_seen",
+      "auditGradeOpen": false,
+      "firstSeen": "2026-09-21T01:04:50.274619+00:00",
+      "venueOpenTime": null,
+      "openLagSeconds": null,
+      "marketTickers": [],
+      "observations": [
+        {
+          "book": "kalshi",
+          "derivedHomeLine": -3.4,
+          "observedAt": "2026-09-23T03:52:09.080491+00:00",
+          "kickoff": "2026-09-26T19:30:00.000Z"
+        }
+      ],
+      "exclusions": [
+        "DECISION_EVIDENCE_UNVERIFIED",
+        "EXECUTABLE_CONTRACT_UNVERIFIED",
+        "OPEN_NOT_AUDIT_GRADE_TRUE_OPEN"
+      ]
+    },
+    {
+      "game": "UNLV @ Akron",
+      "action": "NO BET",
+      "stakeUnits": 0,
+      "openClassification": "first_seen",
+      "auditGradeOpen": false,
+      "firstSeen": "2026-09-21T01:04:50.274619+00:00",
+      "venueOpenTime": null,
+      "openLagSeconds": null,
+      "marketTickers": [],
+      "observations": [
+        {
+          "book": "kalshi",
+          "derivedHomeLine": 12.9,
+          "observedAt": "2026-09-23T03:52:09.080491+00:00",
+          "kickoff": "2026-09-26T16:00:00.000Z"
+        }
+      ],
+      "exclusions": [
+        "DECISION_EVIDENCE_UNVERIFIED",
+        "EXECUTABLE_CONTRACT_UNVERIFIED",
+        "OPEN_NOT_AUDIT_GRADE_TRUE_OPEN"
+      ]
+    },
+    {
+      "game": "Utah @ Iowa State",
+      "action": "NO BET",
+      "stakeUnits": 0,
+      "openClassification": "unverified",
+      "auditGradeOpen": false,
+      "firstSeen": null,
+      "venueOpenTime": null,
+      "openLagSeconds": null,
+      "marketTickers": [],
+      "observations": [],
+      "exclusions": [
+        "ABSENT_FROM_LATEST_POLL",
+        "DECISION_EVIDENCE_UNVERIFIED",
+        "EXECUTABLE_CONTRACT_UNVERIFIED",
+        "OPEN_NOT_AUDIT_GRADE_TRUE_OPEN"
+      ]
+    },
+    {
+      "game": "Vanderbilt @ Auburn",
+      "action": "NO BET",
+      "stakeUnits": 0,
+      "openClassification": "first_seen",
+      "auditGradeOpen": false,
+      "firstSeen": "2026-09-21T01:04:50.274619+00:00",
+      "venueOpenTime": null,
+      "openLagSeconds": null,
+      "marketTickers": [],
+      "observations": [
+        {
+          "book": "kalshi",
+          "derivedHomeLine": -9.6,
+          "observedAt": "2026-09-23T03:52:09.080491+00:00",
+          "kickoff": "2026-09-26T20:15:00.000Z"
+        }
+      ],
+      "exclusions": [
+        "DECISION_EVIDENCE_UNVERIFIED",
+        "EXECUTABLE_CONTRACT_UNVERIFIED",
+        "OPEN_NOT_AUDIT_GRADE_TRUE_OPEN"
+      ]
+    },
+    {
+      "game": "Virginia Tech @ Boston College",
+      "action": "NO BET",
+      "stakeUnits": 0,
+      "openClassification": "first_seen",
+      "auditGradeOpen": false,
+      "firstSeen": "2026-09-21T01:04:50.274619+00:00",
+      "venueOpenTime": null,
+      "openLagSeconds": null,
+      "marketTickers": [],
+      "observations": [
+        {
+          "book": "kalshi",
+          "derivedHomeLine": 13.9,
+          "observedAt": "2026-09-23T03:52:09.080491+00:00",
+          "kickoff": "2026-09-26T16:00:00.000Z"
+        }
+      ],
+      "exclusions": [
+        "DECISION_EVIDENCE_UNVERIFIED",
+        "EXECUTABLE_CONTRACT_UNVERIFIED",
+        "OPEN_NOT_AUDIT_GRADE_TRUE_OPEN"
+      ]
+    },
+    {
+      "game": "Wake Forest @ Louisville",
+      "action": "NO BET",
+      "stakeUnits": 0,
+      "openClassification": "first_seen",
+      "auditGradeOpen": false,
+      "firstSeen": "2026-09-21T01:04:50.274619+00:00",
+      "venueOpenTime": null,
+      "openLagSeconds": null,
+      "marketTickers": [],
+      "observations": [
+        {
+          "book": "kalshi",
+          "derivedHomeLine": -12.2,
+          "observedAt": "2026-09-23T03:52:09.080491+00:00",
+          "kickoff": "2026-09-26T16:00:00.000Z"
+        }
+      ],
+      "exclusions": [
+        "DECISION_EVIDENCE_UNVERIFIED",
+        "EXECUTABLE_CONTRACT_UNVERIFIED",
+        "OPEN_NOT_AUDIT_GRADE_TRUE_OPEN"
+      ]
+    },
+    {
+      "game": "Wisconsin @ Penn State",
+      "action": "NO BET",
+      "stakeUnits": 0,
+      "openClassification": "unverified",
+      "auditGradeOpen": false,
+      "firstSeen": null,
+      "venueOpenTime": null,
+      "openLagSeconds": null,
+      "marketTickers": [],
+      "observations": [],
+      "exclusions": [
+        "ABSENT_FROM_LATEST_POLL",
+        "DECISION_EVIDENCE_UNVERIFIED",
+        "EXECUTABLE_CONTRACT_UNVERIFIED",
+        "OPEN_NOT_AUDIT_GRADE_TRUE_OPEN"
+      ]
+    }
+  ],
+  "openEvidence": {
+    "trueOpenToleranceSeconds": 900,
+    "classificationCounts": {
+      "first_seen": 34,
+      "unverified": 23
+    },
+    "auditGradeCount": 0,
+    "policy": "Only true_open may enter CLV promotion or stopping evidence."
+  },
+  "limitations": [
+    "Separate from S02/S01/F03/S03; not their evidence.",
+    "Derived exchange lines are not executable sportsbook spreads.",
+    "Freshness is measured at generation; this report is a dated snapshot.",
+    "No verified fills, profit, betting edge or stakes."
+  ]
+}
