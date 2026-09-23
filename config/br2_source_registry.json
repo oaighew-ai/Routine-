@@ -1,0 +1,104 @@
+{
+  "schemaVersion": 1,
+  "registryId": "cfb-edge-br2-pit-source-registry",
+  "modelId": "S04_BR2",
+  "decisionEffect": "NONE",
+  "sources": [
+    {
+      "id": "CFBD_PLAYS",
+      "provider": "CollegeFootballData",
+      "role": "FEATURE_AUTHORITATIVE",
+      "featureFamilies": ["ppaDiff", "successRateDiff", "explosivenessDiff", "paceDiff"],
+      "capture": "GitHub Actions REST snapshot",
+      "requirements": ["pre-kickoff snapshot", "raw payload SHA-256", "append-only archive"]
+    },
+    {
+      "id": "CFBD_WEPA",
+      "provider": "CollegeFootballData",
+      "role": "FEATURE_AUTHORITATIVE_PROSPECTIVE_ONLY",
+      "featureFamilies": ["epaDiff"],
+      "endpoint": "/wepa/team/season",
+      "definition": "home minus away opponent-adjusted net EPA, where team net = epa.total - epaAllowed.total",
+      "requirements": [
+        "snapshot before cohort outcomes",
+        "raw payload SHA-256",
+        "never retroactively reconstruct a prior week's value from a later-season response"
+      ]
+    },
+    {
+      "id": "CFBD_ADVANCED",
+      "provider": "CollegeFootballData",
+      "role": "FEATURE_AUTHORITATIVE",
+      "featureFamilies": ["linePlayDiff"],
+      "endpoint": "/stats/season/advanced",
+      "definition": "home minus away net line yards, where team net = offensive lineYards - defensive lineYardsAllowed",
+      "requirements": ["explicit startWeek/endWeek cutoff", "raw payload SHA-256"]
+    },
+    {
+      "id": "CFBD_GEOSPATIAL",
+      "provider": "CollegeFootballData",
+      "role": "FEATURE_AUTHORITATIVE",
+      "featureFamilies": ["travelMilesDiff"],
+      "endpoints": ["/teams", "/venues"],
+      "definition": "home minus away great-circle miles from registered program home location to game venue",
+      "limitations": ["not road routing", "not flight itinerary", "not travel-day timing"]
+    },
+    {
+      "id": "OPEN_METEO_FORECAST",
+      "provider": "Open-Meteo",
+      "role": "FEATURE_AUTHORITATIVE",
+      "featureFamilies": ["windMph"],
+      "definition": "10m sustained wind from the forecast captured before kickoff, nearest forecast hour within 60 minutes",
+      "liveEndpoint": "/v1/forecast",
+      "historicalReplay": ["Single Runs API", "Previous Runs API"],
+      "requirements": [
+        "raw forecast payload SHA-256",
+        "retrieval timestamp before kickoff",
+        "historical backtests use archived forecast runs, never realized/reanalysis weather"
+      ],
+      "domePolicy": "confirmed dome => windMph=0 with explicit weatherSuppressedByDome=true"
+    },
+    {
+      "id": "OFFICIAL_TEAM_MATERIALS",
+      "provider": "University/conference athletic departments",
+      "role": "CANDIDATE_EVIDENCE",
+      "featureFamilies": ["qbContinuityDiff"],
+      "eligibleKinds": ["official_depth_chart", "official_game_notes", "official_availability_report"],
+      "requirements": [
+        "source URL",
+        "pre-kickoff retrieval timestamp",
+        "content SHA-256",
+        "parser version",
+        "deterministic fact validation",
+        "both home and away team packets"
+      ],
+      "featureRule": "team continuity = 1 if first-listed QB matches prior official depth chart, else 0; qbContinuityDiff = home continuity - away continuity",
+      "failClosed": true
+    },
+    {
+      "id": "EXA_DISCOVERY",
+      "provider": "Exa",
+      "role": "DISCOVERY_ONLY",
+      "featureFamilies": [],
+      "allowedUse": "locate primary official sources and corroborating reporting",
+      "prohibitedUse": "search result or generated synthesis cannot become a model feature"
+    },
+    {
+      "id": "FIRECRAWL_CAPTURE",
+      "provider": "Firecrawl",
+      "role": "CAPTURE_AND_MONITOR",
+      "featureFamilies": [],
+      "allowedUse": "capture official pages/PDFs, monitor changes, browser-render public pages",
+      "prohibitedUse": "LLM extraction is not automatically audit-grade"
+    },
+    {
+      "id": "ACTION_NETWORK_PUBLIC",
+      "provider": "Action Network",
+      "role": "CORROBORATION_ONLY",
+      "featureFamilies": [],
+      "allowedFields": ["public injury context", "public open line", "public consensus odds", "public sportsbook rows", "public line-movement timestamps"],
+      "lockedFieldsPolicy": "unavailable; never bypass access controls",
+      "prohibitedUse": "Action projections, expert picks, locked betting percentages, or PRO grades cannot become BR2 labels/features"
+    }
+  ]
+}
