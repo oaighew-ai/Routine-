@@ -235,7 +235,7 @@ jobs:
           else
             printf '[]\n' > .tmp/br2/qb-packets.json
           fi
-          python3 -m cfb_edge.br2_web_evidence             --packets .tmp/br2/qb-packets.json             --out .tmp/br2/qb-evidence.json
+          python3 -m cfb_edge.br2_web_evidence             --packets .tmp/br2/qb-packets.json             --official-source-registry config/br2_official_source_registry.json             --evidence-root capture-data             --out .tmp/br2/qb-evidence.json
 
       - name: Build audited context
         if: steps.prospective.outputs.run == '1'
