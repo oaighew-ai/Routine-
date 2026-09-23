@@ -6,14 +6,18 @@ on:
     paths:
       - cfb_edge/s04_es2.py
       - cfb_edge/market_quality.py
+      - cfb_edge/cohort.py
       - config/s04_es2.json
       - config/week5_freeze.json
+      - config/week5_cohort.json
       - cfb_edge/week5_freeze.py
       - config/s03_m1.json
       - config/model_registry.json
       - config/model_implementation_registry.json
       - .github/workflows/s04-es2-week5.yml
       - tests/test_s04_es2.py
+      - tests/test_cohort.py
+      - tests/test_week5_workflows.py
   schedule:
     - cron: "0 */4 * 9-11 0-3"
     - cron: "0 */2 * 9-11 4-6"
@@ -38,23 +42,13 @@ jobs:
         with:
           python-version: "3.13"
 
-      - name: Resolve Week 5 window
+      - name: Resolve canonical Week 5 capture window
         id: active
         run: |
-          python3 - <<'PY' > /tmp/week.env
-          from cfb_edge.slate import current_week, opening_week
-          try:
-              current = current_week(2026)
-              opening = opening_week(2026)
-              print(f"current={current or 'none'}")
-              print(f"opening={opening or 'none'}")
-              print(f"run={1 if current == 5 or opening == 5 else 0}")
-          except Exception as exc:
-              print("current=error")
-              print("opening=error")
-              print("run=0")
-              print(f"error={type(exc).__name__}: {exc}")
-          PY
+          set -euo pipefail
+          python3 -m cfb_edge.cohort status \
+            --config config/week5_cohort.json \
+            --mode capture > /tmp/week.env
           cat /tmp/week.env >> "$GITHUB_OUTPUT"
           cat /tmp/week.env >> "$GITHUB_STEP_SUMMARY"
 
@@ -65,7 +59,7 @@ jobs:
           ref: capture-data
           path: evidence
 
-      - name: Freeze Week 5 slate and validate prerequisites
+      - name: Freeze canonical Week 5 slate and validate prerequisites
         if: steps.active.outputs.run == '1'
         id: inputs
         run: |
@@ -75,15 +69,14 @@ jobs:
 
           FROZEN="evidence/data/week5_2026_slate.csv"
           if [ ! -f "$FROZEN" ]; then
-            if [ "${{ steps.active.outputs.opening }}" = "5" ] && [ -f evidence/data/slate_current.csv ]; then
-              cp evidence/data/slate_current.csv "$FROZEN"
-              echo "Frozen Week 5 slate from the opening-week capture." >> "$GITHUB_STEP_SUMMARY"
-            else
-              echo "ready=0" >> "$GITHUB_OUTPUT"
-              echo "Week 5 frozen slate is unavailable. Fail closed; no live odds request." >> "$GITHUB_STEP_SUMMARY"
-              exit 0
-            fi
+            python3 -m cfb_edge.cohort build-slate \
+              --config config/week5_cohort.json \
+              --out "$FROZEN"
+            echo "Frozen canonical product Week 5 slate from the cohort contract." >> "$GITHUB_STEP_SUMMARY"
           fi
+          python3 -m cfb_edge.cohort validate-slate \
+            --config config/week5_cohort.json \
+            --slate "$FROZEN" >> "$GITHUB_STEP_SUMMARY"
           echo "ready=1" >> "$GITHUB_OUTPUT"
 
       - name: Evaluate audit-grade Week 5 shadow
@@ -110,6 +103,7 @@ jobs:
           r = json.loads(Path(".tmp/s04-es2/live.json").read_text())
           o = r["openCohort"]
           print("## S04_ES2 Week 5 audit shadow")
+          print("- canonical cohort: **CFB_2026_PRODUCT_WEEK5**")
           print(f"- audit-grade signal candidates: **{o['auditGradeSignalCandidates']}**")
           print(f"- open-source counts: **{o['sourceCounts']}**")
           print(f"- fully qualified shadow rows: **{r['qualifiedCount']}**")
