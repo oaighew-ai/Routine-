@@ -366,15 +366,19 @@ def _mid(market: dict) -> float | None:
 
 def _curve_evidence(markets: Sequence[dict], *, home: str, away: str) -> dict[float, dict]:
     """Survival-curve points plus exact listed-contract provenance."""
+    from ..teams import resolve
+
     out: dict[float, dict] = {}
+    known = {home, away}
     for m in markets:
         parsed = _team_and_strike(m); price = _mid(m)
         if parsed is None or price is None:
             continue
-        team, strike = parsed; low = team.lower()
-        if low in home.lower() or home.lower() in low:
+        team, strike = parsed
+        resolved = resolve(team, known)
+        if resolved == home:
             x, p = strike, price
-        elif low in away.lower() or away.lower() in low:
+        elif resolved == away:
             x, p = -strike, 1.0 - price
         else:
             continue
@@ -474,15 +478,20 @@ def board_quotes(
         if ev:
             by_event.setdefault(str(ev), []).append(m)
 
-    # The slate is the only authority on who is at home, keyed by the pair of
-    # teams so the exchange's own naming does not have to match ours exactly.
+    # The slate is the only authority on who is at home. Provider spellings are
+    # reconciled through the same explicit alias table used everywhere else;
+    # unresolved or ambiguous names still fail closed.
+    from ..teams import resolve
+
     schedule: dict[frozenset[str], tuple[str, str]] = {}
+    known_teams: set[str] = set()
     for g in games:
         if "@" not in g:
             continue
         a, h = (part.strip() for part in g.split("@", 1))
         if a and h:
-            schedule[frozenset((a.lower(), h.lower()))] = (a, h)
+            schedule[frozenset((a, h))] = (a, h)
+            known_teams.update((a, h))
 
     out = []
     for event, markets in by_event.items():
@@ -491,16 +500,19 @@ def board_quotes(
             # No title here parsed into a team and a strike, so there is
             # nothing to look up and nothing to price.
             continue
-        if len(teams) == 1:
+        resolved_teams = {resolve(t, known_teams) for t in teams}
+        if None in resolved_teams:
+            continue
+        if len(resolved_teams) == 1:
             # One-sided. The pair is not in the markets, so take it from the
-            # slate: exactly one fixture may contain this team, or the
+            # slate: exactly one fixture may contain this resolved team, or the
             # orientation is a guess again and the game is skipped.
-            solo = next(iter(teams)).lower()
+            solo = next(iter(resolved_teams))
             hits = [f for key, f in schedule.items() if solo in key]
             fixture = hits[0] if len(hits) == 1 else None
         else:
-            fixture = (schedule.get(frozenset(t.lower() for t in teams))
-                       if len(teams) == 2 else None)
+            fixture = (schedule.get(frozenset(resolved_teams))
+                       if len(resolved_teams) == 2 else None)
         if fixture is None:
             continue
         away, home = fixture
