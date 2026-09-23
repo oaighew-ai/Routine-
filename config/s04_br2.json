@@ -1,0 +1,38 @@
+{
+  "schemaVersion": 1,
+  "modelId": "S04_BR2",
+  "version": "point-in-time-football-context-collection-1",
+  "status": "DATA_COLLECTION_ONLY",
+  "deliveryEligible": false,
+  "stakingEnabled": false,
+  "promotionEffect": "NONE",
+  "inheritsNoAuthorityFrom": ["S02", "S04_ES1", "S04_ES2", "S04_BR1"],
+  "targetFeatures": [
+    "epaDiff",
+    "ppaDiff",
+    "successRateDiff",
+    "explosivenessDiff",
+    "qbContinuityDiff",
+    "linePlayDiff",
+    "paceDiff",
+    "restDaysDiff",
+    "travelMilesDiff",
+    "windMph"
+  ],
+  "currentlyCollectableFromExistingCFBDREST": [
+    "ppaDiff",
+    "successRateDiff",
+    "explosivenessDiff",
+    "paceDiff",
+    "restDaysDiff"
+  ],
+  "explicitlyNotSubstituted": {
+    "epaDiff": "PPA is retained separately and is not relabeled as EPA.",
+    "qbContinuityDiff": "Requires timestamped QB participation/depth-chart provenance.",
+    "linePlayDiff": "Requires a stable timestamped line-play metric source.",
+    "travelMilesDiff": "Requires venue/team geospatial lineage.",
+    "windMph": "Requires timestamped weather forecast/observation provenance."
+  },
+  "activationRule": "No BR2 model fit until a separately frozen feature contract has adequate point-in-time coverage and a future chronological holdout is reserved.",
+  "week5DecisionRuleChanged": false
+}
