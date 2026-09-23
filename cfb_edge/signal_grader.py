@@ -60,11 +60,20 @@ def _last_pre_kickoff_observation(
     return candidates[-1][1]
 
 
-def _signal_rows(signal_report: Mapping[str, Any]) -> list[Mapping[str, Any]]:
-    rows = []
+def _signal_rows(signal_report: Mapping[str, Any]) -> list[tuple[str, Mapping[str, Any]]]:
+    """Return both the directional family and the exact executable-shadow rule.
+
+    The two cohorts are intentionally separate. Promotion evidence for S04_ES2
+    must use EXECUTABLE_SHADOW, while DIRECTIONAL_SIGNAL is useful for diagnosing
+    whether the football opinion or the execution gates are responsible.
+    """
+    rows: list[tuple[str, Mapping[str, Any]]] = []
     for row in signal_report.get("candidateAuditRows") or []:
         if row.get("auditGrade") is True:
-            rows.append(row)
+            rows.append(("DIRECTIONAL_SIGNAL", row))
+    for row in signal_report.get("inspectedLiveRows") or []:
+        if row.get("status") == "EXECUTABLE_SHADOW":
+            rows.append(("EXECUTABLE_SHADOW", row))
     return rows
 
 
@@ -79,7 +88,7 @@ def grade(
     games = _capture_games(capture_report)
     graded_rows = []
 
-    for signal in _signal_rows(signal_report):
+    for cohort, signal in _signal_rows(signal_report):
         game = str(signal.get("game") or "")
         kickoff = _time(signal.get("kickoff"))
         opening = _number(signal.get("openingHomeLine"))
@@ -157,6 +166,7 @@ def grade(
         ).hexdigest()
 
         graded_rows.append({
+            "cohort": cohort,
             "game": game,
             "side": side,
             "kickoff": signal.get("kickoff"),
@@ -171,7 +181,24 @@ def grade(
         })
 
     gradeable = [r for r in graded_rows if r["gradeable"]]
+    executable = [
+        r for r in gradeable if r.get("cohort") == "EXECUTABLE_SHADOW"
+    ]
+    directional = [
+        r for r in gradeable if r.get("cohort") == "DIRECTIONAL_SIGNAL"
+    ]
     clv = [float(r["lineClvPoints"]) for r in gradeable]
+
+    def cohort_summary(rows: list[dict[str, Any]]) -> dict[str, Any]:
+        values = [float(r["lineClvPoints"]) for r in rows]
+        return {
+            "gradeableRows": len(rows),
+            "meanLineClvPoints": sum(values) / len(values) if values else None,
+            "beatCloseRate": (
+                sum(1 for r in rows if r["beatClose"]) / len(rows)
+                if rows else None
+            ),
+        }
     return {
         "schemaVersion": 1,
         "contract": CONTRACT,
@@ -194,6 +221,8 @@ def grade(
                 sum(1 for r in gradeable if r["beatClose"]) / len(gradeable)
                 if gradeable else None
             ),
+            "directionalSignal": cohort_summary(directional),
+            "executableShadow": cohort_summary(executable),
         },
         "rows": graded_rows,
     }
