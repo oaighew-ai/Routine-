@@ -1,0 +1,41 @@
+{
+  "schemaVersion": 1,
+  "contract": "CFB_EDGE_BR2_EXTERNAL_MONITORS_V1",
+  "modelId": "S04_BR2",
+  "decisionEffect": "NONE",
+  "monitors": [
+    {
+      "id": "01a0cc30-f2f0-76ba-ab2d-25f2bc1ce7b7",
+      "provider": "Firecrawl",
+      "name": "CFB BR2 official QB/depth discovery v2",
+      "role": "DISCOVERY_ONLY",
+      "cadence": "daily at 09:00 America/New_York",
+      "maxResults": 15,
+      "searchWindow": "24h",
+      "estimatedCreditsPerMonthAtCreation": 630,
+      "outputPolicy": "Discovery results cannot populate qbContinuityDiff. A primary official source must be captured, hashed and deterministically validated."
+    },
+    {
+      "id": "01a0cc2d-baaf-70c8-a4ea-b99f07ee0a88",
+      "provider": "Firecrawl",
+      "name": "CFB BR2 Action injury context",
+      "role": "CORROBORATION_ONLY",
+      "cadence": "every 6 hours America/New_York",
+      "estimatedCreditsPerMonthAtCreation": 240,
+      "target": "https://www.actionnetwork.com/ncaaf/injury-report",
+      "outputPolicy": "Visible public context only. Locked subscriber fields are unavailable and cannot become features."
+    }
+  ],
+  "onDemand": [
+    {
+      "provider": "Exa",
+      "role": "DISCOVERY_ONLY",
+      "use": "Resolve primary official team/conference sources and investigate ambiguous QB/depth changes."
+    },
+    {
+      "provider": "Firecrawl browser interaction",
+      "role": "CORROBORATION_ONLY",
+      "use": "Render JS-heavy public game pages to capture visible open/consensus/book prices, timestamps and injury context. Never bypass locked content."
+    }
+  ]
+}
