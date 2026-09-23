@@ -2,7 +2,7 @@ name: week5 automatic signal grading
 
 on:
   workflow_run:
-    workflows: ["capture", "S04 ES2 Week 5 audit shadow"]
+    workflows: ["capture", "S04 ES2 Week 5 audit shadow", "Week 5 close capture"]
     types: [completed]
   schedule:
     - cron: "20 4 * 9-11 0,1"   # post-Saturday/Sunday grading sweep
@@ -37,12 +37,14 @@ jobs:
         id: grade
         run: |
           set -euo pipefail
-          if [ ! -f capture-data/data/s04-es2-live.json ] || [ ! -f capture-data/data/capture-report.json ]; then
+          REPORT="capture-data/data/week5-close-capture-report.json"
+          if [ ! -f "$REPORT" ]; then REPORT="capture-data/data/capture-report.json"; fi
+          if [ ! -f capture-data/data/s04-es2-live.json ] || [ ! -f "$REPORT" ]; then
             echo "run=0" >> "$GITHUB_OUTPUT"
             echo "Week 5 signal or capture report not present yet." >> "$GITHUB_STEP_SUMMARY"
             exit 0
           fi
-          python3 -m cfb_edge.signal_grader             --signals capture-data/data/s04-es2-live.json             --capture-report capture-data/data/capture-report.json             --out capture-data/data/s04-es2-grades.json
+          python3 -m cfb_edge.signal_grader             --signals capture-data/data/s04-es2-live.json             --capture-report "$REPORT"             --out capture-data/data/s04-es2-grades.json
           echo "run=1" >> "$GITHUB_OUTPUT"
 
           python3 - <<'PY' >> "$GITHUB_STEP_SUMMARY"
