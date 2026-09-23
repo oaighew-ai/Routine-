@@ -14,7 +14,9 @@ frozen Week 5 S04_ES2 rule or creating a second picks authority.
 3. **GitHub freezes deterministic sources.** CFBD and Open-Meteo payloads are
    archived by SHA-256 with retrieval timestamps and source-health records.
 4. **Validators decide admissibility.** A feature stays null unless its source
-   contract passes. QB continuity requires official evidence for both teams.
+   contract passes. QB continuity is computed from week-bounded CFBD passing
+   workload; official QB/depth materials remain a separate information-state
+   channel and cannot overwrite the numeric feature.
 5. **BR2 warehouse joins only audited values.** The warehouse remains
    collection-only until a separate feature freeze and untouched future
    chronological holdout are registered.
@@ -34,9 +36,14 @@ frozen Week 5 S04_ES2 rule or creating a second picks authority.
 - `windMph`: Open-Meteo 10m sustained wind nearest kickoff from the forecast
   actually captured pregame. Confirmed domes are explicitly neutralized at 0.
   Historical evaluation must use archived forecast runs, not realized weather.
-- `qbContinuityDiff`: home team continuity minus away team continuity.
-  Team continuity equals 1 only when the first-listed QB matches the prior
-  official depth chart. Both sides need independently audit-grade packets.
+- `qbContinuityDiff`: home minus away primary-passer share of each team's
+  passing attempts, using CFBD player statistics bounded through the completed
+  provider week before the target cohort. All credited passers remain in the
+  denominator. This measures historical workload concentration, not current
+  availability.
+- `qbInformationState`: separate timestamped evidence from official depth
+  charts, game notes, and availability reports. It is context only during this
+  collection phase and cannot create or overwrite `qbContinuityDiff`.
 
 ## Web-source controls
 
@@ -49,7 +56,8 @@ training label.
 ## Failure behavior
 
 New context adapters fail closed to null. Failure of EPA, travel, weather,
-line-play or QB context must not destroy the existing five-feature BR2 snapshot.
+line-play, QB continuity, or information-state context must not destroy the
+existing BR2 snapshot.
 The source-health artifact differentiates provider/adapter failure from genuine
 feature absence.
 
