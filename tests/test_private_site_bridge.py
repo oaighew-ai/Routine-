@@ -7,6 +7,28 @@ from cfb_edge.private_site_bridge import build
 
 
 class PrivateSiteBridgeTests(unittest.TestCase):
+    def test_source_timestamps_and_market_identity_remain_research_only(self):
+        r=build(authority={},readiness={},capture_health={
+            "generatedAt":"2026-09-23T01:00:00Z",
+            "summary":{"slateRows":57,"observedRows":57}},
+            es2=None,grades=None,br2=None,market_audit={
+                "status":"OK","generatedAt":"2026-09-23T00:59:00Z",
+                "summary":{"priceableRows":57},"rows":[{
+                    "game":"A @ B","status":"PRICEABLE","eventTicker":"E",
+                    "matchedEventCount":1,"derivedHomeLine":-3.5,"stakeUnits":5}]})
+        self.assertEqual(r["week5"]["observedRows"],57)
+        self.assertEqual(r["sourceTimes"]["marketAudit"],"2026-09-23T00:59:00Z")
+        self.assertIsNone(r["sourceTimes"]["br2"])
+        self.assertNotEqual(r["sourceTimes"]["captureHealth"],r["generatedAt"])
+        self.assertEqual(r["marketCoverage"]["rows"],[{
+            "game":"A @ B","status":"PRICEABLE","eventTicker":"E","matchedEventCount":1}])
+        self.assertFalse(r["authority"]["githubCanPublishPicks"])
+
+    def test_missing_market_audit_is_unavailable_not_zero_coverage(self):
+        r=build(authority=None,readiness=None,capture_health=None,es2=None,grades=None,br2=None)
+        self.assertEqual(r["marketCoverage"],{"status":"UNAVAILABLE","summary":{},"rows":[]})
+        self.assertIsNone(r["week5"]["observedRows"])
+
     def test_bridge_never_claims_pick_authority(self):
         r=build(
             authority={"modelId":"S02","modelVersion":"v1","status":"FAILED","allowPaperDelivery":False},

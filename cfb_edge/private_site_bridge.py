@@ -73,6 +73,7 @@ def build(
     es2: Mapping[str, Any] | None,
     grades: Mapping[str, Any] | None,
     br2: Mapping[str, Any] | None,
+    market_audit: Mapping[str, Any] | None = None,
     generated_at: datetime | None = None,
 ) -> dict[str, Any]:
     now=generated_at or datetime.now(timezone.utc)
@@ -90,6 +91,22 @@ def build(
         "schemaVersion":1,
         "contract":CONTRACT,
         "generatedAt":now.isoformat(),
+        "sourceTimes":{
+            "captureHealth":(capture_health or {}).get("generatedAt"),
+            "marketAudit":(market_audit or {}).get("generatedAt"),
+            "es2":(es2 or {}).get("generatedAt"),
+            "grades":(grades or {}).get("generatedAt"),
+            "br2":(br2 or {}).get("generatedAt"),
+            "authority":(authority or {}).get("asOf"),
+        },
+        "marketCoverage":{
+            "status":(market_audit or {}).get("status") or "UNAVAILABLE",
+            "summary":(market_audit or {}).get("summary") or {},
+            "rows":[{
+                key:row.get(key) for key in
+                ("game","status","eventTicker","matchedEventCount")
+            } for row in (market_audit or {}).get("rows") or []],
+        },
         "authority":{
             "picksSource":"PRIVATE_SITE_LOCAL",
             "picksUrl":AUTHORITATIVE_PICKS_URL,
@@ -115,6 +132,7 @@ def build(
                 or "PENDING"
             ),
             "slateRows":int(cs.get("slateRows") or 0),
+            "observedRows":cs.get("observedRows"),
             "auditGradeOpenRows":int(cs.get("provenanceCompleteTrueOpenRows") or 0),
             "qualifiedExecutableShadowRows":int((es2 or {}).get("qualifiedCount") or 0),
             "gradedExecutableShadowRows":int(exec_grade.get("gradeableRows") or 0),
@@ -144,6 +162,7 @@ def main(argv: list[str] | None=None) -> int:
     p.add_argument("--es2")
     p.add_argument("--grades")
     p.add_argument("--br2")
+    p.add_argument("--market-audit")
     p.add_argument("--out", required=True)
     args=p.parse_args(argv)
     report=build(
@@ -153,6 +172,7 @@ def main(argv: list[str] | None=None) -> int:
         es2=_json(args.es2),
         grades=_json(args.grades),
         br2=_json(args.br2),
+        market_audit=_json(args.market_audit),
     )
     out=Path(args.out)
     out.parent.mkdir(parents=True,exist_ok=True)
