@@ -92,11 +92,11 @@
     },
     {
       "modelId": "S04_BR2",
-      "location": "cfb_edge/feature_warehouse.py + .github/workflows/br2-feature-capture.yml",
+      "location": "cfb_edge/feature_warehouse.py + cfb_edge/br2_context.py + cfb_edge/br2_weather.py + cfb_edge/br2_web_evidence.py + .github/workflows/br2-feature-capture.yml",
       "reproducibleInRepo": true,
       "status": "DATA_COLLECTION_ONLY",
       "deliveryContract": null,
-      "note": "Captures immutable timestamped BR2 feature snapshots. It cannot publish picks or alter S04_ES2."
+      "note": "Deterministic CFBD/Open-Meteo context is archived and replayable. Exa/Firecrawl/browser sources are discovery/candidate evidence only until the QB validator admits both sides."
     }
   ]
 }
