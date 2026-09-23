@@ -231,6 +231,7 @@ def build_context(
         kickoff = _time(raw.get("kickoff"))
         source_game = games.get(_norm(game))
         audit: dict[str, Any] = {}
+        pregame_eligible = kickoff is not None and as_of < kickoff
         features = {
             "epaDiff": None,
             "qbContinuityDiff": None,
@@ -240,73 +241,82 @@ def build_context(
         }
         evidence: dict[str, Any] = {}
 
-        # Opponent-adjusted EPA. The API snapshot itself is frozen prospectively.
-        he, ae = _net_epa(wepa_idx.get(_norm(home))), _net_epa(wepa_idx.get(_norm(away)))
-        if he is not None and ae is not None:
-            features["epaDiff"] = he - ae
-            audit["epaDiff"] = True
-            evidence["epa"] = {"homeNet": he, "awayNet": ae}
-        else:
-            audit["epaDiff"] = False
-
-        # Line play: a single registered unit-consistent statistic, net line yards.
-        hl, al = _line_team_net(adv_idx.get(_norm(home))), _line_team_net(adv_idx.get(_norm(away)))
-        if hl is not None and al is not None:
-            features["linePlayDiff"] = hl - al
-            audit["linePlayDiff"] = True
-            evidence["linePlay"] = {
-                "definition": "(offensive lineYards - defensive lineYardsAllowed), home minus away",
-                "homeNetLineYards": hl,
-                "awayNetLineYards": al,
-                "homeAux": _line_aux(adv_idx.get(_norm(home))),
-                "awayAux": _line_aux(adv_idx.get(_norm(away))),
+        if not pregame_eligible:
+            audit = {
+                "epaDiff": False,
+                "qbContinuityDiff": False,
+                "linePlayDiff": False,
+                "travelMilesDiff": False,
+                "windMph": False,
             }
         else:
-            audit["linePlayDiff"] = False
+            # Opponent-adjusted EPA. The API snapshot itself is frozen prospectively.
+            he, ae = _net_epa(wepa_idx.get(_norm(home))), _net_epa(wepa_idx.get(_norm(away)))
+            if he is not None and ae is not None:
+                features["epaDiff"] = he - ae
+                audit["epaDiff"] = True
+                evidence["epa"] = {"homeNet": he, "awayNet": ae}
+            else:
+                audit["epaDiff"] = False
 
-        # Travel: straight-line distance from registered program home location to game venue.
-        venue = _game_venue(source_game or {}, venue_idx) if source_game else None
-        hloc, aloc = team_locs.get(_norm(home)), team_locs.get(_norm(away))
-        if venue and hloc and aloc:
-            home_miles = haversine_miles(
-                hloc["latitude"], hloc["longitude"], venue["latitude"], venue["longitude"]
-            )
-            away_miles = haversine_miles(
-                aloc["latitude"], aloc["longitude"], venue["latitude"], venue["longitude"]
-            )
-            features["travelMilesDiff"] = home_miles - away_miles
-            audit["travelMilesDiff"] = True
-            evidence["travel"] = {
-                "definition": "great-circle program-home-location to game-venue miles; home minus away",
-                "homeMiles": home_miles,
-                "awayMiles": away_miles,
-                "venue": dict(venue),
-                "neutralSite": bool((source_game or {}).get("neutralSite")),
-            }
-        else:
-            audit["travelMilesDiff"] = False
+            # Line play: a single registered unit-consistent statistic, net line yards.
+            hl, al = _line_team_net(adv_idx.get(_norm(home))), _line_team_net(adv_idx.get(_norm(away)))
+            if hl is not None and al is not None:
+                features["linePlayDiff"] = hl - al
+                audit["linePlayDiff"] = True
+                evidence["linePlay"] = {
+                    "definition": "(offensive lineYards - defensive lineYardsAllowed), home minus away",
+                    "homeNetLineYards": hl,
+                    "awayNetLineYards": al,
+                    "homeAux": _line_aux(adv_idx.get(_norm(home))),
+                    "awayAux": _line_aux(adv_idx.get(_norm(away))),
+                }
+            else:
+                audit["linePlayDiff"] = False
 
-        # Weather: normalized by a separate capture contract.
-        wr = weather_idx.get(_norm(game))
-        if wr and wr.get("auditGrade") is True:
-            wind = _num(wr.get("windMph"))
-            if wind is not None:
-                features["windMph"] = wind
-                audit["windMph"] = True
-                evidence["weather"] = dict(wr)
+            # Travel: straight-line distance from registered program home location to game venue.
+            venue = _game_venue(source_game or {}, venue_idx) if source_game else None
+            hloc, aloc = team_locs.get(_norm(home)), team_locs.get(_norm(away))
+            if venue and hloc and aloc:
+                home_miles = haversine_miles(
+                    hloc["latitude"], hloc["longitude"], venue["latitude"], venue["longitude"]
+                )
+                away_miles = haversine_miles(
+                    aloc["latitude"], aloc["longitude"], venue["latitude"], venue["longitude"]
+                )
+                features["travelMilesDiff"] = home_miles - away_miles
+                audit["travelMilesDiff"] = True
+                evidence["travel"] = {
+                    "definition": "great-circle program-home-location to game-venue miles; home minus away",
+                    "homeMiles": home_miles,
+                    "awayMiles": away_miles,
+                    "venue": dict(venue),
+                    "neutralSite": bool((source_game or {}).get("neutralSite")),
+                }
+            else:
+                audit["travelMilesDiff"] = False
+
+            # Weather: normalized by a separate capture contract.
+            wr = weather_idx.get(_norm(game))
+            if wr and wr.get("auditGrade") is True:
+                wind = _num(wr.get("windMph"))
+                if wind is not None:
+                    features["windMph"] = wind
+                    audit["windMph"] = True
+                    evidence["weather"] = dict(wr)
+                else:
+                    audit["windMph"] = False
             else:
                 audit["windMph"] = False
-        else:
-            audit["windMph"] = False
 
-        # QB continuity: only an independently validated official-source contract may populate it.
-        qr = qb_idx.get(_norm(game))
-        if qr and qr.get("auditGrade") is True and qr.get("featureValue") is not None:
-            features["qbContinuityDiff"] = _num(qr.get("featureValue"))
-            audit["qbContinuityDiff"] = features["qbContinuityDiff"] is not None
-            evidence["qbContinuity"] = dict(qr)
-        else:
-            audit["qbContinuityDiff"] = False
+            # QB continuity: only an independently validated official-source contract may populate it.
+            qr = qb_idx.get(_norm(game))
+            if qr and qr.get("auditGrade") is True and qr.get("featureValue") is not None:
+                features["qbContinuityDiff"] = _num(qr.get("featureValue"))
+                audit["qbContinuityDiff"] = features["qbContinuityDiff"] is not None
+                evidence["qbContinuity"] = dict(qr)
+            else:
+                audit["qbContinuityDiff"] = False
 
         payload = {
             "game": game,
@@ -314,6 +324,10 @@ def build_context(
             "home": home,
             "kickoff": None if kickoff is None else kickoff.isoformat(),
             "snapshotAt": as_of.isoformat(),
+            "pregameEligible": pregame_eligible,
+            "eligibilityExclusions": [] if pregame_eligible else [
+                "KICKOFF_MISSING" if kickoff is None else "SNAPSHOT_NOT_PRE_KICKOFF"
+            ],
             "features": features,
             "audit": audit,
             "evidence": evidence,
