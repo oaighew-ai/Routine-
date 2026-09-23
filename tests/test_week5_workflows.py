@@ -36,6 +36,15 @@ class Week5WorkflowCohortTests(unittest.TestCase):
                 for token in forbidden:
                     self.assertNotIn(token, text)
 
+
+    def test_capture_health_follows_both_capture_paths_and_runs_on_own_fix(self):
+        text = (ROOT / ".github/workflows/week5-capture-health.yml").read_text(
+            encoding="utf-8"
+        )
+        self.assertIn('"capture", "Week 5 late-open tail capture"', text)
+        self.assertIn("github.event_name != 'workflow_run'", text)
+        self.assertIn(".github/workflows/week5-capture-health.yml", text)
+
     def test_es2_decision_files_are_not_part_of_cohort_fix_surface(self):
         # The cohort identity layer must remain independent from frozen
         # thresholds. This test makes the intended boundary explicit.
