@@ -176,7 +176,12 @@ jobs:
           from pathlib import Path
           manifest=json.loads(Path(".tmp/br2/source-manifest.json").read_text())
           weather=json.loads(Path(".tmp/br2/weather.json").read_text())
-          manifest.extend(weather.get("sourceManifest") or [])
+          for item in weather.get("sourceManifest") or []:
+              row=dict(item)
+              path=str(row.get("path") or "")
+              if path.startswith("capture-data/"):
+                  row["path"]=path[len("capture-data/"):]
+              manifest.append(row)
           Path(".tmp/br2/source-manifest.json").write_text(
               json.dumps(manifest,indent=2,sort_keys=True)+"\n",encoding="utf-8"
           )
