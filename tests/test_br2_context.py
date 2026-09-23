@@ -62,6 +62,28 @@ class Br2ContextTests(unittest.TestCase):
         self.assertGreater(e["awayMiles"],0)
         self.assertTrue(e["neutralSite"])
 
+    def test_post_kickoff_context_is_never_audited(self):
+        r=build_context(
+            slate=[{"game":"A @ H","kickoff":"2026-09-26T16:00:00Z"}],
+            week_games=[{"awayTeam":"A","homeTeam":"H","venueId":10}],
+            teams=[
+                {"school":"H","location":{"latitude":40.0,"longitude":-80.0}},
+                {"school":"A","location":{"latitude":41.0,"longitude":-81.0}},
+            ],
+            venues=[{"id":10,"name":"H Stadium","latitude":40.0,"longitude":-80.0}],
+            wepa=[
+                {"team":"H","epa":{"total":1},"epaAllowed":{"total":0}},
+                {"team":"A","epa":{"total":0},"epaAllowed":{"total":1}},
+            ],
+            advanced=[],
+            weather=None,qb_evidence=None,
+            as_of=datetime(2026,9,26,17,tzinfo=timezone.utc),
+        )
+        row=r["rows"][0]
+        self.assertFalse(row["pregameEligible"])
+        self.assertTrue(all(v is None for v in row["features"].values()))
+        self.assertTrue(all(v is False for v in row["audit"].values()))
+
 
 if __name__=="__main__":
     unittest.main()
