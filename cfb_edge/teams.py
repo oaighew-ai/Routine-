@@ -32,6 +32,7 @@ ALIASES: dict[str, str] = {
     "texas christian": "TCU",
     "central florida": "UCF",
     "connecticut": "UConn",
+    "umass": "Massachusetts",
     "alabama birmingham": "UAB",
     "alabama at birmingham": "UAB",
     "nevada las vegas": "UNLV",
