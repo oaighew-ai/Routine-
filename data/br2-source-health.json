@@ -1,0 +1,84 @@
+{
+  "contract": "CFB_EDGE_BR2_SOURCE_HEALTH_V1",
+  "schemaVersion": 1,
+  "sources": [
+    {
+      "endpoint": "/plays?year=2026&week=1&seasonType=regular",
+      "kind": "plays",
+      "ok": true,
+      "rows": 35773
+    },
+    {
+      "endpoint": "/games?year=2026&week=1&seasonType=regular",
+      "kind": "games",
+      "ok": true,
+      "rows": 455
+    },
+    {
+      "endpoint": "/plays?year=2026&week=2&seasonType=regular",
+      "kind": "plays",
+      "ok": true,
+      "rows": 23131
+    },
+    {
+      "endpoint": "/games?year=2026&week=2&seasonType=regular",
+      "kind": "games",
+      "ok": true,
+      "rows": 303
+    },
+    {
+      "endpoint": "/plays?year=2026&week=3&seasonType=regular",
+      "kind": "plays",
+      "ok": true,
+      "rows": 22765
+    },
+    {
+      "endpoint": "/games?year=2026&week=3&seasonType=regular",
+      "kind": "games",
+      "ok": true,
+      "rows": 311
+    },
+    {
+      "endpoint": "/plays?year=2026&week=4&seasonType=regular",
+      "kind": "plays",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "endpoint": "/games?year=2026&week=4&seasonType=regular",
+      "kind": "games",
+      "ok": true,
+      "rows": 285
+    },
+    {
+      "endpoint": "/games?year=2026&week=5&seasonType=regular",
+      "kind": "week_games",
+      "ok": true,
+      "rows": 304
+    },
+    {
+      "endpoint": "/teams?year=2026",
+      "kind": "teams",
+      "ok": true,
+      "rows": 682
+    },
+    {
+      "endpoint": "/venues",
+      "kind": "venues",
+      "ok": true,
+      "rows": 852
+    },
+    {
+      "endpoint": "/wepa/team/season?year=2026",
+      "errorType": "HTTPError",
+      "kind": "wepa",
+      "ok": false
+    },
+    {
+      "endpoint": "/stats/season/advanced?year=2026&startWeek=1&endWeek=4",
+      "kind": "advanced_stats",
+      "ok": true,
+      "rows": 138
+    }
+  ]
+}
