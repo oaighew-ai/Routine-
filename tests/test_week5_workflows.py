@@ -45,6 +45,15 @@ class Week5WorkflowCohortTests(unittest.TestCase):
         self.assertNotIn('cron: "*/15 * * 9 3,4"', text)
         self.assertNotIn('cron: "*/15 0-19 * 9 5"', text)
 
+    def test_late_open_capture_has_independent_trigger_fallbacks(self):
+        text = (ROOT / ".github/workflows/week5-late-open-capture.yml").read_text(
+            encoding="utf-8"
+        )
+        self.assertIn('"S04 ES2 Week 5 audit shadow"', text)
+        self.assertIn('"BR2 point-in-time feature capture"', text)
+        self.assertIn("github.event_name != 'workflow_run'", text)
+        self.assertIn("github.event.workflow_run.conclusion == 'success'", text)
+
     def test_capture_health_follows_both_capture_paths_and_runs_on_own_fix(self):
         text = (ROOT / ".github/workflows/week5-capture-health.yml").read_text(
             encoding="utf-8"
