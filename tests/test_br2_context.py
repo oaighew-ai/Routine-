@@ -33,7 +33,7 @@ class Br2ContextTests(unittest.TestCase):
         weather={"rows":[{"game":"A @ H","auditGrade":True,"windMph":12.0}]}
         r=build_context(
             slate=slate,week_games=games,teams=teams,venues=venues,
-            wepa=wepa,advanced=advanced,weather=weather,qb_evidence=None,
+            wepa=wepa,advanced=advanced,qb_stats=[],weather=weather,qb_evidence=None,
             as_of=datetime(2026,9,23,tzinfo=timezone.utc),
         )
         row=r["rows"][0]
@@ -41,6 +41,53 @@ class Br2ContextTests(unittest.TestCase):
         self.assertAlmostEqual(row["features"]["linePlayDiff"],0.8)
         self.assertLess(row["features"]["travelMilesDiff"],0)
         self.assertEqual(row["features"]["windMph"],12.0)
+        self.assertIsNone(row["features"]["qbContinuityDiff"])
+        self.assertFalse(row["audit"]["qbContinuityDiff"])
+
+
+    def test_qb_continuity_uses_prior_week_primary_passer_share(self):
+        slate=[{"game":"A @ H","kickoff":"2026-09-26T16:00:00Z"}]
+        qb_stats=[
+            {"team":"H","playerId":"h1","player":"Home QB1","position":"QB",
+             "category":"passing","statType":"ATT","stat":"80"},
+            {"team":"H","playerId":"h2","player":"Home QB2","position":"QB",
+             "category":"passing","statType":"ATT","stat":"20"},
+            {"team":"A","playerId":"a1","player":"Away QB1","position":"QB",
+             "category":"passing","statType":"attempts","stat":"60"},
+            {"team":"A","playerId":"a2","player":"Away QB2","position":"QB",
+             "category":"passing","statType":"attempts","stat":"40"},
+            # A non-attempt passing stat must not affect concentration.
+            {"team":"H","playerId":"h1","player":"Home QB1","position":"QB",
+             "category":"passing","statType":"YDS","stat":"900"},
+        ]
+        official={"rows":[{"game":"A @ H","auditGrade":True,"featureValue":-1,
+                           "source":"official_depth_chart"}]}
+        r=build_context(
+            slate=slate,
+            week_games=[{"awayTeam":"A","homeTeam":"H"}],
+            teams=[],venues=[],wepa=[],advanced=[],qb_stats=qb_stats,
+            weather=None,qb_evidence=official,
+            as_of=datetime(2026,9,23,tzinfo=timezone.utc),
+        )
+        row=r["rows"][0]
+        self.assertAlmostEqual(row["features"]["qbContinuityDiff"],0.2)
+        self.assertTrue(row["audit"]["qbContinuityDiff"])
+        self.assertEqual(row["evidence"]["qbContinuity"]["home"]["primaryPlayer"],"Home QB1")
+        self.assertEqual(row["evidence"]["qbInformationState"]["source"],"official_depth_chart")
+        # The official packet is context only and does not overwrite the metric.
+        self.assertNotEqual(row["features"]["qbContinuityDiff"],-1)
+
+    def test_qb_continuity_fails_closed_when_one_team_has_no_prior_attempts(self):
+        r=build_context(
+            slate=[{"game":"A @ H","kickoff":"2026-09-26T16:00:00Z"}],
+            week_games=[{"awayTeam":"A","homeTeam":"H"}],
+            teams=[],venues=[],wepa=[],advanced=[],
+            qb_stats=[{"team":"H","playerId":"h1","player":"Home QB",
+                       "category":"passing","statType":"ATT","stat":"20"}],
+            weather=None,qb_evidence=None,
+            as_of=datetime(2026,9,23,tzinfo=timezone.utc),
+        )
+        row=r["rows"][0]
         self.assertIsNone(row["features"]["qbContinuityDiff"])
         self.assertFalse(row["audit"]["qbContinuityDiff"])
 
@@ -54,7 +101,7 @@ class Br2ContextTests(unittest.TestCase):
         venues=[{"id":99,"name":"Neutral","latitude":38.0,"longitude":-85.0,"dome":False}]
         r=build_context(
             slate=slate,week_games=games,teams=teams,venues=venues,
-            wepa=[],advanced=[],weather=None,qb_evidence=None,
+            wepa=[],advanced=[],qb_stats=[],weather=None,qb_evidence=None,
             as_of=datetime(2026,9,23,tzinfo=timezone.utc),
         )
         e=r["rows"][0]["evidence"]["travel"]
@@ -75,7 +122,7 @@ class Br2ContextTests(unittest.TestCase):
                 {"team":"H","epa":{"total":1},"epaAllowed":{"total":0}},
                 {"team":"A","epa":{"total":0},"epaAllowed":{"total":1}},
             ],
-            advanced=[],
+            advanced=[],qb_stats=[],
             weather=None,qb_evidence=None,
             as_of=datetime(2026,9,26,17,tzinfo=timezone.utc),
         )
