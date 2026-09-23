@@ -11,6 +11,7 @@ import csv
 import hashlib
 import json
 import math
+from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
 
@@ -66,7 +67,10 @@ def _evidence_hash(game: str, row: dict[str, str]) -> str:
     ).hexdigest()
 
 
-def build(slate_path: str | Path, opens_path: str | Path) -> dict[str, Any]:
+def build(slate_path: str | Path, opens_path: str | Path, *, now: datetime | None = None) -> dict[str, Any]:
+    now = now or datetime.now(timezone.utc)
+    if now.tzinfo is None:
+        raise ValueError("now must be timezone-aware")
     with Path(slate_path).open(newline="", encoding="utf-8") as fh:
         slate = [r for r in csv.DictReader(fh) if (r.get("game") or "").strip()]
     with Path(opens_path).open(newline="", encoding="utf-8") as fh:
@@ -145,6 +149,7 @@ def build(slate_path: str | Path, opens_path: str | Path) -> dict[str, Any]:
     return {
         "schemaVersion": 2,
         "contract": "CFB_EDGE_WEEK5_CAPTURE_HEALTH_V2",
+        "generatedAt": now.isoformat(),
         "season": 2026,
         "week": 5,
         "status": status,
