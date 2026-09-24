@@ -16,6 +16,9 @@ from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any, Mapping, Sequence
 
+from .point_in_time import instant, known_at, source_time, digest, unique_index
+from .information_state import build_state
+
 CONTRACT = "CFB_EDGE_BR2_FEATURE_SNAPSHOT_V1"
 FEATURES = (
     "epaDiff",
@@ -125,14 +128,16 @@ def build_snapshot(
     source_revision: str | None = None,
     source_manifest: Sequence[Mapping[str, Any]] = (),
     context: Mapping[str, Any] | None = None,
+    information_quotes: Sequence[Mapping[str, Any]] = (),
 ) -> dict[str, Any]:
-    metrics = team_metrics(plays)
-    last_games = _last_game_dates(prior_games, as_of)
-    context_rows = {
-        " ".join(str(r.get("game") or "").strip().lower().replace("&", "and").split()): r
-        for r in ((context or {}).get("rows") or [])
-        if str(r.get("game") or "").strip()
-    }
+    # A caller cannot smuggle target-game or incomplete-game plays into a PIT row.
+    completed = [g for g in prior_games if g.get("completed") is True
+                 and instant(g.get("startDate")) and instant(g["startDate"]) < as_of]
+    valid_ids = {str(g["id"]) for g in completed if g.get("id") is not None}
+    metrics = team_metrics([p for p in plays if str(p.get("gameId")) in valid_ids])
+    last_games = _last_game_dates(completed, as_of)
+    context_rows = unique_index((context or {}).get("rows") or [],
+                                lambda r: " ".join(str(r.get("game") or "").lower().replace("&", "and").split()))
     rows = []
 
     for raw in slate:
@@ -182,6 +187,20 @@ def build_snapshot(
                             f"{context.get('contract', 'BR2_CONTEXT')}:{ctx.get('rowSha256', 'unhashed')}"
                         )
 
+        ctx = context_rows.get(" ".join(game.lower().replace("&", "and").split())) or {}
+        ctx_valid = (ctx.get("canonicalGameId") and ctx.get("decisionTime") == as_of.isoformat()
+                     and instant(ctx.get("kickoff")) == kickoff
+                     and ctx.get("rowSha256") == digest({k: v for k, v in ctx.items() if k != "rowSha256"}))
+        feature_as_of = {}
+        for name in FEATURES:
+            kinds = ("plays", "games") if name in ("ppaDiff", "successRateDiff", "explosivenessDiff", "paceDiff") else ("games",)
+            stamp = source_time(source_manifest, kinds, as_of.isoformat(), raw.get("kickoff")) if name in ("ppaDiff", "successRateDiff", "explosivenessDiff", "paceDiff", "restDaysDiff") else (ctx.get("featureAsOf") or {}).get(name)
+            feature_as_of[name] = stamp
+            if not ctx_valid or not known_at(stamp, as_of.isoformat(), raw.get("kickoff")):
+                feature_values[name] = None
+                feature_sources[name] = None
+        information_state = build_state(canonical_game_id=ctx.get("canonicalGameId") if ctx_valid else None,
+                                       decision_time=as_of.isoformat(), kickoff=raw.get("kickoff"), quotes=information_quotes)
         complete = sum(v is not None for v in feature_values.values())
         row_payload = {
             "game": game,
@@ -189,6 +208,10 @@ def build_snapshot(
             "home": home,
             "kickoff": None if kickoff is None else kickoff.isoformat(),
             "snapshotAt": as_of.isoformat(),
+            "decisionTime": as_of.isoformat(),
+            "canonicalGameId": ctx.get("canonicalGameId") if ctx_valid else None,
+            "featureAsOf": feature_as_of,
+            "informationState": information_state,
             "pregameEligible": pregame_eligible,
             "eligibilityExclusions": [] if pregame_eligible else [
                 "KICKOFF_MISSING" if kickoff is None else "SNAPSHOT_NOT_PRE_KICKOFF"
@@ -258,6 +281,7 @@ def main(argv: list[str] | None = None) -> int:
     p.add_argument("--revision")
     p.add_argument("--source-manifest")
     p.add_argument("--context-json")
+    p.add_argument("--information-quotes", help="Validated, canonical-ID quote archive JSON array; no closing labels")
     p.add_argument("--out", required=True)
     args = p.parse_args(argv)
 
@@ -298,6 +322,7 @@ def main(argv: list[str] | None = None) -> int:
         source_revision=args.revision,
         source_manifest=source_manifest,
         context=context,
+        information_quotes=json.loads(Path(args.information_quotes).read_text()) if args.information_quotes else (),
     )
     out = Path(args.out)
     out.parent.mkdir(parents=True, exist_ok=True)

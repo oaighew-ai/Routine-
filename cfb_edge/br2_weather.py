@@ -53,7 +53,7 @@ def _venue_index(rows: Sequence[Mapping[str,Any]]) -> dict[str,dict[str,Any]]:
         if lat is None or lon is None:
             continue
         p={"venueId":r.get("id"),"venueName":r.get("name"),"latitude":lat,"longitude":lon,
-           "timezone":r.get("timezone"),"dome":bool(r.get("dome"))}
+           "timezone":r.get("timezone"),"dome":r.get("dome") is True}
         if r.get("id") is not None:
             by_id[str(r["id"])]=p
         if r.get("name"):
@@ -150,12 +150,14 @@ def capture(
         exclusions=[]
         if kickoff is None:
             exclusions.append("KICKOFF_MISSING")
+        elif now >= kickoff:
+            exclusions.append("CAPTURE_NOT_PRE_KICKOFF")
         if venue is None:
             exclusions.append("VENUE_COORDINATES_MISSING")
         if source is None:
             exclusions.append("CFBD_WEEK_GAME_MISSING")
         key=_coord_key(venue) if venue is not None else None
-        if key is not None and not venue.get("dome") and key not in coords:
+        if not exclusions and key is not None and not venue.get("dome") and key not in coords:
             coords.append(key)
         plans.append({
             "game":game,"kickoff":kickoff,"venue":venue,"coord":key,
@@ -209,7 +211,7 @@ def capture(
     for plan in plans:
         game=plan["game"]; kickoff=plan["kickoff"]; venue=plan["venue"]
         exclusions=list(plan["exclusions"])
-        if venue and venue.get("dome") is True and kickoff is not None:
+        if not exclusions and venue and venue.get("dome") is True and kickoff is not None:
             rows.append({
                 "game":game,"kickoff":kickoff.isoformat(),"retrievedAt":now.isoformat(),
                 "venue":dict(venue),"auditGrade":True,"windMph":0.0,
@@ -253,8 +255,9 @@ def capture(
             wind=None
         else:
             wind=point["windMph"]
-            if wind is None:
-                exclusions.append("WIND_MISSING")
+            if wind is None or wind < 0:
+                exclusions.append("WIND_MISSING_OR_INVALID")
+                wind=None
         rows.append({
             "game":game,"kickoff":kickoff.isoformat(),"retrievedAt":now.isoformat(),
             "venue":dict(venue),"auditGrade":not exclusions,"windMph":wind,
