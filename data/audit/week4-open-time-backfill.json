@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
   "contract": "CFB_EDGE_OPEN_TIME_BACKFILL_V2",
-  "generatedAt": "2026-09-23T13:53:56.986314+00:00",
+  "generatedAt": "2026-09-24T15:19:10.015410+00:00",
   "targetCount": 58,
   "eventOpenTimeRecoveredCount": 58,
   "definitelyNotTrueOpenCount": 58,
@@ -24,7 +24,7 @@
       "latestEventRungOpenTime": "2026-09-20T07:07:00+00:00",
       "minimumPossibleLagSeconds": 64670.274619,
       "historicalPromotionEligible": false,
-      "recoveredAt": "2026-09-23T13:53:56.986314+00:00",
+      "recoveredAt": "2026-09-24T15:19:10.015410+00:00",
       "recoveryMethod": "event_wide_latest_rung_open_time_upper_bound"
     },
     {
@@ -43,7 +43,7 @@
       "latestEventRungOpenTime": "2026-09-20T10:06:00+00:00",
       "minimumPossibleLagSeconds": 252854.658759,
       "historicalPromotionEligible": false,
-      "recoveredAt": "2026-09-23T13:53:56.986314+00:00",
+      "recoveredAt": "2026-09-24T15:19:10.015410+00:00",
       "recoveryMethod": "event_wide_latest_rung_open_time_upper_bound"
     },
     {
@@ -62,7 +62,7 @@
       "latestEventRungOpenTime": "2026-09-20T10:06:00+00:00",
       "minimumPossibleLagSeconds": 252854.658759,
       "historicalPromotionEligible": false,
-      "recoveredAt": "2026-09-23T13:53:56.986314+00:00",
+      "recoveredAt": "2026-09-24T15:19:10.015410+00:00",
       "recoveryMethod": "event_wide_latest_rung_open_time_upper_bound"
     },
     {
@@ -81,7 +81,7 @@
       "latestEventRungOpenTime": "2026-09-20T10:05:00+00:00",
       "minimumPossibleLagSeconds": 53990.274619,
       "historicalPromotionEligible": false,
-      "recoveredAt": "2026-09-23T13:53:56.986314+00:00",
+      "recoveredAt": "2026-09-24T15:19:10.015410+00:00",
       "recoveryMethod": "event_wide_latest_rung_open_time_upper_bound"
     },
     {
@@ -100,7 +100,7 @@
       "latestEventRungOpenTime": "2026-09-20T10:06:00+00:00",
       "minimumPossibleLagSeconds": 252854.658759,
       "historicalPromotionEligible": false,
-      "recoveredAt": "2026-09-23T13:53:56.986314+00:00",
+      "recoveredAt": "2026-09-24T15:19:10.015410+00:00",
       "recoveryMethod": "event_wide_latest_rung_open_time_upper_bound"
     },
     {
@@ -119,7 +119,7 @@
       "latestEventRungOpenTime": "2026-09-20T07:06:00+00:00",
       "minimumPossibleLagSeconds": 263654.658759,
       "historicalPromotionEligible": false,
-      "recoveredAt": "2026-09-23T13:53:56.986314+00:00",
+      "recoveredAt": "2026-09-24T15:19:10.015410+00:00",
       "recoveryMethod": "event_wide_latest_rung_open_time_upper_bound"
     },
     {
@@ -129,8 +129,8 @@
       "firstSeen": "2026-09-23T08:20:14.658759+00:00",
       "eventTicker": "KXNCAAFSPREAD-26SEP26CMUMIA",
       "currentBracketingMarketTickers": [
-        "KXNCAAFSPREAD-26SEP26CMUMIA-MIA39",
-        "KXNCAAFSPREAD-26SEP26CMUMIA-MIA42"
+        "KXNCAAFSPREAD-26SEP26CMUMIA-MIA42",
+        "KXNCAAFSPREAD-26SEP26CMUMIA-MIA43"
       ],
       "currentBracketingVenueOpenTime": "2026-09-20T07:07:00+00:00",
       "recoveredClassification": "first_seen",
@@ -138,7 +138,7 @@
       "latestEventRungOpenTime": "2026-09-20T07:07:00+00:00",
       "minimumPossibleLagSeconds": 263594.658759,
       "historicalPromotionEligible": false,
-      "recoveredAt": "2026-09-23T13:53:56.986314+00:00",
+      "recoveredAt": "2026-09-24T15:19:10.015410+00:00",
       "recoveryMethod": "event_wide_latest_rung_open_time_upper_bound"
     },
     {
@@ -157,7 +157,7 @@
       "latestEventRungOpenTime": "2026-09-20T10:06:00+00:00",
       "minimumPossibleLagSeconds": 53930.274619,
       "historicalPromotionEligible": false,
-      "recoveredAt": "2026-09-23T13:53:56.986314+00:00",
+      "recoveredAt": "2026-09-24T15:19:10.015410+00:00",
       "recoveryMethod": "event_wide_latest_rung_open_time_upper_bound"
     },
     {
@@ -176,7 +176,7 @@
       "latestEventRungOpenTime": "2026-09-20T10:06:00+00:00",
       "minimumPossibleLagSeconds": 53930.274619,
       "historicalPromotionEligible": false,
-      "recoveredAt": "2026-09-23T13:53:56.986314+00:00",
+      "recoveredAt": "2026-09-24T15:19:10.015410+00:00",
       "recoveryMethod": "event_wide_latest_rung_open_time_upper_bound"
     },
     {
@@ -195,7 +195,7 @@
       "latestEventRungOpenTime": "2026-09-20T10:06:00+00:00",
       "minimumPossibleLagSeconds": 252854.658759,
       "historicalPromotionEligible": false,
-      "recoveredAt": "2026-09-23T13:53:56.986314+00:00",
+      "recoveredAt": "2026-09-24T15:19:10.015410+00:00",
       "recoveryMethod": "event_wide_latest_rung_open_time_upper_bound"
     },
     {
@@ -214,7 +214,7 @@
       "latestEventRungOpenTime": "2026-09-20T10:06:00+00:00",
       "minimumPossibleLagSeconds": 53930.274619,
       "historicalPromotionEligible": false,
-      "recoveredAt": "2026-09-23T13:53:56.986314+00:00",
+      "recoveredAt": "2026-09-24T15:19:10.015410+00:00",
       "recoveryMethod": "event_wide_latest_rung_open_time_upper_bound"
     },
     {
@@ -233,7 +233,7 @@
       "latestEventRungOpenTime": "2026-09-20T10:06:00+00:00",
       "minimumPossibleLagSeconds": 252854.658759,
       "historicalPromotionEligible": false,
-      "recoveredAt": "2026-09-23T13:53:56.986314+00:00",
+      "recoveredAt": "2026-09-24T15:19:10.015410+00:00",
       "recoveryMethod": "event_wide_latest_rung_open_time_upper_bound"
     },
     {
@@ -252,7 +252,7 @@
       "latestEventRungOpenTime": "2026-09-20T07:07:00+00:00",
       "minimumPossibleLagSeconds": 64670.274619,
       "historicalPromotionEligible": false,
-      "recoveredAt": "2026-09-23T13:53:56.986314+00:00",
+      "recoveredAt": "2026-09-24T15:19:10.015410+00:00",
       "recoveryMethod": "event_wide_latest_rung_open_time_upper_bound"
     },
     {
@@ -271,7 +271,7 @@
       "latestEventRungOpenTime": "2026-09-20T07:06:00+00:00",
       "minimumPossibleLagSeconds": 64730.274619,
       "historicalPromotionEligible": false,
-      "recoveredAt": "2026-09-23T13:53:56.986314+00:00",
+      "recoveredAt": "2026-09-24T15:19:10.015410+00:00",
       "recoveryMethod": "event_wide_latest_rung_open_time_upper_bound"
     },
     {
@@ -290,7 +290,7 @@
       "latestEventRungOpenTime": "2026-09-20T07:06:00+00:00",
       "minimumPossibleLagSeconds": 64730.274619,
       "historicalPromotionEligible": false,
-      "recoveredAt": "2026-09-23T13:53:56.986314+00:00",
+      "recoveredAt": "2026-09-24T15:19:10.015410+00:00",
       "recoveryMethod": "event_wide_latest_rung_open_time_upper_bound"
     },
     {
@@ -309,7 +309,7 @@
       "latestEventRungOpenTime": "2026-09-19T16:06:00+00:00",
       "minimumPossibleLagSeconds": 317654.658759,
       "historicalPromotionEligible": false,
-      "recoveredAt": "2026-09-23T13:53:56.986314+00:00",
+      "recoveredAt": "2026-09-24T15:19:10.015410+00:00",
       "recoveryMethod": "event_wide_latest_rung_open_time_upper_bound"
     },
     {
@@ -328,7 +328,7 @@
       "latestEventRungOpenTime": "2026-09-20T01:07:00+00:00",
       "minimumPossibleLagSeconds": 86270.274619,
       "historicalPromotionEligible": false,
-      "recoveredAt": "2026-09-23T13:53:56.986314+00:00",
+      "recoveredAt": "2026-09-24T15:19:10.015410+00:00",
       "recoveryMethod": "event_wide_latest_rung_open_time_upper_bound"
     },
     {
@@ -347,7 +347,7 @@
       "latestEventRungOpenTime": "2026-09-20T07:07:00+00:00",
       "minimumPossibleLagSeconds": 64670.274619,
       "historicalPromotionEligible": false,
-      "recoveredAt": "2026-09-23T13:53:56.986314+00:00",
+      "recoveredAt": "2026-09-24T15:19:10.015410+00:00",
       "recoveryMethod": "event_wide_latest_rung_open_time_upper_bound"
     },
     {
@@ -366,7 +366,7 @@
       "latestEventRungOpenTime": "2026-09-20T07:07:00+00:00",
       "minimumPossibleLagSeconds": 263594.658759,
       "historicalPromotionEligible": false,
-      "recoveredAt": "2026-09-23T13:53:56.986314+00:00",
+      "recoveredAt": "2026-09-24T15:19:10.015410+00:00",
       "recoveryMethod": "event_wide_latest_rung_open_time_upper_bound"
     },
     {
@@ -385,7 +385,7 @@
       "latestEventRungOpenTime": "2026-09-20T07:07:00+00:00",
       "minimumPossibleLagSeconds": 263594.658759,
       "historicalPromotionEligible": false,
-      "recoveredAt": "2026-09-23T13:53:56.986314+00:00",
+      "recoveredAt": "2026-09-24T15:19:10.015410+00:00",
       "recoveryMethod": "event_wide_latest_rung_open_time_upper_bound"
     },
     {
@@ -404,7 +404,7 @@
       "latestEventRungOpenTime": "2026-09-20T10:05:00+00:00",
       "minimumPossibleLagSeconds": 53990.274619,
       "historicalPromotionEligible": false,
-      "recoveredAt": "2026-09-23T13:53:56.986314+00:00",
+      "recoveredAt": "2026-09-24T15:19:10.015410+00:00",
       "recoveryMethod": "event_wide_latest_rung_open_time_upper_bound"
     },
     {
@@ -423,7 +423,7 @@
       "latestEventRungOpenTime": "2026-09-20T10:06:00+00:00",
       "minimumPossibleLagSeconds": 53930.274619,
       "historicalPromotionEligible": false,
-      "recoveredAt": "2026-09-23T13:53:56.986314+00:00",
+      "recoveredAt": "2026-09-24T15:19:10.015410+00:00",
       "recoveryMethod": "event_wide_latest_rung_open_time_upper_bound"
     },
     {
@@ -442,7 +442,7 @@
       "latestEventRungOpenTime": "2026-09-20T10:06:00+00:00",
       "minimumPossibleLagSeconds": 252854.658759,
       "historicalPromotionEligible": false,
-      "recoveredAt": "2026-09-23T13:53:56.986314+00:00",
+      "recoveredAt": "2026-09-24T15:19:10.015410+00:00",
       "recoveryMethod": "event_wide_latest_rung_open_time_upper_bound"
     },
     {
@@ -461,7 +461,7 @@
       "latestEventRungOpenTime": "2026-09-20T07:07:00+00:00",
       "minimumPossibleLagSeconds": 263594.658759,
       "historicalPromotionEligible": false,
-      "recoveredAt": "2026-09-23T13:53:56.986314+00:00",
+      "recoveredAt": "2026-09-24T15:19:10.015410+00:00",
       "recoveryMethod": "event_wide_latest_rung_open_time_upper_bound"
     },
     {
@@ -471,8 +471,8 @@
       "firstSeen": "2026-09-21T01:04:50.274619+00:00",
       "eventTicker": "KXNCAAFSPREAD-26SEP26MINNWASH",
       "currentBracketingMarketTickers": [
-        "KXNCAAFSPREAD-26SEP26MINNWASH-WASH8",
-        "KXNCAAFSPREAD-26SEP26MINNWASH-WASH10"
+        "KXNCAAFSPREAD-26SEP26MINNWASH-WASH10",
+        "KXNCAAFSPREAD-26SEP26MINNWASH-WASH11"
       ],
       "currentBracketingVenueOpenTime": "2026-09-20T07:07:00+00:00",
       "recoveredClassification": "first_seen",
@@ -480,7 +480,7 @@
       "latestEventRungOpenTime": "2026-09-20T07:07:00+00:00",
       "minimumPossibleLagSeconds": 64670.274619,
       "historicalPromotionEligible": false,
-      "recoveredAt": "2026-09-23T13:53:56.986314+00:00",
+      "recoveredAt": "2026-09-24T15:19:10.015410+00:00",
       "recoveryMethod": "event_wide_latest_rung_open_time_upper_bound"
     },
     {
@@ -499,7 +499,7 @@
       "latestEventRungOpenTime": "2026-09-20T07:07:00+00:00",
       "minimumPossibleLagSeconds": 263594.658759,
       "historicalPromotionEligible": false,
-      "recoveredAt": "2026-09-23T13:53:56.986314+00:00",
+      "recoveredAt": "2026-09-24T15:19:10.015410+00:00",
       "recoveryMethod": "event_wide_latest_rung_open_time_upper_bound"
     },
     {
@@ -509,8 +509,8 @@
       "firstSeen": "2026-09-21T01:04:50.274619+00:00",
       "eventTicker": "KXNCAAFSPREAD-26SEP26MOSUSMU",
       "currentBracketingMarketTickers": [
-        "KXNCAAFSPREAD-26SEP26MOSUSMU-SMU34",
-        "KXNCAAFSPREAD-26SEP26MOSUSMU-SMU35"
+        "KXNCAAFSPREAD-26SEP26MOSUSMU-SMU35",
+        "KXNCAAFSPREAD-26SEP26MOSUSMU-SMU36"
       ],
       "currentBracketingVenueOpenTime": "2026-09-20T10:06:00+00:00",
       "recoveredClassification": "first_seen",
@@ -518,7 +518,7 @@
       "latestEventRungOpenTime": "2026-09-20T10:06:00+00:00",
       "minimumPossibleLagSeconds": 53930.274619,
       "historicalPromotionEligible": false,
-      "recoveredAt": "2026-09-23T13:53:56.986314+00:00",
+      "recoveredAt": "2026-09-24T15:19:10.015410+00:00",
       "recoveryMethod": "event_wide_latest_rung_open_time_upper_bound"
     },
     {
@@ -537,7 +537,7 @@
       "latestEventRungOpenTime": "2026-09-20T10:06:00+00:00",
       "minimumPossibleLagSeconds": 53930.274619,
       "historicalPromotionEligible": false,
-      "recoveredAt": "2026-09-23T13:53:56.986314+00:00",
+      "recoveredAt": "2026-09-24T15:19:10.015410+00:00",
       "recoveryMethod": "event_wide_latest_rung_open_time_upper_bound"
     },
     {
@@ -556,7 +556,7 @@
       "latestEventRungOpenTime": "2026-09-20T07:07:00+00:00",
       "minimumPossibleLagSeconds": 263594.658759,
       "historicalPromotionEligible": false,
-      "recoveredAt": "2026-09-23T13:53:56.986314+00:00",
+      "recoveredAt": "2026-09-24T15:19:10.015410+00:00",
       "recoveryMethod": "event_wide_latest_rung_open_time_upper_bound"
     },
     {
@@ -566,8 +566,8 @@
       "firstSeen": "2026-09-23T08:20:14.658759+00:00",
       "eventTicker": "KXNCAAFSPREAD-26SEP26UNMNMSU",
       "currentBracketingMarketTickers": [
-        "KXNCAAFSPREAD-26SEP26UNMNMSU-UNM12",
-        "KXNCAAFSPREAD-26SEP26UNMNMSU-UNM11"
+        "KXNCAAFSPREAD-26SEP26UNMNMSU-UNM14",
+        "KXNCAAFSPREAD-26SEP26UNMNMSU-UNM12"
       ],
       "currentBracketingVenueOpenTime": "2026-09-20T07:06:00+00:00",
       "recoveredClassification": "first_seen",
@@ -575,7 +575,7 @@
       "latestEventRungOpenTime": "2026-09-20T07:06:00+00:00",
       "minimumPossibleLagSeconds": 263654.658759,
       "historicalPromotionEligible": false,
-      "recoveredAt": "2026-09-23T13:53:56.986314+00:00",
+      "recoveredAt": "2026-09-24T15:19:10.015410+00:00",
       "recoveryMethod": "event_wide_latest_rung_open_time_upper_bound"
     },
     {
@@ -594,7 +594,7 @@
       "latestEventRungOpenTime": "2026-09-20T10:06:00+00:00",
       "minimumPossibleLagSeconds": 252854.658759,
       "historicalPromotionEligible": false,
-      "recoveredAt": "2026-09-23T13:53:56.986314+00:00",
+      "recoveredAt": "2026-09-24T15:19:10.015410+00:00",
       "recoveryMethod": "event_wide_latest_rung_open_time_upper_bound"
     },
     {
@@ -613,7 +613,7 @@
       "latestEventRungOpenTime": "2026-09-20T07:06:00+00:00",
       "minimumPossibleLagSeconds": 64730.274619,
       "historicalPromotionEligible": false,
-      "recoveredAt": "2026-09-23T13:53:56.986314+00:00",
+      "recoveredAt": "2026-09-24T15:19:10.015410+00:00",
       "recoveryMethod": "event_wide_latest_rung_open_time_upper_bound"
     },
     {
@@ -632,7 +632,7 @@
       "latestEventRungOpenTime": "2026-09-20T07:06:00+00:00",
       "minimumPossibleLagSeconds": 64730.274619,
       "historicalPromotionEligible": false,
-      "recoveredAt": "2026-09-23T13:53:56.986314+00:00",
+      "recoveredAt": "2026-09-24T15:19:10.015410+00:00",
       "recoveryMethod": "event_wide_latest_rung_open_time_upper_bound"
     },
     {
@@ -651,7 +651,7 @@
       "latestEventRungOpenTime": "2026-09-20T04:06:00+00:00",
       "minimumPossibleLagSeconds": 75530.274619,
       "historicalPromotionEligible": false,
-      "recoveredAt": "2026-09-23T13:53:56.986314+00:00",
+      "recoveredAt": "2026-09-24T15:19:10.015410+00:00",
       "recoveryMethod": "event_wide_latest_rung_open_time_upper_bound"
     },
     {
@@ -661,8 +661,8 @@
       "firstSeen": "2026-09-23T08:20:14.658759+00:00",
       "eventTicker": "KXNCAAFSPREAD-26SEP26OKSTWVU",
       "currentBracketingMarketTickers": [
-        "KXNCAAFSPREAD-26SEP26OKSTWVU-OKST2",
-        "KXNCAAFSPREAD-26SEP26OKSTWVU-WVU2"
+        "KXNCAAFSPREAD-26SEP26OKSTWVU-WVU2",
+        "KXNCAAFSPREAD-26SEP26OKSTWVU-WVU3"
       ],
       "currentBracketingVenueOpenTime": "2026-09-20T07:07:00+00:00",
       "recoveredClassification": "first_seen",
@@ -670,7 +670,7 @@
       "latestEventRungOpenTime": "2026-09-20T07:07:00+00:00",
       "minimumPossibleLagSeconds": 263594.658759,
       "historicalPromotionEligible": false,
-      "recoveredAt": "2026-09-23T13:53:56.986314+00:00",
+      "recoveredAt": "2026-09-24T15:19:10.015410+00:00",
       "recoveryMethod": "event_wide_latest_rung_open_time_upper_bound"
     },
     {
@@ -689,7 +689,7 @@
       "latestEventRungOpenTime": "2026-09-20T04:06:00+00:00",
       "minimumPossibleLagSeconds": 75530.274619,
       "historicalPromotionEligible": false,
-      "recoveredAt": "2026-09-23T13:53:56.986314+00:00",
+      "recoveredAt": "2026-09-24T15:19:10.015410+00:00",
       "recoveryMethod": "event_wide_latest_rung_open_time_upper_bound"
     },
     {
@@ -708,7 +708,7 @@
       "latestEventRungOpenTime": "2026-09-20T01:08:00+00:00",
       "minimumPossibleLagSeconds": 86210.274619,
       "historicalPromotionEligible": false,
-      "recoveredAt": "2026-09-23T13:53:56.986314+00:00",
+      "recoveredAt": "2026-09-24T15:19:10.015410+00:00",
       "recoveryMethod": "event_wide_latest_rung_open_time_upper_bound"
     },
     {
@@ -718,8 +718,8 @@
       "firstSeen": "2026-09-23T08:20:14.658759+00:00",
       "eventTicker": "KXNCAAFSPREAD-26SEP26ORSTUTEP",
       "currentBracketingMarketTickers": [
-        "KXNCAAFSPREAD-26SEP26ORSTUTEP-ORST11",
-        "KXNCAAFSPREAD-26SEP26ORSTUTEP-ORST10"
+        "KXNCAAFSPREAD-26SEP26ORSTUTEP-ORST12",
+        "KXNCAAFSPREAD-26SEP26ORSTUTEP-ORST11"
       ],
       "currentBracketingVenueOpenTime": "2026-09-20T10:06:00+00:00",
       "recoveredClassification": "first_seen",
@@ -727,7 +727,7 @@
       "latestEventRungOpenTime": "2026-09-20T10:06:00+00:00",
       "minimumPossibleLagSeconds": 252854.658759,
       "historicalPromotionEligible": false,
-      "recoveredAt": "2026-09-23T13:53:56.986314+00:00",
+      "recoveredAt": "2026-09-24T15:19:10.015410+00:00",
       "recoveryMethod": "event_wide_latest_rung_open_time_upper_bound"
     },
     {
@@ -746,7 +746,7 @@
       "latestEventRungOpenTime": "2026-09-20T07:07:00+00:00",
       "minimumPossibleLagSeconds": 263594.658759,
       "historicalPromotionEligible": false,
-      "recoveredAt": "2026-09-23T13:53:56.986314+00:00",
+      "recoveredAt": "2026-09-24T15:19:10.015410+00:00",
       "recoveryMethod": "event_wide_latest_rung_open_time_upper_bound"
     },
     {
@@ -765,7 +765,7 @@
       "latestEventRungOpenTime": "2026-09-20T10:06:00+00:00",
       "minimumPossibleLagSeconds": 53930.274619,
       "historicalPromotionEligible": false,
-      "recoveredAt": "2026-09-23T13:53:56.986314+00:00",
+      "recoveredAt": "2026-09-24T15:19:10.015410+00:00",
       "recoveryMethod": "event_wide_latest_rung_open_time_upper_bound"
     },
     {
@@ -784,7 +784,7 @@
       "latestEventRungOpenTime": "2026-09-20T10:06:00+00:00",
       "minimumPossibleLagSeconds": 252854.658759,
       "historicalPromotionEligible": false,
-      "recoveredAt": "2026-09-23T13:53:56.986314+00:00",
+      "recoveredAt": "2026-09-24T15:19:10.015410+00:00",
       "recoveryMethod": "event_wide_latest_rung_open_time_upper_bound"
     },
     {
@@ -803,7 +803,7 @@
       "latestEventRungOpenTime": "2026-09-20T07:06:00+00:00",
       "minimumPossibleLagSeconds": 64730.274619,
       "historicalPromotionEligible": false,
-      "recoveredAt": "2026-09-23T13:53:56.986314+00:00",
+      "recoveredAt": "2026-09-24T15:19:10.015410+00:00",
       "recoveryMethod": "event_wide_latest_rung_open_time_upper_bound"
     },
     {
@@ -822,7 +822,7 @@
       "latestEventRungOpenTime": "2026-09-20T04:06:00+00:00",
       "minimumPossibleLagSeconds": 75530.274619,
       "historicalPromotionEligible": false,
-      "recoveredAt": "2026-09-23T13:53:56.986314+00:00",
+      "recoveredAt": "2026-09-24T15:19:10.015410+00:00",
       "recoveryMethod": "event_wide_latest_rung_open_time_upper_bound"
     },
     {
@@ -841,7 +841,7 @@
       "latestEventRungOpenTime": "2026-09-20T07:07:00+00:00",
       "minimumPossibleLagSeconds": 64670.274619,
       "historicalPromotionEligible": false,
-      "recoveredAt": "2026-09-23T13:53:56.986314+00:00",
+      "recoveredAt": "2026-09-24T15:19:10.015410+00:00",
       "recoveryMethod": "event_wide_latest_rung_open_time_upper_bound"
     },
     {
@@ -860,7 +860,7 @@
       "latestEventRungOpenTime": "2026-09-20T10:06:00+00:00",
       "minimumPossibleLagSeconds": 53930.274619,
       "historicalPromotionEligible": false,
-      "recoveredAt": "2026-09-23T13:53:56.986314+00:00",
+      "recoveredAt": "2026-09-24T15:19:10.015410+00:00",
       "recoveryMethod": "event_wide_latest_rung_open_time_upper_bound"
     },
     {
@@ -879,7 +879,7 @@
       "latestEventRungOpenTime": "2026-09-20T10:06:00+00:00",
       "minimumPossibleLagSeconds": 53930.274619,
       "historicalPromotionEligible": false,
-      "recoveredAt": "2026-09-23T13:53:56.986314+00:00",
+      "recoveredAt": "2026-09-24T15:19:10.015410+00:00",
       "recoveryMethod": "event_wide_latest_rung_open_time_upper_bound"
     },
     {
@@ -889,8 +889,8 @@
       "firstSeen": "2026-09-21T01:04:50.274619+00:00",
       "eventTicker": "KXNCAAFSPREAD-26SEP26TEXTENN",
       "currentBracketingMarketTickers": [
-        "KXNCAAFSPREAD-26SEP26TEXTENN-TEX6",
-        "KXNCAAFSPREAD-26SEP26TEXTENN-TEX5"
+        "KXNCAAFSPREAD-26SEP26TEXTENN-TEX5",
+        "KXNCAAFSPREAD-26SEP26TEXTENN-TEX4"
       ],
       "currentBracketingVenueOpenTime": "2026-09-19T16:06:00+00:00",
       "recoveredClassification": "first_seen",
@@ -898,7 +898,7 @@
       "latestEventRungOpenTime": "2026-09-19T16:06:00+00:00",
       "minimumPossibleLagSeconds": 118730.274619,
       "historicalPromotionEligible": false,
-      "recoveredAt": "2026-09-23T13:53:56.986314+00:00",
+      "recoveredAt": "2026-09-24T15:19:10.015410+00:00",
       "recoveryMethod": "event_wide_latest_rung_open_time_upper_bound"
     },
     {
@@ -917,7 +917,7 @@
       "latestEventRungOpenTime": "2026-09-20T04:06:00+00:00",
       "minimumPossibleLagSeconds": 75530.274619,
       "historicalPromotionEligible": false,
-      "recoveredAt": "2026-09-23T13:53:56.986314+00:00",
+      "recoveredAt": "2026-09-24T15:19:10.015410+00:00",
       "recoveryMethod": "event_wide_latest_rung_open_time_upper_bound"
     },
     {
@@ -936,7 +936,7 @@
       "latestEventRungOpenTime": "2026-09-20T07:07:00+00:00",
       "minimumPossibleLagSeconds": 263594.658759,
       "historicalPromotionEligible": false,
-      "recoveredAt": "2026-09-23T13:53:56.986314+00:00",
+      "recoveredAt": "2026-09-24T15:19:10.015410+00:00",
       "recoveryMethod": "event_wide_latest_rung_open_time_upper_bound"
     },
     {
@@ -955,7 +955,7 @@
       "latestEventRungOpenTime": "2026-09-20T10:06:00+00:00",
       "minimumPossibleLagSeconds": 53930.274619,
       "historicalPromotionEligible": false,
-      "recoveredAt": "2026-09-23T13:53:56.986314+00:00",
+      "recoveredAt": "2026-09-24T15:19:10.015410+00:00",
       "recoveryMethod": "event_wide_latest_rung_open_time_upper_bound"
     },
     {
@@ -974,7 +974,7 @@
       "latestEventRungOpenTime": "2026-09-20T07:06:00+00:00",
       "minimumPossibleLagSeconds": 64730.274619,
       "historicalPromotionEligible": false,
-      "recoveredAt": "2026-09-23T13:53:56.986314+00:00",
+      "recoveredAt": "2026-09-24T15:19:10.015410+00:00",
       "recoveryMethod": "event_wide_latest_rung_open_time_upper_bound"
     },
     {
@@ -993,7 +993,7 @@
       "latestEventRungOpenTime": "2026-09-20T10:06:00+00:00",
       "minimumPossibleLagSeconds": 53930.274619,
       "historicalPromotionEligible": false,
-      "recoveredAt": "2026-09-23T13:53:56.986314+00:00",
+      "recoveredAt": "2026-09-24T15:19:10.015410+00:00",
       "recoveryMethod": "event_wide_latest_rung_open_time_upper_bound"
     },
     {
@@ -1012,7 +1012,7 @@
       "latestEventRungOpenTime": "2026-09-20T10:06:00+00:00",
       "minimumPossibleLagSeconds": 53930.274619,
       "historicalPromotionEligible": false,
-      "recoveredAt": "2026-09-23T13:53:56.986314+00:00",
+      "recoveredAt": "2026-09-24T15:19:10.015410+00:00",
       "recoveryMethod": "event_wide_latest_rung_open_time_upper_bound"
     },
     {
@@ -1031,7 +1031,7 @@
       "latestEventRungOpenTime": "2026-09-20T07:06:00+00:00",
       "minimumPossibleLagSeconds": 263654.658759,
       "historicalPromotionEligible": false,
-      "recoveredAt": "2026-09-23T13:53:56.986314+00:00",
+      "recoveredAt": "2026-09-24T15:19:10.015410+00:00",
       "recoveryMethod": "event_wide_latest_rung_open_time_upper_bound"
     },
     {
@@ -1050,7 +1050,7 @@
       "latestEventRungOpenTime": "2026-09-20T07:07:00+00:00",
       "minimumPossibleLagSeconds": 64670.274619,
       "historicalPromotionEligible": false,
-      "recoveredAt": "2026-09-23T13:53:56.986314+00:00",
+      "recoveredAt": "2026-09-24T15:19:10.015410+00:00",
       "recoveryMethod": "event_wide_latest_rung_open_time_upper_bound"
     },
     {
@@ -1069,7 +1069,7 @@
       "latestEventRungOpenTime": "2026-09-20T07:06:00+00:00",
       "minimumPossibleLagSeconds": 64730.274619,
       "historicalPromotionEligible": false,
-      "recoveredAt": "2026-09-23T13:53:56.986314+00:00",
+      "recoveredAt": "2026-09-24T15:19:10.015410+00:00",
       "recoveryMethod": "event_wide_latest_rung_open_time_upper_bound"
     },
     {
@@ -1088,7 +1088,7 @@
       "latestEventRungOpenTime": "2026-09-20T04:06:00+00:00",
       "minimumPossibleLagSeconds": 75530.274619,
       "historicalPromotionEligible": false,
-      "recoveredAt": "2026-09-23T13:53:56.986314+00:00",
+      "recoveredAt": "2026-09-24T15:19:10.015410+00:00",
       "recoveryMethod": "event_wide_latest_rung_open_time_upper_bound"
     },
     {
@@ -1107,7 +1107,7 @@
       "latestEventRungOpenTime": "2026-09-19T22:07:00+00:00",
       "minimumPossibleLagSeconds": 295994.658759,
       "historicalPromotionEligible": false,
-      "recoveredAt": "2026-09-23T13:53:56.986314+00:00",
+      "recoveredAt": "2026-09-24T15:19:10.015410+00:00",
       "recoveryMethod": "event_wide_latest_rung_open_time_upper_bound"
     }
   ],
