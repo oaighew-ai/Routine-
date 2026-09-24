@@ -48,12 +48,32 @@ from datetime import datetime, timezone
 from pathlib import Path
 from typing import Callable, Iterable, Mapping
 
-# Books post look-ahead numbers for the coming week from Sunday evening, and
-# the rest of the market fills in through Monday and Tuesday. These are the
-# hours worth polling densely, in UTC. Sunday 22:00 UTC is Sunday afternoon in
-# the United States, which is early enough to catch Circa-style early releases.
+# When the board for the coming cohort actually opens, in UTC. Measured, not
+# assumed: `data/audit/week4-open-time-backfill.json` recovered Kalshi's own
+# `open_time` for all 35 events of the Sep 25-26 cohort.
+#
+#     Sat 2026-09-19 16:00Z   1 event
+#     Sun 2026-09-20 01:00Z   2
+#     Sun 2026-09-20 04:00Z   5
+#     Sun 2026-09-20 07:00Z  13
+#     Sun 2026-09-20 10:00Z  14
+#
+# Every one of them opened before the window this constant used to describe.
+# It began Sunday at 22:00 UTC, on the sportsbook folklore that look-ahead
+# numbers post Sunday evening US time. Kalshi does not work that way: it opens
+# the next cohort's board while the current one is still being played, from
+# Saturday afternoon UTC. The old window began roughly twelve hours after the
+# last of those opens, so the capture could observe a price but never an
+# opening price. All 35 rows graded `first_seen`, none `true_open`, at a
+# median of 18 hours and a minimum of 15 hours behind the venue.
+#
+# Saturday starts at 12:00 rather than 16:00 because the recovered times are
+# upper bounds (`event_wide_latest_rung_open_time_upper_bound`): a true open
+# can only be earlier than the number above, never later, so the window needs
+# margin on that side and none on the other.
 RELEASE_WINDOW_UTC = {
-    6: range(22, 24),   # Sunday evening
+    5: range(12, 24),   # Saturday afternoon, when the next board goes up
+    6: range(0, 24),    # Sunday, all day: 34 of 35 measured opens land here
     0: range(0, 24),    # Monday, all day
     1: range(0, 18),    # Tuesday, until the market has settled
 }
