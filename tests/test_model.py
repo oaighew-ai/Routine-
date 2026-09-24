@@ -1513,6 +1513,138 @@ class TestCurrentWeek(unittest.TestCase):
         self.assertIsNone(current_week(2026, today="2026-12-01", rows=self.ROWS))
 
 
+class TestReleaseWindowCoversTheVenueOpen(unittest.TestCase):
+    """The window has to contain the hours the exchange actually opens.
+
+    It did not. `data/audit/week4-open-time-backfill.json` recovered Kalshi's
+    own `open_time` for all 35 events of the Sep 25-26 cohort and every one of
+    them opened before the old window began: `trueOpenCount` 0,
+    `definitelyNotTrueOpenCount` 35, minimum lag 15 hours, median 18.
+
+    These are the recovered times, by hour, and they are the derivation for
+    the constant. They are upper bounds, so a real open can only be earlier.
+    """
+
+    # (timestamp, how many of the 35 events opened in that hour)
+    MEASURED_OPENS = (
+        ("2026-09-19T16:06:00+00:00", 1),
+        ("2026-09-20T01:06:00+00:00", 2),
+        ("2026-09-20T04:06:00+00:00", 5),
+        ("2026-09-20T07:07:00+00:00", 13),
+        ("2026-09-20T10:06:00+00:00", 14),
+    )
+
+    def test_every_measured_venue_open_is_inside_the_window(self):
+        from datetime import datetime
+        from cfb_edge.watch import in_release_window
+
+        for stamp, count in self.MEASURED_OPENS:
+            with self.subTest(stamp=stamp, events=count):
+                self.assertTrue(
+                    in_release_window(datetime.fromisoformat(stamp)),
+                    f"{count} events opened at {stamp} and the window excludes it",
+                )
+
+    def test_the_old_window_would_have_missed_all_of_them(self):
+        """Guards the fix itself: reinstating Sunday 22:00 fails here."""
+        from datetime import datetime
+        from cfb_edge.watch import RELEASE_WINDOW_UTC
+
+        old = {6: range(22, 24), 0: range(0, 24), 1: range(0, 18)}
+        missed = 0
+        for stamp, count in self.MEASURED_OPENS:
+            when = datetime.fromisoformat(stamp)
+            hours = old.get(when.weekday())
+            if hours is None or when.hour not in hours:
+                missed += count
+        self.assertEqual(missed, 35)
+        self.assertNotEqual(RELEASE_WINDOW_UTC, old)
+
+    def test_saturday_carries_margin_because_the_times_are_upper_bounds(self):
+        """The recovered time is the latest rung's open, so the real open is at
+        or before it. Margin belongs on the early side only."""
+        from datetime import datetime
+        from cfb_edge.watch import in_release_window
+
+        earliest = datetime.fromisoformat("2026-09-19T16:06:00+00:00")
+        self.assertTrue(in_release_window(earliest))
+        self.assertTrue(
+            in_release_window(earliest.replace(hour=12, minute=0)),
+            "no margin before the earliest observed open",
+        )
+
+    def test_the_window_still_closes_tuesday_evening(self):
+        from datetime import datetime
+        from cfb_edge.watch import in_release_window
+
+        self.assertTrue(in_release_window(datetime(2026, 9, 22, 17, 59)))
+        self.assertFalse(in_release_window(datetime(2026, 9, 22, 18, 0)))
+        self.assertFalse(in_release_window(datetime(2026, 9, 23, 12, 0)))  # Wed
+
+
+class TestCronMatchesTheReleaseWindow(unittest.TestCase):
+    """The crons and the window number the days differently.
+
+    `RELEASE_WINDOW_UTC` is keyed by `datetime.weekday()`, where Monday is 0
+    and Sunday is 6. Cron numbers day-of-week from Sunday, so Sunday is 0 and
+    Saturday is 6. The same day is 5 in one file and 6 in the other, and
+    nothing but a test notices when they drift apart.
+    """
+
+    WORKFLOW = "capture.yml"
+
+    @staticmethod
+    def _crons():
+        import pathlib
+        import re
+
+        root = pathlib.Path(__file__).resolve().parent.parent
+        text = (root / ".github/workflows" / "capture.yml").read_text()
+        return re.findall(r'- cron: "([^"]+)"', text)
+
+    @staticmethod
+    def _cron_dow_to_weekday(field: str) -> int:
+        """Cron day-of-week to `datetime.weekday()`. Sunday is 0 there, 6 here."""
+        return (int(field) + 6) % 7
+
+    def test_every_cron_hour_falls_inside_the_release_window(self):
+        from cfb_edge.watch import RELEASE_WINDOW_UTC
+
+        crons = self._crons()
+        self.assertTrue(crons, "no crons found in the workflow")
+        for line in crons:
+            _, hours, _, months, dow = line.split()
+            self.assertEqual(months, "9-11", line)
+            weekday = self._cron_dow_to_weekday(dow)
+            allowed = RELEASE_WINDOW_UTC.get(weekday)
+            self.assertIsNotNone(
+                allowed, f"{line} polls a day the window excludes")
+            if hours == "*":
+                covered = range(0, 24)
+            else:
+                lo, hi = hours.split("-")
+                covered = range(int(lo), int(hi) + 1)
+            for hour in covered:
+                self.assertIn(
+                    hour, allowed, f"{line} polls {hour:02d}:00 outside the window")
+
+    def test_the_crons_cover_every_day_the_window_names(self):
+        from cfb_edge.watch import RELEASE_WINDOW_UTC
+
+        scheduled = {self._cron_dow_to_weekday(c.split()[4]) for c in self._crons()}
+        self.assertEqual(
+            scheduled, set(RELEASE_WINDOW_UTC),
+            "a day is in the window with nothing scheduled to poll it")
+
+    def test_saturday_is_scheduled_and_is_cron_day_six(self):
+        """The off-by-one this test exists for: Saturday is 5 to Python and 6
+        to cron. Writing 5 in the workflow would silently poll Friday."""
+        crons = {c.split()[4]: c for c in self._crons()}
+        self.assertIn("6", crons, "Saturday (cron 6) is not scheduled")
+        self.assertEqual(self._cron_dow_to_weekday("6"), 5)
+        self.assertEqual(self._cron_dow_to_weekday("0"), 6)  # cron Sunday
+
+
 class TestOpeningWeek(unittest.TestCase):
     """The week a capture can still record at its open, which is not the
     current week.
@@ -2839,8 +2971,12 @@ class TestKickoffGuard(unittest.TestCase):
                              f"UTC{offset:+d}")
 
         # And an instant outside the window stays outside it, read from
-        # anywhere. Saturday afternoon: games are still being played.
-        quiet = datetime(2026, 9, 12, 19, 0, tzinfo=timezone.utc)
+        # anywhere. Saturday before noon UTC, ahead of the hours the exchange
+        # was measured opening in. Saturday is deliberately a day the window
+        # covers in part: on a day it excludes entirely every timezone answers
+        # False anyway, so such a case could not catch a wall-clock misread.
+        # Read in UTC+9 this instant is 15:00 Saturday, which is inside.
+        quiet = datetime(2026, 9, 12, 6, 0, tzinfo=timezone.utc)
         for offset in (0, -4, -7, 2, 9):
             local = quiet.astimezone(timezone(timedelta(hours=offset)))
             self.assertFalse(in_release_window(local), f"UTC{offset:+d}")
@@ -2852,7 +2988,8 @@ class TestKickoffGuard(unittest.TestCase):
         from cfb_edge.watch import in_postseason_window, in_release_window
 
         self.assertTrue(in_release_window(datetime(2026, 9, 13, 22, 30)))
-        self.assertFalse(in_release_window(datetime(2026, 9, 13, 20, 30)))
+        # Saturday 06:30: before the hours the venue was measured opening in.
+        self.assertFalse(in_release_window(datetime(2026, 9, 12, 6, 30)))
         self.assertEqual(
             in_release_window(datetime(2026, 9, 13, 22, 30)),
             in_release_window(datetime(2026, 9, 13, 22, 30,
