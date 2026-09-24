@@ -76,6 +76,8 @@ jobs:
           set -euo pipefail
           python3 - <<'PY'
           import json, os, pathlib, urllib.error, urllib.request
+          from datetime import datetime, timezone
+          from cfb_edge.http_json import fetch_json
           root=pathlib.Path(".tmp/br2")
           key=os.environ.get("CFBD_API_KEY","").strip()
           target_week=int(os.environ["CFBD_TARGET_WEEK"])
@@ -95,16 +97,15 @@ jobs:
                   "https://api.collegefootballdata.com"+endpoint,headers=headers
               )
               try:
-                  with urllib.request.urlopen(req,timeout=60) as resp:
-                      raw=resp.read()
-                  payload=json.loads(raw)
+                  payload=fetch_json(req, expected_type=list)
+                  received=datetime.now(timezone.utc).isoformat()
                   target.write_text(
                       json.dumps(payload,sort_keys=True,separators=(",",":")),
                       encoding="utf-8",
                   )
                   meta.append({
                       "kind":kind,"season":2026,"week":week,
-                      "endpoint":endpoint,"downloadPath":str(target),
+                      "endpoint":endpoint,"downloadPath":str(target),"retrievedAt":received,
                   })
                   health.append({
                       "kind":kind,"endpoint":endpoint,"ok":True,
@@ -118,7 +119,8 @@ jobs:
                   if isinstance(exc, urllib.error.HTTPError):
                       failure["httpStatus"]=exc.code
                       if kind == "wepa" and exc.code in (401,403):
-                          failure["availability"]="ACCESS_TIER_BLOCKED"
+                          failure["availability"]="AUTHORIZATION_OR_ENTITLEMENT_BLOCKED"
+                          failure["nextAction"]="Verify the configured key belongs to the subscribed CFBD account and that opponent-adjusted endpoint entitlement is active. Tier cannot be inferred from this response."
                   health.append(failure)
                   if required:
                       raise
@@ -194,7 +196,7 @@ jobs:
                   "week":item.get("week"),
                   "source":"collegefootballdata",
                   "endpoint":item["endpoint"],
-                  "retrievedAt":os.environ["ASOF"],
+                  "retrievedAt":item["retrievedAt"],
                   "sha256":sha,
                   "bytes":len(raw),
                   "path":str(target.relative_to("capture-data")),
@@ -272,6 +274,7 @@ jobs:
             --venues .tmp/br2/venues.json \
             --wepa .tmp/br2/wepa.json \
             --advanced .tmp/br2/advanced-through-prior.json \
+            --source-manifest .tmp/br2/source-manifest.json \
             --weather .tmp/br2/weather.json \
             --qb-evidence .tmp/br2/qb-evidence.json \
             --as-of "$ASOF" \
@@ -282,7 +285,7 @@ jobs:
         if: steps.prospective.outputs.run == '1'
         run: |
           set -euo pipefail
-          ASOF="$(date -u '+%Y-%m-%dT%H:%M:%SZ')"
+          ASOF="$(python3 -c 'import json; print(json.load(open(".tmp/br2/context.json"))["generatedAt"])')"
           STAMP="$(date -u '+%Y%m%dT%H%M%SZ')"
           mkdir -p "capture-data/data/features/br2/2026/week5"
           mkdir -p "capture-data/data/features/br2/qb"

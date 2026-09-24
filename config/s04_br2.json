@@ -71,5 +71,11 @@
     "travelMilesDiff": "home minus away great-circle miles from registered CFBD team location to registered game venue",
     "windMph": "Open-Meteo 10m sustained wind nearest kickoff from the pregame forecast snapshot; confirmed dome = 0 with audit flag",
     "qbContinuityDiff": "home continuity minus away continuity; each team continuity = 1 iff first-listed QB matches prior official depth chart, otherwise 0; both team packets required"
-  }
+  },
+  "shadowContracts": {
+    "informationState": "CFB_EDGE_INFORMATION_STATE_V1",
+    "decisionTime": "timezone-aware UTC instant; featureAsOf <= decisionTime < kickoff",
+    "canonicalGameId": "cfbd:<immutable provider game id>; external crosswalks require explicit evidence"
+  },
+  "informationStateStatus": "ADAPTER_IMPLEMENTED_AWAITING_VALIDATED_QUOTE_HISTORY"
 }
