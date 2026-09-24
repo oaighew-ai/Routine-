@@ -1,7 +1,7 @@
 {
   "contract": "CFB_EDGE_BR2_CONTEXT_V1",
   "decisionEffect": "NONE",
-  "generatedAt": "2026-09-23T07:57:11+00:00",
+  "generatedAt": "2026-09-24T15:20:28+00:00",
   "modelId": "S04_BR2",
   "rows": [
     {
@@ -13,6 +13,8 @@
         "windMph": true
       },
       "away": "Army",
+      "canonicalGameId": "cfbd:401862779",
+      "decisionTime": "2026-09-24T15:20:28+00:00",
       "eligibilityExclusions": [],
       "evidence": {
         "linePlay": {
@@ -59,21 +61,21 @@
           "auditGrade": true,
           "exclusions": [],
           "forecast": {
-            "precipProbabilityPct": 24.0,
+            "precipProbabilityPct": 2.0,
             "precipitationIn": 0.0,
-            "temperatureF": 74.3,
+            "temperatureF": 72.4,
             "validTime": "2026-09-25T20:00:00+00:00",
-            "windGustMph": 17.0,
-            "windMph": 11.6
+            "windGustMph": 24.2,
+            "windMph": 15.0
           },
           "game": "Army @ Temple",
           "kickoff": "2026-09-25T20:00:00+00:00",
-          "retrievedAt": "2026-09-23T07:57:08.932695+00:00",
+          "retrievedAt": "2026-09-24T15:20:26.336694+00:00",
           "source": {
             "batchLocations": 20,
             "locationIndex": 0,
             "provider": "open-meteo",
-            "sha256": "7845243552d7d6bf371f2102f6f9d56b9c3c92aea7bce200c3db6e889f575cb6",
+            "sha256": "7d77dcdb52e07a4431088c8e04c0d86e47d9f7d37cc8a09afab8f4a824e825d1",
             "url": "https://api.open-meteo.com/v1/forecast?latitude=39.900799%2C33.520682%2C35.800800%2C46.731831%2C41.139094%2C42.286006%2C25.957967%2C37.871043%2C31.558201%2C38.031180%2C41.311610%2C32.412247%2C40.001645%2C42.265836%2C36.888953%2C39.131250%2C35.848898%2C35.310503%2C33.820105%2C33.456340&longitude=-75.167541%2C-86.802433%2C-78.719566%2C-117.160499%2C-81.313460%2C-85.600757%2C-80.238860%2C-122.250773%2C-97.115670%2C-78.513790%2C-105.568138%2C-81.784930%2C-83.019727%2C-83.748696%2C-76.304918%2C-84.516191%2C-90.667744%2C-80.740119%2C-85.766470%2C-88.793365&hourly=temperature_2m%2Cprecipitation_probability%2Cprecipitation%2Cwind_speed_10m%2Cwind_gusts_10m&temperature_unit=fahrenheit&wind_speed_unit=mph&precipitation_unit=inch&timezone=UTC&forecast_days=16"
           },
           "venue": {
@@ -85,22 +87,33 @@
             "venueName": "Lincoln Financial Field"
           },
           "weatherSuppressedByDome": false,
-          "windMph": 11.6
+          "windMph": 15.0
         }
+      },
+      "featureAsOf": {
+        "epaDiff": null,
+        "linePlayDiff": "2026-09-24T15:20:24.708516+00:00",
+        "qbContinuityDiff": null,
+        "travelMilesDiff": "2026-09-24T15:20:21.327880+00:00",
+        "windMph": "2026-09-24T15:20:26.336694+00:00"
       },
       "features": {
         "epaDiff": null,
         "linePlayDiff": -0.6730855300977248,
         "qbContinuityDiff": null,
         "travelMilesDiff": -120.54619478261749,
-        "windMph": 11.6
+        "windMph": 15.0
       },
       "game": "Army @ Temple",
       "home": "Temple",
+      "identityStatus": "VERIFIED",
       "kickoff": "2026-09-25T20:00:00+00:00",
       "pregameEligible": true,
-      "rowSha256": "751d35eab97b113113c383c6d6519446de41c9a02f18828a4e47ca51ccd1bfe9",
-      "snapshotAt": "2026-09-23T07:57:11+00:00"
+      "providerIds": {
+        "cfbd": "401862779"
+      },
+      "rowSha256": "5f098f3223f722c9f7e7a8a0b61a7ef055eec55cfe198ba0e0b0765b614a522c",
+      "snapshotAt": "2026-09-24T15:20:28+00:00"
     },
     {
       "audit": {
@@ -111,6 +124,8 @@
         "windMph": true
       },
       "away": "Navy",
+      "canonicalGameId": "cfbd:401862778",
+      "decisionTime": "2026-09-24T15:20:28+00:00",
       "eligibilityExclusions": [],
       "evidence": {
         "linePlay": {
@@ -159,19 +174,19 @@
           "forecast": {
             "precipProbabilityPct": 0.0,
             "precipitationIn": 0.0,
-            "temperatureF": 79.0,
+            "temperatureF": 80.2,
             "validTime": "2026-09-25T23:00:00+00:00",
-            "windGustMph": 7.8,
-            "windMph": 2.8
+            "windGustMph": 11.9,
+            "windMph": 6.1
           },
           "game": "Navy @ UAB",
           "kickoff": "2026-09-25T23:00:00+00:00",
-          "retrievedAt": "2026-09-23T07:57:08.932695+00:00",
+          "retrievedAt": "2026-09-24T15:20:26.336694+00:00",
           "source": {
             "batchLocations": 20,
             "locationIndex": 1,
             "provider": "open-meteo",
-            "sha256": "7845243552d7d6bf371f2102f6f9d56b9c3c92aea7bce200c3db6e889f575cb6",
+            "sha256": "7d77dcdb52e07a4431088c8e04c0d86e47d9f7d37cc8a09afab8f4a824e825d1",
             "url": "https://api.open-meteo.com/v1/forecast?latitude=39.900799%2C33.520682%2C35.800800%2C46.731831%2C41.139094%2C42.286006%2C25.957967%2C37.871043%2C31.558201%2C38.031180%2C41.311610%2C32.412247%2C40.001645%2C42.265836%2C36.888953%2C39.131250%2C35.848898%2C35.310503%2C33.820105%2C33.456340&longitude=-75.167541%2C-86.802433%2C-78.719566%2C-117.160499%2C-81.313460%2C-85.600757%2C-80.238860%2C-122.250773%2C-97.115670%2C-78.513790%2C-105.568138%2C-81.784930%2C-83.019727%2C-83.748696%2C-76.304918%2C-84.516191%2C-90.667744%2C-80.740119%2C-85.766470%2C-88.793365&hourly=temperature_2m%2Cprecipitation_probability%2Cprecipitation%2Cwind_speed_10m%2Cwind_gusts_10m&temperature_unit=fahrenheit&wind_speed_unit=mph&precipitation_unit=inch&timezone=UTC&forecast_days=16"
           },
           "venue": {
@@ -183,22 +198,33 @@
             "venueName": "Protective Stadium"
           },
           "weatherSuppressedByDome": false,
-          "windMph": 2.8
+          "windMph": 6.1
         }
+      },
+      "featureAsOf": {
+        "epaDiff": null,
+        "linePlayDiff": "2026-09-24T15:20:24.708516+00:00",
+        "qbContinuityDiff": null,
+        "travelMilesDiff": "2026-09-24T15:20:21.327880+00:00",
+        "windMph": "2026-09-24T15:20:26.336694+00:00"
       },
       "features": {
         "epaDiff": null,
         "linePlayDiff": -1.348509103917591,
         "qbContinuityDiff": null,
         "travelMilesDiff": -685.9951694183748,
-        "windMph": 2.8
+        "windMph": 6.1
       },
       "game": "Navy @ UAB",
       "home": "UAB",
+      "identityStatus": "VERIFIED",
       "kickoff": "2026-09-25T23:00:00+00:00",
       "pregameEligible": true,
-      "rowSha256": "fca0a6720628fbe25ce67b275622f9ae3d8fc499da62c932379c96e39ac7f2fb",
-      "snapshotAt": "2026-09-23T07:57:11+00:00"
+      "providerIds": {
+        "cfbd": "401862778"
+      },
+      "rowSha256": "8b2980652604124daf6693067b8b0abca273b02a5eee06e797523aa3acd90fb0",
+      "snapshotAt": "2026-09-24T15:20:28+00:00"
     },
     {
       "audit": {
@@ -209,6 +235,8 @@
         "windMph": true
       },
       "away": "App State",
+      "canonicalGameId": "cfbd:401864572",
+      "decisionTime": "2026-09-24T15:20:28+00:00",
       "eligibilityExclusions": [],
       "evidence": {
         "linePlay": {
@@ -255,21 +283,21 @@
           "auditGrade": true,
           "exclusions": [],
           "forecast": {
-            "precipProbabilityPct": 1.0,
+            "precipProbabilityPct": 0.0,
             "precipitationIn": 0.0,
-            "temperatureF": 69.0,
+            "temperatureF": 68.2,
             "validTime": "2026-09-26T23:00:00+00:00",
-            "windGustMph": 3.1,
-            "windMph": 2.7
+            "windGustMph": 4.5,
+            "windMph": 4.2
           },
           "game": "App State @ NC State",
           "kickoff": "2026-09-26T23:30:00+00:00",
-          "retrievedAt": "2026-09-23T07:57:08.932695+00:00",
+          "retrievedAt": "2026-09-24T15:20:26.336694+00:00",
           "source": {
             "batchLocations": 20,
             "locationIndex": 2,
             "provider": "open-meteo",
-            "sha256": "7845243552d7d6bf371f2102f6f9d56b9c3c92aea7bce200c3db6e889f575cb6",
+            "sha256": "7d77dcdb52e07a4431088c8e04c0d86e47d9f7d37cc8a09afab8f4a824e825d1",
             "url": "https://api.open-meteo.com/v1/forecast?latitude=39.900799%2C33.520682%2C35.800800%2C46.731831%2C41.139094%2C42.286006%2C25.957967%2C37.871043%2C31.558201%2C38.031180%2C41.311610%2C32.412247%2C40.001645%2C42.265836%2C36.888953%2C39.131250%2C35.848898%2C35.310503%2C33.820105%2C33.456340&longitude=-75.167541%2C-86.802433%2C-78.719566%2C-117.160499%2C-81.313460%2C-85.600757%2C-80.238860%2C-122.250773%2C-97.115670%2C-78.513790%2C-105.568138%2C-81.784930%2C-83.019727%2C-83.748696%2C-76.304918%2C-84.516191%2C-90.667744%2C-80.740119%2C-85.766470%2C-88.793365&hourly=temperature_2m%2Cprecipitation_probability%2Cprecipitation%2Cwind_speed_10m%2Cwind_gusts_10m&temperature_unit=fahrenheit&wind_speed_unit=mph&precipitation_unit=inch&timezone=UTC&forecast_days=16"
           },
           "venue": {
@@ -281,22 +309,33 @@
             "venueName": "Carter-Finley Stadium"
           },
           "weatherSuppressedByDome": false,
-          "windMph": 2.7
+          "windMph": 4.2
         }
+      },
+      "featureAsOf": {
+        "epaDiff": null,
+        "linePlayDiff": "2026-09-24T15:20:24.708516+00:00",
+        "qbContinuityDiff": null,
+        "travelMilesDiff": "2026-09-24T15:20:21.327880+00:00",
+        "windMph": "2026-09-24T15:20:26.336694+00:00"
       },
       "features": {
         "epaDiff": null,
         "linePlayDiff": 0.09451280335142931,
         "qbContinuityDiff": null,
         "travelMilesDiff": -168.17531688772746,
-        "windMph": 2.7
+        "windMph": 4.2
       },
       "game": "App State @ NC State",
       "home": "NC State",
+      "identityStatus": "VERIFIED",
       "kickoff": "2026-09-26T23:30:00+00:00",
       "pregameEligible": true,
-      "rowSha256": "96ee1b3bbbb6d3096eef3521444bd496bc0027b01fb1c23aa2f4975ab45c275f",
-      "snapshotAt": "2026-09-23T07:57:11+00:00"
+      "providerIds": {
+        "cfbd": "401864572"
+      },
+      "rowSha256": "65c67752820ec7d2e3828fc686a26e2bad13e38d57e7e2abbdeb3c788d60dbcb",
+      "snapshotAt": "2026-09-24T15:20:28+00:00"
     },
     {
       "audit": {
@@ -307,6 +346,8 @@
         "windMph": true
       },
       "away": "Arizona",
+      "canonicalGameId": "cfbd:401856804",
+      "decisionTime": "2026-09-24T15:20:28+00:00",
       "eligibilityExclusions": [],
       "evidence": {
         "linePlay": {
@@ -353,21 +394,21 @@
           "auditGrade": true,
           "exclusions": [],
           "forecast": {
-            "precipProbabilityPct": 1.0,
+            "precipProbabilityPct": 0.0,
             "precipitationIn": 0.0,
-            "temperatureF": 59.0,
+            "temperatureF": 58.3,
             "validTime": "2026-09-26T23:00:00+00:00",
-            "windGustMph": 9.2,
-            "windMph": 6.5
+            "windGustMph": 6.3,
+            "windMph": 5.6
           },
           "game": "Arizona @ Washington State",
           "kickoff": "2026-09-26T23:30:00+00:00",
-          "retrievedAt": "2026-09-23T07:57:08.932695+00:00",
+          "retrievedAt": "2026-09-24T15:20:26.336694+00:00",
           "source": {
             "batchLocations": 20,
             "locationIndex": 3,
             "provider": "open-meteo",
-            "sha256": "7845243552d7d6bf371f2102f6f9d56b9c3c92aea7bce200c3db6e889f575cb6",
+            "sha256": "7d77dcdb52e07a4431088c8e04c0d86e47d9f7d37cc8a09afab8f4a824e825d1",
             "url": "https://api.open-meteo.com/v1/forecast?latitude=39.900799%2C33.520682%2C35.800800%2C46.731831%2C41.139094%2C42.286006%2C25.957967%2C37.871043%2C31.558201%2C38.031180%2C41.311610%2C32.412247%2C40.001645%2C42.265836%2C36.888953%2C39.131250%2C35.848898%2C35.310503%2C33.820105%2C33.456340&longitude=-75.167541%2C-86.802433%2C-78.719566%2C-117.160499%2C-81.313460%2C-85.600757%2C-80.238860%2C-122.250773%2C-97.115670%2C-78.513790%2C-105.568138%2C-81.784930%2C-83.019727%2C-83.748696%2C-76.304918%2C-84.516191%2C-90.667744%2C-80.740119%2C-85.766470%2C-88.793365&hourly=temperature_2m%2Cprecipitation_probability%2Cprecipitation%2Cwind_speed_10m%2Cwind_gusts_10m&temperature_unit=fahrenheit&wind_speed_unit=mph&precipitation_unit=inch&timezone=UTC&forecast_days=16"
           },
           "venue": {
@@ -379,22 +420,33 @@
             "venueName": "Gesa Field"
           },
           "weatherSuppressedByDome": false,
-          "windMph": 6.5
+          "windMph": 5.6
         }
+      },
+      "featureAsOf": {
+        "epaDiff": null,
+        "linePlayDiff": "2026-09-24T15:20:24.708516+00:00",
+        "qbContinuityDiff": null,
+        "travelMilesDiff": "2026-09-24T15:20:21.327880+00:00",
+        "windMph": "2026-09-24T15:20:26.336694+00:00"
       },
       "features": {
         "epaDiff": null,
         "linePlayDiff": -0.5723627533329028,
         "qbContinuityDiff": null,
         "travelMilesDiff": -1054.5314804601242,
-        "windMph": 6.5
+        "windMph": 5.6
       },
       "game": "Arizona @ Washington State",
       "home": "Washington State",
+      "identityStatus": "VERIFIED",
       "kickoff": "2026-09-26T23:30:00+00:00",
       "pregameEligible": true,
-      "rowSha256": "0d6bf4a5fb62550e8e43469f5957fa0262b8ca99f80c8984d2df4711856fe2c4",
-      "snapshotAt": "2026-09-23T07:57:11+00:00"
+      "providerIds": {
+        "cfbd": "401856804"
+      },
+      "rowSha256": "336d4687d1b90cb47d2cc98870cab14c4ea342739d7f71ad0c1eef6c8bf86ca1",
+      "snapshotAt": "2026-09-24T15:20:28+00:00"
     },
     {
       "audit": {
@@ -405,6 +457,8 @@
         "windMph": true
       },
       "away": "Ball State",
+      "canonicalGameId": "cfbd:401866425",
+      "decisionTime": "2026-09-24T15:20:28+00:00",
       "eligibilityExclusions": [],
       "evidence": {
         "linePlay": {
@@ -453,19 +507,19 @@
           "forecast": {
             "precipProbabilityPct": 0.0,
             "precipitationIn": 0.0,
-            "temperatureF": 67.2,
+            "temperatureF": 66.8,
             "validTime": "2026-09-26T16:00:00+00:00",
-            "windGustMph": 8.3,
-            "windMph": 6.7
+            "windGustMph": 11.9,
+            "windMph": 8.8
           },
           "game": "Ball State @ Kent State",
           "kickoff": "2026-09-26T16:00:00+00:00",
-          "retrievedAt": "2026-09-23T07:57:08.932695+00:00",
+          "retrievedAt": "2026-09-24T15:20:26.336694+00:00",
           "source": {
             "batchLocations": 20,
             "locationIndex": 4,
             "provider": "open-meteo",
-            "sha256": "7845243552d7d6bf371f2102f6f9d56b9c3c92aea7bce200c3db6e889f575cb6",
+            "sha256": "7d77dcdb52e07a4431088c8e04c0d86e47d9f7d37cc8a09afab8f4a824e825d1",
             "url": "https://api.open-meteo.com/v1/forecast?latitude=39.900799%2C33.520682%2C35.800800%2C46.731831%2C41.139094%2C42.286006%2C25.957967%2C37.871043%2C31.558201%2C38.031180%2C41.311610%2C32.412247%2C40.001645%2C42.265836%2C36.888953%2C39.131250%2C35.848898%2C35.310503%2C33.820105%2C33.456340&longitude=-75.167541%2C-86.802433%2C-78.719566%2C-117.160499%2C-81.313460%2C-85.600757%2C-80.238860%2C-122.250773%2C-97.115670%2C-78.513790%2C-105.568138%2C-81.784930%2C-83.019727%2C-83.748696%2C-76.304918%2C-84.516191%2C-90.667744%2C-80.740119%2C-85.766470%2C-88.793365&hourly=temperature_2m%2Cprecipitation_probability%2Cprecipitation%2Cwind_speed_10m%2Cwind_gusts_10m&temperature_unit=fahrenheit&wind_speed_unit=mph&precipitation_unit=inch&timezone=UTC&forecast_days=16"
           },
           "venue": {
@@ -477,22 +531,33 @@
             "venueName": "Dix Stadium"
           },
           "weatherSuppressedByDome": false,
-          "windMph": 6.7
+          "windMph": 8.8
         }
+      },
+      "featureAsOf": {
+        "epaDiff": null,
+        "linePlayDiff": "2026-09-24T15:20:24.708516+00:00",
+        "qbContinuityDiff": null,
+        "travelMilesDiff": "2026-09-24T15:20:21.327880+00:00",
+        "windMph": "2026-09-24T15:20:26.336694+00:00"
       },
       "features": {
         "epaDiff": null,
         "linePlayDiff": -0.023417393975009304,
         "qbContinuityDiff": null,
         "travelMilesDiff": -224.2149895511589,
-        "windMph": 6.7
+        "windMph": 8.8
       },
       "game": "Ball State @ Kent State",
       "home": "Kent State",
+      "identityStatus": "VERIFIED",
       "kickoff": "2026-09-26T16:00:00+00:00",
       "pregameEligible": true,
-      "rowSha256": "ed43e7f2ef34378c05682cb082d93dce2fade6117bc24fceea0f51c1e24b1d2c",
-      "snapshotAt": "2026-09-23T07:57:11+00:00"
+      "providerIds": {
+        "cfbd": "401866425"
+      },
+      "rowSha256": "8361bf82b3d64a2580a2b3af1c4da8f7b013e33e52add7afa85589ab74648f31",
+      "snapshotAt": "2026-09-24T15:20:28+00:00"
     },
     {
       "audit": {
@@ -503,6 +568,8 @@
         "windMph": true
       },
       "away": "Boise State",
+      "canonicalGameId": "cfbd:401860897",
+      "decisionTime": "2026-09-24T15:20:28+00:00",
       "eligibilityExclusions": [],
       "evidence": {
         "linePlay": {
@@ -551,19 +618,19 @@
           "forecast": {
             "precipProbabilityPct": 0.0,
             "precipitationIn": 0.0,
-            "temperatureF": 69.8,
+            "temperatureF": 71.4,
             "validTime": "2026-09-26T19:00:00+00:00",
-            "windGustMph": 4.7,
-            "windMph": 4.6
+            "windGustMph": 6.5,
+            "windMph": 4.7
           },
           "game": "Boise State @ Western Michigan",
           "kickoff": "2026-09-26T19:30:00+00:00",
-          "retrievedAt": "2026-09-23T07:57:08.932695+00:00",
+          "retrievedAt": "2026-09-24T15:20:26.336694+00:00",
           "source": {
             "batchLocations": 20,
             "locationIndex": 5,
             "provider": "open-meteo",
-            "sha256": "7845243552d7d6bf371f2102f6f9d56b9c3c92aea7bce200c3db6e889f575cb6",
+            "sha256": "7d77dcdb52e07a4431088c8e04c0d86e47d9f7d37cc8a09afab8f4a824e825d1",
             "url": "https://api.open-meteo.com/v1/forecast?latitude=39.900799%2C33.520682%2C35.800800%2C46.731831%2C41.139094%2C42.286006%2C25.957967%2C37.871043%2C31.558201%2C38.031180%2C41.311610%2C32.412247%2C40.001645%2C42.265836%2C36.888953%2C39.131250%2C35.848898%2C35.310503%2C33.820105%2C33.456340&longitude=-75.167541%2C-86.802433%2C-78.719566%2C-117.160499%2C-81.313460%2C-85.600757%2C-80.238860%2C-122.250773%2C-97.115670%2C-78.513790%2C-105.568138%2C-81.784930%2C-83.019727%2C-83.748696%2C-76.304918%2C-84.516191%2C-90.667744%2C-80.740119%2C-85.766470%2C-88.793365&hourly=temperature_2m%2Cprecipitation_probability%2Cprecipitation%2Cwind_speed_10m%2Cwind_gusts_10m&temperature_unit=fahrenheit&wind_speed_unit=mph&precipitation_unit=inch&timezone=UTC&forecast_days=16"
           },
           "venue": {
@@ -575,22 +642,33 @@
             "venueName": "Waldo Stadium"
           },
           "weatherSuppressedByDome": false,
-          "windMph": 4.6
+          "windMph": 4.7
         }
+      },
+      "featureAsOf": {
+        "epaDiff": null,
+        "linePlayDiff": "2026-09-24T15:20:24.708516+00:00",
+        "qbContinuityDiff": null,
+        "travelMilesDiff": "2026-09-24T15:20:21.327880+00:00",
+        "windMph": "2026-09-24T15:20:26.336694+00:00"
       },
       "features": {
         "epaDiff": null,
         "linePlayDiff": -1.8007438276574255,
         "qbContinuityDiff": null,
         "travelMilesDiff": -1541.3362906581053,
-        "windMph": 4.6
+        "windMph": 4.7
       },
       "game": "Boise State @ Western Michigan",
       "home": "Western Michigan",
+      "identityStatus": "VERIFIED",
       "kickoff": "2026-09-26T19:30:00+00:00",
       "pregameEligible": true,
-      "rowSha256": "7965c3c34ad5416281126049552630c360a8a4d3f82f67ac4ad41b3d3f7b4e38",
-      "snapshotAt": "2026-09-23T07:57:11+00:00"
+      "providerIds": {
+        "cfbd": "401860897"
+      },
+      "rowSha256": "3a90a37610b375e42dec257da6bc3f321adc8d9c69ad923a2320a02826ee0aaf",
+      "snapshotAt": "2026-09-24T15:20:28+00:00"
     },
     {
       "audit": {
@@ -601,6 +679,8 @@
         "windMph": true
       },
       "away": "Central Michigan",
+      "canonicalGameId": "cfbd:401858238",
+      "decisionTime": "2026-09-24T15:20:28+00:00",
       "eligibilityExclusions": [],
       "evidence": {
         "linePlay": {
@@ -647,21 +727,21 @@
           "auditGrade": true,
           "exclusions": [],
           "forecast": {
-            "precipProbabilityPct": 20.0,
-            "precipitationIn": 0.012,
-            "temperatureF": 85.0,
+            "precipProbabilityPct": 28.0,
+            "precipitationIn": 0.024,
+            "temperatureF": 83.1,
             "validTime": "2026-09-26T22:00:00+00:00",
-            "windGustMph": 9.6,
-            "windMph": 10.0
+            "windGustMph": 9.2,
+            "windMph": 9.8
           },
           "game": "Central Michigan @ Miami",
           "kickoff": "2026-09-26T22:30:00+00:00",
-          "retrievedAt": "2026-09-23T07:57:08.932695+00:00",
+          "retrievedAt": "2026-09-24T15:20:26.336694+00:00",
           "source": {
             "batchLocations": 20,
             "locationIndex": 6,
             "provider": "open-meteo",
-            "sha256": "7845243552d7d6bf371f2102f6f9d56b9c3c92aea7bce200c3db6e889f575cb6",
+            "sha256": "7d77dcdb52e07a4431088c8e04c0d86e47d9f7d37cc8a09afab8f4a824e825d1",
             "url": "https://api.open-meteo.com/v1/forecast?latitude=39.900799%2C33.520682%2C35.800800%2C46.731831%2C41.139094%2C42.286006%2C25.957967%2C37.871043%2C31.558201%2C38.031180%2C41.311610%2C32.412247%2C40.001645%2C42.265836%2C36.888953%2C39.131250%2C35.848898%2C35.310503%2C33.820105%2C33.456340&longitude=-75.167541%2C-86.802433%2C-78.719566%2C-117.160499%2C-81.313460%2C-85.600757%2C-80.238860%2C-122.250773%2C-97.115670%2C-78.513790%2C-105.568138%2C-81.784930%2C-83.019727%2C-83.748696%2C-76.304918%2C-84.516191%2C-90.667744%2C-80.740119%2C-85.766470%2C-88.793365&hourly=temperature_2m%2Cprecipitation_probability%2Cprecipitation%2Cwind_speed_10m%2Cwind_gusts_10m&temperature_unit=fahrenheit&wind_speed_unit=mph&precipitation_unit=inch&timezone=UTC&forecast_days=16"
           },
           "venue": {
@@ -673,22 +753,33 @@
             "venueName": "Hard Rock Stadium"
           },
           "weatherSuppressedByDome": false,
-          "windMph": 10.0
+          "windMph": 9.8
         }
+      },
+      "featureAsOf": {
+        "epaDiff": null,
+        "linePlayDiff": "2026-09-24T15:20:24.708516+00:00",
+        "qbContinuityDiff": null,
+        "travelMilesDiff": "2026-09-24T15:20:21.327880+00:00",
+        "windMph": "2026-09-24T15:20:26.336694+00:00"
       },
       "features": {
         "epaDiff": null,
         "linePlayDiff": 1.3300994816908065,
         "qbContinuityDiff": null,
         "travelMilesDiff": -1243.7696955045008,
-        "windMph": 10.0
+        "windMph": 9.8
       },
       "game": "Central Michigan @ Miami",
       "home": "Miami",
+      "identityStatus": "VERIFIED",
       "kickoff": "2026-09-26T22:30:00+00:00",
       "pregameEligible": true,
-      "rowSha256": "0f1f45021e25c65eff0a4ff4c13a1c8b40c2bfe071a98db93e3b3b79dad9f477",
-      "snapshotAt": "2026-09-23T07:57:11+00:00"
+      "providerIds": {
+        "cfbd": "401858238"
+      },
+      "rowSha256": "3337c7d920d4352027be159b1e3edf934c95d97b1e43af0f2deadabcb37c8e93",
+      "snapshotAt": "2026-09-24T15:20:28+00:00"
     },
     {
       "audit": {
@@ -699,6 +790,8 @@
         "windMph": true
       },
       "away": "Clemson",
+      "canonicalGameId": "cfbd:401858234",
+      "decisionTime": "2026-09-24T15:20:28+00:00",
       "eligibilityExclusions": [],
       "evidence": {
         "linePlay": {
@@ -747,19 +840,19 @@
           "forecast": {
             "precipProbabilityPct": 0.0,
             "precipitationIn": 0.0,
-            "temperatureF": 65.4,
+            "temperatureF": 63.4,
             "validTime": "2026-09-26T02:00:00+00:00",
-            "windGustMph": 6.9,
-            "windMph": 7.8
+            "windGustMph": 3.1,
+            "windMph": 1.4
           },
           "game": "Clemson @ California",
           "kickoff": "2026-09-26T02:30:00+00:00",
-          "retrievedAt": "2026-09-23T07:57:08.932695+00:00",
+          "retrievedAt": "2026-09-24T15:20:26.336694+00:00",
           "source": {
             "batchLocations": 20,
             "locationIndex": 7,
             "provider": "open-meteo",
-            "sha256": "7845243552d7d6bf371f2102f6f9d56b9c3c92aea7bce200c3db6e889f575cb6",
+            "sha256": "7d77dcdb52e07a4431088c8e04c0d86e47d9f7d37cc8a09afab8f4a824e825d1",
             "url": "https://api.open-meteo.com/v1/forecast?latitude=39.900799%2C33.520682%2C35.800800%2C46.731831%2C41.139094%2C42.286006%2C25.957967%2C37.871043%2C31.558201%2C38.031180%2C41.311610%2C32.412247%2C40.001645%2C42.265836%2C36.888953%2C39.131250%2C35.848898%2C35.310503%2C33.820105%2C33.456340&longitude=-75.167541%2C-86.802433%2C-78.719566%2C-117.160499%2C-81.313460%2C-85.600757%2C-80.238860%2C-122.250773%2C-97.115670%2C-78.513790%2C-105.568138%2C-81.784930%2C-83.019727%2C-83.748696%2C-76.304918%2C-84.516191%2C-90.667744%2C-80.740119%2C-85.766470%2C-88.793365&hourly=temperature_2m%2Cprecipitation_probability%2Cprecipitation%2Cwind_speed_10m%2Cwind_gusts_10m&temperature_unit=fahrenheit&wind_speed_unit=mph&precipitation_unit=inch&timezone=UTC&forecast_days=16"
           },
           "venue": {
@@ -771,22 +864,33 @@
             "venueName": "California Memorial Stadium"
           },
           "weatherSuppressedByDome": false,
-          "windMph": 7.8
+          "windMph": 1.4
         }
+      },
+      "featureAsOf": {
+        "epaDiff": null,
+        "linePlayDiff": "2026-09-24T15:20:24.708516+00:00",
+        "qbContinuityDiff": null,
+        "travelMilesDiff": "2026-09-24T15:20:21.327880+00:00",
+        "windMph": "2026-09-24T15:20:26.336694+00:00"
       },
       "features": {
         "epaDiff": null,
         "linePlayDiff": 0.4580214410587735,
         "qbContinuityDiff": null,
         "travelMilesDiff": -2189.8831014795264,
-        "windMph": 7.8
+        "windMph": 1.4
       },
       "game": "Clemson @ California",
       "home": "California",
+      "identityStatus": "VERIFIED",
       "kickoff": "2026-09-26T02:30:00+00:00",
       "pregameEligible": true,
-      "rowSha256": "adcf0248161ecc5e5f9383a6a4aafc613bb5337ff02b14ca903fb6fbb934531d",
-      "snapshotAt": "2026-09-23T07:57:11+00:00"
+      "providerIds": {
+        "cfbd": "401858234"
+      },
+      "rowSha256": "50dc4d818cde93f165aed24190b44f552cdcefcf4e8d4ae629c4e22cad54b352",
+      "snapshotAt": "2026-09-24T15:20:28+00:00"
     },
     {
       "audit": {
@@ -797,6 +901,8 @@
         "windMph": true
       },
       "away": "Colorado",
+      "canonicalGameId": "cfbd:401856813",
+      "decisionTime": "2026-09-24T15:20:28+00:00",
       "eligibilityExclusions": [],
       "evidence": {
         "linePlay": {
@@ -845,19 +951,19 @@
           "forecast": {
             "precipProbabilityPct": 0.0,
             "precipitationIn": 0.0,
-            "temperatureF": 84.5,
+            "temperatureF": 86.7,
             "validTime": "2026-09-26T16:00:00+00:00",
-            "windGustMph": 13.0,
-            "windMph": 10.4
+            "windGustMph": 8.3,
+            "windMph": 7.4
           },
           "game": "Colorado @ Baylor",
           "kickoff": "2026-09-26T16:00:00+00:00",
-          "retrievedAt": "2026-09-23T07:57:08.932695+00:00",
+          "retrievedAt": "2026-09-24T15:20:26.336694+00:00",
           "source": {
             "batchLocations": 20,
             "locationIndex": 8,
             "provider": "open-meteo",
-            "sha256": "7845243552d7d6bf371f2102f6f9d56b9c3c92aea7bce200c3db6e889f575cb6",
+            "sha256": "7d77dcdb52e07a4431088c8e04c0d86e47d9f7d37cc8a09afab8f4a824e825d1",
             "url": "https://api.open-meteo.com/v1/forecast?latitude=39.900799%2C33.520682%2C35.800800%2C46.731831%2C41.139094%2C42.286006%2C25.957967%2C37.871043%2C31.558201%2C38.031180%2C41.311610%2C32.412247%2C40.001645%2C42.265836%2C36.888953%2C39.131250%2C35.848898%2C35.310503%2C33.820105%2C33.456340&longitude=-75.167541%2C-86.802433%2C-78.719566%2C-117.160499%2C-81.313460%2C-85.600757%2C-80.238860%2C-122.250773%2C-97.115670%2C-78.513790%2C-105.568138%2C-81.784930%2C-83.019727%2C-83.748696%2C-76.304918%2C-84.516191%2C-90.667744%2C-80.740119%2C-85.766470%2C-88.793365&hourly=temperature_2m%2Cprecipitation_probability%2Cprecipitation%2Cwind_speed_10m%2Cwind_gusts_10m&temperature_unit=fahrenheit&wind_speed_unit=mph&precipitation_unit=inch&timezone=UTC&forecast_days=16"
           },
           "venue": {
@@ -869,22 +975,33 @@
             "venueName": "McLane Stadium"
           },
           "weatherSuppressedByDome": false,
-          "windMph": 10.4
+          "windMph": 7.4
         }
+      },
+      "featureAsOf": {
+        "epaDiff": null,
+        "linePlayDiff": "2026-09-24T15:20:24.708516+00:00",
+        "qbContinuityDiff": null,
+        "travelMilesDiff": "2026-09-24T15:20:21.327880+00:00",
+        "windMph": "2026-09-24T15:20:26.336694+00:00"
       },
       "features": {
         "epaDiff": null,
         "linePlayDiff": -0.3417780830280832,
         "qbContinuityDiff": null,
         "travelMilesDiff": -740.6898735215003,
-        "windMph": 10.4
+        "windMph": 7.4
       },
       "game": "Colorado @ Baylor",
       "home": "Baylor",
+      "identityStatus": "VERIFIED",
       "kickoff": "2026-09-26T16:00:00+00:00",
       "pregameEligible": true,
-      "rowSha256": "bfd9989f6fa64e77ff051f0dcf1a79e91e2551e934914f718903dd5546f40538",
-      "snapshotAt": "2026-09-23T07:57:11+00:00"
+      "providerIds": {
+        "cfbd": "401856813"
+      },
+      "rowSha256": "a8a1cc099178ca0af8135244fb28ccb71234fbd6116f3cc82a84c3b9726b6a9a",
+      "snapshotAt": "2026-09-24T15:20:28+00:00"
     },
     {
       "audit": {
@@ -895,6 +1012,8 @@
         "windMph": true
       },
       "away": "Colorado State",
+      "canonicalGameId": "cfbd:401860896",
+      "decisionTime": "2026-09-24T15:20:28+00:00",
       "eligibilityExclusions": [],
       "evidence": {
         "linePlay": {
@@ -943,7 +1062,7 @@
           "forecast": null,
           "game": "Colorado State @ UTSA",
           "kickoff": "2026-09-26T16:00:00+00:00",
-          "retrievedAt": "2026-09-23T07:57:08.932695+00:00",
+          "retrievedAt": "2026-09-24T15:20:26.336694+00:00",
           "venue": {
             "dome": true,
             "latitude": 29.4169834,
@@ -956,6 +1075,13 @@
           "windMph": 0.0
         }
       },
+      "featureAsOf": {
+        "epaDiff": null,
+        "linePlayDiff": "2026-09-24T15:20:24.708516+00:00",
+        "qbContinuityDiff": null,
+        "travelMilesDiff": "2026-09-24T15:20:21.327880+00:00",
+        "windMph": "2026-09-24T15:20:26.336694+00:00"
+      },
       "features": {
         "epaDiff": null,
         "linePlayDiff": 0.39294577373845696,
@@ -965,10 +1091,14 @@
       },
       "game": "Colorado State @ UTSA",
       "home": "UTSA",
+      "identityStatus": "VERIFIED",
       "kickoff": "2026-09-26T16:00:00+00:00",
       "pregameEligible": true,
-      "rowSha256": "397f12ae65beecfdaa693d87d10d36e481abff8d8e4882dac2664147e5e9a537",
-      "snapshotAt": "2026-09-23T07:57:11+00:00"
+      "providerIds": {
+        "cfbd": "401860896"
+      },
+      "rowSha256": "27b3f5f2461c6254e7a24a8151db4b6fcfb0288390f433f5838b55d5d9980181",
+      "snapshotAt": "2026-09-24T15:20:28+00:00"
     },
     {
       "audit": {
@@ -979,6 +1109,8 @@
         "windMph": true
       },
       "away": "Delaware",
+      "canonicalGameId": "cfbd:401858239",
+      "decisionTime": "2026-09-24T15:20:28+00:00",
       "eligibilityExclusions": [],
       "evidence": {
         "linePlay": {
@@ -1025,21 +1157,21 @@
           "auditGrade": true,
           "exclusions": [],
           "forecast": {
-            "precipProbabilityPct": 2.0,
+            "precipProbabilityPct": 0.0,
             "precipitationIn": 0.0,
-            "temperatureF": 71.4,
+            "temperatureF": 71.9,
             "validTime": "2026-09-26T22:00:00+00:00",
-            "windGustMph": 8.1,
-            "windMph": 4.4
+            "windGustMph": 19.0,
+            "windMph": 8.4
           },
           "game": "Delaware @ Virginia",
           "kickoff": "2026-09-26T22:00:00+00:00",
-          "retrievedAt": "2026-09-23T07:57:08.932695+00:00",
+          "retrievedAt": "2026-09-24T15:20:26.336694+00:00",
           "source": {
             "batchLocations": 20,
             "locationIndex": 9,
             "provider": "open-meteo",
-            "sha256": "7845243552d7d6bf371f2102f6f9d56b9c3c92aea7bce200c3db6e889f575cb6",
+            "sha256": "7d77dcdb52e07a4431088c8e04c0d86e47d9f7d37cc8a09afab8f4a824e825d1",
             "url": "https://api.open-meteo.com/v1/forecast?latitude=39.900799%2C33.520682%2C35.800800%2C46.731831%2C41.139094%2C42.286006%2C25.957967%2C37.871043%2C31.558201%2C38.031180%2C41.311610%2C32.412247%2C40.001645%2C42.265836%2C36.888953%2C39.131250%2C35.848898%2C35.310503%2C33.820105%2C33.456340&longitude=-75.167541%2C-86.802433%2C-78.719566%2C-117.160499%2C-81.313460%2C-85.600757%2C-80.238860%2C-122.250773%2C-97.115670%2C-78.513790%2C-105.568138%2C-81.784930%2C-83.019727%2C-83.748696%2C-76.304918%2C-84.516191%2C-90.667744%2C-80.740119%2C-85.766470%2C-88.793365&hourly=temperature_2m%2Cprecipitation_probability%2Cprecipitation%2Cwind_speed_10m%2Cwind_gusts_10m&temperature_unit=fahrenheit&wind_speed_unit=mph&precipitation_unit=inch&timezone=UTC&forecast_days=16"
           },
           "venue": {
@@ -1051,22 +1183,33 @@
             "venueName": "Scott Stadium"
           },
           "weatherSuppressedByDome": false,
-          "windMph": 4.4
+          "windMph": 8.4
         }
+      },
+      "featureAsOf": {
+        "epaDiff": null,
+        "linePlayDiff": "2026-09-24T15:20:24.708516+00:00",
+        "qbContinuityDiff": null,
+        "travelMilesDiff": "2026-09-24T15:20:21.327880+00:00",
+        "windMph": "2026-09-24T15:20:26.336694+00:00"
       },
       "features": {
         "epaDiff": null,
         "linePlayDiff": 0.7932535113976513,
         "qbContinuityDiff": null,
         "travelMilesDiff": -186.61306633931218,
-        "windMph": 4.4
+        "windMph": 8.4
       },
       "game": "Delaware @ Virginia",
       "home": "Virginia",
+      "identityStatus": "VERIFIED",
       "kickoff": "2026-09-26T22:00:00+00:00",
       "pregameEligible": true,
-      "rowSha256": "5f3b5bba8a1553d0e75a9cf57e6d8324dd688a3c01f43c0d436f3dd019d4f62a",
-      "snapshotAt": "2026-09-23T07:57:11+00:00"
+      "providerIds": {
+        "cfbd": "401858239"
+      },
+      "rowSha256": "678684064d7dfa0b9ab9a8b011844471d26def750670c6174d9b1909bbd6e9dd",
+      "snapshotAt": "2026-09-24T15:20:28+00:00"
     },
     {
       "audit": {
@@ -1077,6 +1220,8 @@
         "windMph": true
       },
       "away": "Hawai'i",
+      "canonicalGameId": "cfbd:401864510",
+      "decisionTime": "2026-09-24T15:20:28+00:00",
       "eligibilityExclusions": [],
       "evidence": {
         "linePlay": {
@@ -1125,19 +1270,19 @@
           "forecast": {
             "precipProbabilityPct": 2.0,
             "precipitationIn": 0.0,
-            "temperatureF": 73.7,
+            "temperatureF": 73.4,
             "validTime": "2026-09-26T19:00:00+00:00",
-            "windGustMph": 14.1,
-            "windMph": 11.4
+            "windGustMph": 13.4,
+            "windMph": 11.2
           },
           "game": "Hawai'i @ Wyoming",
           "kickoff": "2026-09-26T19:00:00+00:00",
-          "retrievedAt": "2026-09-23T07:57:08.932695+00:00",
+          "retrievedAt": "2026-09-24T15:20:26.336694+00:00",
           "source": {
             "batchLocations": 20,
             "locationIndex": 10,
             "provider": "open-meteo",
-            "sha256": "7845243552d7d6bf371f2102f6f9d56b9c3c92aea7bce200c3db6e889f575cb6",
+            "sha256": "7d77dcdb52e07a4431088c8e04c0d86e47d9f7d37cc8a09afab8f4a824e825d1",
             "url": "https://api.open-meteo.com/v1/forecast?latitude=39.900799%2C33.520682%2C35.800800%2C46.731831%2C41.139094%2C42.286006%2C25.957967%2C37.871043%2C31.558201%2C38.031180%2C41.311610%2C32.412247%2C40.001645%2C42.265836%2C36.888953%2C39.131250%2C35.848898%2C35.310503%2C33.820105%2C33.456340&longitude=-75.167541%2C-86.802433%2C-78.719566%2C-117.160499%2C-81.313460%2C-85.600757%2C-80.238860%2C-122.250773%2C-97.115670%2C-78.513790%2C-105.568138%2C-81.784930%2C-83.019727%2C-83.748696%2C-76.304918%2C-84.516191%2C-90.667744%2C-80.740119%2C-85.766470%2C-88.793365&hourly=temperature_2m%2Cprecipitation_probability%2Cprecipitation%2Cwind_speed_10m%2Cwind_gusts_10m&temperature_unit=fahrenheit&wind_speed_unit=mph&precipitation_unit=inch&timezone=UTC&forecast_days=16"
           },
           "venue": {
@@ -1149,22 +1294,33 @@
             "venueName": "War Memorial Stadium"
           },
           "weatherSuppressedByDome": false,
-          "windMph": 11.4
+          "windMph": 11.2
         }
+      },
+      "featureAsOf": {
+        "epaDiff": null,
+        "linePlayDiff": "2026-09-24T15:20:24.708516+00:00",
+        "qbContinuityDiff": null,
+        "travelMilesDiff": "2026-09-24T15:20:21.327880+00:00",
+        "windMph": "2026-09-24T15:20:26.336694+00:00"
       },
       "features": {
         "epaDiff": null,
         "linePlayDiff": 0.33574894079138584,
         "qbContinuityDiff": null,
         "travelMilesDiff": -3321.5005672879274,
-        "windMph": 11.4
+        "windMph": 11.2
       },
       "game": "Hawai'i @ Wyoming",
       "home": "Wyoming",
+      "identityStatus": "VERIFIED",
       "kickoff": "2026-09-26T19:00:00+00:00",
       "pregameEligible": true,
-      "rowSha256": "c7ab84c9d72896ff2a03de9f9c01e4e653cf57171ee97ced5bd4be76ee76fcf4",
-      "snapshotAt": "2026-09-23T07:57:11+00:00"
+      "providerIds": {
+        "cfbd": "401864510"
+      },
+      "rowSha256": "6b6ea2cdf68043ac98bef42c250f245264088545842be305abe187ef0ef37ec2",
+      "snapshotAt": "2026-09-24T15:20:28+00:00"
     },
     {
       "audit": {
@@ -1175,6 +1331,8 @@
         "windMph": true
       },
       "away": "Houston",
+      "canonicalGameId": "cfbd:401856806",
+      "decisionTime": "2026-09-24T15:20:28+00:00",
       "eligibilityExclusions": [],
       "evidence": {
         "linePlay": {
@@ -1223,19 +1381,19 @@
           "forecast": {
             "precipProbabilityPct": 0.0,
             "precipitationIn": 0.0,
-            "temperatureF": 80.1,
+            "temperatureF": 81.0,
             "validTime": "2026-09-26T20:00:00+00:00",
-            "windGustMph": 6.0,
-            "windMph": 5.6
+            "windGustMph": 6.7,
+            "windMph": 5.2
           },
           "game": "Houston @ Georgia Southern",
           "kickoff": "2026-09-26T20:00:00+00:00",
-          "retrievedAt": "2026-09-23T07:57:08.932695+00:00",
+          "retrievedAt": "2026-09-24T15:20:26.336694+00:00",
           "source": {
             "batchLocations": 20,
             "locationIndex": 11,
             "provider": "open-meteo",
-            "sha256": "7845243552d7d6bf371f2102f6f9d56b9c3c92aea7bce200c3db6e889f575cb6",
+            "sha256": "7d77dcdb52e07a4431088c8e04c0d86e47d9f7d37cc8a09afab8f4a824e825d1",
             "url": "https://api.open-meteo.com/v1/forecast?latitude=39.900799%2C33.520682%2C35.800800%2C46.731831%2C41.139094%2C42.286006%2C25.957967%2C37.871043%2C31.558201%2C38.031180%2C41.311610%2C32.412247%2C40.001645%2C42.265836%2C36.888953%2C39.131250%2C35.848898%2C35.310503%2C33.820105%2C33.456340&longitude=-75.167541%2C-86.802433%2C-78.719566%2C-117.160499%2C-81.313460%2C-85.600757%2C-80.238860%2C-122.250773%2C-97.115670%2C-78.513790%2C-105.568138%2C-81.784930%2C-83.019727%2C-83.748696%2C-76.304918%2C-84.516191%2C-90.667744%2C-80.740119%2C-85.766470%2C-88.793365&hourly=temperature_2m%2Cprecipitation_probability%2Cprecipitation%2Cwind_speed_10m%2Cwind_gusts_10m&temperature_unit=fahrenheit&wind_speed_unit=mph&precipitation_unit=inch&timezone=UTC&forecast_days=16"
           },
           "venue": {
@@ -1247,22 +1405,33 @@
             "venueName": "Allen E. Paulson Stadium"
           },
           "weatherSuppressedByDome": false,
-          "windMph": 5.6
+          "windMph": 5.2
         }
+      },
+      "featureAsOf": {
+        "epaDiff": null,
+        "linePlayDiff": "2026-09-24T15:20:24.708516+00:00",
+        "qbContinuityDiff": null,
+        "travelMilesDiff": "2026-09-24T15:20:21.327880+00:00",
+        "windMph": "2026-09-24T15:20:26.336694+00:00"
       },
       "features": {
         "epaDiff": null,
         "linePlayDiff": -0.7843987445863716,
         "qbContinuityDiff": null,
         "travelMilesDiff": -823.3708742136048,
-        "windMph": 5.6
+        "windMph": 5.2
       },
       "game": "Houston @ Georgia Southern",
       "home": "Georgia Southern",
+      "identityStatus": "VERIFIED",
       "kickoff": "2026-09-26T20:00:00+00:00",
       "pregameEligible": true,
-      "rowSha256": "8d1eb2597a3fb43cc543e1c2fc7b08831479d775bd330b83164213c1ca246f38",
-      "snapshotAt": "2026-09-23T07:57:11+00:00"
+      "providerIds": {
+        "cfbd": "401856806"
+      },
+      "rowSha256": "4d8f188dda43c95728a06b6819fd7341cbb73f273ec9c58e0f293761e063070e",
+      "snapshotAt": "2026-09-24T15:20:28+00:00"
     },
     {
       "audit": {
@@ -1273,6 +1442,8 @@
         "windMph": true
       },
       "away": "Illinois",
+      "canonicalGameId": "cfbd:401858465",
+      "decisionTime": "2026-09-24T15:20:28+00:00",
       "eligibilityExclusions": [],
       "evidence": {
         "linePlay": {
@@ -1321,19 +1492,19 @@
           "forecast": {
             "precipProbabilityPct": 0.0,
             "precipitationIn": 0.0,
-            "temperatureF": 66.2,
+            "temperatureF": 66.4,
             "validTime": "2026-09-26T16:00:00+00:00",
-            "windGustMph": 8.7,
+            "windGustMph": 8.3,
             "windMph": 5.2
           },
           "game": "Illinois @ Ohio State",
           "kickoff": "2026-09-26T16:00:00+00:00",
-          "retrievedAt": "2026-09-23T07:57:08.932695+00:00",
+          "retrievedAt": "2026-09-24T15:20:26.336694+00:00",
           "source": {
             "batchLocations": 20,
             "locationIndex": 12,
             "provider": "open-meteo",
-            "sha256": "7845243552d7d6bf371f2102f6f9d56b9c3c92aea7bce200c3db6e889f575cb6",
+            "sha256": "7d77dcdb52e07a4431088c8e04c0d86e47d9f7d37cc8a09afab8f4a824e825d1",
             "url": "https://api.open-meteo.com/v1/forecast?latitude=39.900799%2C33.520682%2C35.800800%2C46.731831%2C41.139094%2C42.286006%2C25.957967%2C37.871043%2C31.558201%2C38.031180%2C41.311610%2C32.412247%2C40.001645%2C42.265836%2C36.888953%2C39.131250%2C35.848898%2C35.310503%2C33.820105%2C33.456340&longitude=-75.167541%2C-86.802433%2C-78.719566%2C-117.160499%2C-81.313460%2C-85.600757%2C-80.238860%2C-122.250773%2C-97.115670%2C-78.513790%2C-105.568138%2C-81.784930%2C-83.019727%2C-83.748696%2C-76.304918%2C-84.516191%2C-90.667744%2C-80.740119%2C-85.766470%2C-88.793365&hourly=temperature_2m%2Cprecipitation_probability%2Cprecipitation%2Cwind_speed_10m%2Cwind_gusts_10m&temperature_unit=fahrenheit&wind_speed_unit=mph&precipitation_unit=inch&timezone=UTC&forecast_days=16"
           },
           "venue": {
@@ -1348,6 +1519,13 @@
           "windMph": 5.2
         }
       },
+      "featureAsOf": {
+        "epaDiff": null,
+        "linePlayDiff": "2026-09-24T15:20:24.708516+00:00",
+        "qbContinuityDiff": null,
+        "travelMilesDiff": "2026-09-24T15:20:21.327880+00:00",
+        "windMph": "2026-09-24T15:20:26.336694+00:00"
+      },
       "features": {
         "epaDiff": null,
         "linePlayDiff": -0.08467322669450361,
@@ -1357,10 +1535,14 @@
       },
       "game": "Illinois @ Ohio State",
       "home": "Ohio State",
+      "identityStatus": "VERIFIED",
       "kickoff": "2026-09-26T16:00:00+00:00",
       "pregameEligible": true,
-      "rowSha256": "5bb7017938077349f3814dac3b41977e4c1b0a592b51c394ddcb2a39e988671d",
-      "snapshotAt": "2026-09-23T07:57:11+00:00"
+      "providerIds": {
+        "cfbd": "401858465"
+      },
+      "rowSha256": "a351d9ad4fbe456ee1c1e645c994572c3a73f33f43f48c0d7f4057975656955b",
+      "snapshotAt": "2026-09-24T15:20:28+00:00"
     },
     {
       "audit": {
@@ -1371,6 +1553,8 @@
         "windMph": true
       },
       "away": "Iowa",
+      "canonicalGameId": "cfbd:401858463",
+      "decisionTime": "2026-09-24T15:20:28+00:00",
       "eligibilityExclusions": [],
       "evidence": {
         "linePlay": {
@@ -1419,19 +1603,19 @@
           "forecast": {
             "precipProbabilityPct": 0.0,
             "precipitationIn": 0.0,
-            "temperatureF": 71.4,
+            "temperatureF": 72.4,
             "validTime": "2026-09-26T19:00:00+00:00",
-            "windGustMph": 6.9,
-            "windMph": 5.7
+            "windGustMph": 10.5,
+            "windMph": 8.1
           },
           "game": "Iowa @ Michigan",
           "kickoff": "2026-09-26T19:30:00+00:00",
-          "retrievedAt": "2026-09-23T07:57:08.932695+00:00",
+          "retrievedAt": "2026-09-24T15:20:26.336694+00:00",
           "source": {
             "batchLocations": 20,
             "locationIndex": 13,
             "provider": "open-meteo",
-            "sha256": "7845243552d7d6bf371f2102f6f9d56b9c3c92aea7bce200c3db6e889f575cb6",
+            "sha256": "7d77dcdb52e07a4431088c8e04c0d86e47d9f7d37cc8a09afab8f4a824e825d1",
             "url": "https://api.open-meteo.com/v1/forecast?latitude=39.900799%2C33.520682%2C35.800800%2C46.731831%2C41.139094%2C42.286006%2C25.957967%2C37.871043%2C31.558201%2C38.031180%2C41.311610%2C32.412247%2C40.001645%2C42.265836%2C36.888953%2C39.131250%2C35.848898%2C35.310503%2C33.820105%2C33.456340&longitude=-75.167541%2C-86.802433%2C-78.719566%2C-117.160499%2C-81.313460%2C-85.600757%2C-80.238860%2C-122.250773%2C-97.115670%2C-78.513790%2C-105.568138%2C-81.784930%2C-83.019727%2C-83.748696%2C-76.304918%2C-84.516191%2C-90.667744%2C-80.740119%2C-85.766470%2C-88.793365&hourly=temperature_2m%2Cprecipitation_probability%2Cprecipitation%2Cwind_speed_10m%2Cwind_gusts_10m&temperature_unit=fahrenheit&wind_speed_unit=mph&precipitation_unit=inch&timezone=UTC&forecast_days=16"
           },
           "venue": {
@@ -1443,22 +1627,33 @@
             "venueName": "Michigan Stadium"
           },
           "weatherSuppressedByDome": false,
-          "windMph": 5.7
+          "windMph": 8.1
         }
+      },
+      "featureAsOf": {
+        "epaDiff": null,
+        "linePlayDiff": "2026-09-24T15:20:24.708516+00:00",
+        "qbContinuityDiff": null,
+        "travelMilesDiff": "2026-09-24T15:20:21.327880+00:00",
+        "windMph": "2026-09-24T15:20:26.336694+00:00"
       },
       "features": {
         "epaDiff": null,
         "linePlayDiff": -0.9154565331657927,
         "qbContinuityDiff": null,
         "travelMilesDiff": -402.9077908466444,
-        "windMph": 5.7
+        "windMph": 8.1
       },
       "game": "Iowa @ Michigan",
       "home": "Michigan",
+      "identityStatus": "VERIFIED",
       "kickoff": "2026-09-26T19:30:00+00:00",
       "pregameEligible": true,
-      "rowSha256": "5179bc7f777c0d96122ff524efde85a04fd9b342da3e6d91d0acc3b5b0d02bf6",
-      "snapshotAt": "2026-09-23T07:57:11+00:00"
+      "providerIds": {
+        "cfbd": "401858463"
+      },
+      "rowSha256": "3f4ab1893c5be678b86de81d26ad4d87d3af7d81d09951af8cd8837ee3799199",
+      "snapshotAt": "2026-09-24T15:20:28+00:00"
     },
     {
       "audit": {
@@ -1469,6 +1664,8 @@
         "windMph": true
       },
       "away": "James Madison",
+      "canonicalGameId": "cfbd:401869961",
+      "decisionTime": "2026-09-24T15:20:28+00:00",
       "eligibilityExclusions": [],
       "evidence": {
         "linePlay": {
@@ -1515,21 +1712,21 @@
           "auditGrade": true,
           "exclusions": [],
           "forecast": {
-            "precipProbabilityPct": 6.0,
+            "precipProbabilityPct": 4.0,
             "precipitationIn": 0.0,
-            "temperatureF": 74.1,
+            "temperatureF": 75.0,
             "validTime": "2026-09-26T22:00:00+00:00",
-            "windGustMph": 9.4,
-            "windMph": 6.3
+            "windGustMph": 17.0,
+            "windMph": 10.2
           },
           "game": "James Madison @ Old Dominion",
           "kickoff": "2026-09-26T22:00:00+00:00",
-          "retrievedAt": "2026-09-23T07:57:08.932695+00:00",
+          "retrievedAt": "2026-09-24T15:20:26.336694+00:00",
           "source": {
             "batchLocations": 20,
             "locationIndex": 14,
             "provider": "open-meteo",
-            "sha256": "7845243552d7d6bf371f2102f6f9d56b9c3c92aea7bce200c3db6e889f575cb6",
+            "sha256": "7d77dcdb52e07a4431088c8e04c0d86e47d9f7d37cc8a09afab8f4a824e825d1",
             "url": "https://api.open-meteo.com/v1/forecast?latitude=39.900799%2C33.520682%2C35.800800%2C46.731831%2C41.139094%2C42.286006%2C25.957967%2C37.871043%2C31.558201%2C38.031180%2C41.311610%2C32.412247%2C40.001645%2C42.265836%2C36.888953%2C39.131250%2C35.848898%2C35.310503%2C33.820105%2C33.456340&longitude=-75.167541%2C-86.802433%2C-78.719566%2C-117.160499%2C-81.313460%2C-85.600757%2C-80.238860%2C-122.250773%2C-97.115670%2C-78.513790%2C-105.568138%2C-81.784930%2C-83.019727%2C-83.748696%2C-76.304918%2C-84.516191%2C-90.667744%2C-80.740119%2C-85.766470%2C-88.793365&hourly=temperature_2m%2Cprecipitation_probability%2Cprecipitation%2Cwind_speed_10m%2Cwind_gusts_10m&temperature_unit=fahrenheit&wind_speed_unit=mph&precipitation_unit=inch&timezone=UTC&forecast_days=16"
           },
           "venue": {
@@ -1541,22 +1738,33 @@
             "venueName": "S.B. Ballard Stadium"
           },
           "weatherSuppressedByDome": false,
-          "windMph": 6.3
+          "windMph": 10.2
         }
+      },
+      "featureAsOf": {
+        "epaDiff": null,
+        "linePlayDiff": "2026-09-24T15:20:24.708516+00:00",
+        "qbContinuityDiff": null,
+        "travelMilesDiff": "2026-09-24T15:20:21.327880+00:00",
+        "windMph": "2026-09-24T15:20:26.336694+00:00"
       },
       "features": {
         "epaDiff": null,
         "linePlayDiff": -1.6749608317190408,
         "qbContinuityDiff": null,
         "travelMilesDiff": -176.4649569635201,
-        "windMph": 6.3
+        "windMph": 10.2
       },
       "game": "James Madison @ Old Dominion",
       "home": "Old Dominion",
+      "identityStatus": "VERIFIED",
       "kickoff": "2026-09-26T22:00:00+00:00",
       "pregameEligible": true,
-      "rowSha256": "8739d25f906cc1c4eb1c1c257ba019df655315cdbd59422795889e804b7f2417",
-      "snapshotAt": "2026-09-23T07:57:11+00:00"
+      "providerIds": {
+        "cfbd": "401869961"
+      },
+      "rowSha256": "a57dc0f5df7fb573b0aadcdaa426f53c52fb26f0598a88f94026a840ce0a89ba",
+      "snapshotAt": "2026-09-24T15:20:28+00:00"
     },
     {
       "audit": {
@@ -1567,6 +1775,8 @@
         "windMph": true
       },
       "away": "Kansas State",
+      "canonicalGameId": "cfbd:401856814",
+      "decisionTime": "2026-09-24T15:20:28+00:00",
       "eligibilityExclusions": [],
       "evidence": {
         "linePlay": {
@@ -1615,19 +1825,19 @@
           "forecast": {
             "precipProbabilityPct": 0.0,
             "precipitationIn": 0.0,
-            "temperatureF": 64.5,
+            "temperatureF": 63.5,
             "validTime": "2026-09-26T23:00:00+00:00",
-            "windGustMph": 9.4,
-            "windMph": 4.4
+            "windGustMph": 3.4,
+            "windMph": 3.2
           },
           "game": "Kansas State @ Cincinnati",
           "kickoff": "2026-09-26T23:00:00+00:00",
-          "retrievedAt": "2026-09-23T07:57:08.932695+00:00",
+          "retrievedAt": "2026-09-24T15:20:26.336694+00:00",
           "source": {
             "batchLocations": 20,
             "locationIndex": 15,
             "provider": "open-meteo",
-            "sha256": "7845243552d7d6bf371f2102f6f9d56b9c3c92aea7bce200c3db6e889f575cb6",
+            "sha256": "7d77dcdb52e07a4431088c8e04c0d86e47d9f7d37cc8a09afab8f4a824e825d1",
             "url": "https://api.open-meteo.com/v1/forecast?latitude=39.900799%2C33.520682%2C35.800800%2C46.731831%2C41.139094%2C42.286006%2C25.957967%2C37.871043%2C31.558201%2C38.031180%2C41.311610%2C32.412247%2C40.001645%2C42.265836%2C36.888953%2C39.131250%2C35.848898%2C35.310503%2C33.820105%2C33.456340&longitude=-75.167541%2C-86.802433%2C-78.719566%2C-117.160499%2C-81.313460%2C-85.600757%2C-80.238860%2C-122.250773%2C-97.115670%2C-78.513790%2C-105.568138%2C-81.784930%2C-83.019727%2C-83.748696%2C-76.304918%2C-84.516191%2C-90.667744%2C-80.740119%2C-85.766470%2C-88.793365&hourly=temperature_2m%2Cprecipitation_probability%2Cprecipitation%2Cwind_speed_10m%2Cwind_gusts_10m&temperature_unit=fahrenheit&wind_speed_unit=mph&precipitation_unit=inch&timezone=UTC&forecast_days=16"
           },
           "venue": {
@@ -1639,22 +1849,33 @@
             "venueName": "Nippert Stadium"
           },
           "weatherSuppressedByDome": false,
-          "windMph": 4.4
+          "windMph": 3.2
         }
+      },
+      "featureAsOf": {
+        "epaDiff": null,
+        "linePlayDiff": "2026-09-24T15:20:24.708516+00:00",
+        "qbContinuityDiff": null,
+        "travelMilesDiff": "2026-09-24T15:20:21.327880+00:00",
+        "windMph": "2026-09-24T15:20:26.336694+00:00"
       },
       "features": {
         "epaDiff": null,
         "linePlayDiff": -0.4284893784421717,
         "qbContinuityDiff": null,
         "travelMilesDiff": -646.5267821874972,
-        "windMph": 4.4
+        "windMph": 3.2
       },
       "game": "Kansas State @ Cincinnati",
       "home": "Cincinnati",
+      "identityStatus": "VERIFIED",
       "kickoff": "2026-09-26T23:00:00+00:00",
       "pregameEligible": true,
-      "rowSha256": "de330c6799d77347225e5d424611ba95f730b866510eb88f8379e9a882c10f98",
-      "snapshotAt": "2026-09-23T07:57:11+00:00"
+      "providerIds": {
+        "cfbd": "401856814"
+      },
+      "rowSha256": "b6e68f422d48c2fc3a9ca7608621fd28c190c62377026efa6ec0058059a1eb8f",
+      "snapshotAt": "2026-09-24T15:20:28+00:00"
     },
     {
       "audit": {
@@ -1665,6 +1886,8 @@
         "windMph": true
       },
       "away": "Kennesaw State",
+      "canonicalGameId": "cfbd:401869931",
+      "decisionTime": "2026-09-24T15:20:28+00:00",
       "eligibilityExclusions": [],
       "evidence": {
         "linePlay": {
@@ -1711,21 +1934,21 @@
           "auditGrade": true,
           "exclusions": [],
           "forecast": {
-            "precipProbabilityPct": 2.0,
-            "precipitationIn": 0.004,
-            "temperatureF": 69.1,
+            "precipProbabilityPct": 0.0,
+            "precipitationIn": 0.0,
+            "temperatureF": 79.6,
             "validTime": "2026-09-26T23:00:00+00:00",
-            "windGustMph": 19.2,
-            "windMph": 10.2
+            "windGustMph": 16.3,
+            "windMph": 12.2
           },
           "game": "Kennesaw State @ Arkansas State",
           "kickoff": "2026-09-26T23:00:00+00:00",
-          "retrievedAt": "2026-09-23T07:57:08.932695+00:00",
+          "retrievedAt": "2026-09-24T15:20:26.336694+00:00",
           "source": {
             "batchLocations": 20,
             "locationIndex": 16,
             "provider": "open-meteo",
-            "sha256": "7845243552d7d6bf371f2102f6f9d56b9c3c92aea7bce200c3db6e889f575cb6",
+            "sha256": "7d77dcdb52e07a4431088c8e04c0d86e47d9f7d37cc8a09afab8f4a824e825d1",
             "url": "https://api.open-meteo.com/v1/forecast?latitude=39.900799%2C33.520682%2C35.800800%2C46.731831%2C41.139094%2C42.286006%2C25.957967%2C37.871043%2C31.558201%2C38.031180%2C41.311610%2C32.412247%2C40.001645%2C42.265836%2C36.888953%2C39.131250%2C35.848898%2C35.310503%2C33.820105%2C33.456340&longitude=-75.167541%2C-86.802433%2C-78.719566%2C-117.160499%2C-81.313460%2C-85.600757%2C-80.238860%2C-122.250773%2C-97.115670%2C-78.513790%2C-105.568138%2C-81.784930%2C-83.019727%2C-83.748696%2C-76.304918%2C-84.516191%2C-90.667744%2C-80.740119%2C-85.766470%2C-88.793365&hourly=temperature_2m%2Cprecipitation_probability%2Cprecipitation%2Cwind_speed_10m%2Cwind_gusts_10m&temperature_unit=fahrenheit&wind_speed_unit=mph&precipitation_unit=inch&timezone=UTC&forecast_days=16"
           },
           "venue": {
@@ -1737,22 +1960,33 @@
             "venueName": "Centennial Bank Stadium"
           },
           "weatherSuppressedByDome": false,
-          "windMph": 10.2
+          "windMph": 12.2
         }
+      },
+      "featureAsOf": {
+        "epaDiff": null,
+        "linePlayDiff": "2026-09-24T15:20:24.708516+00:00",
+        "qbContinuityDiff": null,
+        "travelMilesDiff": "2026-09-24T15:20:21.327880+00:00",
+        "windMph": "2026-09-24T15:20:26.336694+00:00"
       },
       "features": {
         "epaDiff": null,
         "linePlayDiff": 0.4122548656720926,
         "qbContinuityDiff": null,
         "travelMilesDiff": -367.59955806468446,
-        "windMph": 10.2
+        "windMph": 12.2
       },
       "game": "Kennesaw State @ Arkansas State",
       "home": "Arkansas State",
+      "identityStatus": "VERIFIED",
       "kickoff": "2026-09-26T23:00:00+00:00",
       "pregameEligible": true,
-      "rowSha256": "9e3554d989b2c52ddce6d975dddeaf46d9ae11ba6bafc6a211b7ff5a8e14f4b8",
-      "snapshotAt": "2026-09-23T07:57:11+00:00"
+      "providerIds": {
+        "cfbd": "401869931"
+      },
+      "rowSha256": "f9531eee095a5bc301925a33cca07a337424347ef8097b1b625e9599781d12bd",
+      "snapshotAt": "2026-09-24T15:20:28+00:00"
     },
     {
       "audit": {
@@ -1763,6 +1997,8 @@
         "windMph": true
       },
       "away": "Louisiana",
+      "canonicalGameId": "cfbd:401862780",
+      "decisionTime": "2026-09-24T15:20:28+00:00",
       "eligibilityExclusions": [],
       "evidence": {
         "linePlay": {
@@ -1811,19 +2047,19 @@
           "forecast": {
             "precipProbabilityPct": 0.0,
             "precipitationIn": 0.0,
-            "temperatureF": 77.2,
+            "temperatureF": 79.0,
             "validTime": "2026-09-26T22:00:00+00:00",
-            "windGustMph": 6.5,
-            "windMph": 5.3
+            "windGustMph": 7.6,
+            "windMph": 4.1
           },
           "game": "Louisiana @ Charlotte",
           "kickoff": "2026-09-26T22:30:00+00:00",
-          "retrievedAt": "2026-09-23T07:57:08.932695+00:00",
+          "retrievedAt": "2026-09-24T15:20:26.336694+00:00",
           "source": {
             "batchLocations": 20,
             "locationIndex": 17,
             "provider": "open-meteo",
-            "sha256": "7845243552d7d6bf371f2102f6f9d56b9c3c92aea7bce200c3db6e889f575cb6",
+            "sha256": "7d77dcdb52e07a4431088c8e04c0d86e47d9f7d37cc8a09afab8f4a824e825d1",
             "url": "https://api.open-meteo.com/v1/forecast?latitude=39.900799%2C33.520682%2C35.800800%2C46.731831%2C41.139094%2C42.286006%2C25.957967%2C37.871043%2C31.558201%2C38.031180%2C41.311610%2C32.412247%2C40.001645%2C42.265836%2C36.888953%2C39.131250%2C35.848898%2C35.310503%2C33.820105%2C33.456340&longitude=-75.167541%2C-86.802433%2C-78.719566%2C-117.160499%2C-81.313460%2C-85.600757%2C-80.238860%2C-122.250773%2C-97.115670%2C-78.513790%2C-105.568138%2C-81.784930%2C-83.019727%2C-83.748696%2C-76.304918%2C-84.516191%2C-90.667744%2C-80.740119%2C-85.766470%2C-88.793365&hourly=temperature_2m%2Cprecipitation_probability%2Cprecipitation%2Cwind_speed_10m%2Cwind_gusts_10m&temperature_unit=fahrenheit&wind_speed_unit=mph&precipitation_unit=inch&timezone=UTC&forecast_days=16"
           },
           "venue": {
@@ -1835,22 +2071,33 @@
             "venueName": "Jerry Richardson Stadium"
           },
           "weatherSuppressedByDome": false,
-          "windMph": 5.3
+          "windMph": 4.1
         }
+      },
+      "featureAsOf": {
+        "epaDiff": null,
+        "linePlayDiff": "2026-09-24T15:20:24.708516+00:00",
+        "qbContinuityDiff": null,
+        "travelMilesDiff": "2026-09-24T15:20:21.327880+00:00",
+        "windMph": "2026-09-24T15:20:26.336694+00:00"
       },
       "features": {
         "epaDiff": null,
         "linePlayDiff": -0.8485530999686199,
         "qbContinuityDiff": null,
         "travelMilesDiff": -744.3392837015942,
-        "windMph": 5.3
+        "windMph": 4.1
       },
       "game": "Louisiana @ Charlotte",
       "home": "Charlotte",
+      "identityStatus": "VERIFIED",
       "kickoff": "2026-09-26T22:30:00+00:00",
       "pregameEligible": true,
-      "rowSha256": "fed2a84db3d3cc332bb30e150a0e8aec46c6c8875c2ba2d731285dba5e60b29c",
-      "snapshotAt": "2026-09-23T07:57:11+00:00"
+      "providerIds": {
+        "cfbd": "401862780"
+      },
+      "rowSha256": "583964d809df5d6c485ff0fdd533ce081e82adc4c11812e4cbe197b93c2470ef",
+      "snapshotAt": "2026-09-24T15:20:28+00:00"
     },
     {
       "audit": {
@@ -1861,6 +2108,8 @@
         "windMph": true
       },
       "away": "Middle Tennessee",
+      "canonicalGameId": "cfbd:401871048",
+      "decisionTime": "2026-09-24T15:20:28+00:00",
       "eligibilityExclusions": [],
       "evidence": {
         "linePlay": {
@@ -1907,21 +2156,21 @@
           "auditGrade": true,
           "exclusions": [],
           "forecast": {
-            "precipProbabilityPct": 1.0,
+            "precipProbabilityPct": 0.0,
             "precipitationIn": 0.0,
-            "temperatureF": 73.8,
+            "temperatureF": 73.1,
             "validTime": "2026-09-26T23:00:00+00:00",
-            "windGustMph": 2.9,
-            "windMph": 3.1
+            "windGustMph": 4.3,
+            "windMph": 3.6
           },
           "game": "Middle Tennessee @ Jacksonville State",
           "kickoff": "2026-09-26T23:00:00+00:00",
-          "retrievedAt": "2026-09-23T07:57:08.932695+00:00",
+          "retrievedAt": "2026-09-24T15:20:26.336694+00:00",
           "source": {
             "batchLocations": 20,
             "locationIndex": 18,
             "provider": "open-meteo",
-            "sha256": "7845243552d7d6bf371f2102f6f9d56b9c3c92aea7bce200c3db6e889f575cb6",
+            "sha256": "7d77dcdb52e07a4431088c8e04c0d86e47d9f7d37cc8a09afab8f4a824e825d1",
             "url": "https://api.open-meteo.com/v1/forecast?latitude=39.900799%2C33.520682%2C35.800800%2C46.731831%2C41.139094%2C42.286006%2C25.957967%2C37.871043%2C31.558201%2C38.031180%2C41.311610%2C32.412247%2C40.001645%2C42.265836%2C36.888953%2C39.131250%2C35.848898%2C35.310503%2C33.820105%2C33.456340&longitude=-75.167541%2C-86.802433%2C-78.719566%2C-117.160499%2C-81.313460%2C-85.600757%2C-80.238860%2C-122.250773%2C-97.115670%2C-78.513790%2C-105.568138%2C-81.784930%2C-83.019727%2C-83.748696%2C-76.304918%2C-84.516191%2C-90.667744%2C-80.740119%2C-85.766470%2C-88.793365&hourly=temperature_2m%2Cprecipitation_probability%2Cprecipitation%2Cwind_speed_10m%2Cwind_gusts_10m&temperature_unit=fahrenheit&wind_speed_unit=mph&precipitation_unit=inch&timezone=UTC&forecast_days=16"
           },
           "venue": {
@@ -1933,22 +2182,33 @@
             "venueName": "AmFirst Stadium"
           },
           "weatherSuppressedByDome": false,
-          "windMph": 3.1
+          "windMph": 3.6
         }
+      },
+      "featureAsOf": {
+        "epaDiff": null,
+        "linePlayDiff": "2026-09-24T15:20:24.708516+00:00",
+        "qbContinuityDiff": null,
+        "travelMilesDiff": "2026-09-24T15:20:21.327880+00:00",
+        "windMph": "2026-09-24T15:20:26.336694+00:00"
       },
       "features": {
         "epaDiff": null,
         "linePlayDiff": -1.2806932863550782,
         "qbContinuityDiff": null,
         "travelMilesDiff": -144.41962309298736,
-        "windMph": 3.1
+        "windMph": 3.6
       },
       "game": "Middle Tennessee @ Jacksonville State",
       "home": "Jacksonville State",
+      "identityStatus": "VERIFIED",
       "kickoff": "2026-09-26T23:00:00+00:00",
       "pregameEligible": true,
-      "rowSha256": "386c39823563c6d79d9a2bc5757258ebcf813056735002f15eebb5895163dbfc",
-      "snapshotAt": "2026-09-23T07:57:11+00:00"
+      "providerIds": {
+        "cfbd": "401871048"
+      },
+      "rowSha256": "b712c4e83285b7e1d3ff341139cf5849bba0b6fe8ea9f200fe45894828203973",
+      "snapshotAt": "2026-09-24T15:20:28+00:00"
     },
     {
       "audit": {
@@ -1959,6 +2219,8 @@
         "windMph": true
       },
       "away": "Missouri",
+      "canonicalGameId": "cfbd:401856703",
+      "decisionTime": "2026-09-24T15:20:28+00:00",
       "eligibilityExclusions": [],
       "evidence": {
         "linePlay": {
@@ -2007,19 +2269,19 @@
           "forecast": {
             "precipProbabilityPct": 0.0,
             "precipitationIn": 0.0,
-            "temperatureF": 78.9,
+            "temperatureF": 79.7,
             "validTime": "2026-09-27T00:00:00+00:00",
             "windGustMph": 4.5,
             "windMph": 4.3
           },
           "game": "Missouri @ Mississippi State",
           "kickoff": "2026-09-26T23:45:00+00:00",
-          "retrievedAt": "2026-09-23T07:57:08.932695+00:00",
+          "retrievedAt": "2026-09-24T15:20:26.336694+00:00",
           "source": {
             "batchLocations": 20,
             "locationIndex": 19,
             "provider": "open-meteo",
-            "sha256": "7845243552d7d6bf371f2102f6f9d56b9c3c92aea7bce200c3db6e889f575cb6",
+            "sha256": "7d77dcdb52e07a4431088c8e04c0d86e47d9f7d37cc8a09afab8f4a824e825d1",
             "url": "https://api.open-meteo.com/v1/forecast?latitude=39.900799%2C33.520682%2C35.800800%2C46.731831%2C41.139094%2C42.286006%2C25.957967%2C37.871043%2C31.558201%2C38.031180%2C41.311610%2C32.412247%2C40.001645%2C42.265836%2C36.888953%2C39.131250%2C35.848898%2C35.310503%2C33.820105%2C33.456340&longitude=-75.167541%2C-86.802433%2C-78.719566%2C-117.160499%2C-81.313460%2C-85.600757%2C-80.238860%2C-122.250773%2C-97.115670%2C-78.513790%2C-105.568138%2C-81.784930%2C-83.019727%2C-83.748696%2C-76.304918%2C-84.516191%2C-90.667744%2C-80.740119%2C-85.766470%2C-88.793365&hourly=temperature_2m%2Cprecipitation_probability%2Cprecipitation%2Cwind_speed_10m%2Cwind_gusts_10m&temperature_unit=fahrenheit&wind_speed_unit=mph&precipitation_unit=inch&timezone=UTC&forecast_days=16"
           },
           "venue": {
@@ -2034,6 +2296,13 @@
           "windMph": 4.3
         }
       },
+      "featureAsOf": {
+        "epaDiff": null,
+        "linePlayDiff": "2026-09-24T15:20:24.708516+00:00",
+        "qbContinuityDiff": null,
+        "travelMilesDiff": "2026-09-24T15:20:21.327880+00:00",
+        "windMph": "2026-09-24T15:20:26.336694+00:00"
+      },
       "features": {
         "epaDiff": null,
         "linePlayDiff": -0.16476409106100887,
@@ -2043,10 +2312,14 @@
       },
       "game": "Missouri @ Mississippi State",
       "home": "Mississippi State",
+      "identityStatus": "VERIFIED",
       "kickoff": "2026-09-26T23:45:00+00:00",
       "pregameEligible": true,
-      "rowSha256": "ec4293b40e82e590d9480642aa60b3f9de8ffc082efd36df5041f8ee4c93fce4",
-      "snapshotAt": "2026-09-23T07:57:11+00:00"
+      "providerIds": {
+        "cfbd": "401856703"
+      },
+      "rowSha256": "218fb6488d8f8918c564f19f2338ac5c5afc379f870efe8c4ac345f20695e511",
+      "snapshotAt": "2026-09-24T15:20:28+00:00"
     },
     {
       "audit": {
@@ -2057,6 +2330,8 @@
         "windMph": true
       },
       "away": "Nebraska",
+      "canonicalGameId": "cfbd:401858464",
+      "decisionTime": "2026-09-24T15:20:28+00:00",
       "eligibilityExclusions": [],
       "evidence": {
         "linePlay": {
@@ -2105,19 +2380,19 @@
           "forecast": {
             "precipProbabilityPct": 0.0,
             "precipitationIn": 0.0,
-            "temperatureF": 69.8,
+            "temperatureF": 73.4,
             "validTime": "2026-09-26T21:00:00+00:00",
-            "windGustMph": 6.9,
-            "windMph": 5.9
+            "windGustMph": 8.7,
+            "windMph": 6.1
           },
           "game": "Nebraska @ Michigan State",
           "kickoff": "2026-09-26T21:00:00+00:00",
-          "retrievedAt": "2026-09-23T07:57:08.932695+00:00",
+          "retrievedAt": "2026-09-24T15:20:26.336694+00:00",
           "source": {
             "batchLocations": 20,
             "locationIndex": 0,
             "provider": "open-meteo",
-            "sha256": "3856100839edb2d655b859c26fa7bc0e7442cd7c0bdd28ac89cb8941ebb4eac2",
+            "sha256": "764522c654aeeba247e699bd495f0596767aa08c41a7e799ec5771d5e674e456",
             "url": "https://api.open-meteo.com/v1/forecast?latitude=42.728147%2C32.279620%2C33.735267%2C39.180896%2C40.435225%2C33.949820%2C39.650274%2C29.649936%2C34.014167%2C33.591052%2C41.657478%2C38.022090%2C33.208275%2C41.378011%2C29.944616%2C28.607976%2C35.955013%2C30.412035%2C41.751739%2C38.990333&longitude=-84.484853%2C-106.741115%2C-84.389949%2C-86.525622%2C-86.918684%2C-83.373381%2C-79.955187%2C-82.348579%2C-118.287778%2C-101.872882%2C-83.613565%2C-84.505341%2C-87.550384%2C-83.622500%2C-90.116692%2C-81.192723%2C-83.925013%2C-91.183816%2C-111.811601%2C-76.947379&hourly=temperature_2m%2Cprecipitation_probability%2Cprecipitation%2Cwind_speed_10m%2Cwind_gusts_10m&temperature_unit=fahrenheit&wind_speed_unit=mph&precipitation_unit=inch&timezone=UTC&forecast_days=16"
           },
           "venue": {
@@ -2129,22 +2404,33 @@
             "venueName": "Spartan Stadium"
           },
           "weatherSuppressedByDome": false,
-          "windMph": 5.9
+          "windMph": 6.1
         }
+      },
+      "featureAsOf": {
+        "epaDiff": null,
+        "linePlayDiff": "2026-09-24T15:20:24.708516+00:00",
+        "qbContinuityDiff": null,
+        "travelMilesDiff": "2026-09-24T15:20:21.327880+00:00",
+        "windMph": "2026-09-24T15:20:26.336694+00:00"
       },
       "features": {
         "epaDiff": null,
         "linePlayDiff": -0.43284720129980325,
         "qbContinuityDiff": null,
         "travelMilesDiff": -642.7383356265515,
-        "windMph": 5.9
+        "windMph": 6.1
       },
       "game": "Nebraska @ Michigan State",
       "home": "Michigan State",
+      "identityStatus": "VERIFIED",
       "kickoff": "2026-09-26T21:00:00+00:00",
       "pregameEligible": true,
-      "rowSha256": "d4d7f6fd20fd14b38dd2ed2a29f125f5a58c07dea421f242b895c757bd09f028",
-      "snapshotAt": "2026-09-23T07:57:11+00:00"
+      "providerIds": {
+        "cfbd": "401858464"
+      },
+      "rowSha256": "66f65417ba845047804d64bf9598205768f2761a5144ba8a10c24cf46bdafc57",
+      "snapshotAt": "2026-09-24T15:20:28+00:00"
     },
     {
       "audit": {
@@ -2155,6 +2441,8 @@
         "windMph": true
       },
       "away": "New Mexico",
+      "canonicalGameId": "cfbd:401864579",
+      "decisionTime": "2026-09-24T15:20:28+00:00",
       "eligibilityExclusions": [],
       "evidence": {
         "linePlay": {
@@ -2201,21 +2489,21 @@
           "auditGrade": true,
           "exclusions": [],
           "forecast": {
-            "precipProbabilityPct": 1.0,
+            "precipProbabilityPct": 0.0,
             "precipitationIn": 0.0,
-            "temperatureF": 84.5,
+            "temperatureF": 82.6,
             "validTime": "2026-09-26T19:00:00+00:00",
-            "windGustMph": 8.3,
-            "windMph": 7.0
+            "windGustMph": 4.0,
+            "windMph": 3.8
           },
           "game": "New Mexico @ New Mexico State",
           "kickoff": "2026-09-26T19:30:00+00:00",
-          "retrievedAt": "2026-09-23T07:57:08.932695+00:00",
+          "retrievedAt": "2026-09-24T15:20:26.336694+00:00",
           "source": {
             "batchLocations": 20,
             "locationIndex": 1,
             "provider": "open-meteo",
-            "sha256": "3856100839edb2d655b859c26fa7bc0e7442cd7c0bdd28ac89cb8941ebb4eac2",
+            "sha256": "764522c654aeeba247e699bd495f0596767aa08c41a7e799ec5771d5e674e456",
             "url": "https://api.open-meteo.com/v1/forecast?latitude=42.728147%2C32.279620%2C33.735267%2C39.180896%2C40.435225%2C33.949820%2C39.650274%2C29.649936%2C34.014167%2C33.591052%2C41.657478%2C38.022090%2C33.208275%2C41.378011%2C29.944616%2C28.607976%2C35.955013%2C30.412035%2C41.751739%2C38.990333&longitude=-84.484853%2C-106.741115%2C-84.389949%2C-86.525622%2C-86.918684%2C-83.373381%2C-79.955187%2C-82.348579%2C-118.287778%2C-101.872882%2C-83.613565%2C-84.505341%2C-87.550384%2C-83.622500%2C-90.116692%2C-81.192723%2C-83.925013%2C-91.183816%2C-111.811601%2C-76.947379&hourly=temperature_2m%2Cprecipitation_probability%2Cprecipitation%2Cwind_speed_10m%2Cwind_gusts_10m&temperature_unit=fahrenheit&wind_speed_unit=mph&precipitation_unit=inch&timezone=UTC&forecast_days=16"
           },
           "venue": {
@@ -2227,22 +2515,33 @@
             "venueName": "Aggie Memorial Stadium"
           },
           "weatherSuppressedByDome": false,
-          "windMph": 7.0
+          "windMph": 3.8
         }
+      },
+      "featureAsOf": {
+        "epaDiff": null,
+        "linePlayDiff": "2026-09-24T15:20:24.708516+00:00",
+        "qbContinuityDiff": null,
+        "travelMilesDiff": "2026-09-24T15:20:21.327880+00:00",
+        "windMph": "2026-09-24T15:20:26.336694+00:00"
       },
       "features": {
         "epaDiff": null,
         "linePlayDiff": -1.2122424914167793,
         "qbContinuityDiff": null,
         "travelMilesDiff": -192.69512542094316,
-        "windMph": 7.0
+        "windMph": 3.8
       },
       "game": "New Mexico @ New Mexico State",
       "home": "New Mexico State",
+      "identityStatus": "VERIFIED",
       "kickoff": "2026-09-26T19:30:00+00:00",
       "pregameEligible": true,
-      "rowSha256": "efdcb09aa7563ae32827fa46b3e73291d7286bd81aa55506380be846f21929b2",
-      "snapshotAt": "2026-09-23T07:57:11+00:00"
+      "providerIds": {
+        "cfbd": "401864579"
+      },
+      "rowSha256": "0aea4e6026e75b11a9f9008f1aa98abded2f4c59e2a1990ac3076258f0b99266",
+      "snapshotAt": "2026-09-24T15:20:28+00:00"
     },
     {
       "audit": {
@@ -2253,6 +2552,8 @@
         "windMph": true
       },
       "away": "Northern Illinois",
+      "canonicalGameId": "cfbd:401864511",
+      "decisionTime": "2026-09-24T15:20:28+00:00",
       "eligibilityExclusions": [],
       "evidence": {
         "linePlay": {
@@ -2301,19 +2602,19 @@
           "forecast": {
             "precipProbabilityPct": 0.0,
             "precipitationIn": 0.0,
-            "temperatureF": 81.1,
+            "temperatureF": 81.9,
             "validTime": "2026-09-26T18:00:00+00:00",
-            "windGustMph": 4.7,
-            "windMph": 2.7
+            "windGustMph": 6.3,
+            "windMph": 4.7
           },
           "game": "Northern Illinois @ Georgia State",
           "kickoff": "2026-09-26T18:00:00+00:00",
-          "retrievedAt": "2026-09-23T07:57:08.932695+00:00",
+          "retrievedAt": "2026-09-24T15:20:26.336694+00:00",
           "source": {
             "batchLocations": 20,
             "locationIndex": 2,
             "provider": "open-meteo",
-            "sha256": "3856100839edb2d655b859c26fa7bc0e7442cd7c0bdd28ac89cb8941ebb4eac2",
+            "sha256": "764522c654aeeba247e699bd495f0596767aa08c41a7e799ec5771d5e674e456",
             "url": "https://api.open-meteo.com/v1/forecast?latitude=42.728147%2C32.279620%2C33.735267%2C39.180896%2C40.435225%2C33.949820%2C39.650274%2C29.649936%2C34.014167%2C33.591052%2C41.657478%2C38.022090%2C33.208275%2C41.378011%2C29.944616%2C28.607976%2C35.955013%2C30.412035%2C41.751739%2C38.990333&longitude=-84.484853%2C-106.741115%2C-84.389949%2C-86.525622%2C-86.918684%2C-83.373381%2C-79.955187%2C-82.348579%2C-118.287778%2C-101.872882%2C-83.613565%2C-84.505341%2C-87.550384%2C-83.622500%2C-90.116692%2C-81.192723%2C-83.925013%2C-91.183816%2C-111.811601%2C-76.947379&hourly=temperature_2m%2Cprecipitation_probability%2Cprecipitation%2Cwind_speed_10m%2Cwind_gusts_10m&temperature_unit=fahrenheit&wind_speed_unit=mph&precipitation_unit=inch&timezone=UTC&forecast_days=16"
           },
           "venue": {
@@ -2325,22 +2626,33 @@
             "venueName": "Center Parc Stadium"
           },
           "weatherSuppressedByDome": false,
-          "windMph": 2.7
+          "windMph": 4.7
         }
+      },
+      "featureAsOf": {
+        "epaDiff": null,
+        "linePlayDiff": "2026-09-24T15:20:24.708516+00:00",
+        "qbContinuityDiff": null,
+        "travelMilesDiff": "2026-09-24T15:20:21.327880+00:00",
+        "windMph": "2026-09-24T15:20:26.336694+00:00"
       },
       "features": {
         "epaDiff": null,
         "linePlayDiff": 0.9070127871294869,
         "qbContinuityDiff": null,
         "travelMilesDiff": -614.7694550341142,
-        "windMph": 2.7
+        "windMph": 4.7
       },
       "game": "Northern Illinois @ Georgia State",
       "home": "Georgia State",
+      "identityStatus": "VERIFIED",
       "kickoff": "2026-09-26T18:00:00+00:00",
       "pregameEligible": true,
-      "rowSha256": "dea62e412000e78dfcb6422b845f161bb346b77d1edd3b02c1c52db888d4dc8b",
-      "snapshotAt": "2026-09-23T07:57:11+00:00"
+      "providerIds": {
+        "cfbd": "401864511"
+      },
+      "rowSha256": "1afd28760589859920cb8704b5174cd60ba5c451084f15203ccc7c0c14fb8b16",
+      "snapshotAt": "2026-09-24T15:20:28+00:00"
     },
     {
       "audit": {
@@ -2351,6 +2663,8 @@
         "windMph": true
       },
       "away": "Northwestern",
+      "canonicalGameId": "cfbd:401858461",
+      "decisionTime": "2026-09-24T15:20:28+00:00",
       "eligibilityExclusions": [],
       "evidence": {
         "linePlay": {
@@ -2399,19 +2713,19 @@
           "forecast": {
             "precipProbabilityPct": 0.0,
             "precipitationIn": 0.0,
-            "temperatureF": 62.7,
+            "temperatureF": 63.1,
             "validTime": "2026-09-26T00:00:00+00:00",
-            "windGustMph": 18.3,
-            "windMph": 6.2
+            "windGustMph": 11.4,
+            "windMph": 6.3
           },
           "game": "Northwestern @ Indiana",
           "kickoff": "2026-09-26T00:00:00+00:00",
-          "retrievedAt": "2026-09-23T07:57:08.932695+00:00",
+          "retrievedAt": "2026-09-24T15:20:26.336694+00:00",
           "source": {
             "batchLocations": 20,
             "locationIndex": 3,
             "provider": "open-meteo",
-            "sha256": "3856100839edb2d655b859c26fa7bc0e7442cd7c0bdd28ac89cb8941ebb4eac2",
+            "sha256": "764522c654aeeba247e699bd495f0596767aa08c41a7e799ec5771d5e674e456",
             "url": "https://api.open-meteo.com/v1/forecast?latitude=42.728147%2C32.279620%2C33.735267%2C39.180896%2C40.435225%2C33.949820%2C39.650274%2C29.649936%2C34.014167%2C33.591052%2C41.657478%2C38.022090%2C33.208275%2C41.378011%2C29.944616%2C28.607976%2C35.955013%2C30.412035%2C41.751739%2C38.990333&longitude=-84.484853%2C-106.741115%2C-84.389949%2C-86.525622%2C-86.918684%2C-83.373381%2C-79.955187%2C-82.348579%2C-118.287778%2C-101.872882%2C-83.613565%2C-84.505341%2C-87.550384%2C-83.622500%2C-90.116692%2C-81.192723%2C-83.925013%2C-91.183816%2C-111.811601%2C-76.947379&hourly=temperature_2m%2Cprecipitation_probability%2Cprecipitation%2Cwind_speed_10m%2Cwind_gusts_10m&temperature_unit=fahrenheit&wind_speed_unit=mph&precipitation_unit=inch&timezone=UTC&forecast_days=16"
           },
           "venue": {
@@ -2423,22 +2737,33 @@
             "venueName": "Memorial Stadium (Bloomington, IN)"
           },
           "weatherSuppressedByDome": false,
-          "windMph": 6.2
+          "windMph": 6.3
         }
+      },
+      "featureAsOf": {
+        "epaDiff": null,
+        "linePlayDiff": "2026-09-24T15:20:24.708516+00:00",
+        "qbContinuityDiff": null,
+        "travelMilesDiff": "2026-09-24T15:20:21.327880+00:00",
+        "windMph": "2026-09-24T15:20:26.336694+00:00"
       },
       "features": {
         "epaDiff": null,
         "linePlayDiff": 2.009615272274237,
         "qbContinuityDiff": null,
         "travelMilesDiff": -207.6750165392281,
-        "windMph": 6.2
+        "windMph": 6.3
       },
       "game": "Northwestern @ Indiana",
       "home": "Indiana",
+      "identityStatus": "VERIFIED",
       "kickoff": "2026-09-26T00:00:00+00:00",
       "pregameEligible": true,
-      "rowSha256": "1379b79a7aaa0cf975b53c1b3e237ea0119aa95a32e2c35a20d002e5c5875291",
-      "snapshotAt": "2026-09-23T07:57:11+00:00"
+      "providerIds": {
+        "cfbd": "401858461"
+      },
+      "rowSha256": "99c44e7f1740b3ca40f3f964157ac75d5efdf49f299acc8ac20a8b09d29f1f98",
+      "snapshotAt": "2026-09-24T15:20:28+00:00"
     },
     {
       "audit": {
@@ -2449,6 +2774,8 @@
         "windMph": true
       },
       "away": "Notre Dame",
+      "canonicalGameId": "cfbd:401858467",
+      "decisionTime": "2026-09-24T15:20:28+00:00",
       "eligibilityExclusions": [],
       "evidence": {
         "linePlay": {
@@ -2497,19 +2824,19 @@
           "forecast": {
             "precipProbabilityPct": 0.0,
             "precipitationIn": 0.0,
-            "temperatureF": 68.1,
+            "temperatureF": 67.2,
             "validTime": "2026-09-26T18:00:00+00:00",
-            "windGustMph": 9.4,
-            "windMph": 8.2
+            "windGustMph": 6.5,
+            "windMph": 5.6
           },
           "game": "Notre Dame @ Purdue",
           "kickoff": "2026-09-26T18:00:00+00:00",
-          "retrievedAt": "2026-09-23T07:57:08.932695+00:00",
+          "retrievedAt": "2026-09-24T15:20:26.336694+00:00",
           "source": {
             "batchLocations": 20,
             "locationIndex": 4,
             "provider": "open-meteo",
-            "sha256": "3856100839edb2d655b859c26fa7bc0e7442cd7c0bdd28ac89cb8941ebb4eac2",
+            "sha256": "764522c654aeeba247e699bd495f0596767aa08c41a7e799ec5771d5e674e456",
             "url": "https://api.open-meteo.com/v1/forecast?latitude=42.728147%2C32.279620%2C33.735267%2C39.180896%2C40.435225%2C33.949820%2C39.650274%2C29.649936%2C34.014167%2C33.591052%2C41.657478%2C38.022090%2C33.208275%2C41.378011%2C29.944616%2C28.607976%2C35.955013%2C30.412035%2C41.751739%2C38.990333&longitude=-84.484853%2C-106.741115%2C-84.389949%2C-86.525622%2C-86.918684%2C-83.373381%2C-79.955187%2C-82.348579%2C-118.287778%2C-101.872882%2C-83.613565%2C-84.505341%2C-87.550384%2C-83.622500%2C-90.116692%2C-81.192723%2C-83.925013%2C-91.183816%2C-111.811601%2C-76.947379&hourly=temperature_2m%2Cprecipitation_probability%2Cprecipitation%2Cwind_speed_10m%2Cwind_gusts_10m&temperature_unit=fahrenheit&wind_speed_unit=mph&precipitation_unit=inch&timezone=UTC&forecast_days=16"
           },
           "venue": {
@@ -2521,22 +2848,33 @@
             "venueName": "Ross-Ade Stadium"
           },
           "weatherSuppressedByDome": false,
-          "windMph": 8.2
+          "windMph": 5.6
         }
+      },
+      "featureAsOf": {
+        "epaDiff": null,
+        "linePlayDiff": "2026-09-24T15:20:24.708516+00:00",
+        "qbContinuityDiff": null,
+        "travelMilesDiff": "2026-09-24T15:20:21.327880+00:00",
+        "windMph": "2026-09-24T15:20:26.336694+00:00"
       },
       "features": {
         "epaDiff": null,
         "linePlayDiff": -1.047430734519411,
         "qbContinuityDiff": null,
         "travelMilesDiff": -94.28250501962694,
-        "windMph": 8.2
+        "windMph": 5.6
       },
       "game": "Notre Dame @ Purdue",
       "home": "Purdue",
+      "identityStatus": "VERIFIED",
       "kickoff": "2026-09-26T18:00:00+00:00",
       "pregameEligible": true,
-      "rowSha256": "bf1770858de92ef23fcbb8a6df29e6b8bfcc19ae151b3a7170fec64236900672",
-      "snapshotAt": "2026-09-23T07:57:11+00:00"
+      "providerIds": {
+        "cfbd": "401858467"
+      },
+      "rowSha256": "cd32a56824ad71892bfeadabc567541ae7223e7dd044cd9ba95d76d40eff6ef8",
+      "snapshotAt": "2026-09-24T15:20:28+00:00"
     },
     {
       "audit": {
@@ -2547,6 +2885,8 @@
         "windMph": true
       },
       "away": "Oklahoma",
+      "canonicalGameId": "cfbd:401856700",
+      "decisionTime": "2026-09-24T15:20:28+00:00",
       "eligibilityExclusions": [],
       "evidence": {
         "linePlay": {
@@ -2595,19 +2935,19 @@
           "forecast": {
             "precipProbabilityPct": 0.0,
             "precipitationIn": 0.0,
-            "temperatureF": 81.9,
+            "temperatureF": 77.2,
             "validTime": "2026-09-26T19:00:00+00:00",
-            "windGustMph": 3.4,
-            "windMph": 1.6
+            "windGustMph": 6.9,
+            "windMph": 2.1
           },
           "game": "Oklahoma @ Georgia",
           "kickoff": "2026-09-26T19:30:00+00:00",
-          "retrievedAt": "2026-09-23T07:57:08.932695+00:00",
+          "retrievedAt": "2026-09-24T15:20:26.336694+00:00",
           "source": {
             "batchLocations": 20,
             "locationIndex": 5,
             "provider": "open-meteo",
-            "sha256": "3856100839edb2d655b859c26fa7bc0e7442cd7c0bdd28ac89cb8941ebb4eac2",
+            "sha256": "764522c654aeeba247e699bd495f0596767aa08c41a7e799ec5771d5e674e456",
             "url": "https://api.open-meteo.com/v1/forecast?latitude=42.728147%2C32.279620%2C33.735267%2C39.180896%2C40.435225%2C33.949820%2C39.650274%2C29.649936%2C34.014167%2C33.591052%2C41.657478%2C38.022090%2C33.208275%2C41.378011%2C29.944616%2C28.607976%2C35.955013%2C30.412035%2C41.751739%2C38.990333&longitude=-84.484853%2C-106.741115%2C-84.389949%2C-86.525622%2C-86.918684%2C-83.373381%2C-79.955187%2C-82.348579%2C-118.287778%2C-101.872882%2C-83.613565%2C-84.505341%2C-87.550384%2C-83.622500%2C-90.116692%2C-81.192723%2C-83.925013%2C-91.183816%2C-111.811601%2C-76.947379&hourly=temperature_2m%2Cprecipitation_probability%2Cprecipitation%2Cwind_speed_10m%2Cwind_gusts_10m&temperature_unit=fahrenheit&wind_speed_unit=mph&precipitation_unit=inch&timezone=UTC&forecast_days=16"
           },
           "venue": {
@@ -2619,22 +2959,33 @@
             "venueName": "Sanford Stadium"
           },
           "weatherSuppressedByDome": false,
-          "windMph": 1.6
+          "windMph": 2.1
         }
+      },
+      "featureAsOf": {
+        "epaDiff": null,
+        "linePlayDiff": "2026-09-24T15:20:24.708516+00:00",
+        "qbContinuityDiff": null,
+        "travelMilesDiff": "2026-09-24T15:20:21.327880+00:00",
+        "windMph": "2026-09-24T15:20:26.336694+00:00"
       },
       "features": {
         "epaDiff": null,
         "linePlayDiff": 1.704724951857287,
         "qbContinuityDiff": null,
         "travelMilesDiff": -804.3664362679807,
-        "windMph": 1.6
+        "windMph": 2.1
       },
       "game": "Oklahoma @ Georgia",
       "home": "Georgia",
+      "identityStatus": "VERIFIED",
       "kickoff": "2026-09-26T19:30:00+00:00",
       "pregameEligible": true,
-      "rowSha256": "f84b5e39cbb33fc29b3d7d94fdbcf4adeaccae96922f69d2ca02ad0b9b7e1db1",
-      "snapshotAt": "2026-09-23T07:57:11+00:00"
+      "providerIds": {
+        "cfbd": "401856700"
+      },
+      "rowSha256": "3bf25fbe14212572123ddbea8ec3300e75ffa2007f20433e1e1fc686c2d4537e",
+      "snapshotAt": "2026-09-24T15:20:28+00:00"
     },
     {
       "audit": {
@@ -2645,6 +2996,8 @@
         "windMph": true
       },
       "away": "Oklahoma State",
+      "canonicalGameId": "cfbd:401856881",
+      "decisionTime": "2026-09-24T15:20:28+00:00",
       "eligibilityExclusions": [],
       "evidence": {
         "linePlay": {
@@ -2693,19 +3046,19 @@
           "forecast": {
             "precipProbabilityPct": 0.0,
             "precipitationIn": 0.0,
-            "temperatureF": 56.7,
+            "temperatureF": 57.6,
             "validTime": "2026-09-26T23:00:00+00:00",
-            "windGustMph": 2.7,
-            "windMph": 1.6
+            "windGustMph": 7.6,
+            "windMph": 4.0
           },
           "game": "Oklahoma State @ West Virginia",
           "kickoff": "2026-09-26T23:00:00+00:00",
-          "retrievedAt": "2026-09-23T07:57:08.932695+00:00",
+          "retrievedAt": "2026-09-24T15:20:26.336694+00:00",
           "source": {
             "batchLocations": 20,
             "locationIndex": 6,
             "provider": "open-meteo",
-            "sha256": "3856100839edb2d655b859c26fa7bc0e7442cd7c0bdd28ac89cb8941ebb4eac2",
+            "sha256": "764522c654aeeba247e699bd495f0596767aa08c41a7e799ec5771d5e674e456",
             "url": "https://api.open-meteo.com/v1/forecast?latitude=42.728147%2C32.279620%2C33.735267%2C39.180896%2C40.435225%2C33.949820%2C39.650274%2C29.649936%2C34.014167%2C33.591052%2C41.657478%2C38.022090%2C33.208275%2C41.378011%2C29.944616%2C28.607976%2C35.955013%2C30.412035%2C41.751739%2C38.990333&longitude=-84.484853%2C-106.741115%2C-84.389949%2C-86.525622%2C-86.918684%2C-83.373381%2C-79.955187%2C-82.348579%2C-118.287778%2C-101.872882%2C-83.613565%2C-84.505341%2C-87.550384%2C-83.622500%2C-90.116692%2C-81.192723%2C-83.925013%2C-91.183816%2C-111.811601%2C-76.947379&hourly=temperature_2m%2Cprecipitation_probability%2Cprecipitation%2Cwind_speed_10m%2Cwind_gusts_10m&temperature_unit=fahrenheit&wind_speed_unit=mph&precipitation_unit=inch&timezone=UTC&forecast_days=16"
           },
           "venue": {
@@ -2717,22 +3070,33 @@
             "venueName": "Milan Puskar Stadium"
           },
           "weatherSuppressedByDome": false,
-          "windMph": 1.6
+          "windMph": 4.0
         }
+      },
+      "featureAsOf": {
+        "epaDiff": null,
+        "linePlayDiff": "2026-09-24T15:20:24.708516+00:00",
+        "qbContinuityDiff": null,
+        "travelMilesDiff": "2026-09-24T15:20:21.327880+00:00",
+        "windMph": "2026-09-24T15:20:26.336694+00:00"
       },
       "features": {
         "epaDiff": null,
         "linePlayDiff": 0.040911760588888235,
         "qbContinuityDiff": null,
         "travelMilesDiff": -962.6531763566012,
-        "windMph": 1.6
+        "windMph": 4.0
       },
       "game": "Oklahoma State @ West Virginia",
       "home": "West Virginia",
+      "identityStatus": "VERIFIED",
       "kickoff": "2026-09-26T23:00:00+00:00",
       "pregameEligible": true,
-      "rowSha256": "a2b8710259ca3ac6df6712962e7ac6793e9e68a464f384ba9d4464c5925fdc01",
-      "snapshotAt": "2026-09-23T07:57:11+00:00"
+      "providerIds": {
+        "cfbd": "401856881"
+      },
+      "rowSha256": "aa5f40130376bbd0497e9419216fbfd68fcffc43d421b452e18476939fb0d9b9",
+      "snapshotAt": "2026-09-24T15:20:28+00:00"
     },
     {
       "audit": {
@@ -2743,6 +3107,8 @@
         "windMph": true
       },
       "away": "Ole Miss",
+      "canonicalGameId": "cfbd:401856699",
+      "decisionTime": "2026-09-24T15:20:28+00:00",
       "eligibilityExclusions": [],
       "evidence": {
         "linePlay": {
@@ -2791,19 +3157,19 @@
           "forecast": {
             "precipProbabilityPct": 0.0,
             "precipitationIn": 0.0,
-            "temperatureF": 85.6,
+            "temperatureF": 84.7,
             "validTime": "2026-09-26T19:00:00+00:00",
-            "windGustMph": 6.0,
-            "windMph": 6.9
+            "windGustMph": 6.5,
+            "windMph": 6.3
           },
           "game": "Ole Miss @ Florida",
           "kickoff": "2026-09-26T19:30:00+00:00",
-          "retrievedAt": "2026-09-23T07:57:08.932695+00:00",
+          "retrievedAt": "2026-09-24T15:20:26.336694+00:00",
           "source": {
             "batchLocations": 20,
             "locationIndex": 7,
             "provider": "open-meteo",
-            "sha256": "3856100839edb2d655b859c26fa7bc0e7442cd7c0bdd28ac89cb8941ebb4eac2",
+            "sha256": "764522c654aeeba247e699bd495f0596767aa08c41a7e799ec5771d5e674e456",
             "url": "https://api.open-meteo.com/v1/forecast?latitude=42.728147%2C32.279620%2C33.735267%2C39.180896%2C40.435225%2C33.949820%2C39.650274%2C29.649936%2C34.014167%2C33.591052%2C41.657478%2C38.022090%2C33.208275%2C41.378011%2C29.944616%2C28.607976%2C35.955013%2C30.412035%2C41.751739%2C38.990333&longitude=-84.484853%2C-106.741115%2C-84.389949%2C-86.525622%2C-86.918684%2C-83.373381%2C-79.955187%2C-82.348579%2C-118.287778%2C-101.872882%2C-83.613565%2C-84.505341%2C-87.550384%2C-83.622500%2C-90.116692%2C-81.192723%2C-83.925013%2C-91.183816%2C-111.811601%2C-76.947379&hourly=temperature_2m%2Cprecipitation_probability%2Cprecipitation%2Cwind_speed_10m%2Cwind_gusts_10m&temperature_unit=fahrenheit&wind_speed_unit=mph&precipitation_unit=inch&timezone=UTC&forecast_days=16"
           },
           "venue": {
@@ -2815,22 +3181,33 @@
             "venueName": "Ben Hill Griffin Stadium"
           },
           "weatherSuppressedByDome": false,
-          "windMph": 6.9
+          "windMph": 6.3
         }
+      },
+      "featureAsOf": {
+        "epaDiff": null,
+        "linePlayDiff": "2026-09-24T15:20:24.708516+00:00",
+        "qbContinuityDiff": null,
+        "travelMilesDiff": "2026-09-24T15:20:21.327880+00:00",
+        "windMph": "2026-09-24T15:20:26.336694+00:00"
       },
       "features": {
         "epaDiff": null,
         "linePlayDiff": 0.23475430457461988,
         "qbContinuityDiff": null,
         "travelMilesDiff": -531.9444096423018,
-        "windMph": 6.9
+        "windMph": 6.3
       },
       "game": "Ole Miss @ Florida",
       "home": "Florida",
+      "identityStatus": "VERIFIED",
       "kickoff": "2026-09-26T19:30:00+00:00",
       "pregameEligible": true,
-      "rowSha256": "43b2988cd22e4e5303d21c50a5b8618631763485e38890abf7eeed69a312dfdf",
-      "snapshotAt": "2026-09-23T07:57:11+00:00"
+      "providerIds": {
+        "cfbd": "401856699"
+      },
+      "rowSha256": "66c28628d146fe1a95651578333325d7a17b2d2ca916c84b5a5b70bd7fb8f1bf",
+      "snapshotAt": "2026-09-24T15:20:28+00:00"
     },
     {
       "audit": {
@@ -2841,6 +3218,8 @@
         "windMph": true
       },
       "away": "Oregon",
+      "canonicalGameId": "cfbd:401858469",
+      "decisionTime": "2026-09-24T15:20:28+00:00",
       "eligibilityExclusions": [],
       "evidence": {
         "linePlay": {
@@ -2889,19 +3268,19 @@
           "forecast": {
             "precipProbabilityPct": 0.0,
             "precipitationIn": 0.0,
-            "temperatureF": 88.7,
+            "temperatureF": 86.9,
             "validTime": "2026-09-26T23:00:00+00:00",
-            "windGustMph": 6.7,
-            "windMph": 10.3
+            "windGustMph": 7.6,
+            "windMph": 10.5
           },
           "game": "Oregon @ USC",
           "kickoff": "2026-09-26T23:30:00+00:00",
-          "retrievedAt": "2026-09-23T07:57:08.932695+00:00",
+          "retrievedAt": "2026-09-24T15:20:26.336694+00:00",
           "source": {
             "batchLocations": 20,
             "locationIndex": 8,
             "provider": "open-meteo",
-            "sha256": "3856100839edb2d655b859c26fa7bc0e7442cd7c0bdd28ac89cb8941ebb4eac2",
+            "sha256": "764522c654aeeba247e699bd495f0596767aa08c41a7e799ec5771d5e674e456",
             "url": "https://api.open-meteo.com/v1/forecast?latitude=42.728147%2C32.279620%2C33.735267%2C39.180896%2C40.435225%2C33.949820%2C39.650274%2C29.649936%2C34.014167%2C33.591052%2C41.657478%2C38.022090%2C33.208275%2C41.378011%2C29.944616%2C28.607976%2C35.955013%2C30.412035%2C41.751739%2C38.990333&longitude=-84.484853%2C-106.741115%2C-84.389949%2C-86.525622%2C-86.918684%2C-83.373381%2C-79.955187%2C-82.348579%2C-118.287778%2C-101.872882%2C-83.613565%2C-84.505341%2C-87.550384%2C-83.622500%2C-90.116692%2C-81.192723%2C-83.925013%2C-91.183816%2C-111.811601%2C-76.947379&hourly=temperature_2m%2Cprecipitation_probability%2Cprecipitation%2Cwind_speed_10m%2Cwind_gusts_10m&temperature_unit=fahrenheit&wind_speed_unit=mph&precipitation_unit=inch&timezone=UTC&forecast_days=16"
           },
           "venue": {
@@ -2913,22 +3292,33 @@
             "venueName": "Los Angeles Memorial Coliseum"
           },
           "weatherSuppressedByDome": false,
-          "windMph": 10.3
+          "windMph": 10.5
         }
+      },
+      "featureAsOf": {
+        "epaDiff": null,
+        "linePlayDiff": "2026-09-24T15:20:24.708516+00:00",
+        "qbContinuityDiff": null,
+        "travelMilesDiff": "2026-09-24T15:20:21.327880+00:00",
+        "windMph": "2026-09-24T15:20:26.336694+00:00"
       },
       "features": {
         "epaDiff": null,
         "linePlayDiff": -0.3846403221403216,
         "qbContinuityDiff": null,
         "travelMilesDiff": -739.5419630925237,
-        "windMph": 10.3
+        "windMph": 10.5
       },
       "game": "Oregon @ USC",
       "home": "USC",
+      "identityStatus": "VERIFIED",
       "kickoff": "2026-09-26T23:30:00+00:00",
       "pregameEligible": true,
-      "rowSha256": "40dca1d32d6e6a150222633d7d69e64aa5f90e86ceaa5fb8406ecd72c2944938",
-      "snapshotAt": "2026-09-23T07:57:11+00:00"
+      "providerIds": {
+        "cfbd": "401858469"
+      },
+      "rowSha256": "37466505c979f74b6a91b71c028b2e0fe414d80cb6ece96f4e38f54661b6cf74",
+      "snapshotAt": "2026-09-24T15:20:28+00:00"
     },
     {
       "audit": {
@@ -2939,6 +3329,8 @@
         "windMph": true
       },
       "away": "Sam Houston",
+      "canonicalGameId": "cfbd:401856805",
+      "decisionTime": "2026-09-24T15:20:28+00:00",
       "eligibilityExclusions": [],
       "evidence": {
         "linePlay": {
@@ -2985,21 +3377,21 @@
           "auditGrade": true,
           "exclusions": [],
           "forecast": {
-            "precipProbabilityPct": 10.0,
+            "precipProbabilityPct": 2.0,
             "precipitationIn": 0.0,
-            "temperatureF": 77.5,
+            "temperatureF": 76.4,
             "validTime": "2026-09-26T16:00:00+00:00",
-            "windGustMph": 21.5,
-            "windMph": 13.9
+            "windGustMph": 17.9,
+            "windMph": 12.3
           },
           "game": "Sam Houston @ Texas Tech",
           "kickoff": "2026-09-26T16:00:00+00:00",
-          "retrievedAt": "2026-09-23T07:57:08.932695+00:00",
+          "retrievedAt": "2026-09-24T15:20:26.336694+00:00",
           "source": {
             "batchLocations": 20,
             "locationIndex": 9,
             "provider": "open-meteo",
-            "sha256": "3856100839edb2d655b859c26fa7bc0e7442cd7c0bdd28ac89cb8941ebb4eac2",
+            "sha256": "764522c654aeeba247e699bd495f0596767aa08c41a7e799ec5771d5e674e456",
             "url": "https://api.open-meteo.com/v1/forecast?latitude=42.728147%2C32.279620%2C33.735267%2C39.180896%2C40.435225%2C33.949820%2C39.650274%2C29.649936%2C34.014167%2C33.591052%2C41.657478%2C38.022090%2C33.208275%2C41.378011%2C29.944616%2C28.607976%2C35.955013%2C30.412035%2C41.751739%2C38.990333&longitude=-84.484853%2C-106.741115%2C-84.389949%2C-86.525622%2C-86.918684%2C-83.373381%2C-79.955187%2C-82.348579%2C-118.287778%2C-101.872882%2C-83.613565%2C-84.505341%2C-87.550384%2C-83.622500%2C-90.116692%2C-81.192723%2C-83.925013%2C-91.183816%2C-111.811601%2C-76.947379&hourly=temperature_2m%2Cprecipitation_probability%2Cprecipitation%2Cwind_speed_10m%2Cwind_gusts_10m&temperature_unit=fahrenheit&wind_speed_unit=mph&precipitation_unit=inch&timezone=UTC&forecast_days=16"
           },
           "venue": {
@@ -3011,22 +3403,33 @@
             "venueName": "Jones AT&T Stadium"
           },
           "weatherSuppressedByDome": false,
-          "windMph": 13.9
+          "windMph": 12.3
         }
+      },
+      "featureAsOf": {
+        "epaDiff": null,
+        "linePlayDiff": "2026-09-24T15:20:24.708516+00:00",
+        "qbContinuityDiff": null,
+        "travelMilesDiff": "2026-09-24T15:20:21.327880+00:00",
+        "windMph": "2026-09-24T15:20:26.336694+00:00"
       },
       "features": {
         "epaDiff": null,
         "linePlayDiff": -0.2021283491789112,
         "qbContinuityDiff": null,
         "travelMilesDiff": -420.1968534218159,
-        "windMph": 13.9
+        "windMph": 12.3
       },
       "game": "Sam Houston @ Texas Tech",
       "home": "Texas Tech",
+      "identityStatus": "VERIFIED",
       "kickoff": "2026-09-26T16:00:00+00:00",
       "pregameEligible": true,
-      "rowSha256": "4c27da0a142de7b5272a2cc2ed17669fd70b7dd0013ec63e295980a8cd90bdb6",
-      "snapshotAt": "2026-09-23T07:57:11+00:00"
+      "providerIds": {
+        "cfbd": "401856805"
+      },
+      "rowSha256": "dd6d37447c3a36d23ec53ccfba720ffd51e952f96b6f8759871954d970c2ec59",
+      "snapshotAt": "2026-09-24T15:20:28+00:00"
     },
     {
       "audit": {
@@ -3037,6 +3440,8 @@
         "windMph": true
       },
       "away": "San Diego State",
+      "canonicalGameId": "cfbd:401860893",
+      "decisionTime": "2026-09-24T15:20:28+00:00",
       "eligibilityExclusions": [],
       "evidence": {
         "linePlay": {
@@ -3085,19 +3490,19 @@
           "forecast": {
             "precipProbabilityPct": 0.0,
             "precipitationIn": 0.0,
-            "temperatureF": 67.9,
+            "temperatureF": 68.1,
             "validTime": "2026-09-26T16:00:00+00:00",
-            "windGustMph": 7.8,
-            "windMph": 5.4
+            "windGustMph": 8.7,
+            "windMph": 6.0
           },
           "game": "San Diego State @ Toledo",
           "kickoff": "2026-09-26T16:00:00+00:00",
-          "retrievedAt": "2026-09-23T07:57:08.932695+00:00",
+          "retrievedAt": "2026-09-24T15:20:26.336694+00:00",
           "source": {
             "batchLocations": 20,
             "locationIndex": 10,
             "provider": "open-meteo",
-            "sha256": "3856100839edb2d655b859c26fa7bc0e7442cd7c0bdd28ac89cb8941ebb4eac2",
+            "sha256": "764522c654aeeba247e699bd495f0596767aa08c41a7e799ec5771d5e674e456",
             "url": "https://api.open-meteo.com/v1/forecast?latitude=42.728147%2C32.279620%2C33.735267%2C39.180896%2C40.435225%2C33.949820%2C39.650274%2C29.649936%2C34.014167%2C33.591052%2C41.657478%2C38.022090%2C33.208275%2C41.378011%2C29.944616%2C28.607976%2C35.955013%2C30.412035%2C41.751739%2C38.990333&longitude=-84.484853%2C-106.741115%2C-84.389949%2C-86.525622%2C-86.918684%2C-83.373381%2C-79.955187%2C-82.348579%2C-118.287778%2C-101.872882%2C-83.613565%2C-84.505341%2C-87.550384%2C-83.622500%2C-90.116692%2C-81.192723%2C-83.925013%2C-91.183816%2C-111.811601%2C-76.947379&hourly=temperature_2m%2Cprecipitation_probability%2Cprecipitation%2Cwind_speed_10m%2Cwind_gusts_10m&temperature_unit=fahrenheit&wind_speed_unit=mph&precipitation_unit=inch&timezone=UTC&forecast_days=16"
           },
           "venue": {
@@ -3109,22 +3514,33 @@
             "venueName": "Glass Bowl"
           },
           "weatherSuppressedByDome": false,
-          "windMph": 5.4
+          "windMph": 6.0
         }
+      },
+      "featureAsOf": {
+        "epaDiff": null,
+        "linePlayDiff": "2026-09-24T15:20:24.708516+00:00",
+        "qbContinuityDiff": null,
+        "travelMilesDiff": "2026-09-24T15:20:21.327880+00:00",
+        "windMph": "2026-09-24T15:20:26.336694+00:00"
       },
       "features": {
         "epaDiff": null,
         "linePlayDiff": 0.3337702515507579,
         "qbContinuityDiff": null,
         "travelMilesDiff": -1928.8009527531456,
-        "windMph": 5.4
+        "windMph": 6.0
       },
       "game": "San Diego State @ Toledo",
       "home": "Toledo",
+      "identityStatus": "VERIFIED",
       "kickoff": "2026-09-26T16:00:00+00:00",
       "pregameEligible": true,
-      "rowSha256": "b0587ab9289742cf6331338f729ceb22999e8f504388c26f8a67bde01dd866ce",
-      "snapshotAt": "2026-09-23T07:57:11+00:00"
+      "providerIds": {
+        "cfbd": "401860893"
+      },
+      "rowSha256": "d309bee6622c34e07a3f4f039b292e075655f60c2de486b5dacb45b16fc020bb",
+      "snapshotAt": "2026-09-24T15:20:28+00:00"
     },
     {
       "audit": {
@@ -3135,6 +3551,8 @@
         "windMph": true
       },
       "away": "South Alabama",
+      "canonicalGameId": "cfbd:401864576",
+      "decisionTime": "2026-09-24T15:20:28+00:00",
       "eligibilityExclusions": [],
       "evidence": {
         "linePlay": {
@@ -3183,19 +3601,19 @@
           "forecast": {
             "precipProbabilityPct": 0.0,
             "precipitationIn": 0.0,
-            "temperatureF": 70.7,
+            "temperatureF": 71.5,
             "validTime": "2026-09-26T17:00:00+00:00",
-            "windGustMph": 6.9,
-            "windMph": 6.3
+            "windGustMph": 9.2,
+            "windMph": 8.9
           },
           "game": "South Alabama @ Kentucky",
           "kickoff": "2026-09-26T16:45:00+00:00",
-          "retrievedAt": "2026-09-23T07:57:08.932695+00:00",
+          "retrievedAt": "2026-09-24T15:20:26.336694+00:00",
           "source": {
             "batchLocations": 20,
             "locationIndex": 11,
             "provider": "open-meteo",
-            "sha256": "3856100839edb2d655b859c26fa7bc0e7442cd7c0bdd28ac89cb8941ebb4eac2",
+            "sha256": "764522c654aeeba247e699bd495f0596767aa08c41a7e799ec5771d5e674e456",
             "url": "https://api.open-meteo.com/v1/forecast?latitude=42.728147%2C32.279620%2C33.735267%2C39.180896%2C40.435225%2C33.949820%2C39.650274%2C29.649936%2C34.014167%2C33.591052%2C41.657478%2C38.022090%2C33.208275%2C41.378011%2C29.944616%2C28.607976%2C35.955013%2C30.412035%2C41.751739%2C38.990333&longitude=-84.484853%2C-106.741115%2C-84.389949%2C-86.525622%2C-86.918684%2C-83.373381%2C-79.955187%2C-82.348579%2C-118.287778%2C-101.872882%2C-83.613565%2C-84.505341%2C-87.550384%2C-83.622500%2C-90.116692%2C-81.192723%2C-83.925013%2C-91.183816%2C-111.811601%2C-76.947379&hourly=temperature_2m%2Cprecipitation_probability%2Cprecipitation%2Cwind_speed_10m%2Cwind_gusts_10m&temperature_unit=fahrenheit&wind_speed_unit=mph&precipitation_unit=inch&timezone=UTC&forecast_days=16"
           },
           "venue": {
@@ -3207,22 +3625,33 @@
             "venueName": "Kroger Field"
           },
           "weatherSuppressedByDome": false,
-          "windMph": 6.3
+          "windMph": 8.9
         }
+      },
+      "featureAsOf": {
+        "epaDiff": null,
+        "linePlayDiff": "2026-09-24T15:20:24.708516+00:00",
+        "qbContinuityDiff": null,
+        "travelMilesDiff": "2026-09-24T15:20:21.327880+00:00",
+        "windMph": "2026-09-24T15:20:26.336694+00:00"
       },
       "features": {
         "epaDiff": null,
         "linePlayDiff": -0.3298719944467372,
         "qbContinuityDiff": null,
         "travelMilesDiff": -547.9297795301449,
-        "windMph": 6.3
+        "windMph": 8.9
       },
       "game": "South Alabama @ Kentucky",
       "home": "Kentucky",
+      "identityStatus": "VERIFIED",
       "kickoff": "2026-09-26T16:45:00+00:00",
       "pregameEligible": true,
-      "rowSha256": "6a444ae9a0094ef8b094053edf28c20a02365ab71b4656989ebbb90ca4dcd544",
-      "snapshotAt": "2026-09-23T07:57:11+00:00"
+      "providerIds": {
+        "cfbd": "401864576"
+      },
+      "rowSha256": "7b4d461ba0ddcf0385e8d24a43ce07a276a034fb81e6c97b05905dccf3fcd01e",
+      "snapshotAt": "2026-09-24T15:20:28+00:00"
     },
     {
       "audit": {
@@ -3233,6 +3662,8 @@
         "windMph": true
       },
       "away": "South Carolina",
+      "canonicalGameId": "cfbd:401856696",
+      "decisionTime": "2026-09-24T15:20:28+00:00",
       "eligibilityExclusions": [],
       "evidence": {
         "linePlay": {
@@ -3281,19 +3712,19 @@
           "forecast": {
             "precipProbabilityPct": 0.0,
             "precipitationIn": 0.0,
-            "temperatureF": 83.7,
+            "temperatureF": 83.6,
             "validTime": "2026-09-26T23:00:00+00:00",
-            "windGustMph": 4.5,
-            "windMph": 3.3
+            "windGustMph": 7.8,
+            "windMph": 4.8
           },
           "game": "South Carolina @ Alabama",
           "kickoff": "2026-09-26T23:00:00+00:00",
-          "retrievedAt": "2026-09-23T07:57:08.932695+00:00",
+          "retrievedAt": "2026-09-24T15:20:26.336694+00:00",
           "source": {
             "batchLocations": 20,
             "locationIndex": 12,
             "provider": "open-meteo",
-            "sha256": "3856100839edb2d655b859c26fa7bc0e7442cd7c0bdd28ac89cb8941ebb4eac2",
+            "sha256": "764522c654aeeba247e699bd495f0596767aa08c41a7e799ec5771d5e674e456",
             "url": "https://api.open-meteo.com/v1/forecast?latitude=42.728147%2C32.279620%2C33.735267%2C39.180896%2C40.435225%2C33.949820%2C39.650274%2C29.649936%2C34.014167%2C33.591052%2C41.657478%2C38.022090%2C33.208275%2C41.378011%2C29.944616%2C28.607976%2C35.955013%2C30.412035%2C41.751739%2C38.990333&longitude=-84.484853%2C-106.741115%2C-84.389949%2C-86.525622%2C-86.918684%2C-83.373381%2C-79.955187%2C-82.348579%2C-118.287778%2C-101.872882%2C-83.613565%2C-84.505341%2C-87.550384%2C-83.622500%2C-90.116692%2C-81.192723%2C-83.925013%2C-91.183816%2C-111.811601%2C-76.947379&hourly=temperature_2m%2Cprecipitation_probability%2Cprecipitation%2Cwind_speed_10m%2Cwind_gusts_10m&temperature_unit=fahrenheit&wind_speed_unit=mph&precipitation_unit=inch&timezone=UTC&forecast_days=16"
           },
           "venue": {
@@ -3305,22 +3736,33 @@
             "venueName": "Bryant-Denny Stadium"
           },
           "weatherSuppressedByDome": false,
-          "windMph": 3.3
+          "windMph": 4.8
         }
+      },
+      "featureAsOf": {
+        "epaDiff": null,
+        "linePlayDiff": "2026-09-24T15:20:24.708516+00:00",
+        "qbContinuityDiff": null,
+        "travelMilesDiff": "2026-09-24T15:20:21.327880+00:00",
+        "windMph": "2026-09-24T15:20:26.336694+00:00"
       },
       "features": {
         "epaDiff": null,
         "linePlayDiff": -0.17226197028068224,
         "qbContinuityDiff": null,
         "travelMilesDiff": -379.5351761892885,
-        "windMph": 3.3
+        "windMph": 4.8
       },
       "game": "South Carolina @ Alabama",
       "home": "Alabama",
+      "identityStatus": "VERIFIED",
       "kickoff": "2026-09-26T23:00:00+00:00",
       "pregameEligible": true,
-      "rowSha256": "162913a1fabc466637984e44f39734e0fac6a5c57dbcf170fe9c265ce70cb2fb",
-      "snapshotAt": "2026-09-23T07:57:11+00:00"
+      "providerIds": {
+        "cfbd": "401856696"
+      },
+      "rowSha256": "480658440b0491d1361afc65d43a6e7dd307ed9110a19cfb4e0b314b6f108bd1",
+      "snapshotAt": "2026-09-24T15:20:28+00:00"
     },
     {
       "audit": {
@@ -3331,6 +3773,8 @@
         "windMph": true
       },
       "away": "South Florida",
+      "canonicalGameId": "cfbd:401862785",
+      "decisionTime": "2026-09-24T15:20:28+00:00",
       "eligibilityExclusions": [],
       "evidence": {
         "linePlay": {
@@ -3379,19 +3823,19 @@
           "forecast": {
             "precipProbabilityPct": 0.0,
             "precipitationIn": 0.0,
-            "temperatureF": 69.1,
+            "temperatureF": 70.9,
             "validTime": "2026-09-26T21:00:00+00:00",
-            "windGustMph": 7.8,
-            "windMph": 7.7
+            "windGustMph": 9.8,
+            "windMph": 6.9
           },
           "game": "South Florida @ Bowling Green",
           "kickoff": "2026-09-26T21:00:00+00:00",
-          "retrievedAt": "2026-09-23T07:57:08.932695+00:00",
+          "retrievedAt": "2026-09-24T15:20:26.336694+00:00",
           "source": {
             "batchLocations": 20,
             "locationIndex": 13,
             "provider": "open-meteo",
-            "sha256": "3856100839edb2d655b859c26fa7bc0e7442cd7c0bdd28ac89cb8941ebb4eac2",
+            "sha256": "764522c654aeeba247e699bd495f0596767aa08c41a7e799ec5771d5e674e456",
             "url": "https://api.open-meteo.com/v1/forecast?latitude=42.728147%2C32.279620%2C33.735267%2C39.180896%2C40.435225%2C33.949820%2C39.650274%2C29.649936%2C34.014167%2C33.591052%2C41.657478%2C38.022090%2C33.208275%2C41.378011%2C29.944616%2C28.607976%2C35.955013%2C30.412035%2C41.751739%2C38.990333&longitude=-84.484853%2C-106.741115%2C-84.389949%2C-86.525622%2C-86.918684%2C-83.373381%2C-79.955187%2C-82.348579%2C-118.287778%2C-101.872882%2C-83.613565%2C-84.505341%2C-87.550384%2C-83.622500%2C-90.116692%2C-81.192723%2C-83.925013%2C-91.183816%2C-111.811601%2C-76.947379&hourly=temperature_2m%2Cprecipitation_probability%2Cprecipitation%2Cwind_speed_10m%2Cwind_gusts_10m&temperature_unit=fahrenheit&wind_speed_unit=mph&precipitation_unit=inch&timezone=UTC&forecast_days=16"
           },
           "venue": {
@@ -3403,22 +3847,33 @@
             "venueName": "Doyt L. Perry Stadium"
           },
           "weatherSuppressedByDome": false,
-          "windMph": 7.7
+          "windMph": 6.9
         }
+      },
+      "featureAsOf": {
+        "epaDiff": null,
+        "linePlayDiff": "2026-09-24T15:20:24.708516+00:00",
+        "qbContinuityDiff": null,
+        "travelMilesDiff": "2026-09-24T15:20:21.327880+00:00",
+        "windMph": "2026-09-24T15:20:26.336694+00:00"
       },
       "features": {
         "epaDiff": null,
         "linePlayDiff": -2.0493163484724186,
         "qbContinuityDiff": null,
         "travelMilesDiff": -928.1565017393768,
-        "windMph": 7.7
+        "windMph": 6.9
       },
       "game": "South Florida @ Bowling Green",
       "home": "Bowling Green",
+      "identityStatus": "VERIFIED",
       "kickoff": "2026-09-26T21:00:00+00:00",
       "pregameEligible": true,
-      "rowSha256": "4a95ac1c0154e1b678ba1f931d213aeb31edb4ed644a718649470329ccba2519",
-      "snapshotAt": "2026-09-23T07:57:11+00:00"
+      "providerIds": {
+        "cfbd": "401862785"
+      },
+      "rowSha256": "fe8cb1e09b14bbb102ff80578a3c4f7a821ea91c3d1a269d908738523a6125b8",
+      "snapshotAt": "2026-09-24T15:20:28+00:00"
     },
     {
       "audit": {
@@ -3429,6 +3884,8 @@
         "windMph": true
       },
       "away": "Southern Miss",
+      "canonicalGameId": "cfbd:401862784",
+      "decisionTime": "2026-09-24T15:20:28+00:00",
       "eligibilityExclusions": [],
       "evidence": {
         "linePlay": {
@@ -3477,19 +3934,19 @@
           "forecast": {
             "precipProbabilityPct": 0.0,
             "precipitationIn": 0.0,
-            "temperatureF": 85.4,
+            "temperatureF": 87.7,
             "validTime": "2026-09-26T23:00:00+00:00",
-            "windGustMph": 10.7,
-            "windMph": 9.6
+            "windGustMph": 4.0,
+            "windMph": 2.1
           },
           "game": "Southern Miss @ Tulane",
           "kickoff": "2026-09-26T23:00:00+00:00",
-          "retrievedAt": "2026-09-23T07:57:08.932695+00:00",
+          "retrievedAt": "2026-09-24T15:20:26.336694+00:00",
           "source": {
             "batchLocations": 20,
             "locationIndex": 14,
             "provider": "open-meteo",
-            "sha256": "3856100839edb2d655b859c26fa7bc0e7442cd7c0bdd28ac89cb8941ebb4eac2",
+            "sha256": "764522c654aeeba247e699bd495f0596767aa08c41a7e799ec5771d5e674e456",
             "url": "https://api.open-meteo.com/v1/forecast?latitude=42.728147%2C32.279620%2C33.735267%2C39.180896%2C40.435225%2C33.949820%2C39.650274%2C29.649936%2C34.014167%2C33.591052%2C41.657478%2C38.022090%2C33.208275%2C41.378011%2C29.944616%2C28.607976%2C35.955013%2C30.412035%2C41.751739%2C38.990333&longitude=-84.484853%2C-106.741115%2C-84.389949%2C-86.525622%2C-86.918684%2C-83.373381%2C-79.955187%2C-82.348579%2C-118.287778%2C-101.872882%2C-83.613565%2C-84.505341%2C-87.550384%2C-83.622500%2C-90.116692%2C-81.192723%2C-83.925013%2C-91.183816%2C-111.811601%2C-76.947379&hourly=temperature_2m%2Cprecipitation_probability%2Cprecipitation%2Cwind_speed_10m%2Cwind_gusts_10m&temperature_unit=fahrenheit&wind_speed_unit=mph&precipitation_unit=inch&timezone=UTC&forecast_days=16"
           },
           "venue": {
@@ -3501,22 +3958,33 @@
             "venueName": "Yulman Stadium"
           },
           "weatherSuppressedByDome": false,
-          "windMph": 9.6
+          "windMph": 2.1
         }
+      },
+      "featureAsOf": {
+        "epaDiff": null,
+        "linePlayDiff": "2026-09-24T15:20:24.708516+00:00",
+        "qbContinuityDiff": null,
+        "travelMilesDiff": "2026-09-24T15:20:21.327880+00:00",
+        "windMph": "2026-09-24T15:20:26.336694+00:00"
       },
       "features": {
         "epaDiff": null,
         "linePlayDiff": -0.6606507739572254,
         "qbContinuityDiff": null,
         "travelMilesDiff": -106.42056670863626,
-        "windMph": 9.6
+        "windMph": 2.1
       },
       "game": "Southern Miss @ Tulane",
       "home": "Tulane",
+      "identityStatus": "VERIFIED",
       "kickoff": "2026-09-26T23:00:00+00:00",
       "pregameEligible": true,
-      "rowSha256": "10e63dbbf22e376814ed0391465d53b64dcfec0276ca56bd7f16bd924145c3f9",
-      "snapshotAt": "2026-09-23T07:57:11+00:00"
+      "providerIds": {
+        "cfbd": "401862784"
+      },
+      "rowSha256": "b1588eef9916963aea71d5f9afe54f36af7a36169e62519992842444fc6c1b2c",
+      "snapshotAt": "2026-09-24T15:20:28+00:00"
     },
     {
       "audit": {
@@ -3527,6 +3995,8 @@
         "windMph": true
       },
       "away": "TCU",
+      "canonicalGameId": "cfbd:401856815",
+      "decisionTime": "2026-09-24T15:20:28+00:00",
       "eligibilityExclusions": [],
       "evidence": {
         "linePlay": {
@@ -3575,19 +4045,19 @@
           "forecast": {
             "precipProbabilityPct": 1.0,
             "precipitationIn": 0.0,
-            "temperatureF": 84.1,
+            "temperatureF": 85.2,
             "validTime": "2026-09-26T19:00:00+00:00",
-            "windGustMph": 6.7,
-            "windMph": 14.8
+            "windGustMph": 5.6,
+            "windMph": 8.3
           },
           "game": "TCU @ UCF",
           "kickoff": "2026-09-26T19:30:00+00:00",
-          "retrievedAt": "2026-09-23T07:57:08.932695+00:00",
+          "retrievedAt": "2026-09-24T15:20:26.336694+00:00",
           "source": {
             "batchLocations": 20,
             "locationIndex": 15,
             "provider": "open-meteo",
-            "sha256": "3856100839edb2d655b859c26fa7bc0e7442cd7c0bdd28ac89cb8941ebb4eac2",
+            "sha256": "764522c654aeeba247e699bd495f0596767aa08c41a7e799ec5771d5e674e456",
             "url": "https://api.open-meteo.com/v1/forecast?latitude=42.728147%2C32.279620%2C33.735267%2C39.180896%2C40.435225%2C33.949820%2C39.650274%2C29.649936%2C34.014167%2C33.591052%2C41.657478%2C38.022090%2C33.208275%2C41.378011%2C29.944616%2C28.607976%2C35.955013%2C30.412035%2C41.751739%2C38.990333&longitude=-84.484853%2C-106.741115%2C-84.389949%2C-86.525622%2C-86.918684%2C-83.373381%2C-79.955187%2C-82.348579%2C-118.287778%2C-101.872882%2C-83.613565%2C-84.505341%2C-87.550384%2C-83.622500%2C-90.116692%2C-81.192723%2C-83.925013%2C-91.183816%2C-111.811601%2C-76.947379&hourly=temperature_2m%2Cprecipitation_probability%2Cprecipitation%2Cwind_speed_10m%2Cwind_gusts_10m&temperature_unit=fahrenheit&wind_speed_unit=mph&precipitation_unit=inch&timezone=UTC&forecast_days=16"
           },
           "venue": {
@@ -3599,22 +4069,33 @@
             "venueName": "FBC Mortgage Stadium"
           },
           "weatherSuppressedByDome": false,
-          "windMph": 14.8
+          "windMph": 8.3
         }
+      },
+      "featureAsOf": {
+        "epaDiff": null,
+        "linePlayDiff": "2026-09-24T15:20:24.708516+00:00",
+        "qbContinuityDiff": null,
+        "travelMilesDiff": "2026-09-24T15:20:21.327880+00:00",
+        "windMph": "2026-09-24T15:20:26.336694+00:00"
       },
       "features": {
         "epaDiff": null,
         "linePlayDiff": 0.2047605381559734,
         "qbContinuityDiff": null,
         "travelMilesDiff": -1001.0842159937199,
-        "windMph": 14.8
+        "windMph": 8.3
       },
       "game": "TCU @ UCF",
       "home": "UCF",
+      "identityStatus": "VERIFIED",
       "kickoff": "2026-09-26T19:30:00+00:00",
       "pregameEligible": true,
-      "rowSha256": "b75b21dcdd4d3137f742c622ddf9274c1b315d9497c8efbb64c5b7bfdf2c856b",
-      "snapshotAt": "2026-09-23T07:57:11+00:00"
+      "providerIds": {
+        "cfbd": "401856815"
+      },
+      "rowSha256": "4b02743619fc52b21f595aa0c6a45e167b3e6d294e9d85b929414de7e6faa5e3",
+      "snapshotAt": "2026-09-24T15:20:28+00:00"
     },
     {
       "audit": {
@@ -3625,6 +4106,8 @@
         "windMph": true
       },
       "away": "Texas",
+      "canonicalGameId": "cfbd:401856704",
+      "decisionTime": "2026-09-24T15:20:28+00:00",
       "eligibilityExclusions": [],
       "evidence": {
         "linePlay": {
@@ -3673,19 +4156,19 @@
           "forecast": {
             "precipProbabilityPct": 0.0,
             "precipitationIn": 0.0,
-            "temperatureF": 64.7,
+            "temperatureF": 66.8,
             "validTime": "2026-09-26T16:00:00+00:00",
-            "windGustMph": 2.2,
-            "windMph": 2.7
+            "windGustMph": 4.9,
+            "windMph": 4.0
           },
           "game": "Texas @ Tennessee",
           "kickoff": "2026-09-26T16:00:00+00:00",
-          "retrievedAt": "2026-09-23T07:57:08.932695+00:00",
+          "retrievedAt": "2026-09-24T15:20:26.336694+00:00",
           "source": {
             "batchLocations": 20,
             "locationIndex": 16,
             "provider": "open-meteo",
-            "sha256": "3856100839edb2d655b859c26fa7bc0e7442cd7c0bdd28ac89cb8941ebb4eac2",
+            "sha256": "764522c654aeeba247e699bd495f0596767aa08c41a7e799ec5771d5e674e456",
             "url": "https://api.open-meteo.com/v1/forecast?latitude=42.728147%2C32.279620%2C33.735267%2C39.180896%2C40.435225%2C33.949820%2C39.650274%2C29.649936%2C34.014167%2C33.591052%2C41.657478%2C38.022090%2C33.208275%2C41.378011%2C29.944616%2C28.607976%2C35.955013%2C30.412035%2C41.751739%2C38.990333&longitude=-84.484853%2C-106.741115%2C-84.389949%2C-86.525622%2C-86.918684%2C-83.373381%2C-79.955187%2C-82.348579%2C-118.287778%2C-101.872882%2C-83.613565%2C-84.505341%2C-87.550384%2C-83.622500%2C-90.116692%2C-81.192723%2C-83.925013%2C-91.183816%2C-111.811601%2C-76.947379&hourly=temperature_2m%2Cprecipitation_probability%2Cprecipitation%2Cwind_speed_10m%2Cwind_gusts_10m&temperature_unit=fahrenheit&wind_speed_unit=mph&precipitation_unit=inch&timezone=UTC&forecast_days=16"
           },
           "venue": {
@@ -3697,22 +4180,33 @@
             "venueName": "Neyland Stadium"
           },
           "weatherSuppressedByDome": false,
-          "windMph": 2.7
+          "windMph": 4.0
         }
+      },
+      "featureAsOf": {
+        "epaDiff": null,
+        "linePlayDiff": "2026-09-24T15:20:24.708516+00:00",
+        "qbContinuityDiff": null,
+        "travelMilesDiff": "2026-09-24T15:20:21.327880+00:00",
+        "windMph": "2026-09-24T15:20:26.336694+00:00"
       },
       "features": {
         "epaDiff": null,
         "linePlayDiff": 0.04690762226552492,
         "qbContinuityDiff": null,
         "travelMilesDiff": -888.7401227420861,
-        "windMph": 2.7
+        "windMph": 4.0
       },
       "game": "Texas @ Tennessee",
       "home": "Tennessee",
+      "identityStatus": "VERIFIED",
       "kickoff": "2026-09-26T16:00:00+00:00",
       "pregameEligible": true,
-      "rowSha256": "e8d07567cd46e227d350a0591e11a86cc8fe66bf65ed7feb012003771cfa938f",
-      "snapshotAt": "2026-09-23T07:57:11+00:00"
+      "providerIds": {
+        "cfbd": "401856704"
+      },
+      "rowSha256": "cb2e3f7bbb19d6475b203c1c75cd4fbabe6bda3a3f86c457a5d67f5ac8332715",
+      "snapshotAt": "2026-09-24T15:20:28+00:00"
     },
     {
       "audit": {
@@ -3723,6 +4217,8 @@
         "windMph": true
       },
       "away": "Texas A&M",
+      "canonicalGameId": "cfbd:401856702",
+      "decisionTime": "2026-09-24T15:20:28+00:00",
       "eligibilityExclusions": [],
       "evidence": {
         "linePlay": {
@@ -3769,21 +4265,21 @@
           "auditGrade": true,
           "exclusions": [],
           "forecast": {
-            "precipProbabilityPct": 1.0,
+            "precipProbabilityPct": 0.0,
             "precipitationIn": 0.0,
-            "temperatureF": 85.2,
+            "temperatureF": 90.5,
             "validTime": "2026-09-26T23:00:00+00:00",
-            "windGustMph": 10.7,
-            "windMph": 7.5
+            "windGustMph": 3.8,
+            "windMph": 5.1
           },
           "game": "Texas A&M @ LSU",
           "kickoff": "2026-09-26T23:30:00+00:00",
-          "retrievedAt": "2026-09-23T07:57:08.932695+00:00",
+          "retrievedAt": "2026-09-24T15:20:26.336694+00:00",
           "source": {
             "batchLocations": 20,
             "locationIndex": 17,
             "provider": "open-meteo",
-            "sha256": "3856100839edb2d655b859c26fa7bc0e7442cd7c0bdd28ac89cb8941ebb4eac2",
+            "sha256": "764522c654aeeba247e699bd495f0596767aa08c41a7e799ec5771d5e674e456",
             "url": "https://api.open-meteo.com/v1/forecast?latitude=42.728147%2C32.279620%2C33.735267%2C39.180896%2C40.435225%2C33.949820%2C39.650274%2C29.649936%2C34.014167%2C33.591052%2C41.657478%2C38.022090%2C33.208275%2C41.378011%2C29.944616%2C28.607976%2C35.955013%2C30.412035%2C41.751739%2C38.990333&longitude=-84.484853%2C-106.741115%2C-84.389949%2C-86.525622%2C-86.918684%2C-83.373381%2C-79.955187%2C-82.348579%2C-118.287778%2C-101.872882%2C-83.613565%2C-84.505341%2C-87.550384%2C-83.622500%2C-90.116692%2C-81.192723%2C-83.925013%2C-91.183816%2C-111.811601%2C-76.947379&hourly=temperature_2m%2Cprecipitation_probability%2Cprecipitation%2Cwind_speed_10m%2Cwind_gusts_10m&temperature_unit=fahrenheit&wind_speed_unit=mph&precipitation_unit=inch&timezone=UTC&forecast_days=16"
           },
           "venue": {
@@ -3795,22 +4291,33 @@
             "venueName": "Tiger Stadium (LA)"
           },
           "weatherSuppressedByDome": false,
-          "windMph": 7.5
+          "windMph": 5.1
         }
+      },
+      "featureAsOf": {
+        "epaDiff": null,
+        "linePlayDiff": "2026-09-24T15:20:24.708516+00:00",
+        "qbContinuityDiff": null,
+        "travelMilesDiff": "2026-09-24T15:20:21.327880+00:00",
+        "windMph": "2026-09-24T15:20:26.336694+00:00"
       },
       "features": {
         "epaDiff": null,
         "linePlayDiff": 0.6285776270936612,
         "qbContinuityDiff": null,
         "travelMilesDiff": -307.2280397320692,
-        "windMph": 7.5
+        "windMph": 5.1
       },
       "game": "Texas A&M @ LSU",
       "home": "LSU",
+      "identityStatus": "VERIFIED",
       "kickoff": "2026-09-26T23:30:00+00:00",
       "pregameEligible": true,
-      "rowSha256": "7b88cbb30edb305a8445ebfd998f5ce17421e7dd8fc6dfe5f34fb9906055763b",
-      "snapshotAt": "2026-09-23T07:57:11+00:00"
+      "providerIds": {
+        "cfbd": "401856702"
+      },
+      "rowSha256": "2fdb9f766dcb3bf8e9f7ef3ff9a514ea8a76f1bf0c1ec3877abc9343072183ac",
+      "snapshotAt": "2026-09-24T15:20:28+00:00"
     },
     {
       "audit": {
@@ -3821,6 +4328,8 @@
         "windMph": true
       },
       "away": "Troy",
+      "canonicalGameId": "cfbd:401860894",
+      "decisionTime": "2026-09-24T15:20:28+00:00",
       "eligibilityExclusions": [],
       "evidence": {
         "linePlay": {
@@ -3869,19 +4378,19 @@
           "forecast": {
             "precipProbabilityPct": 0.0,
             "precipitationIn": 0.0,
-            "temperatureF": 76.9,
+            "temperatureF": 78.7,
             "validTime": "2026-09-26T23:00:00+00:00",
-            "windGustMph": 17.2,
-            "windMph": 7.4
+            "windGustMph": 23.7,
+            "windMph": 9.7
           },
           "game": "Troy @ Utah State",
           "kickoff": "2026-09-26T23:30:00+00:00",
-          "retrievedAt": "2026-09-23T07:57:08.932695+00:00",
+          "retrievedAt": "2026-09-24T15:20:26.336694+00:00",
           "source": {
             "batchLocations": 20,
             "locationIndex": 18,
             "provider": "open-meteo",
-            "sha256": "3856100839edb2d655b859c26fa7bc0e7442cd7c0bdd28ac89cb8941ebb4eac2",
+            "sha256": "764522c654aeeba247e699bd495f0596767aa08c41a7e799ec5771d5e674e456",
             "url": "https://api.open-meteo.com/v1/forecast?latitude=42.728147%2C32.279620%2C33.735267%2C39.180896%2C40.435225%2C33.949820%2C39.650274%2C29.649936%2C34.014167%2C33.591052%2C41.657478%2C38.022090%2C33.208275%2C41.378011%2C29.944616%2C28.607976%2C35.955013%2C30.412035%2C41.751739%2C38.990333&longitude=-84.484853%2C-106.741115%2C-84.389949%2C-86.525622%2C-86.918684%2C-83.373381%2C-79.955187%2C-82.348579%2C-118.287778%2C-101.872882%2C-83.613565%2C-84.505341%2C-87.550384%2C-83.622500%2C-90.116692%2C-81.192723%2C-83.925013%2C-91.183816%2C-111.811601%2C-76.947379&hourly=temperature_2m%2Cprecipitation_probability%2Cprecipitation%2Cwind_speed_10m%2Cwind_gusts_10m&temperature_unit=fahrenheit&wind_speed_unit=mph&precipitation_unit=inch&timezone=UTC&forecast_days=16"
           },
           "venue": {
@@ -3893,22 +4402,33 @@
             "venueName": "Maverik Stadium"
           },
           "weatherSuppressedByDome": false,
-          "windMph": 7.4
+          "windMph": 9.7
         }
+      },
+      "featureAsOf": {
+        "epaDiff": null,
+        "linePlayDiff": "2026-09-24T15:20:24.708516+00:00",
+        "qbContinuityDiff": null,
+        "travelMilesDiff": "2026-09-24T15:20:21.327880+00:00",
+        "windMph": "2026-09-24T15:20:26.336694+00:00"
       },
       "features": {
         "epaDiff": null,
         "linePlayDiff": -0.275131405496007,
         "qbContinuityDiff": null,
         "travelMilesDiff": -1579.435065291881,
-        "windMph": 7.4
+        "windMph": 9.7
       },
       "game": "Troy @ Utah State",
       "home": "Utah State",
+      "identityStatus": "VERIFIED",
       "kickoff": "2026-09-26T23:30:00+00:00",
       "pregameEligible": true,
-      "rowSha256": "9af08dcbd6f2eeacc9c9d954781db305f3fcfd5b5d86da7bc32491ed57f08ee2",
-      "snapshotAt": "2026-09-23T07:57:11+00:00"
+      "providerIds": {
+        "cfbd": "401860894"
+      },
+      "rowSha256": "bbaac2f309723979ddbf44d2f024bbd58b4c8ecd70ccf9861c340d7d2a878a27",
+      "snapshotAt": "2026-09-24T15:20:28+00:00"
     },
     {
       "audit": {
@@ -3919,6 +4439,8 @@
         "windMph": true
       },
       "away": "UCLA",
+      "canonicalGameId": "cfbd:401858462",
+      "decisionTime": "2026-09-24T15:20:28+00:00",
       "eligibilityExclusions": [],
       "evidence": {
         "linePlay": {
@@ -3965,21 +4487,21 @@
           "auditGrade": true,
           "exclusions": [],
           "forecast": {
-            "precipProbabilityPct": 4.0,
+            "precipProbabilityPct": 16.0,
             "precipitationIn": 0.0,
-            "temperatureF": 72.7,
+            "temperatureF": 74.3,
             "validTime": "2026-09-26T17:00:00+00:00",
-            "windGustMph": 12.5,
-            "windMph": 8.8
+            "windGustMph": 20.1,
+            "windMph": 11.9
           },
           "game": "UCLA @ Maryland",
           "kickoff": "2026-09-26T17:30:00+00:00",
-          "retrievedAt": "2026-09-23T07:57:08.932695+00:00",
+          "retrievedAt": "2026-09-24T15:20:26.336694+00:00",
           "source": {
             "batchLocations": 20,
             "locationIndex": 19,
             "provider": "open-meteo",
-            "sha256": "3856100839edb2d655b859c26fa7bc0e7442cd7c0bdd28ac89cb8941ebb4eac2",
+            "sha256": "764522c654aeeba247e699bd495f0596767aa08c41a7e799ec5771d5e674e456",
             "url": "https://api.open-meteo.com/v1/forecast?latitude=42.728147%2C32.279620%2C33.735267%2C39.180896%2C40.435225%2C33.949820%2C39.650274%2C29.649936%2C34.014167%2C33.591052%2C41.657478%2C38.022090%2C33.208275%2C41.378011%2C29.944616%2C28.607976%2C35.955013%2C30.412035%2C41.751739%2C38.990333&longitude=-84.484853%2C-106.741115%2C-84.389949%2C-86.525622%2C-86.918684%2C-83.373381%2C-79.955187%2C-82.348579%2C-118.287778%2C-101.872882%2C-83.613565%2C-84.505341%2C-87.550384%2C-83.622500%2C-90.116692%2C-81.192723%2C-83.925013%2C-91.183816%2C-111.811601%2C-76.947379&hourly=temperature_2m%2Cprecipitation_probability%2Cprecipitation%2Cwind_speed_10m%2Cwind_gusts_10m&temperature_unit=fahrenheit&wind_speed_unit=mph&precipitation_unit=inch&timezone=UTC&forecast_days=16"
           },
           "venue": {
@@ -3991,22 +4513,33 @@
             "venueName": "SECU Stadium"
           },
           "weatherSuppressedByDome": false,
-          "windMph": 8.8
+          "windMph": 11.9
         }
+      },
+      "featureAsOf": {
+        "epaDiff": null,
+        "linePlayDiff": "2026-09-24T15:20:24.708516+00:00",
+        "qbContinuityDiff": null,
+        "travelMilesDiff": "2026-09-24T15:20:21.327880+00:00",
+        "windMph": "2026-09-24T15:20:26.336694+00:00"
       },
       "features": {
         "epaDiff": null,
         "linePlayDiff": 0.009269297936819632,
         "qbContinuityDiff": null,
         "travelMilesDiff": -2291.7092448143144,
-        "windMph": 8.8
+        "windMph": 11.9
       },
       "game": "UCLA @ Maryland",
       "home": "Maryland",
+      "identityStatus": "VERIFIED",
       "kickoff": "2026-09-26T17:30:00+00:00",
       "pregameEligible": true,
-      "rowSha256": "b1395d509b65ca158a94a54626d4211679dcb421591e22ebef5e02de2a40847b",
-      "snapshotAt": "2026-09-23T07:57:11+00:00"
+      "providerIds": {
+        "cfbd": "401858462"
+      },
+      "rowSha256": "1f9e2fea5f1a67a0fc65b02b9404f848074f9bf857d1a2fdb71a3ffc43d48d27",
+      "snapshotAt": "2026-09-24T15:20:28+00:00"
     },
     {
       "audit": {
@@ -4017,6 +4550,8 @@
         "windMph": true
       },
       "away": "UConn",
+      "canonicalGameId": "cfbd:401861970",
+      "decisionTime": "2026-09-24T15:20:28+00:00",
       "eligibilityExclusions": [],
       "evidence": {
         "linePlay": {
@@ -4065,19 +4600,19 @@
           "forecast": {
             "precipProbabilityPct": 0.0,
             "precipitationIn": 0.0,
-            "temperatureF": 70.5,
+            "temperatureF": 68.7,
             "validTime": "2026-09-26T19:00:00+00:00",
-            "windGustMph": 7.4,
-            "windMph": 7.7
+            "windGustMph": 6.7,
+            "windMph": 6.0
           },
           "game": "UConn @ Miami (OH)",
           "kickoff": "2026-09-26T19:30:00+00:00",
-          "retrievedAt": "2026-09-23T07:57:08.932695+00:00",
+          "retrievedAt": "2026-09-24T15:20:26.336694+00:00",
           "source": {
             "batchLocations": 16,
             "locationIndex": 0,
             "provider": "open-meteo",
-            "sha256": "8cd3937ddf202ff628fcdedc9d25ae0531c9c87a34ea9eb2fcf8128c7f5f1dc8",
+            "sha256": "a459547fee37ecd862abc50be24b742743c8b8b512afea1fd4f9616909074a0c",
             "url": "https://api.open-meteo.com/v1/forecast?latitude=39.519701%2C41.072553%2C42.013998%2C32.602553%2C42.335104%2C38.205762%2C40.812196%2C39.546946%2C32.530809%2C37.434556%2C38.555672%2C47.650323%2C32.837722%2C31.773335%2C36.814353%2C36.068066&longitude=-84.733025%2C-81.508341%2C-93.635772%2C-85.489748%2C-71.166441%2C-85.758814%2C-77.856102%2C-119.817543%2C-92.066060%2C-122.161127%2C-121.422961%2C-122.301575%2C-96.782786%2C-106.507957%2C-119.758009%2C-94.178953&hourly=temperature_2m%2Cprecipitation_probability%2Cprecipitation%2Cwind_speed_10m%2Cwind_gusts_10m&temperature_unit=fahrenheit&wind_speed_unit=mph&precipitation_unit=inch&timezone=UTC&forecast_days=16"
           },
           "venue": {
@@ -4089,22 +4624,33 @@
             "venueName": "Yager Stadium"
           },
           "weatherSuppressedByDome": false,
-          "windMph": 7.7
+          "windMph": 6.0
         }
+      },
+      "featureAsOf": {
+        "epaDiff": null,
+        "linePlayDiff": "2026-09-24T15:20:24.708516+00:00",
+        "qbContinuityDiff": null,
+        "travelMilesDiff": "2026-09-24T15:20:21.327880+00:00",
+        "windMph": "2026-09-24T15:20:26.336694+00:00"
       },
       "features": {
         "epaDiff": null,
         "linePlayDiff": -0.12798641666102606,
         "qbContinuityDiff": null,
         "travelMilesDiff": -653.1123149150161,
-        "windMph": 7.7
+        "windMph": 6.0
       },
       "game": "UConn @ Miami (OH)",
       "home": "Miami (OH)",
+      "identityStatus": "VERIFIED",
       "kickoff": "2026-09-26T19:30:00+00:00",
       "pregameEligible": true,
-      "rowSha256": "36781503680cb5e7004704f806cabc2dfba614a1978b06f1c0e56ed71610f08a",
-      "snapshotAt": "2026-09-23T07:57:11+00:00"
+      "providerIds": {
+        "cfbd": "401861970"
+      },
+      "rowSha256": "d278fed385ef1cdc99ef22550e76349a61f3619312871902fa8747cc31bc5a57",
+      "snapshotAt": "2026-09-24T15:20:28+00:00"
     },
     {
       "audit": {
@@ -4115,6 +4661,8 @@
         "windMph": true
       },
       "away": "UNLV",
+      "canonicalGameId": "cfbd:401864512",
+      "decisionTime": "2026-09-24T15:20:28+00:00",
       "eligibilityExclusions": [],
       "evidence": {
         "linePlay": {
@@ -4163,19 +4711,19 @@
           "forecast": {
             "precipProbabilityPct": 0.0,
             "precipitationIn": 0.0,
-            "temperatureF": 66.8,
+            "temperatureF": 67.2,
             "validTime": "2026-09-26T16:00:00+00:00",
-            "windGustMph": 8.1,
-            "windMph": 5.6
+            "windGustMph": 11.2,
+            "windMph": 7.2
           },
           "game": "UNLV @ Akron",
           "kickoff": "2026-09-26T16:00:00+00:00",
-          "retrievedAt": "2026-09-23T07:57:08.932695+00:00",
+          "retrievedAt": "2026-09-24T15:20:26.336694+00:00",
           "source": {
             "batchLocations": 16,
             "locationIndex": 1,
             "provider": "open-meteo",
-            "sha256": "8cd3937ddf202ff628fcdedc9d25ae0531c9c87a34ea9eb2fcf8128c7f5f1dc8",
+            "sha256": "a459547fee37ecd862abc50be24b742743c8b8b512afea1fd4f9616909074a0c",
             "url": "https://api.open-meteo.com/v1/forecast?latitude=39.519701%2C41.072553%2C42.013998%2C32.602553%2C42.335104%2C38.205762%2C40.812196%2C39.546946%2C32.530809%2C37.434556%2C38.555672%2C47.650323%2C32.837722%2C31.773335%2C36.814353%2C36.068066&longitude=-84.733025%2C-81.508341%2C-93.635772%2C-85.489748%2C-71.166441%2C-85.758814%2C-77.856102%2C-119.817543%2C-92.066060%2C-122.161127%2C-121.422961%2C-122.301575%2C-96.782786%2C-106.507957%2C-119.758009%2C-94.178953&hourly=temperature_2m%2Cprecipitation_probability%2Cprecipitation%2Cwind_speed_10m%2Cwind_gusts_10m&temperature_unit=fahrenheit&wind_speed_unit=mph&precipitation_unit=inch&timezone=UTC&forecast_days=16"
           },
           "venue": {
@@ -4187,22 +4735,33 @@
             "venueName": "InfoCision Stadium"
           },
           "weatherSuppressedByDome": false,
-          "windMph": 5.6
+          "windMph": 7.2
         }
+      },
+      "featureAsOf": {
+        "epaDiff": null,
+        "linePlayDiff": "2026-09-24T15:20:24.708516+00:00",
+        "qbContinuityDiff": null,
+        "travelMilesDiff": "2026-09-24T15:20:21.327880+00:00",
+        "windMph": "2026-09-24T15:20:26.336694+00:00"
       },
       "features": {
         "epaDiff": null,
         "linePlayDiff": 1.6456746633120374,
         "qbContinuityDiff": null,
         "travelMilesDiff": -1839.2979613939547,
-        "windMph": 5.6
+        "windMph": 7.2
       },
       "game": "UNLV @ Akron",
       "home": "Akron",
+      "identityStatus": "VERIFIED",
       "kickoff": "2026-09-26T16:00:00+00:00",
       "pregameEligible": true,
-      "rowSha256": "ac2e74e895b82491323a4fe0768500720de60e6e89c6493e73321018122a5a5a",
-      "snapshotAt": "2026-09-23T07:57:11+00:00"
+      "providerIds": {
+        "cfbd": "401864512"
+      },
+      "rowSha256": "d253369a9ad1bd7136acfdf0484bed37ff4f3c82a873da78220d3cfd4af784f4",
+      "snapshotAt": "2026-09-24T15:20:28+00:00"
     },
     {
       "audit": {
@@ -4213,6 +4772,8 @@
         "windMph": true
       },
       "away": "Utah",
+      "canonicalGameId": "cfbd:401856816",
+      "decisionTime": "2026-09-24T15:20:28+00:00",
       "eligibilityExclusions": [],
       "evidence": {
         "linePlay": {
@@ -4259,21 +4820,21 @@
           "auditGrade": true,
           "exclusions": [],
           "forecast": {
-            "precipProbabilityPct": 43.0,
-            "precipitationIn": 0.0,
-            "temperatureF": 64.0,
+            "precipProbabilityPct": 76.0,
+            "precipitationIn": 0.016,
+            "temperatureF": 55.3,
             "validTime": "2026-09-26T19:00:00+00:00",
-            "windGustMph": 20.4,
-            "windMph": 14.1
+            "windGustMph": 20.1,
+            "windMph": 10.4
           },
           "game": "Utah @ Iowa State",
           "kickoff": "2026-09-26T19:30:00+00:00",
-          "retrievedAt": "2026-09-23T07:57:08.932695+00:00",
+          "retrievedAt": "2026-09-24T15:20:26.336694+00:00",
           "source": {
             "batchLocations": 16,
             "locationIndex": 2,
             "provider": "open-meteo",
-            "sha256": "8cd3937ddf202ff628fcdedc9d25ae0531c9c87a34ea9eb2fcf8128c7f5f1dc8",
+            "sha256": "a459547fee37ecd862abc50be24b742743c8b8b512afea1fd4f9616909074a0c",
             "url": "https://api.open-meteo.com/v1/forecast?latitude=39.519701%2C41.072553%2C42.013998%2C32.602553%2C42.335104%2C38.205762%2C40.812196%2C39.546946%2C32.530809%2C37.434556%2C38.555672%2C47.650323%2C32.837722%2C31.773335%2C36.814353%2C36.068066&longitude=-84.733025%2C-81.508341%2C-93.635772%2C-85.489748%2C-71.166441%2C-85.758814%2C-77.856102%2C-119.817543%2C-92.066060%2C-122.161127%2C-121.422961%2C-122.301575%2C-96.782786%2C-106.507957%2C-119.758009%2C-94.178953&hourly=temperature_2m%2Cprecipitation_probability%2Cprecipitation%2Cwind_speed_10m%2Cwind_gusts_10m&temperature_unit=fahrenheit&wind_speed_unit=mph&precipitation_unit=inch&timezone=UTC&forecast_days=16"
           },
           "venue": {
@@ -4285,22 +4846,33 @@
             "venueName": "Jack Trice Stadium"
           },
           "weatherSuppressedByDome": false,
-          "windMph": 14.1
+          "windMph": 10.4
         }
+      },
+      "featureAsOf": {
+        "epaDiff": null,
+        "linePlayDiff": "2026-09-24T15:20:24.708516+00:00",
+        "qbContinuityDiff": null,
+        "travelMilesDiff": "2026-09-24T15:20:21.327880+00:00",
+        "windMph": "2026-09-24T15:20:26.336694+00:00"
       },
       "features": {
         "epaDiff": null,
         "linePlayDiff": 0.012466970338530281,
         "qbContinuityDiff": null,
         "travelMilesDiff": -946.296119046534,
-        "windMph": 14.1
+        "windMph": 10.4
       },
       "game": "Utah @ Iowa State",
       "home": "Iowa State",
+      "identityStatus": "VERIFIED",
       "kickoff": "2026-09-26T19:30:00+00:00",
       "pregameEligible": true,
-      "rowSha256": "1b42e02db7f47fb9846c60c2836bb903e9a4807e06968dc2e7c82a07d441da27",
-      "snapshotAt": "2026-09-23T07:57:11+00:00"
+      "providerIds": {
+        "cfbd": "401856816"
+      },
+      "rowSha256": "cfa03a8785cb3503a15efd3c2cf12bbe83d7d56d7c531d3b40118c38afee3238",
+      "snapshotAt": "2026-09-24T15:20:28+00:00"
     },
     {
       "audit": {
@@ -4311,6 +4883,8 @@
         "windMph": true
       },
       "away": "Vanderbilt",
+      "canonicalGameId": "cfbd:401856698",
+      "decisionTime": "2026-09-24T15:20:28+00:00",
       "eligibilityExclusions": [],
       "evidence": {
         "linePlay": {
@@ -4438,21 +5012,21 @@
           "auditGrade": true,
           "exclusions": [],
           "forecast": {
-            "precipProbabilityPct": 1.0,
+            "precipProbabilityPct": 0.0,
             "precipitationIn": 0.0,
-            "temperatureF": 83.2,
+            "temperatureF": 84.8,
             "validTime": "2026-09-26T20:00:00+00:00",
-            "windGustMph": 4.9,
-            "windMph": 2.7
+            "windGustMph": 6.5,
+            "windMph": 5.5
           },
           "game": "Vanderbilt @ Auburn",
           "kickoff": "2026-09-26T20:15:00+00:00",
-          "retrievedAt": "2026-09-23T07:57:08.932695+00:00",
+          "retrievedAt": "2026-09-24T15:20:26.336694+00:00",
           "source": {
             "batchLocations": 16,
             "locationIndex": 3,
             "provider": "open-meteo",
-            "sha256": "8cd3937ddf202ff628fcdedc9d25ae0531c9c87a34ea9eb2fcf8128c7f5f1dc8",
+            "sha256": "a459547fee37ecd862abc50be24b742743c8b8b512afea1fd4f9616909074a0c",
             "url": "https://api.open-meteo.com/v1/forecast?latitude=39.519701%2C41.072553%2C42.013998%2C32.602553%2C42.335104%2C38.205762%2C40.812196%2C39.546946%2C32.530809%2C37.434556%2C38.555672%2C47.650323%2C32.837722%2C31.773335%2C36.814353%2C36.068066&longitude=-84.733025%2C-81.508341%2C-93.635772%2C-85.489748%2C-71.166441%2C-85.758814%2C-77.856102%2C-119.817543%2C-92.066060%2C-122.161127%2C-121.422961%2C-122.301575%2C-96.782786%2C-106.507957%2C-119.758009%2C-94.178953&hourly=temperature_2m%2Cprecipitation_probability%2Cprecipitation%2Cwind_speed_10m%2Cwind_gusts_10m&temperature_unit=fahrenheit&wind_speed_unit=mph&precipitation_unit=inch&timezone=UTC&forecast_days=16"
           },
           "venue": {
@@ -4464,22 +5038,33 @@
             "venueName": "Jordan-Hare Stadium"
           },
           "weatherSuppressedByDome": false,
-          "windMph": 2.7
+          "windMph": 5.5
         }
+      },
+      "featureAsOf": {
+        "epaDiff": null,
+        "linePlayDiff": "2026-09-24T15:20:24.708516+00:00",
+        "qbContinuityDiff": "2026-09-23T04:24:00Z",
+        "travelMilesDiff": "2026-09-24T15:20:21.327880+00:00",
+        "windMph": "2026-09-24T15:20:26.336694+00:00"
       },
       "features": {
         "epaDiff": null,
         "linePlayDiff": 0.28183114035087753,
         "qbContinuityDiff": 0.0,
         "travelMilesDiff": -255.9882075646613,
-        "windMph": 2.7
+        "windMph": 5.5
       },
       "game": "Vanderbilt @ Auburn",
       "home": "Auburn",
+      "identityStatus": "VERIFIED",
       "kickoff": "2026-09-26T20:15:00+00:00",
       "pregameEligible": true,
-      "rowSha256": "ae5cdebdac7dfdb9744ddffa2d4f8a3eebd77290a352dcabfa401294a761fb08",
-      "snapshotAt": "2026-09-23T07:57:11+00:00"
+      "providerIds": {
+        "cfbd": "401856698"
+      },
+      "rowSha256": "253c99b652e8510ff1dfaf44cde4c0ecee5b8a6a3b81cf14e7b36b38f7d7f946",
+      "snapshotAt": "2026-09-24T15:20:28+00:00"
     },
     {
       "audit": {
@@ -4490,6 +5075,8 @@
         "windMph": true
       },
       "away": "Virginia Tech",
+      "canonicalGameId": "cfbd:401858242",
+      "decisionTime": "2026-09-24T15:20:28+00:00",
       "eligibilityExclusions": [],
       "evidence": {
         "linePlay": {
@@ -4537,20 +5124,20 @@
           "exclusions": [],
           "forecast": {
             "precipProbabilityPct": 63.0,
-            "precipitationIn": 0.079,
-            "temperatureF": 52.3,
+            "precipitationIn": 0.012,
+            "temperatureF": 53.9,
             "validTime": "2026-09-26T16:00:00+00:00",
-            "windGustMph": 34.7,
-            "windMph": 12.7
+            "windGustMph": 43.8,
+            "windMph": 19.9
           },
           "game": "Virginia Tech @ Boston College",
           "kickoff": "2026-09-26T16:00:00+00:00",
-          "retrievedAt": "2026-09-23T07:57:08.932695+00:00",
+          "retrievedAt": "2026-09-24T15:20:26.336694+00:00",
           "source": {
             "batchLocations": 16,
             "locationIndex": 4,
             "provider": "open-meteo",
-            "sha256": "8cd3937ddf202ff628fcdedc9d25ae0531c9c87a34ea9eb2fcf8128c7f5f1dc8",
+            "sha256": "a459547fee37ecd862abc50be24b742743c8b8b512afea1fd4f9616909074a0c",
             "url": "https://api.open-meteo.com/v1/forecast?latitude=39.519701%2C41.072553%2C42.013998%2C32.602553%2C42.335104%2C38.205762%2C40.812196%2C39.546946%2C32.530809%2C37.434556%2C38.555672%2C47.650323%2C32.837722%2C31.773335%2C36.814353%2C36.068066&longitude=-84.733025%2C-81.508341%2C-93.635772%2C-85.489748%2C-71.166441%2C-85.758814%2C-77.856102%2C-119.817543%2C-92.066060%2C-122.161127%2C-121.422961%2C-122.301575%2C-96.782786%2C-106.507957%2C-119.758009%2C-94.178953&hourly=temperature_2m%2Cprecipitation_probability%2Cprecipitation%2Cwind_speed_10m%2Cwind_gusts_10m&temperature_unit=fahrenheit&wind_speed_unit=mph&precipitation_unit=inch&timezone=UTC&forecast_days=16"
           },
           "venue": {
@@ -4562,22 +5149,33 @@
             "venueName": "Alumni Stadium (Chestnut Hill, MA)"
           },
           "weatherSuppressedByDome": false,
-          "windMph": 12.7
+          "windMph": 19.9
         }
+      },
+      "featureAsOf": {
+        "epaDiff": null,
+        "linePlayDiff": "2026-09-24T15:20:24.708516+00:00",
+        "qbContinuityDiff": null,
+        "travelMilesDiff": "2026-09-24T15:20:21.327880+00:00",
+        "windMph": "2026-09-24T15:20:26.336694+00:00"
       },
       "features": {
         "epaDiff": null,
         "linePlayDiff": -2.7942472401740135,
         "qbContinuityDiff": null,
         "travelMilesDiff": -604.5999968687694,
-        "windMph": 12.7
+        "windMph": 19.9
       },
       "game": "Virginia Tech @ Boston College",
       "home": "Boston College",
+      "identityStatus": "VERIFIED",
       "kickoff": "2026-09-26T16:00:00+00:00",
       "pregameEligible": true,
-      "rowSha256": "6822b15480f4f28f7f3fe01c1f69ad18ef678dd51f4f1ff3d4f6b84fe4b021fe",
-      "snapshotAt": "2026-09-23T07:57:11+00:00"
+      "providerIds": {
+        "cfbd": "401858242"
+      },
+      "rowSha256": "306fc70d1ce6fdb2013f45964374a0d17fbf85395b1a77594ebceebd4f12cdc1",
+      "snapshotAt": "2026-09-24T15:20:28+00:00"
     },
     {
       "audit": {
@@ -4588,6 +5186,8 @@
         "windMph": true
       },
       "away": "Wake Forest",
+      "canonicalGameId": "cfbd:401858243",
+      "decisionTime": "2026-09-24T15:20:28+00:00",
       "eligibilityExclusions": [],
       "evidence": {
         "linePlay": {
@@ -4636,19 +5236,19 @@
           "forecast": {
             "precipProbabilityPct": 0.0,
             "precipitationIn": 0.0,
-            "temperatureF": 64.5,
+            "temperatureF": 70.4,
             "validTime": "2026-09-26T16:00:00+00:00",
-            "windGustMph": 7.8,
-            "windMph": 4.8
+            "windGustMph": 7.6,
+            "windMph": 5.5
           },
           "game": "Wake Forest @ Louisville",
           "kickoff": "2026-09-26T16:00:00+00:00",
-          "retrievedAt": "2026-09-23T07:57:08.932695+00:00",
+          "retrievedAt": "2026-09-24T15:20:26.336694+00:00",
           "source": {
             "batchLocations": 16,
             "locationIndex": 5,
             "provider": "open-meteo",
-            "sha256": "8cd3937ddf202ff628fcdedc9d25ae0531c9c87a34ea9eb2fcf8128c7f5f1dc8",
+            "sha256": "a459547fee37ecd862abc50be24b742743c8b8b512afea1fd4f9616909074a0c",
             "url": "https://api.open-meteo.com/v1/forecast?latitude=39.519701%2C41.072553%2C42.013998%2C32.602553%2C42.335104%2C38.205762%2C40.812196%2C39.546946%2C32.530809%2C37.434556%2C38.555672%2C47.650323%2C32.837722%2C31.773335%2C36.814353%2C36.068066&longitude=-84.733025%2C-81.508341%2C-93.635772%2C-85.489748%2C-71.166441%2C-85.758814%2C-77.856102%2C-119.817543%2C-92.066060%2C-122.161127%2C-121.422961%2C-122.301575%2C-96.782786%2C-106.507957%2C-119.758009%2C-94.178953&hourly=temperature_2m%2Cprecipitation_probability%2Cprecipitation%2Cwind_speed_10m%2Cwind_gusts_10m&temperature_unit=fahrenheit&wind_speed_unit=mph&precipitation_unit=inch&timezone=UTC&forecast_days=16"
           },
           "venue": {
@@ -4660,22 +5260,33 @@
             "venueName": "L&N Federal Credit Union Stadium"
           },
           "weatherSuppressedByDome": false,
-          "windMph": 4.8
+          "windMph": 5.5
         }
+      },
+      "featureAsOf": {
+        "epaDiff": null,
+        "linePlayDiff": "2026-09-24T15:20:24.708516+00:00",
+        "qbContinuityDiff": null,
+        "travelMilesDiff": "2026-09-24T15:20:21.327880+00:00",
+        "windMph": "2026-09-24T15:20:26.336694+00:00"
       },
       "features": {
         "epaDiff": null,
         "linePlayDiff": -0.1088528138528142,
         "qbContinuityDiff": null,
         "travelMilesDiff": -335.1815837461629,
-        "windMph": 4.8
+        "windMph": 5.5
       },
       "game": "Wake Forest @ Louisville",
       "home": "Louisville",
+      "identityStatus": "VERIFIED",
       "kickoff": "2026-09-26T16:00:00+00:00",
       "pregameEligible": true,
-      "rowSha256": "ad02a9778bfcd533b912eba5e7707788a09dd274669bbe36434d149ba387ce1b",
-      "snapshotAt": "2026-09-23T07:57:11+00:00"
+      "providerIds": {
+        "cfbd": "401858243"
+      },
+      "rowSha256": "c903253887bdf2258002292c775984f6819a347b68cac63581fc7a2c5aaf7651",
+      "snapshotAt": "2026-09-24T15:20:28+00:00"
     },
     {
       "audit": {
@@ -4686,6 +5297,8 @@
         "windMph": true
       },
       "away": "Wisconsin",
+      "canonicalGameId": "cfbd:401858466",
+      "decisionTime": "2026-09-24T15:20:28+00:00",
       "eligibilityExclusions": [],
       "evidence": {
         "linePlay": {
@@ -4732,21 +5345,21 @@
           "auditGrade": true,
           "exclusions": [],
           "forecast": {
-            "precipProbabilityPct": 0.0,
+            "precipProbabilityPct": 3.0,
             "precipitationIn": 0.0,
-            "temperatureF": 67.3,
+            "temperatureF": 63.4,
             "validTime": "2026-09-26T21:00:00+00:00",
-            "windGustMph": 14.5,
-            "windMph": 8.8
+            "windGustMph": 24.2,
+            "windMph": 13.2
           },
           "game": "Wisconsin @ Penn State",
           "kickoff": "2026-09-26T21:00:00+00:00",
-          "retrievedAt": "2026-09-23T07:57:08.932695+00:00",
+          "retrievedAt": "2026-09-24T15:20:26.336694+00:00",
           "source": {
             "batchLocations": 16,
             "locationIndex": 6,
             "provider": "open-meteo",
-            "sha256": "8cd3937ddf202ff628fcdedc9d25ae0531c9c87a34ea9eb2fcf8128c7f5f1dc8",
+            "sha256": "a459547fee37ecd862abc50be24b742743c8b8b512afea1fd4f9616909074a0c",
             "url": "https://api.open-meteo.com/v1/forecast?latitude=39.519701%2C41.072553%2C42.013998%2C32.602553%2C42.335104%2C38.205762%2C40.812196%2C39.546946%2C32.530809%2C37.434556%2C38.555672%2C47.650323%2C32.837722%2C31.773335%2C36.814353%2C36.068066&longitude=-84.733025%2C-81.508341%2C-93.635772%2C-85.489748%2C-71.166441%2C-85.758814%2C-77.856102%2C-119.817543%2C-92.066060%2C-122.161127%2C-121.422961%2C-122.301575%2C-96.782786%2C-106.507957%2C-119.758009%2C-94.178953&hourly=temperature_2m%2Cprecipitation_probability%2Cprecipitation%2Cwind_speed_10m%2Cwind_gusts_10m&temperature_unit=fahrenheit&wind_speed_unit=mph&precipitation_unit=inch&timezone=UTC&forecast_days=16"
           },
           "venue": {
@@ -4758,22 +5371,33 @@
             "venueName": "Beaver Stadium"
           },
           "weatherSuppressedByDome": false,
-          "windMph": 8.8
+          "windMph": 13.2
         }
+      },
+      "featureAsOf": {
+        "epaDiff": null,
+        "linePlayDiff": "2026-09-24T15:20:24.708516+00:00",
+        "qbContinuityDiff": null,
+        "travelMilesDiff": "2026-09-24T15:20:21.327880+00:00",
+        "windMph": "2026-09-24T15:20:26.336694+00:00"
       },
       "features": {
         "epaDiff": null,
         "linePlayDiff": 0.5253033078033078,
         "qbContinuityDiff": null,
         "travelMilesDiff": -613.5197710996982,
-        "windMph": 8.8
+        "windMph": 13.2
       },
       "game": "Wisconsin @ Penn State",
       "home": "Penn State",
+      "identityStatus": "VERIFIED",
       "kickoff": "2026-09-26T21:00:00+00:00",
       "pregameEligible": true,
-      "rowSha256": "67f6ee4e7edc27e75392e0de025e13880c1655651d483dc13405aa1c4973bc3d",
-      "snapshotAt": "2026-09-23T07:57:11+00:00"
+      "providerIds": {
+        "cfbd": "401858466"
+      },
+      "rowSha256": "ba17c1be85b4a41d8fdf968edf997029adb6c43f41de62f3199a4b499ec29b20",
+      "snapshotAt": "2026-09-24T15:20:28+00:00"
     },
     {
       "audit": {
@@ -4784,6 +5408,8 @@
         "windMph": true
       },
       "away": "Air Force",
+      "canonicalGameId": "cfbd:401864509",
+      "decisionTime": "2026-09-24T15:20:28+00:00",
       "eligibilityExclusions": [],
       "evidence": {
         "linePlay": {
@@ -4832,19 +5458,19 @@
           "forecast": {
             "precipProbabilityPct": 0.0,
             "precipitationIn": 0.0,
-            "temperatureF": 71.4,
+            "temperatureF": 69.2,
             "validTime": "2026-09-27T02:00:00+00:00",
-            "windGustMph": 10.3,
-            "windMph": 6.9
+            "windGustMph": 13.6,
+            "windMph": 9.3
           },
           "game": "Air Force @ Nevada",
           "kickoff": "2026-09-27T02:30:00+00:00",
-          "retrievedAt": "2026-09-23T07:57:08.932695+00:00",
+          "retrievedAt": "2026-09-24T15:20:26.336694+00:00",
           "source": {
             "batchLocations": 16,
             "locationIndex": 7,
             "provider": "open-meteo",
-            "sha256": "8cd3937ddf202ff628fcdedc9d25ae0531c9c87a34ea9eb2fcf8128c7f5f1dc8",
+            "sha256": "a459547fee37ecd862abc50be24b742743c8b8b512afea1fd4f9616909074a0c",
             "url": "https://api.open-meteo.com/v1/forecast?latitude=39.519701%2C41.072553%2C42.013998%2C32.602553%2C42.335104%2C38.205762%2C40.812196%2C39.546946%2C32.530809%2C37.434556%2C38.555672%2C47.650323%2C32.837722%2C31.773335%2C36.814353%2C36.068066&longitude=-84.733025%2C-81.508341%2C-93.635772%2C-85.489748%2C-71.166441%2C-85.758814%2C-77.856102%2C-119.817543%2C-92.066060%2C-122.161127%2C-121.422961%2C-122.301575%2C-96.782786%2C-106.507957%2C-119.758009%2C-94.178953&hourly=temperature_2m%2Cprecipitation_probability%2Cprecipitation%2Cwind_speed_10m%2Cwind_gusts_10m&temperature_unit=fahrenheit&wind_speed_unit=mph&precipitation_unit=inch&timezone=UTC&forecast_days=16"
           },
           "venue": {
@@ -4856,22 +5482,33 @@
             "venueName": "Mackay Stadium"
           },
           "weatherSuppressedByDome": false,
-          "windMph": 6.9
+          "windMph": 9.3
         }
+      },
+      "featureAsOf": {
+        "epaDiff": null,
+        "linePlayDiff": "2026-09-24T15:20:24.708516+00:00",
+        "qbContinuityDiff": null,
+        "travelMilesDiff": "2026-09-24T15:20:21.327880+00:00",
+        "windMph": "2026-09-24T15:20:26.336694+00:00"
       },
       "features": {
         "epaDiff": null,
         "linePlayDiff": -1.4655449084998668,
         "qbContinuityDiff": null,
         "travelMilesDiff": -800.911515350714,
-        "windMph": 6.9
+        "windMph": 9.3
       },
       "game": "Air Force @ Nevada",
       "home": "Nevada",
+      "identityStatus": "VERIFIED",
       "kickoff": "2026-09-27T02:30:00+00:00",
       "pregameEligible": true,
-      "rowSha256": "1840ef9e8fa05268a5a51d10907bae98c8349c39f37f6be16eac42e3166cb3c2",
-      "snapshotAt": "2026-09-23T07:57:11+00:00"
+      "providerIds": {
+        "cfbd": "401864509"
+      },
+      "rowSha256": "fdd0a32d36f606751a71d7bbea4c133b75dc6483915da63aa0fd02bbea098d55",
+      "snapshotAt": "2026-09-24T15:20:28+00:00"
     },
     {
       "audit": {
@@ -4882,6 +5519,8 @@
         "windMph": true
       },
       "away": "Florida Atlantic",
+      "canonicalGameId": "cfbd:401862782",
+      "decisionTime": "2026-09-24T15:20:28+00:00",
       "eligibilityExclusions": [],
       "evidence": {
         "linePlay": {
@@ -4928,21 +5567,21 @@
           "auditGrade": true,
           "exclusions": [],
           "forecast": {
-            "precipProbabilityPct": 1.0,
+            "precipProbabilityPct": 0.0,
             "precipitationIn": 0.0,
-            "temperatureF": 83.4,
+            "temperatureF": 86.1,
             "validTime": "2026-09-27T00:00:00+00:00",
-            "windGustMph": 0.4,
-            "windMph": 2.5
+            "windGustMph": 3.8,
+            "windMph": 3.2
           },
           "game": "Florida Atlantic @ UL Monroe",
           "kickoff": "2026-09-27T00:00:00+00:00",
-          "retrievedAt": "2026-09-23T07:57:08.932695+00:00",
+          "retrievedAt": "2026-09-24T15:20:26.336694+00:00",
           "source": {
             "batchLocations": 16,
             "locationIndex": 8,
             "provider": "open-meteo",
-            "sha256": "8cd3937ddf202ff628fcdedc9d25ae0531c9c87a34ea9eb2fcf8128c7f5f1dc8",
+            "sha256": "a459547fee37ecd862abc50be24b742743c8b8b512afea1fd4f9616909074a0c",
             "url": "https://api.open-meteo.com/v1/forecast?latitude=39.519701%2C41.072553%2C42.013998%2C32.602553%2C42.335104%2C38.205762%2C40.812196%2C39.546946%2C32.530809%2C37.434556%2C38.555672%2C47.650323%2C32.837722%2C31.773335%2C36.814353%2C36.068066&longitude=-84.733025%2C-81.508341%2C-93.635772%2C-85.489748%2C-71.166441%2C-85.758814%2C-77.856102%2C-119.817543%2C-92.066060%2C-122.161127%2C-121.422961%2C-122.301575%2C-96.782786%2C-106.507957%2C-119.758009%2C-94.178953&hourly=temperature_2m%2Cprecipitation_probability%2Cprecipitation%2Cwind_speed_10m%2Cwind_gusts_10m&temperature_unit=fahrenheit&wind_speed_unit=mph&precipitation_unit=inch&timezone=UTC&forecast_days=16"
           },
           "venue": {
@@ -4954,22 +5593,33 @@
             "venueName": "Malone Stadium"
           },
           "weatherSuppressedByDome": false,
-          "windMph": 2.5
+          "windMph": 3.2
         }
+      },
+      "featureAsOf": {
+        "epaDiff": null,
+        "linePlayDiff": "2026-09-24T15:20:24.708516+00:00",
+        "qbContinuityDiff": null,
+        "travelMilesDiff": "2026-09-24T15:20:21.327880+00:00",
+        "windMph": "2026-09-24T15:20:26.336694+00:00"
       },
       "features": {
         "epaDiff": null,
         "linePlayDiff": 0.02895442638543111,
         "qbContinuityDiff": null,
         "travelMilesDiff": -835.185612885103,
-        "windMph": 2.5
+        "windMph": 3.2
       },
       "game": "Florida Atlantic @ UL Monroe",
       "home": "UL Monroe",
+      "identityStatus": "VERIFIED",
       "kickoff": "2026-09-27T00:00:00+00:00",
       "pregameEligible": true,
-      "rowSha256": "12646b4329054996710b5dc555f497a47cca997561261210573b3d64f2077959",
-      "snapshotAt": "2026-09-23T07:57:11+00:00"
+      "providerIds": {
+        "cfbd": "401862782"
+      },
+      "rowSha256": "8c80c55761d50bbd9dca70884784a11880a7258b1909042289d3a371beab8f9a",
+      "snapshotAt": "2026-09-24T15:20:28+00:00"
     },
     {
       "audit": {
@@ -4980,6 +5630,8 @@
         "windMph": true
       },
       "away": "Georgia Tech",
+      "canonicalGameId": "cfbd:401858240",
+      "decisionTime": "2026-09-24T15:20:28+00:00",
       "eligibilityExclusions": [],
       "evidence": {
         "linePlay": {
@@ -5028,19 +5680,19 @@
           "forecast": {
             "precipProbabilityPct": 0.0,
             "precipitationIn": 0.0,
-            "temperatureF": 66.8,
+            "temperatureF": 63.9,
             "validTime": "2026-09-27T02:00:00+00:00",
-            "windGustMph": 6.5,
-            "windMph": 6.1
+            "windGustMph": 7.6,
+            "windMph": 6.3
           },
           "game": "Georgia Tech @ Stanford",
           "kickoff": "2026-09-27T02:30:00+00:00",
-          "retrievedAt": "2026-09-23T07:57:08.932695+00:00",
+          "retrievedAt": "2026-09-24T15:20:26.336694+00:00",
           "source": {
             "batchLocations": 16,
             "locationIndex": 9,
             "provider": "open-meteo",
-            "sha256": "8cd3937ddf202ff628fcdedc9d25ae0531c9c87a34ea9eb2fcf8128c7f5f1dc8",
+            "sha256": "a459547fee37ecd862abc50be24b742743c8b8b512afea1fd4f9616909074a0c",
             "url": "https://api.open-meteo.com/v1/forecast?latitude=39.519701%2C41.072553%2C42.013998%2C32.602553%2C42.335104%2C38.205762%2C40.812196%2C39.546946%2C32.530809%2C37.434556%2C38.555672%2C47.650323%2C32.837722%2C31.773335%2C36.814353%2C36.068066&longitude=-84.733025%2C-81.508341%2C-93.635772%2C-85.489748%2C-71.166441%2C-85.758814%2C-77.856102%2C-119.817543%2C-92.066060%2C-122.161127%2C-121.422961%2C-122.301575%2C-96.782786%2C-106.507957%2C-119.758009%2C-94.178953&hourly=temperature_2m%2Cprecipitation_probability%2Cprecipitation%2Cwind_speed_10m%2Cwind_gusts_10m&temperature_unit=fahrenheit&wind_speed_unit=mph&precipitation_unit=inch&timezone=UTC&forecast_days=16"
           },
           "venue": {
@@ -5052,22 +5704,33 @@
             "venueName": "Stanford Stadium"
           },
           "weatherSuppressedByDome": false,
-          "windMph": 6.1
+          "windMph": 6.3
         }
+      },
+      "featureAsOf": {
+        "epaDiff": null,
+        "linePlayDiff": "2026-09-24T15:20:24.708516+00:00",
+        "qbContinuityDiff": null,
+        "travelMilesDiff": "2026-09-24T15:20:21.327880+00:00",
+        "windMph": "2026-09-24T15:20:26.336694+00:00"
       },
       "features": {
         "epaDiff": null,
         "linePlayDiff": -0.05115513280029482,
         "qbContinuityDiff": null,
         "travelMilesDiff": -2122.560467560314,
-        "windMph": 6.1
+        "windMph": 6.3
       },
       "game": "Georgia Tech @ Stanford",
       "home": "Stanford",
+      "identityStatus": "VERIFIED",
       "kickoff": "2026-09-27T02:30:00+00:00",
       "pregameEligible": true,
-      "rowSha256": "d77ef1d21f6df77e178f10714a4e8e1441607d50dc5c44ac110bf32aa9e8abaf",
-      "snapshotAt": "2026-09-23T07:57:11+00:00"
+      "providerIds": {
+        "cfbd": "401858240"
+      },
+      "rowSha256": "582e82e8ce535d076ad1693f1e903685c75a346ab9e8393a15768df1e3b4d0e5",
+      "snapshotAt": "2026-09-24T15:20:28+00:00"
     },
     {
       "audit": {
@@ -5078,6 +5741,8 @@
         "windMph": true
       },
       "away": "Massachusetts",
+      "canonicalGameId": "cfbd:401866429",
+      "decisionTime": "2026-09-24T15:20:28+00:00",
       "eligibilityExclusions": [],
       "evidence": {
         "linePlay": {
@@ -5126,19 +5791,19 @@
           "forecast": {
             "precipProbabilityPct": 0.0,
             "precipitationIn": 0.0,
-            "temperatureF": 83.3,
+            "temperatureF": 79.9,
             "validTime": "2026-09-27T01:00:00+00:00",
-            "windGustMph": 13.6,
-            "windMph": 8.5
+            "windGustMph": 14.3,
+            "windMph": 9.2
           },
           "game": "Massachusetts @ Sacramento State",
           "kickoff": "2026-09-27T01:00:00+00:00",
-          "retrievedAt": "2026-09-23T07:57:08.932695+00:00",
+          "retrievedAt": "2026-09-24T15:20:26.336694+00:00",
           "source": {
             "batchLocations": 16,
             "locationIndex": 10,
             "provider": "open-meteo",
-            "sha256": "8cd3937ddf202ff628fcdedc9d25ae0531c9c87a34ea9eb2fcf8128c7f5f1dc8",
+            "sha256": "a459547fee37ecd862abc50be24b742743c8b8b512afea1fd4f9616909074a0c",
             "url": "https://api.open-meteo.com/v1/forecast?latitude=39.519701%2C41.072553%2C42.013998%2C32.602553%2C42.335104%2C38.205762%2C40.812196%2C39.546946%2C32.530809%2C37.434556%2C38.555672%2C47.650323%2C32.837722%2C31.773335%2C36.814353%2C36.068066&longitude=-84.733025%2C-81.508341%2C-93.635772%2C-85.489748%2C-71.166441%2C-85.758814%2C-77.856102%2C-119.817543%2C-92.066060%2C-122.161127%2C-121.422961%2C-122.301575%2C-96.782786%2C-106.507957%2C-119.758009%2C-94.178953&hourly=temperature_2m%2Cprecipitation_probability%2Cprecipitation%2Cwind_speed_10m%2Cwind_gusts_10m&temperature_unit=fahrenheit&wind_speed_unit=mph&precipitation_unit=inch&timezone=UTC&forecast_days=16"
           },
           "venue": {
@@ -5150,22 +5815,33 @@
             "venueName": "Hornet Stadium"
           },
           "weatherSuppressedByDome": false,
-          "windMph": 8.5
+          "windMph": 9.2
         }
+      },
+      "featureAsOf": {
+        "epaDiff": null,
+        "linePlayDiff": "2026-09-24T15:20:24.708516+00:00",
+        "qbContinuityDiff": null,
+        "travelMilesDiff": "2026-09-24T15:20:21.327880+00:00",
+        "windMph": "2026-09-24T15:20:26.336694+00:00"
       },
       "features": {
         "epaDiff": null,
         "linePlayDiff": -1.1626730852169054,
         "qbContinuityDiff": null,
         "travelMilesDiff": -2547.8142473112916,
-        "windMph": 8.5
+        "windMph": 9.2
       },
       "game": "Massachusetts @ Sacramento State",
       "home": "Sacramento State",
+      "identityStatus": "VERIFIED",
       "kickoff": "2026-09-27T01:00:00+00:00",
       "pregameEligible": true,
-      "rowSha256": "9bbb64fc53356462be894ce4d2ccadd3505811bd3fac8e8a6df4ed87d57d40ee",
-      "snapshotAt": "2026-09-23T07:57:11+00:00"
+      "providerIds": {
+        "cfbd": "401866429"
+      },
+      "rowSha256": "9e2b13455d4473f39173aef869e952a1fef4d531c3ca2c746ac3ec53fe273d5f",
+      "snapshotAt": "2026-09-24T15:20:28+00:00"
     },
     {
       "audit": {
@@ -5176,6 +5852,8 @@
         "windMph": true
       },
       "away": "Minnesota",
+      "canonicalGameId": "cfbd:401858470",
+      "decisionTime": "2026-09-24T15:20:28+00:00",
       "eligibilityExclusions": [],
       "evidence": {
         "linePlay": {
@@ -5224,19 +5902,19 @@
           "forecast": {
             "precipProbabilityPct": 0.0,
             "precipitationIn": 0.0,
-            "temperatureF": 53.3,
+            "temperatureF": 53.6,
             "validTime": "2026-09-27T03:00:00+00:00",
-            "windGustMph": 14.1,
-            "windMph": 6.9
+            "windGustMph": 14.8,
+            "windMph": 6.5
           },
           "game": "Minnesota @ Washington",
           "kickoff": "2026-09-27T03:00:00+00:00",
-          "retrievedAt": "2026-09-23T07:57:08.932695+00:00",
+          "retrievedAt": "2026-09-24T15:20:26.336694+00:00",
           "source": {
             "batchLocations": 16,
             "locationIndex": 11,
             "provider": "open-meteo",
-            "sha256": "8cd3937ddf202ff628fcdedc9d25ae0531c9c87a34ea9eb2fcf8128c7f5f1dc8",
+            "sha256": "a459547fee37ecd862abc50be24b742743c8b8b512afea1fd4f9616909074a0c",
             "url": "https://api.open-meteo.com/v1/forecast?latitude=39.519701%2C41.072553%2C42.013998%2C32.602553%2C42.335104%2C38.205762%2C40.812196%2C39.546946%2C32.530809%2C37.434556%2C38.555672%2C47.650323%2C32.837722%2C31.773335%2C36.814353%2C36.068066&longitude=-84.733025%2C-81.508341%2C-93.635772%2C-85.489748%2C-71.166441%2C-85.758814%2C-77.856102%2C-119.817543%2C-92.066060%2C-122.161127%2C-121.422961%2C-122.301575%2C-96.782786%2C-106.507957%2C-119.758009%2C-94.178953&hourly=temperature_2m%2Cprecipitation_probability%2Cprecipitation%2Cwind_speed_10m%2Cwind_gusts_10m&temperature_unit=fahrenheit&wind_speed_unit=mph&precipitation_unit=inch&timezone=UTC&forecast_days=16"
           },
           "venue": {
@@ -5248,22 +5926,33 @@
             "venueName": "Husky Stadium"
           },
           "weatherSuppressedByDome": false,
-          "windMph": 6.9
+          "windMph": 6.5
         }
+      },
+      "featureAsOf": {
+        "epaDiff": null,
+        "linePlayDiff": "2026-09-24T15:20:24.708516+00:00",
+        "qbContinuityDiff": null,
+        "travelMilesDiff": "2026-09-24T15:20:21.327880+00:00",
+        "windMph": "2026-09-24T15:20:26.336694+00:00"
       },
       "features": {
         "epaDiff": null,
         "linePlayDiff": 0.6553335553335549,
         "qbContinuityDiff": null,
         "travelMilesDiff": -1391.5702506447055,
-        "windMph": 6.9
+        "windMph": 6.5
       },
       "game": "Minnesota @ Washington",
       "home": "Washington",
+      "identityStatus": "VERIFIED",
       "kickoff": "2026-09-27T03:00:00+00:00",
       "pregameEligible": true,
-      "rowSha256": "65221e407bafd4617066ca1ccfd12313df801cf56bebd739802d041856ef456b",
-      "snapshotAt": "2026-09-23T07:57:11+00:00"
+      "providerIds": {
+        "cfbd": "401858470"
+      },
+      "rowSha256": "f4ddc1ecbb69481fab2329a72e8abdb78e0f4bc45c922f37e68ab15fd8d46caf",
+      "snapshotAt": "2026-09-24T15:20:28+00:00"
     },
     {
       "audit": {
@@ -5274,6 +5963,8 @@
         "windMph": true
       },
       "away": "Missouri State",
+      "canonicalGameId": "cfbd:401858241",
+      "decisionTime": "2026-09-24T15:20:28+00:00",
       "eligibilityExclusions": [],
       "evidence": {
         "linePlay": {
@@ -5320,21 +6011,21 @@
           "auditGrade": true,
           "exclusions": [],
           "forecast": {
-            "precipProbabilityPct": 2.0,
+            "precipProbabilityPct": 1.0,
             "precipitationIn": 0.0,
-            "temperatureF": 88.3,
+            "temperatureF": 88.5,
             "validTime": "2026-09-27T01:00:00+00:00",
-            "windGustMph": 13.6,
-            "windMph": 9.7
+            "windGustMph": 9.8,
+            "windMph": 5.8
           },
           "game": "Missouri State @ SMU",
           "kickoff": "2026-09-27T01:00:00+00:00",
-          "retrievedAt": "2026-09-23T07:57:08.932695+00:00",
+          "retrievedAt": "2026-09-24T15:20:26.336694+00:00",
           "source": {
             "batchLocations": 16,
             "locationIndex": 12,
             "provider": "open-meteo",
-            "sha256": "8cd3937ddf202ff628fcdedc9d25ae0531c9c87a34ea9eb2fcf8128c7f5f1dc8",
+            "sha256": "a459547fee37ecd862abc50be24b742743c8b8b512afea1fd4f9616909074a0c",
             "url": "https://api.open-meteo.com/v1/forecast?latitude=39.519701%2C41.072553%2C42.013998%2C32.602553%2C42.335104%2C38.205762%2C40.812196%2C39.546946%2C32.530809%2C37.434556%2C38.555672%2C47.650323%2C32.837722%2C31.773335%2C36.814353%2C36.068066&longitude=-84.733025%2C-81.508341%2C-93.635772%2C-85.489748%2C-71.166441%2C-85.758814%2C-77.856102%2C-119.817543%2C-92.066060%2C-122.161127%2C-121.422961%2C-122.301575%2C-96.782786%2C-106.507957%2C-119.758009%2C-94.178953&hourly=temperature_2m%2Cprecipitation_probability%2Cprecipitation%2Cwind_speed_10m%2Cwind_gusts_10m&temperature_unit=fahrenheit&wind_speed_unit=mph&precipitation_unit=inch&timezone=UTC&forecast_days=16"
           },
           "venue": {
@@ -5346,22 +6037,33 @@
             "venueName": "Gerald J. Ford Stadium"
           },
           "weatherSuppressedByDome": false,
-          "windMph": 9.7
+          "windMph": 5.8
         }
+      },
+      "featureAsOf": {
+        "epaDiff": null,
+        "linePlayDiff": "2026-09-24T15:20:24.708516+00:00",
+        "qbContinuityDiff": null,
+        "travelMilesDiff": "2026-09-24T15:20:21.327880+00:00",
+        "windMph": "2026-09-24T15:20:26.336694+00:00"
       },
       "features": {
         "epaDiff": null,
         "linePlayDiff": 0.8297952562658644,
         "qbContinuityDiff": null,
         "travelMilesDiff": -360.5349702159852,
-        "windMph": 9.7
+        "windMph": 5.8
       },
       "game": "Missouri State @ SMU",
       "home": "SMU",
+      "identityStatus": "VERIFIED",
       "kickoff": "2026-09-27T01:00:00+00:00",
       "pregameEligible": true,
-      "rowSha256": "7a87f83aa220b20f12d77cc0021a6790ef330286c5cc19571e22db0e5cf0f4a3",
-      "snapshotAt": "2026-09-23T07:57:11+00:00"
+      "providerIds": {
+        "cfbd": "401858241"
+      },
+      "rowSha256": "2d5e2c95881289d7f163b4c4f27d7ac800925cc2e26d635d2bd23bc67b6d4acb",
+      "snapshotAt": "2026-09-24T15:20:28+00:00"
     },
     {
       "audit": {
@@ -5372,6 +6074,8 @@
         "windMph": true
       },
       "away": "Oregon State",
+      "canonicalGameId": "cfbd:401860895",
+      "decisionTime": "2026-09-24T15:20:28+00:00",
       "eligibilityExclusions": [],
       "evidence": {
         "linePlay": {
@@ -5420,19 +6124,19 @@
           "forecast": {
             "precipProbabilityPct": 2.0,
             "precipitationIn": 0.0,
-            "temperatureF": 86.8,
+            "temperatureF": 85.9,
             "validTime": "2026-09-27T01:00:00+00:00",
-            "windGustMph": 5.6,
-            "windMph": 7.2
+            "windGustMph": 3.8,
+            "windMph": 3.5
           },
           "game": "Oregon State @ UTEP",
           "kickoff": "2026-09-27T01:00:00+00:00",
-          "retrievedAt": "2026-09-23T07:57:08.932695+00:00",
+          "retrievedAt": "2026-09-24T15:20:26.336694+00:00",
           "source": {
             "batchLocations": 16,
             "locationIndex": 13,
             "provider": "open-meteo",
-            "sha256": "8cd3937ddf202ff628fcdedc9d25ae0531c9c87a34ea9eb2fcf8128c7f5f1dc8",
+            "sha256": "a459547fee37ecd862abc50be24b742743c8b8b512afea1fd4f9616909074a0c",
             "url": "https://api.open-meteo.com/v1/forecast?latitude=39.519701%2C41.072553%2C42.013998%2C32.602553%2C42.335104%2C38.205762%2C40.812196%2C39.546946%2C32.530809%2C37.434556%2C38.555672%2C47.650323%2C32.837722%2C31.773335%2C36.814353%2C36.068066&longitude=-84.733025%2C-81.508341%2C-93.635772%2C-85.489748%2C-71.166441%2C-85.758814%2C-77.856102%2C-119.817543%2C-92.066060%2C-122.161127%2C-121.422961%2C-122.301575%2C-96.782786%2C-106.507957%2C-119.758009%2C-94.178953&hourly=temperature_2m%2Cprecipitation_probability%2Cprecipitation%2Cwind_speed_10m%2Cwind_gusts_10m&temperature_unit=fahrenheit&wind_speed_unit=mph&precipitation_unit=inch&timezone=UTC&forecast_days=16"
           },
           "venue": {
@@ -5444,22 +6148,33 @@
             "venueName": "Sun Bowl"
           },
           "weatherSuppressedByDome": false,
-          "windMph": 7.2
+          "windMph": 3.5
         }
+      },
+      "featureAsOf": {
+        "epaDiff": null,
+        "linePlayDiff": "2026-09-24T15:20:24.708516+00:00",
+        "qbContinuityDiff": null,
+        "travelMilesDiff": "2026-09-24T15:20:21.327880+00:00",
+        "windMph": "2026-09-24T15:20:26.336694+00:00"
       },
       "features": {
         "epaDiff": null,
         "linePlayDiff": -0.4886350948269804,
         "qbContinuityDiff": null,
         "travelMilesDiff": -1264.3452100289564,
-        "windMph": 7.2
+        "windMph": 3.5
       },
       "game": "Oregon State @ UTEP",
       "home": "UTEP",
+      "identityStatus": "VERIFIED",
       "kickoff": "2026-09-27T01:00:00+00:00",
       "pregameEligible": true,
-      "rowSha256": "f359e15ab9d26621638c1e5dbb5faf86a93b65ecf0e918655e77adba8607395b",
-      "snapshotAt": "2026-09-23T07:57:11+00:00"
+      "providerIds": {
+        "cfbd": "401860895"
+      },
+      "rowSha256": "0b58c20decd5b134332407943b5f8319e487c3748aeee37b462b07a1207a80fe",
+      "snapshotAt": "2026-09-24T15:20:28+00:00"
     },
     {
       "audit": {
@@ -5470,6 +6185,8 @@
         "windMph": true
       },
       "away": "Rice",
+      "canonicalGameId": "cfbd:401860891",
+      "decisionTime": "2026-09-24T15:20:28+00:00",
       "eligibilityExclusions": [],
       "evidence": {
         "linePlay": {
@@ -5518,19 +6235,19 @@
           "forecast": {
             "precipProbabilityPct": 0.0,
             "precipitationIn": 0.0,
-            "temperatureF": 86.9,
+            "temperatureF": 86.6,
             "validTime": "2026-09-27T02:00:00+00:00",
-            "windGustMph": 2.7,
-            "windMph": 2.6
+            "windGustMph": 1.8,
+            "windMph": 2.3
           },
           "game": "Rice @ Fresno State",
           "kickoff": "2026-09-27T02:00:00+00:00",
-          "retrievedAt": "2026-09-23T07:57:08.932695+00:00",
+          "retrievedAt": "2026-09-24T15:20:26.336694+00:00",
           "source": {
             "batchLocations": 16,
             "locationIndex": 14,
             "provider": "open-meteo",
-            "sha256": "8cd3937ddf202ff628fcdedc9d25ae0531c9c87a34ea9eb2fcf8128c7f5f1dc8",
+            "sha256": "a459547fee37ecd862abc50be24b742743c8b8b512afea1fd4f9616909074a0c",
             "url": "https://api.open-meteo.com/v1/forecast?latitude=39.519701%2C41.072553%2C42.013998%2C32.602553%2C42.335104%2C38.205762%2C40.812196%2C39.546946%2C32.530809%2C37.434556%2C38.555672%2C47.650323%2C32.837722%2C31.773335%2C36.814353%2C36.068066&longitude=-84.733025%2C-81.508341%2C-93.635772%2C-85.489748%2C-71.166441%2C-85.758814%2C-77.856102%2C-119.817543%2C-92.066060%2C-122.161127%2C-121.422961%2C-122.301575%2C-96.782786%2C-106.507957%2C-119.758009%2C-94.178953&hourly=temperature_2m%2Cprecipitation_probability%2Cprecipitation%2Cwind_speed_10m%2Cwind_gusts_10m&temperature_unit=fahrenheit&wind_speed_unit=mph&precipitation_unit=inch&timezone=UTC&forecast_days=16"
           },
           "venue": {
@@ -5542,22 +6259,33 @@
             "venueName": "Valley Children's Stadium"
           },
           "weatherSuppressedByDome": false,
-          "windMph": 2.6
+          "windMph": 2.3
         }
+      },
+      "featureAsOf": {
+        "epaDiff": null,
+        "linePlayDiff": "2026-09-24T15:20:24.708516+00:00",
+        "qbContinuityDiff": null,
+        "travelMilesDiff": "2026-09-24T15:20:21.327880+00:00",
+        "windMph": "2026-09-24T15:20:26.336694+00:00"
       },
       "features": {
         "epaDiff": null,
         "linePlayDiff": -0.9400343310090222,
         "qbContinuityDiff": null,
         "travelMilesDiff": -1484.7062948247442,
-        "windMph": 2.6
+        "windMph": 2.3
       },
       "game": "Rice @ Fresno State",
       "home": "Fresno State",
+      "identityStatus": "VERIFIED",
       "kickoff": "2026-09-27T02:00:00+00:00",
       "pregameEligible": true,
-      "rowSha256": "a73189c7282fcd9f7d2da922611b27d5cf1e671946f5a6e86573b676f65e9d03",
-      "snapshotAt": "2026-09-23T07:57:11+00:00"
+      "providerIds": {
+        "cfbd": "401860891"
+      },
+      "rowSha256": "97962518d5b6163237f8f4a11bd1940043f9a2d1fddbae6907ed7b860618794e",
+      "snapshotAt": "2026-09-24T15:20:28+00:00"
     },
     {
       "audit": {
@@ -5568,6 +6296,8 @@
         "windMph": true
       },
       "away": "Tulsa",
+      "canonicalGameId": "cfbd:401856697",
+      "decisionTime": "2026-09-24T15:20:28+00:00",
       "eligibilityExclusions": [],
       "evidence": {
         "linePlay": {
@@ -5614,21 +6344,21 @@
           "auditGrade": true,
           "exclusions": [],
           "forecast": {
-            "precipProbabilityPct": 4.0,
-            "precipitationIn": 0.0,
-            "temperatureF": 68.9,
+            "precipProbabilityPct": 1.0,
+            "precipitationIn": 0.004,
+            "temperatureF": 73.4,
             "validTime": "2026-09-27T00:00:00+00:00",
-            "windGustMph": 5.6,
-            "windMph": 4.9
+            "windGustMph": 4.0,
+            "windMph": 4.3
           },
           "game": "Tulsa @ Arkansas",
           "kickoff": "2026-09-27T00:00:00+00:00",
-          "retrievedAt": "2026-09-23T07:57:08.932695+00:00",
+          "retrievedAt": "2026-09-24T15:20:26.336694+00:00",
           "source": {
             "batchLocations": 16,
             "locationIndex": 15,
             "provider": "open-meteo",
-            "sha256": "8cd3937ddf202ff628fcdedc9d25ae0531c9c87a34ea9eb2fcf8128c7f5f1dc8",
+            "sha256": "a459547fee37ecd862abc50be24b742743c8b8b512afea1fd4f9616909074a0c",
             "url": "https://api.open-meteo.com/v1/forecast?latitude=39.519701%2C41.072553%2C42.013998%2C32.602553%2C42.335104%2C38.205762%2C40.812196%2C39.546946%2C32.530809%2C37.434556%2C38.555672%2C47.650323%2C32.837722%2C31.773335%2C36.814353%2C36.068066&longitude=-84.733025%2C-81.508341%2C-93.635772%2C-85.489748%2C-71.166441%2C-85.758814%2C-77.856102%2C-119.817543%2C-92.066060%2C-122.161127%2C-121.422961%2C-122.301575%2C-96.782786%2C-106.507957%2C-119.758009%2C-94.178953&hourly=temperature_2m%2Cprecipitation_probability%2Cprecipitation%2Cwind_speed_10m%2Cwind_gusts_10m&temperature_unit=fahrenheit&wind_speed_unit=mph&precipitation_unit=inch&timezone=UTC&forecast_days=16"
           },
           "venue": {
@@ -5640,26 +6370,37 @@
             "venueName": "Razorback Stadium"
           },
           "weatherSuppressedByDome": false,
-          "windMph": 4.9
+          "windMph": 4.3
         }
+      },
+      "featureAsOf": {
+        "epaDiff": null,
+        "linePlayDiff": "2026-09-24T15:20:24.708516+00:00",
+        "qbContinuityDiff": null,
+        "travelMilesDiff": "2026-09-24T15:20:21.327880+00:00",
+        "windMph": "2026-09-24T15:20:26.336694+00:00"
       },
       "features": {
         "epaDiff": null,
         "linePlayDiff": -1.0819380971554886,
         "qbContinuityDiff": null,
         "travelMilesDiff": -98.67112701182698,
-        "windMph": 4.9
+        "windMph": 4.3
       },
       "game": "Tulsa @ Arkansas",
       "home": "Arkansas",
+      "identityStatus": "VERIFIED",
       "kickoff": "2026-09-27T00:00:00+00:00",
       "pregameEligible": true,
-      "rowSha256": "e4aa24e32fe08425bfabf140c70be105aea354604b386fd4944453daee9e33a0",
-      "snapshotAt": "2026-09-23T07:57:11+00:00"
+      "providerIds": {
+        "cfbd": "401856697"
+      },
+      "rowSha256": "62a578375844da7b6128e65df8a18983fe2b27c2b5c398ae602e455b17ab3aba",
+      "snapshotAt": "2026-09-24T15:20:28+00:00"
     }
   ],
   "schemaVersion": 1,
-  "sourceRevision": "bd7717e4a2042c68e1083ceeae4ad95d79ddf8a7",
+  "sourceRevision": "3bd2e0315a63e22dc3c28e4be6c08febbcf3b7a2",
   "status": "DATA_COLLECTION_ONLY",
   "summary": {
     "auditGradeCoverageRows": {

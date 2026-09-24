@@ -59,11 +59,12 @@
       "rows": 852
     },
     {
-      "availability": "ACCESS_TIER_BLOCKED",
+      "availability": "AUTHORIZATION_OR_ENTITLEMENT_BLOCKED",
       "endpoint": "/wepa/team/season?year=2026",
       "errorType": "HTTPError",
       "httpStatus": 401,
       "kind": "wepa",
+      "nextAction": "Verify the configured key belongs to the subscribed CFBD account and that opponent-adjusted endpoint entitlement is active. Tier cannot be inferred from this response.",
       "ok": false
     },
     {
