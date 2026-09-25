@@ -13,6 +13,8 @@ on:
     branches: [main]
     paths:
       - cfb_edge/private_site_bridge.py
+      - cfb_edge/promotion_scorecard.py
+      - config/promotion_review_v1.json
       - .github/workflows/private-site-bridge.yml
   workflow_dispatch:
 
@@ -44,7 +46,11 @@ jobs:
       - name: Build compact private-Site bridge
         run: |
           set -euo pipefail
+          promotion_args=(--policy config/promotion_review_v1.json --out evidence/data/promotion-scorecard.json)
+          [ ! -f evidence/data/promotion/evidence.json ] || promotion_args+=(--evidence evidence/data/promotion/evidence.json)
+          python3 -m cfb_edge.promotion_scorecard "${promotion_args[@]}"
           args=(
+            --promotion evidence/data/promotion-scorecard.json
             --authority config/delivery_authority.json
             --out evidence/data/private-site-bridge.json
           )
@@ -73,7 +79,7 @@ jobs:
           set -euo pipefail
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add data/private-site-bridge.json
+          git add data/private-site-bridge.json data/promotion-scorecard.json
           git diff --cached --quiet && exit 0
           git commit -q -m "private Site evidence bridge $(date -u '+%Y-%m-%d %H:%M UTC')"
           for attempt in 1 2 3; do
