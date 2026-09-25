@@ -6,7 +6,7 @@
         "KXNCAAFSPREAD-26SEP25ARMYTEM-ARMY5",
         "KXNCAAFSPREAD-26SEP25ARMYTEM-ARMY4"
       ],
-      "derivedHomeLine": 3.667,
+      "derivedHomeLine": 4.0,
       "eventTicker": "KXNCAAFSPREAD-26SEP25ARMYTEM",
       "game": "Army @ Temple",
       "marketCount": 29,
@@ -19,10 +19,10 @@
     },
     {
       "bracketingMarketTickers": [
-        "KXNCAAFSPREAD-26SEP25CLEMCAL-CLEM2",
-        "KXNCAAFSPREAD-26SEP25CLEMCAL-CAL2"
+        "KXNCAAFSPREAD-26SEP25CLEMCAL-CLEM3",
+        "KXNCAAFSPREAD-26SEP25CLEMCAL-CLEM2"
       ],
-      "derivedHomeLine": 1.25,
+      "derivedHomeLine": 2.333,
       "eventTicker": "KXNCAAFSPREAD-26SEP25CLEMCAL",
       "game": "Clemson @ California",
       "marketCount": 26,
@@ -84,7 +84,7 @@
         "KXNCAAFSPREAD-26SEP25NWIND-IND18",
         "KXNCAAFSPREAD-26SEP25NWIND-IND21"
       ],
-      "derivedHomeLine": -20.286,
+      "derivedHomeLine": -20.3,
       "eventTicker": "KXNCAAFSPREAD-26SEP25NWIND",
       "game": "Northwestern @ Indiana",
       "marketCount": 23,
@@ -163,7 +163,7 @@
         "KXNCAAFSPREAD-26SEP26ARIZWSU-ARIZ12",
         "KXNCAAFSPREAD-26SEP26ARIZWSU-ARIZ11"
       ],
-      "derivedHomeLine": 10.7,
+      "derivedHomeLine": 10.667,
       "eventTicker": "KXNCAAFSPREAD-26SEP26ARIZWSU",
       "game": "Arizona @ Washington State",
       "marketCount": 32,
@@ -422,6 +422,20 @@
       "unresolvedRawTeams": [
         "Davidson",
         "Drake"
+      ]
+    },
+    {
+      "bracketingMarketTickers": [],
+      "derivedHomeLine": null,
+      "eventTicker": "KXNCAAFSPREAD-26SEP26EIUSDST",
+      "game": null,
+      "marketCount": 13,
+      "priceable": false,
+      "rawTeams": [
+        "South Dakota St."
+      ],
+      "unresolvedRawTeams": [
+        "South Dakota St."
       ]
     },
     {
@@ -898,7 +912,7 @@
         "KXNCAAFSPREAD-26SEP26MOSUSMU-SMU34",
         "KXNCAAFSPREAD-26SEP26MOSUSMU-SMU35"
       ],
-      "derivedHomeLine": -34.0,
+      "derivedHomeLine": -33.9,
       "eventTicker": "KXNCAAFSPREAD-26SEP26MOSUSMU",
       "game": "Missouri State @ SMU",
       "marketCount": 19,
@@ -970,10 +984,10 @@
     },
     {
       "bracketingMarketTickers": [
-        "KXNCAAFSPREAD-26SEP26NDPUR-ND28",
-        "KXNCAAFSPREAD-26SEP26NDPUR-ND25"
+        "KXNCAAFSPREAD-26SEP26NDPUR-ND31",
+        "KXNCAAFSPREAD-26SEP26NDPUR-ND28"
       ],
-      "derivedHomeLine": 27.312,
+      "derivedHomeLine": 27.688,
       "eventTicker": "KXNCAAFSPREAD-26SEP26NDPUR",
       "game": "Notre Dame @ Purdue",
       "marketCount": 21,
@@ -1132,7 +1146,7 @@
         "KXNCAAFSPREAD-26SEP26RICEFRES-FRES13",
         "KXNCAAFSPREAD-26SEP26RICEFRES-FRES14"
       ],
-      "derivedHomeLine": -13.125,
+      "derivedHomeLine": -13.0,
       "eventTicker": "KXNCAAFSPREAD-26SEP26RICEFRES",
       "game": "Rice @ Fresno State",
       "marketCount": 32,
@@ -1210,7 +1224,7 @@
         "KXNCAAFSPREAD-26SEP26SDSUTOL-TOL3",
         "KXNCAAFSPREAD-26SEP26SDSUTOL-TOL4"
       ],
-      "derivedHomeLine": -2.938,
+      "derivedHomeLine": -2.857,
       "eventTicker": "KXNCAAFSPREAD-26SEP26SDSUTOL",
       "game": "San Diego State @ Toledo",
       "marketCount": 29,
@@ -1220,6 +1234,20 @@
         "Toledo"
       ],
       "unresolvedRawTeams": []
+    },
+    {
+      "bracketingMarketTickers": [],
+      "derivedHomeLine": null,
+      "eventTicker": "KXNCAAFSPREAD-26SEP26SELANWST",
+      "game": null,
+      "marketCount": 13,
+      "priceable": false,
+      "rawTeams": [
+        "Southeastern Louisiana"
+      ],
+      "unresolvedRawTeams": [
+        "Southeastern Louisiana"
+      ]
     },
     {
       "bracketingMarketTickers": [
@@ -1428,10 +1456,10 @@
     },
     {
       "bracketingMarketTickers": [
-        "KXNCAAFSPREAD-26SEP26UCLAMD-UCLA2",
-        "KXNCAAFSPREAD-26SEP26UCLAMD-MD2"
+        "KXNCAAFSPREAD-26SEP26UCLAMD-UCLA3",
+        "KXNCAAFSPREAD-26SEP26UCLAMD-UCLA2"
       ],
-      "derivedHomeLine": 1.2,
+      "derivedHomeLine": 1.667,
       "eventTicker": "KXNCAAFSPREAD-26SEP26UCLAMD",
       "game": "UCLA @ Maryland",
       "marketCount": 29,
@@ -1573,7 +1601,7 @@
         "KXNCAAFSPREAD-26SEP26USFBGSU-USF21",
         "KXNCAAFSPREAD-26SEP26USFBGSU-USF18"
       ],
-      "derivedHomeLine": 18.062,
+      "derivedHomeLine": 17.714,
       "eventTicker": "KXNCAAFSPREAD-26SEP26USFBGSU",
       "game": "South Florida @ Bowling Green",
       "marketCount": 31,
@@ -1602,10 +1630,10 @@
     },
     {
       "bracketingMarketTickers": [
-        "KXNCAAFSPREAD-26SEP26UTAHISU-UTAH10",
-        "KXNCAAFSPREAD-26SEP26UTAHISU-UTAH8"
+        "KXNCAAFSPREAD-26SEP26UTAHISU-UTAH8",
+        "KXNCAAFSPREAD-26SEP26UTAHISU-UTAH7"
       ],
-      "derivedHomeLine": 7.833,
+      "derivedHomeLine": 7.429,
       "eventTicker": "KXNCAAFSPREAD-26SEP26UTAHISU",
       "game": "Utah @ Iowa State",
       "marketCount": 31,
@@ -1653,7 +1681,7 @@
         "KXNCAAFSPREAD-26SEP26VANAUB-AUB10",
         "KXNCAAFSPREAD-26SEP26VANAUB-AUB11"
       ],
-      "derivedHomeLine": -9.625,
+      "derivedHomeLine": -9.8,
       "eventTicker": "KXNCAAFSPREAD-26SEP26VANAUB",
       "game": "Vanderbilt @ Auburn",
       "marketCount": 31,
@@ -1747,7 +1775,7 @@
         "KXNCAAFSPREAD-26SEP26WISPSU-PSU10",
         "KXNCAAFSPREAD-26SEP26WISPSU-PSU11"
       ],
-      "derivedHomeLine": -10.0,
+      "derivedHomeLine": -9.917,
       "eventTicker": "KXNCAAFSPREAD-26SEP26WISPSU",
       "game": "Wisconsin @ Penn State",
       "marketCount": 31,
@@ -1805,7 +1833,7 @@
       ]
     }
   ],
-  "generatedAt": "2026-09-25T18:10:58.854479+00:00",
+  "generatedAt": "2026-09-25T19:36:27.751815+00:00",
   "policy": {
     "decisionEffect": "NONE",
     "deliveryEffect": "NONE",
@@ -1819,7 +1847,7 @@
         "KXNCAAFSPREAD-26SEP25ARMYTEM-ARMY5",
         "KXNCAAFSPREAD-26SEP25ARMYTEM-ARMY4"
       ],
-      "derivedHomeLine": 3.667,
+      "derivedHomeLine": 4.0,
       "eventTicker": "KXNCAAFSPREAD-26SEP25ARMYTEM",
       "game": "Army @ Temple",
       "matchedEventCount": 1,
@@ -1852,7 +1880,7 @@
         "KXNCAAFSPREAD-26SEP26ARIZWSU-ARIZ12",
         "KXNCAAFSPREAD-26SEP26ARIZWSU-ARIZ11"
       ],
-      "derivedHomeLine": 10.7,
+      "derivedHomeLine": 10.667,
       "eventTicker": "KXNCAAFSPREAD-26SEP26ARIZWSU",
       "game": "Arizona @ Washington State",
       "matchedEventCount": 1,
@@ -1893,10 +1921,10 @@
     },
     {
       "bracketingMarketTickers": [
-        "KXNCAAFSPREAD-26SEP25CLEMCAL-CLEM2",
-        "KXNCAAFSPREAD-26SEP25CLEMCAL-CAL2"
+        "KXNCAAFSPREAD-26SEP25CLEMCAL-CLEM3",
+        "KXNCAAFSPREAD-26SEP25CLEMCAL-CLEM2"
       ],
-      "derivedHomeLine": 1.25,
+      "derivedHomeLine": 2.333,
       "eventTicker": "KXNCAAFSPREAD-26SEP25CLEMCAL",
       "game": "Clemson @ California",
       "matchedEventCount": 1,
@@ -2083,7 +2111,7 @@
         "KXNCAAFSPREAD-26SEP25NWIND-IND18",
         "KXNCAAFSPREAD-26SEP25NWIND-IND21"
       ],
-      "derivedHomeLine": -20.286,
+      "derivedHomeLine": -20.3,
       "eventTicker": "KXNCAAFSPREAD-26SEP25NWIND",
       "game": "Northwestern @ Indiana",
       "matchedEventCount": 1,
@@ -2091,10 +2119,10 @@
     },
     {
       "bracketingMarketTickers": [
-        "KXNCAAFSPREAD-26SEP26NDPUR-ND28",
-        "KXNCAAFSPREAD-26SEP26NDPUR-ND25"
+        "KXNCAAFSPREAD-26SEP26NDPUR-ND31",
+        "KXNCAAFSPREAD-26SEP26NDPUR-ND28"
       ],
-      "derivedHomeLine": 27.312,
+      "derivedHomeLine": 27.688,
       "eventTicker": "KXNCAAFSPREAD-26SEP26NDPUR",
       "game": "Notre Dame @ Purdue",
       "matchedEventCount": 1,
@@ -2160,7 +2188,7 @@
         "KXNCAAFSPREAD-26SEP26SDSUTOL-TOL3",
         "KXNCAAFSPREAD-26SEP26SDSUTOL-TOL4"
       ],
-      "derivedHomeLine": -2.938,
+      "derivedHomeLine": -2.857,
       "eventTicker": "KXNCAAFSPREAD-26SEP26SDSUTOL",
       "game": "San Diego State @ Toledo",
       "matchedEventCount": 1,
@@ -2193,7 +2221,7 @@
         "KXNCAAFSPREAD-26SEP26USFBGSU-USF21",
         "KXNCAAFSPREAD-26SEP26USFBGSU-USF18"
       ],
-      "derivedHomeLine": 18.062,
+      "derivedHomeLine": 17.714,
       "eventTicker": "KXNCAAFSPREAD-26SEP26USFBGSU",
       "game": "South Florida @ Bowling Green",
       "matchedEventCount": 1,
@@ -2256,10 +2284,10 @@
     },
     {
       "bracketingMarketTickers": [
-        "KXNCAAFSPREAD-26SEP26UCLAMD-UCLA2",
-        "KXNCAAFSPREAD-26SEP26UCLAMD-MD2"
+        "KXNCAAFSPREAD-26SEP26UCLAMD-UCLA3",
+        "KXNCAAFSPREAD-26SEP26UCLAMD-UCLA2"
       ],
-      "derivedHomeLine": 1.2,
+      "derivedHomeLine": 1.667,
       "eventTicker": "KXNCAAFSPREAD-26SEP26UCLAMD",
       "game": "UCLA @ Maryland",
       "matchedEventCount": 1,
@@ -2289,10 +2317,10 @@
     },
     {
       "bracketingMarketTickers": [
-        "KXNCAAFSPREAD-26SEP26UTAHISU-UTAH10",
-        "KXNCAAFSPREAD-26SEP26UTAHISU-UTAH8"
+        "KXNCAAFSPREAD-26SEP26UTAHISU-UTAH8",
+        "KXNCAAFSPREAD-26SEP26UTAHISU-UTAH7"
       ],
-      "derivedHomeLine": 7.833,
+      "derivedHomeLine": 7.429,
       "eventTicker": "KXNCAAFSPREAD-26SEP26UTAHISU",
       "game": "Utah @ Iowa State",
       "matchedEventCount": 1,
@@ -2303,7 +2331,7 @@
         "KXNCAAFSPREAD-26SEP26VANAUB-AUB10",
         "KXNCAAFSPREAD-26SEP26VANAUB-AUB11"
       ],
-      "derivedHomeLine": -9.625,
+      "derivedHomeLine": -9.8,
       "eventTicker": "KXNCAAFSPREAD-26SEP26VANAUB",
       "game": "Vanderbilt @ Auburn",
       "matchedEventCount": 1,
@@ -2336,7 +2364,7 @@
         "KXNCAAFSPREAD-26SEP26WISPSU-PSU10",
         "KXNCAAFSPREAD-26SEP26WISPSU-PSU11"
       ],
-      "derivedHomeLine": -10.0,
+      "derivedHomeLine": -9.917,
       "eventTicker": "KXNCAAFSPREAD-26SEP26WISPSU",
       "game": "Wisconsin @ Penn State",
       "matchedEventCount": 1,
@@ -2402,7 +2430,7 @@
         "KXNCAAFSPREAD-26SEP26MOSUSMU-SMU34",
         "KXNCAAFSPREAD-26SEP26MOSUSMU-SMU35"
       ],
-      "derivedHomeLine": -34.0,
+      "derivedHomeLine": -33.9,
       "eventTicker": "KXNCAAFSPREAD-26SEP26MOSUSMU",
       "game": "Missouri State @ SMU",
       "matchedEventCount": 1,
@@ -2424,7 +2452,7 @@
         "KXNCAAFSPREAD-26SEP26RICEFRES-FRES13",
         "KXNCAAFSPREAD-26SEP26RICEFRES-FRES14"
       ],
-      "derivedHomeLine": -13.125,
+      "derivedHomeLine": -13.0,
       "eventTicker": "KXNCAAFSPREAD-26SEP26RICEFRES",
       "game": "Rice @ Fresno State",
       "matchedEventCount": 1,
@@ -2446,12 +2474,12 @@
   "status": "OK",
   "summary": {
     "ambiguousRows": 0,
-    "kalshiEvents": 115,
+    "kalshiEvents": 117,
     "matchedButUnpriceableRows": 0,
     "noMatchedEventRows": 0,
     "priceableRows": 57,
     "slateRows": 57,
-    "unresolvedRawNameCount": 101
+    "unresolvedRawNameCount": 103
   },
   "unresolvedRawNames": [
     "Abilene Christian",
@@ -2531,6 +2559,8 @@
     "San Diego",
     "South Carolina St.",
     "South Dakota",
+    "South Dakota St.",
+    "Southeastern Louisiana",
     "Southern Illinois",
     "Southern University",
     "Southern Utah",
