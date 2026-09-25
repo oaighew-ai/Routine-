@@ -2,22 +2,6 @@
   "contract": "CFB_EDGE_KALSHI_MARKET_MATCH_AUDIT_V1",
   "events": [
     {
-      "bracketingMarketTickers": [],
-      "derivedHomeLine": null,
-      "eventTicker": "KXNCAAFSPREAD-26SEP24LIBCCAR",
-      "game": null,
-      "marketCount": 28,
-      "priceable": false,
-      "rawTeams": [
-        "Coastal Carolina",
-        "Liberty"
-      ],
-      "unresolvedRawTeams": [
-        "Coastal Carolina",
-        "Liberty"
-      ]
-    },
-    {
       "bracketingMarketTickers": [
         "KXNCAAFSPREAD-26SEP25ARMYTEM-ARMY4",
         "KXNCAAFSPREAD-26SEP25ARMYTEM-ARMY3"
@@ -84,7 +68,7 @@
         "KXNCAAFSPREAD-26SEP25NAVYUAB-NAVY8",
         "KXNCAAFSPREAD-26SEP25NAVYUAB-NAVY7"
       ],
-      "derivedHomeLine": 6.857,
+      "derivedHomeLine": 6.75,
       "eventTicker": "KXNCAAFSPREAD-26SEP25NAVYUAB",
       "game": "Navy @ UAB",
       "marketCount": 31,
@@ -163,7 +147,7 @@
         "KXNCAAFSPREAD-26SEP26ARIZWSU-ARIZ12",
         "KXNCAAFSPREAD-26SEP26ARIZWSU-ARIZ11"
       ],
-      "derivedHomeLine": 10.667,
+      "derivedHomeLine": 10.7,
       "eventTicker": "KXNCAAFSPREAD-26SEP26ARIZWSU",
       "game": "Arizona @ Washington State",
       "marketCount": 32,
@@ -303,7 +287,7 @@
         "KXNCAAFSPREAD-26SEP26CMUMIA-MIA39",
         "KXNCAAFSPREAD-26SEP26CMUMIA-MIA42"
       ],
-      "derivedHomeLine": -41.324,
+      "derivedHomeLine": -41.5,
       "eventTicker": "KXNCAAFSPREAD-26SEP26CMUMIA",
       "game": "Central Michigan @ Miami",
       "marketCount": 17,
@@ -509,7 +493,7 @@
         "KXNCAAFSPREAD-26SEP26HAWWYO-HAW4",
         "KXNCAAFSPREAD-26SEP26HAWWYO-HAW3"
       ],
-      "derivedHomeLine": 2.688,
+      "derivedHomeLine": 2.571,
       "eventTicker": "KXNCAAFSPREAD-26SEP26HAWWYO",
       "game": "Hawai'i @ Wyoming",
       "marketCount": 29,
@@ -555,7 +539,7 @@
         "KXNCAAFSPREAD-26SEP26HOUGASO-HOU21",
         "KXNCAAFSPREAD-26SEP26HOUGASO-HOU18"
       ],
-      "derivedHomeLine": 17.75,
+      "derivedHomeLine": 17.688,
       "eventTicker": "KXNCAAFSPREAD-26SEP26HOUGASO",
       "game": "Houston @ Georgia Southern",
       "marketCount": 25,
@@ -648,7 +632,7 @@
         "KXNCAAFSPREAD-26SEP26JMUODU-JMU7",
         "KXNCAAFSPREAD-26SEP26JMUODU-JMU6"
       ],
-      "derivedHomeLine": 6.0,
+      "derivedHomeLine": 6.125,
       "eventTicker": "KXNCAAFSPREAD-26SEP26JMUODU",
       "game": "James Madison @ Old Dominion",
       "marketCount": 29,
@@ -834,7 +818,7 @@
         "KXNCAAFSPREAD-26SEP26MISSFLA-FLA3",
         "KXNCAAFSPREAD-26SEP26MISSFLA-FLA4"
       ],
-      "derivedHomeLine": -3.15,
+      "derivedHomeLine": -3.182,
       "eventTicker": "KXNCAAFSPREAD-26SEP26MISSFLA",
       "game": "Ole Miss @ Florida",
       "marketCount": 26,
@@ -954,10 +938,10 @@
     },
     {
       "bracketingMarketTickers": [
-        "KXNCAAFSPREAD-26SEP26NDPUR-ND28",
-        "KXNCAAFSPREAD-26SEP26NDPUR-ND25"
+        "KXNCAAFSPREAD-26SEP26NDPUR-ND31",
+        "KXNCAAFSPREAD-26SEP26NDPUR-ND28"
       ],
-      "derivedHomeLine": 27.324,
+      "derivedHomeLine": 27.688,
       "eventTicker": "KXNCAAFSPREAD-26SEP26NDPUR",
       "game": "Notre Dame @ Purdue",
       "marketCount": 21,
@@ -1036,7 +1020,7 @@
         "KXNCAAFSPREAD-26SEP26OKSTWVU-WVU2",
         "KXNCAAFSPREAD-26SEP26OKSTWVU-WVU3"
       ],
-      "derivedHomeLine": -1.667,
+      "derivedHomeLine": -1.75,
       "eventTicker": "KXNCAAFSPREAD-26SEP26OKSTWVU",
       "game": "Oklahoma State @ West Virginia",
       "marketCount": 26,
@@ -1210,7 +1194,7 @@
         "KXNCAAFSPREAD-26SEP26SHSUTTU-TTU34",
         "KXNCAAFSPREAD-26SEP26SHSUTTU-TTU36"
       ],
-      "derivedHomeLine": -34.088,
+      "derivedHomeLine": -33.633,
       "eventTicker": "KXNCAAFSPREAD-26SEP26SHSUTTU",
       "game": "Sam Houston @ Texas Tech",
       "marketCount": 16,
@@ -1303,7 +1287,7 @@
         "KXNCAAFSPREAD-26SEP26TEXTENN-TEX6",
         "KXNCAAFSPREAD-26SEP26TEXTENN-TEX5"
       ],
-      "derivedHomeLine": 4.8,
+      "derivedHomeLine": 4.917,
       "eventTicker": "KXNCAAFSPREAD-26SEP26TEXTENN",
       "game": "Texas @ Tennessee",
       "marketCount": 29,
@@ -1525,7 +1509,7 @@
         "KXNCAAFSPREAD-26SEP26USAUK-UK21",
         "KXNCAAFSPREAD-26SEP26USAUK-UK22"
       ],
-      "derivedHomeLine": -20.714,
+      "derivedHomeLine": -20.688,
       "eventTicker": "KXNCAAFSPREAD-26SEP26USAUK",
       "game": "South Alabama @ Kentucky",
       "marketCount": 25,
@@ -1557,7 +1541,7 @@
         "KXNCAAFSPREAD-26SEP26USFBGSU-USF21",
         "KXNCAAFSPREAD-26SEP26USFBGSU-USF18"
       ],
-      "derivedHomeLine": 18.062,
+      "derivedHomeLine": 18.1,
       "eventTicker": "KXNCAAFSPREAD-26SEP26USFBGSU",
       "game": "South Florida @ Bowling Green",
       "marketCount": 31,
@@ -1789,7 +1773,7 @@
       ]
     }
   ],
-  "generatedAt": "2026-09-25T02:54:56.737249+00:00",
+  "generatedAt": "2026-09-25T05:34:51.650174+00:00",
   "policy": {
     "decisionEffect": "NONE",
     "deliveryEffect": "NONE",
@@ -1814,7 +1798,7 @@
         "KXNCAAFSPREAD-26SEP25NAVYUAB-NAVY8",
         "KXNCAAFSPREAD-26SEP25NAVYUAB-NAVY7"
       ],
-      "derivedHomeLine": 6.857,
+      "derivedHomeLine": 6.75,
       "eventTicker": "KXNCAAFSPREAD-26SEP25NAVYUAB",
       "game": "Navy @ UAB",
       "matchedEventCount": 1,
@@ -1836,7 +1820,7 @@
         "KXNCAAFSPREAD-26SEP26ARIZWSU-ARIZ12",
         "KXNCAAFSPREAD-26SEP26ARIZWSU-ARIZ11"
       ],
-      "derivedHomeLine": 10.667,
+      "derivedHomeLine": 10.7,
       "eventTicker": "KXNCAAFSPREAD-26SEP26ARIZWSU",
       "game": "Arizona @ Washington State",
       "matchedEventCount": 1,
@@ -1869,7 +1853,7 @@
         "KXNCAAFSPREAD-26SEP26CMUMIA-MIA39",
         "KXNCAAFSPREAD-26SEP26CMUMIA-MIA42"
       ],
-      "derivedHomeLine": -41.324,
+      "derivedHomeLine": -41.5,
       "eventTicker": "KXNCAAFSPREAD-26SEP26CMUMIA",
       "game": "Central Michigan @ Miami",
       "matchedEventCount": 1,
@@ -1924,7 +1908,7 @@
         "KXNCAAFSPREAD-26SEP26HAWWYO-HAW4",
         "KXNCAAFSPREAD-26SEP26HAWWYO-HAW3"
       ],
-      "derivedHomeLine": 2.688,
+      "derivedHomeLine": 2.571,
       "eventTicker": "KXNCAAFSPREAD-26SEP26HAWWYO",
       "game": "Hawai'i @ Wyoming",
       "matchedEventCount": 1,
@@ -1935,7 +1919,7 @@
         "KXNCAAFSPREAD-26SEP26HOUGASO-HOU21",
         "KXNCAAFSPREAD-26SEP26HOUGASO-HOU18"
       ],
-      "derivedHomeLine": 17.75,
+      "derivedHomeLine": 17.688,
       "eventTicker": "KXNCAAFSPREAD-26SEP26HOUGASO",
       "game": "Houston @ Georgia Southern",
       "matchedEventCount": 1,
@@ -1968,7 +1952,7 @@
         "KXNCAAFSPREAD-26SEP26JMUODU-JMU7",
         "KXNCAAFSPREAD-26SEP26JMUODU-JMU6"
       ],
-      "derivedHomeLine": 6.0,
+      "derivedHomeLine": 6.125,
       "eventTicker": "KXNCAAFSPREAD-26SEP26JMUODU",
       "game": "James Madison @ Old Dominion",
       "matchedEventCount": 1,
@@ -2075,10 +2059,10 @@
     },
     {
       "bracketingMarketTickers": [
-        "KXNCAAFSPREAD-26SEP26NDPUR-ND28",
-        "KXNCAAFSPREAD-26SEP26NDPUR-ND25"
+        "KXNCAAFSPREAD-26SEP26NDPUR-ND31",
+        "KXNCAAFSPREAD-26SEP26NDPUR-ND28"
       ],
-      "derivedHomeLine": 27.324,
+      "derivedHomeLine": 27.688,
       "eventTicker": "KXNCAAFSPREAD-26SEP26NDPUR",
       "game": "Notre Dame @ Purdue",
       "matchedEventCount": 1,
@@ -2100,7 +2084,7 @@
         "KXNCAAFSPREAD-26SEP26OKSTWVU-WVU2",
         "KXNCAAFSPREAD-26SEP26OKSTWVU-WVU3"
       ],
-      "derivedHomeLine": -1.667,
+      "derivedHomeLine": -1.75,
       "eventTicker": "KXNCAAFSPREAD-26SEP26OKSTWVU",
       "game": "Oklahoma State @ West Virginia",
       "matchedEventCount": 1,
@@ -2111,7 +2095,7 @@
         "KXNCAAFSPREAD-26SEP26MISSFLA-FLA3",
         "KXNCAAFSPREAD-26SEP26MISSFLA-FLA4"
       ],
-      "derivedHomeLine": -3.15,
+      "derivedHomeLine": -3.182,
       "eventTicker": "KXNCAAFSPREAD-26SEP26MISSFLA",
       "game": "Ole Miss @ Florida",
       "matchedEventCount": 1,
@@ -2133,7 +2117,7 @@
         "KXNCAAFSPREAD-26SEP26SHSUTTU-TTU34",
         "KXNCAAFSPREAD-26SEP26SHSUTTU-TTU36"
       ],
-      "derivedHomeLine": -34.088,
+      "derivedHomeLine": -33.633,
       "eventTicker": "KXNCAAFSPREAD-26SEP26SHSUTTU",
       "game": "Sam Houston @ Texas Tech",
       "matchedEventCount": 1,
@@ -2155,7 +2139,7 @@
         "KXNCAAFSPREAD-26SEP26USAUK-UK21",
         "KXNCAAFSPREAD-26SEP26USAUK-UK22"
       ],
-      "derivedHomeLine": -20.714,
+      "derivedHomeLine": -20.688,
       "eventTicker": "KXNCAAFSPREAD-26SEP26USAUK",
       "game": "South Alabama @ Kentucky",
       "matchedEventCount": 1,
@@ -2177,7 +2161,7 @@
         "KXNCAAFSPREAD-26SEP26USFBGSU-USF21",
         "KXNCAAFSPREAD-26SEP26USFBGSU-USF18"
       ],
-      "derivedHomeLine": 18.062,
+      "derivedHomeLine": 18.1,
       "eventTicker": "KXNCAAFSPREAD-26SEP26USFBGSU",
       "game": "South Florida @ Bowling Green",
       "matchedEventCount": 1,
@@ -2210,7 +2194,7 @@
         "KXNCAAFSPREAD-26SEP26TEXTENN-TEX6",
         "KXNCAAFSPREAD-26SEP26TEXTENN-TEX5"
       ],
-      "derivedHomeLine": 4.8,
+      "derivedHomeLine": 4.917,
       "eventTicker": "KXNCAAFSPREAD-26SEP26TEXTENN",
       "game": "Texas @ Tennessee",
       "matchedEventCount": 1,
@@ -2430,12 +2414,12 @@
   "status": "OK",
   "summary": {
     "ambiguousRows": 0,
-    "kalshiEvents": 114,
+    "kalshiEvents": 113,
     "matchedButUnpriceableRows": 0,
     "noMatchedEventRows": 0,
     "priceableRows": 57,
     "slateRows": 57,
-    "unresolvedRawNameCount": 99
+    "unresolvedRawNameCount": 97
   },
   "unresolvedRawNames": [
     "Abilene Christian",
@@ -2450,7 +2434,6 @@
     "Cal Poly",
     "Campbell",
     "Chattanooga",
-    "Coastal Carolina",
     "Colgate",
     "Columbia",
     "Cornell",
@@ -2481,7 +2464,6 @@
     "Lafayette",
     "Lamar",
     "Lehigh",
-    "Liberty",
     "Maine",
     "Marist",
     "Marshall",
