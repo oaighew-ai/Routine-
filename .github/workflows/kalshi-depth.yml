@@ -1,0 +1,225 @@
+# How deep is Kalshi's college football book, really?
+#
+# The board that `shop.py` produces prices every venue against the sharp
+# reference and has no way to tell a live quote from a forgotten one, because
+# The Odds API returns no size at all. That gap produced four longshot
+# moneyline "bets" on the 2026-09-21 board, the largest at +1011 against a
+# +626 reference, with nothing to say whether a dollar could actually be put
+# on them.
+#
+# Kalshi is the one venue on that board whose own API publishes the resting
+# order book, so it is the one venue where the question is answerable. This
+# asks it directly, walks the ladder with `Book.vwap`, and reports what size
+# each market can actually fill.
+#
+# Costs no Odds API credits. Kalshi's market data is public and needs no key.
+name: kalshi depth
+
+on:
+  push:
+    branches: [claude/jolly-feynman-p2rb1h]
+    paths:
+      - .github/workflows/kalshi-depth.yml
+  workflow_dispatch:
+    inputs:
+      sizes:
+        description: "Contract counts to test a fill at, comma separated."
+        default: "100,500,1000"
+        required: false
+      max_books:
+        description: "Cap on orderbook requests, to stay polite to a public API."
+        default: "60"
+        required: false
+
+permissions:
+  contents: read
+
+jobs:
+  depth:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+
+      - name: Ask the exchange
+        env:
+          SIZES: ${{ inputs.sizes || '100,500,1000' }}
+          MAX_BOOKS: ${{ inputs.max_books || '60' }}
+          PAUSE: "0.8"
+        run: |
+          python3 - <<'PY'
+          import os, statistics, time, urllib.error
+          from datetime import datetime, timezone
+          from cfb_edge.providers import kalshi
+          from cfb_edge.providers.kalshi import (
+              SERIES, fetch_markets, fetch_book, KalshiUnreachable,
+          )
+
+          PAUSE = float(os.environ.get("PAUSE", "0.8"))
+
+          def polite(url: str) -> bytes:
+              """Pace every request and back off on a 429.
+
+              Run 1 fired 25 pages of pagination back to back and was rate
+              limited before it reached a single orderbook. The exchange is a
+              public API doing us a favour; the client has to keep its pace.
+              """
+              for attempt in range(5):
+                  time.sleep(PAUSE)
+                  try:
+                      return kalshi._default_opener(url)
+                  except urllib.error.HTTPError as exc:
+                      if exc.code == 429 and attempt < 4:
+                          wait = 2.0 ** attempt
+                          print(f"RATE_LIMITED|attempt={attempt + 1}|sleeping={wait}s")
+                          time.sleep(wait)
+                          continue
+                      raise
+              raise RuntimeError("unreachable")
+
+          sizes = [int(s) for s in os.environ["SIZES"].split(",") if s.strip()]
+          cap = int(os.environ["MAX_BOOKS"])
+          now = datetime.now(timezone.utc).isoformat()
+
+          rows, fetched = [], 0
+          shown_shape = False
+          per_series = {}
+
+          def dollars(m, key):
+              """Kalshi now publishes prices as `<side>_dollars`, not `<side>`.
+
+              The repo's provider still reads `yes_ask`/`yes_bid`, which this
+              run proved are absent from every one of 3,708 open CFB markets.
+              `.get()` returns None rather than raising, so every Kalshi price
+              path in the repo yields nothing, silently.
+              """
+              v = m.get(f"{key}_dollars")
+              return None if v is None else float(v)
+
+          def size(m, key):
+              v = m.get(f"{key}_size_fp")
+              return None if v is None else float(v)
+
+          for name, ticker in SERIES.items():
+              try:
+                  markets = fetch_markets(ticker, opener=polite)
+              except (KalshiUnreachable, urllib.error.HTTPError) as exc:
+                  print(f"SERIES_FAILED|{name}|{type(exc).__name__}: {exc}")
+                  continue
+              live = [m for m in markets if dollars(m, "yes_ask") not in (None, 0.0)]
+              per_series[name] = (len(markets), len(live))
+              if live and not shown_shape:
+                  for sample in live[:3]:
+                      print(f"RAW|{sample.get('ticker')}|"
+                            f"ask={sample.get('yes_ask_dollars')}|"
+                            f"askSize={sample.get('yes_ask_size_fp')}|"
+                            f"bid={sample.get('yes_bid_dollars')}|"
+                            f"bidSize={sample.get('yes_bid_size_fp')}|"
+                            f"liq={sample.get('liquidity_dollars')}|"
+                            f"oi={sample.get('open_interest_fp')}")
+                  shown_shape = True
+              for m in live:
+                  rows.append({
+                      "series": name,
+                      "ticker": m.get("ticker"),
+                      "title": str(m.get("yes_sub_title") or m.get("title") or "")[:40],
+                      "ask": dollars(m, "yes_ask"),
+                      "bid": dollars(m, "yes_bid"),
+                      "askSize": size(m, "yes_ask"),
+                      "bidSize": size(m, "yes_bid"),
+                      "spread": (None if dollars(m, "yes_ask") is None
+                                 or dollars(m, "yes_bid") is None
+                                 else dollars(m, "yes_ask") - dollars(m, "yes_bid")),
+                      "liquidity": m.get("liquidity_dollars"),
+                      "oi": m.get("open_interest_fp"),
+                  })
+
+          print(f"META|fetchedAt={now}|series={len(per_series)}|priced={len(rows)}")
+          for nm, (total, live_n) in per_series.items():
+              print(f"SERIES|{nm}|markets={total}|priced={live_n}")
+          if not rows:
+              print("NO_PRICED_MARKETS")
+              raise SystemExit(0)
+
+          # Is the orderbook endpoint still the shape `parse_book` expects?
+          probe = rows[0]["ticker"]
+          try:
+              payload = kalshi._get(f"/markets/{probe}/orderbook?depth=50", polite)
+              print(f"ORDERBOOK_KEYS|{probe}|{sorted(payload.keys())}")
+              inner = payload.get("orderbook_fp") or payload.get("orderbook")
+              if isinstance(inner, dict):
+                  print(f"ORDERBOOK_INNER|{sorted(inner.keys())}")
+                  for k, v in list(inner.items())[:2]:
+                      print(f"ORDERBOOK_SAMPLE|{k}|{str(v)[:160]}")
+              else:
+                  print(f"ORDERBOOK_INNER|not a dict: {type(inner).__name__}")
+              # The point of the probe: does `parse_book` still see anything?
+              # It read only the legacy `orderbook` key and so returned an
+              # empty book for every live market, silently. A real ticker with
+              # resting size must now come back with depth and a walkable
+              # ladder, or the wire shape has moved again.
+              book = kalshi.parse_book(probe, payload)
+              print(f"PARSED|{probe}|asks={len(book.yes_asks)}|"
+                    f"bids={len(book.yes_bids)}|depth={book.depth}|"
+                    f"bestAsk={book.best_ask}|spread={book.spread}")
+              for want in (10, 100, 1000):
+                  print(f"VWAP|{want}|{book.vwap(want)}")
+              if not book.yes_asks and not book.yes_bids:
+                  print("PARSE_EMPTY|parse_book saw nothing in a live payload")
+          except Exception as exc:
+              print(f"ORDERBOOK_FAILED|{type(exc).__name__}: {exc}")
+
+          def band(a):
+              if a <= 0.10: return "<=10c  (+900 or longer)"
+              if a <= 0.25: return "11-25c (+300 to +899)"
+              if a <= 0.45: return "26-45c (+122 to +299)"
+              if a <= 0.55: return "46-55c (near even)"
+              return ">55c   (favourites)"
+          order = ["<=10c  (+900 or longer)", "11-25c (+300 to +899)",
+                   "26-45c (+122 to +299)", "46-55c (near even)",
+                   ">55c   (favourites)"]
+
+          # A size at the best ask says nothing without the spread behind it.
+          # Two sampled markets quoted 0.08 / 0.92 with equal size on both
+          # sides, which is one resting order shown as a two-sided book, not a
+          # market anyone can trade against.
+          print("\nBANDHDR|band|markets|medAskSize|medSpread|wide>25c|zeroAskSize")
+          for b in order:
+              sub = [r for r in rows if r["ask"] is not None and band(r["ask"]) == b]
+              if not sub:
+                  continue
+              sizes_ = [r["askSize"] for r in sub if r["askSize"] is not None]
+              spr = [r["spread"] for r in sub if r["spread"] is not None]
+              wide = sum(1 for x in spr if x > 0.25)
+              zero = sum(1 for r in sub if (r["askSize"] or 0) == 0)
+              print(f"BAND|{b}|{len(sub)}|"
+                    f"{int(statistics.median(sizes_)) if sizes_ else 'n/a'}|"
+                    f"{round(statistics.median(spr), 3) if spr else 'n/a'}|"
+                    f"{wide}/{len(spr) if spr else 0}|"
+                    f"{zero}/{len(sub)}")
+
+          print("\nSUMMARY")
+          longshot = [r for r in rows if r["ask"] is not None and r["ask"] <= 0.10]
+          print(f"{len(rows)} priced markets across {len(per_series)} series.")
+          if longshot:
+              sizes_ = [r["askSize"] for r in longshot if r["askSize"] is not None]
+              print(f"  longshots (<=10c): {len(longshot)} markets")
+              if sizes_:
+                  print(f"    median contracts resting at the best ask: "
+                        f"{int(statistics.median(sizes_))}")
+                  print(f"    markets with nothing resting at the ask: "
+                        f"{sum(1 for s in sizes_ if s == 0)}/{len(sizes_)}")
+              spr = [r["spread"] for r in longshot if r["spread"] is not None]
+              if spr:
+                  tight = [r for r in longshot
+                           if r["spread"] is not None and r["spread"] <= 0.05]
+                  print(f"    median bid-ask spread: {statistics.median(spr):.3f}")
+                  print(f"    tradeable (spread <= 5c): {len(tight)}/{len(longshot)}")
+                  if tight:
+                      ts = [r["askSize"] for r in tight if r["askSize"] is not None]
+                      if ts:
+                          print(f"      of those, median size at the ask: "
+                                f"{int(statistics.median(ts))} contracts")
+          PY

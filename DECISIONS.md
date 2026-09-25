@@ -1132,3 +1132,54 @@ reanalysis weather.
 **Promotion effect.** None. These inputs cannot influence S02 or S04_ES2.
 A separately frozen BR2 feature contract, multiple independent prospective
 weeks and an untouched chronological holdout remain mandatory before any fit.
+
+## 2026-09-25 — D30. The Kalshi order book is read from the fixed-point wire shape
+
+**Decision.** `parse_book` accepts both `orderbook_fp` (the live shape) and
+`orderbook` (the integer-cent shape it was written against), normalising both
+to cents. `Level.size` and `Book.depth` become floats.
+
+**Why this was not caught by a test or an alarm.** Kalshi moved prices and
+contract counts to fixed-point strings and re-wrapped the book under
+`orderbook_fp`. `parse_book` read only `orderbook`, so a successful request
+parsed to an empty book: `best_ask` None, `depth` 0, `vwap` refusing every
+size. That is indistinguishable from a market with nothing resting in it, so
+nothing raised and nothing logged. The suite passed throughout, because its
+only book fixture was hand-written in the old shape. A gate that refuses on
+thin depth (`gate.py`'s DEPTH check) would therefore have refused every
+Kalshi row for a reason that was never true.
+
+The market-level rename (`yes_ask` to `yes_ask_dollars`) was already handled
+by `_side_price`. Two sites still read the removed spellings: `parse_book`,
+and the `find_markets` listing, which printed None for every price.
+
+**Evidence.** Measured, not inferred. A probe workflow
+(`.github/workflows/kalshi-depth.yml`, four runs, no Odds API credits) read
+4,746 priced CFB markets across the three series. Of the 300 quoted at 10c or
+less, the median size resting at the best ask was 105 contracts, the median
+spread 2c, 295 of 300 quoted inside 5c and none was empty. The thin-book
+hypothesis that motivated the earlier longshot suppression is dead: those
+were real markets. Size, not price validity, is the binding constraint. A
+$94.29 stake at ~9c is ~1,048 contracts against 105 resting, roughly ten times
+the top of book, which is exactly the number `Book.vwap` exists to compute and
+could not.
+
+`liquidity_dollars` reads 0.00 on all 4,746 markets despite real resting
+sizes. It is unusable and must not enter any gate.
+
+**Derivation for `_SIZE_TOLERANCE = 1e-6` (Law 6).** Not a PRIOR. Kalshi
+documents contract granularity as 0.01 contracts, so no genuine unfilled
+residual can be smaller than that; 1e-6 sits four orders of magnitude below
+the smallest real quantity and admits only float error from walking the
+ladder. Source: docs.kalshi.com/getting_started/fixed_point_migration, read
+2026-09-25.
+
+**Sub-cent prices are real.** `price_ranges` tick to $0.0001 on the tapered
+grids, so cents are carried as floats rather than integers. A rung can sit at
+1.2c, and rounding it is a real price error, not a display nicety.
+
+**Reversal criterion.** If Kalshi retires the legacy `orderbook` key, the
+compatibility branch and its test can go. If a third shape appears, the same
+failure mode returns; the guard against that is
+`tests/test_kalshi_book.py::test_the_live_shape_is_not_an_empty_book`, which
+fails loudly rather than reporting an empty board.
