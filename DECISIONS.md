@@ -1164,3 +1164,79 @@ stake, and delivery authority are unchanged.
 **Reversal criterion.** Replace this bootstrap only with a single versioned
 machine-readable manifest that covers the same control-plane, evidence-plane and
 precedence requirements and is enforced by CI.
+## 2026-09-25 — D31. The Kalshi order book is read from the fixed-point wire shape
+
+**Decision.** `parse_book` accepts both `orderbook_fp` (the live shape) and
+`orderbook` (the integer-cent shape it was written against), normalising both
+to cents. `Level.size` and `Book.depth` become floats.
+
+**Why this was not caught by a test or an alarm.** Kalshi moved prices and
+contract counts to fixed-point strings and re-wrapped the book under
+`orderbook_fp`. `parse_book` read only `orderbook`, so a successful request
+parsed to an empty book: `best_ask` None, `depth` 0, `vwap` refusing every
+size. That is indistinguishable from a market with nothing resting in it, so
+nothing raised and nothing logged. The suite passed throughout, because its
+only book fixture was hand-written in the old shape. A gate that refuses on
+thin depth (`gate.py`'s DEPTH check) would therefore have refused every
+Kalshi row for a reason that was never true.
+
+The market-level rename (`yes_ask` to `yes_ask_dollars`) was already handled
+by `_side_price`. Two sites still read the removed spellings: `parse_book`,
+and the `find_markets` listing, which printed None for every price.
+
+**Evidence.** Measured, not inferred, and measured twice. A probe workflow
+(`.github/workflows/kalshi-depth.yml`, no Odds API credits) read the three CFB
+series on two days. The two runs agree on what matters and disagree sharply on
+one number, so both are recorded rather than reconciled.
+
+| median size resting at the best ask | 2026-09-24 | 2026-09-25 |
+|---|---|---|
+| <=10c | 105 | 882 |
+| 11-25c | 108 | 305 |
+| 26-45c | 1,000 | 1,864 |
+| 46-55c | 3,000 | 4,020 |
+| >55c | 296 | 400 |
+| priced markets | 4,746 | 4,751 |
+| longshots <=10c | 300 | 330 |
+| empty books in that band | 0/300 | 0/330 |
+| median spread in that band | 2c | 2c |
+| quoting inside 5c | 295/300 | 328/330 |
+
+**Stable across both, and the finding that stands:** no empty longshot book,
+a 2c median spread, and about 99% of the band quoting inside 5c. The
+thin-book hypothesis that motivated the earlier longshot suppression is dead.
+Those are real markets.
+
+**Not stable, and a correction to what this session reported first:** the
+median resting size moved by up to a factor of eight in a single day. The
+earlier claim that a $94.29 stake at ~9c (~1,048 contracts) wants roughly ten
+times the top of book was true of the 2026-09-24 snapshot and is not true of
+the 2026-09-25 one, where 1,048 against 882 is about 1.2x and walking one
+rung fills it.
+
+The conclusion that survives is stronger than the one it replaces: the size
+gap is real but varies by nearly an order of magnitude between pulls, so **no
+static size or depth threshold can be derived from a single snapshot** --
+under Law 6 any such constant would be a PRIOR wearing a measurement's
+clothes. Sizing has to walk the live ladder at decision time, which is
+precisely what `Book.vwap` does and what this fix restores.
+
+`liquidity_dollars` reads 0.00 on all 4,746 markets despite real resting
+sizes. It is unusable and must not enter any gate.
+
+**Derivation for `_SIZE_TOLERANCE = 1e-6` (Law 6).** Not a PRIOR. Kalshi
+documents contract granularity as 0.01 contracts, so no genuine unfilled
+residual can be smaller than that; 1e-6 sits four orders of magnitude below
+the smallest real quantity and admits only float error from walking the
+ladder. Source: docs.kalshi.com/getting_started/fixed_point_migration, read
+2026-09-25.
+
+**Sub-cent prices are real.** `price_ranges` tick to $0.0001 on the tapered
+grids, so cents are carried as floats rather than integers. A rung can sit at
+1.2c, and rounding it is a real price error, not a display nicety.
+
+**Reversal criterion.** If Kalshi retires the legacy `orderbook` key, the
+compatibility branch and its test can go. If a third shape appears, the same
+failure mode returns; the guard against that is
+`tests/test_kalshi_book.py::test_the_live_shape_is_not_an_empty_book`, which
+fails loudly rather than reporting an empty board.
