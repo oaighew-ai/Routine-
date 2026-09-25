@@ -74,6 +74,7 @@ def build(
     grades: Mapping[str, Any] | None,
     br2: Mapping[str, Any] | None,
     market_audit: Mapping[str, Any] | None = None,
+    promotion: Mapping[str, Any] | None = None,
     generated_at: datetime | None = None,
 ) -> dict[str, Any]:
     now=generated_at or datetime.now(timezone.utc)
@@ -88,6 +89,7 @@ def build(
     open_stage=(power.get("stages") or {}).get("openProvenance") or {}
 
     return {
+        "promotionScorecard": promotion,
         "schemaVersion":1,
         "contract":CONTRACT,
         "generatedAt":now.isoformat(),
@@ -163,6 +165,7 @@ def main(argv: list[str] | None=None) -> int:
     p.add_argument("--grades")
     p.add_argument("--br2")
     p.add_argument("--market-audit")
+    p.add_argument("--promotion")
     p.add_argument("--out", required=True)
     args=p.parse_args(argv)
     report=build(
@@ -173,6 +176,7 @@ def main(argv: list[str] | None=None) -> int:
         grades=_json(args.grades),
         br2=_json(args.br2),
         market_audit=_json(args.market_audit),
+        promotion=_json(args.promotion),
     )
     out=Path(args.out)
     out.parent.mkdir(parents=True,exist_ok=True)

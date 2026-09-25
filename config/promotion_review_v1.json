@@ -1,0 +1,54 @@
+{
+  "schemaVersion": 1,
+  "policyId": "CFB_EDGE_PROMOTION_REVIEW_V1",
+  "frozenAt": "2026-09-25T14:46:22Z",
+  "scope": [
+    "S04_ES2",
+    "S04_BR2"
+  ],
+  "decisionEffect": "NONE",
+  "stakingEnabled": false,
+  "evaluation": "ONE_FIXED_FINAL_LOOK_AFTER_REGISTERED_HOLDOUT_END",
+  "maximumCandidatesPerModel": 1,
+  "familywiseAlpha": 0.05,
+  "perModelOneSidedAlpha": 0.025,
+  "primaryMetric": "NET_RETURN_PER_UNIT_AFTER_ALL_COSTS",
+  "secondaryMetric": "PAIRED_BRIER_IMPROVEMENT_VERSUS_DECISION_MARKET",
+  "minimumBrierImprovement": 0.001,
+  "maximumCalibrationError": 0.05,
+  "additionalStressCostPerUnit": 0.01,
+  "bootstrapReplicates": 5000,
+  "bootstrapSeed": 20260925,
+  "minimumHoldoutWeeks": 26,
+  "minimumHoldoutGames": 4710,
+  "samplePlan": {
+    "method": "normal approximation for planning only",
+    "targetNetReturn": 0.05,
+    "returnSD": 1.0,
+    "power": 0.8,
+    "designEffect": 1.5,
+    "requiredGames": 4710,
+    "note": "Assumptions, not measured BR2 performance. Smaller true edges or greater dependence need more observations. No optional extension after viewing outcomes."
+  },
+  "requiredRegistration": [
+    "modelSha256",
+    "featureContractSha256",
+    "trainingProtocolSha256",
+    "executionPolicySha256",
+    "registeredAt",
+    "holdoutStart",
+    "holdoutEnd",
+    "holdoutWeeks",
+    "candidateAttempt"
+  ],
+  "requiredStages": [
+    "registration",
+    "dataIntegrity",
+    "historicalReplay",
+    "walkForward",
+    "prospectiveHoldout",
+    "economics"
+  ],
+  "promotionOutcome": "ELIGIBLE_FOR_INDEPENDENT_REVIEW_ONLY",
+  "authority": "Private site /api/picks retains sole authority; S02 delivery candidate unchanged."
+}
