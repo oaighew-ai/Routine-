@@ -814,3 +814,382 @@ CFB Edge is operational when:
 - challengers can be compared prospectively without contaminating production
 - model promotion is mechanical
 - an empty card is treated as a valid result
+
+
+## 16. API, plugin and external-data enhancement layer
+
+The next gains should come from better point-in-time evidence and market-state reconstruction, not another generic predictive model. Every source below must be assigned a narrow role before it can affect research.
+
+### 16.1 Historical sportsbook archive
+
+**Primary target:** The Odds API historical NCAAF archive.
+
+Purpose:
+- reconstruct point-in-time market state
+- test open-to-decision movement
+- test book disagreement and convergence
+- test key-number crossings
+- test price movement at unchanged spread
+- build historical information-state features
+
+Required rule:
+Historical snapshots are research evidence. They do not automatically prove exact sportsbook venue-open timestamps unless the provider's timestamp semantics support that claim.
+
+Candidate research timestamps:
+- open / first observed
+- T-48h
+- T-24h
+- T-12h
+- T-6h
+- T-3h
+- T-1h
+- close
+
+### 16.2 Prospective injury and market feed
+
+**Candidate provider:** SportsDataIO.
+
+Potential uses:
+- prospective CFB injury status
+- opening/current/closing lines
+- normalized game and player identities
+- corroboration of material availability changes
+
+Constraint:
+If the provider does not retain intraday historical injury-state changes, archive every prospective response in the evidence plane. A current injury feed cannot retroactively reconstruct what was known two days earlier.
+
+Depth-chart authority remains official school/conference material unless a future provider-specific contract proves equivalent provenance.
+
+### 16.3 Independent market and injury source
+
+**Candidate provider:** OpticOdds.
+
+Potential uses:
+- historical price-change events
+- lock/unlock events
+- settlement events
+- independent sportsbook-line corroboration
+- prospective injury context
+
+Recommended role:
+Use as a second market source rather than silently replacing the incumbent. If two authoritative feeds disagree materially for the same book/game/time, emit:
+
+`MARKET_SOURCE_CONFLICT`
+
+and fail closed for affected research rows until reconciled.
+
+### 16.4 Enterprise sports-data layer
+
+**Candidate provider:** Sportradar NCAA Football.
+
+Potential uses:
+- schedules
+- rosters
+- box scores
+- play-by-play
+- player participation
+- betting-split research
+- AI-agent/MCP integration where contractually available
+
+Betting splits are shadow information-state inputs only at first. Ticket and money percentages must not become directional authority without prospective incremental evidence after controlling for line movement.
+
+Candidate shadow fields:
+- ticketShareDiff
+- moneyShareDiff
+- moneyMinusTickets
+- splitChangeSinceOpen
+
+### 16.5 Weather forecast-run history
+
+**Provider:** Open-Meteo.
+
+Current prospective forecast capture remains authoritative for `windMph`.
+
+Enhance the weather shadow layer with:
+- windMph
+- windGustMph
+- precipitationProbability
+- precipitationAmount
+- temperatureF
+- forecastLeadHours
+- windForecastChange24h
+- precipitationForecastChange24h
+
+Historical evaluation must use archived forecast runs or previous-run products, never realized weather or reanalysis as a substitute for the forecast available at decision time.
+
+### 16.6 Injury-impact model
+
+Do not model injuries as a raw count.
+
+Build player-impact context from prior participation and usage.
+
+Candidate usage weights:
+- QB: pass-attempt share / snap share where reliable
+- RB: rush + target opportunity share
+- WR / TE: target share
+- OL: starts / snaps where available
+- defense: snap, tackle or pressure participation where reliable
+
+Future shadow concept:
+
+`teamAvailabilityImpact = sum(player_usage_weight * availability_effect)`
+
+Then:
+
+`availabilityImpactDiff = home - away`
+
+This remains shadow-only until source coverage, missingness and feature math are frozen prospectively.
+
+### 16.7 Preseason structural priors
+
+Early-season uncertainty should be handled with explicit priors instead of forcing sparse current-season data to carry all the weight.
+
+Candidate preseason inputs:
+- returning production
+- returning QB
+- returning offensive-line starts
+- transfer additions / losses
+- recruiting / talent composite
+- head-coach continuity
+- coordinator continuity
+- scheme changes
+- prior-season EPA / PPA
+- preseason market win total
+
+Recommended architecture:
+Use preseason priors with declining influence as current-season evidence accumulates. Do not tune decay weights after observing the evaluation cohort.
+
+### 16.8 Information state becomes first-class
+
+Create a separate point-in-time `informationState` contract rather than mixing market behavior into football quality.
+
+At each canonical decision timestamp, preserve:
+- open line
+- current line
+- open price
+- current price
+- open-to-decision line move
+- price-only move at unchanged line
+- fresh-book count
+- cross-book spread dispersion
+- cross-book price dispersion
+- Pinnacle / reference-book deviation
+- key-number crossings
+- time since latest market move
+- movement velocity
+- movement acceleration
+- verified material QB/injury news since open
+- material weather-forecast change since open
+- minutes to kickoff
+
+Closing information is never allowed in an earlier information-state row.
+
+The research question becomes:
+
+> Given the football information available at decision time, has the market already incorporated it?
+
+That is distinct from trying to predict games directly better than the close.
+
+### 16.9 Bitemporal analytical warehouse
+
+**Preferred analytical mirror:** Neon Postgres.
+
+GitHub remains the immutable evidence authority.
+
+Neon is a derived query layer only.
+
+Recommended record shape:
+- canonical_game_id
+- feature_name
+- feature_value
+- observed_at
+- valid_at
+- decision_time
+- source
+- source_sha256
+- parser_version
+- feature_contract_version
+
+Required property:
+The system must be able to answer:
+
+> What exactly did CFB Edge know about this game at timestamp X?
+
+No manually edited database row may outrank the immutable GitHub evidence it derives from.
+
+### 16.10 Research-discovery redundancy
+
+Current roles:
+
+**Exa**
+- deep primary-source discovery
+- literature / provider research
+- ambiguous-source resolution
+- never feature-authoritative by itself
+
+**Firecrawl**
+- page/PDF capture
+- monitoring and diffs
+- JS-heavy page extraction
+- raw-source preservation
+- LLM extraction remains candidate evidence until deterministically validated
+
+**Tavily, optional**
+- independent web-search / extraction path
+- useful as a second discovery engine when Exa misses a primary source
+- discovery-only unless the located primary source is separately captured and validated
+
+Search engines identify evidence. They are not the evidence.
+
+### 16.11 Provider-consensus and evidence-confidence layer
+
+Critical facts should be reconciled across independent sources where practical.
+
+Example QB evidence:
+- official team source
+- structured injury provider
+- market/injury corroboration
+- prior participation data
+
+Store an evidence-quality property separately from the predictive feature.
+
+Suggested states:
+- HIGH: official source + deterministic player mapping + PIT participation valid
+- MEDIUM: official source with unresolved OR / ambiguity
+- LOW: media / secondary reporting only
+- BLOCKED: material source conflict
+
+Evidence confidence is initially an operational quality property, not a model feature.
+
+### 16.12 Sources and patterns not to add by default
+
+Do not expand the model with:
+- generic social sentiment
+- LLM-generated team power ratings
+- expert-pick consensus
+- handicapping trend libraries such as ATS streak rules
+- unbounded technical betting indicators
+- opaque black-box model scores without PIT source lineage
+
+These increase researcher degrees of freedom faster than they increase trustworthy signal.
+
+## 17. Recommended end-state architecture
+
+### Football state
+
+Primary candidates:
+- CollegeFootballData
+- official school/conference sources
+- prospective structured sports-data provider where validated
+- Sportradar / equivalent enterprise feed where economically justified
+
+Owns:
+- efficiency
+- participation
+- QB continuity
+- roster availability
+- line play
+- travel/rest
+- preseason priors
+
+### Market state
+
+Primary candidates:
+- The Odds API
+- OpticOdds
+- Pinnacle / executable sportsbook capture
+- exchange data where contract semantics are verified
+
+Owns:
+- current executable prices
+- historical snapshots
+- line movement
+- price movement
+- book dispersion
+- market timing
+- close
+
+### Forecast state
+
+Primary:
+- Open-Meteo prospective and archived forecast runs
+
+Owns:
+- wind
+- gusts
+- precipitation
+- temperature
+- forecast changes through time
+
+### Discovery / capture state
+
+- Exa: discovery
+- Firecrawl: capture / monitoring
+- Tavily: optional independent discovery
+
+These never override primary-source or structured-feed provenance.
+
+### Evidence and analytics
+
+**GitHub**
+- immutable raw evidence
+- hashes
+- source manifests
+- model/config freezes
+- audit artifacts
+- tests and CI
+
+**Neon**
+- derived bitemporal analytical mirror
+- fast PIT joins
+- feature warehouse
+- experiment queries
+
+### Research models
+
+**S04_BR2**
+- football-context residual challenger
+- remains `DATA_COLLECTION_ONLY`
+- no stake, delivery or promotion authority
+
+**S05 / information-state challenger**
+- tests whether newly available information is already reflected in the market
+- starts as shadow/context only
+
+### Execution layer
+
+The execution engine evaluates:
+- current executable price
+- fees / vig
+- max playable price
+- quote freshness
+- book availability
+- model uncertainty
+- one-position-per-game rule
+
+No predictive edge matters unless it survives actual execution economics.
+
+## 18. API / plugin implementation priority
+
+Recommended sequence:
+
+1. Use the existing The Odds API integration to build a historical market-state archive.
+2. Evaluate OpticOdds against The Odds API for sportsbook coverage, timestamp granularity and historical fidelity.
+3. Evaluate SportsDataIO for prospective injury-state capture; begin archiving state changes immediately if adopted.
+4. Evaluate Sportradar for player-participation depth, betting splits and agent/MCP economics.
+5. Expand Open-Meteo to archived forecast-run replay and weather-change features.
+6. Build player-usage-based injury impact as shadow evidence.
+7. Add preseason structural priors with preregistered decay.
+8. Make `informationState` a canonical timestamped dataset.
+9. Add Neon as the derived bitemporal query layer while preserving GitHub evidence authority.
+10. Add Tavily only as discovery redundancy, never as direct feature authority.
+11. Freeze each new feature contract before outcomes are observed.
+12. Require ablation testing against the market baseline and simpler BR2 variants before keeping any added feature.
+
+Authority boundary remains unchanged:
+
+- S02 delivery authority is unchanged.
+- Frozen S04_ES2 rules are unchanged.
+- S04_BR2 remains `DATA_COLLECTION_ONLY`.
+- New providers do not create picks, stakes or promotion authority.
+- Missing or conflicting source evidence fails closed.
