@@ -1153,16 +1153,42 @@ The market-level rename (`yes_ask` to `yes_ask_dollars`) was already handled
 by `_side_price`. Two sites still read the removed spellings: `parse_book`,
 and the `find_markets` listing, which printed None for every price.
 
-**Evidence.** Measured, not inferred. A probe workflow
-(`.github/workflows/kalshi-depth.yml`, four runs, no Odds API credits) read
-4,746 priced CFB markets across the three series. Of the 300 quoted at 10c or
-less, the median size resting at the best ask was 105 contracts, the median
-spread 2c, 295 of 300 quoted inside 5c and none was empty. The thin-book
-hypothesis that motivated the earlier longshot suppression is dead: those
-were real markets. Size, not price validity, is the binding constraint. A
-$94.29 stake at ~9c is ~1,048 contracts against 105 resting, roughly ten times
-the top of book, which is exactly the number `Book.vwap` exists to compute and
-could not.
+**Evidence.** Measured, not inferred, and measured twice. A probe workflow
+(`.github/workflows/kalshi-depth.yml`, no Odds API credits) read the three CFB
+series on two days. The two runs agree on what matters and disagree sharply on
+one number, so both are recorded rather than reconciled.
+
+| median size resting at the best ask | 2026-09-24 | 2026-09-25 |
+|---|---|---|
+| <=10c | 105 | 882 |
+| 11-25c | 108 | 305 |
+| 26-45c | 1,000 | 1,864 |
+| 46-55c | 3,000 | 4,020 |
+| >55c | 296 | 400 |
+| priced markets | 4,746 | 4,751 |
+| longshots <=10c | 300 | 330 |
+| empty books in that band | 0/300 | 0/330 |
+| median spread in that band | 2c | 2c |
+| quoting inside 5c | 295/300 | 328/330 |
+
+**Stable across both, and the finding that stands:** no empty longshot book,
+a 2c median spread, and about 99% of the band quoting inside 5c. The
+thin-book hypothesis that motivated the earlier longshot suppression is dead.
+Those are real markets.
+
+**Not stable, and a correction to what this session reported first:** the
+median resting size moved by up to a factor of eight in a single day. The
+earlier claim that a $94.29 stake at ~9c (~1,048 contracts) wants roughly ten
+times the top of book was true of the 2026-09-24 snapshot and is not true of
+the 2026-09-25 one, where 1,048 against 882 is about 1.2x and walking one
+rung fills it.
+
+The conclusion that survives is stronger than the one it replaces: the size
+gap is real but varies by nearly an order of magnitude between pulls, so **no
+static size or depth threshold can be derived from a single snapshot** --
+under Law 6 any such constant would be a PRIOR wearing a measurement's
+clothes. Sizing has to walk the live ladder at decision time, which is
+precisely what `Book.vwap` does and what this fix restores.
 
 `liquidity_dollars` reads 0.00 on all 4,746 markets despite real resting
 sizes. It is unusable and must not enter any gate.
