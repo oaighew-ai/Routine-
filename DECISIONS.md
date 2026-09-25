@@ -1133,7 +1133,38 @@ reanalysis weather.
 A separately frozen BR2 feature contract, multiple independent prospective
 weeks and an untouched chronological holdout remain mandatory before any fit.
 
-## 2026-09-25 — D30. The Kalshi order book is read from the fixed-point wire shape
+
+## 2026-09-25 — D30. BUILD_PROMPT becomes a mandatory bootstrap manifest
+
+**Decision.** `spec/BUILD_PROMPT.md` must no longer be interpreted in isolation.
+Any model or agent working on CFB Edge must first ingest the current operating
+architecture, BR2 point-in-time contract, BR2 hardening review, binding decisions,
+model/implementation registries, delivery authority, active experiment/feature
+contracts, and the current evidence-plane contracts on `capture-data`.
+
+The bootstrap must emit an ingestion receipt with the main/evidence revisions,
+relevant model statuses, delivery authority, active freeze ID, BR2 coverage,
+opening-provenance state, grading state, missing/stale artifacts, and any
+material conflict. A material conflict blocks write actions until resolved.
+
+Precedence is now explicit: immutable factual evidence; active freeze manifests;
+delivery authority; registries; `DECISIONS.md`; current operating/BR2
+architecture; the historical build prompt; then reconstructed legacy specs.
+
+**Why.** CFB Edge now spans a control plane, evidence plane, private delivery
+authority, frozen prospective experiments, and collection-only challengers. A
+future builder reading only the original build prompt can be internally
+consistent while still violating the current system. The bootstrap turns the
+repository into one deterministic handoff path.
+
+**Authority effect.** None. This changes initialization and governance only.
+S02 delivery permission, S04_ES2 frozen rules, S04_BR2 `DATA_COLLECTION_ONLY`,
+stake, and delivery authority are unchanged.
+
+**Reversal criterion.** Replace this bootstrap only with a single versioned
+machine-readable manifest that covers the same control-plane, evidence-plane and
+precedence requirements and is enforced by CI.
+## 2026-09-25 — D31. The Kalshi order book is read from the fixed-point wire shape
 
 **Decision.** `parse_book` accepts both `orderbook_fp` (the live shape) and
 `orderbook` (the integer-cent shape it was written against), normalising both

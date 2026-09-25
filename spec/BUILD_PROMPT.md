@@ -5,10 +5,114 @@
 > `spec/EDGE_OS_v2_DERIVED.md` fills in the sources of truth this prompt names
 > but which were never supplied; see D1.
 
+
+## Mandatory CFB Edge bootstrap — read before any work
+
+This repository has evolved beyond the historical base prompt below. **No model,
+agent, coding session, research session, dashboard session, or scheduled review
+may interpret CFB Edge, change code, change configuration, evaluate a model, or
+report current system status from this file alone.**
+
+Before doing any CFB Edge work, ingest the following control-plane sources in
+this order:
+
+1. `spec/CFB_EDGE_OPERATING_ARCHITECTURE.md` — current operating topology,
+   source roles, data architecture, API/plugin enhancement layer, information
+   state, bitemporal warehouse direction, and delivery boundaries.
+2. `BR2_PIT_CONTEXT.md` — S04_BR2 point-in-time feature definitions,
+   admissibility rules, source classes, fail-closed behavior and promotion
+   boundary.
+3. `docs/BR2_HARDENING_REVIEW.md` — current known evidence gaps, true-open
+   integrity findings, EPA/QB remediation, leakage risks and operational
+   hardening requirements.
+4. `DECISIONS.md` — append-only binding decisions and reversal criteria.
+5. `config/model_registry.json` — registered model identities and statuses.
+6. `config/model_implementation_registry.json` — implementation locations and
+   reproducibility/delivery roles.
+7. `config/delivery_authority.json` — current delivery permission. No other
+   artifact may grant delivery authority.
+8. Applicable experiment and feature contracts, at minimum:
+   - `config/week5_freeze.json`
+   - `config/s04_br2.json`
+   - `config/br2_source_registry.json`
+   - `config/br2_official_source_registry.json`
+   - `config/br2_external_monitors.json`
+9. The current evidence-plane contracts on the `capture-data` branch:
+   - `data/private-site-bridge.json`
+   - `data/powerup-health.json`
+   - `data/week5-capture-health.json`
+   - `data/week5-market-match-audit.json`
+   - `data/s04-es2-live.json`
+   - `data/s04-es2-grades.json`
+   - `data/br2-feature-status.json`
+   - `data/br2-context-status.json`
+   - `data/br2-source-health.json`
+   - `data/br2-weather-status.json`
+
+If one of the listed current evidence artifacts has not yet published, record it
+as missing/pending. **Do not substitute an older artifact, infer its state, or
+treat absence as success.**
+
+### Mandatory ingestion receipt
+
+Before taking action, print a compact bootstrap receipt containing:
+
+- repository revision read from `main`;
+- evidence revision read from `capture-data`;
+- model IDs/statuses relevant to the task;
+- current delivery authority;
+- active freeze/experiment ID;
+- BR2 status and current feature coverage;
+- opening-provenance status;
+- grading status;
+- missing/stale required artifacts;
+- any conflict found among prompt, decisions, registries, freeze manifests or
+  evidence contracts.
+
+Do not proceed past read-only diagnosis when a material conflict is unresolved.
+
+### Precedence when sources disagree
+
+Use the narrowest current binding source, in this order:
+
+1. immutable evidence for factual observations;
+2. active freeze / experiment manifest for a frozen cohort;
+3. `config/delivery_authority.json` for delivery permission;
+4. model and implementation registries for role/status/identity;
+5. `DECISIONS.md` for repository-specific binding decisions and reversal
+   criteria;
+6. current operating architecture and BR2 contracts;
+7. this historical build prompt;
+8. derived/reconstructed legacy specification.
+
+A later observation does not rewrite an earlier point-in-time fact. A research
+artifact cannot override a freeze or delivery authority.
+
+### Non-negotiable inherited boundaries
+
+Until a newer binding decision explicitly changes them:
+
+- the private Site `/api/picks` is the sole authoritative pick/delivery
+  contract;
+- GitHub research outputs cannot publish picks;
+- S02 delivery permission comes only from `config/delivery_authority.json`;
+- the frozen S04_ES2 cohort rule may not be changed in-place after outcomes or
+  later information are observable;
+- S04_BR2 remains `DATA_COLLECTION_ONLY` until a separately frozen feature
+  contract, adequate prospective evidence and untouched chronological holdout
+  satisfy the registered promotion requirements;
+- missing or ambiguous evidence fails closed;
+- no model may silently impute, relabel proxies, backdate sources, use realized
+  weather as a historical forecast, or use closing/future information in an
+  earlier decision state.
+
+The bootstrap above is part of the build contract. A model that has not completed
+it has not loaded the CFB Edge source of truth.
+
 **How to use**
 1. Create two private GitHub repos: `edge-os` (spec and code; protect `main`) and `edge-os-ledger` (data only; leave `main` unprotected).
 2. Save this file as `spec/BUILD_PROMPT.md` in `edge-os`, next to `EDGE_OS_v1.md`, `EDGE_OS_v2.md`, and `edge_engine.jsx`.
-3. Open Claude Code at the `edge-os` root and send: `Read spec/BUILD_PROMPT.md and run Phase 0 in plan mode.`
+3. Open the coding/model session at the repository root and send: `Read spec/BUILD_PROMPT.md, complete the Mandatory CFB Edge bootstrap and print the ingestion receipt before doing any work. Then run the applicable phase in plan/diagnostic mode.`
 4. Redteam the plan, then reply `approved: phases 1-2`.
 
 **Fill in before Phase 0**

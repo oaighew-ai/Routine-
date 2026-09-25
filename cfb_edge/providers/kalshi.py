@@ -30,7 +30,7 @@ API_ROOT = "https://api.elections.kalshi.com/trade-api/v2"
 # Contract counts have a granularity of 0.01, so a residual smaller than this
 # is float noise from walking the ladder, not size still left to fill. Four
 # orders of magnitude below the smallest real quantity; derived, not a PRIOR.
-# See DECISIONS.md D30.
+# See DECISIONS.md D31.
 _SIZE_TOLERANCE = 1e-6
 
 # The college football series. Spreads and totals carry their own tickers.
