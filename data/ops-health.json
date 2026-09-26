@@ -16,7 +16,8 @@
       "MINIMUM_WEEKS",
       "PAPER_DELIVERY_BLOCKED",
       "REGISTERED_GATES_FAILED",
-      "VALIDATION_NOT_PASSED"
+      "VALIDATION_NOT_PASSED",
+      "VALIDATION_STALE"
     ],
     "registeredFailedGates": [
       "MINIMUM_FORECASTS",
@@ -29,32 +30,32 @@
   },
   "capture": {
     "allowDelivery": false,
-    "codeRevision": "7e9224a65b519047c13c59ccd82b42b11ae99f4b",
+    "codeRevision": "a79d154a40a3280bdca2c55f24df6660ab452b7a",
     "freshAtGeneration": true,
     "freshNow": true,
-    "gamesMissing": 23,
-    "gamesObserved": 35,
-    "gamesTotal": 58,
-    "logSha256": "67161f43490d998b7b5249b9d4983ad781ae3295d90b4e2628a461a633cbcb33",
+    "gamesMissing": 42,
+    "gamesObserved": 14,
+    "gamesTotal": 56,
+    "logSha256": "a812bb0cdee95b4964612146f8c47ded97041e8de712a11eba3946bb510f8598",
     "outcome": "success",
-    "pollAt": "2026-09-22T20:25:49.885204+00:00",
-    "slateSha256": "60ce02d79bf0892d3f753ab3e664f84e5f3f445c04c3db8fece60db05be7008c",
+    "pollAt": "2026-09-26T15:19:10.619630+00:00",
+    "slateSha256": "3028d97bee9bb7bc3ff1e359bfb7cfc39ad7cd9adee94db3232e315bb7af4793",
     "topExclusions": [
       {
         "code": "DECISION_EVIDENCE_UNVERIFIED",
-        "count": 58
+        "count": 56
       },
       {
         "code": "EXECUTABLE_CONTRACT_UNVERIFIED",
-        "count": 58
+        "count": 56
       },
       {
         "code": "OPEN_NOT_AUDIT_GRADE_TRUE_OPEN",
-        "count": 58
+        "count": 56
       },
       {
         "code": "ABSENT_FROM_LATEST_POLL",
-        "count": 23
+        "count": 42
       }
     ]
   },
@@ -64,7 +65,7 @@
     "authoritativeContract": "https://cfb-edge-research.oaighew.chatgpt.site/api/picks",
     "githubDiagnosticOnly": true
   },
-  "generatedAt": "2026-09-22T20:26:06.533450+00:00",
+  "generatedAt": "2026-09-26T15:19:27.588814+00:00",
   "latestRun": {},
   "ledger": {
     "betRows": 0,
@@ -176,6 +177,26 @@
       "modelStatus": null,
       "reproducibleInRepo": true,
       "role": "PRICE_DISLOCATION_MONITOR"
+    },
+    {
+      "deliveryContract": null,
+      "deliveryEligible": false,
+      "id": "S04_BR1",
+      "implementationLocation": "cfb_edge/bayesian_regime.py",
+      "implementationStatus": "HISTORICAL_OOS_REJECTED_SHADOW",
+      "modelStatus": "HISTORICAL_OOS_REJECTED_SHADOW",
+      "reproducibleInRepo": true,
+      "role": "BAYESIAN_REGIME_RESIDUAL_ABLATION"
+    },
+    {
+      "deliveryContract": null,
+      "deliveryEligible": false,
+      "id": "S04_BR2",
+      "implementationLocation": "cfb_edge/feature_warehouse.py + cfb_edge/br2_context.py + cfb_edge/br2_weather.py + cfb_edge/br2_web_evidence.py + .github/workflows/br2-feature-capture.yml",
+      "implementationStatus": "DATA_COLLECTION_ONLY",
+      "modelStatus": "DATA_COLLECTION_ONLY",
+      "reproducibleInRepo": true,
+      "role": "POINT_IN_TIME_FOOTBALL_CONTEXT_WAREHOUSE"
     }
   ],
   "nextActions": [
@@ -186,7 +207,7 @@
     "Preserve the private Site as S02 authority until its exact implementation and source hash can be reproduced here. Do not reverse-engineer it from metadata."
   ],
   "phase": "SHADOW",
-  "revision": "7e9224a65b519047c13c59ccd82b42b11ae99f4b",
+  "revision": "a79d154a40a3280bdca2c55f24df6660ab452b7a",
   "schemaVersion": 1,
   "stage": "capture_refresh",
   "state": "SHADOW_BLOCKED",
