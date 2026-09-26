@@ -33,13 +33,13 @@
     "codeRevision": "a79d154a40a3280bdca2c55f24df6660ab452b7a",
     "freshAtGeneration": true,
     "freshNow": true,
-    "gamesMissing": 42,
-    "gamesObserved": 14,
+    "gamesMissing": 48,
+    "gamesObserved": 8,
     "gamesTotal": 56,
-    "logSha256": "8604995af470c832b621225deeba488f0aaa2d0d9621c81a919ddee958671b11",
+    "logSha256": "2fdcd9a3335e0fd832d298aa2a81c312f31b8fa0d0b7d2f4271f46dbff219b37",
     "outcome": "success",
-    "pollAt": "2026-09-26T18:42:47.573793+00:00",
-    "slateSha256": "3028d97bee9bb7bc3ff1e359bfb7cfc39ad7cd9adee94db3232e315bb7af4793",
+    "pollAt": "2026-09-26T21:40:23.835598+00:00",
+    "slateSha256": "3d7d7b9578c19812f97856703cffb7cc3a46a959c64a35f90115b5ca7c3ed62a",
     "topExclusions": [
       {
         "code": "DECISION_EVIDENCE_UNVERIFIED",
@@ -55,7 +55,7 @@
       },
       {
         "code": "ABSENT_FROM_LATEST_POLL",
-        "count": 42
+        "count": 48
       }
     ]
   },
@@ -65,7 +65,7 @@
     "authoritativeContract": "https://cfb-edge-research.oaighew.chatgpt.site/api/picks",
     "githubDiagnosticOnly": true
   },
-  "generatedAt": "2026-09-26T18:43:08.090345+00:00",
+  "generatedAt": "2026-09-26T21:40:39.578169+00:00",
   "latestRun": {},
   "ledger": {
     "betRows": 0,
