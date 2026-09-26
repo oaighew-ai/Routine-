@@ -1,13 +1,13 @@
 {
   "schemaVersion": 1,
   "cohort": "ROUTINE_KALSHI_CAPTURE",
-  "generatedAt": "2026-09-26T18:42:47.654968+00:00",
-  "pollAt": "2026-09-26T18:42:47.573793+00:00",
+  "generatedAt": "2026-09-26T21:40:23.937200+00:00",
+  "pollAt": "2026-09-26T21:40:23.835598+00:00",
   "captureOutcome": "success",
   "freshAtGeneration": true,
   "codeRevision": "a79d154a40a3280bdca2c55f24df6660ab452b7a",
-  "logSha256": "8604995af470c832b621225deeba488f0aaa2d0d9621c81a919ddee958671b11",
-  "slateSha256": "3028d97bee9bb7bc3ff1e359bfb7cfc39ad7cd9adee94db3232e315bb7af4793",
+  "logSha256": "2fdcd9a3335e0fd832d298aa2a81c312f31b8fa0d0b7d2f4271f46dbff219b37",
+  "slateSha256": "3d7d7b9578c19812f97856703cffb7cc3a46a959c64a35f90115b5ca7c3ed62a",
   "allowDelivery": false,
   "actualStakeUnits": 0,
   "games": [
@@ -171,9 +171,9 @@
       "observations": [
         {
           "book": "kalshi",
-          "derivedHomeLine": -32.3,
-          "observedAt": "2026-09-26T18:42:46.824316+00:00",
-          "kickoff": "2026-10-03T04:00:00.000Z"
+          "derivedHomeLine": -32.6,
+          "observedAt": "2026-09-26T21:40:23.450010+00:00",
+          "kickoff": "2026-10-03T16:00:00.000Z"
         }
       ],
       "exclusions": [
@@ -249,15 +249,9 @@
         "KXNCAAFSPREAD-26SEP26LINWEMU-EMU25",
         "KXNCAAFSPREAD-26SEP26LINWEMU-EMU24"
       ],
-      "observations": [
-        {
-          "book": "kalshi",
-          "derivedHomeLine": 30.5,
-          "observedAt": "2026-09-26T18:42:46.824316+00:00",
-          "kickoff": "2026-10-03T04:00:00.000Z"
-        }
-      ],
+      "observations": [],
       "exclusions": [
+        "ABSENT_FROM_LATEST_POLL",
         "DECISION_EVIDENCE_UNVERIFIED",
         "EXECUTABLE_CONTRACT_UNVERIFIED",
         "OPEN_NOT_AUDIT_GRADE_TRUE_OPEN"
@@ -402,15 +396,9 @@
         "KXNCAAFSPREAD-26SEP26WEBBMRSH-MRSH25",
         "KXNCAAFSPREAD-26SEP26WEBBMRSH-MRSH24"
       ],
-      "observations": [
-        {
-          "book": "kalshi",
-          "derivedHomeLine": 24.5,
-          "observedAt": "2026-09-26T18:42:46.824316+00:00",
-          "kickoff": "2026-10-03T04:00:00.000Z"
-        }
-      ],
+      "observations": [],
       "exclusions": [
+        "ABSENT_FROM_LATEST_POLL",
         "DECISION_EVIDENCE_UNVERIFIED",
         "EXECUTABLE_CONTRACT_UNVERIFIED",
         "OPEN_NOT_AUDIT_GRADE_TRUE_OPEN"
@@ -468,8 +456,8 @@
       "observations": [
         {
           "book": "kalshi",
-          "derivedHomeLine": 41.5,
-          "observedAt": "2026-09-26T18:42:46.824316+00:00",
+          "derivedHomeLine": 41.3,
+          "observedAt": "2026-09-26T21:40:23.450010+00:00",
           "kickoff": "2026-10-03T04:00:00.000Z"
         }
       ],
@@ -567,8 +555,8 @@
       "observations": [
         {
           "book": "kalshi",
-          "derivedHomeLine": 38.3,
-          "observedAt": "2026-09-26T18:42:46.824316+00:00",
+          "derivedHomeLine": 38.0,
+          "observedAt": "2026-09-26T21:40:23.450010+00:00",
           "kickoff": "2026-10-02T01:00:00.000Z"
         }
       ],
@@ -591,15 +579,9 @@
         "KXNCAAFSPREAD-26SEP26NDPUR-ND28",
         "KXNCAAFSPREAD-26SEP26NDPUR-ND25"
       ],
-      "observations": [
-        {
-          "book": "kalshi",
-          "derivedHomeLine": 29.7,
-          "observedAt": "2026-09-26T18:42:46.824316+00:00",
-          "kickoff": "2026-10-03T04:00:00.000Z"
-        }
-      ],
+      "observations": [],
       "exclusions": [
+        "ABSENT_FROM_LATEST_POLL",
         "DECISION_EVIDENCE_UNVERIFIED",
         "EXECUTABLE_CONTRACT_UNVERIFIED",
         "OPEN_NOT_AUDIT_GRADE_TRUE_OPEN"
@@ -621,9 +603,9 @@
       "observations": [
         {
           "book": "kalshi",
-          "derivedHomeLine": 32.9,
-          "observedAt": "2026-09-26T18:42:46.824316+00:00",
-          "kickoff": "2026-10-03T04:00:00.000Z"
+          "derivedHomeLine": 26.8,
+          "observedAt": "2026-09-26T21:40:23.450010+00:00",
+          "kickoff": "2026-10-03T19:30:00.000Z"
         }
       ],
       "exclusions": [
@@ -645,15 +627,9 @@
         "KXNCAAFSPREAD-26SEP26ILLOSU-OSU28",
         "KXNCAAFSPREAD-26SEP26ILLOSU-OSU25"
       ],
-      "observations": [
-        {
-          "book": "kalshi",
-          "derivedHomeLine": 21.6,
-          "observedAt": "2026-09-26T18:42:46.824316+00:00",
-          "kickoff": "2026-10-03T04:00:00.000Z"
-        }
-      ],
+      "observations": [],
       "exclusions": [
+        "ABSENT_FROM_LATEST_POLL",
         "DECISION_EVIDENCE_UNVERIFIED",
         "EXECUTABLE_CONTRACT_UNVERIFIED",
         "OPEN_NOT_AUDIT_GRADE_TRUE_OPEN"
@@ -726,15 +702,9 @@
         "KXNCAAFSPREAD-26OCT02PITTVT-VT7",
         "KXNCAAFSPREAD-26OCT02PITTVT-VT8"
       ],
-      "observations": [
-        {
-          "book": "kalshi",
-          "derivedHomeLine": 57.0,
-          "observedAt": "2026-09-26T18:42:46.824316+00:00",
-          "kickoff": "2026-10-02T23:00:00.000Z"
-        }
-      ],
+      "observations": [],
       "exclusions": [
+        "ABSENT_FROM_LATEST_POLL",
         "DECISION_EVIDENCE_UNVERIFIED",
         "EXECUTABLE_CONTRACT_UNVERIFIED",
         "OPEN_NOT_AUDIT_GRADE_TRUE_OPEN"
@@ -846,8 +816,8 @@
       "observations": [
         {
           "book": "kalshi",
-          "derivedHomeLine": 30.3,
-          "observedAt": "2026-09-26T18:42:46.824316+00:00",
+          "derivedHomeLine": 30.1,
+          "observedAt": "2026-09-26T21:40:23.450010+00:00",
           "kickoff": "2026-10-04T02:30:00.000Z"
         }
       ],
@@ -870,15 +840,9 @@
         "KXNCAAFSPREAD-26SEP26SHSUTTU-TTU36",
         "KXNCAAFSPREAD-26SEP26SHSUTTU-TTU34"
       ],
-      "observations": [
-        {
-          "book": "kalshi",
-          "derivedHomeLine": 29.1,
-          "observedAt": "2026-09-26T18:42:46.824316+00:00",
-          "kickoff": "2026-10-03T04:00:00.000Z"
-        }
-      ],
+      "observations": [],
       "exclusions": [
+        "ABSENT_FROM_LATEST_POLL",
         "DECISION_EVIDENCE_UNVERIFIED",
         "EXECUTABLE_CONTRACT_UNVERIFIED",
         "OPEN_NOT_AUDIT_GRADE_TRUE_OPEN"
@@ -1026,15 +990,15 @@
       "observations": [
         {
           "book": "kalshi",
-          "derivedHomeLine": -46.5,
-          "observedAt": "2026-09-26T18:42:46.824316+00:00",
-          "kickoff": "2026-10-03T04:00:00.000Z"
+          "derivedHomeLine": -34.6,
+          "observedAt": "2026-09-26T21:40:23.450010+00:00",
+          "kickoff": "2026-10-03T19:30:00.000Z"
         },
         {
           "book": "kalshi",
           "derivedHomeLine": 19.9,
-          "observedAt": "2026-09-26T18:42:46.824316+00:00",
-          "kickoff": "2026-10-03T04:00:00.000Z"
+          "observedAt": "2026-09-26T21:40:23.450010+00:00",
+          "kickoff": "2026-10-03T19:30:00.000Z"
         }
       ],
       "exclusions": [
@@ -1095,8 +1059,8 @@
       "observations": [
         {
           "book": "kalshi",
-          "derivedHomeLine": 40.1,
-          "observedAt": "2026-09-26T18:42:46.824316+00:00",
+          "derivedHomeLine": 40.0,
+          "observedAt": "2026-09-26T21:40:23.450010+00:00",
           "kickoff": "2026-10-02T00:00:00.000Z"
         }
       ],
@@ -1122,9 +1086,9 @@
       "observations": [
         {
           "book": "kalshi",
-          "derivedHomeLine": -28.7,
-          "observedAt": "2026-09-26T18:42:46.824316+00:00",
-          "kickoff": "2026-10-03T04:00:00.000Z"
+          "derivedHomeLine": -12.7,
+          "observedAt": "2026-09-26T21:40:23.450010+00:00",
+          "kickoff": "2026-10-03T17:00:00.000Z"
         }
       ],
       "exclusions": [
