@@ -2,7 +2,7 @@
   "actualStakeUnits": 0,
   "contract": "CFB_EDGE_S04_ES1_LIVE_V1",
   "deliveryEffect": "NONE",
-  "generatedAt": "2026-09-27T11:03:03.464380+00:00",
+  "generatedAt": "2026-09-27T16:03:12.799909+00:00",
   "historicalCohort": {
     "beatCloseRate": 0.5882352941176471,
     "byWeek": {
@@ -37,7 +37,14 @@
     "Historical mean directional CLV is a timing budget, not guaranteed future CLV.",
     "No row from this contract may enter the authoritative picks feed."
   ],
-  "mappingFailures": [],
+  "mappingFailures": [
+    "Alabama Crimson Tide @ Mississippi State Bulldogs | Alabama Crimson Tide",
+    "Alabama Crimson Tide @ Mississippi State Bulldogs | Mississippi State Bulldogs",
+    "Miami Hurricanes @ Clemson Tigers | Clemson Tigers",
+    "Miami Hurricanes @ Clemson Tigers | Miami Hurricanes",
+    "Ohio State Buckeyes @ Iowa Hawkeyes | Iowa Hawkeyes",
+    "Ohio State Buckeyes @ Iowa Hawkeyes | Ohio State Buckeyes"
+  ],
   "marketQuality": {
     "attached": true,
     "blockedRows": 0,
