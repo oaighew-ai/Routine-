@@ -1,13 +1,13 @@
 {
   "schemaVersion": 1,
   "cohort": "ROUTINE_KALSHI_CAPTURE",
-  "generatedAt": "2026-09-27T08:58:57.551223+00:00",
-  "pollAt": "2026-09-27T08:58:57.487517+00:00",
+  "generatedAt": "2026-09-27T14:37:22.180434+00:00",
+  "pollAt": "2026-09-27T14:37:22.087673+00:00",
   "captureOutcome": "success",
   "freshAtGeneration": true,
   "codeRevision": "a79d154a40a3280bdca2c55f24df6660ab452b7a",
-  "logSha256": "7e943eb3ddb4c939b9642b9d48b83af9d1fca9de27953920ea9f0959e5ff4b7a",
-  "slateSha256": "36fb14c6f92f33ef7f0e881144a9cc155bb0aeb7557bb6985d67729e20e494e2",
+  "logSha256": "4111865ff41a37395bbe79dfd57dccf701f0c39e2fdcbb55babbbe020a11917a",
+  "slateSha256": "cde2955171fa33fa74a8bade6248e3b21a1d455c106c262feaeece9b85d1a0e3",
   "allowDelivery": false,
   "actualStakeUnits": 0,
   "games": [
@@ -15,15 +15,24 @@
       "game": "Akron @ Central Michigan",
       "action": "NO BET",
       "stakeUnits": 0,
-      "openClassification": "unverified",
+      "openClassification": "first_seen",
       "auditGradeOpen": false,
-      "firstSeen": null,
-      "venueOpenTime": null,
-      "openLagSeconds": null,
-      "marketTickers": [],
-      "observations": [],
+      "firstSeen": "2026-09-27T14:29:21.150969+00:00",
+      "venueOpenTime": "2026-09-27T10:06:00+00:00",
+      "openLagSeconds": 15801.150969,
+      "marketTickers": [
+        "KXNCAAFSPREAD-26OCT03AKRCMU-CMU3",
+        "KXNCAAFSPREAD-26OCT03AKRCMU-CMU6"
+      ],
+      "observations": [
+        {
+          "book": "kalshi",
+          "derivedHomeLine": -5.5,
+          "observedAt": "2026-09-27T14:37:21.855641+00:00",
+          "kickoff": "2026-10-03T19:30:00.000Z"
+        }
+      ],
       "exclusions": [
-        "ABSENT_FROM_LATEST_POLL",
         "DECISION_EVIDENCE_UNVERIFIED",
         "EXECUTABLE_CONTRACT_UNVERIFIED",
         "OPEN_NOT_AUDIT_GRADE_TRUE_OPEN"
@@ -46,8 +55,8 @@
         {
           "book": "kalshi",
           "derivedHomeLine": 4.8,
-          "observedAt": "2026-09-27T08:58:57.338225+00:00",
-          "kickoff": "2026-10-03T04:00:00.000Z"
+          "observedAt": "2026-09-27T14:37:21.855641+00:00",
+          "kickoff": "2026-10-03T16:00:00.000Z"
         }
       ],
       "exclusions": [
@@ -73,7 +82,7 @@
         {
           "book": "kalshi",
           "derivedHomeLine": -15.5,
-          "observedAt": "2026-09-27T08:58:57.338225+00:00",
+          "observedAt": "2026-09-27T14:37:21.855641+00:00",
           "kickoff": "2026-10-03T23:00:00.000Z"
         }
       ],
@@ -135,8 +144,8 @@
       "observations": [
         {
           "book": "kalshi",
-          "derivedHomeLine": -7.4,
-          "observedAt": "2026-09-27T08:58:57.338225+00:00",
+          "derivedHomeLine": -7.5,
+          "observedAt": "2026-09-27T14:37:21.855641+00:00",
           "kickoff": "2026-10-03T19:30:00.000Z"
         }
       ],
@@ -162,8 +171,8 @@
       "observations": [
         {
           "book": "kalshi",
-          "derivedHomeLine": 7.4,
-          "observedAt": "2026-09-27T08:58:57.338225+00:00",
+          "derivedHomeLine": 6.6,
+          "observedAt": "2026-09-27T14:37:21.855641+00:00",
           "kickoff": "2026-10-03T23:00:00.000Z"
         }
       ],
@@ -204,9 +213,15 @@
         "KXNCAAFSPREAD-26SEP26MOSUSMU-SMU31",
         "KXNCAAFSPREAD-26SEP26MOSUSMU-SMU34"
       ],
-      "observations": [],
+      "observations": [
+        {
+          "book": "kalshi",
+          "derivedHomeLine": -21.9,
+          "observedAt": "2026-09-27T14:37:21.855641+00:00",
+          "kickoff": "2026-10-03T16:00:00.000Z"
+        }
+      ],
       "exclusions": [
-        "ABSENT_FROM_LATEST_POLL",
         "DECISION_EVIDENCE_UNVERIFIED",
         "EXECUTABLE_CONTRACT_UNVERIFIED",
         "OPEN_NOT_AUDIT_GRADE_TRUE_OPEN"
@@ -246,8 +261,8 @@
       "observations": [
         {
           "book": "kalshi",
-          "derivedHomeLine": 1.6,
-          "observedAt": "2026-09-27T08:58:57.338225+00:00",
+          "derivedHomeLine": -0.4,
+          "observedAt": "2026-09-27T14:37:21.855641+00:00",
           "kickoff": "2026-10-03T19:30:00.000Z"
         }
       ],
@@ -261,15 +276,24 @@
       "game": "Cincinnati @ Arizona",
       "action": "NO BET",
       "stakeUnits": 0,
-      "openClassification": "unverified",
+      "openClassification": "first_seen",
       "auditGradeOpen": false,
-      "firstSeen": null,
-      "venueOpenTime": null,
-      "openLagSeconds": null,
-      "marketTickers": [],
-      "observations": [],
+      "firstSeen": "2026-09-27T14:29:21.150969+00:00",
+      "venueOpenTime": "2026-09-27T10:07:00+00:00",
+      "openLagSeconds": 15741.150969,
+      "marketTickers": [
+        "KXNCAAFSPREAD-26OCT03CINARIZ-ARIZ7",
+        "KXNCAAFSPREAD-26OCT03CINARIZ-ARIZ8"
+      ],
+      "observations": [
+        {
+          "book": "kalshi",
+          "derivedHomeLine": -7.5,
+          "observedAt": "2026-09-27T14:37:21.855641+00:00",
+          "kickoff": "2026-10-04T03:00:00.000Z"
+        }
+      ],
       "exclusions": [
-        "ABSENT_FROM_LATEST_POLL",
         "DECISION_EVIDENCE_UNVERIFIED",
         "EXECUTABLE_CONTRACT_UNVERIFIED",
         "OPEN_NOT_AUDIT_GRADE_TRUE_OPEN"
@@ -312,8 +336,8 @@
       "observations": [
         {
           "book": "kalshi",
-          "derivedHomeLine": 5.8,
-          "observedAt": "2026-09-27T08:58:57.338225+00:00",
+          "derivedHomeLine": 6.5,
+          "observedAt": "2026-09-27T14:37:21.855641+00:00",
           "kickoff": "2026-10-03T19:30:00.000Z"
         }
       ],
@@ -375,8 +399,8 @@
       "observations": [
         {
           "book": "kalshi",
-          "derivedHomeLine": 23.0,
-          "observedAt": "2026-09-27T08:58:57.338225+00:00",
+          "derivedHomeLine": 23.1,
+          "observedAt": "2026-09-27T14:37:21.855641+00:00",
           "kickoff": "2026-10-04T00:00:00.000Z"
         }
       ],
@@ -390,12 +414,15 @@
       "game": "Kentucky @ South Carolina",
       "action": "NO BET",
       "stakeUnits": 0,
-      "openClassification": "unverified",
+      "openClassification": "first_seen",
       "auditGradeOpen": false,
-      "firstSeen": null,
-      "venueOpenTime": null,
-      "openLagSeconds": null,
-      "marketTickers": [],
+      "firstSeen": "2026-09-27T14:29:21.150969+00:00",
+      "venueOpenTime": "2026-09-27T07:06:00+00:00",
+      "openLagSeconds": 26601.150969,
+      "marketTickers": [
+        "KXNCAAFSPREAD-26OCT03UKSCAR-SCAR4",
+        "KXNCAAFSPREAD-26OCT03UKSCAR-SCAR5"
+      ],
       "observations": [],
       "exclusions": [
         "ABSENT_FROM_LATEST_POLL",
@@ -426,12 +453,15 @@
       "game": "Louisville @ NC State",
       "action": "NO BET",
       "stakeUnits": 0,
-      "openClassification": "unverified",
+      "openClassification": "first_seen",
       "auditGradeOpen": false,
-      "firstSeen": null,
-      "venueOpenTime": null,
-      "openLagSeconds": null,
-      "marketTickers": [],
+      "firstSeen": "2026-09-27T14:29:21.150969+00:00",
+      "venueOpenTime": "2026-09-27T04:06:00+00:00",
+      "openLagSeconds": 37401.150969,
+      "marketTickers": [
+        "KXNCAAFSPREAD-26OCT03LOUNCST-LOU18",
+        "KXNCAAFSPREAD-26OCT03LOUNCST-LOU7"
+      ],
       "observations": [],
       "exclusions": [
         "ABSENT_FROM_LATEST_POLL",
@@ -453,9 +483,15 @@
         "KXNCAAFSPREAD-26SEP26WEBBMRSH-MRSH25",
         "KXNCAAFSPREAD-26SEP26WEBBMRSH-MRSH24"
       ],
-      "observations": [],
+      "observations": [
+        {
+          "book": "kalshi",
+          "derivedHomeLine": -14.5,
+          "observedAt": "2026-09-27T14:37:21.855641+00:00",
+          "kickoff": "2026-10-03T19:45:00.000Z"
+        }
+      ],
       "exclusions": [
-        "ABSENT_FROM_LATEST_POLL",
         "DECISION_EVIDENCE_UNVERIFIED",
         "EXECUTABLE_CONTRACT_UNVERIFIED",
         "OPEN_NOT_AUDIT_GRADE_TRUE_OPEN"
@@ -477,8 +513,8 @@
       "observations": [
         {
           "book": "kalshi",
-          "derivedHomeLine": -12.5,
-          "observedAt": "2026-09-27T08:58:57.338225+00:00",
+          "derivedHomeLine": -13.0,
+          "observedAt": "2026-09-27T14:37:21.855641+00:00",
           "kickoff": "2026-10-03T20:00:00.000Z"
         }
       ],
@@ -522,9 +558,9 @@
       "observations": [
         {
           "book": "kalshi",
-          "derivedHomeLine": 18.5,
-          "observedAt": "2026-09-27T08:58:57.338225+00:00",
-          "kickoff": "2026-10-03T04:00:00.000Z"
+          "derivedHomeLine": 16.5,
+          "observedAt": "2026-09-27T14:37:21.855641+00:00",
+          "kickoff": "2026-10-03T23:30:00.000Z"
         }
       ],
       "exclusions": [
@@ -555,15 +591,24 @@
       "game": "Michigan State @ Wisconsin",
       "action": "NO BET",
       "stakeUnits": 0,
-      "openClassification": "unverified",
+      "openClassification": "first_seen",
       "auditGradeOpen": false,
-      "firstSeen": null,
-      "venueOpenTime": null,
-      "openLagSeconds": null,
-      "marketTickers": [],
-      "observations": [],
+      "firstSeen": "2026-09-27T14:29:21.150969+00:00",
+      "venueOpenTime": "2026-09-27T07:06:00+00:00",
+      "openLagSeconds": 26601.150969,
+      "marketTickers": [
+        "KXNCAAFSPREAD-26OCT03MSUWIS-WIS11",
+        "KXNCAAFSPREAD-26OCT03MSUWIS-WIS24"
+      ],
+      "observations": [
+        {
+          "book": "kalshi",
+          "derivedHomeLine": -10.7,
+          "observedAt": "2026-09-27T14:37:21.855641+00:00",
+          "kickoff": "2026-10-03T16:30:00.000Z"
+        }
+      ],
       "exclusions": [
-        "ABSENT_FROM_LATEST_POLL",
         "DECISION_EVIDENCE_UNVERIFIED",
         "EXECUTABLE_CONTRACT_UNVERIFIED",
         "OPEN_NOT_AUDIT_GRADE_TRUE_OPEN"
@@ -591,15 +636,24 @@
       "game": "Navy @ Air Force",
       "action": "NO BET",
       "stakeUnits": 0,
-      "openClassification": "unverified",
+      "openClassification": "first_seen",
       "auditGradeOpen": false,
-      "firstSeen": null,
-      "venueOpenTime": null,
-      "openLagSeconds": null,
-      "marketTickers": [],
-      "observations": [],
+      "firstSeen": "2026-09-27T14:29:21.150969+00:00",
+      "venueOpenTime": "2026-09-27T10:06:00+00:00",
+      "openLagSeconds": 15801.150969,
+      "marketTickers": [
+        "KXNCAAFSPREAD-26OCT03NAVYAFA-NAVY2",
+        "KXNCAAFSPREAD-26OCT03NAVYAFA-AFA2"
+      ],
+      "observations": [
+        {
+          "book": "kalshi",
+          "derivedHomeLine": -1.5,
+          "observedAt": "2026-09-27T14:37:21.855641+00:00",
+          "kickoff": "2026-10-03T16:00:00.000Z"
+        }
+      ],
       "exclusions": [
-        "ABSENT_FROM_LATEST_POLL",
         "DECISION_EVIDENCE_UNVERIFIED",
         "EXECUTABLE_CONTRACT_UNVERIFIED",
         "OPEN_NOT_AUDIT_GRADE_TRUE_OPEN"
@@ -618,9 +672,15 @@
         "KXNCAAFSPREAD-26SEP26HCUUNT-UNT39",
         "KXNCAAFSPREAD-26SEP26HCUUNT-UNT36"
       ],
-      "observations": [],
+      "observations": [
+        {
+          "book": "kalshi",
+          "derivedHomeLine": -1.5,
+          "observedAt": "2026-09-27T14:37:21.855641+00:00",
+          "kickoff": "2026-10-02T01:00:00.000Z"
+        }
+      ],
       "exclusions": [
-        "ABSENT_FROM_LATEST_POLL",
         "DECISION_EVIDENCE_UNVERIFIED",
         "EXECUTABLE_CONTRACT_UNVERIFIED",
         "OPEN_NOT_AUDIT_GRADE_TRUE_OPEN"
@@ -642,9 +702,9 @@
       "observations": [
         {
           "book": "kalshi",
-          "derivedHomeLine": 21.9,
-          "observedAt": "2026-09-27T08:58:57.338225+00:00",
-          "kickoff": "2026-10-03T04:00:00.000Z"
+          "derivedHomeLine": 21.5,
+          "observedAt": "2026-09-27T14:37:21.855641+00:00",
+          "kickoff": "2026-10-03T16:00:00.000Z"
         }
       ],
       "exclusions": [
@@ -690,8 +750,8 @@
       "observations": [
         {
           "book": "kalshi",
-          "derivedHomeLine": 13.8,
-          "observedAt": "2026-09-27T08:58:57.338225+00:00",
+          "derivedHomeLine": 14.4,
+          "observedAt": "2026-09-27T14:37:21.855641+00:00",
           "kickoff": "2026-10-03T19:30:00.000Z"
         }
       ],
@@ -753,8 +813,8 @@
       "observations": [
         {
           "book": "kalshi",
-          "derivedHomeLine": 4.0,
-          "observedAt": "2026-09-27T08:58:57.338225+00:00",
+          "derivedHomeLine": 4.1,
+          "observedAt": "2026-09-27T14:37:21.855641+00:00",
           "kickoff": "2026-10-03T00:00:00.000Z"
         }
       ],
@@ -780,8 +840,8 @@
       "observations": [
         {
           "book": "kalshi",
-          "derivedHomeLine": -5.6,
-          "observedAt": "2026-09-27T08:58:57.338225+00:00",
+          "derivedHomeLine": -5.2,
+          "observedAt": "2026-09-27T14:37:21.855641+00:00",
           "kickoff": "2026-10-02T23:00:00.000Z"
         }
       ],
@@ -807,8 +867,8 @@
       "observations": [
         {
           "book": "kalshi",
-          "derivedHomeLine": -9.5,
-          "observedAt": "2026-09-27T08:58:57.338225+00:00",
+          "derivedHomeLine": -9.9,
+          "observedAt": "2026-09-27T14:37:21.855641+00:00",
           "kickoff": "2026-10-03T20:15:00.000Z"
         }
       ],
@@ -852,8 +912,8 @@
       "observations": [
         {
           "book": "kalshi",
-          "derivedHomeLine": -11.5,
-          "observedAt": "2026-09-27T08:58:57.338225+00:00",
+          "derivedHomeLine": -12.5,
+          "observedAt": "2026-09-27T14:37:21.855641+00:00",
           "kickoff": "2026-10-03T16:00:00.000Z"
         }
       ],
@@ -885,15 +945,24 @@
       "game": "Temple @ South Florida",
       "action": "NO BET",
       "stakeUnits": 0,
-      "openClassification": "unverified",
+      "openClassification": "first_seen",
       "auditGradeOpen": false,
-      "firstSeen": null,
-      "venueOpenTime": null,
-      "openLagSeconds": null,
-      "marketTickers": [],
-      "observations": [],
+      "firstSeen": "2026-09-27T14:29:21.150969+00:00",
+      "venueOpenTime": "2026-09-27T10:06:00+00:00",
+      "openLagSeconds": 15801.150969,
+      "marketTickers": [
+        "KXNCAAFSPREAD-26OCT03TEMUSF-USF6",
+        "KXNCAAFSPREAD-26OCT03TEMUSF-USF7"
+      ],
+      "observations": [
+        {
+          "book": "kalshi",
+          "derivedHomeLine": -6.5,
+          "observedAt": "2026-09-27T14:37:21.855641+00:00",
+          "kickoff": "2026-10-03T23:30:00.000Z"
+        }
+      ],
       "exclusions": [
-        "ABSENT_FROM_LATEST_POLL",
         "DECISION_EVIDENCE_UNVERIFIED",
         "EXECUTABLE_CONTRACT_UNVERIFIED",
         "OPEN_NOT_AUDIT_GRADE_TRUE_OPEN"
@@ -933,9 +1002,15 @@
         "KXNCAAFSPREAD-26SEP26SHSUTTU-TTU36",
         "KXNCAAFSPREAD-26SEP26SHSUTTU-TTU34"
       ],
-      "observations": [],
+      "observations": [
+        {
+          "book": "kalshi",
+          "derivedHomeLine": 16.5,
+          "observedAt": "2026-09-27T14:37:21.855641+00:00",
+          "kickoff": "2026-10-03T23:30:00.000Z"
+        }
+      ],
       "exclusions": [
-        "ABSENT_FROM_LATEST_POLL",
         "DECISION_EVIDENCE_UNVERIFIED",
         "EXECUTABLE_CONTRACT_UNVERIFIED",
         "OPEN_NOT_AUDIT_GRADE_TRUE_OPEN"
@@ -963,15 +1038,24 @@
       "game": "UCF @ Houston",
       "action": "NO BET",
       "stakeUnits": 0,
-      "openClassification": "unverified",
+      "openClassification": "first_seen",
       "auditGradeOpen": false,
-      "firstSeen": null,
-      "venueOpenTime": null,
-      "openLagSeconds": null,
-      "marketTickers": [],
-      "observations": [],
+      "firstSeen": "2026-09-27T14:29:21.150969+00:00",
+      "venueOpenTime": "2026-09-27T10:06:00+00:00",
+      "openLagSeconds": 15801.150969,
+      "marketTickers": [
+        "KXNCAAFSPREAD-26OCT03UCFHOU-HOU11",
+        "KXNCAAFSPREAD-26OCT03UCFHOU-HOU12"
+      ],
+      "observations": [
+        {
+          "book": "kalshi",
+          "derivedHomeLine": -10.5,
+          "observedAt": "2026-09-27T14:37:21.855641+00:00",
+          "kickoff": "2026-10-03T16:00:00.000Z"
+        }
+      ],
       "exclusions": [
-        "ABSENT_FROM_LATEST_POLL",
         "DECISION_EVIDENCE_UNVERIFIED",
         "EXECUTABLE_CONTRACT_UNVERIFIED",
         "OPEN_NOT_AUDIT_GRADE_TRUE_OPEN"
@@ -981,15 +1065,24 @@
       "game": "UL Monroe @ South Alabama",
       "action": "NO BET",
       "stakeUnits": 0,
-      "openClassification": "unverified",
+      "openClassification": "first_seen",
       "auditGradeOpen": false,
-      "firstSeen": null,
-      "venueOpenTime": null,
-      "openLagSeconds": null,
-      "marketTickers": [],
-      "observations": [],
+      "firstSeen": "2026-09-27T14:29:21.150969+00:00",
+      "venueOpenTime": "2026-09-27T10:06:00+00:00",
+      "openLagSeconds": 15801.150969,
+      "marketTickers": [
+        "KXNCAAFSPREAD-26OCT03ULMUSA-USA10",
+        "KXNCAAFSPREAD-26OCT03ULMUSA-USA15"
+      ],
+      "observations": [
+        {
+          "book": "kalshi",
+          "derivedHomeLine": -14.5,
+          "observedAt": "2026-09-27T14:37:21.855641+00:00",
+          "kickoff": "2026-10-03T23:00:00.000Z"
+        }
+      ],
       "exclusions": [
-        "ABSENT_FROM_LATEST_POLL",
         "DECISION_EVIDENCE_UNVERIFIED",
         "EXECUTABLE_CONTRACT_UNVERIFIED",
         "OPEN_NOT_AUDIT_GRADE_TRUE_OPEN"
@@ -1017,15 +1110,24 @@
       "game": "UTSA @ Rice",
       "action": "NO BET",
       "stakeUnits": 0,
-      "openClassification": "unverified",
+      "openClassification": "first_seen",
       "auditGradeOpen": false,
-      "firstSeen": null,
-      "venueOpenTime": null,
-      "openLagSeconds": null,
-      "marketTickers": [],
-      "observations": [],
+      "firstSeen": "2026-09-27T14:29:21.150969+00:00",
+      "venueOpenTime": "2026-09-27T10:06:00+00:00",
+      "openLagSeconds": 15801.150969,
+      "marketTickers": [
+        "KXNCAAFSPREAD-26OCT03UTSARICE-UTSA14",
+        "KXNCAAFSPREAD-26OCT03UTSARICE-UTSA11"
+      ],
+      "observations": [
+        {
+          "book": "kalshi",
+          "derivedHomeLine": 10.5,
+          "observedAt": "2026-09-27T14:37:21.855641+00:00",
+          "kickoff": "2026-10-03T23:00:00.000Z"
+        }
+      ],
       "exclusions": [
-        "ABSENT_FROM_LATEST_POLL",
         "DECISION_EVIDENCE_UNVERIFIED",
         "EXECUTABLE_CONTRACT_UNVERIFIED",
         "OPEN_NOT_AUDIT_GRADE_TRUE_OPEN"
@@ -1066,8 +1168,8 @@
         {
           "book": "kalshi",
           "derivedHomeLine": -24.3,
-          "observedAt": "2026-09-27T08:58:57.338225+00:00",
-          "kickoff": "2026-10-03T04:00:00.000Z"
+          "observedAt": "2026-09-27T14:37:21.855641+00:00",
+          "kickoff": "2026-10-03T16:45:00.000Z"
         }
       ],
       "exclusions": [
@@ -1089,9 +1191,15 @@
         "KXNCAAFSPREAD-26SEP26CARKFSU-FSU46",
         "KXNCAAFSPREAD-26SEP26CARKFSU-FSU49"
       ],
-      "observations": [],
+      "observations": [
+        {
+          "book": "kalshi",
+          "derivedHomeLine": 2.9,
+          "observedAt": "2026-09-27T14:37:21.855641+00:00",
+          "kickoff": "2026-10-03T19:30:00.000Z"
+        }
+      ],
       "exclusions": [
-        "ABSENT_FROM_LATEST_POLL",
         "DECISION_EVIDENCE_UNVERIFIED",
         "EXECUTABLE_CONTRACT_UNVERIFIED",
         "OPEN_NOT_AUDIT_GRADE_TRUE_OPEN"
@@ -1197,8 +1305,8 @@
   "openEvidence": {
     "trueOpenToleranceSeconds": 900,
     "classificationCounts": {
-      "unverified": 30,
-      "first_seen": 26
+      "first_seen": 36,
+      "unverified": 20
     },
     "auditGradeCount": 0,
     "policy": "Only true_open may enter CLV promotion or stopping evidence."
