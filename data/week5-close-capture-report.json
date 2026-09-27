@@ -1,12 +1,12 @@
 {
   "schemaVersion": 1,
   "cohort": "ROUTINE_KALSHI_CAPTURE",
-  "generatedAt": "2026-09-27T02:55:50.081126+00:00",
-  "pollAt": "2026-09-27T02:55:49.989477+00:00",
+  "generatedAt": "2026-09-27T08:54:39.563561+00:00",
+  "pollAt": "2026-09-27T08:54:39.482562+00:00",
   "captureOutcome": "success",
   "freshAtGeneration": true,
   "codeRevision": "a79d154a40a3280bdca2c55f24df6660ab452b7a",
-  "logSha256": "c789b31e04d83bcd93dd37fbc29515de434768dda9130347588a911e82b72c6c",
+  "logSha256": "6263592a1b588f0f4fdeb2302149e54a2d05ecd28c7d855bff43ed9e7cf9b3a9",
   "slateSha256": "ef1d851841fa2b3eebdb941aa8956f1966db584356a6b6abbdd9afb323dceb2c",
   "allowDelivery": false,
   "actualStakeUnits": 0,
@@ -21,18 +21,11 @@
       "venueOpenTime": null,
       "openLagSeconds": null,
       "marketTickers": [],
-      "observations": [
-        {
-          "book": "kalshi",
-          "derivedHomeLine": 5.1,
-          "observedAt": "2026-09-27T02:55:49.805627+00:00",
-          "kickoff": "2026-09-27T02:30:00.000Z"
-        }
-      ],
+      "observations": [],
       "exclusions": [
+        "ABSENT_FROM_LATEST_POLL",
         "DECISION_EVIDENCE_UNVERIFIED",
         "EXECUTABLE_CONTRACT_UNVERIFIED",
-        "NOT_VERIFIED_PRE_KICKOFF",
         "OPEN_NOT_AUDIT_GRADE_TRUE_OPEN"
       ]
     },
@@ -49,18 +42,11 @@
         "KXNCAAFSPREAD-26SEP26APPNCST-NCST14",
         "KXNCAAFSPREAD-26SEP26APPNCST-NCST15"
       ],
-      "observations": [
-        {
-          "book": "kalshi",
-          "derivedHomeLine": -8.5,
-          "observedAt": "2026-09-27T02:55:49.805627+00:00",
-          "kickoff": "2026-09-26T23:30:00.000Z"
-        }
-      ],
+      "observations": [],
       "exclusions": [
+        "ABSENT_FROM_LATEST_POLL",
         "DECISION_EVIDENCE_UNVERIFIED",
         "EXECUTABLE_CONTRACT_UNVERIFIED",
-        "NOT_VERIFIED_PRE_KICKOFF",
         "OPEN_NOT_AUDIT_GRADE_TRUE_OPEN"
       ]
     },
@@ -77,18 +63,11 @@
         "KXNCAAFSPREAD-26SEP26ARIZWSU-ARIZ11",
         "KXNCAAFSPREAD-26SEP26ARIZWSU-ARIZ10"
       ],
-      "observations": [
-        {
-          "book": "kalshi",
-          "derivedHomeLine": 14.0,
-          "observedAt": "2026-09-27T02:55:49.805627+00:00",
-          "kickoff": "2026-09-26T23:30:00.000Z"
-        }
-      ],
+      "observations": [],
       "exclusions": [
+        "ABSENT_FROM_LATEST_POLL",
         "DECISION_EVIDENCE_UNVERIFIED",
         "EXECUTABLE_CONTRACT_UNVERIFIED",
-        "NOT_VERIFIED_PRE_KICKOFF",
         "OPEN_NOT_AUDIT_GRADE_TRUE_OPEN"
       ]
     },
@@ -261,18 +240,11 @@
         "KXNCAAFSPREAD-26SEP26FAUULM-FAU14",
         "KXNCAAFSPREAD-26SEP26FAUULM-FAU13"
       ],
-      "observations": [
-        {
-          "book": "kalshi",
-          "derivedHomeLine": 26.6,
-          "observedAt": "2026-09-27T02:55:49.805627+00:00",
-          "kickoff": "2026-09-27T00:00:00.000Z"
-        }
-      ],
+      "observations": [],
       "exclusions": [
+        "ABSENT_FROM_LATEST_POLL",
         "DECISION_EVIDENCE_UNVERIFIED",
         "EXECUTABLE_CONTRACT_UNVERIFIED",
-        "NOT_VERIFIED_PRE_KICKOFF",
         "OPEN_NOT_AUDIT_GRADE_TRUE_OPEN"
       ]
     },
@@ -286,18 +258,11 @@
       "venueOpenTime": null,
       "openLagSeconds": null,
       "marketTickers": [],
-      "observations": [
-        {
-          "book": "kalshi",
-          "derivedHomeLine": 2.3,
-          "observedAt": "2026-09-27T02:55:49.805627+00:00",
-          "kickoff": "2026-09-27T02:30:00.000Z"
-        }
-      ],
+      "observations": [],
       "exclusions": [
+        "ABSENT_FROM_LATEST_POLL",
         "DECISION_EVIDENCE_UNVERIFIED",
         "EXECUTABLE_CONTRACT_UNVERIFIED",
-        "NOT_VERIFIED_PRE_KICKOFF",
         "OPEN_NOT_AUDIT_GRADE_TRUE_OPEN"
       ]
     },
@@ -467,18 +432,11 @@
         "KXNCAAFSPREAD-26SEP26MASSSAC-MASS5",
         "KXNCAAFSPREAD-26SEP26MASSSAC-MASS4"
       ],
-      "observations": [
-        {
-          "book": "kalshi",
-          "derivedHomeLine": 16.0,
-          "observedAt": "2026-09-27T02:55:49.805627+00:00",
-          "kickoff": "2026-09-27T01:00:00.000Z"
-        }
-      ],
+      "observations": [],
       "exclusions": [
+        "ABSENT_FROM_LATEST_POLL",
         "DECISION_EVIDENCE_UNVERIFIED",
         "EXECUTABLE_CONTRACT_UNVERIFIED",
-        "NOT_VERIFIED_PRE_KICKOFF",
         "OPEN_NOT_AUDIT_GRADE_TRUE_OPEN"
       ]
     },
@@ -513,15 +471,9 @@
       "venueOpenTime": null,
       "openLagSeconds": null,
       "marketTickers": [],
-      "observations": [
-        {
-          "book": "kalshi",
-          "derivedHomeLine": -12.0,
-          "observedAt": "2026-09-27T02:55:49.805627+00:00",
-          "kickoff": "2026-09-27T03:00:00.000Z"
-        }
-      ],
+      "observations": [],
       "exclusions": [
+        "ABSENT_FROM_LATEST_POLL",
         "DECISION_EVIDENCE_UNVERIFIED",
         "EXECUTABLE_CONTRACT_UNVERIFIED",
         "OPEN_NOT_AUDIT_GRADE_TRUE_OPEN"
@@ -540,18 +492,11 @@
         "KXNCAAFSPREAD-26SEP26MIZZMSST-MSST6",
         "KXNCAAFSPREAD-26SEP26MIZZMSST-MSST7"
       ],
-      "observations": [
-        {
-          "book": "kalshi",
-          "derivedHomeLine": 1.8,
-          "observedAt": "2026-09-27T02:55:49.805627+00:00",
-          "kickoff": "2026-09-26T23:45:00.000Z"
-        }
-      ],
+      "observations": [],
       "exclusions": [
+        "ABSENT_FROM_LATEST_POLL",
         "DECISION_EVIDENCE_UNVERIFIED",
         "EXECUTABLE_CONTRACT_UNVERIFIED",
-        "NOT_VERIFIED_PRE_KICKOFF",
         "OPEN_NOT_AUDIT_GRADE_TRUE_OPEN"
       ]
     },
@@ -565,18 +510,11 @@
       "venueOpenTime": null,
       "openLagSeconds": null,
       "marketTickers": [],
-      "observations": [
-        {
-          "book": "kalshi",
-          "derivedHomeLine": -17.9,
-          "observedAt": "2026-09-27T02:55:49.805627+00:00",
-          "kickoff": "2026-09-27T01:00:00.000Z"
-        }
-      ],
+      "observations": [],
       "exclusions": [
+        "ABSENT_FROM_LATEST_POLL",
         "DECISION_EVIDENCE_UNVERIFIED",
         "EXECUTABLE_CONTRACT_UNVERIFIED",
-        "NOT_VERIFIED_PRE_KICKOFF",
         "OPEN_NOT_AUDIT_GRADE_TRUE_OPEN"
       ]
     },
@@ -671,11 +609,18 @@
       "venueOpenTime": null,
       "openLagSeconds": null,
       "marketTickers": [],
-      "observations": [],
+      "observations": [
+        {
+          "book": "kalshi",
+          "derivedHomeLine": -23.0,
+          "observedAt": "2026-09-27T08:54:39.358867+00:00",
+          "kickoff": "2026-09-26T00:00:00.000Z"
+        }
+      ],
       "exclusions": [
-        "ABSENT_FROM_LATEST_POLL",
         "DECISION_EVIDENCE_UNVERIFIED",
         "EXECUTABLE_CONTRACT_UNVERIFIED",
+        "NOT_VERIFIED_PRE_KICKOFF",
         "OPEN_NOT_AUDIT_GRADE_TRUE_OPEN"
       ]
     },
@@ -689,11 +634,18 @@
       "venueOpenTime": null,
       "openLagSeconds": null,
       "marketTickers": [],
-      "observations": [],
+      "observations": [
+        {
+          "book": "kalshi",
+          "derivedHomeLine": 21.9,
+          "observedAt": "2026-09-27T08:54:39.358867+00:00",
+          "kickoff": "2026-09-26T18:00:00.000Z"
+        }
+      ],
       "exclusions": [
-        "ABSENT_FROM_LATEST_POLL",
         "DECISION_EVIDENCE_UNVERIFIED",
         "EXECUTABLE_CONTRACT_UNVERIFIED",
+        "NOT_VERIFIED_PRE_KICKOFF",
         "OPEN_NOT_AUDIT_GRADE_TRUE_OPEN"
       ]
     },
@@ -707,11 +659,18 @@
       "venueOpenTime": null,
       "openLagSeconds": null,
       "marketTickers": [],
-      "observations": [],
+      "observations": [
+        {
+          "book": "kalshi",
+          "derivedHomeLine": -24.3,
+          "observedAt": "2026-09-27T08:54:39.358867+00:00",
+          "kickoff": "2026-09-26T19:30:00.000Z"
+        }
+      ],
       "exclusions": [
-        "ABSENT_FROM_LATEST_POLL",
         "DECISION_EVIDENCE_UNVERIFIED",
         "EXECUTABLE_CONTRACT_UNVERIFIED",
+        "NOT_VERIFIED_PRE_KICKOFF",
         "OPEN_NOT_AUDIT_GRADE_TRUE_OPEN"
       ]
     },
@@ -764,18 +723,11 @@
       "venueOpenTime": null,
       "openLagSeconds": null,
       "marketTickers": [],
-      "observations": [
-        {
-          "book": "kalshi",
-          "derivedHomeLine": 13.8,
-          "observedAt": "2026-09-27T02:55:49.805627+00:00",
-          "kickoff": "2026-09-26T23:30:00.000Z"
-        }
-      ],
+      "observations": [],
       "exclusions": [
+        "ABSENT_FROM_LATEST_POLL",
         "DECISION_EVIDENCE_UNVERIFIED",
         "EXECUTABLE_CONTRACT_UNVERIFIED",
-        "NOT_VERIFIED_PRE_KICKOFF",
         "OPEN_NOT_AUDIT_GRADE_TRUE_OPEN"
       ]
     },
@@ -792,18 +744,11 @@
         "KXNCAAFSPREAD-26SEP26ORSTUTEP-ORST11",
         "KXNCAAFSPREAD-26SEP26ORSTUTEP-ORST10"
       ],
-      "observations": [
-        {
-          "book": "kalshi",
-          "derivedHomeLine": 22.7,
-          "observedAt": "2026-09-27T02:55:49.805627+00:00",
-          "kickoff": "2026-09-27T01:00:00.000Z"
-        }
-      ],
+      "observations": [],
       "exclusions": [
+        "ABSENT_FROM_LATEST_POLL",
         "DECISION_EVIDENCE_UNVERIFIED",
         "EXECUTABLE_CONTRACT_UNVERIFIED",
-        "NOT_VERIFIED_PRE_KICKOFF",
         "OPEN_NOT_AUDIT_GRADE_TRUE_OPEN"
       ]
     },
@@ -820,18 +765,11 @@
         "KXNCAAFSPREAD-26SEP26RICEFRES-FRES14",
         "KXNCAAFSPREAD-26SEP26RICEFRES-FRES15"
       ],
-      "observations": [
-        {
-          "book": "kalshi",
-          "derivedHomeLine": -6.7,
-          "observedAt": "2026-09-27T02:55:49.805627+00:00",
-          "kickoff": "2026-09-27T02:00:00.000Z"
-        }
-      ],
+      "observations": [],
       "exclusions": [
+        "ABSENT_FROM_LATEST_POLL",
         "DECISION_EVIDENCE_UNVERIFIED",
         "EXECUTABLE_CONTRACT_UNVERIFIED",
-        "NOT_VERIFIED_PRE_KICKOFF",
         "OPEN_NOT_AUDIT_GRADE_TRUE_OPEN"
       ]
     },
@@ -992,18 +930,11 @@
       "venueOpenTime": null,
       "openLagSeconds": null,
       "marketTickers": [],
-      "observations": [
-        {
-          "book": "kalshi",
-          "derivedHomeLine": -29.1,
-          "observedAt": "2026-09-27T02:55:49.805627+00:00",
-          "kickoff": "2026-09-26T23:30:00.000Z"
-        }
-      ],
+      "observations": [],
       "exclusions": [
+        "ABSENT_FROM_LATEST_POLL",
         "DECISION_EVIDENCE_UNVERIFIED",
         "EXECUTABLE_CONTRACT_UNVERIFIED",
-        "NOT_VERIFIED_PRE_KICKOFF",
         "OPEN_NOT_AUDIT_GRADE_TRUE_OPEN"
       ]
     },
@@ -1038,18 +969,11 @@
       "venueOpenTime": null,
       "openLagSeconds": null,
       "marketTickers": [],
-      "observations": [
-        {
-          "book": "kalshi",
-          "derivedHomeLine": -28.6,
-          "observedAt": "2026-09-27T02:55:49.805627+00:00",
-          "kickoff": "2026-09-27T00:00:00.000Z"
-        }
-      ],
+      "observations": [],
       "exclusions": [
+        "ABSENT_FROM_LATEST_POLL",
         "DECISION_EVIDENCE_UNVERIFIED",
         "EXECUTABLE_CONTRACT_UNVERIFIED",
-        "NOT_VERIFIED_PRE_KICKOFF",
         "OPEN_NOT_AUDIT_GRADE_TRUE_OPEN"
       ]
     },
