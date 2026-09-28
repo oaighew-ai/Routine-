@@ -52,7 +52,7 @@
     "readinessSourceManifestComplete": true
   },
   "contract": "CFB_EDGE_PRIVATE_SITE_BRIDGE_V1",
-  "generatedAt": "2026-09-28T19:13:27.908688+00:00",
+  "generatedAt": "2026-09-28T19:13:51.308625+00:00",
   "marketCoverage": {
     "rows": [
       {
@@ -420,7 +420,9 @@
     ],
     "stakingEffect": "NONE",
     "status": "PROSPECTIVE_COLLECTION_ACTIVE",
-    "warnings": [],
+    "warnings": [
+      "BR2_SNAPSHOT_STALE"
+    ],
     "week5DecisionRuleChanged": false
   },
   "runway": {
@@ -451,7 +453,7 @@
     "br2": "2026-09-25T18:02:27+00:00",
     "captureHealth": "2026-09-27T09:49:12.313556+00:00",
     "es2": null,
-    "grades": "2026-09-28T17:57:36.557965+00:00",
+    "grades": "2026-09-28T19:13:32.864605+00:00",
     "marketAudit": "2026-09-25T19:52:31.838563+00:00"
   },
   "week5": {
