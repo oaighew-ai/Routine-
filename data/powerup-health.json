@@ -4,13 +4,13 @@
   "contract": "CFB_EDGE_POWERUP_HEALTH_V1",
   "deliveryEffect": "NONE",
   "freezeManifestSha256": "dcc2ad5deca6b252fbd653d350055e424cf56aea26a1b8a8c87f24d2e70be2d7",
-  "generatedAt": "2026-09-28T17:58:08.813716+00:00",
+  "generatedAt": "2026-09-28T19:13:30.851680+00:00",
   "metrics": {
     "artifactAgeHours": {
-      "br2Hours": 71.92828158777778,
-      "captureHealthHours": 32.14902782222222,
+      "br2Hours": 73.18440324444445,
+      "captureHealthHours": 33.40514947888889,
       "es2Hours": null,
-      "gradesHours": 0.008959930833333333
+      "gradesHours": 1.2650815874999999
     },
     "auditGradeOpenRows": 0,
     "br2Games": 57,
@@ -52,6 +52,8 @@
   },
   "stakingEffect": "NONE",
   "status": "PROSPECTIVE_COLLECTION_ACTIVE",
-  "warnings": [],
+  "warnings": [
+    "BR2_SNAPSHOT_STALE"
+  ],
   "week5DecisionRuleChanged": false
 }
