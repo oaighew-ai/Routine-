@@ -8,6 +8,7 @@ from pathlib import Path
 from cfb_edge.active_market_state import (
     OPEN_CONTRACT,
     _odds_quotes,
+    _prospective_open_evidence,
     recover_event_open,
 )
 from cfb_edge.information_state import build_state
@@ -253,6 +254,68 @@ class ActiveMarketStateTests(unittest.TestCase):
         self.assertEqual(q["observedAt"],"2026-09-29T12:00:00Z")
         self.assertEqual(len(manifest[0]["sha256"]),64)
         self.assertEqual(health["lastCost"],1)
+
+
+    def test_prospective_open_evidence_becomes_true_open_quote(self):
+        identities={
+            "Away @ Home":{
+                "game":"Away @ Home","away":"Away","home":"Home",
+                "kickoff":"2026-10-10T16:00:00+00:00",
+                "canonicalGameId":"cfbd:42",
+            }
+        }
+        status={
+            "contract":"CFB_EDGE_PROSPECTIVE_OPEN_V1",
+            "cohortId":"CFB_2026_PROVIDER_WEEK_6",
+            "rows":[{
+                "game":"Away @ Home",
+                "kickoff":"2026-10-10T16:00:00Z",
+                "state":"CAPTURED_TRUE_OPEN",
+                "auditGrade":True,
+                "historicalRecoveryUsed":False,
+                "evidenceSha256":"a"*64,
+                "evidencePath":"data/open-capture/x/evidence/a.json.gz",
+                "eventTicker":"E",
+                "marketTickers":["M1","M2"],
+                "observedAt":"2026-10-04T12:01:00Z",
+                "pollTime":"2026-10-04T12:01:02Z",
+                "venueOpenTime":"2026-10-04T12:00:00Z",
+                "openLagSeconds":60,
+                "openingLine":-3.5,
+            }],
+        }
+        quotes,rows,manifest=_prospective_open_evidence(
+            status=status,identities=identities,
+            expected_cohort_id="CFB_2026_PROVIDER_WEEK_6",
+        )
+        self.assertEqual(len(quotes),1)
+        self.assertEqual(quotes[0]["canonicalGameId"],"cfbd:42")
+        self.assertEqual(quotes[0]["provenance"],"true_open")
+        self.assertEqual(quotes[0]["provenanceContract"],"CFB_EDGE_PROSPECTIVE_OPEN_V1")
+        self.assertEqual(rows[0]["canonicalGameId"],"cfbd:42")
+        self.assertEqual(manifest[0]["sha256"],"a"*64)
+
+    def test_prospective_cohort_mismatch_fails_closed(self):
+        identities={
+            "Away @ Home":{
+                "game":"Away @ Home","away":"Away","home":"Home",
+                "kickoff":"2026-10-10T16:00:00+00:00",
+                "canonicalGameId":"cfbd:42",
+            }
+        }
+        status={
+            "contract":"CFB_EDGE_PROSPECTIVE_OPEN_V1",
+            "cohortId":"CFB_2026_PROVIDER_WEEK_5",
+            "rows":[],
+        }
+        quotes,rows,manifest=_prospective_open_evidence(
+            status=status,identities=identities,
+            expected_cohort_id="CFB_2026_PROVIDER_WEEK_6",
+        )
+        self.assertEqual(quotes,[])
+        self.assertEqual(manifest,[])
+        self.assertEqual(rows[0]["reason"],"PROSPECTIVE_COHORT_MISMATCH")
+
 
 
 if __name__=="__main__":
