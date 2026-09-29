@@ -12,6 +12,8 @@ from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any, Mapping
 
+from .source_of_truth import _validation_reasons
+
 CONTRACT="CFB_EDGE_AUTHORITY_GATE_AUDIT_V1"
 
 
@@ -91,9 +93,21 @@ def audit(authority: Mapping[str,Any], *, now: datetime,
         authority.get("deterministicReplay")=="VERIFIED",
         authority.get("deterministicReplay"),"VERIFIED")
 
+    add("VALIDATION_COMPLETED",
+        authority.get("validationCompleted") is True,
+        authority.get("validationCompleted"),True)
+
     failed=[r["gate"] for r in rows if r["passed"] is False]
     incomplete=[r["gate"] for r in rows if r["passed"] is None]
     registered_failed=sorted(set(authority.get("failedGates") or []))
+    exact_validation_reasons=_validation_reasons(authority,now)
+    authority_conditions=[]
+    if authority.get("status") != "PASSED":
+        authority_conditions.append("VALIDATION_NOT_PASSED")
+    if authority.get("allowPaperDelivery") is not True:
+        authority_conditions.append("PAPER_DELIVERY_BLOCKED")
+    if registered_failed:
+        authority_conditions.append("REGISTERED_GATES_FAILED")
     recomputed_failed=sorted(set(failed))
 
     clv=(clv_grades or {}).get("summary") or {}
@@ -110,8 +124,14 @@ def audit(authority: Mapping[str,Any], *, now: datetime,
         "summary":{
             "registeredFailedGates":registered_failed,
             "recomputedFailedGates":recomputed_failed,
+            "sourceOfTruthValidationReasons":exact_validation_reasons,
+            "authorityConditionBlockers":sorted(set(authority_conditions)),
             "incompleteGates":incomplete,
-            "allRegisteredGatesPass":not recomputed_failed and not incomplete,
+            "allRegisteredGatesPass":(
+                not exact_validation_reasons
+                and not authority_conditions
+                and not incomplete
+            ),
             "authorityCanChangeFromThisReport":False,
         },
         "researchContext":{
