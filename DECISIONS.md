@@ -1264,3 +1264,43 @@ None. This gate grants nothing. It can only withhold, report, or say that the
 CLV claim has been tested. Against the capture as it stands — 150 rows, 114
 `first_seen` and 36 `late` — it reads `INSUFFICIENT` with 0 gradeable
 observations, which is the honest state.
+
+
+## 2026-09-28 — D32. QB and opponent-adjusted EPA coverage repairs are forward-only
+
+**Decision.** Preserve the completed Product Week 5 BR2 artifacts exactly as
+measured: `qbContinuityDiff` coverage 1/57 and `epaDiff` coverage 0/57.
+Do not backfill those rows after game outcomes.
+
+For later prospective cohorts, replace the operational dependency on paired
+historical depth-chart PDFs with `CFB_EDGE_BR2_QB_CONTINUITY_V4`. The base
+team continuity is the current incumbent quarterback's share of team passing
+attempts across the last three completed games. The default incumbent is the
+passing-attempt leader in the most recent completed game. A validated official
+pregame starter may override only when that player maps to captured historical
+participation. Missing player-box history remains null.
+
+CFBD WEPA remains the preferred `epaDiff` source. If it is unavailable before
+the decision timestamp, `CFB_EDGE_OA_EPA_V1` may populate the same conceptual
+opponent-adjusted EPA family for later prospective cohorts. The fallback uses
+cfbfastR play-level EPA from completed prior weeks only and a frozen two-way
+alternating ridge adjustment with 50 equivalent plays and 50 iterations. It
+must preserve the source-asset hash, retrieval time, through-week cutoff and a
+content-addressed archive of the exact rows used.
+
+**Why.** The Week 5 missingness was primarily source availability and
+operational coverage. Requiring two archived official depth charts per team
+does not measure QB continuity better than actual prior participation, and a
+CFBD entitlement failure should not make genuine play-level EPA unavailable
+when a separately versioned, replayable opponent-adjustment can be computed.
+
+**Failure behavior.** Ambiguous or future-known QB evidence fails closed.
+Missing player participation stays null. Failed cfbfastR download/schema/replay
+leaves EPA null. PPA is never relabeled EPA.
+
+**Authority effect.** None. S02, S04_ES2, staking and delivery are unchanged.
+S04_BR2 remains `DATA_COLLECTION_ONLY`.
+
+**Reversal criterion.** Replace either adapter only with a preregistered source
+or feature contract that preserves the same or stronger point-in-time,
+identity, raw-lineage and replay guarantees.
