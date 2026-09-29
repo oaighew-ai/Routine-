@@ -195,6 +195,49 @@
         "official override must be known by decision time"
       ],
       "failClosed": true
+    },
+    {
+      "id": "KALSHI_CANDLE_OPEN",
+      "provider": "Kalshi",
+      "role": "MARKET_OPEN_PROVENANCE_RESEARCH",
+      "featureFamilies": [],
+      "endpoint": "/markets/candlesticks",
+      "contract": "CFB_EDGE_KALSHI_CANDLE_OPEN_V1",
+      "definition": "First two-sided implied spread reconstructed from 1-minute exchange bid/ask candles around the exact listed contracts' open_time.",
+      "requirements": [
+        "canonical football-game identity before use",
+        "exact event and selected contract tickers preserved",
+        "1-minute yes-bid/yes-ask source candles archived by SHA-256",
+        "selected-rung venue open time equals the latest open_time among the rungs used to derive the line",
+        "first valid implied line must be between -60 and +900 seconds of that venue open time",
+        "live opens.csv is never rewritten by archive recovery"
+      ],
+      "failurePolicy": "No two-sided implied line inside the frozen tolerance leaves audit-grade open missing. Never widen the 900-second limit."
+    },
+    {
+      "id": "ODDS_API_INFORMATION_STATE",
+      "provider": "The Odds API",
+      "role": "MARKET_INFORMATION_RESEARCH",
+      "featureFamilies": [],
+      "endpoint": "/v4/sports/americanfootball_ncaaf/odds",
+      "definition": "Fresh home-side spread quotes from the fixed book set, timestamped by provider market last_update and captured before the shared decision time.",
+      "bookSet": [
+        "pinnacle",
+        "draftkings",
+        "fanduel",
+        "betmgm",
+        "betrivers"
+      ],
+      "requirements": [
+        "spreads only",
+        "canonical game identity and exact kickoff",
+        "provider last_update retained as observedAt",
+        "capture retrieval time retained separately",
+        "canonical extracted pull archived by SHA-256",
+        "maximum quote age 900 seconds",
+        "derived Kalshi lines never count as sportsbook depth"
+      ],
+      "failurePolicy": "Source failure or stale quotes remain missing; no synthetic book price is created."
     }
   ]
 }
