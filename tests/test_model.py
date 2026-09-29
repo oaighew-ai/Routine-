@@ -1717,6 +1717,27 @@ class TestOpenLoopCoversTheVenueOpen(unittest.TestCase):
         poll."""
         self.assertIn("group: cfb-capture", self._text())
 
+    def test_runtime_shell_has_no_embedded_python_heredoc(self):
+        """Indented YAML + shell heredocs failed after GitHub generated the
+        runner script. Keep runtime probes as single-line Python commands."""
+        self.assertNotIn("python3 - <<'PY'", self._text())
+
+    def test_provider_week_cohort_id_expands_in_shell(self):
+        text = self._text()
+        self.assertIn(
+            'cohort_id=CFB_$(date -u +%Y)_PROVIDER_WEEK_${WEEK}',
+            text,
+        )
+        self.assertNotIn(
+            'PROVIDER_WEEK_\\${WEEK}',
+            text,
+        )
+        self.assertIn(
+            'COHORT_ID="${{ steps.slate.outputs.cohort_id }}"',
+            text,
+        )
+        self.assertIn('--cohort-id "$COHORT_ID"', text)
+
 
 class TestCronMatchesTheReleaseWindow(unittest.TestCase):
     """The crons and the window number the days differently.
