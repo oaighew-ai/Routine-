@@ -402,32 +402,42 @@ jobs:
 
       - name: Build immutable point-in-time feature snapshot
         if: steps.prospective.outputs.run == '1'
+        env:
+          DECISION_TIME: ${{ steps.decision.outputs.decision_time }}
+          CFBD_TARGET_WEEK: ${{ steps.prospective.outputs.cfbd_week }}
+          PRODUCT_WEEK: ${{ steps.prospective.outputs.product_week }}
+          COHORT_ID: ${{ steps.prospective.outputs.cohort_id }}
         run: |
           set -euo pipefail
-          ASOF="$(python3 -c 'import json; print(json.load(open(".tmp/br2/context.json"))["generatedAt"])')"
           STAMP="$(date -u '+%Y%m%dT%H%M%SZ')"
-          mkdir -p "capture-data/data/features/br2/2026/week5"
-          mkdir -p "capture-data/data/features/br2/qb"
+          PRIOR_WEEK=$((CFBD_TARGET_WEEK - 1))
+          OUTDIR="capture-data/data/features/br2/2026/week${PRODUCT_WEEK}"
+          mkdir -p "$OUTDIR"
+          mkdir -p capture-data/data/features/br2/qb
+          mkdir -p capture-data/data/features/br2/epa
+
+          ARGS=()
+          for week in $(seq 1 "$PRIOR_WEEK"); do
+            ARGS+=(--plays-json ".tmp/br2/plays-w${week}.json")
+            ARGS+=(--games-json ".tmp/br2/games-w${week}.json")
+          done
 
           python3 -m cfb_edge.feature_warehouse \
             --slate .tmp/br2/slate.csv \
-            --plays-json .tmp/br2/plays-w1.json \
-            --plays-json .tmp/br2/plays-w2.json \
-            --plays-json .tmp/br2/plays-w3.json \
-            --games-json .tmp/br2/games-w1.json \
-            --games-json .tmp/br2/games-w2.json \
-            --games-json .tmp/br2/games-w3.json \
+            "${ARGS[@]}" \
             --context-json .tmp/br2/context.json \
             --source-manifest .tmp/br2/source-manifest.json \
-            --as-of "$ASOF" \
+            --as-of "$DECISION_TIME" \
             --revision "$GITHUB_SHA" \
-            --out "capture-data/data/features/br2/2026/week5/${STAMP}.json"
+            --out "$OUTDIR/${STAMP}.json"
 
-          cp "capture-data/data/features/br2/2026/week5/${STAMP}.json" \
-            capture-data/data/br2-feature-status.json
+          cp "$OUTDIR/${STAMP}.json" capture-data/data/br2-feature-status.json
           cp .tmp/br2/context.json capture-data/data/br2-context-status.json
           cp .tmp/br2/weather.json capture-data/data/br2-weather-status.json
+          cp .tmp/br2/qb-evidence.json capture-data/data/br2-qb-continuity-status.json
           cp .tmp/br2/qb-evidence.json capture-data/data/features/br2/qb/evidence-latest.json
+          cp .tmp/br2/epa-evidence.json capture-data/data/br2-epa-status.json
+          cp .tmp/br2/epa-evidence.json capture-data/data/features/br2/epa/evidence-latest.json
           cp .tmp/br2/source-health.json capture-data/data/br2-source-health.json
 
           python3 - <<'PY' >> "$GITHUB_STEP_SUMMARY"
@@ -435,20 +445,22 @@ jobs:
           from pathlib import Path
           r=json.loads(Path("capture-data/data/br2-feature-status.json").read_text())
           c=json.loads(Path("capture-data/data/br2-context-status.json").read_text())
+          q=json.loads(Path("capture-data/data/br2-qb-continuity-status.json").read_text())
+          e=json.loads(Path("capture-data/data/br2-epa-status.json").read_text())
+          cohort=json.loads(Path("config/br2_active_cohort.json").read_text())
           s=r["summary"]; cs=c["summary"]
           print("## S04_BR2 PIT context warehouse")
-          print("- canonical cohort: **CFB_2026_PRODUCT_WEEK5**")
-          print("- provider mapping: **cfbfastR Week 4 / CFBD Week 4**")
+          print(f"- active cohort: **{cohort['cohortId']}**")
           print(f"- games snapshotted: **{s['games']}**")
-          print(f"- raw source objects: **{len(r.get('sourceManifest') or [])}**")
           print("- modeling eligible: **NO**")
+          print(f"- QB continuity audit-grade games: **{q['summary']['auditGradeGameRows']}/{q['summary']['games']}**")
+          print(f"- adjusted EPA audit-grade teams: **{e['summary']['auditGradeTeams']}/{e['summary']['slateTeams']}**")
           for k,v in s["featureCoverageRows"].items():
               print(f"- {k}: **{v}/{s['games']}**")
-          print("### New context audit coverage")
+          print("### Context audit coverage")
           for k,v in cs["auditGradeCoverageRows"].items():
               print(f"- {k}: **{v}/{cs['games']}**")
           PY
-
       - name: Publish append-only feature evidence
         if: steps.prospective.outputs.run == '1'
         working-directory: capture-data
@@ -461,6 +473,8 @@ jobs:
             data/br2-feature-status.json \
             data/br2-context-status.json \
             data/br2-weather-status.json \
+            data/br2-qb-continuity-status.json \
+            data/br2-epa-status.json \
             data/br2-source-health.json
           git diff --cached --quiet && exit 0
           git commit -q -m "BR2 PIT context snapshot $(date -u '+%Y-%m-%d %H:%M UTC')"
