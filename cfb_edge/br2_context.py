@@ -129,7 +129,7 @@ def _wepa_index(rows: Sequence[Mapping[str, Any]]) -> dict[str, Mapping[str, Any
     return {
         _norm(r.get("team")): r
         for r in rows
-        if str(r.get("team") or "").strip()
+        if str(r.get("team") or "").strip() and r.get("auditGrade") is not False
     }
 
 
@@ -242,7 +242,7 @@ def build_context(
                 "windMph": False,
             }
         else:
-            # Opponent-adjusted EPA. The API snapshot itself is frozen prospectively.
+            # Opponent-adjusted EPA. The registered cohort source is frozen prospectively.
             he, ae = _net_epa(wepa_idx.get(_norm(home))), _net_epa(wepa_idx.get(_norm(away)))
             if he is not None and ae is not None:
                 features["epaDiff"] = he - ae
@@ -301,7 +301,7 @@ def build_context(
             else:
                 audit["windMph"] = False
 
-            # QB continuity: only an independently validated official-source contract may populate it.
+            # QB continuity: only an independently validated registered contract may populate it.
             qr = qb_idx.get(_norm(game))
             if qr and qr.get("auditGrade") is True and qr.get("featureValue") is not None:
                 features["qbContinuityDiff"] = _num(qr.get("featureValue"))
@@ -311,16 +311,29 @@ def build_context(
                 audit["qbContinuityDiff"] = False
 
         feature_as_of = {}
-        required = {"epaDiff": ("wepa",), "linePlayDiff": ("advanced_stats",),
+        epa_kind = (
+            "sdv_adjusted_epa_weekly"
+            if any(str(r.get("source") or "").startswith("sportsdataverse") for r in wepa)
+            else "wepa"
+        )
+        required = {"epaDiff": (epa_kind,), "linePlayDiff": ("advanced_stats",),
                     "travelMilesDiff": ("teams", "venues", "week_games")}
         for feature, kinds in required.items():
             feature_as_of[feature] = source_time(source_manifest, kinds, as_of.isoformat(), raw.get("kickoff"))
         wr = weather_idx.get(_norm(game)) or {}
         feature_as_of["windMph"] = wr.get("retrievedAt") if known_at(wr.get("retrievedAt"), as_of.isoformat(), raw.get("kickoff")) and instant(wr.get("kickoff")) == kickoff else None
         qr = qb_idx.get(_norm(game)) or {}
-        qb_times = [qr.get(side, {}).get(k) for side in ("home", "away")
-                    for k in ("retrievedAt", "priorRetrievedAt") if isinstance(qr.get(side), dict)]
-        feature_as_of["qbContinuityDiff"] = max(qb_times, key=instant) if len(qb_times) == 4 and all(known_at(t, as_of.isoformat(), raw.get("kickoff")) for t in qb_times) and instant(qr.get("kickoff")) == kickoff else None
+        if (qb_evidence or {}).get("contract") == "CFB_EDGE_BR2_QB_CONTINUITY_V4":
+            feature_as_of["qbContinuityDiff"] = source_time(
+                source_manifest,
+                ("play_stats", "games"),
+                as_of.isoformat(),
+                raw.get("kickoff"),
+            ) if instant(qr.get("kickoff")) == kickoff else None
+        else:
+            qb_times = [qr.get(side, {}).get(k) for side in ("home", "away")
+                        for k in ("retrievedAt", "priorRetrievedAt") if isinstance(qr.get(side), dict)]
+            feature_as_of["qbContinuityDiff"] = max(qb_times, key=instant) if len(qb_times) == 4 and all(known_at(t, as_of.isoformat(), raw.get("kickoff")) for t in qb_times) and instant(qr.get("kickoff")) == kickoff else None
         for feature in features:
             if not identity or not feature_as_of.get(feature):
                 features[feature] = None
