@@ -28,6 +28,12 @@
 name: capture open loop
 
 on:
+  push:
+    branches: [main]
+    paths:
+      - .github/workflows/capture-open-loop.yml
+      - cfb_edge/prospective_open.py
+      - cfb_edge/watch.py
   schedule:
     # Cron numbers days from Sunday: 6 is Saturday, 0 is Sunday. Each launch
     # begins where the previous one ends. A test pins the chain against
