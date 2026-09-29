@@ -39,6 +39,7 @@ from .providers.kalshi import (
     implied_line_evidence,
 )
 from .providers.oddsapi import OddsApiUnreachable, fetch_pull
+from .prospective_open import CONTRACT as PROSPECTIVE_OPEN_CONTRACT
 from .teams import ALIASES, normalize, resolve
 
 CONTRACT = "CFB_EDGE_ACTIVE_MARKET_STATE_V1"
@@ -626,12 +627,112 @@ def _odds_quotes(
     return quotes, manifest, health
 
 
+def _prospective_open_evidence(
+    *,
+    status: Mapping[str, Any] | None,
+    identities: Mapping[str, Mapping[str, Any]],
+) -> tuple[list[dict[str, Any]], list[dict[str, Any]], list[dict[str, Any]]]:
+    """Translate forward-only prospective locks into information-state quotes.
+
+    This function never reconstructs an opening. It accepts only rows already
+    locked by CFB_EDGE_PROSPECTIVE_OPEN_V1 and verifies they still match the
+    active canonical slate.
+    """
+    if not status:
+        return [], [], []
+    if status.get("contract") != PROSPECTIVE_OPEN_CONTRACT:
+        return [], [], []
+
+    by_game = {
+        str(r.get("game")): r
+        for r in status.get("rows") or []
+        if isinstance(r, Mapping) and r.get("game")
+    }
+    quotes: list[dict[str, Any]] = []
+    rows: list[dict[str, Any]] = []
+    manifest: list[dict[str, Any]] = []
+
+    for fixture in identities.values():
+        game = fixture["game"]
+        raw = by_game.get(game)
+        if not raw:
+            rows.append({
+                "game": game,
+                "contract": PROSPECTIVE_OPEN_CONTRACT,
+                "auditGrade": False,
+                "reason": "PROSPECTIVE_OPEN_MISSING",
+            })
+            continue
+
+        row = dict(raw)
+        row["canonicalGameId"] = fixture["canonicalGameId"]
+        rows.append(row)
+
+        if (
+            raw.get("state") != "CAPTURED_TRUE_OPEN"
+            or raw.get("auditGrade") is not True
+            or raw.get("historicalRecoveryUsed") is not False
+            or not raw.get("evidenceSha256")
+            or not raw.get("evidencePath")
+            or not raw.get("eventTicker")
+            or len(set(map(str, raw.get("marketTickers") or []))) < 2
+            or _time(raw.get("kickoff")) != _time(fixture.get("kickoff"))
+            or _time(raw.get("observedAt")) is None
+            or _time(raw.get("pollTime")) is None
+            or _time(raw.get("venueOpenTime")) is None
+        ):
+            continue
+
+        observed = str(raw["observedAt"])
+        retrieved = str(raw["pollTime"])
+        lag = _number(raw.get("openLagSeconds"))
+        if lag is None or lag < MIN_OPEN_LAG_SECONDS or lag > MAX_OPEN_LAG_SECONDS:
+            continue
+        if _time(observed) > _time(retrieved):
+            continue
+
+        quotes.append({
+            "canonicalGameId": fixture["canonicalGameId"],
+            "game": game,
+            "book": "kalshi",
+            "market": "spread",
+            "period": "full_game",
+            "side": "home",
+            "quoteKind": "derived_line",
+            "sourceSha256": raw["evidenceSha256"],
+            "observedAt": observed,
+            "retrievedAt": retrieved,
+            "spread": float(raw["openingLine"]),
+            "provenance": "true_open",
+            "openAuditGrade": True,
+            "role": "opening",
+            "provenanceContract": PROSPECTIVE_OPEN_CONTRACT,
+            "venueOpenTime": raw["venueOpenTime"],
+            "openLagSeconds": lag,
+            "eventTicker": raw["eventTicker"],
+            "marketTickers": list(raw.get("marketTickers") or []),
+        })
+        manifest.append({
+            "kind": "prospective_open_evidence",
+            "source": "live_kalshi_poll",
+            "endpoint": PROSPECTIVE_OPEN_CONTRACT,
+            "retrievedAt": retrieved,
+            "game": game,
+            "sha256": raw["evidenceSha256"],
+            "path": raw["evidencePath"],
+        })
+
+    return quotes, rows, manifest
+
+
 def capture(
     *,
     slate: Sequence[Mapping[str, Any]],
     week_games: Sequence[Mapping[str, Any]],
     team_catalog: Sequence[Mapping[str, Any]] = (),
     raw_dir: str | Path,
+    prospective_open_status: Mapping[str, Any] | None = None,
+    prospective_only: bool = False,
     kalshi_opener: Callable[[str], bytes] | None = None,
     odds_fetcher=fetch_pull,
 ) -> dict[str, Any]:

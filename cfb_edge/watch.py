@@ -495,6 +495,8 @@ def main(argv: list[str] | None = None) -> int:
                    help="immutable raw capture, appended to (default data/opens.jsonl.gz)")
     p.add_argument("--out", help="write the opens CSV that `play --opens` reads")
     p.add_argument("--once", action="store_true", help="single poll, then exit")
+    p.add_argument("--snapshot-out",
+                   help="with --once, write the exact successful quote batch for prospective open locking")
     p.add_argument("--max-polls", type=int, default=None, dest="max_polls")
     p.add_argument("--rebuild", action="store_true",
                    help="skip polling; rebuild the opens CSV from the existing log")
@@ -558,7 +560,21 @@ def main(argv: list[str] | None = None) -> int:
             if args.once:
                 # A diagnostic has no next poll to recover on.
                 try:
-                    fresh = run_once(book, fetch)
+                    quotes = fetch()
+                    fresh = book.record(quotes)
+                    if args.snapshot_out:
+                        snapshot = {
+                            "schemaVersion": 1,
+                            "contract": "CFB_EDGE_LIVE_QUOTE_SNAPSHOT_V1",
+                            "polled_at": datetime.now(timezone.utc).isoformat(),
+                            "quotes": [q.__dict__ for q in quotes],
+                        }
+                        target = Path(args.snapshot_out)
+                        target.parent.mkdir(parents=True, exist_ok=True)
+                        target.write_text(
+                            json.dumps(snapshot, indent=2, sort_keys=True) + "\n",
+                            encoding="utf-8",
+                        )
                     if fresh:
                         announce(fresh)
                 except Exception as exc:
