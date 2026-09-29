@@ -238,6 +238,62 @@ def build_close_report(
     }
 
 
+def build_clv_gate_csv(
+    *,
+    grades: Mapping[str, Any],
+    cohort: str,
+    week: int,
+    out: str | Path,
+) -> dict[str, Any]:
+    rows=[]
+    for row in grades.get("rows") or []:
+        if row.get("cohort") != cohort:
+            continue
+        game=str(row.get("game") or "")
+        side=str(row.get("side") or "")
+        opening=_num(row.get("openingHomeLine"))
+        closing=_num(row.get("closingHomeLine"))
+        if "@" not in game or opening is None:
+            continue
+        away,home=(x.strip() for x in game.split("@",1))
+        if side==home:
+            entry_side=opening
+            close_side=closing
+        elif side==away:
+            entry_side=-opening
+            close_side=None if closing is None else -closing
+        else:
+            continue
+        if row.get("gradeable") is not True:
+            close_side=None
+        rows.append({
+            "game":game,
+            "week":week,
+            "open_line":entry_side,
+            "close_line":close_side,
+            "source":(row.get("provenance") or {}).get("entrySource") or "",
+        })
+    target=Path(out)
+    target.parent.mkdir(parents=True,exist_ok=True)
+    with target.open("w",newline="",encoding="utf-8") as fh:
+        w=csv.DictWriter(
+            fh,fieldnames=["game","week","open_line","close_line","source"]
+        )
+        w.writeheader()
+        for row in rows:
+            w.writerow({
+                **row,
+                "close_line":"" if row["close_line"] is None else row["close_line"],
+            })
+    return {
+        "cohort":cohort,
+        "rows":len(rows),
+        "gradeableRows":sum(
+            r["close_line"] is not None and r["source"]=="true_open" for r in rows
+        ),
+    }
+
+
 def main(argv: Sequence[str] | None = None) -> int:
     p=argparse.ArgumentParser(description=__doc__)
     sub=p.add_subparsers(dest="command",required=True)
@@ -257,7 +313,21 @@ def main(argv: Sequence[str] | None = None) -> int:
     pc.add_argument("--out",required=True)
     pc.add_argument("--maximum-close-age-seconds",type=int,default=900)
 
+    pg=sub.add_parser("clv-csv")
+    pg.add_argument("--grades",required=True)
+    pg.add_argument("--cohort",required=True,choices=["DIRECTIONAL_SIGNAL","EXECUTABLE_SHADOW"])
+    pg.add_argument("--week",type=int,required=True)
+    pg.add_argument("--out",required=True)
+
     args=p.parse_args(argv)
+    if args.command=="clv-csv":
+        grades=json.loads(Path(args.grades).read_text(encoding="utf-8"))
+        summary=build_clv_gate_csv(
+            grades=grades,cohort=args.cohort,week=args.week,out=args.out
+        )
+        print(json.dumps(summary,sort_keys=True))
+        return 0
+
     freeze=load_freeze(args.freeze)
     if args.command=="opens-csv":
         write_opens_csv(freeze,args.out)
