@@ -2,73 +2,73 @@
   "contract": "CFB_EDGE_ACTIVE_MARKET_STATE_V1",
   "decisionEffect": "NONE",
   "deliveryEffect": "NONE",
-  "generatedAt": "2026-09-29T06:54:12.522845+00:00",
+  "generatedAt": "2026-09-29T07:09:42.493811+00:00",
   "informationStates": [
     {
       "canonicalGameId": "cfbd:401871050",
       "contract": "CFB_EDGE_INFORMATION_STATE_V1",
       "decisionEffect": "NONE",
-      "decisionTime": "2026-09-29T06:54:12.522845+00:00",
+      "decisionTime": "2026-09-29T07:09:42.493811+00:00",
       "exclusions": [],
       "features": {
         "crossBookDispersion": 0.2,
         "freshBookCount": 5,
         "openToDecisionSpread": 0.5042016806722689,
         "secondsSinceLastMove": null,
-        "secondsToKickoff": 317147.477155,
+        "secondsToKickoff": 316217.506189,
         "unchangedSpreadPriceMove": null,
         "verifiedNewsSinceOpen": null
       },
       "game": "Liberty @ Delaware",
       "kickoff": "2026-10-02T23:00:00+00:00",
-      "rowSha256": "bdbb01c9e429717deabadae8d3dae176f9a4007f077e2019952182749b6a4e9a",
+      "rowSha256": "2259eed2f3e67219244afeaba085b7eca2a630f18bb566b50145cedc3fb24762",
       "stakingEnabled": false
     },
     {
       "canonicalGameId": "cfbd:401858245",
       "contract": "CFB_EDGE_INFORMATION_STATE_V1",
       "decisionEffect": "NONE",
-      "decisionTime": "2026-09-29T06:54:12.522845+00:00",
+      "decisionTime": "2026-09-29T07:09:42.493811+00:00",
       "exclusions": [],
       "features": {
         "crossBookDispersion": 0.2,
         "freshBookCount": 5,
         "openToDecisionSpread": 3.5125,
         "secondsSinceLastMove": null,
-        "secondsToKickoff": 317147.477155,
+        "secondsToKickoff": 316217.506189,
         "unchangedSpreadPriceMove": null,
         "verifiedNewsSinceOpen": null
       },
       "game": "Pittsburgh @ Virginia Tech",
       "kickoff": "2026-10-02T23:00:00+00:00",
-      "rowSha256": "ee94a8ba7d8294a522583e1d7ec8a1f05ea6c0a0aa483bc145774af8f9803c2f",
+      "rowSha256": "8c69d18192be7b748e1afbb05824043f2560b452868d79c231b24b61686ef4bc",
       "stakingEnabled": false
     },
     {
       "canonicalGameId": "cfbd:401866430",
       "contract": "CFB_EDGE_INFORMATION_STATE_V1",
       "decisionEffect": "NONE",
-      "decisionTime": "2026-09-29T06:54:12.522845+00:00",
+      "decisionTime": "2026-09-29T07:09:42.493811+00:00",
       "exclusions": [],
       "features": {
         "crossBookDispersion": 0.2,
         "freshBookCount": 5,
         "openToDecisionSpread": -1.3571428571428577,
         "secondsSinceLastMove": null,
-        "secondsToKickoff": 390947.477155,
+        "secondsToKickoff": 390017.506189,
         "unchangedSpreadPriceMove": null,
         "verifiedNewsSinceOpen": null
       },
       "game": "Akron @ Central Michigan",
       "kickoff": "2026-10-03T19:30:00+00:00",
-      "rowSha256": "8dae5d2d4651e9e2d9720b143f6f16a6e1653db80c680885a5a96b2cc866cba6",
+      "rowSha256": "92c779f61c95c793af4f2667f715d314650da854a5f385e7100a5270dc8d1557",
       "stakingEnabled": false
     },
     {
       "canonicalGameId": "cfbd:401856707",
       "contract": "CFB_EDGE_INFORMATION_STATE_V1",
       "decisionEffect": "NONE",
-      "decisionTime": "2026-09-29T06:54:12.522845+00:00",
+      "decisionTime": "2026-09-29T07:09:42.493811+00:00",
       "exclusions": [
         "AUDIT_GRADE_OPEN_MISSING"
       ],
@@ -77,60 +77,60 @@
         "freshBookCount": 5,
         "openToDecisionSpread": null,
         "secondsSinceLastMove": null,
-        "secondsToKickoff": 378347.477155,
+        "secondsToKickoff": 377417.506189,
         "unchangedSpreadPriceMove": null,
         "verifiedNewsSinceOpen": null
       },
       "game": "Alabama @ Mississippi State",
       "kickoff": "2026-10-03T16:00:00+00:00",
-      "rowSha256": "8f530cdf7bf1fc7f0b7c5c1931978e3559e3e3af2edd07b8a84e92692d50089e",
+      "rowSha256": "833c1bf97d8914047c680b297645841c230c8a625889510c51b01f0322cd3e06",
       "stakingEnabled": false
     },
     {
       "canonicalGameId": "cfbd:401856711",
       "contract": "CFB_EDGE_INFORMATION_STATE_V1",
       "decisionEffect": "NONE",
-      "decisionTime": "2026-09-29T06:54:12.522845+00:00",
+      "decisionTime": "2026-09-29T07:09:42.493811+00:00",
       "exclusions": [],
       "features": {
         "crossBookDispersion": 0.2,
         "freshBookCount": 5,
         "openToDecisionSpread": 2.5,
         "secondsSinceLastMove": null,
-        "secondsToKickoff": 403547.477155,
+        "secondsToKickoff": 402617.506189,
         "unchangedSpreadPriceMove": null,
         "verifiedNewsSinceOpen": null
       },
       "game": "Arkansas @ Texas A&M",
       "kickoff": "2026-10-03T23:00:00+00:00",
-      "rowSha256": "5e425bee7d6f97b0e29462b21c959185ae9a46570da681ba0d50f4ee14a8e25c",
+      "rowSha256": "8b7095cf10837dbd2492e6aa23a752c5458904d06a8eab2748095fa4b932ad85",
       "stakingEnabled": false
     },
     {
       "canonicalGameId": "cfbd:401869842",
       "contract": "CFB_EDGE_INFORMATION_STATE_V1",
       "decisionEffect": "NONE",
-      "decisionTime": "2026-09-29T06:54:12.522845+00:00",
+      "decisionTime": "2026-09-29T07:09:42.493811+00:00",
       "exclusions": [],
       "features": {
         "crossBookDispersion": 0.37416573867739417,
         "freshBookCount": 5,
         "openToDecisionSpread": 0.0,
         "secondsSinceLastMove": null,
-        "secondsToKickoff": 405347.477155,
+        "secondsToKickoff": 404417.506189,
         "unchangedSpreadPriceMove": null,
         "verifiedNewsSinceOpen": null
       },
       "game": "Army @ Louisiana Tech",
       "kickoff": "2026-10-03T23:30:00+00:00",
-      "rowSha256": "469832cd49ed34dc3328157b9e6adfd8b34adf1bd8d26076c69c979cb3cc409c",
+      "rowSha256": "ec469067534c08f3d2db471db4c3a44d0c48efc3ce77f7351ba04d973fbfe52e",
       "stakingEnabled": false
     },
     {
       "canonicalGameId": "cfbd:401856710",
       "contract": "CFB_EDGE_INFORMATION_STATE_V1",
       "decisionEffect": "NONE",
-      "decisionTime": "2026-09-29T06:54:12.522845+00:00",
+      "decisionTime": "2026-09-29T07:09:42.493811+00:00",
       "exclusions": [
         "AUDIT_GRADE_OPEN_MISSING"
       ],
@@ -139,20 +139,20 @@
         "freshBookCount": 5,
         "openToDecisionSpread": null,
         "secondsSinceLastMove": null,
-        "secondsToKickoff": 390947.477155,
+        "secondsToKickoff": 390017.506189,
         "unchangedSpreadPriceMove": null,
         "verifiedNewsSinceOpen": null
       },
       "game": "Auburn @ Tennessee",
       "kickoff": "2026-10-03T19:30:00+00:00",
-      "rowSha256": "661c51c3799384a1c422f2360a5b9180c222c09d810e0d1e23dcd7b4294fc072",
+      "rowSha256": "65faabb1b1abb07f0179503fc2275e15dff95d5d8b84d35406d61f6c80e9940f",
       "stakingEnabled": false
     },
     {
       "canonicalGameId": "cfbd:401856818",
       "contract": "CFB_EDGE_INFORMATION_STATE_V1",
       "decisionEffect": "NONE",
-      "decisionTime": "2026-09-29T06:54:12.522845+00:00",
+      "decisionTime": "2026-09-29T07:09:42.493811+00:00",
       "exclusions": [
         "AUDIT_GRADE_OPEN_MISSING"
       ],
@@ -161,100 +161,100 @@
         "freshBookCount": 5,
         "openToDecisionSpread": null,
         "secondsSinceLastMove": null,
-        "secondsToKickoff": 403547.477155,
+        "secondsToKickoff": 402617.506189,
         "unchangedSpreadPriceMove": null,
         "verifiedNewsSinceOpen": null
       },
       "game": "BYU @ TCU",
       "kickoff": "2026-10-03T23:00:00+00:00",
-      "rowSha256": "c9875e56751bd9c4107077019e97e23d91bb769f6df6e320c09366e14b5738a0",
+      "rowSha256": "b18cd96e6623b925da80d935fae8514f9eba395764c34e4f9e13990935ca1dac",
       "stakingEnabled": false
     },
     {
       "canonicalGameId": "cfbd:401858246",
       "contract": "CFB_EDGE_INFORMATION_STATE_V1",
       "decisionEffect": "NONE",
-      "decisionTime": "2026-09-29T06:54:12.522845+00:00",
+      "decisionTime": "2026-09-29T07:09:42.493811+00:00",
       "exclusions": [],
       "features": {
         "crossBookDispersion": 0.2,
         "freshBookCount": 5,
         "openToDecisionSpread": 0.75,
         "secondsSinceLastMove": null,
-        "secondsToKickoff": 378347.477155,
+        "secondsToKickoff": 377417.506189,
         "unchangedSpreadPriceMove": null,
         "verifiedNewsSinceOpen": null
       },
       "game": "Boston College @ SMU",
       "kickoff": "2026-10-03T16:00:00+00:00",
-      "rowSha256": "e882a34a66c23e2fffcc6c177a7ec9a96b0ffa47f9a9807c6197bc49a9f84cd4",
+      "rowSha256": "371b09c8361df61fe08c809f33dcea3ca5dd5759b4c4d7328cb024ba13f23a35",
       "stakingEnabled": false
     },
     {
       "canonicalGameId": "cfbd:401866477",
       "contract": "CFB_EDGE_INFORMATION_STATE_V1",
       "decisionEffect": "NONE",
-      "decisionTime": "2026-09-29T06:54:12.522845+00:00",
+      "decisionTime": "2026-09-29T07:09:42.493811+00:00",
       "exclusions": [],
       "features": {
         "crossBookDispersion": 0.2449489742783178,
         "freshBookCount": 5,
         "openToDecisionSpread": -0.0833333333333357,
         "secondsSinceLastMove": null,
-        "secondsToKickoff": 390947.477155,
+        "secondsToKickoff": 390017.506189,
         "unchangedSpreadPriceMove": null,
         "verifiedNewsSinceOpen": null
       },
       "game": "Bowling Green @ Miami (OH)",
       "kickoff": "2026-10-03T19:30:00+00:00",
-      "rowSha256": "2a04779aed7b17d111d95221c33dcd512ffe95d7d782b5806c617173b28011e9",
+      "rowSha256": "b54f345dd7c1e8f77d8ebd41dc6376d11c07625bb08b6cc91b84c8324a56694c",
       "stakingEnabled": false
     },
     {
       "canonicalGameId": "cfbd:401858247",
       "contract": "CFB_EDGE_INFORMATION_STATE_V1",
       "decisionEffect": "NONE",
-      "decisionTime": "2026-09-29T06:54:12.522845+00:00",
+      "decisionTime": "2026-09-29T07:09:42.493811+00:00",
       "exclusions": [],
       "features": {
         "crossBookDispersion": 0.31622776601683794,
         "freshBookCount": 5,
         "openToDecisionSpread": -3.2587412587412588,
         "secondsSinceLastMove": null,
-        "secondsToKickoff": 390947.477155,
+        "secondsToKickoff": 390017.506189,
         "unchangedSpreadPriceMove": null,
         "verifiedNewsSinceOpen": null
       },
       "game": "California @ UNLV",
       "kickoff": "2026-10-03T19:30:00+00:00",
-      "rowSha256": "87485712f81819c7000a401dce0d1fe9ab88463cbc80c0b833f3d02167de1787",
+      "rowSha256": "4d185c0cc41dae5473ebd4080fbcbe7413c6f286e8376f11782497f2f5295b6b",
       "stakingEnabled": false
     },
     {
       "canonicalGameId": "cfbd:401866433",
       "contract": "CFB_EDGE_INFORMATION_STATE_V1",
       "decisionEffect": "NONE",
-      "decisionTime": "2026-09-29T06:54:12.522845+00:00",
+      "decisionTime": "2026-09-29T07:09:42.493811+00:00",
       "exclusions": [],
       "features": {
         "crossBookDispersion": 0.2449489742783178,
         "freshBookCount": 5,
         "openToDecisionSpread": -0.33333333333333304,
         "secondsSinceLastMove": null,
-        "secondsToKickoff": 390947.477155,
+        "secondsToKickoff": 390017.506189,
         "unchangedSpreadPriceMove": null,
         "verifiedNewsSinceOpen": null
       },
       "game": "Eastern Michigan @ Massachusetts",
       "kickoff": "2026-10-03T19:30:00+00:00",
-      "rowSha256": "8caf01dfe112b1a164911336ff609f2d8a4beca3ea935fd83162cedc4c9dda0a",
+      "rowSha256": "cb6615d586d54a9ac2ef747183b76bc393dc66c0a8043ebbe07d9923db6cecbe",
       "stakingEnabled": false
     },
     {
       "canonicalGameId": "cfbd:401856708",
       "contract": "CFB_EDGE_INFORMATION_STATE_V1",
       "decisionEffect": "NONE",
-      "decisionTime": "2026-09-29T06:54:12.522845+00:00",
+      "decisionTime": "2026-09-29T07:09:42.493811+00:00",
       "exclusions": [
         "AUDIT_GRADE_OPEN_MISSING"
       ],
@@ -263,40 +263,40 @@
         "freshBookCount": 5,
         "openToDecisionSpread": null,
         "secondsSinceLastMove": null,
-        "secondsToKickoff": 390947.477155,
+        "secondsToKickoff": 390017.506189,
         "unchangedSpreadPriceMove": null,
         "verifiedNewsSinceOpen": null
       },
       "game": "Florida @ Missouri",
       "kickoff": "2026-10-03T19:30:00+00:00",
-      "rowSha256": "61a45ea4256e4a3351890cf3198035e830e4345dd039e247ecda7a9b215b8d67",
+      "rowSha256": "eab859cc0bc56effcb79320aedea9b3590a4f520df82dd56f7754459c044d54c",
       "stakingEnabled": false
     },
     {
       "canonicalGameId": "cfbd:401869942",
       "contract": "CFB_EDGE_INFORMATION_STATE_V1",
       "decisionEffect": "NONE",
-      "decisionTime": "2026-09-29T06:54:12.522845+00:00",
+      "decisionTime": "2026-09-29T07:09:42.493811+00:00",
       "exclusions": [],
       "features": {
         "crossBookDispersion": 0.2,
         "freshBookCount": 5,
         "openToDecisionSpread": 0.07142857142857162,
         "secondsSinceLastMove": null,
-        "secondsToKickoff": 403547.477155,
+        "secondsToKickoff": 402617.506189,
         "unchangedSpreadPriceMove": null,
         "verifiedNewsSinceOpen": null
       },
       "game": "Georgia Southern @ Coastal Carolina",
       "kickoff": "2026-10-03T23:00:00+00:00",
-      "rowSha256": "f28b5793f58443117d24981573c8390a8dc040023edb5b2aa12974728e7ab195",
+      "rowSha256": "03f36e7a07caa06c7bd604c5bec90fd088cfafb37f85fbfdc6252348c8fab3a2",
       "stakingEnabled": false
     },
     {
       "canonicalGameId": "cfbd:401856709",
       "contract": "CFB_EDGE_INFORMATION_STATE_V1",
       "decisionEffect": "NONE",
-      "decisionTime": "2026-09-29T06:54:12.522845+00:00",
+      "decisionTime": "2026-09-29T07:09:42.493811+00:00",
       "exclusions": [
         "AUDIT_GRADE_OPEN_MISSING"
       ],
@@ -305,20 +305,20 @@
         "freshBookCount": 5,
         "openToDecisionSpread": null,
         "secondsSinceLastMove": null,
-        "secondsToKickoff": 393647.477155,
+        "secondsToKickoff": 392717.506189,
         "unchangedSpreadPriceMove": null,
         "verifiedNewsSinceOpen": null
       },
       "game": "Kentucky @ South Carolina",
       "kickoff": "2026-10-03T20:15:00+00:00",
-      "rowSha256": "45204b8996b91bec764711012bbd70f9247d93d40bffcde76deedae1a664d144",
+      "rowSha256": "cc6dba87dd268cf4e31511e0ea97662397ecabb47f53ce7aa55188815d0db830",
       "stakingEnabled": false
     },
     {
       "canonicalGameId": "cfbd:401858248",
       "contract": "CFB_EDGE_INFORMATION_STATE_V1",
       "decisionEffect": "NONE",
-      "decisionTime": "2026-09-29T06:54:12.522845+00:00",
+      "decisionTime": "2026-09-29T07:09:42.493811+00:00",
       "exclusions": [
         "AUDIT_GRADE_OPEN_MISSING"
       ],
@@ -327,80 +327,80 @@
         "freshBookCount": 5,
         "openToDecisionSpread": null,
         "secondsSinceLastMove": null,
-        "secondsToKickoff": 390947.477155,
+        "secondsToKickoff": 390017.506189,
         "unchangedSpreadPriceMove": null,
         "verifiedNewsSinceOpen": null
       },
       "game": "Louisville @ NC State",
       "kickoff": "2026-10-03T19:30:00+00:00",
-      "rowSha256": "93f6353df18c69e323e3180e03ce898cb6a74ee3749b82321d8c442b658c90a8",
+      "rowSha256": "3bd4a24dd7b34d0938e974df3db6ea05c64c09c8def1590c51abbc0369f7a6ee",
       "stakingEnabled": false
     },
     {
       "canonicalGameId": "cfbd:401869962",
       "contract": "CFB_EDGE_INFORMATION_STATE_V1",
       "decisionEffect": "NONE",
-      "decisionTime": "2026-09-29T06:54:12.522845+00:00",
+      "decisionTime": "2026-09-29T07:09:42.493811+00:00",
       "exclusions": [],
       "features": {
         "crossBookDispersion": 0.2,
         "freshBookCount": 5,
         "openToDecisionSpread": -3.2222222222222214,
         "secondsSinceLastMove": null,
-        "secondsToKickoff": 391847.477155,
+        "secondsToKickoff": 390917.506189,
         "unchangedSpreadPriceMove": null,
         "verifiedNewsSinceOpen": null
       },
       "game": "Marshall @ James Madison",
       "kickoff": "2026-10-03T19:45:00+00:00",
-      "rowSha256": "a8729fadf0685c80792036df9ed44ff11ab678c49c70f3727e0d77b93a038ab6",
+      "rowSha256": "8fd33d2bb283d69b4a6ac8db1026c0437723db7cc53e720b2058a8fe2a334d23",
       "stakingEnabled": false
     },
     {
       "canonicalGameId": "cfbd:401858475",
       "contract": "CFB_EDGE_INFORMATION_STATE_V1",
       "decisionEffect": "NONE",
-      "decisionTime": "2026-09-29T06:54:12.522845+00:00",
+      "decisionTime": "2026-09-29T07:09:42.493811+00:00",
       "exclusions": [],
       "features": {
         "crossBookDispersion": 0.2,
         "freshBookCount": 5,
         "openToDecisionSpread": -1.8857142857142861,
         "secondsSinceLastMove": null,
-        "secondsToKickoff": 392747.477155,
+        "secondsToKickoff": 391817.506189,
         "unchangedSpreadPriceMove": null,
         "verifiedNewsSinceOpen": null
       },
       "game": "Maryland @ Nebraska",
       "kickoff": "2026-10-03T20:00:00+00:00",
-      "rowSha256": "9e3d66964f4676b330295df070b9acb4f4d4cf1e4839a66fe976e01e6448085d",
+      "rowSha256": "d95aa2685aa18048963934ae15ff333b68b4778fd597792a43c59b77547b34ae",
       "stakingEnabled": false
     },
     {
       "canonicalGameId": "cfbd:401862787",
       "contract": "CFB_EDGE_INFORMATION_STATE_V1",
       "decisionEffect": "NONE",
-      "decisionTime": "2026-09-29T06:54:12.522845+00:00",
+      "decisionTime": "2026-09-29T07:09:42.493811+00:00",
       "exclusions": [],
       "features": {
         "crossBookDispersion": 0.2449489742783178,
         "freshBookCount": 5,
         "openToDecisionSpread": -0.21250000000000213,
         "secondsSinceLastMove": null,
-        "secondsToKickoff": 390947.477155,
+        "secondsToKickoff": 390017.506189,
         "unchangedSpreadPriceMove": null,
         "verifiedNewsSinceOpen": null
       },
       "game": "Memphis @ Charlotte",
       "kickoff": "2026-10-03T19:30:00+00:00",
-      "rowSha256": "33cf2cd254621c9b9608eba30ad21932587df5f2fbf639976dbd3a6d5ede0221",
+      "rowSha256": "8a7284afbdff945ed4506fe7afcf9b815d358657a559d937cb0d380005f182f7",
       "stakingEnabled": false
     },
     {
       "canonicalGameId": "cfbd:401858249",
       "contract": "CFB_EDGE_INFORMATION_STATE_V1",
       "decisionEffect": "NONE",
-      "decisionTime": "2026-09-29T06:54:12.522845+00:00",
+      "decisionTime": "2026-09-29T07:09:42.493811+00:00",
       "exclusions": [
         "AUDIT_GRADE_OPEN_MISSING"
       ],
@@ -409,40 +409,40 @@
         "freshBookCount": 5,
         "openToDecisionSpread": null,
         "secondsSinceLastMove": null,
-        "secondsToKickoff": 405347.477155,
+        "secondsToKickoff": 404417.506189,
         "unchangedSpreadPriceMove": null,
         "verifiedNewsSinceOpen": null
       },
       "game": "Miami @ Clemson",
       "kickoff": "2026-10-03T23:30:00+00:00",
-      "rowSha256": "63d84c057b0eb87b575542348069448ccf2f5c0383332b4b1f8bd41707eb57a5",
+      "rowSha256": "78acdb9053c7fd7281441359ce934c1438e9263cf9ee39f3ffcf03d137b1be76",
       "stakingEnabled": false
     },
     {
       "canonicalGameId": "cfbd:401858474",
       "contract": "CFB_EDGE_INFORMATION_STATE_V1",
       "decisionEffect": "NONE",
-      "decisionTime": "2026-09-29T06:54:12.522845+00:00",
+      "decisionTime": "2026-09-29T07:09:42.493811+00:00",
       "exclusions": [],
       "features": {
         "crossBookDispersion": 0.2,
         "freshBookCount": 5,
         "openToDecisionSpread": -1.3666666666666671,
         "secondsSinceLastMove": null,
-        "secondsToKickoff": 378347.477155,
+        "secondsToKickoff": 377417.506189,
         "unchangedSpreadPriceMove": null,
         "verifiedNewsSinceOpen": null
       },
       "game": "Michigan @ Minnesota",
       "kickoff": "2026-10-03T16:00:00+00:00",
-      "rowSha256": "296f307b4d707b24c5b4f44d297206305804319e364d1e2edda9141c98ca1794",
+      "rowSha256": "a4174764e7f6c31beb801b694cae799c5938e0d3bb6674a75bb393c12bc24acc",
       "stakingEnabled": false
     },
     {
       "canonicalGameId": "cfbd:401858479",
       "contract": "CFB_EDGE_INFORMATION_STATE_V1",
       "decisionEffect": "NONE",
-      "decisionTime": "2026-09-29T06:54:12.522845+00:00",
+      "decisionTime": "2026-09-29T07:09:42.493811+00:00",
       "exclusions": [
         "AUDIT_GRADE_OPEN_MISSING"
       ],
@@ -451,60 +451,60 @@
         "freshBookCount": 5,
         "openToDecisionSpread": null,
         "secondsSinceLastMove": null,
-        "secondsToKickoff": 380147.477155,
+        "secondsToKickoff": 379217.506189,
         "unchangedSpreadPriceMove": null,
         "verifiedNewsSinceOpen": null
       },
       "game": "Michigan State @ Wisconsin",
       "kickoff": "2026-10-03T16:30:00+00:00",
-      "rowSha256": "b38be7bfe8ff71aec7c6642965f780917e1677d9d0e814e88cc73fb96f6900bd",
+      "rowSha256": "eb2b1375115461ba48e15b577c5a84769238d753cf1d0160cdddec4c704973fd",
       "stakingEnabled": false
     },
     {
       "canonicalGameId": "cfbd:401856807",
       "contract": "CFB_EDGE_INFORMATION_STATE_V1",
       "decisionEffect": "NONE",
-      "decisionTime": "2026-09-29T06:54:12.522845+00:00",
+      "decisionTime": "2026-09-29T07:09:42.493811+00:00",
       "exclusions": [],
       "features": {
         "crossBookDispersion": 0.6,
         "freshBookCount": 5,
         "openToDecisionSpread": 0.022222222222222143,
         "secondsSinceLastMove": null,
-        "secondsToKickoff": 378347.477155,
+        "secondsToKickoff": 377417.506189,
         "unchangedSpreadPriceMove": null,
         "verifiedNewsSinceOpen": null
       },
       "game": "Middle Tennessee @ Kansas",
       "kickoff": "2026-10-03T16:00:00+00:00",
-      "rowSha256": "e4943c16c73d62949939773839d0baf4ead3630b277f27f0ba5358e94aef0317",
+      "rowSha256": "2d2f7a3f4074d46d2ed2a71ee9c5d618ec10a41f954794df730af38b28a40127",
       "stakingEnabled": false
     },
     {
       "canonicalGameId": "cfbd:401862791",
       "contract": "CFB_EDGE_INFORMATION_STATE_V1",
       "decisionEffect": "NONE",
-      "decisionTime": "2026-09-29T06:54:12.522845+00:00",
+      "decisionTime": "2026-09-29T07:09:42.493811+00:00",
       "exclusions": [],
       "features": {
         "crossBookDispersion": 0.2,
         "freshBookCount": 5,
-        "openToDecisionSpread": -2.9647058823529413,
+        "openToDecisionSpread": -2.9222222222222216,
         "secondsSinceLastMove": null,
-        "secondsToKickoff": 378347.477155,
+        "secondsToKickoff": 377417.506189,
         "unchangedSpreadPriceMove": null,
         "verifiedNewsSinceOpen": null
       },
       "game": "Navy @ Air Force",
       "kickoff": "2026-10-03T16:00:00+00:00",
-      "rowSha256": "d03e5c48dc4b913f7937afdc0d31aef81c49b040a2dc002fb5a2f8a2ab77017e",
+      "rowSha256": "81e3a738c672113715c59080b7c7a6539fdcbb137868223d04401e241c486813",
       "stakingEnabled": false
     },
     {
       "canonicalGameId": "cfbd:401858250",
       "contract": "CFB_EDGE_INFORMATION_STATE_V1",
       "decisionEffect": "NONE",
-      "decisionTime": "2026-09-29T06:54:12.522845+00:00",
+      "decisionTime": "2026-09-29T07:09:42.493811+00:00",
       "exclusions": [
         "AUDIT_GRADE_OPEN_MISSING"
       ],
@@ -513,20 +513,20 @@
         "freshBookCount": 5,
         "openToDecisionSpread": null,
         "secondsSinceLastMove": null,
-        "secondsToKickoff": 378347.477155,
+        "secondsToKickoff": 377417.506189,
         "unchangedSpreadPriceMove": null,
         "verifiedNewsSinceOpen": null
       },
       "game": "Notre Dame @ North Carolina",
       "kickoff": "2026-10-03T16:00:00+00:00",
-      "rowSha256": "8c6e261d45ed2c0758770441c2c11d5cd08130dfecb952508748046731d998ae",
+      "rowSha256": "d394d0548b2b1ed9ac4576589231e8d7b1ceda2dd7c671cb1c6c24efb0681c10",
       "stakingEnabled": false
     },
     {
       "canonicalGameId": "cfbd:401866434",
       "contract": "CFB_EDGE_INFORMATION_STATE_V1",
       "decisionEffect": "NONE",
-      "decisionTime": "2026-09-29T06:54:12.522845+00:00",
+      "decisionTime": "2026-09-29T07:09:42.493811+00:00",
       "exclusions": [
         "AUDIT_GRADE_OPEN_MISSING"
       ],
@@ -535,20 +535,20 @@
         "freshBookCount": 5,
         "openToDecisionSpread": null,
         "secondsSinceLastMove": null,
-        "secondsToKickoff": 390947.477155,
+        "secondsToKickoff": 390017.506189,
         "unchangedSpreadPriceMove": null,
         "verifiedNewsSinceOpen": null
       },
       "game": "Ohio @ Kent State",
       "kickoff": "2026-10-03T19:30:00+00:00",
-      "rowSha256": "1b5e11d3785b8c8c79156bf51e9bf36462134d5b88cb5ef172d9631df4866887",
+      "rowSha256": "6079d43fe2715be5073cb3450e08f9792f343adc8184e7bab7563017d68eee54",
       "stakingEnabled": false
     },
     {
       "canonicalGameId": "cfbd:401858473",
       "contract": "CFB_EDGE_INFORMATION_STATE_V1",
       "decisionEffect": "NONE",
-      "decisionTime": "2026-09-29T06:54:12.522845+00:00",
+      "decisionTime": "2026-09-29T07:09:42.493811+00:00",
       "exclusions": [
         "AUDIT_GRADE_OPEN_MISSING"
       ],
@@ -557,20 +557,20 @@
         "freshBookCount": 5,
         "openToDecisionSpread": null,
         "secondsSinceLastMove": null,
-        "secondsToKickoff": 390947.477155,
+        "secondsToKickoff": 390017.506189,
         "unchangedSpreadPriceMove": null,
         "verifiedNewsSinceOpen": null
       },
       "game": "Ohio State @ Iowa",
       "kickoff": "2026-10-03T19:30:00+00:00",
-      "rowSha256": "82fa4043a04cf498800d73b6682add7652f975de6ffc4d5b3d497883e0d571e1",
+      "rowSha256": "7f747f4ed7dbdb565fed85d49f5915e84f5294bc5e73643067a3c61d413dc258",
       "stakingEnabled": false
     },
     {
       "canonicalGameId": "cfbd:401869956",
       "contract": "CFB_EDGE_INFORMATION_STATE_V1",
       "decisionEffect": "NONE",
-      "decisionTime": "2026-09-29T06:54:12.522845+00:00",
+      "decisionTime": "2026-09-29T07:09:42.493811+00:00",
       "exclusions": [
         "AUDIT_GRADE_OPEN_MISSING"
       ],
@@ -579,20 +579,20 @@
         "freshBookCount": 5,
         "openToDecisionSpread": null,
         "secondsSinceLastMove": null,
-        "secondsToKickoff": 390947.477155,
+        "secondsToKickoff": 390017.506189,
         "unchangedSpreadPriceMove": null,
         "verifiedNewsSinceOpen": null
       },
       "game": "Old Dominion @ Georgia State",
       "kickoff": "2026-10-03T19:30:00+00:00",
-      "rowSha256": "833e657a5bab0258b252cdc371514122ef83efc17e0a1c01d31651119957b83f",
+      "rowSha256": "52bb267efad0af5c348443861eddbed6bd5a54bc87f7e2b91f33e2bf51546cf0",
       "stakingEnabled": false
     },
     {
       "canonicalGameId": "cfbd:401860899",
       "contract": "CFB_EDGE_INFORMATION_STATE_V1",
       "decisionEffect": "NONE",
-      "decisionTime": "2026-09-29T06:54:12.522845+00:00",
+      "decisionTime": "2026-09-29T07:09:42.493811+00:00",
       "exclusions": [
         "AUDIT_GRADE_OPEN_MISSING"
       ],
@@ -601,20 +601,20 @@
         "freshBookCount": 5,
         "openToDecisionSpread": null,
         "secondsSinceLastMove": null,
-        "secondsToKickoff": 399947.477155,
+        "secondsToKickoff": 399017.506189,
         "unchangedSpreadPriceMove": null,
         "verifiedNewsSinceOpen": null
       },
       "game": "Oregon State @ Colorado State",
       "kickoff": "2026-10-03T22:00:00+00:00",
-      "rowSha256": "b650f989e129eae44ee8119d2498b1aa7da3cac5d70825c91a491254a66b4e67",
+      "rowSha256": "99ac5c9e14020ec03f1d2125775d0be25b1cb250f8b70d1cd448025c4de606ac",
       "stakingEnabled": false
     },
     {
       "canonicalGameId": "cfbd:401858476",
       "contract": "CFB_EDGE_INFORMATION_STATE_V1",
       "decisionEffect": "NONE",
-      "decisionTime": "2026-09-29T06:54:12.522845+00:00",
+      "decisionTime": "2026-09-29T07:09:42.493811+00:00",
       "exclusions": [
         "AUDIT_GRADE_OPEN_MISSING"
       ],
@@ -623,20 +623,20 @@
         "freshBookCount": 5,
         "openToDecisionSpread": null,
         "secondsSinceLastMove": null,
-        "secondsToKickoff": 320747.477155,
+        "secondsToKickoff": 319817.506189,
         "unchangedSpreadPriceMove": null,
         "verifiedNewsSinceOpen": null
       },
       "game": "Penn State @ Northwestern",
       "kickoff": "2026-10-03T00:00:00+00:00",
-      "rowSha256": "ac7fde6ed84b433259e2f2c47458484459e0545bb69b699d0656e8a3c80cbc34",
+      "rowSha256": "50ed12589dc4afeeac2fdc934768a8d3143427e84b2e96bb401102b71f6ffb8b",
       "stakingEnabled": false
     },
     {
       "canonicalGameId": "cfbd:401858472",
       "contract": "CFB_EDGE_INFORMATION_STATE_V1",
       "decisionEffect": "NONE",
-      "decisionTime": "2026-09-29T06:54:12.522845+00:00",
+      "decisionTime": "2026-09-29T07:09:42.493811+00:00",
       "exclusions": [
         "AUDIT_GRADE_OPEN_MISSING"
       ],
@@ -645,20 +645,20 @@
         "freshBookCount": 5,
         "openToDecisionSpread": null,
         "secondsSinceLastMove": null,
-        "secondsToKickoff": 393647.477155,
+        "secondsToKickoff": 392717.506189,
         "unchangedSpreadPriceMove": null,
         "verifiedNewsSinceOpen": null
       },
       "game": "Purdue @ Illinois",
       "kickoff": "2026-10-03T20:15:00+00:00",
-      "rowSha256": "077b38ab7a574e3ad97f7b554dcc7edf2fb4c9c4639af59b74fb265e5deda8cc",
+      "rowSha256": "0dc390c39c2aed5d9601d33da4981bfdec871a9565d5c469cae756834e5d431b",
       "stakingEnabled": false
     },
     {
       "canonicalGameId": "cfbd:401858251",
       "contract": "CFB_EDGE_INFORMATION_STATE_V1",
       "decisionEffect": "NONE",
-      "decisionTime": "2026-09-29T06:54:12.522845+00:00",
+      "decisionTime": "2026-09-29T07:09:42.493811+00:00",
       "exclusions": [
         "AUDIT_GRADE_OPEN_MISSING"
       ],
@@ -667,20 +667,20 @@
         "freshBookCount": 5,
         "openToDecisionSpread": null,
         "secondsSinceLastMove": null,
-        "secondsToKickoff": 378347.477155,
+        "secondsToKickoff": 377417.506189,
         "unchangedSpreadPriceMove": null,
         "verifiedNewsSinceOpen": null
       },
       "game": "Stanford @ Wake Forest",
       "kickoff": "2026-10-03T16:00:00+00:00",
-      "rowSha256": "2f6a21748d0694a4c7e293edcd1ada6108c0be9c8fd1197c9f6fa0063f4f6e67",
+      "rowSha256": "8f402db5f2a04956312f21d19267eead65c0e64230c6aa1b8be5e014b5ee4507",
       "stakingEnabled": false
     },
     {
       "canonicalGameId": "cfbd:401858252",
       "contract": "CFB_EDGE_INFORMATION_STATE_V1",
       "decisionEffect": "NONE",
-      "decisionTime": "2026-09-29T06:54:12.522845+00:00",
+      "decisionTime": "2026-09-29T07:09:42.493811+00:00",
       "exclusions": [
         "AUDIT_GRADE_OPEN_MISSING"
       ],
@@ -689,60 +689,60 @@
         "freshBookCount": 5,
         "openToDecisionSpread": null,
         "secondsSinceLastMove": null,
-        "secondsToKickoff": 378347.477155,
+        "secondsToKickoff": 377417.506189,
         "unchangedSpreadPriceMove": null,
         "verifiedNewsSinceOpen": null
       },
       "game": "Syracuse @ UConn",
       "kickoff": "2026-10-03T16:00:00+00:00",
-      "rowSha256": "5fa0b79cc1cc6d0304ca631ed77f0f9c2ac26a3e28f2a6bcc47b8ce5d9a3f9b0",
+      "rowSha256": "39e9a74b8d35e5a132e8a0254e0cac940a9fcac33910181c0fa632792dee9f0b",
       "stakingEnabled": false
     },
     {
       "canonicalGameId": "cfbd:401862792",
       "contract": "CFB_EDGE_INFORMATION_STATE_V1",
       "decisionEffect": "NONE",
-      "decisionTime": "2026-09-29T06:54:12.522845+00:00",
+      "decisionTime": "2026-09-29T07:09:42.493811+00:00",
       "exclusions": [],
       "features": {
         "crossBookDispersion": 0.31622776601683794,
         "freshBookCount": 5,
         "openToDecisionSpread": 0.35714285714285676,
         "secondsSinceLastMove": null,
-        "secondsToKickoff": 405347.477155,
+        "secondsToKickoff": 404417.506189,
         "unchangedSpreadPriceMove": null,
         "verifiedNewsSinceOpen": null
       },
       "game": "Temple @ South Florida",
       "kickoff": "2026-10-03T23:30:00+00:00",
-      "rowSha256": "ceea48b76386e651775cdcb4ac551f3762e9173458850fb1a72e4e37bbdd34ec",
+      "rowSha256": "4d0362489fcc76a8f16bc15366f0b9e05d875a48b3e311a17ee10da253410593",
       "stakingEnabled": false
     },
     {
       "canonicalGameId": "cfbd:401856821",
       "contract": "CFB_EDGE_INFORMATION_STATE_V1",
       "decisionEffect": "NONE",
-      "decisionTime": "2026-09-29T06:54:12.522845+00:00",
+      "decisionTime": "2026-09-29T07:09:42.493811+00:00",
       "exclusions": [],
       "features": {
         "crossBookDispersion": 0.0,
         "freshBookCount": 5,
-        "openToDecisionSpread": -3.2222222222222214,
+        "openToDecisionSpread": -3.545454545454545,
         "secondsSinceLastMove": null,
-        "secondsToKickoff": 405347.477155,
+        "secondsToKickoff": 404417.506189,
         "unchangedSpreadPriceMove": null,
         "verifiedNewsSinceOpen": null
       },
       "game": "Texas Tech @ Colorado",
       "kickoff": "2026-10-03T23:30:00+00:00",
-      "rowSha256": "11edcb2c74b779d78a480699efba6a027eb42eb9f6405cde5dbf2e8271849233",
+      "rowSha256": "53029619fbaacf514649e692b79d675f328a35de652cbcf491c5fb1564b6eaf5",
       "stakingEnabled": false
     },
     {
       "canonicalGameId": "cfbd:401866431",
       "contract": "CFB_EDGE_INFORMATION_STATE_V1",
       "decisionEffect": "NONE",
-      "decisionTime": "2026-09-29T06:54:12.522845+00:00",
+      "decisionTime": "2026-09-29T07:09:42.493811+00:00",
       "exclusions": [
         "AUDIT_GRADE_OPEN_MISSING"
       ],
@@ -751,20 +751,20 @@
         "freshBookCount": 5,
         "openToDecisionSpread": null,
         "secondsSinceLastMove": null,
-        "secondsToKickoff": 385547.477155,
+        "secondsToKickoff": 384617.506189,
         "unchangedSpreadPriceMove": null,
         "verifiedNewsSinceOpen": null
       },
       "game": "Toledo @ Ball State",
       "kickoff": "2026-10-03T18:00:00+00:00",
-      "rowSha256": "e0db3c1452a71f5b101aca7e5005628f582107869c322da412345dbfc555c52f",
+      "rowSha256": "dd673209200893b42fd04e2ce308aade19da1cd0af9a83ba3440e598032fd4bf",
       "stakingEnabled": false
     },
     {
       "canonicalGameId": "cfbd:401856819",
       "contract": "CFB_EDGE_INFORMATION_STATE_V1",
       "decisionEffect": "NONE",
-      "decisionTime": "2026-09-29T06:54:12.522845+00:00",
+      "decisionTime": "2026-09-29T07:09:42.493811+00:00",
       "exclusions": [
         "AUDIT_GRADE_OPEN_MISSING"
       ],
@@ -773,80 +773,80 @@
         "freshBookCount": 5,
         "openToDecisionSpread": null,
         "secondsSinceLastMove": null,
-        "secondsToKickoff": 378347.477155,
+        "secondsToKickoff": 377417.506189,
         "unchangedSpreadPriceMove": null,
         "verifiedNewsSinceOpen": null
       },
       "game": "UCF @ Houston",
       "kickoff": "2026-10-03T16:00:00+00:00",
-      "rowSha256": "17d2de047dddcd68804893af36adfa424b9d45023486c9d7384ff2c12dc6610c",
+      "rowSha256": "ea1bc72d73df9f8f9eff5357e47c0108a0fe36fa09680981964decf396d8083c",
       "stakingEnabled": false
     },
     {
       "canonicalGameId": "cfbd:401871089",
       "contract": "CFB_EDGE_INFORMATION_STATE_V1",
       "decisionEffect": "NONE",
-      "decisionTime": "2026-09-29T06:54:12.522845+00:00",
+      "decisionTime": "2026-09-29T07:09:42.493811+00:00",
       "exclusions": [],
       "features": {
         "crossBookDispersion": 0.2,
         "freshBookCount": 5,
         "openToDecisionSpread": 2.666666666666666,
         "secondsSinceLastMove": null,
-        "secondsToKickoff": 403547.477155,
+        "secondsToKickoff": 402617.506189,
         "unchangedSpreadPriceMove": null,
         "verifiedNewsSinceOpen": null
       },
       "game": "UL Monroe @ South Alabama",
       "kickoff": "2026-10-03T23:00:00+00:00",
-      "rowSha256": "2e66f5faf6afeecf42d55d82635ee5f77a06afeca3839764b4b33bf9d78f3111",
+      "rowSha256": "1318229cceee9f4a1f9ffa03120e150676e5ba9aa89df71a3d3060c84f791c63",
       "stakingEnabled": false
     },
     {
       "canonicalGameId": "cfbd:401864514",
       "contract": "CFB_EDGE_INFORMATION_STATE_V1",
       "decisionEffect": "NONE",
-      "decisionTime": "2026-09-29T06:54:12.522845+00:00",
+      "decisionTime": "2026-09-29T07:09:42.493811+00:00",
       "exclusions": [],
       "features": {
         "crossBookDispersion": 0.2,
         "freshBookCount": 5,
         "openToDecisionSpread": -0.2857142857142847,
         "secondsSinceLastMove": null,
-        "secondsToKickoff": 392747.477155,
+        "secondsToKickoff": 391817.506189,
         "unchangedSpreadPriceMove": null,
         "verifiedNewsSinceOpen": null
       },
       "game": "UTEP @ New Mexico",
       "kickoff": "2026-10-03T20:00:00+00:00",
-      "rowSha256": "2e13f2825b0b7606c87004ca42689b7c39507f0eca046e457f5fb7d7e3fa46a3",
+      "rowSha256": "c0bdbd3b5ec064ad33f3652753736afb6b32079c673fea3bfb6df0696e0b1fe2",
       "stakingEnabled": false
     },
     {
       "canonicalGameId": "cfbd:401862788",
       "contract": "CFB_EDGE_INFORMATION_STATE_V1",
       "decisionEffect": "NONE",
-      "decisionTime": "2026-09-29T06:54:12.522845+00:00",
+      "decisionTime": "2026-09-29T07:09:42.493811+00:00",
       "exclusions": [],
       "features": {
         "crossBookDispersion": 0.4,
         "freshBookCount": 5,
         "openToDecisionSpread": 0.40000000000000036,
         "secondsSinceLastMove": null,
-        "secondsToKickoff": 403547.477155,
+        "secondsToKickoff": 402617.506189,
         "unchangedSpreadPriceMove": null,
         "verifiedNewsSinceOpen": null
       },
       "game": "UTSA @ Rice",
       "kickoff": "2026-10-03T23:00:00+00:00",
-      "rowSha256": "687a302d0e64df42fd5edba8dfd4e721d6fa8068e7edbe5d192b421a9558df71",
+      "rowSha256": "1c43c624b42bebf2d161cee5f56bbd976c06c76ffbe22ce8c9b18e29f3fc2f4a",
       "stakingEnabled": false
     },
     {
       "canonicalGameId": "cfbd:401860898",
       "contract": "CFB_EDGE_INFORMATION_STATE_V1",
       "decisionEffect": "NONE",
-      "decisionTime": "2026-09-29T06:54:12.522845+00:00",
+      "decisionTime": "2026-09-29T07:09:42.493811+00:00",
       "exclusions": [
         "AUDIT_GRADE_OPEN_MISSING"
       ],
@@ -855,20 +855,20 @@
         "freshBookCount": 5,
         "openToDecisionSpread": null,
         "secondsSinceLastMove": null,
-        "secondsToKickoff": 405347.477155,
+        "secondsToKickoff": 404417.506189,
         "unchangedSpreadPriceMove": null,
         "verifiedNewsSinceOpen": null
       },
       "game": "Utah State @ Boise State",
       "kickoff": "2026-10-03T23:30:00+00:00",
-      "rowSha256": "46336242e33671aeb05070b53ae50978d256a96883baa082be503d3c9e3d5536",
+      "rowSha256": "b185874eaac50a868894f1f5a819c373fce38323b87aefa1fde0e3e12972e218",
       "stakingEnabled": false
     },
     {
       "canonicalGameId": "cfbd:401856705",
       "contract": "CFB_EDGE_INFORMATION_STATE_V1",
       "decisionEffect": "NONE",
-      "decisionTime": "2026-09-29T06:54:12.522845+00:00",
+      "decisionTime": "2026-09-29T07:09:42.493811+00:00",
       "exclusions": [
         "AUDIT_GRADE_OPEN_MISSING"
       ],
@@ -877,20 +877,20 @@
         "freshBookCount": 5,
         "openToDecisionSpread": null,
         "secondsSinceLastMove": null,
-        "secondsToKickoff": 381047.477155,
+        "secondsToKickoff": 380117.506189,
         "unchangedSpreadPriceMove": null,
         "verifiedNewsSinceOpen": null
       },
       "game": "Vanderbilt @ Georgia",
       "kickoff": "2026-10-03T16:45:00+00:00",
-      "rowSha256": "f5b2bd1341deecb172d1af3201649a910176eee5f4146b4359db80c428c5dde4",
+      "rowSha256": "4adf73e38e8b43712312f7ec5a6fddd37fc36c7666805813215aa87f8b483755",
       "stakingEnabled": false
     },
     {
       "canonicalGameId": "cfbd:401858253",
       "contract": "CFB_EDGE_INFORMATION_STATE_V1",
       "decisionEffect": "NONE",
-      "decisionTime": "2026-09-29T06:54:12.522845+00:00",
+      "decisionTime": "2026-09-29T07:09:42.493811+00:00",
       "exclusions": [
         "AUDIT_GRADE_OPEN_MISSING"
       ],
@@ -899,20 +899,20 @@
         "freshBookCount": 5,
         "openToDecisionSpread": null,
         "secondsSinceLastMove": null,
-        "secondsToKickoff": 390947.477155,
+        "secondsToKickoff": 390017.506189,
         "unchangedSpreadPriceMove": null,
         "verifiedNewsSinceOpen": null
       },
       "game": "Virginia @ Florida State",
       "kickoff": "2026-10-03T19:30:00+00:00",
-      "rowSha256": "a14788eb1cc5c41e66123c550c951da3c3b28d754a8679b682514741d8e5e1ad",
+      "rowSha256": "62cb62a28916935290083d6667d9a9076d79f98ca92496f121fa645dc5a4df1b",
       "stakingEnabled": false
     },
     {
       "canonicalGameId": "cfbd:401858478",
       "contract": "CFB_EDGE_INFORMATION_STATE_V1",
       "decisionEffect": "NONE",
-      "decisionTime": "2026-09-29T06:54:12.522845+00:00",
+      "decisionTime": "2026-09-29T07:09:42.493811+00:00",
       "exclusions": [
         "AUDIT_GRADE_OPEN_MISSING"
       ],
@@ -921,20 +921,20 @@
         "freshBookCount": 5,
         "openToDecisionSpread": null,
         "secondsSinceLastMove": null,
-        "secondsToKickoff": 405347.477155,
+        "secondsToKickoff": 404417.506189,
         "unchangedSpreadPriceMove": null,
         "verifiedNewsSinceOpen": null
       },
       "game": "Washington @ USC",
       "kickoff": "2026-10-03T23:30:00+00:00",
-      "rowSha256": "1e10f24bd2572f68ad6ce679c14d09a4b532de6a047ff4cab7b160c2dbe31839",
+      "rowSha256": "496f747f3493ba2838a2d641093de0667ae669c3c18468f2a12b0602f0b0a71d",
       "stakingEnabled": false
     },
     {
       "canonicalGameId": "cfbd:401856822",
       "contract": "CFB_EDGE_INFORMATION_STATE_V1",
       "decisionEffect": "NONE",
-      "decisionTime": "2026-09-29T06:54:12.522845+00:00",
+      "decisionTime": "2026-09-29T07:09:42.493811+00:00",
       "exclusions": [
         "AUDIT_GRADE_OPEN_MISSING"
       ],
@@ -943,80 +943,80 @@
         "freshBookCount": 5,
         "openToDecisionSpread": null,
         "secondsSinceLastMove": null,
-        "secondsToKickoff": 378347.477155,
+        "secondsToKickoff": 377417.506189,
         "unchangedSpreadPriceMove": null,
         "verifiedNewsSinceOpen": null
       },
       "game": "West Virginia @ Iowa State",
       "kickoff": "2026-10-03T16:00:00+00:00",
-      "rowSha256": "614440d918ed8487b81d8212e8c8214db7604ad0384d504386fde0dd5ad7f86f",
+      "rowSha256": "59ff4e1f0ab5634411a346f5ffe03dd2e841605818bf7ebcdb78b3c1cbea4408",
       "stakingEnabled": false
     },
     {
       "canonicalGameId": "cfbd:401866432",
       "contract": "CFB_EDGE_INFORMATION_STATE_V1",
       "decisionEffect": "NONE",
-      "decisionTime": "2026-09-29T06:54:12.522845+00:00",
+      "decisionTime": "2026-09-29T07:09:42.493811+00:00",
       "exclusions": [],
       "features": {
         "crossBookDispersion": 0.2449489742783178,
         "freshBookCount": 5,
         "openToDecisionSpread": -0.7222222222222197,
         "secondsSinceLastMove": null,
-        "secondsToKickoff": 381947.477155,
+        "secondsToKickoff": 381017.506189,
         "unchangedSpreadPriceMove": null,
         "verifiedNewsSinceOpen": null
       },
       "game": "Western Michigan @ Buffalo",
       "kickoff": "2026-10-03T17:00:00+00:00",
-      "rowSha256": "717f1fb3d1ff0cb193609d293ddda3899ef8c0eecb818a3be15cd4ea873af32e",
+      "rowSha256": "ccb14e032386cfd757d5bc8b9eb53df77a01be433cdf4ebc7721a33b1ce04587",
       "stakingEnabled": false
     },
     {
       "canonicalGameId": "cfbd:401864515",
       "contract": "CFB_EDGE_INFORMATION_STATE_V1",
       "decisionEffect": "NONE",
-      "decisionTime": "2026-09-29T06:54:12.522845+00:00",
+      "decisionTime": "2026-09-29T07:09:42.493811+00:00",
       "exclusions": [],
       "features": {
         "crossBookDispersion": 0.4898979485566356,
         "freshBookCount": 5,
         "openToDecisionSpread": 0.25,
         "secondsSinceLastMove": null,
-        "secondsToKickoff": 390947.477155,
+        "secondsToKickoff": 390017.506189,
         "unchangedSpreadPriceMove": null,
         "verifiedNewsSinceOpen": null
       },
       "game": "Wyoming @ North Dakota State",
       "kickoff": "2026-10-03T19:30:00+00:00",
-      "rowSha256": "2a7531666976381435fc6f1e69cbd4c0a66440a4c1d4651b72bf787742996cb3",
+      "rowSha256": "1260b01b69f4ced67ec4375862b59dd4ff242f162aa84abe52c66b3136bce287",
       "stakingEnabled": false
     },
     {
       "canonicalGameId": "cfbd:401869932",
       "contract": "CFB_EDGE_INFORMATION_STATE_V1",
       "decisionEffect": "NONE",
-      "decisionTime": "2026-09-29T06:54:12.522845+00:00",
+      "decisionTime": "2026-09-29T07:09:42.493811+00:00",
       "exclusions": [],
       "features": {
         "crossBookDispersion": 0.2,
         "freshBookCount": 5,
         "openToDecisionSpread": -0.03571428571428559,
         "secondsSinceLastMove": null,
-        "secondsToKickoff": 407147.477155,
+        "secondsToKickoff": 406217.506189,
         "unchangedSpreadPriceMove": null,
         "verifiedNewsSinceOpen": null
       },
       "game": "Arkansas State @ Louisiana",
       "kickoff": "2026-10-04T00:00:00+00:00",
-      "rowSha256": "0a06e162e0d2edc7599e6b9bcba274315a9529682d923e872a405c9078eba0c4",
+      "rowSha256": "1f22113bb60d531807748aa073b15eea5ce37ff00a47b7cd331c9e8059350764",
       "stakingEnabled": false
     },
     {
       "canonicalGameId": "cfbd:401856817",
       "contract": "CFB_EDGE_INFORMATION_STATE_V1",
       "decisionEffect": "NONE",
-      "decisionTime": "2026-09-29T06:54:12.522845+00:00",
+      "decisionTime": "2026-09-29T07:09:42.493811+00:00",
       "exclusions": [
         "AUDIT_GRADE_OPEN_MISSING"
       ],
@@ -1025,80 +1025,80 @@
         "freshBookCount": 5,
         "openToDecisionSpread": null,
         "secondsSinceLastMove": null,
-        "secondsToKickoff": 416147.477155,
+        "secondsToKickoff": 415217.506189,
         "unchangedSpreadPriceMove": null,
         "verifiedNewsSinceOpen": null
       },
       "game": "Baylor @ Arizona State",
       "kickoff": "2026-10-04T02:30:00+00:00",
-      "rowSha256": "bfb2fa6fb8e241ed20aa99e3e25c2378e3be2cf13ab4684067137fb54e71fba7",
+      "rowSha256": "d166297ac406cac61feb7d51c9ebd646f208fccc3b1bca9c4facea270a08e9d6",
       "stakingEnabled": false
     },
     {
       "canonicalGameId": "cfbd:401856820",
       "contract": "CFB_EDGE_INFORMATION_STATE_V1",
       "decisionEffect": "NONE",
-      "decisionTime": "2026-09-29T06:54:12.522845+00:00",
+      "decisionTime": "2026-09-29T07:09:42.493811+00:00",
       "exclusions": [],
       "features": {
         "crossBookDispersion": 0.2,
         "freshBookCount": 5,
         "openToDecisionSpread": 1.3888888888888893,
         "secondsSinceLastMove": null,
-        "secondsToKickoff": 417947.477155,
+        "secondsToKickoff": 417017.506189,
         "unchangedSpreadPriceMove": null,
         "verifiedNewsSinceOpen": null
       },
       "game": "Cincinnati @ Arizona",
       "kickoff": "2026-10-04T03:00:00+00:00",
-      "rowSha256": "7e60711594630cc685b75034b9ff3a8aad67a0d9c4623380a5f4f612696751e2",
+      "rowSha256": "065da7d9aa384e4931658d3537b13d9faa874143f4720969762d80a7a7a742b6",
       "stakingEnabled": false
     },
     {
       "canonicalGameId": "cfbd:401860921",
       "contract": "CFB_EDGE_INFORMATION_STATE_V1",
       "decisionEffect": "NONE",
-      "decisionTime": "2026-09-29T06:54:12.522845+00:00",
+      "decisionTime": "2026-09-29T07:09:42.493811+00:00",
       "exclusions": [],
       "features": {
         "crossBookDispersion": 0.2,
         "freshBookCount": 5,
         "openToDecisionSpread": 0.1999999999999993,
         "secondsSinceLastMove": null,
-        "secondsToKickoff": 412547.477155,
+        "secondsToKickoff": 411617.506189,
         "unchangedSpreadPriceMove": null,
         "verifiedNewsSinceOpen": null
       },
       "game": "Fresno State @ Washington State",
       "kickoff": "2026-10-04T01:30:00+00:00",
-      "rowSha256": "e7ddc07bc5c364233a6db9e82a4f272c3b93562b19f0583ed27db96b5336b6e3",
+      "rowSha256": "30967c74f3805f3dfe0e7432068285d657e66e12c806ade970ea5ce257f7ca5c",
       "stakingEnabled": false
     },
     {
       "canonicalGameId": "cfbd:401858477",
       "contract": "CFB_EDGE_INFORMATION_STATE_V1",
       "decisionEffect": "NONE",
-      "decisionTime": "2026-09-29T06:54:12.522845+00:00",
+      "decisionTime": "2026-09-29T07:09:42.493811+00:00",
       "exclusions": [],
       "features": {
         "crossBookDispersion": 0.2449489742783178,
         "freshBookCount": 5,
         "openToDecisionSpread": 0.14999999999999858,
         "secondsSinceLastMove": null,
-        "secondsToKickoff": 407147.477155,
+        "secondsToKickoff": 406217.506189,
         "unchangedSpreadPriceMove": null,
         "verifiedNewsSinceOpen": null
       },
       "game": "Indiana @ Rutgers",
       "kickoff": "2026-10-04T00:00:00+00:00",
-      "rowSha256": "247fbb26ebbd552ef8f6dc48ccd42fad4c849929020eabc97ff92bd8669a05de",
+      "rowSha256": "4b4a271a067b4c3023bb82b7da279c7469d8268e94f36dc50c6f1faae58e8664",
       "stakingEnabled": false
     },
     {
       "canonicalGameId": "cfbd:401864513",
       "contract": "CFB_EDGE_INFORMATION_STATE_V1",
       "decisionEffect": "NONE",
-      "decisionTime": "2026-09-29T06:54:12.522845+00:00",
+      "decisionTime": "2026-09-29T07:09:42.493811+00:00",
       "exclusions": [
         "AUDIT_GRADE_OPEN_MISSING"
       ],
@@ -1107,20 +1107,20 @@
         "freshBookCount": 5,
         "openToDecisionSpread": null,
         "secondsSinceLastMove": null,
-        "secondsToKickoff": 421487.477155,
+        "secondsToKickoff": 420557.506189,
         "unchangedSpreadPriceMove": null,
         "verifiedNewsSinceOpen": null
       },
       "game": "San Jos\u00e9 State @ Hawai'i",
       "kickoff": "2026-10-04T03:59:00+00:00",
-      "rowSha256": "7947a2431cf40aa6e5f2cae6a0c11b0e8972d0ee0c2233b4e7fca0ff862b4d7a",
+      "rowSha256": "eedc0b5c1420f966ebea36e4b1886b0429cadbd71080a663ec2310034d6cf62b",
       "stakingEnabled": false
     },
     {
       "canonicalGameId": "cfbd:401860900",
       "contract": "CFB_EDGE_INFORMATION_STATE_V1",
       "decisionEffect": "NONE",
-      "decisionTime": "2026-09-29T06:54:12.522845+00:00",
+      "decisionTime": "2026-09-29T07:09:42.493811+00:00",
       "exclusions": [
         "AUDIT_GRADE_OPEN_MISSING"
       ],
@@ -1129,13 +1129,13 @@
         "freshBookCount": 5,
         "openToDecisionSpread": null,
         "secondsSinceLastMove": null,
-        "secondsToKickoff": 416147.477155,
+        "secondsToKickoff": 415217.506189,
         "unchangedSpreadPriceMove": null,
         "verifiedNewsSinceOpen": null
       },
       "game": "Texas State @ San Diego State",
       "kickoff": "2026-10-04T02:30:00+00:00",
-      "rowSha256": "31fa81f7a6ea8043bafe8199a475a5788ceaf4046372de71812d6909f2f11f08",
+      "rowSha256": "ba6ace7ba44c7fda8a09fa9a552e50a8c757087821e5d12bc06f173b4fa0516f",
       "stakingEnabled": false
     }
   ],
@@ -1147,11 +1147,11 @@
       "fanduel",
       "pinnacle"
     ],
-    "creditsRemaining": 197.0,
-    "creditsUsed": 303.0,
+    "creditsRemaining": 195.0,
+    "creditsUsed": 305.0,
     "error": null,
     "events": 58,
-    "fetchedAt": "2026-09-29T06:54:11.525484+00:00",
+    "fetchedAt": "2026-09-29T07:09:41.898673+00:00",
     "kickoffMismatchEvents": [],
     "lastCost": 1.0,
     "matchedEvents": 54,
@@ -1168,8 +1168,8 @@
       "canonicalGameId": "cfbd:401866430",
       "contract": "CFB_EDGE_KALSHI_CANDLE_OPEN_V1",
       "eventTicker": "KXNCAAFSPREAD-26OCT03AKRCMU",
-      "evidencePath": "data/features/br2/market/raw/72367a1af9613f36611233818d83e9fd4f45761d542979fc826ba80ade2bc5c3.json.gz",
-      "evidenceSha256": "72367a1af9613f36611233818d83e9fd4f45761d542979fc826ba80ade2bc5c3",
+      "evidencePath": "data/features/br2/market/raw/6227478ee63caaf4572a6030b8ea89cd0894db7c842891eabba342cd2e4ecf0d.json.gz",
+      "evidenceSha256": "6227478ee63caaf4572a6030b8ea89cd0894db7c842891eabba342cd2e4ecf0d",
       "game": "Akron @ Central Michigan",
       "marketTickers": [
         "KXNCAAFSPREAD-26OCT03AKRCMU-CMU3",
@@ -1202,9 +1202,9 @@
         }
       ],
       "reason": null,
-      "retrievedAt": "2026-09-29T06:54:05.561618+00:00",
+      "retrievedAt": "2026-09-29T07:09:36.169221+00:00",
       "sourceHashes": [
-        "cc038bb89f5a7ccc793f87a0048495a5c868c6668b205df7f85bb1452f671152"
+        "232385bceea45e7fd3257460df3f9354436069d2680461c18941de4015248fb1"
       ],
       "venueOpenTime": "2026-09-27T10:06:00+00:00"
     },
@@ -1213,13 +1213,13 @@
       "canonicalGameId": "cfbd:401856707",
       "contract": "CFB_EDGE_KALSHI_CANDLE_OPEN_V1",
       "eventTicker": "KXNCAAFSPREAD-26OCT03ALAMSST",
-      "evidencePath": "data/features/br2/market/raw/088953345e7cfd3e52a0e223ed8d8f27c19a3def33133ec9cf0d49695011e530.json.gz",
-      "evidenceSha256": "088953345e7cfd3e52a0e223ed8d8f27c19a3def33133ec9cf0d49695011e530",
+      "evidencePath": "data/features/br2/market/raw/dce2dcc875c064762f91f1b392111afb0143e7a007fc82d37ec86f223b176f19.json.gz",
+      "evidenceSha256": "dce2dcc875c064762f91f1b392111afb0143e7a007fc82d37ec86f223b176f19",
       "game": "Alabama @ Mississippi State",
       "reason": "NO_TWO_SIDED_IMPLIED_LINE_IN_OPEN_WINDOW",
-      "retrievedAt": "2026-09-29T06:54:03.096053+00:00",
+      "retrievedAt": "2026-09-29T07:09:33.638432+00:00",
       "sourceHashes": [
-        "8096f2843eef7596d537ed87fed10e4fdee40d9f5dac08989ede76ea1393df54"
+        "8fbade75b5bc9090ba9a9687f2197ee608fdb34ae6e37287eb9ca1e15f3681f4"
       ]
     },
     {
@@ -1227,8 +1227,8 @@
       "canonicalGameId": "cfbd:401856711",
       "contract": "CFB_EDGE_KALSHI_CANDLE_OPEN_V1",
       "eventTicker": "KXNCAAFSPREAD-26OCT03ARKTXAM",
-      "evidencePath": "data/features/br2/market/raw/58836b747f82c545cc8c4606f007a4c370bd2bef6110d3c017ea9bfd9f9cddb4.json.gz",
-      "evidenceSha256": "58836b747f82c545cc8c4606f007a4c370bd2bef6110d3c017ea9bfd9f9cddb4",
+      "evidencePath": "data/features/br2/market/raw/c843fc2c06886e205936a177dc133e338a996472fe2ec600dcbb3161e27216be.json.gz",
+      "evidenceSha256": "c843fc2c06886e205936a177dc133e338a996472fe2ec600dcbb3161e27216be",
       "game": "Arkansas @ Texas A&M",
       "marketTickers": [
         "KXNCAAFSPREAD-26OCT03ARKTXAM-TXAM14",
@@ -1261,9 +1261,9 @@
         }
       ],
       "reason": null,
-      "retrievedAt": "2026-09-29T06:54:04.092146+00:00",
+      "retrievedAt": "2026-09-29T07:09:34.721197+00:00",
       "sourceHashes": [
-        "dffd28d5602e7a2b6584de1385734f89587355911e94ed7157fe2071c4c4c43c"
+        "865125f7983d58c3fea9cf4d56353f295c77b1a0df969d67b3cd9e0acd0d7b19"
       ],
       "venueOpenTime": "2026-09-27T07:06:00+00:00"
     },
@@ -1272,8 +1272,8 @@
       "canonicalGameId": "cfbd:401869932",
       "contract": "CFB_EDGE_KALSHI_CANDLE_OPEN_V1",
       "eventTicker": "KXNCAAFSPREAD-26OCT03ARSTULL",
-      "evidencePath": "data/features/br2/market/raw/1510ae673d1678ed7f293ace135a1f9844da5ae7c13158c130d04be6ad39c85f.json.gz",
-      "evidenceSha256": "1510ae673d1678ed7f293ace135a1f9844da5ae7c13158c130d04be6ad39c85f",
+      "evidencePath": "data/features/br2/market/raw/1681aa6bdda7ad817763dd0ff7a77d7b3264d0a170367e4f5601d80ab33e8e45.json.gz",
+      "evidenceSha256": "1681aa6bdda7ad817763dd0ff7a77d7b3264d0a170367e4f5601d80ab33e8e45",
       "game": "Arkansas State @ Louisiana",
       "marketTickers": [
         "KXNCAAFSPREAD-26OCT03ARSTULL-ULL7",
@@ -1306,9 +1306,9 @@
         }
       ],
       "reason": null,
-      "retrievedAt": "2026-09-29T06:54:09.362026+00:00",
+      "retrievedAt": "2026-09-29T07:09:39.818571+00:00",
       "sourceHashes": [
-        "6eac8a3a5835cec79d12196114b0bea26edddb55b3d5e2df68d4774057b4ce1a"
+        "6da81780f96a38046cb0a0a90869ea9a500bdc69c5b8a3e8df03c347d23893b1"
       ],
       "venueOpenTime": "2026-09-28T22:06:00+00:00"
     },
@@ -1317,8 +1317,8 @@
       "canonicalGameId": "cfbd:401869842",
       "contract": "CFB_EDGE_KALSHI_CANDLE_OPEN_V1",
       "eventTicker": "KXNCAAFSPREAD-26OCT03ARMYLT",
-      "evidencePath": "data/features/br2/market/raw/2687f1fa7251422a434d9e04900604ae6810c54dfb43d525aace34ca2674436a.json.gz",
-      "evidenceSha256": "2687f1fa7251422a434d9e04900604ae6810c54dfb43d525aace34ca2674436a",
+      "evidencePath": "data/features/br2/market/raw/011646badb647750a04f19242e28b8ea625bf6ed3d8b5022d4b2a1f4930e80cf.json.gz",
+      "evidenceSha256": "011646badb647750a04f19242e28b8ea625bf6ed3d8b5022d4b2a1f4930e80cf",
       "game": "Army @ Louisiana Tech",
       "marketTickers": [
         "KXNCAAFSPREAD-26OCT03ARMYLT-ARMY4",
@@ -1351,9 +1351,9 @@
         }
       ],
       "reason": null,
-      "retrievedAt": "2026-09-29T06:54:09.362026+00:00",
+      "retrievedAt": "2026-09-29T07:09:39.818571+00:00",
       "sourceHashes": [
-        "6eac8a3a5835cec79d12196114b0bea26edddb55b3d5e2df68d4774057b4ce1a"
+        "6da81780f96a38046cb0a0a90869ea9a500bdc69c5b8a3e8df03c347d23893b1"
       ],
       "venueOpenTime": "2026-09-28T22:06:00+00:00"
     },
@@ -1362,13 +1362,13 @@
       "canonicalGameId": "cfbd:401856710",
       "contract": "CFB_EDGE_KALSHI_CANDLE_OPEN_V1",
       "eventTicker": "KXNCAAFSPREAD-26OCT03AUBTENN",
-      "evidencePath": "data/features/br2/market/raw/4ee6c15451b3260e09561335e11a7e7cf215a0de56a2e78cce91a9ff5a81f320.json.gz",
-      "evidenceSha256": "4ee6c15451b3260e09561335e11a7e7cf215a0de56a2e78cce91a9ff5a81f320",
+      "evidencePath": "data/features/br2/market/raw/67435c8fab089049a72adad34867c8fa3f53f67b8552a1ffdb50b177b22a710c.json.gz",
+      "evidenceSha256": "67435c8fab089049a72adad34867c8fa3f53f67b8552a1ffdb50b177b22a710c",
       "game": "Auburn @ Tennessee",
       "reason": "NO_TWO_SIDED_IMPLIED_LINE_IN_OPEN_WINDOW",
-      "retrievedAt": "2026-09-29T06:54:02.010594+00:00",
+      "retrievedAt": "2026-09-29T07:09:32.669137+00:00",
       "sourceHashes": [
-        "9efc1cfb279ba14f1714021494b9fe8130b746e0c7b40f6ed2ad81d24bac8b70"
+        "6dce196de007e2fb8f3d539fff31a4ae8b88a8cc1c107ad5ceb3c266aae24c5c"
       ]
     },
     {
@@ -1376,13 +1376,13 @@
       "canonicalGameId": "cfbd:401856818",
       "contract": "CFB_EDGE_KALSHI_CANDLE_OPEN_V1",
       "eventTicker": "KXNCAAFSPREAD-26OCT03BYUTCU",
-      "evidencePath": "data/features/br2/market/raw/5bf5dd8cff615d5cda66085b172281d1bc9a9bbd3f9b0892acea8bca12f2e884.json.gz",
-      "evidenceSha256": "5bf5dd8cff615d5cda66085b172281d1bc9a9bbd3f9b0892acea8bca12f2e884",
+      "evidencePath": "data/features/br2/market/raw/337ddca539b21cea380355f1cbc286ba34a03da826a34cd11dd43f5f0b4048e6.json.gz",
+      "evidenceSha256": "337ddca539b21cea380355f1cbc286ba34a03da826a34cd11dd43f5f0b4048e6",
       "game": "BYU @ TCU",
       "reason": "NO_TWO_SIDED_IMPLIED_LINE_IN_OPEN_WINDOW",
-      "retrievedAt": "2026-09-29T06:54:02.010594+00:00",
+      "retrievedAt": "2026-09-29T07:09:32.669137+00:00",
       "sourceHashes": [
-        "9efc1cfb279ba14f1714021494b9fe8130b746e0c7b40f6ed2ad81d24bac8b70"
+        "6dce196de007e2fb8f3d539fff31a4ae8b88a8cc1c107ad5ceb3c266aae24c5c"
       ]
     },
     {
@@ -1390,13 +1390,13 @@
       "canonicalGameId": "cfbd:401856817",
       "contract": "CFB_EDGE_KALSHI_CANDLE_OPEN_V1",
       "eventTicker": "KXNCAAFSPREAD-26OCT03BAYASU",
-      "evidencePath": "data/features/br2/market/raw/28e60a66e9de30ccbfc3540b2e9f889b98469b0489d2c387f20418fa0b163410.json.gz",
-      "evidenceSha256": "28e60a66e9de30ccbfc3540b2e9f889b98469b0489d2c387f20418fa0b163410",
+      "evidencePath": "data/features/br2/market/raw/de2b4edaf1a48b58185f0fd22af3ad59f3dd17cb863b7c52534497d5810462d4.json.gz",
+      "evidenceSha256": "de2b4edaf1a48b58185f0fd22af3ad59f3dd17cb863b7c52534497d5810462d4",
       "game": "Baylor @ Arizona State",
       "reason": "NO_TWO_SIDED_IMPLIED_LINE_IN_OPEN_WINDOW",
-      "retrievedAt": "2026-09-29T06:54:05.561618+00:00",
+      "retrievedAt": "2026-09-29T07:09:36.169221+00:00",
       "sourceHashes": [
-        "cc038bb89f5a7ccc793f87a0048495a5c868c6668b205df7f85bb1452f671152"
+        "232385bceea45e7fd3257460df3f9354436069d2680461c18941de4015248fb1"
       ]
     },
     {
@@ -1404,8 +1404,8 @@
       "canonicalGameId": "cfbd:401858246",
       "contract": "CFB_EDGE_KALSHI_CANDLE_OPEN_V1",
       "eventTicker": "KXNCAAFSPREAD-26OCT03BCSMU",
-      "evidencePath": "data/features/br2/market/raw/033c0cea283a6838f4923c7d2bd1b685aa983f2f8edc6e07e1e5015e8fc12581.json.gz",
-      "evidenceSha256": "033c0cea283a6838f4923c7d2bd1b685aa983f2f8edc6e07e1e5015e8fc12581",
+      "evidencePath": "data/features/br2/market/raw/6743e713b3e0cc7880dfffffdddef416fce6242cf3b50da585cf1088578626b0.json.gz",
+      "evidenceSha256": "6743e713b3e0cc7880dfffffdddef416fce6242cf3b50da585cf1088578626b0",
       "game": "Boston College @ SMU",
       "marketTickers": [
         "KXNCAAFSPREAD-26OCT03BCSMU-SMU22",
@@ -1438,9 +1438,9 @@
         }
       ],
       "reason": null,
-      "retrievedAt": "2026-09-29T06:54:05.561618+00:00",
+      "retrievedAt": "2026-09-29T07:09:36.169221+00:00",
       "sourceHashes": [
-        "cc038bb89f5a7ccc793f87a0048495a5c868c6668b205df7f85bb1452f671152"
+        "232385bceea45e7fd3257460df3f9354436069d2680461c18941de4015248fb1"
       ],
       "venueOpenTime": "2026-09-27T10:06:00+00:00"
     },
@@ -1449,8 +1449,8 @@
       "canonicalGameId": "cfbd:401866477",
       "contract": "CFB_EDGE_KALSHI_CANDLE_OPEN_V1",
       "eventTicker": "KXNCAAFSPREAD-26OCT03BGSUMOH",
-      "evidencePath": "data/features/br2/market/raw/3a956dccc29853543187d0e26480685fe30c6a853376f74b36825072983a9d06.json.gz",
-      "evidenceSha256": "3a956dccc29853543187d0e26480685fe30c6a853376f74b36825072983a9d06",
+      "evidencePath": "data/features/br2/market/raw/83a33102c0dc607f2aba2b10b5e8e117fe334c87d593d30865a583828edfc8bf.json.gz",
+      "evidenceSha256": "83a33102c0dc607f2aba2b10b5e8e117fe334c87d593d30865a583828edfc8bf",
       "game": "Bowling Green @ Miami (OH)",
       "marketTickers": [
         "KXNCAAFSPREAD-26OCT03BGSUMOH-MOH12",
@@ -1483,9 +1483,9 @@
         }
       ],
       "reason": null,
-      "retrievedAt": "2026-09-29T06:54:09.362026+00:00",
+      "retrievedAt": "2026-09-29T07:09:39.818571+00:00",
       "sourceHashes": [
-        "6eac8a3a5835cec79d12196114b0bea26edddb55b3d5e2df68d4774057b4ce1a"
+        "6da81780f96a38046cb0a0a90869ea9a500bdc69c5b8a3e8df03c347d23893b1"
       ],
       "venueOpenTime": "2026-09-28T22:06:00+00:00"
     },
@@ -1494,8 +1494,8 @@
       "canonicalGameId": "cfbd:401858247",
       "contract": "CFB_EDGE_KALSHI_CANDLE_OPEN_V1",
       "eventTicker": "KXNCAAFSPREAD-26OCT03CALUNLV",
-      "evidencePath": "data/features/br2/market/raw/a85bc229734666c36dc562481e7a365cf00cd74bcdfc49adf3a8eb59a803c787.json.gz",
-      "evidenceSha256": "a85bc229734666c36dc562481e7a365cf00cd74bcdfc49adf3a8eb59a803c787",
+      "evidencePath": "data/features/br2/market/raw/31cd8832ac1826f65f773eb16fed4a54fa08982a1e5e76631a5b154f7e89d3e5.json.gz",
+      "evidenceSha256": "31cd8832ac1826f65f773eb16fed4a54fa08982a1e5e76631a5b154f7e89d3e5",
       "game": "California @ UNLV",
       "marketTickers": [
         "KXNCAAFSPREAD-26OCT03CALUNLV-CAL2",
@@ -1528,9 +1528,9 @@
         }
       ],
       "reason": null,
-      "retrievedAt": "2026-09-29T06:54:04.092146+00:00",
+      "retrievedAt": "2026-09-29T07:09:34.721197+00:00",
       "sourceHashes": [
-        "dffd28d5602e7a2b6584de1385734f89587355911e94ed7157fe2071c4c4c43c"
+        "865125f7983d58c3fea9cf4d56353f295c77b1a0df969d67b3cd9e0acd0d7b19"
       ],
       "venueOpenTime": "2026-09-27T07:06:00+00:00"
     },
@@ -1539,8 +1539,8 @@
       "canonicalGameId": "cfbd:401856820",
       "contract": "CFB_EDGE_KALSHI_CANDLE_OPEN_V1",
       "eventTicker": "KXNCAAFSPREAD-26OCT03CINARIZ",
-      "evidencePath": "data/features/br2/market/raw/f17b7b75fd1ebb0a1a47c04a09ad75b855ba06906d582b494635058310ceef08.json.gz",
-      "evidenceSha256": "f17b7b75fd1ebb0a1a47c04a09ad75b855ba06906d582b494635058310ceef08",
+      "evidencePath": "data/features/br2/market/raw/c58e774b9b3cebfd0c7006b79c2bb07ba36b824cd9797e6a8485b643294342cd.json.gz",
+      "evidenceSha256": "c58e774b9b3cebfd0c7006b79c2bb07ba36b824cd9797e6a8485b643294342cd",
       "game": "Cincinnati @ Arizona",
       "marketTickers": [
         "KXNCAAFSPREAD-26OCT03CINARIZ-ARIZ8",
@@ -1573,10 +1573,10 @@
         }
       ],
       "reason": null,
-      "retrievedAt": "2026-09-29T06:54:06.040183+00:00",
+      "retrievedAt": "2026-09-29T07:09:36.627627+00:00",
       "sourceHashes": [
-        "cc038bb89f5a7ccc793f87a0048495a5c868c6668b205df7f85bb1452f671152",
-        "ccbba6759a09e168ad2cc9556dfd1252969f218e29fcddbbc4b43c4cd697b404"
+        "232385bceea45e7fd3257460df3f9354436069d2680461c18941de4015248fb1",
+        "810c9a049b14860693382af9a88db712a2af5ac9c3dc3612d3f5f60111f743d7"
       ],
       "venueOpenTime": "2026-09-27T10:07:00+00:00"
     },
@@ -1585,8 +1585,8 @@
       "canonicalGameId": "cfbd:401866433",
       "contract": "CFB_EDGE_KALSHI_CANDLE_OPEN_V1",
       "eventTicker": "KXNCAAFSPREAD-26OCT03EMUMASS",
-      "evidencePath": "data/features/br2/market/raw/832cc0398e9fbc88cced4acd2227c17aba3709fab7350809d830f9c7d81755ee.json.gz",
-      "evidenceSha256": "832cc0398e9fbc88cced4acd2227c17aba3709fab7350809d830f9c7d81755ee",
+      "evidencePath": "data/features/br2/market/raw/bf19f6e04be747fb83c3632f7c38743213567ca0804c6a18815bbabfb437e174.json.gz",
+      "evidenceSha256": "bf19f6e04be747fb83c3632f7c38743213567ca0804c6a18815bbabfb437e174",
       "game": "Eastern Michigan @ Massachusetts",
       "marketTickers": [
         "KXNCAAFSPREAD-26OCT03EMUMASS-MASS6",
@@ -1619,10 +1619,10 @@
         }
       ],
       "reason": null,
-      "retrievedAt": "2026-09-29T06:54:09.814802+00:00",
+      "retrievedAt": "2026-09-29T07:09:40.267050+00:00",
       "sourceHashes": [
-        "5a361148a081f47023aadaf667bb3635eac46aeb6b1812cf2c1e8c2fb2b6f0f0",
-        "6eac8a3a5835cec79d12196114b0bea26edddb55b3d5e2df68d4774057b4ce1a"
+        "6da81780f96a38046cb0a0a90869ea9a500bdc69c5b8a3e8df03c347d23893b1",
+        "976414df52a3b16a13d3815cc27b827b4c8917400db8d5e4b46b273df5a1a97e"
       ],
       "venueOpenTime": "2026-09-28T22:06:00+00:00"
     },
@@ -1631,13 +1631,13 @@
       "canonicalGameId": "cfbd:401856708",
       "contract": "CFB_EDGE_KALSHI_CANDLE_OPEN_V1",
       "eventTicker": "KXNCAAFSPREAD-26OCT03FLAMIZZ",
-      "evidencePath": "data/features/br2/market/raw/8a9645405784f84b835d8142d3e14145f2146a5333ca1aa5aa46f0c070c6fa5c.json.gz",
-      "evidenceSha256": "8a9645405784f84b835d8142d3e14145f2146a5333ca1aa5aa46f0c070c6fa5c",
+      "evidencePath": "data/features/br2/market/raw/6f5a3049b197c0c012f2fe39c4310569cafdb19fb00177d61d495a276e34e10b.json.gz",
+      "evidenceSha256": "6f5a3049b197c0c012f2fe39c4310569cafdb19fb00177d61d495a276e34e10b",
       "game": "Florida @ Missouri",
       "reason": "NO_TWO_SIDED_IMPLIED_LINE_IN_OPEN_WINDOW",
-      "retrievedAt": "2026-09-29T06:54:03.096053+00:00",
+      "retrievedAt": "2026-09-29T07:09:33.638432+00:00",
       "sourceHashes": [
-        "8096f2843eef7596d537ed87fed10e4fdee40d9f5dac08989ede76ea1393df54"
+        "8fbade75b5bc9090ba9a9687f2197ee608fdb34ae6e37287eb9ca1e15f3681f4"
       ]
     },
     {
@@ -1645,8 +1645,8 @@
       "canonicalGameId": "cfbd:401860921",
       "contract": "CFB_EDGE_KALSHI_CANDLE_OPEN_V1",
       "eventTicker": "KXNCAAFSPREAD-26OCT03FRESWSU",
-      "evidencePath": "data/features/br2/market/raw/ce843b76212d73dcb38b1727acf62c0220b37b5ee44c3360525fb89181903042.json.gz",
-      "evidenceSha256": "ce843b76212d73dcb38b1727acf62c0220b37b5ee44c3360525fb89181903042",
+      "evidencePath": "data/features/br2/market/raw/647e740f111ea186e92c020210e45560e2d44cdd4dca4086a2694b887ae5e093.json.gz",
+      "evidenceSha256": "647e740f111ea186e92c020210e45560e2d44cdd4dca4086a2694b887ae5e093",
       "game": "Fresno State @ Washington State",
       "marketTickers": [
         "KXNCAAFSPREAD-26OCT03FRESWSU-WSU2",
@@ -1679,9 +1679,9 @@
         }
       ],
       "reason": null,
-      "retrievedAt": "2026-09-29T06:54:09.814802+00:00",
+      "retrievedAt": "2026-09-29T07:09:40.267050+00:00",
       "sourceHashes": [
-        "5a361148a081f47023aadaf667bb3635eac46aeb6b1812cf2c1e8c2fb2b6f0f0"
+        "976414df52a3b16a13d3815cc27b827b4c8917400db8d5e4b46b273df5a1a97e"
       ],
       "venueOpenTime": "2026-09-28T22:06:00+00:00"
     },
@@ -1690,8 +1690,8 @@
       "canonicalGameId": "cfbd:401869942",
       "contract": "CFB_EDGE_KALSHI_CANDLE_OPEN_V1",
       "eventTicker": "KXNCAAFSPREAD-26OCT03GASOCCAR",
-      "evidencePath": "data/features/br2/market/raw/286dc902c6291c805e876b07483ab4c430c26b252f3061340c1f42b45ea1de66.json.gz",
-      "evidenceSha256": "286dc902c6291c805e876b07483ab4c430c26b252f3061340c1f42b45ea1de66",
+      "evidencePath": "data/features/br2/market/raw/e7e1b7b499113c73a151a6947bbb602e5c19a85b1aa79eafabc9fb1a1ab63d15.json.gz",
+      "evidenceSha256": "e7e1b7b499113c73a151a6947bbb602e5c19a85b1aa79eafabc9fb1a1ab63d15",
       "game": "Georgia Southern @ Coastal Carolina",
       "marketTickers": [
         "KXNCAAFSPREAD-26OCT03GASOCCAR-GASO4",
@@ -1724,9 +1724,9 @@
         }
       ],
       "reason": null,
-      "retrievedAt": "2026-09-29T06:54:09.814802+00:00",
+      "retrievedAt": "2026-09-29T07:09:40.267050+00:00",
       "sourceHashes": [
-        "5a361148a081f47023aadaf667bb3635eac46aeb6b1812cf2c1e8c2fb2b6f0f0"
+        "976414df52a3b16a13d3815cc27b827b4c8917400db8d5e4b46b273df5a1a97e"
       ],
       "venueOpenTime": "2026-09-28T22:06:00+00:00"
     },
@@ -1735,8 +1735,8 @@
       "canonicalGameId": "cfbd:401858477",
       "contract": "CFB_EDGE_KALSHI_CANDLE_OPEN_V1",
       "eventTicker": "KXNCAAFSPREAD-26OCT03INDRUTG",
-      "evidencePath": "data/features/br2/market/raw/4423dc9e38cc311cb62a7bcc743ff6a66f5cc776b790a7d619949542f4ac4ec2.json.gz",
-      "evidenceSha256": "4423dc9e38cc311cb62a7bcc743ff6a66f5cc776b790a7d619949542f4ac4ec2",
+      "evidencePath": "data/features/br2/market/raw/dfcaaab10809301a2a393f83669e40b100aad6a5ab57da1861e15325a45d4ce5.json.gz",
+      "evidenceSha256": "dfcaaab10809301a2a393f83669e40b100aad6a5ab57da1861e15325a45d4ce5",
       "game": "Indiana @ Rutgers",
       "marketTickers": [
         "KXNCAAFSPREAD-26OCT03INDRUTG-IND25",
@@ -1769,9 +1769,9 @@
         }
       ],
       "reason": null,
-      "retrievedAt": "2026-09-29T06:54:04.092146+00:00",
+      "retrievedAt": "2026-09-29T07:09:34.721197+00:00",
       "sourceHashes": [
-        "dffd28d5602e7a2b6584de1385734f89587355911e94ed7157fe2071c4c4c43c"
+        "865125f7983d58c3fea9cf4d56353f295c77b1a0df969d67b3cd9e0acd0d7b19"
       ],
       "venueOpenTime": "2026-09-27T07:06:00+00:00"
     },
@@ -1780,13 +1780,13 @@
       "canonicalGameId": "cfbd:401856709",
       "contract": "CFB_EDGE_KALSHI_CANDLE_OPEN_V1",
       "eventTicker": "KXNCAAFSPREAD-26OCT03UKSCAR",
-      "evidencePath": "data/features/br2/market/raw/26db05c14faaae2709b6baafa180867dec4fdaf28bac29ac6fb31a2f3b220a9e.json.gz",
-      "evidenceSha256": "26db05c14faaae2709b6baafa180867dec4fdaf28bac29ac6fb31a2f3b220a9e",
+      "evidencePath": "data/features/br2/market/raw/771796d77ba5aa63348e644ccedad2b911cc77f0695a4d0c39be2f34980d7e38.json.gz",
+      "evidenceSha256": "771796d77ba5aa63348e644ccedad2b911cc77f0695a4d0c39be2f34980d7e38",
       "game": "Kentucky @ South Carolina",
       "reason": "NO_TWO_SIDED_IMPLIED_LINE_IN_OPEN_WINDOW",
-      "retrievedAt": "2026-09-29T06:54:05.080876+00:00",
+      "retrievedAt": "2026-09-29T07:09:35.701333+00:00",
       "sourceHashes": [
-        "2edfbb43fca9b106709950ad87eedc86d8f7c643fc7fc6dd031d5a5968028011"
+        "983d1d5391ddbb29f9b8af6ad392c8bdedc3dea0d7236dd0678d01a3b638db67"
       ]
     },
     {
@@ -1794,8 +1794,8 @@
       "canonicalGameId": "cfbd:401871050",
       "contract": "CFB_EDGE_KALSHI_CANDLE_OPEN_V1",
       "eventTicker": "KXNCAAFSPREAD-26OCT02LIBDEL",
-      "evidencePath": "data/features/br2/market/raw/b39e2b6550600ba942ead0ab08a06e6dbb36671aae2f2d56dc845a2867ff2056.json.gz",
-      "evidenceSha256": "b39e2b6550600ba942ead0ab08a06e6dbb36671aae2f2d56dc845a2867ff2056",
+      "evidencePath": "data/features/br2/market/raw/6fbd30d5793b40b062b872edd23b842f6de5f9486e18773a5affd28fe6d8bfff.json.gz",
+      "evidenceSha256": "6fbd30d5793b40b062b872edd23b842f6de5f9486e18773a5affd28fe6d8bfff",
       "game": "Liberty @ Delaware",
       "marketTickers": [
         "KXNCAAFSPREAD-26OCT02LIBDEL-LIB8",
@@ -1828,9 +1828,9 @@
         }
       ],
       "reason": null,
-      "retrievedAt": "2026-09-29T06:54:08.415995+00:00",
+      "retrievedAt": "2026-09-29T07:09:38.961094+00:00",
       "sourceHashes": [
-        "a837abd53afdcc7eacc19ed26853a8bb6c26627001b8bfb3f55cfdba7fdbefa0"
+        "99087bd0e22fe741b8d97df199d2bd48b560b5e6c23c924d462fef5337f935e0"
       ],
       "venueOpenTime": "2026-09-27T16:06:00+00:00"
     },
@@ -1839,13 +1839,13 @@
       "canonicalGameId": "cfbd:401858248",
       "contract": "CFB_EDGE_KALSHI_CANDLE_OPEN_V1",
       "eventTicker": "KXNCAAFSPREAD-26OCT03LOUNCST",
-      "evidencePath": "data/features/br2/market/raw/b45e3d99812ee15203b6d53badf281338e63e5a9452274fb3d7cec396a58e82e.json.gz",
-      "evidenceSha256": "b45e3d99812ee15203b6d53badf281338e63e5a9452274fb3d7cec396a58e82e",
+      "evidencePath": "data/features/br2/market/raw/7cceb2832c11ae351459f8980f60fcf2e791066d0d8e813f8e46c114755d17f5.json.gz",
+      "evidenceSha256": "7cceb2832c11ae351459f8980f60fcf2e791066d0d8e813f8e46c114755d17f5",
       "game": "Louisville @ NC State",
       "reason": "NO_TWO_SIDED_IMPLIED_LINE_IN_OPEN_WINDOW",
-      "retrievedAt": "2026-09-29T06:54:03.096053+00:00",
+      "retrievedAt": "2026-09-29T07:09:33.638432+00:00",
       "sourceHashes": [
-        "8096f2843eef7596d537ed87fed10e4fdee40d9f5dac08989ede76ea1393df54"
+        "8fbade75b5bc9090ba9a9687f2197ee608fdb34ae6e37287eb9ca1e15f3681f4"
       ]
     },
     {
@@ -1853,8 +1853,8 @@
       "canonicalGameId": "cfbd:401869962",
       "contract": "CFB_EDGE_KALSHI_CANDLE_OPEN_V1",
       "eventTicker": "KXNCAAFSPREAD-26OCT03MRSHJMU",
-      "evidencePath": "data/features/br2/market/raw/65f1e001713c6e535910c6174e828e3542def519ebaafacf682913d3d97a37f6.json.gz",
-      "evidenceSha256": "65f1e001713c6e535910c6174e828e3542def519ebaafacf682913d3d97a37f6",
+      "evidencePath": "data/features/br2/market/raw/2f9d2ba24af193f24bdc22e507f654dade58ccb8f52fae7b8e57fd5ec70b20e9.json.gz",
+      "evidenceSha256": "2f9d2ba24af193f24bdc22e507f654dade58ccb8f52fae7b8e57fd5ec70b20e9",
       "game": "Marshall @ James Madison",
       "marketTickers": [
         "KXNCAAFSPREAD-26OCT03MRSHJMU-JMU10",
@@ -1887,9 +1887,9 @@
         }
       ],
       "reason": null,
-      "retrievedAt": "2026-09-29T06:54:06.040183+00:00",
+      "retrievedAt": "2026-09-29T07:09:36.627627+00:00",
       "sourceHashes": [
-        "ccbba6759a09e168ad2cc9556dfd1252969f218e29fcddbbc4b43c4cd697b404"
+        "810c9a049b14860693382af9a88db712a2af5ac9c3dc3612d3f5f60111f743d7"
       ],
       "venueOpenTime": "2026-09-27T10:06:00+00:00"
     },
@@ -1898,8 +1898,8 @@
       "canonicalGameId": "cfbd:401858475",
       "contract": "CFB_EDGE_KALSHI_CANDLE_OPEN_V1",
       "eventTicker": "KXNCAAFSPREAD-26OCT03MDNEB",
-      "evidencePath": "data/features/br2/market/raw/8755d578c46fc0b6883e8f6097a6d9075a216abdd416cc66f86e003c948476a8.json.gz",
-      "evidenceSha256": "8755d578c46fc0b6883e8f6097a6d9075a216abdd416cc66f86e003c948476a8",
+      "evidencePath": "data/features/br2/market/raw/2e3acc522a555e01329400c0a31a7c85dd716c0d8eb03c92c09922a035b158df.json.gz",
+      "evidenceSha256": "2e3acc522a555e01329400c0a31a7c85dd716c0d8eb03c92c09922a035b158df",
       "game": "Maryland @ Nebraska",
       "marketTickers": [
         "KXNCAAFSPREAD-26OCT03MDNEB-NEB11",
@@ -1932,10 +1932,10 @@
         }
       ],
       "reason": null,
-      "retrievedAt": "2026-09-29T06:54:04.611329+00:00",
+      "retrievedAt": "2026-09-29T07:09:35.247283+00:00",
       "sourceHashes": [
-        "2a0cdd03da6f22a0ae06f151e75c2da2dce754b84ba9949a1b8ae8c685a15dae",
-        "dffd28d5602e7a2b6584de1385734f89587355911e94ed7157fe2071c4c4c43c"
+        "865125f7983d58c3fea9cf4d56353f295c77b1a0df969d67b3cd9e0acd0d7b19",
+        "e440002a2748a87d2ebf42f7520dc6d2b643c13fb914d0e213625ae605b7035a"
       ],
       "venueOpenTime": "2026-09-27T07:06:00+00:00"
     },
@@ -1944,8 +1944,8 @@
       "canonicalGameId": "cfbd:401862787",
       "contract": "CFB_EDGE_KALSHI_CANDLE_OPEN_V1",
       "eventTicker": "KXNCAAFSPREAD-26OCT03MEMCHAR",
-      "evidencePath": "data/features/br2/market/raw/f6cf220035860cd1b9bde329d5478695bd8b9e5ff69864ec15e2a1579ee5beec.json.gz",
-      "evidenceSha256": "f6cf220035860cd1b9bde329d5478695bd8b9e5ff69864ec15e2a1579ee5beec",
+      "evidencePath": "data/features/br2/market/raw/3360e3becbce60b853303d309e1c9fd09dc5762427bda2ff2f29f4511f65511a.json.gz",
+      "evidenceSha256": "3360e3becbce60b853303d309e1c9fd09dc5762427bda2ff2f29f4511f65511a",
       "game": "Memphis @ Charlotte",
       "marketTickers": [
         "KXNCAAFSPREAD-26OCT03MEMCHAR-MEM21",
@@ -1978,10 +1978,10 @@
         }
       ],
       "reason": null,
-      "retrievedAt": "2026-09-29T06:54:10.271416+00:00",
+      "retrievedAt": "2026-09-29T07:09:40.769650+00:00",
       "sourceHashes": [
-        "5a361148a081f47023aadaf667bb3635eac46aeb6b1812cf2c1e8c2fb2b6f0f0",
-        "be85908f331df779f53990d2d16fa422f67c7f195a4296258596533eab3c415f"
+        "151bd81f67aac12dbc59b70222c2ba6a0d50cbc284f7c06a9d3473567e0934ca",
+        "976414df52a3b16a13d3815cc27b827b4c8917400db8d5e4b46b273df5a1a97e"
       ],
       "venueOpenTime": "2026-09-28T22:06:00+00:00"
     },
@@ -1990,14 +1990,14 @@
       "canonicalGameId": "cfbd:401858249",
       "contract": "CFB_EDGE_KALSHI_CANDLE_OPEN_V1",
       "eventTicker": "KXNCAAFSPREAD-26OCT03MIACLEM",
-      "evidencePath": "data/features/br2/market/raw/821fa53639924acba665f6e95559a0a7134f1e7460bd74dfdadfd0bf6b4dd5ae.json.gz",
-      "evidenceSha256": "821fa53639924acba665f6e95559a0a7134f1e7460bd74dfdadfd0bf6b4dd5ae",
+      "evidencePath": "data/features/br2/market/raw/8aa58d8e61b3ff928751009339d998140c5ebec6c44269c61c105f8da94f7382.json.gz",
+      "evidenceSha256": "8aa58d8e61b3ff928751009339d998140c5ebec6c44269c61c105f8da94f7382",
       "game": "Miami @ Clemson",
       "reason": "NO_TWO_SIDED_IMPLIED_LINE_IN_OPEN_WINDOW",
-      "retrievedAt": "2026-09-29T06:54:03.546516+00:00",
+      "retrievedAt": "2026-09-29T07:09:34.105239+00:00",
       "sourceHashes": [
-        "8096f2843eef7596d537ed87fed10e4fdee40d9f5dac08989ede76ea1393df54",
-        "a274fa7d7a426c15a85632c855da5c68144ed085d7a16c544e75d31f239ae0f7"
+        "2bf327f8e186dfb6551346f2e44cb12869f5d30610d78d012350cd8b1a7aa50d",
+        "8fbade75b5bc9090ba9a9687f2197ee608fdb34ae6e37287eb9ca1e15f3681f4"
       ]
     },
     {
@@ -2005,8 +2005,8 @@
       "canonicalGameId": "cfbd:401858474",
       "contract": "CFB_EDGE_KALSHI_CANDLE_OPEN_V1",
       "eventTicker": "KXNCAAFSPREAD-26OCT03MICHMINN",
-      "evidencePath": "data/features/br2/market/raw/e9f7e9afdc3c0d9baa515f89b1e421456a5e2789179a8eac6ee98f1554e2735c.json.gz",
-      "evidenceSha256": "e9f7e9afdc3c0d9baa515f89b1e421456a5e2789179a8eac6ee98f1554e2735c",
+      "evidencePath": "data/features/br2/market/raw/f60794a72ff492bc3904d3796ec9f4c68f477e7cf52bf1200b359c4181933598.json.gz",
+      "evidenceSha256": "f60794a72ff492bc3904d3796ec9f4c68f477e7cf52bf1200b359c4181933598",
       "game": "Michigan @ Minnesota",
       "marketTickers": [
         "KXNCAAFSPREAD-26OCT03MICHMINN-MICH8",
@@ -2039,9 +2039,9 @@
         }
       ],
       "reason": null,
-      "retrievedAt": "2026-09-29T06:54:01.513417+00:00",
+      "retrievedAt": "2026-09-29T07:09:32.089481+00:00",
       "sourceHashes": [
-        "b8f41192d74c048de22c8129c5f16a2c788c64c12dfa2b1dd7ea89d85e99caec"
+        "9630d267a3ac8154a1b412af00cacf2acb4b5d5a769edd7d60af287b923823b4"
       ],
       "venueOpenTime": "2026-09-26T16:07:00+00:00"
     },
@@ -2050,13 +2050,13 @@
       "canonicalGameId": "cfbd:401858479",
       "contract": "CFB_EDGE_KALSHI_CANDLE_OPEN_V1",
       "eventTicker": "KXNCAAFSPREAD-26OCT03MSUWIS",
-      "evidencePath": "data/features/br2/market/raw/175ca9f998c4f84936fa075d2debd03177a7ce69e837b3860776f98cfad8b9cd.json.gz",
-      "evidenceSha256": "175ca9f998c4f84936fa075d2debd03177a7ce69e837b3860776f98cfad8b9cd",
+      "evidencePath": "data/features/br2/market/raw/116760a86f84433ac4e98e8918f43b29697330222e0067e5303fce3f004a1375.json.gz",
+      "evidenceSha256": "116760a86f84433ac4e98e8918f43b29697330222e0067e5303fce3f004a1375",
       "game": "Michigan State @ Wisconsin",
       "reason": "NO_TWO_SIDED_IMPLIED_LINE_IN_OPEN_WINDOW",
-      "retrievedAt": "2026-09-29T06:54:04.611329+00:00",
+      "retrievedAt": "2026-09-29T07:09:35.247283+00:00",
       "sourceHashes": [
-        "2a0cdd03da6f22a0ae06f151e75c2da2dce754b84ba9949a1b8ae8c685a15dae"
+        "e440002a2748a87d2ebf42f7520dc6d2b643c13fb914d0e213625ae605b7035a"
       ]
     },
     {
@@ -2064,8 +2064,8 @@
       "canonicalGameId": "cfbd:401856807",
       "contract": "CFB_EDGE_KALSHI_CANDLE_OPEN_V1",
       "eventTicker": "KXNCAAFSPREAD-26OCT03MTUKU",
-      "evidencePath": "data/features/br2/market/raw/dcddca00e673276939b68fc4b4913567daad5fb6b876be03daadfeae388b901a.json.gz",
-      "evidenceSha256": "dcddca00e673276939b68fc4b4913567daad5fb6b876be03daadfeae388b901a",
+      "evidencePath": "data/features/br2/market/raw/bddaca6dfab0a472276083e52b45fba030ac7e0cdfa553b5eeaf7d7a3dfbc2ca.json.gz",
+      "evidenceSha256": "bddaca6dfab0a472276083e52b45fba030ac7e0cdfa553b5eeaf7d7a3dfbc2ca",
       "game": "Middle Tennessee @ Kansas",
       "marketTickers": [
         "KXNCAAFSPREAD-26OCT03MTUKU-KU19",
@@ -2098,9 +2098,9 @@
         }
       ],
       "reason": null,
-      "retrievedAt": "2026-09-29T06:54:10.271416+00:00",
+      "retrievedAt": "2026-09-29T07:09:40.769650+00:00",
       "sourceHashes": [
-        "be85908f331df779f53990d2d16fa422f67c7f195a4296258596533eab3c415f"
+        "151bd81f67aac12dbc59b70222c2ba6a0d50cbc284f7c06a9d3473567e0934ca"
       ],
       "venueOpenTime": "2026-09-28T22:05:00+00:00"
     },
@@ -2109,8 +2109,8 @@
       "canonicalGameId": "cfbd:401862791",
       "contract": "CFB_EDGE_KALSHI_CANDLE_OPEN_V1",
       "eventTicker": "KXNCAAFSPREAD-26OCT03NAVYAFA",
-      "evidencePath": "data/features/br2/market/raw/547828152c62a1f2de22e86038dab5f980e7e9bff0d5ed74e131756454e9f44c.json.gz",
-      "evidenceSha256": "547828152c62a1f2de22e86038dab5f980e7e9bff0d5ed74e131756454e9f44c",
+      "evidencePath": "data/features/br2/market/raw/9f820178da8d2bd4090edc14e7fbb9d38b57dd57be6f3eb558111ff60fb1cd23.json.gz",
+      "evidenceSha256": "9f820178da8d2bd4090edc14e7fbb9d38b57dd57be6f3eb558111ff60fb1cd23",
       "game": "Navy @ Air Force",
       "marketTickers": [
         "KXNCAAFSPREAD-26OCT03NAVYAFA-NAVY2",
@@ -2143,9 +2143,9 @@
         }
       ],
       "reason": null,
-      "retrievedAt": "2026-09-29T06:54:06.040183+00:00",
+      "retrievedAt": "2026-09-29T07:09:36.627627+00:00",
       "sourceHashes": [
-        "ccbba6759a09e168ad2cc9556dfd1252969f218e29fcddbbc4b43c4cd697b404"
+        "810c9a049b14860693382af9a88db712a2af5ac9c3dc3612d3f5f60111f743d7"
       ],
       "venueOpenTime": "2026-09-27T10:06:00+00:00"
     },
@@ -2154,13 +2154,13 @@
       "canonicalGameId": "cfbd:401858250",
       "contract": "CFB_EDGE_KALSHI_CANDLE_OPEN_V1",
       "eventTicker": "KXNCAAFSPREAD-26OCT03NDUNC",
-      "evidencePath": "data/features/br2/market/raw/e86ff168b77be66ca599c655b743b1451a72e4467adfeb39ebd0e6146b0a4475.json.gz",
-      "evidenceSha256": "e86ff168b77be66ca599c655b743b1451a72e4467adfeb39ebd0e6146b0a4475",
+      "evidencePath": "data/features/br2/market/raw/23958f28f189e6442dcffeba6a4b75442aa5f06d6fee911c36157bea483d1a52.json.gz",
+      "evidenceSha256": "23958f28f189e6442dcffeba6a4b75442aa5f06d6fee911c36157bea483d1a52",
       "game": "Notre Dame @ North Carolina",
       "reason": "NO_TWO_SIDED_IMPLIED_LINE_IN_OPEN_WINDOW",
-      "retrievedAt": "2026-09-29T06:54:02.010594+00:00",
+      "retrievedAt": "2026-09-29T07:09:32.669137+00:00",
       "sourceHashes": [
-        "9efc1cfb279ba14f1714021494b9fe8130b746e0c7b40f6ed2ad81d24bac8b70"
+        "6dce196de007e2fb8f3d539fff31a4ae8b88a8cc1c107ad5ceb3c266aae24c5c"
       ]
     },
     {
@@ -2168,14 +2168,14 @@
       "canonicalGameId": "cfbd:401866434",
       "contract": "CFB_EDGE_KALSHI_CANDLE_OPEN_V1",
       "eventTicker": "KXNCAAFSPREAD-26OCT03OHIOKENT",
-      "evidencePath": "data/features/br2/market/raw/b31c3cf38f96958a5ae7ea411b4112547e5352c04eea66eae9d3b247adbecb44.json.gz",
-      "evidenceSha256": "b31c3cf38f96958a5ae7ea411b4112547e5352c04eea66eae9d3b247adbecb44",
+      "evidencePath": "data/features/br2/market/raw/ee1b9eb7ed29b6b591068ec4205dc483d1d75530245e03b2cc302d3476d56c1b.json.gz",
+      "evidenceSha256": "ee1b9eb7ed29b6b591068ec4205dc483d1d75530245e03b2cc302d3476d56c1b",
       "game": "Ohio @ Kent State",
       "reason": "NO_TWO_SIDED_IMPLIED_LINE_IN_OPEN_WINDOW",
-      "retrievedAt": "2026-09-29T06:54:06.536041+00:00",
+      "retrievedAt": "2026-09-29T07:09:37.157891+00:00",
       "sourceHashes": [
-        "33fe22720bc81db9cae068840828a5a469d68da61526c51375f28feb86a0d775",
-        "ccbba6759a09e168ad2cc9556dfd1252969f218e29fcddbbc4b43c4cd697b404"
+        "810c9a049b14860693382af9a88db712a2af5ac9c3dc3612d3f5f60111f743d7",
+        "865ad659a9dce3fbdc4f508934efd0445801c7215c6c5963eb7bd92943b525d5"
       ]
     },
     {
@@ -2183,14 +2183,14 @@
       "canonicalGameId": "cfbd:401858473",
       "contract": "CFB_EDGE_KALSHI_CANDLE_OPEN_V1",
       "eventTicker": "KXNCAAFSPREAD-26OCT03OSUIOWA",
-      "evidencePath": "data/features/br2/market/raw/7d8050fb718fe34007097f580f51da58f601c871aafea167f1a6b786624387a2.json.gz",
-      "evidenceSha256": "7d8050fb718fe34007097f580f51da58f601c871aafea167f1a6b786624387a2",
+      "evidencePath": "data/features/br2/market/raw/d788278fba2a2815d597ce2b9069a1ef771c5f07b4fc8fd5cca5b776c2a0d31a.json.gz",
+      "evidenceSha256": "d788278fba2a2815d597ce2b9069a1ef771c5f07b4fc8fd5cca5b776c2a0d31a",
       "game": "Ohio State @ Iowa",
       "reason": "NO_TWO_SIDED_IMPLIED_LINE_IN_OPEN_WINDOW",
-      "retrievedAt": "2026-09-29T06:54:02.477265+00:00",
+      "retrievedAt": "2026-09-29T07:09:33.132200+00:00",
       "sourceHashes": [
-        "9efc1cfb279ba14f1714021494b9fe8130b746e0c7b40f6ed2ad81d24bac8b70",
-        "d3a2d70d5872a029bb337b85eebe24b990948c2c643b2ef79c3b7c2ef653f60c"
+        "2d746a6a493cc643f3fdf83b3f6de8abbf5d9ff15f0f628386e9b5a5c31f01d3",
+        "6dce196de007e2fb8f3d539fff31a4ae8b88a8cc1c107ad5ceb3c266aae24c5c"
       ]
     },
     {
@@ -2198,13 +2198,13 @@
       "canonicalGameId": "cfbd:401869956",
       "contract": "CFB_EDGE_KALSHI_CANDLE_OPEN_V1",
       "eventTicker": "KXNCAAFSPREAD-26OCT03ODUGAST",
-      "evidencePath": "data/features/br2/market/raw/ae168e6994a9b1c1e36dec4501ab1994e8eb471174d788ecf726393d498fda2e.json.gz",
-      "evidenceSha256": "ae168e6994a9b1c1e36dec4501ab1994e8eb471174d788ecf726393d498fda2e",
+      "evidencePath": "data/features/br2/market/raw/129629290acef25cbc1156b76a56f3b88b076bcc6aa9bd85480286eb9cbf90db.json.gz",
+      "evidenceSha256": "129629290acef25cbc1156b76a56f3b88b076bcc6aa9bd85480286eb9cbf90db",
       "game": "Old Dominion @ Georgia State",
       "reason": "NO_TWO_SIDED_IMPLIED_LINE_IN_OPEN_WINDOW",
-      "retrievedAt": "2026-09-29T06:54:06.040183+00:00",
+      "retrievedAt": "2026-09-29T07:09:36.627627+00:00",
       "sourceHashes": [
-        "ccbba6759a09e168ad2cc9556dfd1252969f218e29fcddbbc4b43c4cd697b404"
+        "810c9a049b14860693382af9a88db712a2af5ac9c3dc3612d3f5f60111f743d7"
       ]
     },
     {
@@ -2212,13 +2212,13 @@
       "canonicalGameId": "cfbd:401860899",
       "contract": "CFB_EDGE_KALSHI_CANDLE_OPEN_V1",
       "eventTicker": "KXNCAAFSPREAD-26OCT03ORSTCSU",
-      "evidencePath": "data/features/br2/market/raw/a8f21b6c5906ab8f32b34edf1edf01b192fc203f405e3e9914dc14fb49cd4ab3.json.gz",
-      "evidenceSha256": "a8f21b6c5906ab8f32b34edf1edf01b192fc203f405e3e9914dc14fb49cd4ab3",
+      "evidencePath": "data/features/br2/market/raw/596555f7ff9ff0e7628c3e78e9e562d35122296371760d310a352068e4e3d8d3.json.gz",
+      "evidenceSha256": "596555f7ff9ff0e7628c3e78e9e562d35122296371760d310a352068e4e3d8d3",
       "game": "Oregon State @ Colorado State",
       "reason": "NO_TWO_SIDED_IMPLIED_LINE_IN_OPEN_WINDOW",
-      "retrievedAt": "2026-09-29T06:54:06.536041+00:00",
+      "retrievedAt": "2026-09-29T07:09:37.157891+00:00",
       "sourceHashes": [
-        "33fe22720bc81db9cae068840828a5a469d68da61526c51375f28feb86a0d775"
+        "865ad659a9dce3fbdc4f508934efd0445801c7215c6c5963eb7bd92943b525d5"
       ]
     },
     {
@@ -2226,13 +2226,13 @@
       "canonicalGameId": "cfbd:401858476",
       "contract": "CFB_EDGE_KALSHI_CANDLE_OPEN_V1",
       "eventTicker": "KXNCAAFSPREAD-26OCT02PSUNW",
-      "evidencePath": "data/features/br2/market/raw/bc954c1b19a79b71b5f250e720dbf1448e45025aa21aa262239523865f276651.json.gz",
-      "evidenceSha256": "bc954c1b19a79b71b5f250e720dbf1448e45025aa21aa262239523865f276651",
+      "evidencePath": "data/features/br2/market/raw/d2058d757989ef143d7262dce8847c98098f70689eacdd81b9b9be16c865642f.json.gz",
+      "evidenceSha256": "d2058d757989ef143d7262dce8847c98098f70689eacdd81b9b9be16c865642f",
       "game": "Penn State @ Northwestern",
       "reason": "NO_TWO_SIDED_IMPLIED_LINE_IN_OPEN_WINDOW",
-      "retrievedAt": "2026-09-29T06:54:01.054977+00:00",
+      "retrievedAt": "2026-09-29T07:09:31.657843+00:00",
       "sourceHashes": [
-        "86235f5320772e28c1b88499b4145dbe5528c7165c52f39d9f9e55669875699c"
+        "576ab5023f463c42404273885d8baa5f621da7c535b2de771589a15e2370c801"
       ]
     },
     {
@@ -2240,8 +2240,8 @@
       "canonicalGameId": "cfbd:401858245",
       "contract": "CFB_EDGE_KALSHI_CANDLE_OPEN_V1",
       "eventTicker": "KXNCAAFSPREAD-26OCT02PITTVT",
-      "evidencePath": "data/features/br2/market/raw/fc819fca655229bde1a4e4aa0aeef18e817e01ebfd45c50e079afd09fcbf54c8.json.gz",
-      "evidenceSha256": "fc819fca655229bde1a4e4aa0aeef18e817e01ebfd45c50e079afd09fcbf54c8",
+      "evidencePath": "data/features/br2/market/raw/6ea2aeb4d6167d3c01c9dce4632ebb40bfc89b6aa3cc9c93c5675b514dae1c39.json.gz",
+      "evidenceSha256": "6ea2aeb4d6167d3c01c9dce4632ebb40bfc89b6aa3cc9c93c5675b514dae1c39",
       "game": "Pittsburgh @ Virginia Tech",
       "marketTickers": [
         "KXNCAAFSPREAD-26OCT02PITTVT-VT7",
@@ -2274,9 +2274,9 @@
         }
       ],
       "reason": null,
-      "retrievedAt": "2026-09-29T06:54:01.054977+00:00",
+      "retrievedAt": "2026-09-29T07:09:31.657843+00:00",
       "sourceHashes": [
-        "86235f5320772e28c1b88499b4145dbe5528c7165c52f39d9f9e55669875699c"
+        "576ab5023f463c42404273885d8baa5f621da7c535b2de771589a15e2370c801"
       ],
       "venueOpenTime": "2026-09-26T01:06:00+00:00"
     },
@@ -2285,13 +2285,13 @@
       "canonicalGameId": "cfbd:401858472",
       "contract": "CFB_EDGE_KALSHI_CANDLE_OPEN_V1",
       "eventTicker": "KXNCAAFSPREAD-26OCT03PURILL",
-      "evidencePath": "data/features/br2/market/raw/707fd5d598b3bdd167bd2bb8e8938509b9db3dbfb3a52dd6651ed517984cfe41.json.gz",
-      "evidenceSha256": "707fd5d598b3bdd167bd2bb8e8938509b9db3dbfb3a52dd6651ed517984cfe41",
+      "evidencePath": "data/features/br2/market/raw/46f46502b7783e2b078685c4cbfb27e63fab336c8b97bb94050dae1241282f34.json.gz",
+      "evidenceSha256": "46f46502b7783e2b078685c4cbfb27e63fab336c8b97bb94050dae1241282f34",
       "game": "Purdue @ Illinois",
       "reason": "NO_TWO_SIDED_IMPLIED_LINE_IN_OPEN_WINDOW",
-      "retrievedAt": "2026-09-29T06:54:04.611329+00:00",
+      "retrievedAt": "2026-09-29T07:09:35.247283+00:00",
       "sourceHashes": [
-        "2a0cdd03da6f22a0ae06f151e75c2da2dce754b84ba9949a1b8ae8c685a15dae"
+        "e440002a2748a87d2ebf42f7520dc6d2b643c13fb914d0e213625ae605b7035a"
       ]
     },
     {
@@ -2299,13 +2299,13 @@
       "canonicalGameId": "cfbd:401864513",
       "contract": "CFB_EDGE_KALSHI_CANDLE_OPEN_V1",
       "eventTicker": "KXNCAAFSPREAD-26OCT04SJSUHAW",
-      "evidencePath": "data/features/br2/market/raw/df8abffcea5bbe9240f571104b3c6c5610c00b011f93d46c1891e93d31a3c4b4.json.gz",
-      "evidenceSha256": "df8abffcea5bbe9240f571104b3c6c5610c00b011f93d46c1891e93d31a3c4b4",
+      "evidencePath": "data/features/br2/market/raw/8901cd6c9a62d01a1a26bd4651c696fbcb4b10a2bacfaca3d6327f4c73cec26d.json.gz",
+      "evidenceSha256": "8901cd6c9a62d01a1a26bd4651c696fbcb4b10a2bacfaca3d6327f4c73cec26d",
       "game": "San Jos\u00e9 State @ Hawai'i",
       "reason": "NO_TWO_SIDED_IMPLIED_LINE_IN_OPEN_WINDOW",
-      "retrievedAt": "2026-09-29T06:54:07.946308+00:00",
+      "retrievedAt": "2026-09-29T07:09:38.504385+00:00",
       "sourceHashes": [
-        "4f89e113a5f15471526d5f413002eb1c5d4c33248fdc28ce452932b59e440759"
+        "42363bec235a310d00c3bc859a678074840e711bdaab251753dfb5fea687462c"
       ]
     },
     {
@@ -2313,14 +2313,14 @@
       "canonicalGameId": "cfbd:401858251",
       "contract": "CFB_EDGE_KALSHI_CANDLE_OPEN_V1",
       "eventTicker": "KXNCAAFSPREAD-26OCT03STANWAKE",
-      "evidencePath": "data/features/br2/market/raw/91ee7597f3661fb56caf00bfc2938373f94e2ea7e6770d153073b4400fbfb1ee.json.gz",
-      "evidenceSha256": "91ee7597f3661fb56caf00bfc2938373f94e2ea7e6770d153073b4400fbfb1ee",
+      "evidencePath": "data/features/br2/market/raw/77c39791122089935fd2be05c28220990a10dae650e0f08dc6027fd2942952f0.json.gz",
+      "evidenceSha256": "77c39791122089935fd2be05c28220990a10dae650e0f08dc6027fd2942952f0",
       "game": "Stanford @ Wake Forest",
       "reason": "NO_TWO_SIDED_IMPLIED_LINE_IN_OPEN_WINDOW",
-      "retrievedAt": "2026-09-29T06:54:05.080876+00:00",
+      "retrievedAt": "2026-09-29T07:09:35.701333+00:00",
       "sourceHashes": [
-        "2a0cdd03da6f22a0ae06f151e75c2da2dce754b84ba9949a1b8ae8c685a15dae",
-        "2edfbb43fca9b106709950ad87eedc86d8f7c643fc7fc6dd031d5a5968028011"
+        "983d1d5391ddbb29f9b8af6ad392c8bdedc3dea0d7236dd0678d01a3b638db67",
+        "e440002a2748a87d2ebf42f7520dc6d2b643c13fb914d0e213625ae605b7035a"
       ]
     },
     {
@@ -2328,13 +2328,13 @@
       "canonicalGameId": "cfbd:401858252",
       "contract": "CFB_EDGE_KALSHI_CANDLE_OPEN_V1",
       "eventTicker": "KXNCAAFSPREAD-26OCT03SYRCONN",
-      "evidencePath": "data/features/br2/market/raw/c931b2ec4edcee9ded708ed6c71f89af6adb30602923e01aedf297bb566321d1.json.gz",
-      "evidenceSha256": "c931b2ec4edcee9ded708ed6c71f89af6adb30602923e01aedf297bb566321d1",
+      "evidencePath": "data/features/br2/market/raw/33b0da3afd6c42a2d9de55accdf02966999c73552d36507b930c6e5c77ff1ab9.json.gz",
+      "evidenceSha256": "33b0da3afd6c42a2d9de55accdf02966999c73552d36507b930c6e5c77ff1ab9",
       "game": "Syracuse @ UConn",
       "reason": "NO_TWO_SIDED_IMPLIED_LINE_IN_OPEN_WINDOW",
-      "retrievedAt": "2026-09-29T06:54:06.536041+00:00",
+      "retrievedAt": "2026-09-29T07:09:37.157891+00:00",
       "sourceHashes": [
-        "33fe22720bc81db9cae068840828a5a469d68da61526c51375f28feb86a0d775"
+        "865ad659a9dce3fbdc4f508934efd0445801c7215c6c5963eb7bd92943b525d5"
       ]
     },
     {
@@ -2342,8 +2342,8 @@
       "canonicalGameId": "cfbd:401862792",
       "contract": "CFB_EDGE_KALSHI_CANDLE_OPEN_V1",
       "eventTicker": "KXNCAAFSPREAD-26OCT03TEMUSF",
-      "evidencePath": "data/features/br2/market/raw/3d7bc3cfd4b2924461a5ed31f74cc5ed21a907412895b4151d5ae0fa3eb36abe.json.gz",
-      "evidenceSha256": "3d7bc3cfd4b2924461a5ed31f74cc5ed21a907412895b4151d5ae0fa3eb36abe",
+      "evidencePath": "data/features/br2/market/raw/06200348a53f529038a002cd52eb4f6fecfc19e6d8cfd343acf66a760c19b70a.json.gz",
+      "evidenceSha256": "06200348a53f529038a002cd52eb4f6fecfc19e6d8cfd343acf66a760c19b70a",
       "game": "Temple @ South Florida",
       "marketTickers": [
         "KXNCAAFSPREAD-26OCT03TEMUSF-USF4",
@@ -2376,10 +2376,10 @@
         }
       ],
       "reason": null,
-      "retrievedAt": "2026-09-29T06:54:07.008352+00:00",
+      "retrievedAt": "2026-09-29T07:09:37.638057+00:00",
       "sourceHashes": [
-        "33fe22720bc81db9cae068840828a5a469d68da61526c51375f28feb86a0d775",
-        "80edbb9e27fb52fb6f76f8482eb746ac64769732932f43becee718b166ddb3a1"
+        "3b204793133e220379addc589b3a81ccf4485ad4c8ce258fcf86b4e48a3b6485",
+        "865ad659a9dce3fbdc4f508934efd0445801c7215c6c5963eb7bd92943b525d5"
       ],
       "venueOpenTime": "2026-09-27T10:06:00+00:00"
     },
@@ -2388,13 +2388,13 @@
       "canonicalGameId": "cfbd:401860900",
       "contract": "CFB_EDGE_KALSHI_CANDLE_OPEN_V1",
       "eventTicker": "KXNCAAFSPREAD-26OCT03TXSTSDSU",
-      "evidencePath": "data/features/br2/market/raw/f8770e299897adb28e3f340998567bb27116f6265b081531cc266d60ce8e590a.json.gz",
-      "evidenceSha256": "f8770e299897adb28e3f340998567bb27116f6265b081531cc266d60ce8e590a",
+      "evidencePath": "data/features/br2/market/raw/7fb617deb018eb3429c593fda341a95e3fa328b54028345ebf3d900bad33709b.json.gz",
+      "evidenceSha256": "7fb617deb018eb3429c593fda341a95e3fa328b54028345ebf3d900bad33709b",
       "game": "Texas State @ San Diego State",
       "reason": "NO_TWO_SIDED_IMPLIED_LINE_IN_OPEN_WINDOW",
-      "retrievedAt": "2026-09-29T06:54:08.415995+00:00",
+      "retrievedAt": "2026-09-29T07:09:38.961094+00:00",
       "sourceHashes": [
-        "a837abd53afdcc7eacc19ed26853a8bb6c26627001b8bfb3f55cfdba7fdbefa0"
+        "99087bd0e22fe741b8d97df199d2bd48b560b5e6c23c924d462fef5337f935e0"
       ]
     },
     {
@@ -2402,8 +2402,8 @@
       "canonicalGameId": "cfbd:401856821",
       "contract": "CFB_EDGE_KALSHI_CANDLE_OPEN_V1",
       "eventTicker": "KXNCAAFSPREAD-26OCT03TTUCOLO",
-      "evidencePath": "data/features/br2/market/raw/f99571254388fcbfa90b8e308ac84c5c34f07953d48b5134656bfd925122b3e2.json.gz",
-      "evidenceSha256": "f99571254388fcbfa90b8e308ac84c5c34f07953d48b5134656bfd925122b3e2",
+      "evidencePath": "data/features/br2/market/raw/46f03191a8fb63fe534efc6d2d73acd0abe5b1279a0efd9e3d6921bfb1547944.json.gz",
+      "evidenceSha256": "46f03191a8fb63fe534efc6d2d73acd0abe5b1279a0efd9e3d6921bfb1547944",
       "game": "Texas Tech @ Colorado",
       "marketTickers": [
         "KXNCAAFSPREAD-26OCT03TTUCOLO-TTU18",
@@ -2436,9 +2436,9 @@
         }
       ],
       "reason": null,
-      "retrievedAt": "2026-09-29T06:54:07.008352+00:00",
+      "retrievedAt": "2026-09-29T07:09:37.638057+00:00",
       "sourceHashes": [
-        "80edbb9e27fb52fb6f76f8482eb746ac64769732932f43becee718b166ddb3a1"
+        "3b204793133e220379addc589b3a81ccf4485ad4c8ce258fcf86b4e48a3b6485"
       ],
       "venueOpenTime": "2026-09-27T10:06:00+00:00"
     },
@@ -2447,13 +2447,13 @@
       "canonicalGameId": "cfbd:401866431",
       "contract": "CFB_EDGE_KALSHI_CANDLE_OPEN_V1",
       "eventTicker": "KXNCAAFSPREAD-26OCT03TOLBALL",
-      "evidencePath": "data/features/br2/market/raw/2b8b917bc912f68021116a12d223bcf87822a471dd3bb9325bdc22c3d1e867eb.json.gz",
-      "evidenceSha256": "2b8b917bc912f68021116a12d223bcf87822a471dd3bb9325bdc22c3d1e867eb",
+      "evidencePath": "data/features/br2/market/raw/0f3006168511792c3c1381cfa776e28833b7ffb3cd95acaa4056b1595269cf13.json.gz",
+      "evidenceSha256": "0f3006168511792c3c1381cfa776e28833b7ffb3cd95acaa4056b1595269cf13",
       "game": "Toledo @ Ball State",
       "reason": "NO_TWO_SIDED_IMPLIED_LINE_IN_OPEN_WINDOW",
-      "retrievedAt": "2026-09-29T06:54:08.415995+00:00",
+      "retrievedAt": "2026-09-29T07:09:38.961094+00:00",
       "sourceHashes": [
-        "a837abd53afdcc7eacc19ed26853a8bb6c26627001b8bfb3f55cfdba7fdbefa0"
+        "99087bd0e22fe741b8d97df199d2bd48b560b5e6c23c924d462fef5337f935e0"
       ]
     },
     {
@@ -2461,13 +2461,13 @@
       "canonicalGameId": "cfbd:401856819",
       "contract": "CFB_EDGE_KALSHI_CANDLE_OPEN_V1",
       "eventTicker": "KXNCAAFSPREAD-26OCT03UCFHOU",
-      "evidencePath": "data/features/br2/market/raw/e380c8d59b07b5b97951b9b71b11c509f376ae3c804f5165c60c5b73baf0fec5.json.gz",
-      "evidenceSha256": "e380c8d59b07b5b97951b9b71b11c509f376ae3c804f5165c60c5b73baf0fec5",
+      "evidencePath": "data/features/br2/market/raw/6096441bf786a6eb490a09c726e8cdf1ecb370ab4c6766ed4596d774712951ea.json.gz",
+      "evidenceSha256": "6096441bf786a6eb490a09c726e8cdf1ecb370ab4c6766ed4596d774712951ea",
       "game": "UCF @ Houston",
       "reason": "NO_TWO_SIDED_IMPLIED_LINE_IN_OPEN_WINDOW",
-      "retrievedAt": "2026-09-29T06:54:07.008352+00:00",
+      "retrievedAt": "2026-09-29T07:09:37.638057+00:00",
       "sourceHashes": [
-        "80edbb9e27fb52fb6f76f8482eb746ac64769732932f43becee718b166ddb3a1"
+        "3b204793133e220379addc589b3a81ccf4485ad4c8ce258fcf86b4e48a3b6485"
       ]
     },
     {
@@ -2475,8 +2475,8 @@
       "canonicalGameId": "cfbd:401871089",
       "contract": "CFB_EDGE_KALSHI_CANDLE_OPEN_V1",
       "eventTicker": "KXNCAAFSPREAD-26OCT03ULMUSA",
-      "evidencePath": "data/features/br2/market/raw/02c7db77a91a38d013ab24aec2045075c946f9538a011247bb595fc4373cd41a.json.gz",
-      "evidenceSha256": "02c7db77a91a38d013ab24aec2045075c946f9538a011247bb595fc4373cd41a",
+      "evidencePath": "data/features/br2/market/raw/e2cb5f1e2e00c7fed46e24dd471f9525412e010699e4c2a54b9d5863e7983bdd.json.gz",
+      "evidenceSha256": "e2cb5f1e2e00c7fed46e24dd471f9525412e010699e4c2a54b9d5863e7983bdd",
       "game": "UL Monroe @ South Alabama",
       "marketTickers": [
         "KXNCAAFSPREAD-26OCT03ULMUSA-USA14",
@@ -2509,10 +2509,10 @@
         }
       ],
       "reason": null,
-      "retrievedAt": "2026-09-29T06:54:07.499340+00:00",
+      "retrievedAt": "2026-09-29T07:09:38.073700+00:00",
       "sourceHashes": [
-        "80edbb9e27fb52fb6f76f8482eb746ac64769732932f43becee718b166ddb3a1",
-        "c8456f5499650db3e6640b1bd26ff7398b09cceb6ca0a55c2abd8f3f78f2615d"
+        "3b204793133e220379addc589b3a81ccf4485ad4c8ce258fcf86b4e48a3b6485",
+        "a2898cc4f58fb9f77fdc6a17e8f4d9752219af5ed7933398e2ff0a39df6aab25"
       ],
       "venueOpenTime": "2026-09-27T10:06:00+00:00"
     },
@@ -2521,8 +2521,8 @@
       "canonicalGameId": "cfbd:401864514",
       "contract": "CFB_EDGE_KALSHI_CANDLE_OPEN_V1",
       "eventTicker": "KXNCAAFSPREAD-26OCT03UTEPUNM",
-      "evidencePath": "data/features/br2/market/raw/dab69b67c173349716b11eb85c520f62a93d729389d9acce1223e021f5694d77.json.gz",
-      "evidenceSha256": "dab69b67c173349716b11eb85c520f62a93d729389d9acce1223e021f5694d77",
+      "evidencePath": "data/features/br2/market/raw/bf3bb57f14b0465b248495ded62b75c97ead865bdce907bc0fe7babe9bdf21dd.json.gz",
+      "evidenceSha256": "bf3bb57f14b0465b248495ded62b75c97ead865bdce907bc0fe7babe9bdf21dd",
       "game": "UTEP @ New Mexico",
       "marketTickers": [
         "KXNCAAFSPREAD-26OCT03UTEPUNM-UNM22",
@@ -2555,9 +2555,9 @@
         }
       ],
       "reason": null,
-      "retrievedAt": "2026-09-29T06:54:10.271416+00:00",
+      "retrievedAt": "2026-09-29T07:09:40.769650+00:00",
       "sourceHashes": [
-        "be85908f331df779f53990d2d16fa422f67c7f195a4296258596533eab3c415f"
+        "151bd81f67aac12dbc59b70222c2ba6a0d50cbc284f7c06a9d3473567e0934ca"
       ],
       "venueOpenTime": "2026-09-28T22:06:00+00:00"
     },
@@ -2566,8 +2566,8 @@
       "canonicalGameId": "cfbd:401862788",
       "contract": "CFB_EDGE_KALSHI_CANDLE_OPEN_V1",
       "eventTicker": "KXNCAAFSPREAD-26OCT03UTSARICE",
-      "evidencePath": "data/features/br2/market/raw/9a7c133bf294c77d597c9cb9d3cc5081837b8ed3433081bc4c3d76e16615c320.json.gz",
-      "evidenceSha256": "9a7c133bf294c77d597c9cb9d3cc5081837b8ed3433081bc4c3d76e16615c320",
+      "evidencePath": "data/features/br2/market/raw/3d77835f2fc08b3a81d9416ebc743c4b078f24fc5d4580cde625faa6e9c4d567.json.gz",
+      "evidenceSha256": "3d77835f2fc08b3a81d9416ebc743c4b078f24fc5d4580cde625faa6e9c4d567",
       "game": "UTSA @ Rice",
       "marketTickers": [
         "KXNCAAFSPREAD-26OCT03UTSARICE-UTSA14",
@@ -2600,9 +2600,9 @@
         }
       ],
       "reason": null,
-      "retrievedAt": "2026-09-29T06:54:07.499340+00:00",
+      "retrievedAt": "2026-09-29T07:09:38.073700+00:00",
       "sourceHashes": [
-        "c8456f5499650db3e6640b1bd26ff7398b09cceb6ca0a55c2abd8f3f78f2615d"
+        "a2898cc4f58fb9f77fdc6a17e8f4d9752219af5ed7933398e2ff0a39df6aab25"
       ],
       "venueOpenTime": "2026-09-27T10:06:00+00:00"
     },
@@ -2611,14 +2611,14 @@
       "canonicalGameId": "cfbd:401860898",
       "contract": "CFB_EDGE_KALSHI_CANDLE_OPEN_V1",
       "eventTicker": "KXNCAAFSPREAD-26OCT03USUBSU",
-      "evidencePath": "data/features/br2/market/raw/64565b381dadc3dac5f5f6e3cd558d9686882013fba208404c337d1ea29dd627.json.gz",
-      "evidenceSha256": "64565b381dadc3dac5f5f6e3cd558d9686882013fba208404c337d1ea29dd627",
+      "evidencePath": "data/features/br2/market/raw/1583936a7e25ceffcb1daab935d1637592c130ccd55d67e75f554f5e44cac05a.json.gz",
+      "evidenceSha256": "1583936a7e25ceffcb1daab935d1637592c130ccd55d67e75f554f5e44cac05a",
       "game": "Utah State @ Boise State",
       "reason": "NO_TWO_SIDED_IMPLIED_LINE_IN_OPEN_WINDOW",
-      "retrievedAt": "2026-09-29T06:54:08.896892+00:00",
+      "retrievedAt": "2026-09-29T07:09:39.377635+00:00",
       "sourceHashes": [
-        "0eb45f34774dd92ba4aed444861c7a19a7fbbb8b784de0bad66a35560851c80b",
-        "a837abd53afdcc7eacc19ed26853a8bb6c26627001b8bfb3f55cfdba7fdbefa0"
+        "99087bd0e22fe741b8d97df199d2bd48b560b5e6c23c924d462fef5337f935e0",
+        "b46fa2c73c75122e6c1f5a8bd1cdadfa22175dc671a0f63269390fcbe1996de5"
       ]
     },
     {
@@ -2626,13 +2626,13 @@
       "canonicalGameId": "cfbd:401856705",
       "contract": "CFB_EDGE_KALSHI_CANDLE_OPEN_V1",
       "eventTicker": "KXNCAAFSPREAD-26OCT03VANUGA",
-      "evidencePath": "data/features/br2/market/raw/a333c6397334c8d052e815787ca58dce3e15e8a6eca0ee3c642ba8aec76e2bce.json.gz",
-      "evidenceSha256": "a333c6397334c8d052e815787ca58dce3e15e8a6eca0ee3c642ba8aec76e2bce",
+      "evidencePath": "data/features/br2/market/raw/df1f676b4ef85d17330a17fb56790d8963793622712896c7f74618ce9250ccde.json.gz",
+      "evidenceSha256": "df1f676b4ef85d17330a17fb56790d8963793622712896c7f74618ce9250ccde",
       "game": "Vanderbilt @ Georgia",
       "reason": "NO_TWO_SIDED_IMPLIED_LINE_IN_OPEN_WINDOW",
-      "retrievedAt": "2026-09-29T06:54:03.546516+00:00",
+      "retrievedAt": "2026-09-29T07:09:34.105239+00:00",
       "sourceHashes": [
-        "a274fa7d7a426c15a85632c855da5c68144ed085d7a16c544e75d31f239ae0f7"
+        "2bf327f8e186dfb6551346f2e44cb12869f5d30610d78d012350cd8b1a7aa50d"
       ]
     },
     {
@@ -2640,13 +2640,13 @@
       "canonicalGameId": "cfbd:401858253",
       "contract": "CFB_EDGE_KALSHI_CANDLE_OPEN_V1",
       "eventTicker": "KXNCAAFSPREAD-26OCT03UVAFSU",
-      "evidencePath": "data/features/br2/market/raw/440e9a3357dd0f934ea46c5c435d377a1a1ff28976cd1e702262f22c8bc5a707.json.gz",
-      "evidenceSha256": "440e9a3357dd0f934ea46c5c435d377a1a1ff28976cd1e702262f22c8bc5a707",
+      "evidencePath": "data/features/br2/market/raw/1cc8a008cccf5b7be6aa9a1676aa2a48b71c1500b3b104d76ad61baa82cc3b8e.json.gz",
+      "evidenceSha256": "1cc8a008cccf5b7be6aa9a1676aa2a48b71c1500b3b104d76ad61baa82cc3b8e",
       "game": "Virginia @ Florida State",
       "reason": "NO_TWO_SIDED_IMPLIED_LINE_IN_OPEN_WINDOW",
-      "retrievedAt": "2026-09-29T06:54:05.080876+00:00",
+      "retrievedAt": "2026-09-29T07:09:35.701333+00:00",
       "sourceHashes": [
-        "2edfbb43fca9b106709950ad87eedc86d8f7c643fc7fc6dd031d5a5968028011"
+        "983d1d5391ddbb29f9b8af6ad392c8bdedc3dea0d7236dd0678d01a3b638db67"
       ]
     },
     {
@@ -2654,13 +2654,13 @@
       "canonicalGameId": "cfbd:401858478",
       "contract": "CFB_EDGE_KALSHI_CANDLE_OPEN_V1",
       "eventTicker": "KXNCAAFSPREAD-26OCT03WASHUSC",
-      "evidencePath": "data/features/br2/market/raw/33b751619b6c64b2cbaffb2742afa95b7deb178d2a096a767303ac0efb10d170.json.gz",
-      "evidenceSha256": "33b751619b6c64b2cbaffb2742afa95b7deb178d2a096a767303ac0efb10d170",
+      "evidencePath": "data/features/br2/market/raw/25fe81619e861997888b083c5d00b895cc69dd34ba75a90c395968e40cba1ad2.json.gz",
+      "evidenceSha256": "25fe81619e861997888b083c5d00b895cc69dd34ba75a90c395968e40cba1ad2",
       "game": "Washington @ USC",
       "reason": "NO_TWO_SIDED_IMPLIED_LINE_IN_OPEN_WINDOW",
-      "retrievedAt": "2026-09-29T06:54:07.499340+00:00",
+      "retrievedAt": "2026-09-29T07:09:38.073700+00:00",
       "sourceHashes": [
-        "c8456f5499650db3e6640b1bd26ff7398b09cceb6ca0a55c2abd8f3f78f2615d"
+        "a2898cc4f58fb9f77fdc6a17e8f4d9752219af5ed7933398e2ff0a39df6aab25"
       ]
     },
     {
@@ -2668,14 +2668,14 @@
       "canonicalGameId": "cfbd:401856822",
       "contract": "CFB_EDGE_KALSHI_CANDLE_OPEN_V1",
       "eventTicker": "KXNCAAFSPREAD-26OCT03WVUISU",
-      "evidencePath": "data/features/br2/market/raw/6f01b9720f8e22161207cef46cca8dbc012cb7e929760de2428d6641431874b2.json.gz",
-      "evidenceSha256": "6f01b9720f8e22161207cef46cca8dbc012cb7e929760de2428d6641431874b2",
+      "evidencePath": "data/features/br2/market/raw/258e11c0c50875f7df20e2e19f64bd6735daca0929eecdfc23fae3adca413f9d.json.gz",
+      "evidenceSha256": "258e11c0c50875f7df20e2e19f64bd6735daca0929eecdfc23fae3adca413f9d",
       "game": "West Virginia @ Iowa State",
       "reason": "NO_TWO_SIDED_IMPLIED_LINE_IN_OPEN_WINDOW",
-      "retrievedAt": "2026-09-29T06:54:07.946308+00:00",
+      "retrievedAt": "2026-09-29T07:09:38.504385+00:00",
       "sourceHashes": [
-        "4f89e113a5f15471526d5f413002eb1c5d4c33248fdc28ce452932b59e440759",
-        "c8456f5499650db3e6640b1bd26ff7398b09cceb6ca0a55c2abd8f3f78f2615d"
+        "42363bec235a310d00c3bc859a678074840e711bdaab251753dfb5fea687462c",
+        "a2898cc4f58fb9f77fdc6a17e8f4d9752219af5ed7933398e2ff0a39df6aab25"
       ]
     },
     {
@@ -2683,8 +2683,8 @@
       "canonicalGameId": "cfbd:401866432",
       "contract": "CFB_EDGE_KALSHI_CANDLE_OPEN_V1",
       "eventTicker": "KXNCAAFSPREAD-26OCT03WMUBUFF",
-      "evidencePath": "data/features/br2/market/raw/08b4706d2553a608ed5d48e7fb1de0a254582d740904994cb48383c1fcd99d35.json.gz",
-      "evidenceSha256": "08b4706d2553a608ed5d48e7fb1de0a254582d740904994cb48383c1fcd99d35",
+      "evidencePath": "data/features/br2/market/raw/84498a0c537c6ec543d4fc8031e27e852bf0e5e4a6b937f30bf6504829566301.json.gz",
+      "evidenceSha256": "84498a0c537c6ec543d4fc8031e27e852bf0e5e4a6b937f30bf6504829566301",
       "game": "Western Michigan @ Buffalo",
       "marketTickers": [
         "KXNCAAFSPREAD-26OCT03WMUBUFF-WMU15",
@@ -2717,9 +2717,9 @@
         }
       ],
       "reason": null,
-      "retrievedAt": "2026-09-29T06:54:10.271416+00:00",
+      "retrievedAt": "2026-09-29T07:09:40.769650+00:00",
       "sourceHashes": [
-        "be85908f331df779f53990d2d16fa422f67c7f195a4296258596533eab3c415f"
+        "151bd81f67aac12dbc59b70222c2ba6a0d50cbc284f7c06a9d3473567e0934ca"
       ],
       "venueOpenTime": "2026-09-28T22:05:00+00:00"
     },
@@ -2728,8 +2728,8 @@
       "canonicalGameId": "cfbd:401864515",
       "contract": "CFB_EDGE_KALSHI_CANDLE_OPEN_V1",
       "eventTicker": "KXNCAAFSPREAD-26OCT03WYONDSU",
-      "evidencePath": "data/features/br2/market/raw/203df5a14c92f36a2248b1ab3eb9297c11416243a86dd18901a295a147058bb2.json.gz",
-      "evidenceSha256": "203df5a14c92f36a2248b1ab3eb9297c11416243a86dd18901a295a147058bb2",
+      "evidencePath": "data/features/br2/market/raw/a6006a891f089126a6b2e101a21ce197f7b8d81f169da6aab1ad69f202232a4e.json.gz",
+      "evidenceSha256": "a6006a891f089126a6b2e101a21ce197f7b8d81f169da6aab1ad69f202232a4e",
       "game": "Wyoming @ North Dakota State",
       "marketTickers": [
         "KXNCAAFSPREAD-26OCT03WYONDSU-NDSU19",
@@ -2762,19 +2762,22 @@
         }
       ],
       "reason": null,
-      "retrievedAt": "2026-09-29T06:54:10.720388+00:00",
+      "retrievedAt": "2026-09-29T07:09:41.201484+00:00",
       "sourceHashes": [
-        "b333007c937e99158ba9db9d51cc6085cd4728ea2e209c390c6a5a6856e721d2",
-        "be85908f331df779f53990d2d16fa422f67c7f195a4296258596533eab3c415f"
+        "151bd81f67aac12dbc59b70222c2ba6a0d50cbc284f7c06a9d3473567e0934ca",
+        "370b43c01c9cca73b8744561c12364bda22f276cae11e4c0836b74a155f64a3d"
       ],
       "venueOpenTime": "2026-09-28T22:05:00+00:00"
     }
   ],
   "policy": {
     "clockSkewSeconds": -60,
+    "expectedOpenCohortId": null,
     "freshMarketMaxAgeSeconds": 900,
     "historicalOpenSource": "CFB_EDGE_KALSHI_CANDLE_OPEN_V1",
     "liveOpenLogRewritten": false,
+    "prospectiveOnly": false,
+    "prospectiveOpenSource": "CFB_EDGE_PROSPECTIVE_OPEN_V1",
     "trueOpenToleranceSeconds": 900,
     "week5ArtifactsChanged": false
   },
@@ -2783,7 +2786,9 @@
   "status": "DATA_COLLECTION_ONLY",
   "summary": {
     "ambiguousKalshiGameRows": 0,
+    "auditGradeHistoricalRecoveredOpenRows": 27,
     "auditGradeOpenStateRows": 27,
+    "auditGradeProspectiveOpenRows": 0,
     "auditGradeRecoveredOpenRows": 27,
     "canonicalRows": 54,
     "freshMarketRows": 54,
