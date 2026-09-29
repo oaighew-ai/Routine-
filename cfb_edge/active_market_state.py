@@ -20,8 +20,10 @@ import hashlib
 import json
 import math
 import os
+import urllib.error
 import urllib.parse
 import urllib.request
+import time
 from dataclasses import asdict
 from datetime import datetime, timezone
 from pathlib import Path
@@ -96,8 +98,27 @@ def _fetch_bytes(url: str, *, timeout: float = 45.0) -> bytes:
     req = urllib.request.Request(
         url, headers={"Accept": "application/json", "User-Agent": "cfb-edge/1.0"}
     )
-    with urllib.request.urlopen(req, timeout=timeout) as response:
-        return response.read()
+    last = None
+    for attempt in range(5):
+        try:
+            with urllib.request.urlopen(req, timeout=timeout) as response:
+                return response.read()
+        except urllib.error.HTTPError as exc:
+            last = exc
+            if exc.code != 429 and exc.code < 500:
+                raise
+            retry = exc.headers.get("Retry-After") if exc.headers else None
+            try:
+                delay = float(retry) if retry is not None else 2.0 ** attempt
+            except (TypeError, ValueError):
+                delay = 2.0 ** attempt
+            time.sleep(min(30.0, max(1.0, delay)))
+        except urllib.error.URLError as exc:
+            last = exc
+            time.sleep(min(16.0, 2.0 ** attempt))
+    if last is not None:
+        raise last
+    raise RuntimeError("market source fetch failed without an exception")
 
 
 def _read_slate(path: str | Path) -> list[dict[str, str]]:
@@ -361,27 +382,40 @@ def recover_event_open(
     return first_valid
 
 
-def _fetch_event_candles(
-    event_markets: Sequence[Mapping[str, Any]],
+def _fetch_candles(
+    markets: Sequence[Mapping[str, Any]],
     raw_dir: str | Path,
     *,
     opener: Callable[[str], bytes] | None = None,
-) -> tuple[dict[str, list[dict[str, Any]]], list[dict[str, Any]], str]:
+) -> tuple[
+    dict[str, list[dict[str, Any]]],
+    list[dict[str, Any]],
+    dict[str, list[dict[str, str]]],
+]:
+    """Fetch opening-window candles in globally batched, rate-safe requests.
+
+    Markets are bucketed by their own open_time in ten-minute windows, then
+    chunked at the public endpoint's 100-ticker ceiling. This keeps a request
+    near the 15-minute true-open window and far below the 10k-candle cap while
+    avoiding the old one-request-per-game burst that Kalshi rate-limited.
+    """
     opener = opener or _fetch_bytes
     grouped: dict[int, list[Mapping[str, Any]]] = {}
-    for market in event_markets:
+    seen: set[str] = set()
+    for market in markets:
         ticker = str(market.get("ticker") or "").strip()
         opened = _market_open(market)
-        if not ticker or opened is None:
+        if not ticker or opened is None or ticker in seen:
             continue
-        # Ten-minute buckets keep every request comfortably below the 10k candle cap.
+        seen.add(ticker)
         bucket = int(opened.timestamp()) // 600
         grouped.setdefault(bucket, []).append(market)
 
     merged: dict[str, list[dict[str, Any]]] = {}
     manifest: list[dict[str, Any]] = []
-    retrieved = _iso(datetime.now(timezone.utc))
-    for rows in grouped.values():
+    ticker_sources: dict[str, list[dict[str, str]]] = {}
+    for bucket in sorted(grouped):
+        rows = grouped[bucket]
         for offset in range(0, len(rows), 100):
             chunk = rows[offset:offset + 100]
             tickers = [str(x["ticker"]) for x in chunk]
@@ -397,19 +431,29 @@ def _fetch_event_candles(
             }
             url = KALSHI_API_ROOT + "/markets/candlesticks?" + urllib.parse.urlencode(params)
             raw = opener(url)
+            retrieved = _iso(datetime.now(timezone.utc))
             stored = _archive(raw_dir, raw)
             payload = json.loads(raw)
             for ticker, candles in _candles_by_ticker(payload).items():
                 merged.setdefault(ticker, []).extend(candles)
-            manifest.append({
+            item = {
                 "kind": "kalshi_open_candles",
                 "source": "kalshi",
                 "endpoint": "/markets/candlesticks",
                 "retrievedAt": retrieved,
                 "marketTickers": tickers,
                 **stored,
-            })
-    return merged, manifest, retrieved
+            }
+            manifest.append(item)
+            for ticker in tickers:
+                ticker_sources.setdefault(ticker, []).append({
+                    "sha256": stored["sha256"],
+                    "retrievedAt": retrieved,
+                })
+            # Even successful calls are paced. The historical endpoint has a
+            # lower practical burst ceiling than the ordinary market listing.
+            time.sleep(0.35)
+    return merged, manifest, ticker_sources
 
 
 def _odds_quotes(
@@ -545,6 +589,21 @@ def capture(
     ambiguous_games = sorted(
         game for game, rows in event_candidates.items() if len(rows) != 1
     )
+
+    # Fetch every candidate event's candles once, globally batched. Ambiguous
+    # games are intentionally excluded because their market identity is not
+    # authoritative enough to justify archive recovery.
+    candle_markets = [
+        market
+        for candidates in event_candidates.values()
+        if len(candidates) == 1
+        for market in candidates[0][1]
+    ]
+    candle_map, candle_manifest, ticker_sources = _fetch_candles(
+        candle_markets, raw_dir, opener=kalshi_opener
+    )
+    manifest.extend(candle_manifest)
+
     for game, candidates in sorted(event_candidates.items()):
         if len(candidates) != 1:
             open_rows.append({
@@ -575,17 +634,22 @@ def capture(
             "marketTickers": [str(x.get("ticker") or "") for x in used],
         })
 
-        candle_map, candle_manifest, candle_retrieved = _fetch_event_candles(
-            event_markets, raw_dir, opener=kalshi_opener
+        event_sources = [
+            source
+            for market in event_markets
+            for source in ticker_sources.get(str(market.get("ticker") or ""), ())
+        ]
+        candle_retrieved = max(
+            (source["retrievedAt"] for source in event_sources),
+            default=kalshi_retrieved,
         )
-        manifest.extend(candle_manifest)
         evidence = recover_event_open(
             event_markets,
             candle_map,
             home=fixture["home"],
             away=fixture["away"],
             retrieved_at=candle_retrieved,
-            source_hashes=[x["sha256"] for x in candle_manifest],
+            source_hashes=[source["sha256"] for source in event_sources],
         )
         evidence_payload = {
             "game": fixture["game"],
