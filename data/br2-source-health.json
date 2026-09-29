@@ -1,8 +1,8 @@
 {
-  "cohortId": "CFB_2026_PRODUCT_WEEK5",
+  "cohortId": "CFB_2026_PRODUCT_WEEK6",
   "contract": "CFB_EDGE_BR2_SOURCE_HEALTH_V1",
-  "providerWeek": 4,
-  "schemaVersion": 1,
+  "providerWeek": 5,
+  "schemaVersion": 2,
   "sources": [
     {
       "endpoint": "/plays?year=2026&week=1&seasonType=regular",
@@ -17,6 +17,12 @@
       "rows": 455
     },
     {
+      "endpoint": "/games/players?year=2026&week=1&seasonType=regular&category=passing",
+      "kind": "player_box",
+      "ok": true,
+      "rows": 204
+    },
+    {
       "endpoint": "/plays?year=2026&week=2&seasonType=regular",
       "kind": "plays",
       "ok": true,
@@ -27,6 +33,12 @@
       "kind": "games",
       "ok": true,
       "rows": 303
+    },
+    {
+      "endpoint": "/games/players?year=2026&week=2&seasonType=regular&category=passing",
+      "kind": "player_box",
+      "ok": true,
+      "rows": 131
     },
     {
       "endpoint": "/plays?year=2026&week=3&seasonType=regular",
@@ -41,10 +53,34 @@
       "rows": 311
     },
     {
+      "endpoint": "/games/players?year=2026&week=3&seasonType=regular&category=passing",
+      "kind": "player_box",
+      "ok": true,
+      "rows": 128
+    },
+    {
+      "endpoint": "/plays?year=2026&week=4&seasonType=regular",
+      "kind": "plays",
+      "ok": true,
+      "rows": 21833
+    },
+    {
       "endpoint": "/games?year=2026&week=4&seasonType=regular",
+      "kind": "games",
+      "ok": true,
+      "rows": 283
+    },
+    {
+      "endpoint": "/games/players?year=2026&week=4&seasonType=regular&category=passing",
+      "kind": "player_box",
+      "ok": true,
+      "rows": 123
+    },
+    {
+      "endpoint": "/games?year=2026&week=5&seasonType=regular",
       "kind": "week_games",
       "ok": true,
-      "rows": 285
+      "rows": 304
     },
     {
       "endpoint": "/teams?year=2026",
@@ -64,14 +100,23 @@
       "errorType": "HTTPError",
       "httpStatus": 401,
       "kind": "wepa",
-      "nextAction": "Verify the configured key belongs to the subscribed CFBD account and that opponent-adjusted endpoint entitlement is active. Tier cannot be inferred from this response.",
+      "nextAction": "Internal cfbfastR EPA fallback may run; CFBD WEPA remains preferred.",
       "ok": false
     },
     {
-      "endpoint": "/stats/season/advanced?year=2026&startWeek=1&endWeek=3",
+      "endpoint": "/stats/season/advanced?year=2026&startWeek=1&endWeek=4",
       "kind": "advanced_stats",
       "ok": true,
       "rows": 138
+    },
+    {
+      "contract": "CFB_EDGE_OA_EPA_V1",
+      "eligiblePlays": 99595,
+      "fallbackFor": "wepa",
+      "kind": "oa_epa_internal",
+      "ok": true,
+      "rows": 313,
+      "throughWeek": 4
     }
   ]
 }
