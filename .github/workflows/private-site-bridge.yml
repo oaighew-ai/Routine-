@@ -8,6 +8,7 @@ on:
       - "S04 ES2 Week 5 audit shadow"
       - "week5 automatic signal grading"
       - "BR2 point-in-time feature capture"
+      - "BR2 active point-in-time feature capture"
     types: [completed]
   push:
     branches: [main]
