@@ -1392,3 +1392,42 @@ itself passes. S04_ES2 remains shadow-only. S04_BR2 remains
 **Reversal criterion.** Change this protocol only through a separately
 preregistered cohort and before that cohort's decisions or closing lines are
 observable.
+
+
+## 2026-09-29 — D35. Prospective live opens replace historical recovery from provider Week 6
+
+**Decision.** The already-open provider Week 5 / Oct. 2-3 cohort keeps its
+frozen Kalshi candle-recovery evidence exactly as registered. Beginning with
+provider Week 6, BR2 market state may accept an opening line only from
+`CFB_EDGE_PROSPECTIVE_OPEN_V1`.
+
+The capture loop polls the live Kalshi spread board at a one-minute target
+interval across the measured Saturday-through-Tuesday release band. The first
+valid two-sided implied line for a canonical game is immediately locked with
+event ticker, selected market tickers, quote inputs, provider `open_time`,
+poll time, code revision and content-addressed evidence hash.
+
+A live row is audit-grade only when its observation is within the existing
+-60/+900 second true-open window. If the first valid live observation is later
+than that, the row becomes terminal `MISSED_TRUE_OPEN_WINDOW`. It may not be
+upgraded later from candlesticks, screenshots, sportsbook history or another
+retrospective source.
+
+The BR2 active market workflow must use `--prospective-only` from provider
+Week 6 forward. A missing prospective status file, cohort mismatch or missing
+game row remains missing rather than triggering historical recovery.
+
+**Why.** Candle recovery was necessary to salvage the already-open Week 5
+research cohort, but it is not the desired operating model. The stronger
+evidence is what the system actually observed while the market was opening.
+Making prospective capture authoritative removes the largest remaining
+look-back path and turns a missed opening into an explicit measurable capture
+failure rather than a later reconstruction problem.
+
+**Authority effect.** None. S02, S04_ES2, staking, delivery and promotion
+authority are unchanged. S04_BR2 remains `DATA_COLLECTION_ONLY`.
+
+**Reversal criterion.** Replace the live prospective source only with a source
+that proves equal or stronger venue-time, raw-quote, identity and immutable
+lineage guarantees prospectively. Do not restore retrospective recovery for
+new cohorts.
