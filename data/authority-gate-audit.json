@@ -1,0 +1,114 @@
+{
+  "authorityId": "CFB_EDGE_PICKS_V1",
+  "contract": "CFB_EDGE_AUTHORITY_GATE_AUDIT_V1",
+  "decisionEffect": "NONE",
+  "deliveryEffect": "NONE",
+  "gateRows": [
+    {
+      "gate": "MINIMUM_FORECASTS",
+      "observed": 48,
+      "passed": false,
+      "required": 200
+    },
+    {
+      "gate": "MINIMUM_WEEKS",
+      "observed": 2,
+      "passed": false,
+      "required": 8
+    },
+    {
+      "gate": "OUTCOME_COVERAGE",
+      "observed": 1.0,
+      "passed": true,
+      "required": 0.95
+    },
+    {
+      "gate": "LOG_LOSS_ADVANTAGE",
+      "observed": -0.005510232899999967,
+      "passed": false,
+      "required": 0.003
+    },
+    {
+      "gate": "BRIER_NO_WORSE",
+      "observed": 0.0028000000000000247,
+      "passed": false,
+      "required": "<= 0"
+    },
+    {
+      "gate": "ECE_DISADVANTAGE",
+      "observed": -0.0031000000000000055,
+      "passed": true,
+      "required": 0.01
+    },
+    {
+      "gate": "ANYTIME_E_VALUE",
+      "observed": 1.024,
+      "passed": false,
+      "required": 20.0
+    },
+    {
+      "gate": "VALIDATION_FRESHNESS",
+      "observed": 910563.783284,
+      "passed": false,
+      "required": 604800
+    },
+    {
+      "gate": "DETERMINISTIC_REPLAY",
+      "observed": "VERIFIED",
+      "passed": true,
+      "required": "VERIFIED"
+    },
+    {
+      "gate": "VALIDATION_COMPLETED",
+      "observed": true,
+      "passed": true,
+      "required": true
+    }
+  ],
+  "generatedAt": "2026-09-29T06:58:13.926284+00:00",
+  "modelId": "S02",
+  "modelVersion": "market-anchor-shrinkage-1",
+  "registeredAllowPaperDelivery": false,
+  "registeredStatus": "MODEL_REVIEW_REQUIRED",
+  "researchContext": {
+    "note": "Week 6 CLV is research context only. It is not an input to the registered S02 delivery-authority gates.",
+    "week6ClvContract": null,
+    "week6ExecutableShadow": null,
+    "week6GradeableRows": null
+  },
+  "schemaVersion": 1,
+  "stakingEffect": "NONE",
+  "summary": {
+    "allRegisteredGatesPass": false,
+    "authorityCanChangeFromThisReport": false,
+    "authorityConditionBlockers": [
+      "PAPER_DELIVERY_BLOCKED",
+      "REGISTERED_GATES_FAILED",
+      "VALIDATION_NOT_PASSED"
+    ],
+    "incompleteGates": [],
+    "recomputedFailedGates": [
+      "ANYTIME_E_VALUE",
+      "BRIER_NO_WORSE",
+      "LOG_LOSS_ADVANTAGE",
+      "MINIMUM_FORECASTS",
+      "MINIMUM_WEEKS",
+      "VALIDATION_FRESHNESS"
+    ],
+    "registeredFailedGates": [
+      "ANYTIME_E_VALUE",
+      "BRIER_NO_WORSE",
+      "LOG_LOSS_ADVANTAGE",
+      "MINIMUM_FORECASTS",
+      "MINIMUM_WEEKS"
+    ],
+    "sourceOfTruthValidationReasons": [
+      "ANYTIME_E_VALUE",
+      "BRIER_NO_WORSE",
+      "LOG_LOSS_ADVANTAGE",
+      "MINIMUM_FORECASTS",
+      "MINIMUM_WEEKS",
+      "VALIDATION_STALE"
+    ]
+  }
+}
