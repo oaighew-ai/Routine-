@@ -85,7 +85,11 @@ def _archive(raw_dir: str | Path, raw: bytes, *, suffix: str = ".json") -> dict[
         with path.open("wb") as fh:
             with gzip.GzipFile(filename="", mode="wb", fileobj=fh, mtime=0) as z:
                 z.write(raw)
-    return {"sha256": sha, "bytes": len(raw), "path": str(path)}
+    try:
+        visible_path = path.relative_to("capture-data")
+    except ValueError:
+        visible_path = path
+    return {"sha256": sha, "bytes": len(raw), "path": str(visible_path)}
 
 
 def _fetch_bytes(url: str, *, timeout: float = 45.0) -> bytes:
