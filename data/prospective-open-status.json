@@ -1,0 +1,2785 @@
+{
+  "clockSkewSeconds": -60,
+  "cohortId": "CFB_2026_PROVIDER_WEEK_5",
+  "contract": "CFB_EDGE_PROSPECTIVE_OPEN_V1",
+  "decisionEffect": "NONE",
+  "deliveryEffect": "NONE",
+  "generatedAt": "2026-09-29T07:01:08.777110+00:00",
+  "historicalRecoveryAllowed": false,
+  "pollIntervalTargetSeconds": 60,
+  "rows": [
+    {
+      "auditGrade": false,
+      "codeRevision": "1ceb3596785f6d80a44607c81ae1657f48625c90",
+      "contract": "CFB_EDGE_PROSPECTIVE_OPEN_V1",
+      "eventTicker": "KXNCAAFSPREAD-26OCT03AKRCMU",
+      "evidencePath": "data/open-capture/CFB_2026_PROVIDER_WEEK_5/evidence/87f04d8031221d18d01e81c736a49c5cbb650e36947485def48132ed360ffb7c.json.gz",
+      "evidenceSha256": "87f04d8031221d18d01e81c736a49c5cbb650e36947485def48132ed360ffb7c",
+      "firstEventSeenAt": "2026-09-29T07:01:08.406557+00:00",
+      "firstValidTwoSidedQuoteTime": "2026-09-29T07:01:08.406557+00:00",
+      "game": "Akron @ Central Michigan",
+      "historicalRecoveryUsed": false,
+      "kickoff": "2026-10-03T19:30:00.000Z",
+      "locked": true,
+      "marketTickers": [
+        "KXNCAAFSPREAD-26OCT03AKRCMU-CMU7",
+        "KXNCAAFSPREAD-26OCT03AKRCMU-CMU8"
+      ],
+      "observedAt": "2026-09-29T07:01:08.406557+00:00",
+      "openLagSeconds": 161708.406557,
+      "openingLine": -6.9,
+      "pollTime": "2026-09-29T07:01:08.406557+00:00",
+      "quoteInputs": [
+        {
+          "openTime": "2026-09-27T10:06:00Z",
+          "probability": 0.525,
+          "strike": 6.5,
+          "team": "Central Michigan",
+          "ticker": "KXNCAAFSPREAD-26OCT03AKRCMU-CMU7",
+          "yesAsk": 0.53,
+          "yesBid": 0.52
+        },
+        {
+          "openTime": "2026-09-27T10:06:00Z",
+          "probability": 0.455,
+          "strike": 7.5,
+          "team": "Central Michigan",
+          "ticker": "KXNCAAFSPREAD-26OCT03AKRCMU-CMU8",
+          "yesAsk": 0.46,
+          "yesBid": 0.45
+        }
+      ],
+      "schemaVersion": 1,
+      "source": "LIVE_KALSHI_POLL",
+      "state": "MISSED_TRUE_OPEN_WINDOW",
+      "venueOpenTime": "2026-09-27T10:06:00+00:00"
+    },
+    {
+      "auditGrade": false,
+      "codeRevision": "1ceb3596785f6d80a44607c81ae1657f48625c90",
+      "contract": "CFB_EDGE_PROSPECTIVE_OPEN_V1",
+      "eventTicker": "KXNCAAFSPREAD-26OCT03ALAMSST",
+      "evidencePath": "data/open-capture/CFB_2026_PROVIDER_WEEK_5/evidence/d0404654581806da4934d3bbbdfb2abcb870d0d11fff20fc213e90f27bcca66e.json.gz",
+      "evidenceSha256": "d0404654581806da4934d3bbbdfb2abcb870d0d11fff20fc213e90f27bcca66e",
+      "firstEventSeenAt": "2026-09-29T07:01:08.406557+00:00",
+      "firstValidTwoSidedQuoteTime": "2026-09-29T07:01:08.406557+00:00",
+      "game": "Alabama @ Mississippi State",
+      "historicalRecoveryUsed": false,
+      "kickoff": "2026-10-03T16:00:00.000Z",
+      "locked": true,
+      "marketTickers": [
+        "KXNCAAFSPREAD-26OCT03ALAMSST-ALA7",
+        "KXNCAAFSPREAD-26OCT03ALAMSST-ALA6"
+      ],
+      "observedAt": "2026-09-29T07:01:08.406557+00:00",
+      "openLagSeconds": 183308.406557,
+      "openingLine": 6.1,
+      "pollTime": "2026-09-29T07:01:08.406557+00:00",
+      "quoteInputs": [
+        {
+          "openTime": "2026-09-27T04:06:00Z",
+          "probability": 0.515,
+          "strike": 6.5,
+          "team": "Alabama",
+          "ticker": "KXNCAAFSPREAD-26OCT03ALAMSST-ALA7",
+          "yesAsk": 0.49,
+          "yesBid": 0.48
+        },
+        {
+          "openTime": "2026-09-27T04:06:00Z",
+          "probability": 0.475,
+          "strike": 5.5,
+          "team": "Alabama",
+          "ticker": "KXNCAAFSPREAD-26OCT03ALAMSST-ALA6",
+          "yesAsk": 0.53,
+          "yesBid": 0.52
+        }
+      ],
+      "schemaVersion": 1,
+      "source": "LIVE_KALSHI_POLL",
+      "state": "MISSED_TRUE_OPEN_WINDOW",
+      "venueOpenTime": "2026-09-27T04:06:00+00:00"
+    },
+    {
+      "auditGrade": false,
+      "codeRevision": "1ceb3596785f6d80a44607c81ae1657f48625c90",
+      "contract": "CFB_EDGE_PROSPECTIVE_OPEN_V1",
+      "eventTicker": "KXNCAAFSPREAD-26OCT03ARKTXAM",
+      "evidencePath": "data/open-capture/CFB_2026_PROVIDER_WEEK_5/evidence/0bdbe2036fbabe5e926dc64fdbaedc5dd2a921e814145a129840381853148eba.json.gz",
+      "evidenceSha256": "0bdbe2036fbabe5e926dc64fdbaedc5dd2a921e814145a129840381853148eba",
+      "firstEventSeenAt": "2026-09-29T07:01:08.406557+00:00",
+      "firstValidTwoSidedQuoteTime": "2026-09-29T07:01:08.406557+00:00",
+      "game": "Arkansas @ Texas A&M",
+      "historicalRecoveryUsed": false,
+      "kickoff": "2026-10-03T23:00:00.000Z",
+      "locked": true,
+      "marketTickers": [
+        "KXNCAAFSPREAD-26OCT03ARKTXAM-TXAM14",
+        "KXNCAAFSPREAD-26OCT03ARKTXAM-TXAM15"
+      ],
+      "observedAt": "2026-09-29T07:01:08.406557+00:00",
+      "openLagSeconds": 172508.406557,
+      "openingLine": -14.0,
+      "pollTime": "2026-09-29T07:01:08.406557+00:00",
+      "quoteInputs": [
+        {
+          "openTime": "2026-09-27T07:06:00Z",
+          "probability": 0.535,
+          "strike": 13.5,
+          "team": "Texas A&M",
+          "ticker": "KXNCAAFSPREAD-26OCT03ARKTXAM-TXAM14",
+          "yesAsk": 0.54,
+          "yesBid": 0.53
+        },
+        {
+          "openTime": "2026-09-27T07:06:00Z",
+          "probability": 0.46499999999999997,
+          "strike": 14.5,
+          "team": "Texas A&M",
+          "ticker": "KXNCAAFSPREAD-26OCT03ARKTXAM-TXAM15",
+          "yesAsk": 0.47,
+          "yesBid": 0.46
+        }
+      ],
+      "schemaVersion": 1,
+      "source": "LIVE_KALSHI_POLL",
+      "state": "MISSED_TRUE_OPEN_WINDOW",
+      "venueOpenTime": "2026-09-27T07:06:00+00:00"
+    },
+    {
+      "auditGrade": false,
+      "codeRevision": "1ceb3596785f6d80a44607c81ae1657f48625c90",
+      "contract": "CFB_EDGE_PROSPECTIVE_OPEN_V1",
+      "eventTicker": "KXNCAAFSPREAD-26OCT03ARSTULL",
+      "evidencePath": "data/open-capture/CFB_2026_PROVIDER_WEEK_5/evidence/be6fca732cd76a86c738454ee3787417e3ec8c0ac4b8a38ff63d1f11e24bffdc.json.gz",
+      "evidenceSha256": "be6fca732cd76a86c738454ee3787417e3ec8c0ac4b8a38ff63d1f11e24bffdc",
+      "firstEventSeenAt": "2026-09-29T07:01:08.406557+00:00",
+      "firstValidTwoSidedQuoteTime": "2026-09-29T07:01:08.406557+00:00",
+      "game": "Arkansas State @ Louisiana",
+      "historicalRecoveryUsed": false,
+      "kickoff": "2026-10-04T00:00:00.000Z",
+      "locked": true,
+      "marketTickers": [
+        "KXNCAAFSPREAD-26OCT03ARSTULL-ULL7",
+        "KXNCAAFSPREAD-26OCT03ARSTULL-ULL8"
+      ],
+      "observedAt": "2026-09-29T07:01:08.406557+00:00",
+      "openLagSeconds": 32108.406557,
+      "openingLine": -6.8,
+      "pollTime": "2026-09-29T07:01:08.406557+00:00",
+      "quoteInputs": [
+        {
+          "openTime": "2026-09-28T22:06:00Z",
+          "probability": 0.52,
+          "strike": 6.5,
+          "team": "Louisiana",
+          "ticker": "KXNCAAFSPREAD-26OCT03ARSTULL-ULL7",
+          "yesAsk": 0.53,
+          "yesBid": 0.51
+        },
+        {
+          "openTime": "2026-09-28T22:06:00Z",
+          "probability": 0.44,
+          "strike": 7.5,
+          "team": "Louisiana",
+          "ticker": "KXNCAAFSPREAD-26OCT03ARSTULL-ULL8",
+          "yesAsk": 0.46,
+          "yesBid": 0.42
+        }
+      ],
+      "schemaVersion": 1,
+      "source": "LIVE_KALSHI_POLL",
+      "state": "MISSED_TRUE_OPEN_WINDOW",
+      "venueOpenTime": "2026-09-28T22:06:00+00:00"
+    },
+    {
+      "auditGrade": false,
+      "codeRevision": "1ceb3596785f6d80a44607c81ae1657f48625c90",
+      "contract": "CFB_EDGE_PROSPECTIVE_OPEN_V1",
+      "eventTicker": "KXNCAAFSPREAD-26OCT03ARMYLT",
+      "evidencePath": "data/open-capture/CFB_2026_PROVIDER_WEEK_5/evidence/eb1c0236a7b3c3a0f29aabd78fa66c1fd551f2089d3dfc2ca7421b71306e5b03.json.gz",
+      "evidenceSha256": "eb1c0236a7b3c3a0f29aabd78fa66c1fd551f2089d3dfc2ca7421b71306e5b03",
+      "firstEventSeenAt": "2026-09-29T07:01:08.406557+00:00",
+      "firstValidTwoSidedQuoteTime": "2026-09-29T07:01:08.406557+00:00",
+      "game": "Army @ Louisiana Tech",
+      "historicalRecoveryUsed": false,
+      "kickoff": "2026-10-03T23:30:00.000Z",
+      "locked": true,
+      "marketTickers": [
+        "KXNCAAFSPREAD-26OCT03ARMYLT-ARMY4",
+        "KXNCAAFSPREAD-26OCT03ARMYLT-ARMY3"
+      ],
+      "observedAt": "2026-09-29T07:01:08.406557+00:00",
+      "openLagSeconds": 32108.406557,
+      "openingLine": 2.5,
+      "pollTime": "2026-09-29T07:01:08.406557+00:00",
+      "quoteInputs": [
+        {
+          "openTime": "2026-09-28T22:06:00Z",
+          "probability": 0.585,
+          "strike": 3.5,
+          "team": "Army",
+          "ticker": "KXNCAAFSPREAD-26OCT03ARMYLT-ARMY4",
+          "yesAsk": 0.43,
+          "yesBid": 0.4
+        },
+        {
+          "openTime": "2026-09-28T22:06:00Z",
+          "probability": 0.5,
+          "strike": 2.5,
+          "team": "Army",
+          "ticker": "KXNCAAFSPREAD-26OCT03ARMYLT-ARMY3",
+          "yesAsk": 0.51,
+          "yesBid": 0.49
+        }
+      ],
+      "schemaVersion": 1,
+      "source": "LIVE_KALSHI_POLL",
+      "state": "MISSED_TRUE_OPEN_WINDOW",
+      "venueOpenTime": "2026-09-28T22:06:00+00:00"
+    },
+    {
+      "auditGrade": false,
+      "codeRevision": "1ceb3596785f6d80a44607c81ae1657f48625c90",
+      "contract": "CFB_EDGE_PROSPECTIVE_OPEN_V1",
+      "eventTicker": "KXNCAAFSPREAD-26OCT03AUBTENN",
+      "evidencePath": "data/open-capture/CFB_2026_PROVIDER_WEEK_5/evidence/7ec60b2b376aa9dc5c9ed5f11674b62b8686997ca53ede1b0a6b955f71d4673f.json.gz",
+      "evidenceSha256": "7ec60b2b376aa9dc5c9ed5f11674b62b8686997ca53ede1b0a6b955f71d4673f",
+      "firstEventSeenAt": "2026-09-29T07:01:08.406557+00:00",
+      "firstValidTwoSidedQuoteTime": "2026-09-29T07:01:08.406557+00:00",
+      "game": "Auburn @ Tennessee",
+      "historicalRecoveryUsed": false,
+      "kickoff": "2026-10-03T19:30:00.000Z",
+      "locked": true,
+      "marketTickers": [
+        "KXNCAAFSPREAD-26OCT03AUBTENN-TENN7",
+        "KXNCAAFSPREAD-26OCT03AUBTENN-TENN8"
+      ],
+      "observedAt": "2026-09-29T07:01:08.406557+00:00",
+      "openLagSeconds": 194108.406557,
+      "openingLine": -7.2,
+      "pollTime": "2026-09-29T07:01:08.406557+00:00",
+      "quoteInputs": [
+        {
+          "openTime": "2026-09-27T01:06:00Z",
+          "probability": 0.545,
+          "strike": 6.5,
+          "team": "Tennessee",
+          "ticker": "KXNCAAFSPREAD-26OCT03AUBTENN-TENN7",
+          "yesAsk": 0.55,
+          "yesBid": 0.54
+        },
+        {
+          "openTime": "2026-09-27T01:06:00Z",
+          "probability": 0.485,
+          "strike": 7.5,
+          "team": "Tennessee",
+          "ticker": "KXNCAAFSPREAD-26OCT03AUBTENN-TENN8",
+          "yesAsk": 0.49,
+          "yesBid": 0.48
+        }
+      ],
+      "schemaVersion": 1,
+      "source": "LIVE_KALSHI_POLL",
+      "state": "MISSED_TRUE_OPEN_WINDOW",
+      "venueOpenTime": "2026-09-27T01:06:00+00:00"
+    },
+    {
+      "auditGrade": false,
+      "codeRevision": "1ceb3596785f6d80a44607c81ae1657f48625c90",
+      "contract": "CFB_EDGE_PROSPECTIVE_OPEN_V1",
+      "eventTicker": "KXNCAAFSPREAD-26OCT03BYUTCU",
+      "evidencePath": "data/open-capture/CFB_2026_PROVIDER_WEEK_5/evidence/14525bfa4d3a4210ab25217c07ed739bd221f2d5cfe47c7e4d80ace95ba489f5.json.gz",
+      "evidenceSha256": "14525bfa4d3a4210ab25217c07ed739bd221f2d5cfe47c7e4d80ace95ba489f5",
+      "firstEventSeenAt": "2026-09-29T07:01:08.406557+00:00",
+      "firstValidTwoSidedQuoteTime": "2026-09-29T07:01:08.406557+00:00",
+      "game": "BYU @ TCU",
+      "historicalRecoveryUsed": false,
+      "kickoff": "2026-10-03T23:00:00.000Z",
+      "locked": true,
+      "marketTickers": [
+        "KXNCAAFSPREAD-26OCT03BYUTCU-BYU8",
+        "KXNCAAFSPREAD-26OCT03BYUTCU-BYU7"
+      ],
+      "observedAt": "2026-09-29T07:01:08.406557+00:00",
+      "openLagSeconds": 194108.406557,
+      "openingLine": 6.8,
+      "pollTime": "2026-09-29T07:01:08.406557+00:00",
+      "quoteInputs": [
+        {
+          "openTime": "2026-09-27T01:06:00Z",
+          "probability": 0.5549999999999999,
+          "strike": 7.5,
+          "team": "BYU",
+          "ticker": "KXNCAAFSPREAD-26OCT03BYUTCU-BYU8",
+          "yesAsk": 0.45,
+          "yesBid": 0.44
+        },
+        {
+          "openTime": "2026-09-27T01:06:00Z",
+          "probability": 0.475,
+          "strike": 6.5,
+          "team": "BYU",
+          "ticker": "KXNCAAFSPREAD-26OCT03BYUTCU-BYU7",
+          "yesAsk": 0.53,
+          "yesBid": 0.52
+        }
+      ],
+      "schemaVersion": 1,
+      "source": "LIVE_KALSHI_POLL",
+      "state": "MISSED_TRUE_OPEN_WINDOW",
+      "venueOpenTime": "2026-09-27T01:06:00+00:00"
+    },
+    {
+      "auditGrade": false,
+      "codeRevision": "1ceb3596785f6d80a44607c81ae1657f48625c90",
+      "contract": "CFB_EDGE_PROSPECTIVE_OPEN_V1",
+      "eventTicker": "KXNCAAFSPREAD-26OCT03BAYASU",
+      "evidencePath": "data/open-capture/CFB_2026_PROVIDER_WEEK_5/evidence/ddc754e277433c474977e0595621de14cd4830cea173befa76b1ebc10c0166d3.json.gz",
+      "evidenceSha256": "ddc754e277433c474977e0595621de14cd4830cea173befa76b1ebc10c0166d3",
+      "firstEventSeenAt": "2026-09-29T07:01:08.406557+00:00",
+      "firstValidTwoSidedQuoteTime": "2026-09-29T07:01:08.406557+00:00",
+      "game": "Baylor @ Arizona State",
+      "historicalRecoveryUsed": false,
+      "kickoff": "2026-10-04T02:30:00.000Z",
+      "locked": true,
+      "marketTickers": [
+        "KXNCAAFSPREAD-26OCT03BAYASU-ASU4",
+        "KXNCAAFSPREAD-26OCT03BAYASU-ASU5"
+      ],
+      "observedAt": "2026-09-29T07:01:08.406557+00:00",
+      "openLagSeconds": 161648.406557,
+      "openingLine": -4.0,
+      "pollTime": "2026-09-29T07:01:08.406557+00:00",
+      "quoteInputs": [
+        {
+          "openTime": "2026-09-27T10:07:00Z",
+          "probability": 0.525,
+          "strike": 3.5,
+          "team": "Arizona St.",
+          "ticker": "KXNCAAFSPREAD-26OCT03BAYASU-ASU4",
+          "yesAsk": 0.53,
+          "yesBid": 0.52
+        },
+        {
+          "openTime": "2026-09-27T10:07:00Z",
+          "probability": 0.475,
+          "strike": 4.5,
+          "team": "Arizona St.",
+          "ticker": "KXNCAAFSPREAD-26OCT03BAYASU-ASU5",
+          "yesAsk": 0.48,
+          "yesBid": 0.47
+        }
+      ],
+      "schemaVersion": 1,
+      "source": "LIVE_KALSHI_POLL",
+      "state": "MISSED_TRUE_OPEN_WINDOW",
+      "venueOpenTime": "2026-09-27T10:07:00+00:00"
+    },
+    {
+      "auditGrade": false,
+      "codeRevision": "1ceb3596785f6d80a44607c81ae1657f48625c90",
+      "contract": "CFB_EDGE_PROSPECTIVE_OPEN_V1",
+      "eventTicker": "KXNCAAFSPREAD-26OCT03BCSMU",
+      "evidencePath": "data/open-capture/CFB_2026_PROVIDER_WEEK_5/evidence/216b8d230da6ebdbf25efd1519fc5dfd74299e02622627241b9fc00b98d121ba.json.gz",
+      "evidenceSha256": "216b8d230da6ebdbf25efd1519fc5dfd74299e02622627241b9fc00b98d121ba",
+      "firstEventSeenAt": "2026-09-29T07:01:08.406557+00:00",
+      "firstValidTwoSidedQuoteTime": "2026-09-29T07:01:08.406557+00:00",
+      "game": "Boston College @ SMU",
+      "historicalRecoveryUsed": false,
+      "kickoff": "2026-10-03T16:00:00.000Z",
+      "locked": true,
+      "marketTickers": [
+        "KXNCAAFSPREAD-26OCT03BCSMU-SMU21",
+        "KXNCAAFSPREAD-26OCT03BCSMU-SMU22"
+      ],
+      "observedAt": "2026-09-29T07:01:08.406557+00:00",
+      "openLagSeconds": 161708.406557,
+      "openingLine": -20.8,
+      "pollTime": "2026-09-29T07:01:08.406557+00:00",
+      "quoteInputs": [
+        {
+          "openTime": "2026-09-27T10:06:00Z",
+          "probability": 0.515,
+          "strike": 20.5,
+          "team": "SMU",
+          "ticker": "KXNCAAFSPREAD-26OCT03BCSMU-SMU21",
+          "yesAsk": 0.52,
+          "yesBid": 0.51
+        },
+        {
+          "openTime": "2026-09-27T10:06:00Z",
+          "probability": 0.455,
+          "strike": 21.5,
+          "team": "SMU",
+          "ticker": "KXNCAAFSPREAD-26OCT03BCSMU-SMU22",
+          "yesAsk": 0.46,
+          "yesBid": 0.45
+        }
+      ],
+      "schemaVersion": 1,
+      "source": "LIVE_KALSHI_POLL",
+      "state": "MISSED_TRUE_OPEN_WINDOW",
+      "venueOpenTime": "2026-09-27T10:06:00+00:00"
+    },
+    {
+      "auditGrade": false,
+      "codeRevision": "1ceb3596785f6d80a44607c81ae1657f48625c90",
+      "contract": "CFB_EDGE_PROSPECTIVE_OPEN_V1",
+      "eventTicker": "KXNCAAFSPREAD-26OCT03BGSUMOH",
+      "evidencePath": "data/open-capture/CFB_2026_PROVIDER_WEEK_5/evidence/a088f8cf449a21500cf15ba06356cea29996b344376101d7ea133592db8a4f65.json.gz",
+      "evidenceSha256": "a088f8cf449a21500cf15ba06356cea29996b344376101d7ea133592db8a4f65",
+      "firstEventSeenAt": "2026-09-29T07:01:08.406557+00:00",
+      "firstValidTwoSidedQuoteTime": "2026-09-29T07:01:08.406557+00:00",
+      "game": "Bowling Green @ Miami (OH)",
+      "historicalRecoveryUsed": false,
+      "kickoff": "2026-10-03T19:30:00.000Z",
+      "locked": true,
+      "marketTickers": [
+        "KXNCAAFSPREAD-26OCT03BGSUMOH-MOH12",
+        "KXNCAAFSPREAD-26OCT03BGSUMOH-MOH14"
+      ],
+      "observedAt": "2026-09-29T07:01:08.406557+00:00",
+      "openLagSeconds": 32108.406557,
+      "openingLine": -12.8,
+      "pollTime": "2026-09-29T07:01:08.406557+00:00",
+      "quoteInputs": [
+        {
+          "openTime": "2026-09-28T22:06:00Z",
+          "probability": 0.53,
+          "strike": 11.5,
+          "team": "Miami (OH)",
+          "ticker": "KXNCAAFSPREAD-26OCT03BGSUMOH-MOH12",
+          "yesAsk": 0.55,
+          "yesBid": 0.51
+        },
+        {
+          "openTime": "2026-09-28T22:06:00Z",
+          "probability": 0.485,
+          "strike": 13.5,
+          "team": "Miami (OH)",
+          "ticker": "KXNCAAFSPREAD-26OCT03BGSUMOH-MOH14",
+          "yesAsk": 0.5,
+          "yesBid": 0.47
+        }
+      ],
+      "schemaVersion": 1,
+      "source": "LIVE_KALSHI_POLL",
+      "state": "MISSED_TRUE_OPEN_WINDOW",
+      "venueOpenTime": "2026-09-28T22:06:00+00:00"
+    },
+    {
+      "auditGrade": false,
+      "codeRevision": "1ceb3596785f6d80a44607c81ae1657f48625c90",
+      "contract": "CFB_EDGE_PROSPECTIVE_OPEN_V1",
+      "eventTicker": "KXNCAAFSPREAD-26OCT03CALUNLV",
+      "evidencePath": "data/open-capture/CFB_2026_PROVIDER_WEEK_5/evidence/d2177e8347d4fc3e0944f314fcc4940bc808b3d7691b21f9e7c1261f8d0d306f.json.gz",
+      "evidenceSha256": "d2177e8347d4fc3e0944f314fcc4940bc808b3d7691b21f9e7c1261f8d0d306f",
+      "firstEventSeenAt": "2026-09-29T07:01:08.406557+00:00",
+      "firstValidTwoSidedQuoteTime": "2026-09-29T07:01:08.406557+00:00",
+      "game": "California @ UNLV",
+      "historicalRecoveryUsed": false,
+      "kickoff": "2026-10-03T19:30:00.000Z",
+      "locked": true,
+      "marketTickers": [
+        "KXNCAAFSPREAD-26OCT03CALUNLV-UNLV3",
+        "KXNCAAFSPREAD-26OCT03CALUNLV-UNLV4"
+      ],
+      "observedAt": "2026-09-29T07:01:08.406557+00:00",
+      "openLagSeconds": 172508.406557,
+      "openingLine": -2.6,
+      "pollTime": "2026-09-29T07:01:08.406557+00:00",
+      "quoteInputs": [
+        {
+          "openTime": "2026-09-27T07:06:00Z",
+          "probability": 0.505,
+          "strike": 2.5,
+          "team": "UNLV",
+          "ticker": "KXNCAAFSPREAD-26OCT03CALUNLV-UNLV3",
+          "yesAsk": 0.51,
+          "yesBid": 0.5
+        },
+        {
+          "openTime": "2026-09-27T07:06:00Z",
+          "probability": 0.44,
+          "strike": 3.5,
+          "team": "UNLV",
+          "ticker": "KXNCAAFSPREAD-26OCT03CALUNLV-UNLV4",
+          "yesAsk": 0.45,
+          "yesBid": 0.43
+        }
+      ],
+      "schemaVersion": 1,
+      "source": "LIVE_KALSHI_POLL",
+      "state": "MISSED_TRUE_OPEN_WINDOW",
+      "venueOpenTime": "2026-09-27T07:06:00+00:00"
+    },
+    {
+      "auditGrade": false,
+      "codeRevision": "1ceb3596785f6d80a44607c81ae1657f48625c90",
+      "contract": "CFB_EDGE_PROSPECTIVE_OPEN_V1",
+      "eventTicker": "KXNCAAFSPREAD-26OCT03CINARIZ",
+      "evidencePath": "data/open-capture/CFB_2026_PROVIDER_WEEK_5/evidence/66b13195e397f9fcc1091b78b8b3be35f9a52c58c1dd6c06c202cc34a284db49.json.gz",
+      "evidenceSha256": "66b13195e397f9fcc1091b78b8b3be35f9a52c58c1dd6c06c202cc34a284db49",
+      "firstEventSeenAt": "2026-09-29T07:01:08.406557+00:00",
+      "firstValidTwoSidedQuoteTime": "2026-09-29T07:01:08.406557+00:00",
+      "game": "Cincinnati @ Arizona",
+      "historicalRecoveryUsed": false,
+      "kickoff": "2026-10-04T03:00:00.000Z",
+      "locked": true,
+      "marketTickers": [
+        "KXNCAAFSPREAD-26OCT03CINARIZ-ARIZ7",
+        "KXNCAAFSPREAD-26OCT03CINARIZ-ARIZ8"
+      ],
+      "observedAt": "2026-09-29T07:01:08.406557+00:00",
+      "openLagSeconds": 161648.406557,
+      "openingLine": -7.1,
+      "pollTime": "2026-09-29T07:01:08.406557+00:00",
+      "quoteInputs": [
+        {
+          "openTime": "2026-09-27T10:07:00Z",
+          "probability": 0.555,
+          "strike": 6.5,
+          "team": "Arizona",
+          "ticker": "KXNCAAFSPREAD-26OCT03CINARIZ-ARIZ7",
+          "yesAsk": 0.56,
+          "yesBid": 0.55
+        },
+        {
+          "openTime": "2026-09-27T10:07:00Z",
+          "probability": 0.46499999999999997,
+          "strike": 7.5,
+          "team": "Arizona",
+          "ticker": "KXNCAAFSPREAD-26OCT03CINARIZ-ARIZ8",
+          "yesAsk": 0.47,
+          "yesBid": 0.46
+        }
+      ],
+      "schemaVersion": 1,
+      "source": "LIVE_KALSHI_POLL",
+      "state": "MISSED_TRUE_OPEN_WINDOW",
+      "venueOpenTime": "2026-09-27T10:07:00+00:00"
+    },
+    {
+      "auditGrade": false,
+      "codeRevision": "1ceb3596785f6d80a44607c81ae1657f48625c90",
+      "contract": "CFB_EDGE_PROSPECTIVE_OPEN_V1",
+      "eventTicker": "KXNCAAFSPREAD-26OCT03EMUMASS",
+      "evidencePath": "data/open-capture/CFB_2026_PROVIDER_WEEK_5/evidence/6f096673818ca3e858629f094cd96398f7f6348d842d1e989b60b2fc82235039.json.gz",
+      "evidenceSha256": "6f096673818ca3e858629f094cd96398f7f6348d842d1e989b60b2fc82235039",
+      "firstEventSeenAt": "2026-09-29T07:01:08.406557+00:00",
+      "firstValidTwoSidedQuoteTime": "2026-09-29T07:01:08.406557+00:00",
+      "game": "Eastern Michigan @ Massachusetts",
+      "historicalRecoveryUsed": false,
+      "kickoff": "2026-10-03T19:30:00.000Z",
+      "locked": true,
+      "marketTickers": [
+        "KXNCAAFSPREAD-26OCT03EMUMASS-MASS6",
+        "KXNCAAFSPREAD-26OCT03EMUMASS-MASS7"
+      ],
+      "observedAt": "2026-09-29T07:01:08.406557+00:00",
+      "openLagSeconds": 32108.406557,
+      "openingLine": -6.0,
+      "pollTime": "2026-09-29T07:01:08.406557+00:00",
+      "quoteInputs": [
+        {
+          "openTime": "2026-09-28T22:06:00Z",
+          "probability": 0.52,
+          "strike": 5.5,
+          "team": "UMass",
+          "ticker": "KXNCAAFSPREAD-26OCT03EMUMASS-MASS6",
+          "yesAsk": 0.53,
+          "yesBid": 0.51
+        },
+        {
+          "openTime": "2026-09-28T22:06:00Z",
+          "probability": 0.48,
+          "strike": 6.5,
+          "team": "UMass",
+          "ticker": "KXNCAAFSPREAD-26OCT03EMUMASS-MASS7",
+          "yesAsk": 0.49,
+          "yesBid": 0.47
+        }
+      ],
+      "schemaVersion": 1,
+      "source": "LIVE_KALSHI_POLL",
+      "state": "MISSED_TRUE_OPEN_WINDOW",
+      "venueOpenTime": "2026-09-28T22:06:00+00:00"
+    },
+    {
+      "auditGrade": false,
+      "codeRevision": "1ceb3596785f6d80a44607c81ae1657f48625c90",
+      "contract": "CFB_EDGE_PROSPECTIVE_OPEN_V1",
+      "eventTicker": "KXNCAAFSPREAD-26OCT03FLAMIZZ",
+      "evidencePath": "data/open-capture/CFB_2026_PROVIDER_WEEK_5/evidence/5ff9d92c32e88c81ef1a3a1b97bfb0129a49d6afeb0b3615fc654af4d1c4591a.json.gz",
+      "evidenceSha256": "5ff9d92c32e88c81ef1a3a1b97bfb0129a49d6afeb0b3615fc654af4d1c4591a",
+      "firstEventSeenAt": "2026-09-29T07:01:08.406557+00:00",
+      "firstValidTwoSidedQuoteTime": "2026-09-29T07:01:08.406557+00:00",
+      "game": "Florida @ Missouri",
+      "historicalRecoveryUsed": false,
+      "kickoff": "2026-10-03T19:30:00.000Z",
+      "locked": true,
+      "marketTickers": [
+        "KXNCAAFSPREAD-26OCT03FLAMIZZ-FLA7",
+        "KXNCAAFSPREAD-26OCT03FLAMIZZ-FLA6"
+      ],
+      "observedAt": "2026-09-29T07:01:08.406557+00:00",
+      "openLagSeconds": 183308.406557,
+      "openingLine": 5.7,
+      "pollTime": "2026-09-29T07:01:08.406557+00:00",
+      "quoteInputs": [
+        {
+          "openTime": "2026-09-27T04:06:00Z",
+          "probability": 0.525,
+          "strike": 6.5,
+          "team": "Florida",
+          "ticker": "KXNCAAFSPREAD-26OCT03FLAMIZZ-FLA7",
+          "yesAsk": 0.48,
+          "yesBid": 0.47
+        },
+        {
+          "openTime": "2026-09-27T04:06:00Z",
+          "probability": 0.495,
+          "strike": 5.5,
+          "team": "Florida",
+          "ticker": "KXNCAAFSPREAD-26OCT03FLAMIZZ-FLA6",
+          "yesAsk": 0.51,
+          "yesBid": 0.5
+        }
+      ],
+      "schemaVersion": 1,
+      "source": "LIVE_KALSHI_POLL",
+      "state": "MISSED_TRUE_OPEN_WINDOW",
+      "venueOpenTime": "2026-09-27T04:06:00+00:00"
+    },
+    {
+      "auditGrade": false,
+      "codeRevision": "1ceb3596785f6d80a44607c81ae1657f48625c90",
+      "contract": "CFB_EDGE_PROSPECTIVE_OPEN_V1",
+      "eventTicker": "KXNCAAFSPREAD-26OCT03FRESWSU",
+      "evidencePath": "data/open-capture/CFB_2026_PROVIDER_WEEK_5/evidence/25be0bbcafc8075474612ebd096910eb016000e1b98dbb2bf1d38101f35df9ae.json.gz",
+      "evidenceSha256": "25be0bbcafc8075474612ebd096910eb016000e1b98dbb2bf1d38101f35df9ae",
+      "firstEventSeenAt": "2026-09-29T07:01:08.406557+00:00",
+      "firstValidTwoSidedQuoteTime": "2026-09-29T07:01:08.406557+00:00",
+      "game": "Fresno State @ Washington State",
+      "historicalRecoveryUsed": false,
+      "kickoff": "2026-10-04T01:30:00.000Z",
+      "locked": true,
+      "marketTickers": [
+        "KXNCAAFSPREAD-26OCT03FRESWSU-WSU2",
+        "KXNCAAFSPREAD-26OCT03FRESWSU-WSU3"
+      ],
+      "observedAt": "2026-09-29T07:01:08.406557+00:00",
+      "openLagSeconds": 32108.406557,
+      "openingLine": -2.0,
+      "pollTime": "2026-09-29T07:01:08.406557+00:00",
+      "quoteInputs": [
+        {
+          "openTime": "2026-09-28T22:06:00Z",
+          "probability": 0.51,
+          "strike": 1.5,
+          "team": "Washington St.",
+          "ticker": "KXNCAAFSPREAD-26OCT03FRESWSU-WSU2",
+          "yesAsk": 0.52,
+          "yesBid": 0.5
+        },
+        {
+          "openTime": "2026-09-28T22:06:00Z",
+          "probability": 0.49,
+          "strike": 2.5,
+          "team": "Washington St.",
+          "ticker": "KXNCAAFSPREAD-26OCT03FRESWSU-WSU3",
+          "yesAsk": 0.5,
+          "yesBid": 0.48
+        }
+      ],
+      "schemaVersion": 1,
+      "source": "LIVE_KALSHI_POLL",
+      "state": "MISSED_TRUE_OPEN_WINDOW",
+      "venueOpenTime": "2026-09-28T22:06:00+00:00"
+    },
+    {
+      "auditGrade": false,
+      "codeRevision": "1ceb3596785f6d80a44607c81ae1657f48625c90",
+      "contract": "CFB_EDGE_PROSPECTIVE_OPEN_V1",
+      "eventTicker": "KXNCAAFSPREAD-26OCT03GASOCCAR",
+      "evidencePath": "data/open-capture/CFB_2026_PROVIDER_WEEK_5/evidence/83f18565cd255eccd644389611f971f8140c2c00eb1c1f44f8ab97acf046db08.json.gz",
+      "evidenceSha256": "83f18565cd255eccd644389611f971f8140c2c00eb1c1f44f8ab97acf046db08",
+      "firstEventSeenAt": "2026-09-29T07:01:08.406557+00:00",
+      "firstValidTwoSidedQuoteTime": "2026-09-29T07:01:08.406557+00:00",
+      "game": "Georgia Southern @ Coastal Carolina",
+      "historicalRecoveryUsed": false,
+      "kickoff": "2026-10-03T23:00:00.000Z",
+      "locked": true,
+      "marketTickers": [
+        "KXNCAAFSPREAD-26OCT03GASOCCAR-GASO4",
+        "KXNCAAFSPREAD-26OCT03GASOCCAR-GASO3"
+      ],
+      "observedAt": "2026-09-29T07:01:08.406557+00:00",
+      "openLagSeconds": 32108.406557,
+      "openingLine": 2.6,
+      "pollTime": "2026-09-29T07:01:08.406557+00:00",
+      "quoteInputs": [
+        {
+          "openTime": "2026-09-28T22:06:00Z",
+          "probability": 0.565,
+          "strike": 3.5,
+          "team": "Georgia Southern",
+          "ticker": "KXNCAAFSPREAD-26OCT03GASOCCAR-GASO4",
+          "yesAsk": 0.45,
+          "yesBid": 0.42
+        },
+        {
+          "openTime": "2026-09-28T22:06:00Z",
+          "probability": 0.495,
+          "strike": 2.5,
+          "team": "Georgia Southern",
+          "ticker": "KXNCAAFSPREAD-26OCT03GASOCCAR-GASO3",
+          "yesAsk": 0.52,
+          "yesBid": 0.49
+        }
+      ],
+      "schemaVersion": 1,
+      "source": "LIVE_KALSHI_POLL",
+      "state": "MISSED_TRUE_OPEN_WINDOW",
+      "venueOpenTime": "2026-09-28T22:06:00+00:00"
+    },
+    {
+      "auditGrade": false,
+      "codeRevision": "1ceb3596785f6d80a44607c81ae1657f48625c90",
+      "contract": "CFB_EDGE_PROSPECTIVE_OPEN_V1",
+      "eventTicker": "KXNCAAFSPREAD-26OCT03INDRUTG",
+      "evidencePath": "data/open-capture/CFB_2026_PROVIDER_WEEK_5/evidence/43956c81bfd2b7efae67660b921986fb7486b77a30302fb541d4bee785b5c0f9.json.gz",
+      "evidenceSha256": "43956c81bfd2b7efae67660b921986fb7486b77a30302fb541d4bee785b5c0f9",
+      "firstEventSeenAt": "2026-09-29T07:01:08.406557+00:00",
+      "firstValidTwoSidedQuoteTime": "2026-09-29T07:01:08.406557+00:00",
+      "game": "Indiana @ Rutgers",
+      "historicalRecoveryUsed": false,
+      "kickoff": "2026-10-04T00:00:00.000Z",
+      "locked": true,
+      "marketTickers": [
+        "KXNCAAFSPREAD-26OCT03INDRUTG-IND25",
+        "KXNCAAFSPREAD-26OCT03INDRUTG-IND24"
+      ],
+      "observedAt": "2026-09-29T07:01:08.406557+00:00",
+      "openLagSeconds": 172508.406557,
+      "openingLine": 24.2,
+      "pollTime": "2026-09-29T07:01:08.406557+00:00",
+      "quoteInputs": [
+        {
+          "openTime": "2026-09-27T07:06:00Z",
+          "probability": 0.515,
+          "strike": 24.5,
+          "team": "Indiana",
+          "ticker": "KXNCAAFSPREAD-26OCT03INDRUTG-IND25",
+          "yesAsk": 0.49,
+          "yesBid": 0.48
+        },
+        {
+          "openTime": "2026-09-27T07:06:00Z",
+          "probability": 0.45499999999999996,
+          "strike": 23.5,
+          "team": "Indiana",
+          "ticker": "KXNCAAFSPREAD-26OCT03INDRUTG-IND24",
+          "yesAsk": 0.55,
+          "yesBid": 0.54
+        }
+      ],
+      "schemaVersion": 1,
+      "source": "LIVE_KALSHI_POLL",
+      "state": "MISSED_TRUE_OPEN_WINDOW",
+      "venueOpenTime": "2026-09-27T07:06:00+00:00"
+    },
+    {
+      "auditGrade": false,
+      "codeRevision": "1ceb3596785f6d80a44607c81ae1657f48625c90",
+      "contract": "CFB_EDGE_PROSPECTIVE_OPEN_V1",
+      "eventTicker": "KXNCAAFSPREAD-26OCT03UKSCAR",
+      "evidencePath": "data/open-capture/CFB_2026_PROVIDER_WEEK_5/evidence/8ef12cece6c41ce4f9935a5c53e3aad42e7b67474ca24696d1cf0a45d2e64a02.json.gz",
+      "evidenceSha256": "8ef12cece6c41ce4f9935a5c53e3aad42e7b67474ca24696d1cf0a45d2e64a02",
+      "firstEventSeenAt": "2026-09-29T07:01:08.406557+00:00",
+      "firstValidTwoSidedQuoteTime": "2026-09-29T07:01:08.406557+00:00",
+      "game": "Kentucky @ South Carolina",
+      "historicalRecoveryUsed": false,
+      "kickoff": "2026-10-03T20:15:00.000Z",
+      "locked": true,
+      "marketTickers": [
+        "KXNCAAFSPREAD-26OCT03UKSCAR-SCAR3",
+        "KXNCAAFSPREAD-26OCT03UKSCAR-SCAR4"
+      ],
+      "observedAt": "2026-09-29T07:01:08.406557+00:00",
+      "openLagSeconds": 172508.406557,
+      "openingLine": -2.9,
+      "pollTime": "2026-09-29T07:01:08.406557+00:00",
+      "quoteInputs": [
+        {
+          "openTime": "2026-09-27T07:06:00Z",
+          "probability": 0.535,
+          "strike": 2.5,
+          "team": "South Carolina",
+          "ticker": "KXNCAAFSPREAD-26OCT03UKSCAR-SCAR3",
+          "yesAsk": 0.54,
+          "yesBid": 0.53
+        },
+        {
+          "openTime": "2026-09-27T07:06:00Z",
+          "probability": 0.435,
+          "strike": 3.5,
+          "team": "South Carolina",
+          "ticker": "KXNCAAFSPREAD-26OCT03UKSCAR-SCAR4",
+          "yesAsk": 0.44,
+          "yesBid": 0.43
+        }
+      ],
+      "schemaVersion": 1,
+      "source": "LIVE_KALSHI_POLL",
+      "state": "MISSED_TRUE_OPEN_WINDOW",
+      "venueOpenTime": "2026-09-27T07:06:00+00:00"
+    },
+    {
+      "auditGrade": false,
+      "codeRevision": "1ceb3596785f6d80a44607c81ae1657f48625c90",
+      "contract": "CFB_EDGE_PROSPECTIVE_OPEN_V1",
+      "eventTicker": "KXNCAAFSPREAD-26OCT02LIBDEL",
+      "evidencePath": "data/open-capture/CFB_2026_PROVIDER_WEEK_5/evidence/76a2b0a733e1ec2639c93ee5a248a5886e708e0a2dbc2ba159e9c3e5abd9c98d.json.gz",
+      "evidenceSha256": "76a2b0a733e1ec2639c93ee5a248a5886e708e0a2dbc2ba159e9c3e5abd9c98d",
+      "firstEventSeenAt": "2026-09-29T07:01:08.406557+00:00",
+      "firstValidTwoSidedQuoteTime": "2026-09-29T07:01:08.406557+00:00",
+      "game": "Liberty @ Delaware",
+      "historicalRecoveryUsed": false,
+      "kickoff": "2026-10-02T23:00:00.000Z",
+      "locked": true,
+      "marketTickers": [
+        "KXNCAAFSPREAD-26OCT02LIBDEL-LIB8",
+        "KXNCAAFSPREAD-26OCT02LIBDEL-LIB7"
+      ],
+      "observedAt": "2026-09-29T07:01:08.406557+00:00",
+      "openLagSeconds": 140108.406557,
+      "openingLine": 7.1,
+      "pollTime": "2026-09-29T07:01:08.406557+00:00",
+      "quoteInputs": [
+        {
+          "openTime": "2026-09-27T16:06:00Z",
+          "probability": 0.53,
+          "strike": 7.5,
+          "team": "Liberty",
+          "ticker": "KXNCAAFSPREAD-26OCT02LIBDEL-LIB8",
+          "yesAsk": 0.48,
+          "yesBid": 0.46
+        },
+        {
+          "openTime": "2026-09-27T16:06:00Z",
+          "probability": 0.44499999999999995,
+          "strike": 6.5,
+          "team": "Liberty",
+          "ticker": "KXNCAAFSPREAD-26OCT02LIBDEL-LIB7",
+          "yesAsk": 0.56,
+          "yesBid": 0.55
+        }
+      ],
+      "schemaVersion": 1,
+      "source": "LIVE_KALSHI_POLL",
+      "state": "MISSED_TRUE_OPEN_WINDOW",
+      "venueOpenTime": "2026-09-27T16:06:00+00:00"
+    },
+    {
+      "auditGrade": false,
+      "codeRevision": "1ceb3596785f6d80a44607c81ae1657f48625c90",
+      "contract": "CFB_EDGE_PROSPECTIVE_OPEN_V1",
+      "eventTicker": "KXNCAAFSPREAD-26OCT03LOUNCST",
+      "evidencePath": "data/open-capture/CFB_2026_PROVIDER_WEEK_5/evidence/34cc1aaf14e38ca2daa992094a518a0fcb5502e343a1ab5d1efe721abc2fb33e.json.gz",
+      "evidenceSha256": "34cc1aaf14e38ca2daa992094a518a0fcb5502e343a1ab5d1efe721abc2fb33e",
+      "firstEventSeenAt": "2026-09-29T07:01:08.406557+00:00",
+      "firstValidTwoSidedQuoteTime": "2026-09-29T07:01:08.406557+00:00",
+      "game": "Louisville @ NC State",
+      "historicalRecoveryUsed": false,
+      "kickoff": "2026-10-03T19:30:00.000Z",
+      "locked": true,
+      "marketTickers": [
+        "KXNCAAFSPREAD-26OCT03LOUNCST-LOU7",
+        "KXNCAAFSPREAD-26OCT03LOUNCST-LOU6"
+      ],
+      "observedAt": "2026-09-29T07:01:08.406557+00:00",
+      "openLagSeconds": 183308.406557,
+      "openingLine": 5.8,
+      "pollTime": "2026-09-29T07:01:08.406557+00:00",
+      "quoteInputs": [
+        {
+          "openTime": "2026-09-27T04:06:00Z",
+          "probability": 0.54,
+          "strike": 6.5,
+          "team": "Louisville",
+          "ticker": "KXNCAAFSPREAD-26OCT03LOUNCST-LOU7",
+          "yesAsk": 0.47,
+          "yesBid": 0.45
+        },
+        {
+          "openTime": "2026-09-27T04:06:00Z",
+          "probability": 0.485,
+          "strike": 5.5,
+          "team": "Louisville",
+          "ticker": "KXNCAAFSPREAD-26OCT03LOUNCST-LOU6",
+          "yesAsk": 0.52,
+          "yesBid": 0.51
+        }
+      ],
+      "schemaVersion": 1,
+      "source": "LIVE_KALSHI_POLL",
+      "state": "MISSED_TRUE_OPEN_WINDOW",
+      "venueOpenTime": "2026-09-27T04:06:00+00:00"
+    },
+    {
+      "auditGrade": false,
+      "codeRevision": "1ceb3596785f6d80a44607c81ae1657f48625c90",
+      "contract": "CFB_EDGE_PROSPECTIVE_OPEN_V1",
+      "eventTicker": "KXNCAAFSPREAD-26OCT03MRSHJMU",
+      "evidencePath": "data/open-capture/CFB_2026_PROVIDER_WEEK_5/evidence/d3bc8556a3ec526ad798c8b31707d8acffb5594aeeab0106262c81e1292fc4ce.json.gz",
+      "evidenceSha256": "d3bc8556a3ec526ad798c8b31707d8acffb5594aeeab0106262c81e1292fc4ce",
+      "firstEventSeenAt": "2026-09-29T07:01:08.406557+00:00",
+      "firstValidTwoSidedQuoteTime": "2026-09-29T07:01:08.406557+00:00",
+      "game": "Marshall @ James Madison",
+      "historicalRecoveryUsed": false,
+      "kickoff": "2026-10-03T19:45:00.000Z",
+      "locked": true,
+      "marketTickers": [
+        "KXNCAAFSPREAD-26OCT03MRSHJMU-JMU18",
+        "KXNCAAFSPREAD-26OCT03MRSHJMU-JMU21"
+      ],
+      "observedAt": "2026-09-29T07:01:08.406557+00:00",
+      "openLagSeconds": 161708.406557,
+      "openingLine": -18.5,
+      "pollTime": "2026-09-29T07:01:08.406557+00:00",
+      "quoteInputs": [
+        {
+          "openTime": "2026-09-27T10:06:00Z",
+          "probability": 0.53,
+          "strike": 17.5,
+          "team": "James Madison",
+          "ticker": "KXNCAAFSPREAD-26OCT03MRSHJMU-JMU18",
+          "yesAsk": 0.54,
+          "yesBid": 0.52
+        },
+        {
+          "openTime": "2026-09-27T10:06:00Z",
+          "probability": 0.44,
+          "strike": 20.5,
+          "team": "James Madison",
+          "ticker": "KXNCAAFSPREAD-26OCT03MRSHJMU-JMU21",
+          "yesAsk": 0.45,
+          "yesBid": 0.43
+        }
+      ],
+      "schemaVersion": 1,
+      "source": "LIVE_KALSHI_POLL",
+      "state": "MISSED_TRUE_OPEN_WINDOW",
+      "venueOpenTime": "2026-09-27T10:06:00+00:00"
+    },
+    {
+      "auditGrade": false,
+      "codeRevision": "1ceb3596785f6d80a44607c81ae1657f48625c90",
+      "contract": "CFB_EDGE_PROSPECTIVE_OPEN_V1",
+      "eventTicker": "KXNCAAFSPREAD-26OCT03MDNEB",
+      "evidencePath": "data/open-capture/CFB_2026_PROVIDER_WEEK_5/evidence/df610dff1e0d50fce492baf1aa5dd8e362bcb0fe03919bfea1605ee64e2373b6.json.gz",
+      "evidenceSha256": "df610dff1e0d50fce492baf1aa5dd8e362bcb0fe03919bfea1605ee64e2373b6",
+      "firstEventSeenAt": "2026-09-29T07:01:08.406557+00:00",
+      "firstValidTwoSidedQuoteTime": "2026-09-29T07:01:08.406557+00:00",
+      "game": "Maryland @ Nebraska",
+      "historicalRecoveryUsed": false,
+      "kickoff": "2026-10-03T20:00:00.000Z",
+      "locked": true,
+      "marketTickers": [
+        "KXNCAAFSPREAD-26OCT03MDNEB-NEB15",
+        "KXNCAAFSPREAD-26OCT03MDNEB-NEB17"
+      ],
+      "observedAt": "2026-09-29T07:01:08.406557+00:00",
+      "openLagSeconds": 172508.406557,
+      "openingLine": -14.8,
+      "pollTime": "2026-09-29T07:01:08.406557+00:00",
+      "quoteInputs": [
+        {
+          "openTime": "2026-09-27T07:06:00Z",
+          "probability": 0.505,
+          "strike": 14.5,
+          "team": "Nebraska",
+          "ticker": "KXNCAAFSPREAD-26OCT03MDNEB-NEB15",
+          "yesAsk": 0.51,
+          "yesBid": 0.5
+        },
+        {
+          "openTime": "2026-09-27T07:06:00Z",
+          "probability": 0.47,
+          "strike": 16.5,
+          "team": "Nebraska",
+          "ticker": "KXNCAAFSPREAD-26OCT03MDNEB-NEB17",
+          "yesAsk": 0.48,
+          "yesBid": 0.46
+        }
+      ],
+      "schemaVersion": 1,
+      "source": "LIVE_KALSHI_POLL",
+      "state": "MISSED_TRUE_OPEN_WINDOW",
+      "venueOpenTime": "2026-09-27T07:06:00+00:00"
+    },
+    {
+      "auditGrade": false,
+      "codeRevision": "1ceb3596785f6d80a44607c81ae1657f48625c90",
+      "contract": "CFB_EDGE_PROSPECTIVE_OPEN_V1",
+      "eventTicker": "KXNCAAFSPREAD-26OCT03MEMCHAR",
+      "evidencePath": "data/open-capture/CFB_2026_PROVIDER_WEEK_5/evidence/1983c787ef1c30d32e5c0476e75e9a26c86302c3aea3e85c7f1d4aa42976d8c4.json.gz",
+      "evidenceSha256": "1983c787ef1c30d32e5c0476e75e9a26c86302c3aea3e85c7f1d4aa42976d8c4",
+      "firstEventSeenAt": "2026-09-29T07:01:08.406557+00:00",
+      "firstValidTwoSidedQuoteTime": "2026-09-29T07:01:08.406557+00:00",
+      "game": "Memphis @ Charlotte",
+      "historicalRecoveryUsed": false,
+      "kickoff": "2026-10-03T19:30:00.000Z",
+      "locked": true,
+      "marketTickers": [
+        "KXNCAAFSPREAD-26OCT03MEMCHAR-MEM21",
+        "KXNCAAFSPREAD-26OCT03MEMCHAR-MEM18"
+      ],
+      "observedAt": "2026-09-29T07:01:08.406557+00:00",
+      "openLagSeconds": 32108.406557,
+      "openingLine": 20.1,
+      "pollTime": "2026-09-29T07:01:08.406557+00:00",
+      "quoteInputs": [
+        {
+          "openTime": "2026-09-28T22:06:00Z",
+          "probability": 0.51,
+          "strike": 20.5,
+          "team": "Memphis",
+          "ticker": "KXNCAAFSPREAD-26OCT03MEMCHAR-MEM21",
+          "yesAsk": 0.5,
+          "yesBid": 0.48
+        },
+        {
+          "openTime": "2026-09-28T22:06:00Z",
+          "probability": 0.43500000000000005,
+          "strike": 17.5,
+          "team": "Memphis",
+          "ticker": "KXNCAAFSPREAD-26OCT03MEMCHAR-MEM18",
+          "yesAsk": 0.59,
+          "yesBid": 0.54
+        }
+      ],
+      "schemaVersion": 1,
+      "source": "LIVE_KALSHI_POLL",
+      "state": "MISSED_TRUE_OPEN_WINDOW",
+      "venueOpenTime": "2026-09-28T22:06:00+00:00"
+    },
+    {
+      "auditGrade": false,
+      "codeRevision": "1ceb3596785f6d80a44607c81ae1657f48625c90",
+      "contract": "CFB_EDGE_PROSPECTIVE_OPEN_V1",
+      "eventTicker": "KXNCAAFSPREAD-26OCT03MIACLEM",
+      "evidencePath": "data/open-capture/CFB_2026_PROVIDER_WEEK_5/evidence/76605f75d0d708a2cd0d1dcaca2f0ca40a98ea4eff71af6e62657ebe8e36fb82.json.gz",
+      "evidenceSha256": "76605f75d0d708a2cd0d1dcaca2f0ca40a98ea4eff71af6e62657ebe8e36fb82",
+      "firstEventSeenAt": "2026-09-29T07:01:08.406557+00:00",
+      "firstValidTwoSidedQuoteTime": "2026-09-29T07:01:08.406557+00:00",
+      "game": "Miami @ Clemson",
+      "historicalRecoveryUsed": false,
+      "kickoff": "2026-10-03T23:30:00.000Z",
+      "locked": true,
+      "marketTickers": [
+        "KXNCAAFSPREAD-26OCT03MIACLEM-MIA18",
+        "KXNCAAFSPREAD-26OCT03MIACLEM-MIA17"
+      ],
+      "observedAt": "2026-09-29T07:01:08.406557+00:00",
+      "openLagSeconds": 183308.406557,
+      "openingLine": 16.8,
+      "pollTime": "2026-09-29T07:01:08.406557+00:00",
+      "quoteInputs": [
+        {
+          "openTime": "2026-09-27T04:06:00Z",
+          "probability": 0.535,
+          "strike": 17.5,
+          "team": "Miami (FL)",
+          "ticker": "KXNCAAFSPREAD-26OCT03MIACLEM-MIA18",
+          "yesAsk": 0.47,
+          "yesBid": 0.46
+        },
+        {
+          "openTime": "2026-09-27T04:06:00Z",
+          "probability": 0.485,
+          "strike": 16.5,
+          "team": "Miami (FL)",
+          "ticker": "KXNCAAFSPREAD-26OCT03MIACLEM-MIA17",
+          "yesAsk": 0.52,
+          "yesBid": 0.51
+        }
+      ],
+      "schemaVersion": 1,
+      "source": "LIVE_KALSHI_POLL",
+      "state": "MISSED_TRUE_OPEN_WINDOW",
+      "venueOpenTime": "2026-09-27T04:06:00+00:00"
+    },
+    {
+      "auditGrade": false,
+      "codeRevision": "1ceb3596785f6d80a44607c81ae1657f48625c90",
+      "contract": "CFB_EDGE_PROSPECTIVE_OPEN_V1",
+      "eventTicker": "KXNCAAFSPREAD-26OCT03MICHMINN",
+      "evidencePath": "data/open-capture/CFB_2026_PROVIDER_WEEK_5/evidence/41ee5f543031629b0196b7dee08d117b608e432fd132c51d5b64ced9a3a17032.json.gz",
+      "evidenceSha256": "41ee5f543031629b0196b7dee08d117b608e432fd132c51d5b64ced9a3a17032",
+      "firstEventSeenAt": "2026-09-29T07:01:08.406557+00:00",
+      "firstValidTwoSidedQuoteTime": "2026-09-29T07:01:08.406557+00:00",
+      "game": "Michigan @ Minnesota",
+      "historicalRecoveryUsed": false,
+      "kickoff": "2026-10-03T16:00:00.000Z",
+      "locked": true,
+      "marketTickers": [
+        "KXNCAAFSPREAD-26OCT03MICHMINN-MICH7",
+        "KXNCAAFSPREAD-26OCT03MICHMINN-MICH6"
+      ],
+      "observedAt": "2026-09-29T07:01:08.406557+00:00",
+      "openLagSeconds": 226448.406557,
+      "openingLine": 5.8,
+      "pollTime": "2026-09-29T07:01:08.406557+00:00",
+      "quoteInputs": [
+        {
+          "openTime": "2026-09-26T16:07:00Z",
+          "probability": 0.535,
+          "strike": 6.5,
+          "team": "Michigan",
+          "ticker": "KXNCAAFSPREAD-26OCT03MICHMINN-MICH7",
+          "yesAsk": 0.47,
+          "yesBid": 0.46
+        },
+        {
+          "openTime": "2026-09-26T16:07:00Z",
+          "probability": 0.485,
+          "strike": 5.5,
+          "team": "Michigan",
+          "ticker": "KXNCAAFSPREAD-26OCT03MICHMINN-MICH6",
+          "yesAsk": 0.52,
+          "yesBid": 0.51
+        }
+      ],
+      "schemaVersion": 1,
+      "source": "LIVE_KALSHI_POLL",
+      "state": "MISSED_TRUE_OPEN_WINDOW",
+      "venueOpenTime": "2026-09-26T16:07:00+00:00"
+    },
+    {
+      "auditGrade": false,
+      "codeRevision": "1ceb3596785f6d80a44607c81ae1657f48625c90",
+      "contract": "CFB_EDGE_PROSPECTIVE_OPEN_V1",
+      "eventTicker": "KXNCAAFSPREAD-26OCT03MSUWIS",
+      "evidencePath": "data/open-capture/CFB_2026_PROVIDER_WEEK_5/evidence/18270788f875fdddbf50c2431d81ea411481e4c388c0e2d88102a50577038359.json.gz",
+      "evidenceSha256": "18270788f875fdddbf50c2431d81ea411481e4c388c0e2d88102a50577038359",
+      "firstEventSeenAt": "2026-09-29T07:01:08.406557+00:00",
+      "firstValidTwoSidedQuoteTime": "2026-09-29T07:01:08.406557+00:00",
+      "game": "Michigan State @ Wisconsin",
+      "historicalRecoveryUsed": false,
+      "kickoff": "2026-10-03T16:30:00.000Z",
+      "locked": true,
+      "marketTickers": [
+        "KXNCAAFSPREAD-26OCT03MSUWIS-WIS10",
+        "KXNCAAFSPREAD-26OCT03MSUWIS-WIS11"
+      ],
+      "observedAt": "2026-09-29T07:01:08.406557+00:00",
+      "openLagSeconds": 172508.406557,
+      "openingLine": -10.0,
+      "pollTime": "2026-09-29T07:01:08.406557+00:00",
+      "quoteInputs": [
+        {
+          "openTime": "2026-09-27T07:06:00Z",
+          "probability": 0.53,
+          "strike": 9.5,
+          "team": "Wisconsin",
+          "ticker": "KXNCAAFSPREAD-26OCT03MSUWIS-WIS10",
+          "yesAsk": 0.54,
+          "yesBid": 0.52
+        },
+        {
+          "openTime": "2026-09-27T07:06:00Z",
+          "probability": 0.475,
+          "strike": 10.5,
+          "team": "Wisconsin",
+          "ticker": "KXNCAAFSPREAD-26OCT03MSUWIS-WIS11",
+          "yesAsk": 0.48,
+          "yesBid": 0.47
+        }
+      ],
+      "schemaVersion": 1,
+      "source": "LIVE_KALSHI_POLL",
+      "state": "MISSED_TRUE_OPEN_WINDOW",
+      "venueOpenTime": "2026-09-27T07:06:00+00:00"
+    },
+    {
+      "auditGrade": false,
+      "codeRevision": "1ceb3596785f6d80a44607c81ae1657f48625c90",
+      "contract": "CFB_EDGE_PROSPECTIVE_OPEN_V1",
+      "eventTicker": "KXNCAAFSPREAD-26OCT03MTUKU",
+      "evidencePath": "data/open-capture/CFB_2026_PROVIDER_WEEK_5/evidence/b318f63b9a8e9786f1af3394f005c48cf5d67e52280ca74edf1bbfc1b4eaab83.json.gz",
+      "evidenceSha256": "b318f63b9a8e9786f1af3394f005c48cf5d67e52280ca74edf1bbfc1b4eaab83",
+      "firstEventSeenAt": "2026-09-29T07:01:08.406557+00:00",
+      "firstValidTwoSidedQuoteTime": "2026-09-29T07:01:08.406557+00:00",
+      "game": "Middle Tennessee @ Kansas",
+      "historicalRecoveryUsed": false,
+      "kickoff": "2026-10-03T16:00:00.000Z",
+      "locked": true,
+      "marketTickers": [
+        "KXNCAAFSPREAD-26OCT03MTUKU-KU19",
+        "KXNCAAFSPREAD-26OCT03MTUKU-KU21"
+      ],
+      "observedAt": "2026-09-29T07:01:08.406557+00:00",
+      "openLagSeconds": 32168.406557,
+      "openingLine": -18.7,
+      "pollTime": "2026-09-29T07:01:08.406557+00:00",
+      "quoteInputs": [
+        {
+          "openTime": "2026-09-28T22:05:00Z",
+          "probability": 0.505,
+          "strike": 18.5,
+          "team": "Kansas",
+          "ticker": "KXNCAAFSPREAD-26OCT03MTUKU-KU19",
+          "yesAsk": 0.51,
+          "yesBid": 0.5
+        },
+        {
+          "openTime": "2026-09-28T22:05:00Z",
+          "probability": 0.45499999999999996,
+          "strike": 20.5,
+          "team": "Kansas",
+          "ticker": "KXNCAAFSPREAD-26OCT03MTUKU-KU21",
+          "yesAsk": 0.47,
+          "yesBid": 0.44
+        }
+      ],
+      "schemaVersion": 1,
+      "source": "LIVE_KALSHI_POLL",
+      "state": "MISSED_TRUE_OPEN_WINDOW",
+      "venueOpenTime": "2026-09-28T22:05:00+00:00"
+    },
+    {
+      "auditGrade": false,
+      "codeRevision": "1ceb3596785f6d80a44607c81ae1657f48625c90",
+      "contract": "CFB_EDGE_PROSPECTIVE_OPEN_V1",
+      "eventTicker": "KXNCAAFSPREAD-26OCT03NAVYAFA",
+      "evidencePath": "data/open-capture/CFB_2026_PROVIDER_WEEK_5/evidence/7210f380e02466a6ca8f41331fceff943c66c5c4e7728177c2f6ef6a33257a39.json.gz",
+      "evidenceSha256": "7210f380e02466a6ca8f41331fceff943c66c5c4e7728177c2f6ef6a33257a39",
+      "firstEventSeenAt": "2026-09-29T07:01:08.406557+00:00",
+      "firstValidTwoSidedQuoteTime": "2026-09-29T07:01:08.406557+00:00",
+      "game": "Navy @ Air Force",
+      "historicalRecoveryUsed": false,
+      "kickoff": "2026-10-03T16:00:00.000Z",
+      "locked": true,
+      "marketTickers": [
+        "KXNCAAFSPREAD-26OCT03NAVYAFA-AFA3",
+        "KXNCAAFSPREAD-26OCT03NAVYAFA-AFA4"
+      ],
+      "observedAt": "2026-09-29T07:01:08.406557+00:00",
+      "openLagSeconds": 161708.406557,
+      "openingLine": -3.3,
+      "pollTime": "2026-09-29T07:01:08.406557+00:00",
+      "quoteInputs": [
+        {
+          "openTime": "2026-09-27T10:06:00Z",
+          "probability": 0.565,
+          "strike": 2.5,
+          "team": "Air Force",
+          "ticker": "KXNCAAFSPREAD-26OCT03NAVYAFA-AFA3",
+          "yesAsk": 0.57,
+          "yesBid": 0.56
+        },
+        {
+          "openTime": "2026-09-27T10:06:00Z",
+          "probability": 0.48,
+          "strike": 3.5,
+          "team": "Air Force",
+          "ticker": "KXNCAAFSPREAD-26OCT03NAVYAFA-AFA4",
+          "yesAsk": 0.49,
+          "yesBid": 0.47
+        }
+      ],
+      "schemaVersion": 1,
+      "source": "LIVE_KALSHI_POLL",
+      "state": "MISSED_TRUE_OPEN_WINDOW",
+      "venueOpenTime": "2026-09-27T10:06:00+00:00"
+    },
+    {
+      "auditGrade": false,
+      "codeRevision": "1ceb3596785f6d80a44607c81ae1657f48625c90",
+      "contract": "CFB_EDGE_PROSPECTIVE_OPEN_V1",
+      "eventTicker": "KXNCAAFSPREAD-26OCT01UNTTLSA",
+      "evidencePath": "data/open-capture/CFB_2026_PROVIDER_WEEK_5/evidence/7ac0de5776e42ec5672a7966b601448c2be2e973a00bd91b81d2a8fa36b013bb.json.gz",
+      "evidenceSha256": "7ac0de5776e42ec5672a7966b601448c2be2e973a00bd91b81d2a8fa36b013bb",
+      "firstEventSeenAt": "2026-09-29T07:01:08.406557+00:00",
+      "firstValidTwoSidedQuoteTime": "2026-09-29T07:01:08.406557+00:00",
+      "game": "North Texas @ Tulsa",
+      "historicalRecoveryUsed": false,
+      "kickoff": "2026-10-02T01:00:00.000Z",
+      "locked": true,
+      "marketTickers": [
+        "KXNCAAFSPREAD-26OCT01UNTTLSA-UNT2",
+        "KXNCAAFSPREAD-26OCT01UNTTLSA-TLSA2"
+      ],
+      "observedAt": "2026-09-29T07:01:08.406557+00:00",
+      "openLagSeconds": 161708.406557,
+      "openingLine": -1.0,
+      "pollTime": "2026-09-29T07:01:08.406557+00:00",
+      "quoteInputs": [
+        {
+          "openTime": "2026-09-27T10:06:00Z",
+          "probability": 0.5449999999999999,
+          "strike": 1.5,
+          "team": "North Texas",
+          "ticker": "KXNCAAFSPREAD-26OCT01UNTTLSA-UNT2",
+          "yesAsk": 0.46,
+          "yesBid": 0.45
+        },
+        {
+          "openTime": "2026-09-27T10:06:00Z",
+          "probability": 0.49,
+          "strike": 1.5,
+          "team": "Tulsa",
+          "ticker": "KXNCAAFSPREAD-26OCT01UNTTLSA-TLSA2",
+          "yesAsk": 0.5,
+          "yesBid": 0.48
+        }
+      ],
+      "schemaVersion": 1,
+      "source": "LIVE_KALSHI_POLL",
+      "state": "MISSED_TRUE_OPEN_WINDOW",
+      "venueOpenTime": "2026-09-27T10:06:00+00:00"
+    },
+    {
+      "auditGrade": false,
+      "codeRevision": "1ceb3596785f6d80a44607c81ae1657f48625c90",
+      "contract": "CFB_EDGE_PROSPECTIVE_OPEN_V1",
+      "eventTicker": "KXNCAAFSPREAD-26OCT03NDUNC",
+      "evidencePath": "data/open-capture/CFB_2026_PROVIDER_WEEK_5/evidence/4a01d709cdd543b20af9609a08ec0bb2d54a3911bebc015b5be6ccbdd5376553.json.gz",
+      "evidenceSha256": "4a01d709cdd543b20af9609a08ec0bb2d54a3911bebc015b5be6ccbdd5376553",
+      "firstEventSeenAt": "2026-09-29T07:01:08.406557+00:00",
+      "firstValidTwoSidedQuoteTime": "2026-09-29T07:01:08.406557+00:00",
+      "game": "Notre Dame @ North Carolina",
+      "historicalRecoveryUsed": false,
+      "kickoff": "2026-10-03T16:00:00.000Z",
+      "locked": true,
+      "marketTickers": [
+        "KXNCAAFSPREAD-26OCT03NDUNC-ND22",
+        "KXNCAAFSPREAD-26OCT03NDUNC-ND21"
+      ],
+      "observedAt": "2026-09-29T07:01:08.406557+00:00",
+      "openLagSeconds": 194108.406557,
+      "openingLine": 21.1,
+      "pollTime": "2026-09-29T07:01:08.406557+00:00",
+      "quoteInputs": [
+        {
+          "openTime": "2026-09-27T01:06:00Z",
+          "probability": 0.525,
+          "strike": 21.5,
+          "team": "Notre Dame",
+          "ticker": "KXNCAAFSPREAD-26OCT03NDUNC-ND22",
+          "yesAsk": 0.48,
+          "yesBid": 0.47
+        },
+        {
+          "openTime": "2026-09-27T01:06:00Z",
+          "probability": 0.45999999999999996,
+          "strike": 20.5,
+          "team": "Notre Dame",
+          "ticker": "KXNCAAFSPREAD-26OCT03NDUNC-ND21",
+          "yesAsk": 0.55,
+          "yesBid": 0.53
+        }
+      ],
+      "schemaVersion": 1,
+      "source": "LIVE_KALSHI_POLL",
+      "state": "MISSED_TRUE_OPEN_WINDOW",
+      "venueOpenTime": "2026-09-27T01:06:00+00:00"
+    },
+    {
+      "auditGrade": false,
+      "codeRevision": "1ceb3596785f6d80a44607c81ae1657f48625c90",
+      "contract": "CFB_EDGE_PROSPECTIVE_OPEN_V1",
+      "eventTicker": "KXNCAAFSPREAD-26OCT03OHIOKENT",
+      "evidencePath": "data/open-capture/CFB_2026_PROVIDER_WEEK_5/evidence/d8a682eb3bbd9e2ba29dced0129a68036984f6f701e0544d4fbd5df7e87c9adf.json.gz",
+      "evidenceSha256": "d8a682eb3bbd9e2ba29dced0129a68036984f6f701e0544d4fbd5df7e87c9adf",
+      "firstEventSeenAt": "2026-09-29T07:01:08.406557+00:00",
+      "firstValidTwoSidedQuoteTime": "2026-09-29T07:01:08.406557+00:00",
+      "game": "Ohio @ Kent State",
+      "historicalRecoveryUsed": false,
+      "kickoff": "2026-10-03T19:30:00.000Z",
+      "locked": true,
+      "marketTickers": [
+        "KXNCAAFSPREAD-26OCT03OHIOKENT-OHIO4",
+        "KXNCAAFSPREAD-26OCT03OHIOKENT-OHIO3"
+      ],
+      "observedAt": "2026-09-29T07:01:08.406557+00:00",
+      "openLagSeconds": 161708.406557,
+      "openingLine": 3.3,
+      "pollTime": "2026-09-29T07:01:08.406557+00:00",
+      "quoteInputs": [
+        {
+          "openTime": "2026-09-27T10:06:00Z",
+          "probability": 0.515,
+          "strike": 3.5,
+          "team": "Ohio",
+          "ticker": "KXNCAAFSPREAD-26OCT03OHIOKENT-OHIO4",
+          "yesAsk": 0.49,
+          "yesBid": 0.48
+        },
+        {
+          "openTime": "2026-09-27T10:06:00Z",
+          "probability": 0.43500000000000005,
+          "strike": 2.5,
+          "team": "Ohio",
+          "ticker": "KXNCAAFSPREAD-26OCT03OHIOKENT-OHIO3",
+          "yesAsk": 0.57,
+          "yesBid": 0.56
+        }
+      ],
+      "schemaVersion": 1,
+      "source": "LIVE_KALSHI_POLL",
+      "state": "MISSED_TRUE_OPEN_WINDOW",
+      "venueOpenTime": "2026-09-27T10:06:00+00:00"
+    },
+    {
+      "auditGrade": false,
+      "codeRevision": "1ceb3596785f6d80a44607c81ae1657f48625c90",
+      "contract": "CFB_EDGE_PROSPECTIVE_OPEN_V1",
+      "eventTicker": "KXNCAAFSPREAD-26OCT03OSUIOWA",
+      "evidencePath": "data/open-capture/CFB_2026_PROVIDER_WEEK_5/evidence/ac549a9c111841ee1abaf79461ff712051fc8135ab867235d9a5ba51f952c2fe.json.gz",
+      "evidenceSha256": "ac549a9c111841ee1abaf79461ff712051fc8135ab867235d9a5ba51f952c2fe",
+      "firstEventSeenAt": "2026-09-29T07:01:08.406557+00:00",
+      "firstValidTwoSidedQuoteTime": "2026-09-29T07:01:08.406557+00:00",
+      "game": "Ohio State @ Iowa",
+      "historicalRecoveryUsed": false,
+      "kickoff": "2026-10-03T19:30:00.000Z",
+      "locked": true,
+      "marketTickers": [
+        "KXNCAAFSPREAD-26OCT03OSUIOWA-OSU15",
+        "KXNCAAFSPREAD-26OCT03OSUIOWA-OSU14"
+      ],
+      "observedAt": "2026-09-29T07:01:08.406557+00:00",
+      "openLagSeconds": 194108.406557,
+      "openingLine": 13.8,
+      "pollTime": "2026-09-29T07:01:08.406557+00:00",
+      "quoteInputs": [
+        {
+          "openTime": "2026-09-27T01:06:00Z",
+          "probability": 0.5549999999999999,
+          "strike": 14.5,
+          "team": "Ohio St.",
+          "ticker": "KXNCAAFSPREAD-26OCT03OSUIOWA-OSU15",
+          "yesAsk": 0.45,
+          "yesBid": 0.44
+        },
+        {
+          "openTime": "2026-09-27T01:06:00Z",
+          "probability": 0.475,
+          "strike": 13.5,
+          "team": "Ohio St.",
+          "ticker": "KXNCAAFSPREAD-26OCT03OSUIOWA-OSU14",
+          "yesAsk": 0.53,
+          "yesBid": 0.52
+        }
+      ],
+      "schemaVersion": 1,
+      "source": "LIVE_KALSHI_POLL",
+      "state": "MISSED_TRUE_OPEN_WINDOW",
+      "venueOpenTime": "2026-09-27T01:06:00+00:00"
+    },
+    {
+      "auditGrade": false,
+      "codeRevision": "1ceb3596785f6d80a44607c81ae1657f48625c90",
+      "contract": "CFB_EDGE_PROSPECTIVE_OPEN_V1",
+      "eventTicker": "KXNCAAFSPREAD-26OCT03ODUGAST",
+      "evidencePath": "data/open-capture/CFB_2026_PROVIDER_WEEK_5/evidence/d06ad3384da313e0a8cfcbd8c614796ddd25ef9dbcae8efe4eaab2e491dcfb97.json.gz",
+      "evidenceSha256": "d06ad3384da313e0a8cfcbd8c614796ddd25ef9dbcae8efe4eaab2e491dcfb97",
+      "firstEventSeenAt": "2026-09-29T07:01:08.406557+00:00",
+      "firstValidTwoSidedQuoteTime": "2026-09-29T07:01:08.406557+00:00",
+      "game": "Old Dominion @ Georgia State",
+      "historicalRecoveryUsed": false,
+      "kickoff": "2026-10-03T19:30:00.000Z",
+      "locked": true,
+      "marketTickers": [
+        "KXNCAAFSPREAD-26OCT03ODUGAST-GAST2",
+        "KXNCAAFSPREAD-26OCT03ODUGAST-GAST3"
+      ],
+      "observedAt": "2026-09-29T07:01:08.406557+00:00",
+      "openLagSeconds": 161708.406557,
+      "openingLine": -1.8,
+      "pollTime": "2026-09-29T07:01:08.406557+00:00",
+      "quoteInputs": [
+        {
+          "openTime": "2026-09-27T10:06:00Z",
+          "probability": 0.505,
+          "strike": 1.5,
+          "team": "Georgia St.",
+          "ticker": "KXNCAAFSPREAD-26OCT03ODUGAST-GAST2",
+          "yesAsk": 0.51,
+          "yesBid": 0.5
+        },
+        {
+          "openTime": "2026-09-27T10:06:00Z",
+          "probability": 0.485,
+          "strike": 2.5,
+          "team": "Georgia St.",
+          "ticker": "KXNCAAFSPREAD-26OCT03ODUGAST-GAST3",
+          "yesAsk": 0.49,
+          "yesBid": 0.48
+        }
+      ],
+      "schemaVersion": 1,
+      "source": "LIVE_KALSHI_POLL",
+      "state": "MISSED_TRUE_OPEN_WINDOW",
+      "venueOpenTime": "2026-09-27T10:06:00+00:00"
+    },
+    {
+      "auditGrade": false,
+      "codeRevision": "1ceb3596785f6d80a44607c81ae1657f48625c90",
+      "contract": "CFB_EDGE_PROSPECTIVE_OPEN_V1",
+      "eventTicker": "KXNCAAFSPREAD-26OCT03ORSTCSU",
+      "evidencePath": "data/open-capture/CFB_2026_PROVIDER_WEEK_5/evidence/79595cfd9555ffa8f4297c90085c9011db58b3cb275b92b7b9fcb4097e7bae8d.json.gz",
+      "evidenceSha256": "79595cfd9555ffa8f4297c90085c9011db58b3cb275b92b7b9fcb4097e7bae8d",
+      "firstEventSeenAt": "2026-09-29T07:01:08.406557+00:00",
+      "firstValidTwoSidedQuoteTime": "2026-09-29T07:01:08.406557+00:00",
+      "game": "Oregon State @ Colorado State",
+      "historicalRecoveryUsed": false,
+      "kickoff": "2026-10-03T22:00:00.000Z",
+      "locked": true,
+      "marketTickers": [
+        "KXNCAAFSPREAD-26OCT03ORSTCSU-ORST8",
+        "KXNCAAFSPREAD-26OCT03ORSTCSU-ORST7"
+      ],
+      "observedAt": "2026-09-29T07:01:08.406557+00:00",
+      "openLagSeconds": 161708.406557,
+      "openingLine": 6.7,
+      "pollTime": "2026-09-29T07:01:08.406557+00:00",
+      "quoteInputs": [
+        {
+          "openTime": "2026-09-27T10:06:00Z",
+          "probability": 0.575,
+          "strike": 7.5,
+          "team": "Oregon St.",
+          "ticker": "KXNCAAFSPREAD-26OCT03ORSTCSU-ORST8",
+          "yesAsk": 0.43,
+          "yesBid": 0.42
+        },
+        {
+          "openTime": "2026-09-27T10:06:00Z",
+          "probability": 0.485,
+          "strike": 6.5,
+          "team": "Oregon St.",
+          "ticker": "KXNCAAFSPREAD-26OCT03ORSTCSU-ORST7",
+          "yesAsk": 0.52,
+          "yesBid": 0.51
+        }
+      ],
+      "schemaVersion": 1,
+      "source": "LIVE_KALSHI_POLL",
+      "state": "MISSED_TRUE_OPEN_WINDOW",
+      "venueOpenTime": "2026-09-27T10:06:00+00:00"
+    },
+    {
+      "auditGrade": false,
+      "codeRevision": "1ceb3596785f6d80a44607c81ae1657f48625c90",
+      "contract": "CFB_EDGE_PROSPECTIVE_OPEN_V1",
+      "eventTicker": "KXNCAAFSPREAD-26OCT02PSUNW",
+      "evidencePath": "data/open-capture/CFB_2026_PROVIDER_WEEK_5/evidence/3583157a2c7f1bb28abff5815d1258031da4cf6fd7c1c8fd0e3a165101259551.json.gz",
+      "evidenceSha256": "3583157a2c7f1bb28abff5815d1258031da4cf6fd7c1c8fd0e3a165101259551",
+      "firstEventSeenAt": "2026-09-29T07:01:08.406557+00:00",
+      "firstValidTwoSidedQuoteTime": "2026-09-29T07:01:08.406557+00:00",
+      "game": "Penn State @ Northwestern",
+      "historicalRecoveryUsed": false,
+      "kickoff": "2026-10-03T00:00:00.000Z",
+      "locked": true,
+      "marketTickers": [
+        "KXNCAAFSPREAD-26OCT02PSUNW-PSU4",
+        "KXNCAAFSPREAD-26OCT02PSUNW-PSU3"
+      ],
+      "observedAt": "2026-09-29T07:01:08.406557+00:00",
+      "openLagSeconds": 280508.406557,
+      "openingLine": 2.8,
+      "pollTime": "2026-09-29T07:01:08.406557+00:00",
+      "quoteInputs": [
+        {
+          "openTime": "2026-09-26T01:06:00Z",
+          "probability": 0.575,
+          "strike": 3.5,
+          "team": "Penn St.",
+          "ticker": "KXNCAAFSPREAD-26OCT02PSUNW-PSU4",
+          "yesAsk": 0.43,
+          "yesBid": 0.42
+        },
+        {
+          "openTime": "2026-09-26T01:06:00Z",
+          "probability": 0.475,
+          "strike": 2.5,
+          "team": "Penn St.",
+          "ticker": "KXNCAAFSPREAD-26OCT02PSUNW-PSU3",
+          "yesAsk": 0.53,
+          "yesBid": 0.52
+        }
+      ],
+      "schemaVersion": 1,
+      "source": "LIVE_KALSHI_POLL",
+      "state": "MISSED_TRUE_OPEN_WINDOW",
+      "venueOpenTime": "2026-09-26T01:06:00+00:00"
+    },
+    {
+      "auditGrade": false,
+      "codeRevision": "1ceb3596785f6d80a44607c81ae1657f48625c90",
+      "contract": "CFB_EDGE_PROSPECTIVE_OPEN_V1",
+      "eventTicker": "KXNCAAFSPREAD-26OCT02PITTVT",
+      "evidencePath": "data/open-capture/CFB_2026_PROVIDER_WEEK_5/evidence/3a464efa18db0b76ed795c04dc4bec7ee5f3d211adfaefd5173b51e8e18b38f9.json.gz",
+      "evidenceSha256": "3a464efa18db0b76ed795c04dc4bec7ee5f3d211adfaefd5173b51e8e18b38f9",
+      "firstEventSeenAt": "2026-09-29T07:01:08.406557+00:00",
+      "firstValidTwoSidedQuoteTime": "2026-09-29T07:01:08.406557+00:00",
+      "game": "Pittsburgh @ Virginia Tech",
+      "historicalRecoveryUsed": false,
+      "kickoff": "2026-10-02T23:00:00.000Z",
+      "locked": true,
+      "marketTickers": [
+        "KXNCAAFSPREAD-26OCT02PITTVT-VT3",
+        "KXNCAAFSPREAD-26OCT02PITTVT-VT4"
+      ],
+      "observedAt": "2026-09-29T07:01:08.406557+00:00",
+      "openLagSeconds": 280508.406557,
+      "openingLine": -3.2,
+      "pollTime": "2026-09-29T07:01:08.406557+00:00",
+      "quoteInputs": [
+        {
+          "openTime": "2026-09-26T01:06:00Z",
+          "probability": 0.555,
+          "strike": 2.5,
+          "team": "Virginia Tech",
+          "ticker": "KXNCAAFSPREAD-26OCT02PITTVT-VT3",
+          "yesAsk": 0.56,
+          "yesBid": 0.55
+        },
+        {
+          "openTime": "2026-09-26T01:06:00Z",
+          "probability": 0.475,
+          "strike": 3.5,
+          "team": "Virginia Tech",
+          "ticker": "KXNCAAFSPREAD-26OCT02PITTVT-VT4",
+          "yesAsk": 0.48,
+          "yesBid": 0.47
+        }
+      ],
+      "schemaVersion": 1,
+      "source": "LIVE_KALSHI_POLL",
+      "state": "MISSED_TRUE_OPEN_WINDOW",
+      "venueOpenTime": "2026-09-26T01:06:00+00:00"
+    },
+    {
+      "auditGrade": false,
+      "codeRevision": "1ceb3596785f6d80a44607c81ae1657f48625c90",
+      "contract": "CFB_EDGE_PROSPECTIVE_OPEN_V1",
+      "eventTicker": "KXNCAAFSPREAD-26OCT03PURILL",
+      "evidencePath": "data/open-capture/CFB_2026_PROVIDER_WEEK_5/evidence/076d4b9daab2f2b6cf0c7ba7d2db084bcd23f098010b92448dddd7fd61fd6221.json.gz",
+      "evidenceSha256": "076d4b9daab2f2b6cf0c7ba7d2db084bcd23f098010b92448dddd7fd61fd6221",
+      "firstEventSeenAt": "2026-09-29T07:01:08.406557+00:00",
+      "firstValidTwoSidedQuoteTime": "2026-09-29T07:01:08.406557+00:00",
+      "game": "Purdue @ Illinois",
+      "historicalRecoveryUsed": false,
+      "kickoff": "2026-10-03T20:15:00.000Z",
+      "locked": true,
+      "marketTickers": [
+        "KXNCAAFSPREAD-26OCT03PURILL-ILL10",
+        "KXNCAAFSPREAD-26OCT03PURILL-ILL11"
+      ],
+      "observedAt": "2026-09-29T07:01:08.406557+00:00",
+      "openLagSeconds": 172508.406557,
+      "openingLine": -10.2,
+      "pollTime": "2026-09-29T07:01:08.406557+00:00",
+      "quoteInputs": [
+        {
+          "openTime": "2026-09-27T07:06:00Z",
+          "probability": 0.535,
+          "strike": 9.5,
+          "team": "Illinois",
+          "ticker": "KXNCAAFSPREAD-26OCT03PURILL-ILL10",
+          "yesAsk": 0.54,
+          "yesBid": 0.53
+        },
+        {
+          "openTime": "2026-09-27T07:06:00Z",
+          "probability": 0.485,
+          "strike": 10.5,
+          "team": "Illinois",
+          "ticker": "KXNCAAFSPREAD-26OCT03PURILL-ILL11",
+          "yesAsk": 0.49,
+          "yesBid": 0.48
+        }
+      ],
+      "schemaVersion": 1,
+      "source": "LIVE_KALSHI_POLL",
+      "state": "MISSED_TRUE_OPEN_WINDOW",
+      "venueOpenTime": "2026-09-27T07:06:00+00:00"
+    },
+    {
+      "auditGrade": false,
+      "codeRevision": "1ceb3596785f6d80a44607c81ae1657f48625c90",
+      "contract": "CFB_EDGE_PROSPECTIVE_OPEN_V1",
+      "eventTicker": "KXNCAAFSPREAD-26OCT04SJSUHAW",
+      "evidencePath": "data/open-capture/CFB_2026_PROVIDER_WEEK_5/evidence/f09ed74e3beb0bf72ee454dd01a2690918c854df56af87dbd1caf7585655b528.json.gz",
+      "evidenceSha256": "f09ed74e3beb0bf72ee454dd01a2690918c854df56af87dbd1caf7585655b528",
+      "firstEventSeenAt": "2026-09-29T07:01:08.406557+00:00",
+      "firstValidTwoSidedQuoteTime": "2026-09-29T07:01:08.406557+00:00",
+      "game": "San Jos\u00e9 State @ Hawai'i",
+      "historicalRecoveryUsed": false,
+      "kickoff": "2026-10-04T03:59:00.000Z",
+      "locked": true,
+      "marketTickers": [
+        "KXNCAAFSPREAD-26OCT04SJSUHAW-HAW3",
+        "KXNCAAFSPREAD-26OCT04SJSUHAW-HAW4"
+      ],
+      "observedAt": "2026-09-29T07:01:08.406557+00:00",
+      "openLagSeconds": 161648.406557,
+      "openingLine": -2.6,
+      "pollTime": "2026-09-29T07:01:08.406557+00:00",
+      "quoteInputs": [
+        {
+          "openTime": "2026-09-27T10:07:00Z",
+          "probability": 0.505,
+          "strike": 2.5,
+          "team": "Hawai'i",
+          "ticker": "KXNCAAFSPREAD-26OCT04SJSUHAW-HAW3",
+          "yesAsk": 0.52,
+          "yesBid": 0.49
+        },
+        {
+          "openTime": "2026-09-27T10:07:00Z",
+          "probability": 0.43,
+          "strike": 3.5,
+          "team": "Hawai'i",
+          "ticker": "KXNCAAFSPREAD-26OCT04SJSUHAW-HAW4",
+          "yesAsk": 0.45,
+          "yesBid": 0.41
+        }
+      ],
+      "schemaVersion": 1,
+      "source": "LIVE_KALSHI_POLL",
+      "state": "MISSED_TRUE_OPEN_WINDOW",
+      "venueOpenTime": "2026-09-27T10:07:00+00:00"
+    },
+    {
+      "auditGrade": false,
+      "codeRevision": "1ceb3596785f6d80a44607c81ae1657f48625c90",
+      "contract": "CFB_EDGE_PROSPECTIVE_OPEN_V1",
+      "eventTicker": "KXNCAAFSPREAD-26OCT03STANWAKE",
+      "evidencePath": "data/open-capture/CFB_2026_PROVIDER_WEEK_5/evidence/5286c217e83ffde88b526d664a3eeb321ade52111da91950c80422d3ce9903f2.json.gz",
+      "evidenceSha256": "5286c217e83ffde88b526d664a3eeb321ade52111da91950c80422d3ce9903f2",
+      "firstEventSeenAt": "2026-09-29T07:01:08.406557+00:00",
+      "firstValidTwoSidedQuoteTime": "2026-09-29T07:01:08.406557+00:00",
+      "game": "Stanford @ Wake Forest",
+      "historicalRecoveryUsed": false,
+      "kickoff": "2026-10-03T16:00:00.000Z",
+      "locked": true,
+      "marketTickers": [
+        "KXNCAAFSPREAD-26OCT03STANWAKE-WAKE12",
+        "KXNCAAFSPREAD-26OCT03STANWAKE-WAKE14"
+      ],
+      "observedAt": "2026-09-29T07:01:08.406557+00:00",
+      "openLagSeconds": 172508.406557,
+      "openingLine": -12.9,
+      "pollTime": "2026-09-29T07:01:08.406557+00:00",
+      "quoteInputs": [
+        {
+          "openTime": "2026-09-27T07:06:00Z",
+          "probability": 0.535,
+          "strike": 11.5,
+          "team": "Wake Forest",
+          "ticker": "KXNCAAFSPREAD-26OCT03STANWAKE-WAKE12",
+          "yesAsk": 0.54,
+          "yesBid": 0.53
+        },
+        {
+          "openTime": "2026-09-27T07:06:00Z",
+          "probability": 0.485,
+          "strike": 13.5,
+          "team": "Wake Forest",
+          "ticker": "KXNCAAFSPREAD-26OCT03STANWAKE-WAKE14",
+          "yesAsk": 0.49,
+          "yesBid": 0.48
+        }
+      ],
+      "schemaVersion": 1,
+      "source": "LIVE_KALSHI_POLL",
+      "state": "MISSED_TRUE_OPEN_WINDOW",
+      "venueOpenTime": "2026-09-27T07:06:00+00:00"
+    },
+    {
+      "auditGrade": false,
+      "codeRevision": "1ceb3596785f6d80a44607c81ae1657f48625c90",
+      "contract": "CFB_EDGE_PROSPECTIVE_OPEN_V1",
+      "eventTicker": "KXNCAAFSPREAD-26OCT03SYRCONN",
+      "evidencePath": "data/open-capture/CFB_2026_PROVIDER_WEEK_5/evidence/faf8e6dbddb6d8e12a6758a7757d8f953ebdfee7c0a05fbd73be0b3282952c35.json.gz",
+      "evidenceSha256": "faf8e6dbddb6d8e12a6758a7757d8f953ebdfee7c0a05fbd73be0b3282952c35",
+      "firstEventSeenAt": "2026-09-29T07:01:08.406557+00:00",
+      "firstValidTwoSidedQuoteTime": "2026-09-29T07:01:08.406557+00:00",
+      "game": "Syracuse @ UConn",
+      "historicalRecoveryUsed": false,
+      "kickoff": "2026-10-03T16:00:00.000Z",
+      "locked": true,
+      "marketTickers": [
+        "KXNCAAFSPREAD-26OCT03SYRCONN-SYR8",
+        "KXNCAAFSPREAD-26OCT03SYRCONN-SYR7"
+      ],
+      "observedAt": "2026-09-29T07:01:08.406557+00:00",
+      "openLagSeconds": 161708.406557,
+      "openingLine": 6.6,
+      "pollTime": "2026-09-29T07:01:08.406557+00:00",
+      "quoteInputs": [
+        {
+          "openTime": "2026-09-27T10:06:00Z",
+          "probability": 0.585,
+          "strike": 7.5,
+          "team": "Syracuse",
+          "ticker": "KXNCAAFSPREAD-26OCT03SYRCONN-SYR8",
+          "yesAsk": 0.42,
+          "yesBid": 0.41
+        },
+        {
+          "openTime": "2026-09-27T10:06:00Z",
+          "probability": 0.495,
+          "strike": 6.5,
+          "team": "Syracuse",
+          "ticker": "KXNCAAFSPREAD-26OCT03SYRCONN-SYR7",
+          "yesAsk": 0.51,
+          "yesBid": 0.5
+        }
+      ],
+      "schemaVersion": 1,
+      "source": "LIVE_KALSHI_POLL",
+      "state": "MISSED_TRUE_OPEN_WINDOW",
+      "venueOpenTime": "2026-09-27T10:06:00+00:00"
+    },
+    {
+      "auditGrade": false,
+      "codeRevision": "1ceb3596785f6d80a44607c81ae1657f48625c90",
+      "contract": "CFB_EDGE_PROSPECTIVE_OPEN_V1",
+      "eventTicker": "KXNCAAFSPREAD-26OCT03TEMUSF",
+      "evidencePath": "data/open-capture/CFB_2026_PROVIDER_WEEK_5/evidence/2905e5edef021cfc4caad4a4dc4edb7bedd7823bddaaa57e829479804a2fc31b.json.gz",
+      "evidenceSha256": "2905e5edef021cfc4caad4a4dc4edb7bedd7823bddaaa57e829479804a2fc31b",
+      "firstEventSeenAt": "2026-09-29T07:01:08.406557+00:00",
+      "firstValidTwoSidedQuoteTime": "2026-09-29T07:01:08.406557+00:00",
+      "game": "Temple @ South Florida",
+      "historicalRecoveryUsed": false,
+      "kickoff": "2026-10-03T23:30:00.000Z",
+      "locked": true,
+      "marketTickers": [
+        "KXNCAAFSPREAD-26OCT03TEMUSF-USF6",
+        "KXNCAAFSPREAD-26OCT03TEMUSF-USF7"
+      ],
+      "observedAt": "2026-09-29T07:01:08.406557+00:00",
+      "openLagSeconds": 161708.406557,
+      "openingLine": -6.1,
+      "pollTime": "2026-09-29T07:01:08.406557+00:00",
+      "quoteInputs": [
+        {
+          "openTime": "2026-09-27T10:06:00Z",
+          "probability": 0.545,
+          "strike": 5.5,
+          "team": "South Florida",
+          "ticker": "KXNCAAFSPREAD-26OCT03TEMUSF-USF6",
+          "yesAsk": 0.55,
+          "yesBid": 0.54
+        },
+        {
+          "openTime": "2026-09-27T10:06:00Z",
+          "probability": 0.475,
+          "strike": 6.5,
+          "team": "South Florida",
+          "ticker": "KXNCAAFSPREAD-26OCT03TEMUSF-USF7",
+          "yesAsk": 0.48,
+          "yesBid": 0.47
+        }
+      ],
+      "schemaVersion": 1,
+      "source": "LIVE_KALSHI_POLL",
+      "state": "MISSED_TRUE_OPEN_WINDOW",
+      "venueOpenTime": "2026-09-27T10:06:00+00:00"
+    },
+    {
+      "auditGrade": false,
+      "codeRevision": "1ceb3596785f6d80a44607c81ae1657f48625c90",
+      "contract": "CFB_EDGE_PROSPECTIVE_OPEN_V1",
+      "eventTicker": "KXNCAAFSPREAD-26OCT03TXSTSDSU",
+      "evidencePath": "data/open-capture/CFB_2026_PROVIDER_WEEK_5/evidence/28da3075289909a822d6d60428fb591788d3f0be77f7d55fc08520f33156e76c.json.gz",
+      "evidenceSha256": "28da3075289909a822d6d60428fb591788d3f0be77f7d55fc08520f33156e76c",
+      "firstEventSeenAt": "2026-09-29T07:01:08.406557+00:00",
+      "firstValidTwoSidedQuoteTime": "2026-09-29T07:01:08.406557+00:00",
+      "game": "Texas State @ San Diego State",
+      "historicalRecoveryUsed": false,
+      "kickoff": "2026-10-04T02:30:00.000Z",
+      "locked": true,
+      "marketTickers": [
+        "KXNCAAFSPREAD-26OCT03TXSTSDSU-TXST5",
+        "KXNCAAFSPREAD-26OCT03TXSTSDSU-TXST4"
+      ],
+      "observedAt": "2026-09-29T07:01:08.406557+00:00",
+      "openLagSeconds": 140048.406557,
+      "openingLine": 3.9,
+      "pollTime": "2026-09-29T07:01:08.406557+00:00",
+      "quoteInputs": [
+        {
+          "openTime": "2026-09-27T16:07:00Z",
+          "probability": 0.53,
+          "strike": 4.5,
+          "team": "Texas St.",
+          "ticker": "KXNCAAFSPREAD-26OCT03TXSTSDSU-TXST5",
+          "yesAsk": 0.48,
+          "yesBid": 0.46
+        },
+        {
+          "openTime": "2026-09-27T16:07:00Z",
+          "probability": 0.48,
+          "strike": 3.5,
+          "team": "Texas St.",
+          "ticker": "KXNCAAFSPREAD-26OCT03TXSTSDSU-TXST4",
+          "yesAsk": 0.53,
+          "yesBid": 0.51
+        }
+      ],
+      "schemaVersion": 1,
+      "source": "LIVE_KALSHI_POLL",
+      "state": "MISSED_TRUE_OPEN_WINDOW",
+      "venueOpenTime": "2026-09-27T16:07:00+00:00"
+    },
+    {
+      "auditGrade": false,
+      "codeRevision": "1ceb3596785f6d80a44607c81ae1657f48625c90",
+      "contract": "CFB_EDGE_PROSPECTIVE_OPEN_V1",
+      "eventTicker": "KXNCAAFSPREAD-26OCT03TTUCOLO",
+      "evidencePath": "data/open-capture/CFB_2026_PROVIDER_WEEK_5/evidence/276d894746020f9128867ba405143a465539b99775ac5c6e25dd8c395dc70bdc.json.gz",
+      "evidenceSha256": "276d894746020f9128867ba405143a465539b99775ac5c6e25dd8c395dc70bdc",
+      "firstEventSeenAt": "2026-09-29T07:01:08.406557+00:00",
+      "firstValidTwoSidedQuoteTime": "2026-09-29T07:01:08.406557+00:00",
+      "game": "Texas Tech @ Colorado",
+      "historicalRecoveryUsed": false,
+      "kickoff": "2026-10-03T23:30:00.000Z",
+      "locked": true,
+      "marketTickers": [
+        "KXNCAAFSPREAD-26OCT03TTUCOLO-TTU14",
+        "KXNCAAFSPREAD-26OCT03TTUCOLO-TTU12"
+      ],
+      "observedAt": "2026-09-29T07:01:08.406557+00:00",
+      "openLagSeconds": 161708.406557,
+      "openingLine": 13.3,
+      "pollTime": "2026-09-29T07:01:08.406557+00:00",
+      "quoteInputs": [
+        {
+          "openTime": "2026-09-27T10:06:00Z",
+          "probability": 0.505,
+          "strike": 13.5,
+          "team": "Texas Tech",
+          "ticker": "KXNCAAFSPREAD-26OCT03TTUCOLO-TTU14",
+          "yesAsk": 0.5,
+          "yesBid": 0.49
+        },
+        {
+          "openTime": "2026-09-27T10:06:00Z",
+          "probability": 0.45999999999999996,
+          "strike": 11.5,
+          "team": "Texas Tech",
+          "ticker": "KXNCAAFSPREAD-26OCT03TTUCOLO-TTU12",
+          "yesAsk": 0.55,
+          "yesBid": 0.53
+        }
+      ],
+      "schemaVersion": 1,
+      "source": "LIVE_KALSHI_POLL",
+      "state": "MISSED_TRUE_OPEN_WINDOW",
+      "venueOpenTime": "2026-09-27T10:06:00+00:00"
+    },
+    {
+      "auditGrade": false,
+      "codeRevision": "1ceb3596785f6d80a44607c81ae1657f48625c90",
+      "contract": "CFB_EDGE_PROSPECTIVE_OPEN_V1",
+      "eventTicker": "KXNCAAFSPREAD-26OCT03TOLBALL",
+      "evidencePath": "data/open-capture/CFB_2026_PROVIDER_WEEK_5/evidence/b2707ff55d4c192ba00e112386f054a4958d5cea7bfacbd07b75526169d271ed.json.gz",
+      "evidenceSha256": "b2707ff55d4c192ba00e112386f054a4958d5cea7bfacbd07b75526169d271ed",
+      "firstEventSeenAt": "2026-09-29T07:01:08.406557+00:00",
+      "firstValidTwoSidedQuoteTime": "2026-09-29T07:01:08.406557+00:00",
+      "game": "Toledo @ Ball State",
+      "historicalRecoveryUsed": false,
+      "kickoff": "2026-10-03T18:00:00.000Z",
+      "locked": true,
+      "marketTickers": [
+        "KXNCAAFSPREAD-26OCT03TOLBALL-TOL21",
+        "KXNCAAFSPREAD-26OCT03TOLBALL-TOL18"
+      ],
+      "observedAt": "2026-09-29T07:01:08.406557+00:00",
+      "openLagSeconds": 140108.406557,
+      "openingLine": 19.1,
+      "pollTime": "2026-09-29T07:01:08.406557+00:00",
+      "quoteInputs": [
+        {
+          "openTime": "2026-09-27T16:06:00Z",
+          "probability": 0.53,
+          "strike": 20.5,
+          "team": "Toledo",
+          "ticker": "KXNCAAFSPREAD-26OCT03TOLBALL-TOL21",
+          "yesAsk": 0.48,
+          "yesBid": 0.46
+        },
+        {
+          "openTime": "2026-09-27T16:06:00Z",
+          "probability": 0.46499999999999997,
+          "strike": 17.5,
+          "team": "Toledo",
+          "ticker": "KXNCAAFSPREAD-26OCT03TOLBALL-TOL18",
+          "yesAsk": 0.54,
+          "yesBid": 0.53
+        }
+      ],
+      "schemaVersion": 1,
+      "source": "LIVE_KALSHI_POLL",
+      "state": "MISSED_TRUE_OPEN_WINDOW",
+      "venueOpenTime": "2026-09-27T16:06:00+00:00"
+    },
+    {
+      "auditGrade": false,
+      "codeRevision": "1ceb3596785f6d80a44607c81ae1657f48625c90",
+      "contract": "CFB_EDGE_PROSPECTIVE_OPEN_V1",
+      "eventTicker": "KXNCAAFSPREAD-26OCT03UCFHOU",
+      "evidencePath": "data/open-capture/CFB_2026_PROVIDER_WEEK_5/evidence/5444d1b3ea464f0fc0127ff1a2c35a08859d9ffeea0f41b455c9a88281045d79.json.gz",
+      "evidenceSha256": "5444d1b3ea464f0fc0127ff1a2c35a08859d9ffeea0f41b455c9a88281045d79",
+      "firstEventSeenAt": "2026-09-29T07:01:08.406557+00:00",
+      "firstValidTwoSidedQuoteTime": "2026-09-29T07:01:08.406557+00:00",
+      "game": "UCF @ Houston",
+      "historicalRecoveryUsed": false,
+      "kickoff": "2026-10-03T16:00:00.000Z",
+      "locked": true,
+      "marketTickers": [
+        "KXNCAAFSPREAD-26OCT03UCFHOU-HOU12",
+        "KXNCAAFSPREAD-26OCT03UCFHOU-HOU14"
+      ],
+      "observedAt": "2026-09-29T07:01:08.406557+00:00",
+      "openLagSeconds": 161708.406557,
+      "openingLine": -12.1,
+      "pollTime": "2026-09-29T07:01:08.406557+00:00",
+      "quoteInputs": [
+        {
+          "openTime": "2026-09-27T10:06:00Z",
+          "probability": 0.515,
+          "strike": 11.5,
+          "team": "Houston",
+          "ticker": "KXNCAAFSPREAD-26OCT03UCFHOU-HOU12",
+          "yesAsk": 0.52,
+          "yesBid": 0.51
+        },
+        {
+          "openTime": "2026-09-27T10:06:00Z",
+          "probability": 0.46499999999999997,
+          "strike": 13.5,
+          "team": "Houston",
+          "ticker": "KXNCAAFSPREAD-26OCT03UCFHOU-HOU14",
+          "yesAsk": 0.47,
+          "yesBid": 0.46
+        }
+      ],
+      "schemaVersion": 1,
+      "source": "LIVE_KALSHI_POLL",
+      "state": "MISSED_TRUE_OPEN_WINDOW",
+      "venueOpenTime": "2026-09-27T10:06:00+00:00"
+    },
+    {
+      "auditGrade": false,
+      "codeRevision": "1ceb3596785f6d80a44607c81ae1657f48625c90",
+      "contract": "CFB_EDGE_PROSPECTIVE_OPEN_V1",
+      "eventTicker": "KXNCAAFSPREAD-26OCT03ULMUSA",
+      "evidencePath": "data/open-capture/CFB_2026_PROVIDER_WEEK_5/evidence/6574827ce7c3a23ccda2073a775187f5690b3b04aef45bb99d924ffd42946b0b.json.gz",
+      "evidenceSha256": "6574827ce7c3a23ccda2073a775187f5690b3b04aef45bb99d924ffd42946b0b",
+      "firstEventSeenAt": "2026-09-29T07:01:08.406557+00:00",
+      "firstValidTwoSidedQuoteTime": "2026-09-29T07:01:08.406557+00:00",
+      "game": "UL Monroe @ South Alabama",
+      "historicalRecoveryUsed": false,
+      "kickoff": "2026-10-03T23:00:00.000Z",
+      "locked": true,
+      "marketTickers": [
+        "KXNCAAFSPREAD-26OCT03ULMUSA-USA14",
+        "KXNCAAFSPREAD-26OCT03ULMUSA-USA15"
+      ],
+      "observedAt": "2026-09-29T07:01:08.406557+00:00",
+      "openLagSeconds": 161708.406557,
+      "openingLine": -13.8,
+      "pollTime": "2026-09-29T07:01:08.406557+00:00",
+      "quoteInputs": [
+        {
+          "openTime": "2026-09-27T10:06:00Z",
+          "probability": 0.52,
+          "strike": 13.5,
+          "team": "South Alabama",
+          "ticker": "KXNCAAFSPREAD-26OCT03ULMUSA-USA14",
+          "yesAsk": 0.53,
+          "yesBid": 0.51
+        },
+        {
+          "openTime": "2026-09-27T10:06:00Z",
+          "probability": 0.45999999999999996,
+          "strike": 14.5,
+          "team": "South Alabama",
+          "ticker": "KXNCAAFSPREAD-26OCT03ULMUSA-USA15",
+          "yesAsk": 0.47,
+          "yesBid": 0.45
+        }
+      ],
+      "schemaVersion": 1,
+      "source": "LIVE_KALSHI_POLL",
+      "state": "MISSED_TRUE_OPEN_WINDOW",
+      "venueOpenTime": "2026-09-27T10:06:00+00:00"
+    },
+    {
+      "auditGrade": false,
+      "codeRevision": "1ceb3596785f6d80a44607c81ae1657f48625c90",
+      "contract": "CFB_EDGE_PROSPECTIVE_OPEN_V1",
+      "eventTicker": "KXNCAAFSPREAD-26OCT03UTEPUNM",
+      "evidencePath": "data/open-capture/CFB_2026_PROVIDER_WEEK_5/evidence/b36e75371af69b0887b449ad52ee055974a070d5fb5b939644bbf081e1369030.json.gz",
+      "evidenceSha256": "b36e75371af69b0887b449ad52ee055974a070d5fb5b939644bbf081e1369030",
+      "firstEventSeenAt": "2026-09-29T07:01:08.406557+00:00",
+      "firstValidTwoSidedQuoteTime": "2026-09-29T07:01:08.406557+00:00",
+      "game": "UTEP @ New Mexico",
+      "historicalRecoveryUsed": false,
+      "kickoff": "2026-10-03T20:00:00.000Z",
+      "locked": true,
+      "marketTickers": [
+        "KXNCAAFSPREAD-26OCT03UTEPUNM-UNM23",
+        "KXNCAAFSPREAD-26OCT03UTEPUNM-UNM24"
+      ],
+      "observedAt": "2026-09-29T07:01:08.406557+00:00",
+      "openLagSeconds": 32108.406557,
+      "openingLine": -22.8,
+      "pollTime": "2026-09-29T07:01:08.406557+00:00",
+      "quoteInputs": [
+        {
+          "openTime": "2026-09-28T22:06:00Z",
+          "probability": 0.51,
+          "strike": 22.5,
+          "team": "New Mexico",
+          "ticker": "KXNCAAFSPREAD-26OCT03UTEPUNM-UNM23",
+          "yesAsk": 0.52,
+          "yesBid": 0.5
+        },
+        {
+          "openTime": "2026-09-28T22:06:00Z",
+          "probability": 0.475,
+          "strike": 23.5,
+          "team": "New Mexico",
+          "ticker": "KXNCAAFSPREAD-26OCT03UTEPUNM-UNM24",
+          "yesAsk": 0.48,
+          "yesBid": 0.47
+        }
+      ],
+      "schemaVersion": 1,
+      "source": "LIVE_KALSHI_POLL",
+      "state": "MISSED_TRUE_OPEN_WINDOW",
+      "venueOpenTime": "2026-09-28T22:06:00+00:00"
+    },
+    {
+      "auditGrade": false,
+      "codeRevision": "1ceb3596785f6d80a44607c81ae1657f48625c90",
+      "contract": "CFB_EDGE_PROSPECTIVE_OPEN_V1",
+      "eventTicker": "KXNCAAFSPREAD-26OCT03UTSARICE",
+      "evidencePath": "data/open-capture/CFB_2026_PROVIDER_WEEK_5/evidence/acd2b868d01d1a58631ef8e4c09c6b46adaad17fd8da2a0fa5e5bc89aa0fb969.json.gz",
+      "evidenceSha256": "acd2b868d01d1a58631ef8e4c09c6b46adaad17fd8da2a0fa5e5bc89aa0fb969",
+      "firstEventSeenAt": "2026-09-29T07:01:08.406557+00:00",
+      "firstValidTwoSidedQuoteTime": "2026-09-29T07:01:08.406557+00:00",
+      "game": "UTSA @ Rice",
+      "historicalRecoveryUsed": false,
+      "kickoff": "2026-10-03T23:00:00.000Z",
+      "locked": true,
+      "marketTickers": [
+        "KXNCAAFSPREAD-26OCT03UTSARICE-UTSA14",
+        "KXNCAAFSPREAD-26OCT03UTSARICE-UTSA12"
+      ],
+      "observedAt": "2026-09-29T07:01:08.406557+00:00",
+      "openLagSeconds": 161708.406557,
+      "openingLine": 11.5,
+      "pollTime": "2026-09-29T07:01:08.406557+00:00",
+      "quoteInputs": [
+        {
+          "openTime": "2026-09-27T10:06:00Z",
+          "probability": 0.52,
+          "strike": 13.5,
+          "team": "UTSA",
+          "ticker": "KXNCAAFSPREAD-26OCT03UTSARICE-UTSA14",
+          "yesAsk": 0.49,
+          "yesBid": 0.47
+        },
+        {
+          "openTime": "2026-09-27T10:06:00Z",
+          "probability": 0.5,
+          "strike": 11.5,
+          "team": "UTSA",
+          "ticker": "KXNCAAFSPREAD-26OCT03UTSARICE-UTSA12",
+          "yesAsk": 0.51,
+          "yesBid": 0.49
+        }
+      ],
+      "schemaVersion": 1,
+      "source": "LIVE_KALSHI_POLL",
+      "state": "MISSED_TRUE_OPEN_WINDOW",
+      "venueOpenTime": "2026-09-27T10:06:00+00:00"
+    },
+    {
+      "auditGrade": false,
+      "codeRevision": "1ceb3596785f6d80a44607c81ae1657f48625c90",
+      "contract": "CFB_EDGE_PROSPECTIVE_OPEN_V1",
+      "eventTicker": "KXNCAAFSPREAD-26OCT03USUBSU",
+      "evidencePath": "data/open-capture/CFB_2026_PROVIDER_WEEK_5/evidence/f8b3f241d6bc7f75e519ded025fa15ac8859d81df896f7ffe1515b77bdbe1712.json.gz",
+      "evidenceSha256": "f8b3f241d6bc7f75e519ded025fa15ac8859d81df896f7ffe1515b77bdbe1712",
+      "firstEventSeenAt": "2026-09-29T07:01:08.406557+00:00",
+      "firstValidTwoSidedQuoteTime": "2026-09-29T07:01:08.406557+00:00",
+      "game": "Utah State @ Boise State",
+      "historicalRecoveryUsed": false,
+      "kickoff": "2026-10-03T23:30:00.000Z",
+      "locked": true,
+      "marketTickers": [
+        "KXNCAAFSPREAD-26OCT03USUBSU-BSU18",
+        "KXNCAAFSPREAD-26OCT03USUBSU-BSU21"
+      ],
+      "observedAt": "2026-09-29T07:01:08.406557+00:00",
+      "openLagSeconds": 140048.406557,
+      "openingLine": -20.1,
+      "pollTime": "2026-09-29T07:01:08.406557+00:00",
+      "quoteInputs": [
+        {
+          "openTime": "2026-09-27T16:07:00Z",
+          "probability": 0.56,
+          "strike": 17.5,
+          "team": "Boise St.",
+          "ticker": "KXNCAAFSPREAD-26OCT03USUBSU-BSU18",
+          "yesAsk": 0.57,
+          "yesBid": 0.55
+        },
+        {
+          "openTime": "2026-09-27T16:07:00Z",
+          "probability": 0.49,
+          "strike": 20.5,
+          "team": "Boise St.",
+          "ticker": "KXNCAAFSPREAD-26OCT03USUBSU-BSU21",
+          "yesAsk": 0.5,
+          "yesBid": 0.48
+        }
+      ],
+      "schemaVersion": 1,
+      "source": "LIVE_KALSHI_POLL",
+      "state": "MISSED_TRUE_OPEN_WINDOW",
+      "venueOpenTime": "2026-09-27T16:07:00+00:00"
+    },
+    {
+      "auditGrade": false,
+      "codeRevision": "1ceb3596785f6d80a44607c81ae1657f48625c90",
+      "contract": "CFB_EDGE_PROSPECTIVE_OPEN_V1",
+      "eventTicker": "KXNCAAFSPREAD-26OCT03VANUGA",
+      "evidencePath": "data/open-capture/CFB_2026_PROVIDER_WEEK_5/evidence/31e789db953cbe9a4999b6faf1c8aae2433c3e57e4e9dc9e1334bb5ebb1202d1.json.gz",
+      "evidenceSha256": "31e789db953cbe9a4999b6faf1c8aae2433c3e57e4e9dc9e1334bb5ebb1202d1",
+      "firstEventSeenAt": "2026-09-29T07:01:08.406557+00:00",
+      "firstValidTwoSidedQuoteTime": "2026-09-29T07:01:08.406557+00:00",
+      "game": "Vanderbilt @ Georgia",
+      "historicalRecoveryUsed": false,
+      "kickoff": "2026-10-03T16:45:00.000Z",
+      "locked": true,
+      "marketTickers": [
+        "KXNCAAFSPREAD-26OCT03VANUGA-UGA24",
+        "KXNCAAFSPREAD-26OCT03VANUGA-UGA25"
+      ],
+      "observedAt": "2026-09-29T07:01:08.406557+00:00",
+      "openLagSeconds": 183308.406557,
+      "openingLine": -24.1,
+      "pollTime": "2026-09-29T07:01:08.406557+00:00",
+      "quoteInputs": [
+        {
+          "openTime": "2026-09-27T04:06:00Z",
+          "probability": 0.525,
+          "strike": 23.5,
+          "team": "Georgia",
+          "ticker": "KXNCAAFSPREAD-26OCT03VANUGA-UGA24",
+          "yesAsk": 0.53,
+          "yesBid": 0.52
+        },
+        {
+          "openTime": "2026-09-27T04:06:00Z",
+          "probability": 0.485,
+          "strike": 24.5,
+          "team": "Georgia",
+          "ticker": "KXNCAAFSPREAD-26OCT03VANUGA-UGA25",
+          "yesAsk": 0.49,
+          "yesBid": 0.48
+        }
+      ],
+      "schemaVersion": 1,
+      "source": "LIVE_KALSHI_POLL",
+      "state": "MISSED_TRUE_OPEN_WINDOW",
+      "venueOpenTime": "2026-09-27T04:06:00+00:00"
+    },
+    {
+      "auditGrade": false,
+      "codeRevision": "1ceb3596785f6d80a44607c81ae1657f48625c90",
+      "contract": "CFB_EDGE_PROSPECTIVE_OPEN_V1",
+      "eventTicker": "KXNCAAFSPREAD-26OCT03UVAFSU",
+      "evidencePath": "data/open-capture/CFB_2026_PROVIDER_WEEK_5/evidence/69c50cd7eea645e6966d5d8655cfa60772d92c0e264f468833d08146b45bb728.json.gz",
+      "evidenceSha256": "69c50cd7eea645e6966d5d8655cfa60772d92c0e264f468833d08146b45bb728",
+      "firstEventSeenAt": "2026-09-29T07:01:08.406557+00:00",
+      "firstValidTwoSidedQuoteTime": "2026-09-29T07:01:08.406557+00:00",
+      "game": "Virginia @ Florida State",
+      "historicalRecoveryUsed": false,
+      "kickoff": "2026-10-03T19:30:00.000Z",
+      "locked": true,
+      "marketTickers": [
+        "KXNCAAFSPREAD-26OCT03UVAFSU-UVA4",
+        "KXNCAAFSPREAD-26OCT03UVAFSU-UVA3"
+      ],
+      "observedAt": "2026-09-29T07:01:08.406557+00:00",
+      "openLagSeconds": 172508.406557,
+      "openingLine": 2.8,
+      "pollTime": "2026-09-29T07:01:08.406557+00:00",
+      "quoteInputs": [
+        {
+          "openTime": "2026-09-27T07:06:00Z",
+          "probability": 0.5549999999999999,
+          "strike": 3.5,
+          "team": "Virginia",
+          "ticker": "KXNCAAFSPREAD-26OCT03UVAFSU-UVA4",
+          "yesAsk": 0.45,
+          "yesBid": 0.44
+        },
+        {
+          "openTime": "2026-09-27T07:06:00Z",
+          "probability": 0.475,
+          "strike": 2.5,
+          "team": "Virginia",
+          "ticker": "KXNCAAFSPREAD-26OCT03UVAFSU-UVA3",
+          "yesAsk": 0.53,
+          "yesBid": 0.52
+        }
+      ],
+      "schemaVersion": 1,
+      "source": "LIVE_KALSHI_POLL",
+      "state": "MISSED_TRUE_OPEN_WINDOW",
+      "venueOpenTime": "2026-09-27T07:06:00+00:00"
+    },
+    {
+      "auditGrade": false,
+      "codeRevision": "1ceb3596785f6d80a44607c81ae1657f48625c90",
+      "contract": "CFB_EDGE_PROSPECTIVE_OPEN_V1",
+      "eventTicker": "KXNCAAFSPREAD-26OCT03WASHUSC",
+      "evidencePath": "data/open-capture/CFB_2026_PROVIDER_WEEK_5/evidence/6f5a6022f9dbb0d12658fc8724115dea992fc0b6556d761f799fbdd7fed2219f.json.gz",
+      "evidenceSha256": "6f5a6022f9dbb0d12658fc8724115dea992fc0b6556d761f799fbdd7fed2219f",
+      "firstEventSeenAt": "2026-09-29T07:01:08.406557+00:00",
+      "firstValidTwoSidedQuoteTime": "2026-09-29T07:01:08.406557+00:00",
+      "game": "Washington @ USC",
+      "historicalRecoveryUsed": false,
+      "kickoff": "2026-10-03T23:30:00.000Z",
+      "locked": true,
+      "marketTickers": [
+        "KXNCAAFSPREAD-26OCT03WASHUSC-USC10",
+        "KXNCAAFSPREAD-26OCT03WASHUSC-USC11"
+      ],
+      "observedAt": "2026-09-29T07:01:08.406557+00:00",
+      "openLagSeconds": 161708.406557,
+      "openingLine": -9.8,
+      "pollTime": "2026-09-29T07:01:08.406557+00:00",
+      "quoteInputs": [
+        {
+          "openTime": "2026-09-27T10:06:00Z",
+          "probability": 0.515,
+          "strike": 9.5,
+          "team": "USC",
+          "ticker": "KXNCAAFSPREAD-26OCT03WASHUSC-USC10",
+          "yesAsk": 0.52,
+          "yesBid": 0.51
+        },
+        {
+          "openTime": "2026-09-27T10:06:00Z",
+          "probability": 0.46499999999999997,
+          "strike": 10.5,
+          "team": "USC",
+          "ticker": "KXNCAAFSPREAD-26OCT03WASHUSC-USC11",
+          "yesAsk": 0.47,
+          "yesBid": 0.46
+        }
+      ],
+      "schemaVersion": 1,
+      "source": "LIVE_KALSHI_POLL",
+      "state": "MISSED_TRUE_OPEN_WINDOW",
+      "venueOpenTime": "2026-09-27T10:06:00+00:00"
+    },
+    {
+      "auditGrade": false,
+      "codeRevision": "1ceb3596785f6d80a44607c81ae1657f48625c90",
+      "contract": "CFB_EDGE_PROSPECTIVE_OPEN_V1",
+      "eventTicker": "KXNCAAFSPREAD-26OCT03WVUISU",
+      "evidencePath": "data/open-capture/CFB_2026_PROVIDER_WEEK_5/evidence/10e98d622604f701205bebc6e69403f237f5892692df1a2a2942b2a0ebeb23f5.json.gz",
+      "evidenceSha256": "10e98d622604f701205bebc6e69403f237f5892692df1a2a2942b2a0ebeb23f5",
+      "firstEventSeenAt": "2026-09-29T07:01:08.406557+00:00",
+      "firstValidTwoSidedQuoteTime": "2026-09-29T07:01:08.406557+00:00",
+      "game": "West Virginia @ Iowa State",
+      "historicalRecoveryUsed": false,
+      "kickoff": "2026-10-03T16:00:00.000Z",
+      "locked": true,
+      "marketTickers": [
+        "KXNCAAFSPREAD-26OCT03WVUISU-ISU3",
+        "KXNCAAFSPREAD-26OCT03WVUISU-ISU4"
+      ],
+      "observedAt": "2026-09-29T07:01:08.406557+00:00",
+      "openLagSeconds": 161708.406557,
+      "openingLine": -3.1,
+      "pollTime": "2026-09-29T07:01:08.406557+00:00",
+      "quoteInputs": [
+        {
+          "openTime": "2026-09-27T10:06:00Z",
+          "probability": 0.545,
+          "strike": 2.5,
+          "team": "Iowa St.",
+          "ticker": "KXNCAAFSPREAD-26OCT03WVUISU-ISU3",
+          "yesAsk": 0.55,
+          "yesBid": 0.54
+        },
+        {
+          "openTime": "2026-09-27T10:06:00Z",
+          "probability": 0.46499999999999997,
+          "strike": 3.5,
+          "team": "Iowa St.",
+          "ticker": "KXNCAAFSPREAD-26OCT03WVUISU-ISU4",
+          "yesAsk": 0.47,
+          "yesBid": 0.46
+        }
+      ],
+      "schemaVersion": 1,
+      "source": "LIVE_KALSHI_POLL",
+      "state": "MISSED_TRUE_OPEN_WINDOW",
+      "venueOpenTime": "2026-09-27T10:06:00+00:00"
+    },
+    {
+      "auditGrade": false,
+      "firstEventSeenAt": null,
+      "game": "Western Kentucky @ New Mexico State",
+      "kickoff": "2026-10-02T00:00:00.000Z",
+      "lastPollAt": "2026-09-29T07:01:08.698826+00:00",
+      "locked": false,
+      "state": "PENDING"
+    },
+    {
+      "auditGrade": false,
+      "codeRevision": "1ceb3596785f6d80a44607c81ae1657f48625c90",
+      "contract": "CFB_EDGE_PROSPECTIVE_OPEN_V1",
+      "eventTicker": "KXNCAAFSPREAD-26OCT03WMUBUFF",
+      "evidencePath": "data/open-capture/CFB_2026_PROVIDER_WEEK_5/evidence/2cb37814b9c4d8b1b808931d5bd8abce6eaf8eb004834dc56f0b2c33402ebabe.json.gz",
+      "evidenceSha256": "2cb37814b9c4d8b1b808931d5bd8abce6eaf8eb004834dc56f0b2c33402ebabe",
+      "firstEventSeenAt": "2026-09-29T07:01:08.406557+00:00",
+      "firstValidTwoSidedQuoteTime": "2026-09-29T07:01:08.406557+00:00",
+      "game": "Western Michigan @ Buffalo",
+      "historicalRecoveryUsed": false,
+      "kickoff": "2026-10-03T17:00:00.000Z",
+      "locked": true,
+      "marketTickers": [
+        "KXNCAAFSPREAD-26OCT03WMUBUFF-WMU14",
+        "KXNCAAFSPREAD-26OCT03WMUBUFF-WMU12"
+      ],
+      "observedAt": "2026-09-29T07:01:08.406557+00:00",
+      "openLagSeconds": 32168.406557,
+      "openingLine": 13.3,
+      "pollTime": "2026-09-29T07:01:08.406557+00:00",
+      "quoteInputs": [
+        {
+          "openTime": "2026-09-28T22:05:00Z",
+          "probability": 0.505,
+          "strike": 13.5,
+          "team": "Western Michigan",
+          "ticker": "KXNCAAFSPREAD-26OCT03WMUBUFF-WMU14",
+          "yesAsk": 0.5,
+          "yesBid": 0.49
+        },
+        {
+          "openTime": "2026-09-28T22:05:00Z",
+          "probability": 0.45999999999999996,
+          "strike": 11.5,
+          "team": "Western Michigan",
+          "ticker": "KXNCAAFSPREAD-26OCT03WMUBUFF-WMU12",
+          "yesAsk": 0.55,
+          "yesBid": 0.53
+        }
+      ],
+      "schemaVersion": 1,
+      "source": "LIVE_KALSHI_POLL",
+      "state": "MISSED_TRUE_OPEN_WINDOW",
+      "venueOpenTime": "2026-09-28T22:05:00+00:00"
+    },
+    {
+      "auditGrade": false,
+      "codeRevision": "1ceb3596785f6d80a44607c81ae1657f48625c90",
+      "contract": "CFB_EDGE_PROSPECTIVE_OPEN_V1",
+      "eventTicker": "KXNCAAFSPREAD-26OCT03WYONDSU",
+      "evidencePath": "data/open-capture/CFB_2026_PROVIDER_WEEK_5/evidence/eb82e4582cc9de72ee63d213a16153ff47c98f916ddda0c9b003a281f68c2702.json.gz",
+      "evidenceSha256": "eb82e4582cc9de72ee63d213a16153ff47c98f916ddda0c9b003a281f68c2702",
+      "firstEventSeenAt": "2026-09-29T07:01:08.406557+00:00",
+      "firstValidTwoSidedQuoteTime": "2026-09-29T07:01:08.406557+00:00",
+      "game": "Wyoming @ North Dakota State",
+      "historicalRecoveryUsed": false,
+      "kickoff": "2026-10-03T19:30:00.000Z",
+      "locked": true,
+      "marketTickers": [
+        "KXNCAAFSPREAD-26OCT03WYONDSU-NDSU18",
+        "KXNCAAFSPREAD-26OCT03WYONDSU-NDSU19"
+      ],
+      "observedAt": "2026-09-29T07:01:08.406557+00:00",
+      "openLagSeconds": 32168.406557,
+      "openingLine": -18.2,
+      "pollTime": "2026-09-29T07:01:08.406557+00:00",
+      "quoteInputs": [
+        {
+          "openTime": "2026-09-28T22:05:00Z",
+          "probability": 0.515,
+          "strike": 17.5,
+          "team": "North Dakota St.",
+          "ticker": "KXNCAAFSPREAD-26OCT03WYONDSU-NDSU18",
+          "yesAsk": 0.53,
+          "yesBid": 0.5
+        },
+        {
+          "openTime": "2026-09-28T22:05:00Z",
+          "probability": 0.495,
+          "strike": 18.5,
+          "team": "North Dakota St.",
+          "ticker": "KXNCAAFSPREAD-26OCT03WYONDSU-NDSU19",
+          "yesAsk": 0.5,
+          "yesBid": 0.49
+        }
+      ],
+      "schemaVersion": 1,
+      "source": "LIVE_KALSHI_POLL",
+      "state": "MISSED_TRUE_OPEN_WINDOW",
+      "venueOpenTime": "2026-09-28T22:05:00+00:00"
+    }
+  ],
+  "schemaVersion": 1,
+  "slateSha256": "cde2955171fa33fa74a8bade6248e3b21a1d455c106c262feaeece9b85d1a0e3",
+  "stakingEffect": "NONE",
+  "summary": {
+    "capturedTrueOpenRows": 0,
+    "missedTrueOpenRows": 55,
+    "newTransitions": 55,
+    "pendingRows": 1,
+    "slateRows": 56,
+    "terminalRows": 55
+  },
+  "transitions": [
+    {
+      "game": "Liberty @ Delaware",
+      "state": "MISSED_TRUE_OPEN_WINDOW"
+    },
+    {
+      "game": "North Texas @ Tulsa",
+      "state": "MISSED_TRUE_OPEN_WINDOW"
+    },
+    {
+      "game": "Pittsburgh @ Virginia Tech",
+      "state": "MISSED_TRUE_OPEN_WINDOW"
+    },
+    {
+      "game": "Akron @ Central Michigan",
+      "state": "MISSED_TRUE_OPEN_WINDOW"
+    },
+    {
+      "game": "Alabama @ Mississippi State",
+      "state": "MISSED_TRUE_OPEN_WINDOW"
+    },
+    {
+      "game": "Arkansas @ Texas A&M",
+      "state": "MISSED_TRUE_OPEN_WINDOW"
+    },
+    {
+      "game": "Army @ Louisiana Tech",
+      "state": "MISSED_TRUE_OPEN_WINDOW"
+    },
+    {
+      "game": "Auburn @ Tennessee",
+      "state": "MISSED_TRUE_OPEN_WINDOW"
+    },
+    {
+      "game": "BYU @ TCU",
+      "state": "MISSED_TRUE_OPEN_WINDOW"
+    },
+    {
+      "game": "Boston College @ SMU",
+      "state": "MISSED_TRUE_OPEN_WINDOW"
+    },
+    {
+      "game": "Bowling Green @ Miami (OH)",
+      "state": "MISSED_TRUE_OPEN_WINDOW"
+    },
+    {
+      "game": "California @ UNLV",
+      "state": "MISSED_TRUE_OPEN_WINDOW"
+    },
+    {
+      "game": "Eastern Michigan @ Massachusetts",
+      "state": "MISSED_TRUE_OPEN_WINDOW"
+    },
+    {
+      "game": "Florida @ Missouri",
+      "state": "MISSED_TRUE_OPEN_WINDOW"
+    },
+    {
+      "game": "Georgia Southern @ Coastal Carolina",
+      "state": "MISSED_TRUE_OPEN_WINDOW"
+    },
+    {
+      "game": "Kentucky @ South Carolina",
+      "state": "MISSED_TRUE_OPEN_WINDOW"
+    },
+    {
+      "game": "Louisville @ NC State",
+      "state": "MISSED_TRUE_OPEN_WINDOW"
+    },
+    {
+      "game": "Marshall @ James Madison",
+      "state": "MISSED_TRUE_OPEN_WINDOW"
+    },
+    {
+      "game": "Maryland @ Nebraska",
+      "state": "MISSED_TRUE_OPEN_WINDOW"
+    },
+    {
+      "game": "Memphis @ Charlotte",
+      "state": "MISSED_TRUE_OPEN_WINDOW"
+    },
+    {
+      "game": "Miami @ Clemson",
+      "state": "MISSED_TRUE_OPEN_WINDOW"
+    },
+    {
+      "game": "Michigan @ Minnesota",
+      "state": "MISSED_TRUE_OPEN_WINDOW"
+    },
+    {
+      "game": "Michigan State @ Wisconsin",
+      "state": "MISSED_TRUE_OPEN_WINDOW"
+    },
+    {
+      "game": "Middle Tennessee @ Kansas",
+      "state": "MISSED_TRUE_OPEN_WINDOW"
+    },
+    {
+      "game": "Navy @ Air Force",
+      "state": "MISSED_TRUE_OPEN_WINDOW"
+    },
+    {
+      "game": "Notre Dame @ North Carolina",
+      "state": "MISSED_TRUE_OPEN_WINDOW"
+    },
+    {
+      "game": "Ohio @ Kent State",
+      "state": "MISSED_TRUE_OPEN_WINDOW"
+    },
+    {
+      "game": "Ohio State @ Iowa",
+      "state": "MISSED_TRUE_OPEN_WINDOW"
+    },
+    {
+      "game": "Old Dominion @ Georgia State",
+      "state": "MISSED_TRUE_OPEN_WINDOW"
+    },
+    {
+      "game": "Oregon State @ Colorado State",
+      "state": "MISSED_TRUE_OPEN_WINDOW"
+    },
+    {
+      "game": "Penn State @ Northwestern",
+      "state": "MISSED_TRUE_OPEN_WINDOW"
+    },
+    {
+      "game": "Purdue @ Illinois",
+      "state": "MISSED_TRUE_OPEN_WINDOW"
+    },
+    {
+      "game": "Stanford @ Wake Forest",
+      "state": "MISSED_TRUE_OPEN_WINDOW"
+    },
+    {
+      "game": "Syracuse @ UConn",
+      "state": "MISSED_TRUE_OPEN_WINDOW"
+    },
+    {
+      "game": "Temple @ South Florida",
+      "state": "MISSED_TRUE_OPEN_WINDOW"
+    },
+    {
+      "game": "Texas Tech @ Colorado",
+      "state": "MISSED_TRUE_OPEN_WINDOW"
+    },
+    {
+      "game": "Toledo @ Ball State",
+      "state": "MISSED_TRUE_OPEN_WINDOW"
+    },
+    {
+      "game": "UCF @ Houston",
+      "state": "MISSED_TRUE_OPEN_WINDOW"
+    },
+    {
+      "game": "UL Monroe @ South Alabama",
+      "state": "MISSED_TRUE_OPEN_WINDOW"
+    },
+    {
+      "game": "UTEP @ New Mexico",
+      "state": "MISSED_TRUE_OPEN_WINDOW"
+    },
+    {
+      "game": "UTSA @ Rice",
+      "state": "MISSED_TRUE_OPEN_WINDOW"
+    },
+    {
+      "game": "Utah State @ Boise State",
+      "state": "MISSED_TRUE_OPEN_WINDOW"
+    },
+    {
+      "game": "Vanderbilt @ Georgia",
+      "state": "MISSED_TRUE_OPEN_WINDOW"
+    },
+    {
+      "game": "Virginia @ Florida State",
+      "state": "MISSED_TRUE_OPEN_WINDOW"
+    },
+    {
+      "game": "Washington @ USC",
+      "state": "MISSED_TRUE_OPEN_WINDOW"
+    },
+    {
+      "game": "West Virginia @ Iowa State",
+      "state": "MISSED_TRUE_OPEN_WINDOW"
+    },
+    {
+      "game": "Western Michigan @ Buffalo",
+      "state": "MISSED_TRUE_OPEN_WINDOW"
+    },
+    {
+      "game": "Wyoming @ North Dakota State",
+      "state": "MISSED_TRUE_OPEN_WINDOW"
+    },
+    {
+      "game": "Arkansas State @ Louisiana",
+      "state": "MISSED_TRUE_OPEN_WINDOW"
+    },
+    {
+      "game": "Baylor @ Arizona State",
+      "state": "MISSED_TRUE_OPEN_WINDOW"
+    },
+    {
+      "game": "Cincinnati @ Arizona",
+      "state": "MISSED_TRUE_OPEN_WINDOW"
+    },
+    {
+      "game": "Fresno State @ Washington State",
+      "state": "MISSED_TRUE_OPEN_WINDOW"
+    },
+    {
+      "game": "Indiana @ Rutgers",
+      "state": "MISSED_TRUE_OPEN_WINDOW"
+    },
+    {
+      "game": "San Jos\u00e9 State @ Hawai'i",
+      "state": "MISSED_TRUE_OPEN_WINDOW"
+    },
+    {
+      "game": "Texas State @ San Diego State",
+      "state": "MISSED_TRUE_OPEN_WINDOW"
+    }
+  ],
+  "trueOpenMaximumLagSeconds": 900
+}
