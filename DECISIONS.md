@@ -1345,3 +1345,50 @@ label.
 **Authority effect.** None. This is research-only S04_BR2 evidence.
 S02 remains the sole delivery candidate. Frozen Week 5 S04_ES2, staking,
 delivery and promotion rules are unchanged.
+
+
+## 2026-09-29 — D34. Week 6 recovered opens become a frozen prospective CLV cohort
+
+**Decision.** The 27 audit-grade recovered true-open rows from the active
+Oct. 2-3 cohort are frozen before any kickoff in
+`config/week6_clv_freeze.json`. Cohort membership and opening lines are
+immutable after registration.
+
+The unchanged S04_ES2 + S03_M1 rule is run once against those 27 rows before
+kickoff. The resulting directional and executable-shadow decisions are written
+to an immutable decision-freeze artifact and may not be recomputed after later
+market movement or outcomes are visible.
+
+Close evidence comes only from the append-only live Kalshi capture log. The
+close is the final captured derived home line at or before kickoff and must be
+no more than 900 seconds old. `cfb_edge.signal_grader` then grades only the
+already-frozen directional/executable rows.
+
+The existing `CFB_EDGE_CLV_GATE_V1` remains the statistical authority for the
+market-timing claim. Week 6 signal rows are exported in side-adjusted
+coordinates before entering that gate. The fee-adjusted breakeven, e-value
+threshold, minimum-observation requirement and minimum-week-cluster requirement
+are unchanged.
+
+The S02 delivery authority is rerun independently using the same
+source-of-truth validation logic used by the authoritative card. CLV evidence is
+reported beside S02 authority but cannot substitute for log-loss, Brier,
+calibration, sample-size, freshness or replay gates.
+
+**Why.** A venue-proven opening has value only if the strategy direction is
+frozen before the close is known. Freezing the eligible open cohort but
+selecting a side after observing market movement would create hindsight. This
+two-stage design converts recovered pre-outcome opening evidence into genuinely
+prospective CLV evidence without weakening any gate.
+
+**Failure behavior.** A row with no pre-kickoff decision, no fresh captured
+close, stale close, non-`true_open` provenance, or invalid side remains
+ungradeable. A provisional market state is never promoted to a close.
+
+**Authority effect.** None. S02 remains blocked unless its registered authority
+itself passes. S04_ES2 remains shadow-only. S04_BR2 remains
+`DATA_COLLECTION_ONLY`. Stake and delivery remain zero.
+
+**Reversal criterion.** Change this protocol only through a separately
+preregistered cohort and before that cohort's decisions or closing lines are
+observable.
