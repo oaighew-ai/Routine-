@@ -39,7 +39,7 @@ from .providers.kalshi import (
     implied_line_evidence,
 )
 from .providers.oddsapi import OddsApiUnreachable, fetch_pull
-from .teams import normalize, resolve
+from .teams import ALIASES, normalize, resolve
 
 CONTRACT = "CFB_EDGE_ACTIVE_MARKET_STATE_V1"
 OPEN_CONTRACT = "CFB_EDGE_KALSHI_CANDLE_OPEN_V1"
@@ -189,8 +189,16 @@ def _provider_team_aliases(
             *(str(x).strip() for x in (row.get("alternateNames") or [])),
         ]
         names = [x for x in bases if x]
+        # Explicit repo aliases are also valid bases for a provider's exact
+        # school+mascot label. This handles punctuation/diacritic variants such
+        # as Hawai'i -> Hawaii without introducing fuzzy matching.
+        alias_bases = [
+            alias for alias, target in ALIASES.items()
+            if target == canonical
+        ]
+        names.extend(alias_bases)
         if mascot:
-            names.extend(f"{base} {mascot}" for base in bases if base)
+            names.extend(f"{base} {mascot}" for base in [*bases, *alias_bases] if base)
         for name in names:
             key = normalize(name)
             if key:
