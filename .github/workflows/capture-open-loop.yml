@@ -99,7 +99,16 @@ jobs:
           rc=$?
           set -e
           case "$rc" in
-            0) echo "ok=1" >> "$GITHUB_OUTPUT" ;;
+            0)
+              echo "ok=1" >> "$GITHUB_OUTPUT"
+              WEEK="$(awk '/^week [0-9]+ / {print $2; exit}' /tmp/slate.log)"
+              if ! [[ "$WEEK" =~ ^[0-9]+$ ]]; then
+                echo "Could not resolve opening provider week from slate output." >&2
+                exit 1
+              fi
+              echo "provider_week=$WEEK" >> "$GITHUB_OUTPUT"
+              echo "cohort_id=CFB_$(date -u +%Y)_PROVIDER_WEEK_\${WEEK}" >> "$GITHUB_OUTPUT"
+              ;;
             3)
               echo "ok=0" >> "$GITHUB_OUTPUT"
               echo "No week is open for capture; nothing to poll." >> "$GITHUB_STEP_SUMMARY"
@@ -164,13 +173,13 @@ jobs:
               failures=$((failures + 1))
               echo "poll $polls failed; continuing"
             else
-              SLATE_SHA="$(sha256sum capture-data/data/slate_current.csv | awk '{print $1}')"
-              SLATE_KEY="$(printf '%s' "$SLATE_SHA" | cut -c1-16)"
-              PROS_DIR="capture-data/data/open-capture/$SLATE_KEY"
+              COHORT_ID="\${{ steps.slate.outputs.cohort_id }}"
+              PROS_DIR="capture-data/data/open-capture/$COHORT_ID"
               mkdir -p "$PROS_DIR/evidence"
               python3 -m cfb_edge.prospective_open \
                 --snapshot "$SNAPSHOT" \
                 --slate capture-data/data/slate_current.csv \
+                --cohort-id "$COHORT_ID" \
                 --out "$PROS_DIR/status.json" \
                 --latest-out capture-data/data/prospective-open-status.json \
                 --evidence-dir "$PROS_DIR/evidence" \
