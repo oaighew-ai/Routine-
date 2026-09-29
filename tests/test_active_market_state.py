@@ -111,6 +111,59 @@ class ActiveMarketStateTests(unittest.TestCase):
         self.assertIsNone(r["features"]["unchangedSpreadPriceMove"])
         self.assertIsNone(r["features"]["secondsSinceLastMove"])
 
+    def test_odds_quotes_resolve_catalog_mascots_and_small_schedule_delta(self):
+        pull=Pull(
+            sport="americanfootball_ncaaf",
+            fetched_at="2026-09-29T12:00:10Z",
+            markets=("spreads",),
+            book_set=("pinnacle","draftkings"),
+            events=({
+                "id":"x","commenceTime":"2026-10-03T16:30:00Z",
+                "home":"Central Michigan Chippewas","away":"Akron Zips",
+                "bookmakers":[
+                    {"key":"pinnacle","markets":[{
+                        "key":"spreads","lastUpdate":"2026-09-29T12:00:00Z",
+                        "outcomes":[
+                            {"name":"Central Michigan Chippewas","price":-108,"point":-4.5},
+                            {"name":"Akron Zips","price":-112,"point":4.5},
+                        ],
+                    }]},
+                    {"key":"draftkings","markets":[{
+                        "key":"spreads","lastUpdate":"2026-09-29T11:59:30Z",
+                        "outcomes":[
+                            {"name":"Central Michigan Chippewas","price":-110,"point":-4.5},
+                            {"name":"Akron Zips","price":-110,"point":4.5},
+                        ],
+                    }]},
+                ],
+            },),
+            credits_remaining=400,credits_used=100,last_cost=1,
+        )
+        catalog=[
+            {"school":"Akron","mascot":"Zips","abbreviation":"AKR","alternateNames":[]},
+            {"school":"Central Michigan","mascot":"Chippewas","abbreviation":"CMU","alternateNames":[]},
+        ]
+        with tempfile.TemporaryDirectory() as td:
+            quotes,_,health=_odds_quotes(
+                identities={
+                    "Akron @ Central Michigan":{
+                        "game":"Akron @ Central Michigan","away":"Akron","home":"Central Michigan",
+                        "kickoff":"2026-10-03T16:00:00+00:00",
+                        "canonicalGameId":"cfbd:9",
+                    }
+                },
+                known_teams={"Akron","Central Michigan"},
+                team_catalog=catalog,
+                raw_dir=Path(td)/"raw",
+                bookmakers=("pinnacle","draftkings"),
+                fetcher=lambda **_: pull,
+            )
+        self.assertEqual(len(quotes),2)
+        self.assertEqual({q["book"] for q in quotes},{"pinnacle","draftkings"})
+        self.assertEqual(health["matchedEvents"],1)
+        self.assertEqual(health["unresolvedEvents"],[])
+        self.assertEqual(health["kickoffMismatchEvents"],[])
+
     def test_odds_quotes_are_canonical_and_timestamped(self):
         pull=Pull(
             sport="americanfootball_ncaaf",

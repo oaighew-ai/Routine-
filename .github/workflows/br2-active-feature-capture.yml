@@ -375,6 +375,7 @@ jobs:
           python3 -m cfb_edge.active_market_state \
             --slate .tmp/br2/slate.csv \
             --week-games .tmp/br2/games-target.json \
+            --teams .tmp/br2/teams.json \
             --raw-dir capture-data/data/features/br2/market/raw \
             --quotes-out .tmp/br2/information-quotes.json \
             --status-out .tmp/br2/market-information-status.json \
