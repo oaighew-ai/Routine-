@@ -160,12 +160,7 @@ jobs:
             polls=$((polls + 1))
             since_push=$((since_push + 1))
 
-            if ! python3 - <<'PY'
-            from datetime import datetime, timezone
-            from cfb_edge.watch import in_release_window
-            raise SystemExit(0 if in_release_window(datetime.now(timezone.utc)) else 1)
-            PY
-            then
+            if ! python3 -c 'from datetime import datetime, timezone; from cfb_edge.watch import in_release_window; raise SystemExit(0 if in_release_window(datetime.now(timezone.utc)) else 1)'; then
               echo "release window closed; ending this chain link"
               break
             fi
@@ -179,7 +174,7 @@ jobs:
               failures=$((failures + 1))
               echo "poll $polls failed; continuing"
             else
-              COHORT_ID="\${{ steps.slate.outputs.cohort_id }}"
+              COHORT_ID="${{ steps.slate.outputs.cohort_id }}"
               PROS_DIR="capture-data/data/open-capture/$COHORT_ID"
               mkdir -p "$PROS_DIR/evidence"
               python3 -m cfb_edge.prospective_open \
@@ -192,13 +187,7 @@ jobs:
                 --revision "$GITHUB_SHA"
             fi
 
-            TRANSITIONS="$(python3 - <<'PY'
-            import json
-            from pathlib import Path
-            p=Path("capture-data/data/prospective-open-status.json")
-            print(0 if not p.exists() else int((json.loads(p.read_text()).get("summary") or {}).get("newTransitions") or 0))
-            PY
-            )"
+            TRANSITIONS="$(python3 -c 'import json; from pathlib import Path; p=Path("capture-data/data/prospective-open-status.json"); print(0 if not p.exists() else int((json.loads(p.read_text()).get("summary") or {}).get("newTransitions") or 0))')"
 
             # A newly locked prospective open or a legacy first-seen is
             # irreplaceable evidence, so persist it immediately.
@@ -285,10 +274,23 @@ jobs:
             git fetch -q origin capture-data
             git reset --hard -q origin/capture-data
             cd "$GITHUB_WORKSPACE"
+            SNAPSHOT="/tmp/kalshi-live-poll.json"
             python3 -m cfb_edge.watch --source kalshi \
               --slate capture-data/data/slate_current.csv \
               --log capture-data/data/opens.jsonl.gz \
-              --out capture-data/data/opens.csv --once
+              --out capture-data/data/opens.csv \
+              --snapshot-out "$SNAPSHOT" --once
+            COHORT_ID="${{ steps.slate.outputs.cohort_id }}"
+            PROS_DIR="capture-data/data/open-capture/$COHORT_ID"
+            mkdir -p "$PROS_DIR/evidence"
+            python3 -m cfb_edge.prospective_open \
+              --snapshot "$SNAPSHOT" \
+              --slate capture-data/data/slate_current.csv \
+              --cohort-id "$COHORT_ID" \
+              --out "$PROS_DIR/status.json" \
+              --latest-out capture-data/data/prospective-open-status.json \
+              --evidence-dir "$PROS_DIR/evidence" \
+              --revision "$GITHUB_SHA"
             cd capture-data
             git add -A data
             git diff --cached --quiet && exit 0
