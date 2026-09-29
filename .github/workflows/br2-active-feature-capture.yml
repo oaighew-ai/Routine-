@@ -7,6 +7,8 @@ on:
       - cfb_edge/feature_warehouse.py
       - cfb_edge/br2_context.py
       - cfb_edge/br2_weather.py
+      - cfb_edge/active_market_state.py
+      - cfb_edge/information_state.py
       - cfb_edge/br2_web_evidence.py
       - cfb_edge/qb_usage_continuity.py
       - cfb_edge/opponent_adjusted_epa.py
@@ -15,6 +17,7 @@ on:
       - config/br2_active_cohort.json
       - config/br2_source_registry.json
       - config/br2_official_source_registry.json
+      - tests/test_active_market_state.py
       - .github/workflows/br2-active-feature-capture.yml
   schedule:
     - cron: "30 13 * 9-11 1,2,3,4,5"
@@ -362,6 +365,40 @@ jobs:
           )
           PY
 
+      - name: Capture validated active market state
+        if: steps.prospective.outputs.run == '1'
+        env:
+          ODDS_API_KEY: ${{ secrets.ODDS_API_KEY }}
+        run: |
+          set -euo pipefail
+          mkdir -p capture-data/data/features/br2/market/raw
+          python3 -m cfb_edge.active_market_state \
+            --slate .tmp/br2/slate.csv \
+            --week-games .tmp/br2/games-target.json \
+            --raw-dir capture-data/data/features/br2/market/raw \
+            --quotes-out .tmp/br2/information-quotes.json \
+            --status-out .tmp/br2/market-information-status.json \
+            --manifest-out .tmp/br2/market-source-manifest.json
+
+          python3 - <<'PY'
+          import json
+          from pathlib import Path
+          source=Path(".tmp/br2/source-manifest.json")
+          market=Path(".tmp/br2/market-source-manifest.json")
+          rows=json.loads(source.read_text())
+          rows.extend(json.loads(market.read_text()))
+          source.write_text(json.dumps(rows,indent=2,sort_keys=True)+"\n")
+          PY
+
+      - name: Freeze shared BR2 decision time
+        if: steps.prospective.outputs.run == '1'
+        id: decision
+        run: |
+          set -euo pipefail
+          DECISION_TIME="$(python3 -c 'import json; print(json.load(open(".tmp/br2/market-information-status.json"))["generatedAt"])')"
+          echo "decision_time=$DECISION_TIME" >> "$GITHUB_OUTPUT"
+          echo "- shared decision time: **$DECISION_TIME**" >> "$GITHUB_STEP_SUMMARY"
+
       - name: Validate optional official QB starter evidence
         if: steps.prospective.outputs.run == '1'
         run: |
@@ -380,9 +417,11 @@ jobs:
 
       - name: Build deterministic QB usage continuity
         if: steps.prospective.outputs.run == '1'
+        env:
+          DECISION_TIME: ${{ steps.decision.outputs.decision_time }}
         run: |
           set -euo pipefail
-          ASOF="$(date -u '+%Y-%m-%dT%H:%M:%SZ')"
+          ASOF="$DECISION_TIME"
           ARGS=()
           for f in .tmp/br2/games-w*.json; do ARGS+=(--games-json "$f"); done
           for f in .tmp/br2/players-w*.json; do ARGS+=(--player-box-json "$f"); done
@@ -396,9 +435,11 @@ jobs:
 
       - name: Build audited BR2 context
         if: steps.prospective.outputs.run == '1'
+        env:
+          DECISION_TIME: ${{ steps.decision.outputs.decision_time }}
         run: |
           set -euo pipefail
-          ASOF="$(date -u '+%Y-%m-%dT%H:%M:%SZ')"
+          ASOF="$DECISION_TIME"
           python3 -m cfb_edge.br2_context \
             --slate .tmp/br2/slate.csv \
             --week-games .tmp/br2/games-target.json \
@@ -432,6 +473,7 @@ jobs:
             "${ARGS[@]}" \
             --context-json .tmp/br2/context.json \
             --source-manifest .tmp/br2/source-manifest.json \
+            --information-quotes .tmp/br2/information-quotes.json \
             --as-of "$ASOF" \
             --revision "$GITHUB_SHA" \
             --out "$OUTDIR/$STAMP.json"
@@ -440,6 +482,8 @@ jobs:
           cp .tmp/br2/context.json capture-data/data/br2-context-status.json
           cp .tmp/br2/weather.json capture-data/data/br2-weather-status.json
           cp .tmp/br2/qb-evidence.json capture-data/data/features/br2/qb/evidence-latest.json
+          cp .tmp/br2/market-information-status.json capture-data/data/br2-market-information-status.json
+          cp .tmp/br2/information-quotes.json capture-data/data/features/br2/market/information-quotes-latest.json
           cp .tmp/br2/source-health.json capture-data/data/br2-source-health.json
 
           python3 - <<'PY' >> "$GITHUB_STEP_SUMMARY"
@@ -452,9 +496,18 @@ jobs:
           print("- modeling eligible: **NO**")
           for k,v in r["summary"]["featureCoverageRows"].items():
               print(f"- {k}: **{v}/{r['summary']['games']}**")
+          m=json.loads(Path("capture-data/data/br2-market-information-status.json").read_text())
           print("### Context audit coverage")
           for k,v in c["summary"]["auditGradeCoverageRows"].items():
               print(f"- {k}: **{v}/{c['summary']['games']}**")
+          print("### Market information state")
+          ms=m["summary"]
+          print(f"- recovered audit-grade opens: **{ms['auditGradeRecoveredOpenRows']}/{ms['canonicalRows']}**")
+          print(f"- fresh market rows: **{ms['freshMarketRows']}/{ms['canonicalRows']}**")
+          print(f"- open-to-decision rows: **{ms['openToDecisionRows']}/{ms['canonicalRows']}**")
+          print(f"- validated information rows: **{ms['validatedInformationRows']}/{ms['canonicalRows']}**")
+          print(f"- >=3 fresh sportsbook rows: **{ms['threePlusFreshBookRows']}/{ms['canonicalRows']}**")
+          print(f"- mean fresh sportsbook count: **{ms['meanFreshSportsbookCount']:.2f}**")
           PY
 
       - name: Publish append-only evidence
@@ -469,6 +522,7 @@ jobs:
             data/br2-feature-status.json \
             data/br2-context-status.json \
             data/br2-weather-status.json \
+            data/br2-market-information-status.json \
             data/br2-source-health.json
           git diff --cached --quiet && exit 0
           git commit -q -m "BR2 active PIT snapshot $(date -u '+%Y-%m-%d %H:%M UTC')"

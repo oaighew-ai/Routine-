@@ -1304,3 +1304,44 @@ S04_BR2 remains `DATA_COLLECTION_ONLY`.
 **Reversal criterion.** Replace either adapter only with a preregistered source
 or feature contract that preserves the same or stronger point-in-time,
 identity, raw-lineage and replay guarantees.
+
+
+## 2026-09-28 — D33. Active market provenance is venue-replayable and forward-only
+
+**Decision.** Keep the append-only live opening log authoritative for what the
+poller actually observed. Never relabel a late `first_seen` row as
+`true_open`. For the later BR2 active cohort only, add
+`CFB_EDGE_KALSHI_CANDLE_OPEN_V1`: recover opening evidence from Kalshi's own
+one-minute historical YES bid/ask candles for the exact listed spread
+contracts.
+
+A recovered opening is audit-grade only when the exact event resolves to one
+canonical CFBD fixture, the two or more contract rungs used to derive the
+50-percent crossing are preserved, and the first valid two-sided implied line
+occurs between 60 seconds before and 900 seconds after the latest
+exchange-reported `open_time` among those selected rungs. The existing
+15-minute true-open tolerance is unchanged.
+
+At the active BR2 decision snapshot, capture a fresh spreads-only sportsbook
+board for Pinnacle, DraftKings, FanDuel, BetMGM and BetRivers and a current
+Kalshi-derived line. Preserve provider update time, retrieval time, canonical
+game identity and content hashes. A derived exchange line is market evidence
+but never counts as sportsbook depth. Sparse snapshots may prove that movement
+occurred, but may not invent an exact movement timestamp.
+
+**Why.** The Oct. 2-3 cohort has exact Kalshi event and contract provenance, but
+the live poller first saw many games after the 900-second window. The venue's
+own timestamped bid/ask archive can independently prove what was knowable at
+open without rewriting the live log. Separately, BR2 already had an
+information-state engine but the active workflow passed it no market quotes,
+forcing every row to report missing fresh-market evidence.
+
+**Failure behavior.** Missing or ambiguous event identity, absent two-sided
+candles, a first valid line outside the frozen tolerance, stale sportsbook
+quotes, source-hash failure, or provider failure remains missing. No fallback
+may widen time tolerances, synthesize a bookmaker price, or use a later closing
+label.
+
+**Authority effect.** None. This is research-only S04_BR2 evidence.
+S02 remains the sole delivery candidate. Frozen Week 5 S04_ES2, staking,
+delivery and promotion rules are unchanged.

@@ -21,28 +21,46 @@ def build_state(*, canonical_game_id, decision_time, kickoff, quotes=(), news=()
         values['secondsToKickoff'] = (start - decision).total_seconds()
         eligible = []
         for q in quotes:
+            kind = str(q.get('quoteKind') or 'book_quote')
+            price_ok = (
+                number(q.get('decimalPrice')) and q['decimalPrice'] > 1
+                if kind == 'book_quote'
+                else kind == 'derived_line' and q.get('decimalPrice') in (None, '')
+            )
             if (q.get('canonicalGameId') == canonical_game_id and q.get('market') == 'spread'
                     and q.get('side') == 'home' and q.get('period') == 'full_game'
                     and q.get('book') and q.get('sourceSha256') and q.get('role') != 'closing'
                     and known_at(q.get('observedAt'), decision_time, kickoff)
                     and known_at(q.get('retrievedAt'), decision_time, kickoff)
                     and instant(q['observedAt']) <= instant(q['retrievedAt'])
-                    and number(q.get('spread')) and number(q.get('decimalPrice')) and q['decimalPrice'] > 1):
+                    and number(q.get('spread')) and price_ok):
                 eligible.append(q)
         # Conflicting quotes at the same book/time cannot be resolved by input order.
         groups = {}
         for q in eligible:
             groups.setdefault((q['book'], instant(q['observedAt'])), []).append(q)
-        conflicts = {k[0] for k, rows in groups.items() if len({(r['spread'], r['decimalPrice']) for r in rows}) > 1}
+        conflicts = {
+            k[0] for k, rows in groups.items()
+            if len({(r.get('spread'), r.get('decimalPrice'), r.get('quoteKind')) for r in rows}) > 1
+        }
         eligible = [q for q in eligible if q['book'] not in conflicts]
         latest = {}
         for q in sorted(eligible, key=lambda q: instant(q['observedAt'])):
             latest[q['book']] = q
         fresh = {book: q for book, q in latest.items() if (decision - instant(q['observedAt'])).total_seconds() <= max_age_seconds}
+        # A derived exchange line is fresh market evidence but it is not a
+        # sportsbook. Book depth and cross-book dispersion count only actual
+        # quoted sportsbook prices.
+        fresh_books = {
+            book: q for book, q in fresh.items()
+            if str(q.get('quoteKind') or 'book_quote') == 'book_quote'
+        }
         if fresh:
-            values['freshBookCount'] = len(fresh)
-            if len(fresh) > 1:
-                values['crossBookDispersion'] = statistics.pstdev(q['spread'] for q in fresh.values())
+            values['freshBookCount'] = len(fresh_books)
+            if len(fresh_books) > 1:
+                values['crossBookDispersion'] = statistics.pstdev(
+                    q['spread'] for q in fresh_books.values()
+                )
         else:
             exclusions.append('FRESH_MARKET_EVIDENCE_MISSING')
         movements, prices, move_times, opens = [], [], [], []
@@ -53,11 +71,23 @@ def build_state(*, canonical_game_id, decision_time, kickoff, quotes=(), news=()
             if len(opening) == 1:
                 first = opening[0]; opens.append(instant(first['observedAt']))
                 movements.append(current['spread'] - first['spread'])
-                if current['spread'] == first['spread']:
-                    prices.append(1/current['decimalPrice'] - 1/first['decimalPrice'])
+                current_price = current.get('decimalPrice')
+                first_price = first.get('decimalPrice')
+                if (current['spread'] == first['spread']
+                        and number(current_price) and number(first_price)
+                        and current_price > 1 and first_price > 1):
+                    prices.append(1/current_price - 1/first_price)
                 segment = [q for q in history if instant(q['observedAt']) >= instant(first['observedAt'])]
                 for previous, following in zip(segment, segment[1:]):
-                    if (previous['spread'], previous['decimalPrice']) != (following['spread'], following['decimalPrice']):
+                    changed = (
+                        previous.get('spread'), previous.get('decimalPrice')
+                    ) != (
+                        following.get('spread'), following.get('decimalPrice')
+                    )
+                    # Sparse snapshots show that a move happened somewhere
+                    # between observations, not when. Only a separately
+                    # verified movement timestamp may populate this field.
+                    if changed and following.get('movementTimestampVerified') is True:
                         move_times.append(instant(following['observedAt']))
         if movements:
             values['openToDecisionSpread'] = statistics.median(movements)
