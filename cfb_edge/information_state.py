@@ -39,7 +39,10 @@ def build_state(*, canonical_game_id, decision_time, kickoff, quotes=(), news=()
         groups = {}
         for q in eligible:
             groups.setdefault((q['book'], instant(q['observedAt'])), []).append(q)
-        conflicts = {k[0] for k, rows in groups.items() if len({(r['spread'], r['decimalPrice']) for r in rows}) > 1}
+        conflicts = {
+            k[0] for k, rows in groups.items()
+            if len({(r.get('spread'), r.get('decimalPrice'), r.get('quoteKind')) for r in rows}) > 1
+        }
         eligible = [q for q in eligible if q['book'] not in conflicts]
         latest = {}
         for q in sorted(eligible, key=lambda q: instant(q['observedAt'])):
