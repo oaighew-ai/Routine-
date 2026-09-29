@@ -97,10 +97,10 @@
       "id": "S04_BR2",
       "role": "POINT_IN_TIME_FOOTBALL_CONTEXT_WAREHOUSE",
       "market": "spread",
-      "version": "point-in-time-football-context-collection-2",
+      "version": "point-in-time-football-context-collection-3",
       "modelStatus": "DATA_COLLECTION_ONLY",
       "deliveryEligible": false,
-      "note": "Point-in-time warehouse now captures deterministic EPA, line-play, travel and forecast-weather context in addition to the original five families. QB continuity remains fail-closed behind two-sided official-source validation. No Week 5 decision effect."
+      "note": "Prospective BR2 collection now uses cohort-fixed SportsDataverse weekly opponent-adjusted EPA and CFBD participation-based QB continuity, while preserving all no-fit/no-delivery boundaries."
     }
   ]
 }
