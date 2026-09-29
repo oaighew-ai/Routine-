@@ -1132,3 +1132,104 @@ reanalysis weather.
 **Promotion effect.** None. These inputs cannot influence S02 or S04_ES2.
 A separately frozen BR2 feature contract, multiple independent prospective
 weeks and an untouched chronological holdout remain mandatory before any fit.
+
+## D-CLV1: the delivery gates test a claim the strategy never made
+
+`config/delivery_authority.json` gates delivery on `LOG_LOSS_ADVANTAGE`,
+`BRIER_NO_WORSE` and an `ANYTIME_E_VALUE` over those. All three ask whether
+the model forecasts outcomes better than the market. Measured over 48
+forecasts it does not: log-loss advantage -0.0055 where +0.003 is required,
+Brier worse by 0.0028, e-value 1.024 against a required 20.
+
+That is a true finding about the model and it is not the strategy's claim.
+What has ever measured positive here is +0.44 points of closing line value
+against the **opening** number, which asserts that the market is slow rather
+than that the model is accurate. A model can be worse than the close at
+predicting football and still take value from a stale opening line. The two
+propositions are independent, and the authority tests only the first.
+
+Consequence: the authority as configured cannot green-light this strategy
+even if the strategy works. The e-value compounds against us while the model
+is the worse forecaster, so more data moves it away from the gate rather than
+toward it — 1.024 today, 0.340 after 200 forecasts, 0.065 after 500.
+
+`cfb_edge/clv_gate.py` adds a second, independent gate on the CLV claim. It
+does not replace the accuracy gates and it cannot relax them; both must be
+read, and delivery still requires the authority.
+
+### The null is the fee-adjusted breakeven, not zero
+
+Beating zero CLV does not earn anything, so a gate against zero would pass a
+losing strategy. Derivation, all inputs measured in this repository:
+
+    Kalshi fee            0.07 * P * (1 - P) per contract
+    worst case at P=0.5   0.07 * 0.25            = 0.0175
+    margin residual sd    CLOSING_LINE_RESIDUAL_SD = 15.39 (6,398 games)
+    slope at the money    phi(0) / 15.39         = 0.02592 probability/point
+    points per unit prob  15.39 / phi(0)         = 38.58
+    breakeven             0.0175 * 38.58         = 0.675 points
+
+**The breakeven is 0.675 points and the strategy's headline claim is +0.44.**
+Two independent routes agree: the -110 sportsbook figure this project has
+quoted since the start is 0.67. So the best number this project has ever
+measured does not clear the fee at the strike where the contracts trade, and
+the three weeks that were measurable gave +0.052 at t = 0.32.
+
+P = 0.5 is not a pessimistic choice. It is where a spread contract sits, and
+it is where the fee peaks.
+
+### The test
+
+A uniform mixture over positive tilts:
+
+    E_n = mean_k exp( lambda_k * S_n - lambda_k^2 * sigma^2 * n / 2 )
+
+with S_n the running sum of (clv - null). Each term is an e-process when the
+true mean is at or below the null, and a convex mixture of e-processes is an
+e-process, so the whole is valid by construction with no special functions.
+Every tilt is positive, so it accumulates only on evidence above the null and
+cannot be triggered by a losing run — the failure mode a two-sided mixture
+would have.
+
+Threshold 20.0 (alpha = 0.05), chosen to match `minimumAnytimeEValue` so the
+two gates are directly comparable. `tests/test_clv_gate.py` verifies Ville's
+bound by simulating 600 null paths rather than asserting the algebra.
+
+### Minimum sample: derived
+
+Evidence accrues at `d^2 / (2 sigma^2)` nats per observation at the tilt best
+suited to a true excess `d`, and the threshold is `ln(20) = 3.0` nats:
+
+    sigma = 2.00 (measured over the 155 games of early-season-learning.json;
+                  the paper log's nine entries gave 0.61, so 2.00 is the
+                  conservative of the two)
+    d = 0.50      ->  96 observations
+    d = 0.33      -> 220
+    d = 0.25      -> 384
+
+`evaluate` uses `max(configured sigma, observed sd)`, because understating
+sigma inflates the e-value and this gate must never fail toward passing.
+
+`MINIMUM_WEEK_CLUSTERS = 4` is tagged **PRIOR (Law 6)**. It is not a power
+calculation. Week 3 of 2026 measured +0.539 at t = 2.26 and week 1 measured
+-0.510 at t = -1.91, so a gate satisfied by one favourable week would have
+passed on week three alone. Four is the smallest number that forbids it.
+
+### Failure behavior
+
+Fails closed. The default verdict is `INSUFFICIENT`; `PASS` requires the
+e-value to cross with the sample minimums met. Only `true_open` and `fill`
+rows enter, via `GRADEABLE` in `clv.py`, so the gate cannot be widened here
+by accident. A gradeable row with no closing line is counted as unsettled
+rather than dropped.
+
+A large, settled sample whose mean sits below the null reads `FAIL`, not
+`INSUFFICIENT`. "Insufficient" invites another season; below breakeven with
+the sample in hand is an answer.
+
+### Promotion effect
+
+None. This gate grants nothing. It can only withhold, report, or say that the
+CLV claim has been tested. Against the capture as it stands — 150 rows, 114
+`first_seen` and 36 `late` — it reads `INSUFFICIENT` with 0 gradeable
+observations, which is the honest state.
