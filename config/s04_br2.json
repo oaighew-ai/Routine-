@@ -57,7 +57,8 @@
     "Multiple independent prospective week snapshots exist.",
     "A future chronological holdout is reserved before hyperparameter selection.",
     "No Week 5 S04_ES2 signal, threshold, stake, or delivery rule is changed.",
-    "Market information state must retain canonical identity, audit-grade open provenance, fresh quote timestamps, and immutable source hashes; unavailable fields remain null."
+    "Market information state must retain canonical identity, audit-grade open provenance, fresh quote timestamps, and immutable source hashes; unavailable fields remain null.",
+    "Provider Week 6+ opening provenance must come from CFB_EDGE_PROSPECTIVE_OPEN_V1; historical candle recovery is prohibited for those cohorts."
   ],
   "currentlyCollectableFromExternalReplayableAPI": [
     "windMph",
@@ -89,6 +90,11 @@
     "currentMarketMaximumAgeSeconds": 900,
     "liveOpenLogRewritten": false,
     "sportsbookDepthExcludesDerivedExchangeLines": true,
-    "sparseSnapshotsMayImplyMovementTimestamp": false
+    "sparseSnapshotsMayImplyMovementTimestamp": false,
+    "prospectiveOpeningContract": "CFB_EDGE_PROSPECTIVE_OPEN_V1",
+    "prospectiveOnlyFromProviderWeek": 6,
+    "historicalRecoveryLegacyThroughProviderWeek": 5,
+    "historicalRecoveryAllowedFromProviderWeek6": false,
+    "prospectiveStatusPath": "capture-data/data/prospective-open-status.json"
   }
 }

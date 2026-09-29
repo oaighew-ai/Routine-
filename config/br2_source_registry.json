@@ -199,7 +199,7 @@
     {
       "id": "KALSHI_CANDLE_OPEN",
       "provider": "Kalshi",
-      "role": "MARKET_OPEN_PROVENANCE_RESEARCH",
+      "role": "MARKET_OPEN_PROVENANCE_LEGACY_RESEARCH",
       "featureFamilies": [],
       "endpoint": "/markets/candlesticks",
       "contract": "CFB_EDGE_KALSHI_CANDLE_OPEN_V1",
@@ -212,7 +212,9 @@
         "first valid implied line must be between -60 and +900 seconds of that venue open time",
         "live opens.csv is never rewritten by archive recovery"
       ],
-      "failurePolicy": "No two-sided implied line inside the frozen tolerance leaves audit-grade open missing. Never widen the 900-second limit."
+      "failurePolicy": "No two-sided implied line inside the frozen tolerance leaves audit-grade open missing. Never widen the 900-second limit.",
+      "validThroughProviderWeek": 5,
+      "note": "Preserved for the already-open provider Week 5 cohort only. Provider Week 6+ must use the prospective live lock and may not recover missing opens after the fact."
     },
     {
       "id": "ODDS_API_INFORMATION_STATE",
@@ -239,6 +241,29 @@
         "provider-name aliases that resolve to more than one active-slate team are discarded"
       ],
       "failurePolicy": "Source failure or stale quotes remain missing; no synthetic book price is created."
+    },
+    {
+      "id": "KALSHI_PROSPECTIVE_OPEN",
+      "provider": "Kalshi",
+      "role": "MARKET_OPEN_PROVENANCE_PRIMARY_FORWARD_ONLY",
+      "featureFamilies": [],
+      "contract": "CFB_EDGE_PROSPECTIVE_OPEN_V1",
+      "source": "live /markets polling through cfb_edge.watch",
+      "validFromProviderWeek": 6,
+      "definition": "First valid two-sided implied spread observed prospectively by the live one-minute poller, locked immutably at observation time.",
+      "requirements": [
+        "one-minute target polling across the full measured Saturday-through-Tuesday release band",
+        "exact canonical game identity",
+        "exact event ticker and at least two market tickers",
+        "raw quote inputs preserved",
+        "provider venue open_time preserved",
+        "first_valid_two_sided_quote_time equals the live observation that locked the row",
+        "open lag between -60 and +900 seconds",
+        "content-addressed evidence SHA-256",
+        "terminal true-open or missed-window state can never be upgraded later",
+        "historical recovery prohibited for provider Week 6+"
+      ],
+      "failurePolicy": "If the live poller misses the window, the row is permanently MISSED_TRUE_OPEN_WINDOW for that cohort. Do not recover it from candles later."
     }
   ]
 }
