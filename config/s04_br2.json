@@ -1,7 +1,7 @@
 {
-  "schemaVersion": 3,
+  "schemaVersion": 4,
   "modelId": "S04_BR2",
-  "version": "point-in-time-football-context-collection-2",
+  "version": "point-in-time-football-context-collection-3",
   "status": "DATA_COLLECTION_ONLY",
   "deliveryEligible": false,
   "stakingEnabled": false,
@@ -25,19 +25,19 @@
     "windMph"
   ],
   "currentlyCollectableFromExistingCFBDREST": [
-    "epaDiff",
     "ppaDiff",
     "successRateDiff",
     "explosivenessDiff",
+    "qbContinuityDiff",
     "linePlayDiff",
     "paceDiff",
     "restDaysDiff",
     "travelMilesDiff"
   ],
   "explicitlyNotSubstituted": {
-    "qbContinuityDiff": "Only two-sided, official, pre-kickoff, deterministically validated depth-chart/availability evidence may populate this feature. Search results, Action Network context, or LLM extraction alone cannot.",
+    "qbContinuityDiff": "QB continuity is participation stability, not injury status: the most-recent-game primary passer's share of team pass attempts across the last three completed games. Official starter/injury evidence is a separate availability overlay and cannot silently rewrite this feature.",
     "windMph": "Realized/reanalysis weather is not substituted for the forecast available at decision time.",
-    "epaDiff": "PPA is not relabeled as EPA; EPA uses the prospectively archived CFBD opponent-adjusted WEPA response.",
+    "epaDiff": "For the active BR2 cohort, epaDiff uses the prospectively archived SportsDataverse/cfbfastR weekly opponent-adjusted EPA source fixed by the cohort contract. CFBD WEPA remains independently monitored and is never mixed row-by-row. PPA is never relabeled as EPA.",
     "linePlayDiff": "No subjective offensive-line grade is substituted; the registered feature is net CFBD line yards.",
     "travelMilesDiff": "No guessed itinerary is substituted; the registered feature is great-circle program-home-location to venue miles."
   },
@@ -56,26 +56,28 @@
     "Raw source payloads are preserved by content hash and replayable.",
     "Multiple independent prospective week snapshots exist.",
     "A future chronological holdout is reserved before hyperparameter selection.",
-    "No Week 5 S04_ES2 signal, threshold, stake, or delivery rule is changed."
+    "No Week 5 S04_ES2 signal, threshold, stake, or delivery rule is changed.",
+    "A cohort may use only one registered EPA provider definition; provider mixing inside a cohort is prohibited."
   ],
   "currentlyCollectableFromExternalReplayableAPI": [
+    "epaDiff",
     "windMph"
   ],
-  "evidenceGatedFeatures": [
-    "qbContinuityDiff"
-  ],
+  "evidenceGatedFeatures": [],
   "sourceRegistry": "config/br2_source_registry.json",
   "featureCollectionDefinitions": {
-    "epaDiff": "home minus away opponent-adjusted net EPA; team net = epa.total - epaAllowed.total from archived CFBD WEPA snapshot",
+    "epaDiff": "home minus away net opponent-adjusted EPA per play from the cohort-fixed SportsDataverse/cfbfastR weekly team-summary snapshot; team net = adj_off_epa - adj_def_epa",
     "linePlayDiff": "home minus away net line yards; team net = offense.lineYards - defense.lineYards",
     "travelMilesDiff": "home minus away great-circle miles from registered CFBD team location to registered game venue",
     "windMph": "Open-Meteo 10m sustained wind nearest kickoff from the pregame forecast snapshot; confirmed dome = 0 with audit flag",
-    "qbContinuityDiff": "home continuity minus away continuity; each team continuity = 1 iff first-listed QB matches prior official depth chart, otherwise 0; both team packets required"
+    "qbContinuityDiff": "home minus away prior-three-game pass-attempt share owned by each team's primary passer from its most recent completed game; ties or missing participation fail closed"
   },
   "shadowContracts": {
     "informationState": "CFB_EDGE_INFORMATION_STATE_V1",
     "decisionTime": "timezone-aware UTC instant; featureAsOf <= decisionTime < kickoff",
     "canonicalGameId": "cfbd:<immutable provider game id>; external crosswalks require explicit evidence"
   },
-  "informationStateStatus": "ADAPTER_IMPLEMENTED_AWAITING_VALIDATED_QUOTE_HISTORY"
+  "informationStateStatus": "ADAPTER_IMPLEMENTED_AWAITING_VALIDATED_QUOTE_HISTORY",
+  "activeCollectionCohort": "config/br2_active_cohort.json",
+  "week5Compatibility": "Week 5 artifacts remain immutable under collection-2; collection-3 applies prospectively to later BR2 cohorts only."
 }
