@@ -37,17 +37,19 @@ class ProspectiveOpenTests(unittest.TestCase):
     def setUp(self):
         self.slate=[{"game":"Away @ Home","kickoff":"2026-10-10T16:00:00Z"}]
         self.sha="a"*64
+        self.cohort="CFB_2026_PROVIDER_WEEK_7"
         self.now=datetime(2026,10,4,12,1,5,tzinfo=timezone.utc)
 
     def test_true_open_locks_from_live_snapshot(self):
         with tempfile.TemporaryDirectory() as td:
             r=update(
-                slate=self.slate, slate_sha256=self.sha,
+                slate=self.slate, slate_sha256=self.sha, cohort_id=self.cohort,
                 snapshot={"polled_at":"2026-10-04T12:01:05Z","quotes":[quote()]},
                 existing=None, evidence_dir=Path(td)/"evidence",
                 revision="abc", generated_at=self.now,
             )
         self.assertEqual(r["contract"],CONTRACT)
+        self.assertEqual(r["cohortId"],self.cohort)
         self.assertFalse(r["historicalRecoveryAllowed"])
         self.assertEqual(r["summary"]["capturedTrueOpenRows"],1)
         row=r["rows"][0]
@@ -62,7 +64,7 @@ class ProspectiveOpenTests(unittest.TestCase):
         q=quote(seen="2026-10-04T12:16:01Z")
         with tempfile.TemporaryDirectory() as td:
             r=update(
-                slate=self.slate, slate_sha256=self.sha,
+                slate=self.slate, slate_sha256=self.sha, cohort_id=self.cohort,
                 snapshot={"polled_at":"2026-10-04T12:16:02Z","quotes":[q]},
                 existing=None, evidence_dir=Path(td)/"evidence",
                 generated_at=datetime(2026,10,4,12,16,2,tzinfo=timezone.utc),
@@ -75,14 +77,14 @@ class ProspectiveOpenTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as td:
             root=Path(td)/"evidence"
             first=update(
-                slate=self.slate, slate_sha256=self.sha,
+                slate=self.slate, slate_sha256=self.sha, cohort_id=self.cohort,
                 snapshot={"polled_at":"2026-10-04T12:16:02Z",
                           "quotes":[quote(seen="2026-10-04T12:16:01Z")]},
                 existing=None, evidence_dir=root,
                 generated_at=datetime(2026,10,4,12,16,2,tzinfo=timezone.utc),
             )
             second=update(
-                slate=self.slate, slate_sha256=self.sha,
+                slate=self.slate, slate_sha256=self.sha, cohort_id=self.cohort,
                 snapshot={"polled_at":"2026-10-04T12:01:02Z","quotes":[quote()]},
                 existing=first, evidence_dir=root,
                 generated_at=datetime(2026,10,4,12,17,0,tzinfo=timezone.utc),
@@ -97,7 +99,7 @@ class ProspectiveOpenTests(unittest.TestCase):
         q["market_tickers"]=["M1"]
         with tempfile.TemporaryDirectory() as td:
             r=update(
-                slate=self.slate, slate_sha256=self.sha,
+                slate=self.slate, slate_sha256=self.sha, cohort_id=self.cohort,
                 snapshot={"polled_at":"2026-10-04T12:01:05Z","quotes":[q]},
                 existing=None, evidence_dir=Path(td)/"evidence",
                 generated_at=self.now,
@@ -107,13 +109,33 @@ class ProspectiveOpenTests(unittest.TestCase):
         self.assertFalse(row["locked"])
         self.assertEqual(r["summary"]["terminalRows"],0)
 
-    def test_different_slate_cannot_reuse_existing_status(self):
+    def test_same_cohort_survives_slate_file_hash_change(self):
+        with tempfile.TemporaryDirectory() as td:
+            root=Path(td)/"evidence"
+            first=update(
+                slate=self.slate, slate_sha256="a"*64, cohort_id=self.cohort,
+                snapshot={"polled_at":"2026-10-04T12:01:05Z","quotes":[quote()]},
+                existing=None, evidence_dir=root, generated_at=self.now,
+            )
+            second=update(
+                slate=self.slate, slate_sha256="b"*64, cohort_id=self.cohort,
+                snapshot={"polled_at":"2026-10-04T12:02:05Z","quotes":[]},
+                existing=first, evidence_dir=root,
+                generated_at=datetime(2026,10,4,12,2,5,tzinfo=timezone.utc),
+            )
+        self.assertEqual(second["rows"][0]["state"],"CAPTURED_TRUE_OPEN")
+        self.assertEqual(second["rows"][0]["evidenceSha256"],first["rows"][0]["evidenceSha256"])
+        self.assertEqual(second["slateSha256"],"b"*64)
+
+    def test_different_cohort_cannot_reuse_existing_status(self):
         with tempfile.TemporaryDirectory() as td:
             with self.assertRaises(ValueError):
                 update(
                     slate=self.slate, slate_sha256=self.sha,
+                    cohort_id="CFB_2026_PROVIDER_WEEK_7",
                     snapshot={"quotes":[]},
-                    existing={"slateSha256":"b"*64,"rows":[]},
+                    existing={"cohortId":"CFB_2026_PROVIDER_WEEK_8",
+                              "slateSha256":"b"*64,"rows":[]},
                     evidence_dir=Path(td)/"evidence",
                     generated_at=self.now,
                 )
