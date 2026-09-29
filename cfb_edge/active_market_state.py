@@ -515,18 +515,38 @@ def capture(
     current_quotes: list[dict[str, Any]] = []
     open_quotes: list[dict[str, Any]] = []
     open_rows: list[dict[str, Any]] = []
-    matched_games: set[str] = set()
 
+    # Resolve every current event first, then fail closed on duplicate/ambiguous
+    # representations of the same football game. Input ordering must never pick
+    # which exchange event becomes authoritative.
+    event_candidates: dict[str, list[tuple[str, list[dict[str, Any]], float, list[dict[str, Any]], Mapping[str, Any]]]] = {}
     for event, event_markets in sorted(by_event.items()):
         fixture = _fixture_for_event(event_markets, identities, known_teams)
-        if not fixture or fixture["game"] in matched_games:
+        if not fixture:
             continue
         line, used = implied_line_evidence(
             event_markets, home=fixture["home"], away=fixture["away"]
         )
         if line is None or len(used) < 2:
             continue
-        matched_games.add(fixture["game"])
+        event_candidates.setdefault(fixture["game"], []).append(
+            (event, event_markets, float(line), used, fixture)
+        )
+
+    ambiguous_games = sorted(
+        game for game, rows in event_candidates.items() if len(rows) != 1
+    )
+    for game, candidates in sorted(event_candidates.items()):
+        if len(candidates) != 1:
+            open_rows.append({
+                "game": game,
+                "contract": OPEN_CONTRACT,
+                "auditGrade": False,
+                "reason": "AMBIGUOUS_KALSHI_EVENT_MATCH",
+                "matchedEvents": [x[0] for x in candidates],
+            })
+            continue
+        event, event_markets, line, used, fixture = candidates[0]
         current_quotes.append({
             "canonicalGameId": fixture["canonicalGameId"],
             "game": fixture["game"],
@@ -538,7 +558,7 @@ def capture(
             "sourceSha256": current_manifest["sha256"],
             "observedAt": kalshi_retrieved,
             "retrievedAt": kalshi_retrieved,
-            "spread": float(line),
+            "spread": line,
             "provenance": "current",
             "openAuditGrade": False,
             "role": "decision",
@@ -677,6 +697,7 @@ def capture(
                 sum(book_counts) / len(book_counts) if book_counts else 0.0
             ),
             "sourceManifestComplete": manifest_complete,
+            "ambiguousKalshiGameRows": len(ambiguous_games),
         },
         "oddsApi": {**odds_health, "error": odds_error},
         "openRows": open_rows,
