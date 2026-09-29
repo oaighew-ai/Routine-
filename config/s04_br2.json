@@ -1,7 +1,7 @@
 {
-  "schemaVersion": 3,
+  "schemaVersion": 4,
   "modelId": "S04_BR2",
-  "version": "point-in-time-football-context-collection-2",
+  "version": "point-in-time-football-context-collection-3",
   "status": "DATA_COLLECTION_ONLY",
   "deliveryEligible": false,
   "stakingEnabled": false,
@@ -25,19 +25,19 @@
     "windMph"
   ],
   "currentlyCollectableFromExistingCFBDREST": [
-    "epaDiff",
     "ppaDiff",
     "successRateDiff",
     "explosivenessDiff",
     "linePlayDiff",
     "paceDiff",
     "restDaysDiff",
-    "travelMilesDiff"
+    "travelMilesDiff",
+    "qbContinuityDiff"
   ],
   "explicitlyNotSubstituted": {
-    "qbContinuityDiff": "Only two-sided, official, pre-kickoff, deterministically validated depth-chart/availability evidence may populate this feature. Search results, Action Network context, or LLM extraction alone cannot.",
+    "qbContinuityDiff": "Base continuity is measured from completed-game CFBD passing-attempt usage. Official pregame material may override the incumbent only after deterministic validation and mapping to captured participation. Missing participation remains null.",
     "windMph": "Realized/reanalysis weather is not substituted for the forecast available at decision time.",
-    "epaDiff": "PPA is not relabeled as EPA; EPA uses the prospectively archived CFBD opponent-adjusted WEPA response.",
+    "epaDiff": "Prefer prospectively archived CFBD WEPA. If that source is unavailable, a separately versioned cfbfastR play-level EPA opponent-adjustment contract may populate epaDiff prospectively. PPA is never relabeled as EPA and the source contract is retained per row.",
     "linePlayDiff": "No subjective offensive-line grade is substituted; the registered feature is net CFBD line yards.",
     "travelMilesDiff": "No guessed itinerary is substituted; the registered feature is great-circle program-home-location to venue miles."
   },
@@ -59,23 +59,26 @@
     "No Week 5 S04_ES2 signal, threshold, stake, or delivery rule is changed."
   ],
   "currentlyCollectableFromExternalReplayableAPI": [
-    "windMph"
+    "windMph",
+    "epaDiff"
   ],
-  "evidenceGatedFeatures": [
-    "qbContinuityDiff"
-  ],
+  "evidenceGatedFeatures": [],
   "sourceRegistry": "config/br2_source_registry.json",
   "featureCollectionDefinitions": {
-    "epaDiff": "home minus away opponent-adjusted net EPA; team net = epa.total - epaAllowed.total from archived CFBD WEPA snapshot",
+    "epaDiff": "home minus away opponent-adjusted net EPA from either preferred archived CFBD WEPA or the versioned CFB_EDGE_OA_EPA_V1 cfbfastR play-EPA fallback; source contract and through-week cutoff are recorded",
     "linePlayDiff": "home minus away net line yards; team net = offense.lineYards - defense.lineYards",
     "travelMilesDiff": "home minus away great-circle miles from registered CFBD team location to registered game venue",
     "windMph": "Open-Meteo 10m sustained wind nearest kickoff from the pregame forecast snapshot; confirmed dome = 0 with audit flag",
-    "qbContinuityDiff": "home continuity minus away continuity; each team continuity = 1 iff first-listed QB matches prior official depth chart, otherwise 0; both team packets required"
+    "qbContinuityDiff": "home minus away incumbent-QB last-three-completed-game passing-attempt share; incumbent is most recent completed-game attempt leader unless a validated official pregame starter maps to captured participation"
   },
   "shadowContracts": {
     "informationState": "CFB_EDGE_INFORMATION_STATE_V1",
     "decisionTime": "timezone-aware UTC instant; featureAsOf <= decisionTime < kickoff",
     "canonicalGameId": "cfbd:<immutable provider game id>; external crosswalks require explicit evidence"
   },
-  "informationStateStatus": "ADAPTER_IMPLEMENTED_AWAITING_VALIDATED_QUOTE_HISTORY"
+  "informationStateStatus": "ADAPTER_IMPLEMENTED_AWAITING_VALIDATED_QUOTE_HISTORY",
+  "activeCohort": "config/br2_active_cohort.json",
+  "historyPolicy": {
+    "week5Immutable": "The completed Week 5 artifact remains 1/57 QB continuity and 0/57 EPA; new adapters apply only to later prospective cohorts."
+  }
 }
