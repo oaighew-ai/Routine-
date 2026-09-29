@@ -230,12 +230,13 @@
       ],
       "requirements": [
         "spreads only",
-        "canonical game identity and exact kickoff",
+        "canonical home/away team pair resolved through the CFBD team catalog and provider kickoff within 3600 seconds of the canonical fixture",
         "provider last_update retained as observedAt",
         "capture retrieval time retained separately",
         "canonical extracted pull archived by SHA-256",
         "maximum quote age 900 seconds",
-        "derived Kalshi lines never count as sportsbook depth"
+        "derived Kalshi lines never count as sportsbook depth",
+        "provider-name aliases that resolve to more than one active-slate team are discarded"
       ],
       "failurePolicy": "Source failure or stale quotes remain missing; no synthetic book price is created."
     }
