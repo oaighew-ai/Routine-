@@ -164,6 +164,49 @@ class ActiveMarketStateTests(unittest.TestCase):
         self.assertEqual(health["unresolvedEvents"],[])
         self.assertEqual(health["kickoffMismatchEvents"],[])
 
+    def test_catalog_mascot_uses_explicit_punctuation_alias(self):
+        pull=Pull(
+            sport="americanfootball_ncaaf",
+            fetched_at="2026-09-29T12:00:10Z",
+            markets=("spreads",),
+            book_set=("pinnacle",),
+            events=({
+                "id":"x","commenceTime":"2026-10-04T03:59:00Z",
+                "home":"Hawaii Rainbow Warriors","away":"San Jose State Spartans",
+                "bookmakers":[{"key":"pinnacle","markets":[{
+                    "key":"spreads","lastUpdate":"2026-09-29T12:00:00Z",
+                    "outcomes":[
+                        {"name":"Hawaii Rainbow Warriors","price":-110,"point":-3.5},
+                        {"name":"San Jose State Spartans","price":-110,"point":3.5},
+                    ],
+                }]}],
+            },),
+            credits_remaining=199,credits_used=301,last_cost=1,
+        )
+        catalog=[
+            {"school":"Hawai'i","mascot":"Rainbow Warriors","abbreviation":"HAW","alternateNames":[]},
+            {"school":"San José State","mascot":"Spartans","abbreviation":"SJSU","alternateNames":[]},
+        ]
+        with tempfile.TemporaryDirectory() as td:
+            quotes,_,health=_odds_quotes(
+                identities={
+                    "San José State @ Hawai'i":{
+                        "game":"San José State @ Hawai'i","away":"San José State","home":"Hawai'i",
+                        "kickoff":"2026-10-04T03:59:00+00:00",
+                        "canonicalGameId":"cfbd:11",
+                    }
+                },
+                known_teams={"San José State","Hawai'i"},
+                team_catalog=catalog,
+                raw_dir=Path(td)/"raw",
+                bookmakers=("pinnacle",),
+                fetcher=lambda **_: pull,
+            )
+        self.assertEqual(len(quotes),1)
+        self.assertEqual(quotes[0]["canonicalGameId"],"cfbd:11")
+        self.assertEqual(health["matchedEvents"],1)
+        self.assertEqual(health["unresolvedEvents"],[])
+
     def test_odds_quotes_are_canonical_and_timestamped(self):
         pull=Pull(
             sport="americanfootball_ncaaf",
