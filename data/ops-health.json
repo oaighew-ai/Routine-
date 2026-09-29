@@ -30,15 +30,15 @@
   },
   "capture": {
     "allowDelivery": false,
-    "codeRevision": "a79d154a40a3280bdca2c55f24df6660ab452b7a",
+    "codeRevision": "b1ef8574aa0eee1aff57ab07bfb34b74f3b7f565",
     "freshAtGeneration": true,
     "freshNow": true,
     "gamesMissing": 1,
     "gamesObserved": 55,
     "gamesTotal": 56,
-    "logSha256": "b8560d3e31a9529cb2aa4b8d3e213758fc9e518a8da6c76157b97ea2246dc1e7",
+    "logSha256": "0849c58e139db88106bd6cd6cc24de6cdb10d06c1dfa70d2596bc8cad9d2e1ca",
     "outcome": "success",
-    "pollAt": "2026-09-28T22:58:51.227536+00:00",
+    "pollAt": "2026-09-29T02:34:54.546630+00:00",
     "slateSha256": "cde2955171fa33fa74a8bade6248e3b21a1d455c106c262feaeece9b85d1a0e3",
     "topExclusions": [
       {
@@ -65,7 +65,7 @@
     "authoritativeContract": "https://cfb-edge-research.oaighew.chatgpt.site/api/picks",
     "githubDiagnosticOnly": true
   },
-  "generatedAt": "2026-09-28T22:59:11.023017+00:00",
+  "generatedAt": "2026-09-29T02:35:15.930896+00:00",
   "latestRun": {},
   "ledger": {
     "betRows": 0,
@@ -192,7 +192,7 @@
       "deliveryContract": null,
       "deliveryEligible": false,
       "id": "S04_BR2",
-      "implementationLocation": "cfb_edge/feature_warehouse.py + cfb_edge/br2_context.py + cfb_edge/br2_weather.py + cfb_edge/br2_web_evidence.py + .github/workflows/br2-feature-capture.yml",
+      "implementationLocation": "cfb_edge/feature_warehouse.py + cfb_edge/br2_context.py + cfb_edge/br2_weather.py + cfb_edge/br2_web_evidence.py + cfb_edge/qb_usage_continuity.py + cfb_edge/opponent_adjusted_epa.py + .github/workflows/br2-active-feature-capture.yml",
       "implementationStatus": "DATA_COLLECTION_ONLY",
       "modelStatus": "DATA_COLLECTION_ONLY",
       "reproducibleInRepo": true,
@@ -207,7 +207,7 @@
     "Preserve the private Site as S02 authority until its exact implementation and source hash can be reproduced here. Do not reverse-engineer it from metadata."
   ],
   "phase": "SHADOW",
-  "revision": "a79d154a40a3280bdca2c55f24df6660ab452b7a",
+  "revision": "3862dc6fd8181615e29b9eed1e2db5cd2531d299",
   "schemaVersion": 1,
   "stage": "capture_refresh",
   "state": "SHADOW_BLOCKED",
