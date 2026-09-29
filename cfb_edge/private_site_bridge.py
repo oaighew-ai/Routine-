@@ -74,6 +74,7 @@ def build(
     grades: Mapping[str, Any] | None,
     br2: Mapping[str, Any] | None,
     market_audit: Mapping[str, Any] | None = None,
+    market_information: Mapping[str, Any] | None = None,
     generated_at: datetime | None = None,
 ) -> dict[str, Any]:
     now=generated_at or datetime.now(timezone.utc)
@@ -94,6 +95,7 @@ def build(
         "sourceTimes":{
             "captureHealth":(capture_health or {}).get("generatedAt"),
             "marketAudit":(market_audit or {}).get("generatedAt"),
+            "activeMarket":(market_information or {}).get("generatedAt"),
             "es2":(es2 or {}).get("generatedAt"),
             "grades":(grades or {}).get("generatedAt"),
             "br2":(br2 or {}).get("generatedAt"),
@@ -106,6 +108,13 @@ def build(
                 key:row.get(key) for key in
                 ("game","status","eventTicker","matchedEventCount")
             } for row in (market_audit or {}).get("rows") or []],
+        },
+        "activeMarket":{
+            "status":(market_information or {}).get("status") or "UNAVAILABLE",
+            "contract":(market_information or {}).get("contract"),
+            "generatedAt":(market_information or {}).get("generatedAt"),
+            "summary":(market_information or {}).get("summary") or {},
+            "openingPolicy":((market_information or {}).get("policy") or {}),
         },
         "authority":{
             "picksSource":"PRIVATE_SITE_LOCAL",
@@ -163,6 +172,7 @@ def main(argv: list[str] | None=None) -> int:
     p.add_argument("--grades")
     p.add_argument("--br2")
     p.add_argument("--market-audit")
+    p.add_argument("--market-information")
     p.add_argument("--out", required=True)
     args=p.parse_args(argv)
     report=build(
@@ -173,6 +183,7 @@ def main(argv: list[str] | None=None) -> int:
         grades=_json(args.grades),
         br2=_json(args.br2),
         market_audit=_json(args.market_audit),
+        market_information=_json(args.market_information),
     )
     out=Path(args.out)
     out.parent.mkdir(parents=True,exist_ok=True)

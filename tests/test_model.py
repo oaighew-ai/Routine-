@@ -1582,6 +1582,142 @@ class TestReleaseWindowCoversTheVenueOpen(unittest.TestCase):
         self.assertFalse(in_release_window(datetime(2026, 9, 23, 12, 0)))  # Wed
 
 
+class TestOpenLoopCoversTheVenueOpen(unittest.TestCase):
+    """The loop exists because cron delivery cannot be relied on.
+
+    `capture.yml` requests a poll every fifteen minutes. Across one observed
+    window GitHub delivered one run of roughly twelve requested slots, leaving
+    hours with no poll. A row grades `true_open` only when first seen within
+    `TRUE_OPEN_MAX_LAG_SECONDS` of the venue open, so a fifteen-minute cron at
+    one-in-twelve delivery cannot be counted on to land inside a fifteen-minute
+    tolerance. `capture-open-loop.yml` asks cron for five launches instead and
+    does its own waiting.
+
+    These tests check the two things that make that work: the poll interval
+    fits inside the tolerance, and the launches chain with no gap across the
+    hours the exchange was measured opening in.
+    """
+
+    WORKFLOW = ".github/workflows/capture-open-loop.yml"
+
+    # From data/audit/week4-open-time-backfill.json: the earliest and latest
+    # venue open recovered for the 35 events of one cohort. Minutes from
+    # Saturday 00:00 UTC.
+    BAND_START = 16 * 60 + 6            # Sat 16:06
+    BAND_END = 24 * 60 + 10 * 60 + 6    # Sun 10:06
+
+    @classmethod
+    def _text(cls):
+        import pathlib
+
+        root = pathlib.Path(__file__).resolve().parent.parent
+        return (root / cls.WORKFLOW).read_text()
+
+    @classmethod
+    def _env_int(cls, name):
+        import re
+
+        m = re.search(rf'^\s*{name}:\s*"(\d+)"', cls._text(), re.M)
+        assert m, f"{name} not found in {cls.WORKFLOW}"
+        return int(m.group(1))
+
+    @staticmethod
+    def _minutes_from_saturday(weekday, hour, minute):
+        """Saturday 00:00 UTC is zero; the window runs Saturday to Tuesday."""
+        order = {5: 0, 6: 1, 0: 2, 1: 3}   # Sat, Sun, Mon, Tue
+        return order[weekday] * 1440 + hour * 60 + minute
+
+    @classmethod
+    def _launches(cls):
+        import re
+
+        out = []
+        for line in re.findall(r'- cron: "([^"]+)"', cls._text()):
+            minute, hour, _, months, dow = line.split()
+            assert months == "9-11", line
+            weekday = (int(dow) + 6) % 7     # cron numbers days from Sunday
+            out.append(cls._minutes_from_saturday(weekday, int(hour), int(minute)))
+        return sorted(out)
+
+    def test_the_poll_interval_fits_inside_the_true_open_tolerance(self):
+        """If a poll can be further apart than the tolerance, the loop cannot
+        produce a true open however long it runs."""
+        from cfb_edge.watch import TRUE_OPEN_MAX_LAG_SECONDS
+
+        interval = self._env_int("POLL_INTERVAL_SECONDS")
+        self.assertLessEqual(
+            interval, TRUE_OPEN_MAX_LAG_SECONDS,
+            "a market could open and be first seen after the tolerance expired")
+        self.assertLessEqual(
+            interval * 2, TRUE_OPEN_MAX_LAG_SECONDS,
+            "no margin for clock skew or a slow poll")
+
+    def test_the_launches_chain_with_no_gap(self):
+        """A gap between launches is a stretch of the window with no poll,
+        which is the failure this workflow exists to remove."""
+        launches = self._launches()
+        run = self._env_int("LOOP_MINUTES")
+        self.assertGreater(len(launches), 1, "a chain needs more than one link")
+        for start, nxt in zip(launches, launches[1:]):
+            self.assertLessEqual(
+                nxt, start + run,
+                f"gap between a launch at {start} and the next at {nxt}")
+
+    def test_the_chain_covers_every_measured_venue_open(self):
+        launches = self._launches()
+        run = self._env_int("LOOP_MINUTES")
+        first, last = launches[0], launches[-1] + run
+        self.assertLessEqual(
+            first, self.BAND_START,
+            "the chain starts after the earliest measured open")
+        self.assertGreaterEqual(
+            last, self.BAND_END,
+            "the chain ends before the latest measured open")
+
+    def test_the_chain_carries_margin_on_both_sides(self):
+        """The recovered open times are upper bounds, so a real open can be
+        earlier than any of them. Margin is not decoration."""
+        launches = self._launches()
+        run = self._env_int("LOOP_MINUTES")
+        self.assertGreaterEqual(
+            self.BAND_START - launches[0], 120,
+            "less than two hours of margin before the earliest measured open")
+        self.assertGreaterEqual(
+            (launches[-1] + run) - self.BAND_END, 120,
+            "less than two hours of margin after the latest measured open")
+
+    def test_every_launch_falls_inside_the_release_window(self):
+        import re
+
+        from cfb_edge.watch import RELEASE_WINDOW_UTC
+
+        for line in re.findall(r'- cron: "([^"]+)"', self._text()):
+            _, hour, _, _, dow = line.split()
+            weekday = (int(dow) + 6) % 7
+            hours = RELEASE_WINDOW_UTC.get(weekday)
+            self.assertIsNotNone(hours, f"{line} launches on an excluded day")
+            self.assertIn(int(hour), hours, f"{line} launches outside the window")
+
+    def test_a_launch_cannot_outlive_the_hosted_runner_ceiling(self):
+        """GitHub kills a hosted job at six hours. The loop has to stop with
+        room left to write the report and push."""
+        import re
+
+        run = self._env_int("LOOP_MINUTES")
+        m = re.search(r"^\s*timeout-minutes:\s*(\d+)", self._text(), re.M)
+        self.assertIsNotNone(m, "the job declares no timeout")
+        timeout = int(m.group(1))
+        self.assertLess(run, timeout, "the loop outlives its own job timeout")
+        self.assertLessEqual(timeout, 360, "above the hosted-runner ceiling")
+        self.assertGreaterEqual(
+            timeout - run, 10, "no room left to report and push after the loop")
+
+    def test_it_shares_the_capture_concurrency_group(self):
+        """Two pollers pushing the same log would race and one would lose its
+        poll."""
+        self.assertIn("group: cfb-capture", self._text())
+
+
 class TestCronMatchesTheReleaseWindow(unittest.TestCase):
     """The crons and the window number the days differently.
 

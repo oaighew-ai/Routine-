@@ -1,0 +1,244 @@
+# Continuous polling across the hours the exchange actually opens its board.
+#
+# `capture.yml` asks cron to fire every fifteen minutes and polls three times
+# around each trigger. That is the right shape when the triggers arrive. They
+# do not: across one observed window GitHub delivered one run out of roughly
+# twelve requested slots, which leaves hours with no poll at all.
+#
+# That gap is fatal to the only measurement this project wants. A row grades
+# `true_open` only when its first sighting falls within
+# `TRUE_OPEN_MAX_LAG_SECONDS` (fifteen minutes) of Kalshi's own `open_time`.
+# Hoping a fifteen-minute cron lands inside a fifteen-minute tolerance, at
+# one-in-twelve delivery, is not a plan. Widening the window (PR #67) put the
+# polling in the right hours; it did nothing about whether a poll happens.
+#
+# So this asks cron for almost nothing and does the waiting itself. Five
+# launches, each polling every five minutes for five and a half hours, chain
+# end to end:
+#
+#     Sat 12:00 -> 17:30 -> 23:00 -> Sun 04:30 -> 10:00 -> 15:30 UTC
+#
+# The measured open band for the one cohort with recovered venue metadata was
+# Sat 16:06 through Sun 10:06 UTC (`data/audit/week4-open-time-backfill.json`),
+# which sits inside that span with four hours of margin before the first
+# measured open and five after the last.
+#
+# A dropped launch now costs one link in the chain rather than every poll in
+# it, and `capture.yml` keeps its own schedule underneath as a fallback: if
+# none of these start, the fifteen-minute crons still run.
+name: capture open loop
+
+on:
+  schedule:
+    # Cron numbers days from Sunday: 6 is Saturday, 0 is Sunday. Each launch
+    # begins where the previous one ends. A test pins the chain against
+    # RELEASE_WINDOW_UTC and against the measured open band.
+    - cron: "0 12 * 9-11 6"    # Sat 12:00, the minute the window opens
+    - cron: "30 17 * 9-11 6"   # Sat 17:30
+    - cron: "0 23 * 9-11 6"    # Sat 23:00
+    - cron: "30 4 * 9-11 0"    # Sun 04:30
+    - cron: "0 10 * 9-11 0"    # Sun 10:00
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+# The same group `capture.yml` uses. Two pollers pushing the same log would
+# race and one would lose its poll. While a loop holds the group the ordinary
+# fifteen-minute runs queue behind it, and GitHub keeps at most one pending,
+# so they cannot pile up.
+concurrency:
+  group: cfb-capture
+  cancel-in-progress: false
+
+env:
+  # Five minutes, matching DENSE_INTERVAL_SECONDS. It has to stay well inside
+  # TRUE_OPEN_MAX_LAG_SECONDS (900) or the loop cannot produce a true open at
+  # all; a test asserts the margin rather than trusting this comment.
+  POLL_INTERVAL_SECONDS: "300"
+  # Five and a half hours. The hosted-runner ceiling is six, and the final
+  # report and push need room after the loop stops.
+  LOOP_MINUTES: "330"
+  # Push the accumulated log at least this often even when no new market
+  # appeared, so a runner that dies does not take the movement record with it.
+  FORCE_PUSH_EVERY_POLLS: "6"
+
+jobs:
+  loop:
+    runs-on: ubuntu-latest
+    timeout-minutes: 345
+    steps:
+      - name: Code
+        uses: actions/checkout@v4
+
+      - name: The log so far
+        uses: actions/checkout@v4
+        with:
+          ref: capture-data
+          path: capture-data
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+
+      - name: Build the slate for the week that can still be captured
+        id: slate
+        run: |
+          set -o pipefail
+          set +e
+          python3 -m cfb_edge.slate --season "$(date -u +%Y)" --week opening \
+            --out capture-data/data/slate_current.csv 2>&1 | tee /tmp/slate.log
+          rc=$?
+          set -e
+          case "$rc" in
+            0) echo "ok=1" >> "$GITHUB_OUTPUT" ;;
+            3)
+              echo "ok=0" >> "$GITHUB_OUTPUT"
+              echo "No week is open for capture; nothing to poll." >> "$GITHUB_STEP_SUMMARY"
+              ;;
+            *)
+              echo "Slate generation failed; see logs. No successful capture claimed." >> "$GITHUB_STEP_SUMMARY"
+              exit 1
+              ;;
+          esac
+
+      - name: Poll continuously until the launch's slot ends
+        id: loop
+        if: steps.slate.outputs.ok == '1'
+        run: |
+          set -u
+          git -C capture-data config user.name  "github-actions[bot]"
+          git -C capture-data config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+          deadline=$(( $(date -u +%s) + LOOP_MINUTES * 60 ))
+          polls=0; pushes=0; failures=0; since_push=0
+
+          # Push what we have. A rejected push means another poller moved the
+          # branch: take its version rather than forcing. Forcing would replace
+          # an earlier first-seen with a later one, which is the single error
+          # this whole system exists to avoid. The market we just recorded is
+          # re-recorded on the next poll, seconds later.
+          persist () {
+            local message="$1"
+            cd capture-data
+            git add -A data
+            if git diff --cached --quiet; then cd ..; return 1; fi
+            git commit -q -m "$message"
+            if git push -q 2>/dev/null; then cd ..; return 0; fi
+            echo "push rejected; taking the branch as it is"
+            git reset --hard -q HEAD~1
+            git fetch -q origin capture-data
+            git reset --hard -q origin/capture-data
+            cd ..
+            return 1
+          }
+
+          while [ "$(date -u +%s)" -lt "$deadline" ]; do
+            polls=$((polls + 1))
+            since_push=$((since_push + 1))
+
+            if ! python3 -m cfb_edge.watch --source kalshi \
+                   --slate capture-data/data/slate_current.csv \
+                   --log capture-data/data/opens.jsonl.gz \
+                   --out capture-data/data/opens.csv --once; then
+              failures=$((failures + 1))
+              echo "poll $polls failed; continuing"
+            fi
+
+            # A change to opens.csv means a market was seen for the first time.
+            # That is the irreplaceable record, so it is pushed at once rather
+            # than held until the loop ends.
+            if ! git -C capture-data diff --quiet -- data/opens.csv; then
+              persist "capture open loop: new first-seen $(date -u '+%Y-%m-%d %H:%M UTC')" \
+                && { pushes=$((pushes + 1)); since_push=0; }
+            elif [ "$since_push" -ge "$FORCE_PUSH_EVERY_POLLS" ]; then
+              persist "capture open loop: log $(date -u '+%Y-%m-%d %H:%M UTC')" \
+                && { pushes=$((pushes + 1)); since_push=0; } || since_push=0
+            fi
+
+            remaining=$(( deadline - $(date -u +%s) ))
+            [ "$remaining" -le "$POLL_INTERVAL_SECONDS" ] && break
+            sleep "$POLL_INTERVAL_SECONDS"
+          done
+
+          echo "polls=$polls"       >> "$GITHUB_OUTPUT"
+          echo "pushes=$pushes"     >> "$GITHUB_OUTPUT"
+          echo "failures=$failures" >> "$GITHUB_OUTPUT"
+
+      - name: Build read-only capture report
+        if: steps.slate.outputs.ok == '1'
+        env:
+          CAPTURE_OUTCOME: ${{ steps.loop.outcome }}
+        run: |
+          python3 -m cfb_edge.capture_report \
+            --log capture-data/data/opens.jsonl.gz \
+            --slate capture-data/data/slate_current.csv \
+            --out capture-data/data \
+            --capture-outcome "$CAPTURE_OUTCOME" --revision "$GITHUB_SHA"
+
+      - name: Build offline diagnostics (live picks belong to the private Site)
+        if: steps.slate.outputs.ok == '1'
+        run: |
+          args=(
+            --authority config/delivery_authority.json
+            --registry config/model_registry.json
+            --capture-report capture-data/data/capture-report.json
+            --previous capture-data/data/picks-diagnostic.json
+            --out capture-data/data/picks-diagnostic.json
+            --revision "$GITHUB_SHA"
+          )
+          if [ -f capture-data/ledger/candidates.jsonl ]; then
+            args+=(--candidates capture-data/ledger/candidates.jsonl)
+          fi
+          python3 -m cfb_edge.source_of_truth "${args[@]}"
+
+      - name: Record what the loop produced
+        if: steps.slate.outputs.ok == '1'
+        run: |
+          GAMES=$(( $(wc -l < capture-data/data/opens.csv) - 1 ))
+          # The count that decides everything: only true_open rows grade.
+          TRUE_OPEN=$(awk -F, 'NR>1 && $3=="true_open"' capture-data/data/opens.csv | wc -l)
+          {
+            echo "last poll : $(date -u '+%Y-%m-%d %H:%M UTC')"
+            echo "run       : ${{ github.run_id }} (open loop)"
+            echo "games with a first-seen line: $GAMES"
+            echo "true_open rows: $TRUE_OPEN"
+          } > capture-data/data/status.txt
+          {
+            echo "### capture open loop"
+            echo "- polls: **${{ steps.loop.outputs.polls }}** (failed: ${{ steps.loop.outputs.failures }})"
+            echo "- pushes: **${{ steps.loop.outputs.pushes }}**"
+            echo "- games with a first-seen line: **$GAMES**"
+            echo "- **true_open rows: $TRUE_OPEN** — the only rows that grade"
+          } >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Keep it
+        if: steps.slate.outputs.ok == '1'
+        working-directory: capture-data
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A data
+          if git diff --cached --quiet; then
+            echo "nothing new since the last push in the loop" >> "$GITHUB_STEP_SUMMARY"
+            exit 0
+          fi
+          git commit -q -m "capture open loop: close $(date -u '+%Y-%m-%d %H:%M UTC')"
+          for attempt in 1 2 3; do
+            if git push; then exit 0; fi
+            echo "push rejected, taking the branch as it is (attempt $attempt)"
+            git reset --hard -q HEAD~1
+            git fetch -q origin capture-data
+            git reset --hard -q origin/capture-data
+            cd "$GITHUB_WORKSPACE"
+            python3 -m cfb_edge.watch --source kalshi \
+              --slate capture-data/data/slate_current.csv \
+              --log capture-data/data/opens.jsonl.gz \
+              --out capture-data/data/opens.csv --once
+            cd capture-data
+            git add -A data
+            git diff --cached --quiet && exit 0
+            git commit -q -m "capture open loop: close $(date -u '+%Y-%m-%d %H:%M UTC')"
+          done
+          echo "could not push after three attempts" >> "$GITHUB_STEP_SUMMARY"
+          exit 1

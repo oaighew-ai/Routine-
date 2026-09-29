@@ -8,6 +8,7 @@ on:
       - "S04 ES2 Week 5 audit shadow"
       - "week5 automatic signal grading"
       - "BR2 point-in-time feature capture"
+      - "BR2 active point-in-time feature capture"
     types: [completed]
   push:
     branches: [main]
@@ -54,6 +55,7 @@ jobs:
           [ ! -f evidence/data/s04-es2-grades.json ] || args+=(--grades evidence/data/s04-es2-grades.json)
           [ ! -f evidence/data/br2-feature-status.json ] || args+=(--br2 evidence/data/br2-feature-status.json)
           [ ! -f evidence/data/week5-market-match-audit.json ] || args+=(--market-audit evidence/data/week5-market-match-audit.json)
+          [ ! -f evidence/data/br2-market-information-status.json ] || args+=(--market-information evidence/data/br2-market-information-status.json)
           python3 -m cfb_edge.private_site_bridge "${args[@]}"
 
           python3 - <<'PY' >> "$GITHUB_STEP_SUMMARY"
@@ -64,6 +66,8 @@ jobs:
           print(f"- research: **{r['research']['status']}**")
           print(f"- Week 5 opens: **{r['week5']['auditGradeOpenRows']}/{r['week5']['slateRows']}**")
           print(f"- BR2 features: **{len(r['br2']['populatedFamilies'])}/{len(r['br2']['populatedFamilies'])+len(r['br2']['missingFamilies'])}**")
+          ms=(r.get('activeMarket') or {}).get('summary') or {}
+          print(f"- active market validated: **{ms.get('validatedInformationRows',0)}/{ms.get('canonicalRows',0)}**")
           print("- picks authority: **PRIVATE SITE LOCAL /api/picks**")
           PY
 
