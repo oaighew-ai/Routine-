@@ -12,16 +12,15 @@
 # one-in-twelve delivery, is not a plan. Widening the window (PR #67) put the
 # polling in the right hours; it did nothing about whether a poll happens.
 #
-# So this asks cron for almost nothing and does the waiting itself. Five
-# launches, each polling every five minutes for five and a half hours, chain
-# end to end:
+# So this asks cron for long-lived launches and does the waiting itself. The
+# chain now covers the entire measured Saturday-through-Tuesday release band.
+# The Sep 25-26 cohort opened Sat/Sun, while the Oct 2-3 cohort continued
+# posting through Monday night. A Sunday-only loop therefore cannot be called
+# prospective.
 #
-#     Sat 12:00 -> 17:30 -> 23:00 -> Sun 04:30 -> 10:00 -> 15:30 UTC
-#
-# The measured open band for the one cohort with recovered venue metadata was
-# Sat 16:06 through Sun 10:06 UTC (`data/audit/week4-open-time-backfill.json`),
-# which sits inside that span with four hours of margin before the first
-# measured open and five after the last.
+# Each live poll is also handed to CFB_EDGE_PROSPECTIVE_OPEN_V1. That contract
+# freezes the first valid two-sided state immediately and never upgrades a late
+# row from historical data.
 #
 # A dropped launch now costs one link in the chain rather than every poll in
 # it, and `capture.yml` keeps its own schedule underneath as a fallback: if
@@ -33,11 +32,21 @@ on:
     # Cron numbers days from Sunday: 6 is Saturday, 0 is Sunday. Each launch
     # begins where the previous one ends. A test pins the chain against
     # RELEASE_WINDOW_UTC and against the measured open band.
-    - cron: "0 12 * 9-11 6"    # Sat 12:00, the minute the window opens
+    - cron: "0 12 * 9-11 6"    # Sat 12:00
     - cron: "30 17 * 9-11 6"   # Sat 17:30
     - cron: "0 23 * 9-11 6"    # Sat 23:00
     - cron: "30 4 * 9-11 0"    # Sun 04:30
     - cron: "0 10 * 9-11 0"    # Sun 10:00
+    - cron: "30 15 * 9-11 0"   # Sun 15:30
+    - cron: "0 21 * 9-11 0"    # Sun 21:00
+    - cron: "30 2 * 9-11 1"    # Mon 02:30
+    - cron: "0 8 * 9-11 1"     # Mon 08:00
+    - cron: "30 13 * 9-11 1"   # Mon 13:30
+    - cron: "0 19 * 9-11 1"    # Mon 19:00
+    - cron: "30 0 * 9-11 2"    # Tue 00:30
+    - cron: "0 6 * 9-11 2"     # Tue 06:00
+    - cron: "30 11 * 9-11 2"   # Tue 11:30
+    - cron: "30 16 * 9-11 2"   # Tue 16:30; loop exits at release close
   workflow_dispatch:
 
 permissions:
@@ -52,16 +61,15 @@ concurrency:
   cancel-in-progress: false
 
 env:
-  # Five minutes, matching DENSE_INTERVAL_SECONDS. It has to stay well inside
-  # TRUE_OPEN_MAX_LAG_SECONDS (900) or the loop cannot produce a true open at
-  # all; a test asserts the margin rather than trusting this comment.
-  POLL_INTERVAL_SECONDS: "300"
+  # One-minute live observation while the board is expected to post. The venue
+  # timestamp remains authoritative; this only minimizes first-observation lag.
+  POLL_INTERVAL_SECONDS: "60"
   # Five and a half hours. The hosted-runner ceiling is six, and the final
   # report and push need room after the loop stops.
   LOOP_MINUTES: "330"
   # Push the accumulated log at least this often even when no new market
   # appeared, so a runner that dies does not take the movement record with it.
-  FORCE_PUSH_EVERY_POLLS: "6"
+  FORCE_PUSH_EVERY_POLLS: "10"
 
 jobs:
   loop:
