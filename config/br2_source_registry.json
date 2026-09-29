@@ -24,10 +24,8 @@
     {
       "id": "CFBD_WEPA",
       "provider": "CollegeFootballData",
-      "role": "FEATURE_AUTHORITATIVE_PROSPECTIVE_ONLY",
-      "featureFamilies": [
-        "epaDiff"
-      ],
+      "role": "MONITORED_ALTERNATIVE_SOURCE",
+      "featureFamilies": [],
       "endpoint": "/wepa/team/season",
       "definition": "home minus away opponent-adjusted net EPA, where team net = epa.total - epaAllowed.total",
       "requirements": [
@@ -41,7 +39,8 @@
         "reason": "CFBD classifies opponent-adjusted metrics as Tier 1+; Free includes general advanced metrics but not opponent-adjusted metrics.",
         "source": "https://collegefootballdata.com/api-tiers"
       },
-      "failurePolicy": "If opponent-adjusted access is unavailable, epaDiff remains null. Never substitute PPA or unadjusted EPA under this feature name."
+      "failurePolicy": "If opponent-adjusted access is unavailable, epaDiff remains null. Never substitute PPA or unadjusted EPA under this feature name.",
+      "note": "Retained for health/comparison. The active BR2 cohort does not depend on this source while authorization remains blocked."
     },
     {
       "id": "CFBD_ADVANCED",
@@ -98,10 +97,8 @@
     {
       "id": "OFFICIAL_TEAM_MATERIALS",
       "provider": "University/conference athletic departments",
-      "role": "CANDIDATE_EVIDENCE",
-      "featureFamilies": [
-        "qbContinuityDiff"
-      ],
+      "role": "AVAILABILITY_OVERLAY_CANDIDATE_EVIDENCE",
+      "featureFamilies": [],
       "eligibleKinds": [
         "official_depth_chart",
         "official_game_notes",
@@ -117,7 +114,7 @@
         "deterministic fact validation",
         "both home and away team packets"
       ],
-      "featureRule": "team continuity = 1 if first-listed QB matches prior official depth chart, else 0; qbContinuityDiff = home continuity - away continuity",
+      "featureRule": "Official starter/injury evidence is collected as a separate QB availability overlay. It does not redefine qbContinuityDiff in collection-3.",
       "failClosed": true
     },
     {
@@ -150,6 +147,45 @@
       ],
       "lockedFieldsPolicy": "unavailable; never bypass access controls",
       "prohibitedUse": "Action projections, expert picks, locked betting percentages, or PRO grades cannot become BR2 labels/features"
+    },
+    {
+      "id": "SPORTSDATAVERSE_ADJUSTED_EPA_WEEKLY",
+      "provider": "SportsDataverse/cfbfastR",
+      "role": "FEATURE_AUTHORITATIVE_PROSPECTIVE_ONLY",
+      "featureFamilies": [
+        "epaDiff"
+      ],
+      "dataset": "cfb_team_summaries_weekly",
+      "release": "https://github.com/sportsdataverse/sportsdataverse-data/releases/tag/cfb_team_summaries_weekly",
+      "definition": "home minus away net opponent-adjusted EPA per play from the exact prior-week snapshot; net = adj_off_epa - adj_def_epa",
+      "requirements": [
+        "cohort fixes provider before outcomes",
+        "exact through_week equals provider week minus one",
+        "raw CSV archived before decision time",
+        "raw payload SHA-256",
+        "provider team names resolve exactly or through explicit aliases",
+        "no later release may overwrite an already captured cohort snapshot"
+      ],
+      "failurePolicy": "Missing or ambiguous rows remain null. Never fall back row-by-row to CFBD WEPA or PPA."
+    },
+    {
+      "id": "CFBD_PLAY_STATS_QB_CONTINUITY",
+      "provider": "CollegeFootballData",
+      "role": "FEATURE_AUTHORITATIVE",
+      "featureFamilies": [
+        "qbContinuityDiff"
+      ],
+      "endpoint": "/plays/stats",
+      "definition": "home minus away share of prior-three-game team pass attempts taken by the primary passer from each team's most recent completed game",
+      "requirements": [
+        "only completed games before decision time",
+        "completion + incompletion + interception-thrown define attempts",
+        "latest-game primary passer must be unique",
+        "duplicate play-stat rows deduplicated by game/play/team/athlete",
+        "raw payloads archived before decision time",
+        "all source payloads SHA-256 addressed"
+      ],
+      "failurePolicy": "Tie, no attempts, unresolved team, stale source, or missing history remains null."
     }
   ]
 }
