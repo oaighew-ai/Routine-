@@ -74,7 +74,11 @@ def _archive(path: str | Path, payload: Mapping[str, Any]) -> dict[str, Any]:
         with target.open("wb") as fh:
             with gzip.GzipFile(filename="", mode="wb", fileobj=fh, mtime=0) as z:
                 z.write(raw)
-    return {"sha256": sha, "bytes": len(raw), "path": str(target)}
+    try:
+        visible = target.relative_to("capture-data")
+    except ValueError:
+        visible = target
+    return {"sha256": sha, "bytes": len(raw), "path": str(visible)}
 
 
 def _load_json(path: str | Path | None, default: Any) -> Any:
