@@ -4,7 +4,7 @@
   "contract": "CFB_EDGE_PROSPECTIVE_OPEN_V1",
   "decisionEffect": "NONE",
   "deliveryEffect": "NONE",
-  "generatedAt": "2026-09-29T07:01:08.777110+00:00",
+  "generatedAt": "2026-09-29T07:21:23.303505+00:00",
   "historicalRecoveryAllowed": false,
   "pollIntervalTargetSeconds": 60,
   "rows": [
@@ -2451,7 +2451,7 @@
       "firstEventSeenAt": null,
       "game": "Western Kentucky @ New Mexico State",
       "kickoff": "2026-10-02T00:00:00.000Z",
-      "lastPollAt": "2026-09-29T07:01:08.698826+00:00",
+      "lastPollAt": "2026-09-29T07:21:23.231568+00:00",
       "locked": false,
       "state": "PENDING"
     },
@@ -2554,232 +2554,11 @@
   "summary": {
     "capturedTrueOpenRows": 0,
     "missedTrueOpenRows": 55,
-    "newTransitions": 55,
+    "newTransitions": 0,
     "pendingRows": 1,
     "slateRows": 56,
     "terminalRows": 55
   },
-  "transitions": [
-    {
-      "game": "Liberty @ Delaware",
-      "state": "MISSED_TRUE_OPEN_WINDOW"
-    },
-    {
-      "game": "North Texas @ Tulsa",
-      "state": "MISSED_TRUE_OPEN_WINDOW"
-    },
-    {
-      "game": "Pittsburgh @ Virginia Tech",
-      "state": "MISSED_TRUE_OPEN_WINDOW"
-    },
-    {
-      "game": "Akron @ Central Michigan",
-      "state": "MISSED_TRUE_OPEN_WINDOW"
-    },
-    {
-      "game": "Alabama @ Mississippi State",
-      "state": "MISSED_TRUE_OPEN_WINDOW"
-    },
-    {
-      "game": "Arkansas @ Texas A&M",
-      "state": "MISSED_TRUE_OPEN_WINDOW"
-    },
-    {
-      "game": "Army @ Louisiana Tech",
-      "state": "MISSED_TRUE_OPEN_WINDOW"
-    },
-    {
-      "game": "Auburn @ Tennessee",
-      "state": "MISSED_TRUE_OPEN_WINDOW"
-    },
-    {
-      "game": "BYU @ TCU",
-      "state": "MISSED_TRUE_OPEN_WINDOW"
-    },
-    {
-      "game": "Boston College @ SMU",
-      "state": "MISSED_TRUE_OPEN_WINDOW"
-    },
-    {
-      "game": "Bowling Green @ Miami (OH)",
-      "state": "MISSED_TRUE_OPEN_WINDOW"
-    },
-    {
-      "game": "California @ UNLV",
-      "state": "MISSED_TRUE_OPEN_WINDOW"
-    },
-    {
-      "game": "Eastern Michigan @ Massachusetts",
-      "state": "MISSED_TRUE_OPEN_WINDOW"
-    },
-    {
-      "game": "Florida @ Missouri",
-      "state": "MISSED_TRUE_OPEN_WINDOW"
-    },
-    {
-      "game": "Georgia Southern @ Coastal Carolina",
-      "state": "MISSED_TRUE_OPEN_WINDOW"
-    },
-    {
-      "game": "Kentucky @ South Carolina",
-      "state": "MISSED_TRUE_OPEN_WINDOW"
-    },
-    {
-      "game": "Louisville @ NC State",
-      "state": "MISSED_TRUE_OPEN_WINDOW"
-    },
-    {
-      "game": "Marshall @ James Madison",
-      "state": "MISSED_TRUE_OPEN_WINDOW"
-    },
-    {
-      "game": "Maryland @ Nebraska",
-      "state": "MISSED_TRUE_OPEN_WINDOW"
-    },
-    {
-      "game": "Memphis @ Charlotte",
-      "state": "MISSED_TRUE_OPEN_WINDOW"
-    },
-    {
-      "game": "Miami @ Clemson",
-      "state": "MISSED_TRUE_OPEN_WINDOW"
-    },
-    {
-      "game": "Michigan @ Minnesota",
-      "state": "MISSED_TRUE_OPEN_WINDOW"
-    },
-    {
-      "game": "Michigan State @ Wisconsin",
-      "state": "MISSED_TRUE_OPEN_WINDOW"
-    },
-    {
-      "game": "Middle Tennessee @ Kansas",
-      "state": "MISSED_TRUE_OPEN_WINDOW"
-    },
-    {
-      "game": "Navy @ Air Force",
-      "state": "MISSED_TRUE_OPEN_WINDOW"
-    },
-    {
-      "game": "Notre Dame @ North Carolina",
-      "state": "MISSED_TRUE_OPEN_WINDOW"
-    },
-    {
-      "game": "Ohio @ Kent State",
-      "state": "MISSED_TRUE_OPEN_WINDOW"
-    },
-    {
-      "game": "Ohio State @ Iowa",
-      "state": "MISSED_TRUE_OPEN_WINDOW"
-    },
-    {
-      "game": "Old Dominion @ Georgia State",
-      "state": "MISSED_TRUE_OPEN_WINDOW"
-    },
-    {
-      "game": "Oregon State @ Colorado State",
-      "state": "MISSED_TRUE_OPEN_WINDOW"
-    },
-    {
-      "game": "Penn State @ Northwestern",
-      "state": "MISSED_TRUE_OPEN_WINDOW"
-    },
-    {
-      "game": "Purdue @ Illinois",
-      "state": "MISSED_TRUE_OPEN_WINDOW"
-    },
-    {
-      "game": "Stanford @ Wake Forest",
-      "state": "MISSED_TRUE_OPEN_WINDOW"
-    },
-    {
-      "game": "Syracuse @ UConn",
-      "state": "MISSED_TRUE_OPEN_WINDOW"
-    },
-    {
-      "game": "Temple @ South Florida",
-      "state": "MISSED_TRUE_OPEN_WINDOW"
-    },
-    {
-      "game": "Texas Tech @ Colorado",
-      "state": "MISSED_TRUE_OPEN_WINDOW"
-    },
-    {
-      "game": "Toledo @ Ball State",
-      "state": "MISSED_TRUE_OPEN_WINDOW"
-    },
-    {
-      "game": "UCF @ Houston",
-      "state": "MISSED_TRUE_OPEN_WINDOW"
-    },
-    {
-      "game": "UL Monroe @ South Alabama",
-      "state": "MISSED_TRUE_OPEN_WINDOW"
-    },
-    {
-      "game": "UTEP @ New Mexico",
-      "state": "MISSED_TRUE_OPEN_WINDOW"
-    },
-    {
-      "game": "UTSA @ Rice",
-      "state": "MISSED_TRUE_OPEN_WINDOW"
-    },
-    {
-      "game": "Utah State @ Boise State",
-      "state": "MISSED_TRUE_OPEN_WINDOW"
-    },
-    {
-      "game": "Vanderbilt @ Georgia",
-      "state": "MISSED_TRUE_OPEN_WINDOW"
-    },
-    {
-      "game": "Virginia @ Florida State",
-      "state": "MISSED_TRUE_OPEN_WINDOW"
-    },
-    {
-      "game": "Washington @ USC",
-      "state": "MISSED_TRUE_OPEN_WINDOW"
-    },
-    {
-      "game": "West Virginia @ Iowa State",
-      "state": "MISSED_TRUE_OPEN_WINDOW"
-    },
-    {
-      "game": "Western Michigan @ Buffalo",
-      "state": "MISSED_TRUE_OPEN_WINDOW"
-    },
-    {
-      "game": "Wyoming @ North Dakota State",
-      "state": "MISSED_TRUE_OPEN_WINDOW"
-    },
-    {
-      "game": "Arkansas State @ Louisiana",
-      "state": "MISSED_TRUE_OPEN_WINDOW"
-    },
-    {
-      "game": "Baylor @ Arizona State",
-      "state": "MISSED_TRUE_OPEN_WINDOW"
-    },
-    {
-      "game": "Cincinnati @ Arizona",
-      "state": "MISSED_TRUE_OPEN_WINDOW"
-    },
-    {
-      "game": "Fresno State @ Washington State",
-      "state": "MISSED_TRUE_OPEN_WINDOW"
-    },
-    {
-      "game": "Indiana @ Rutgers",
-      "state": "MISSED_TRUE_OPEN_WINDOW"
-    },
-    {
-      "game": "San Jos\u00e9 State @ Hawai'i",
-      "state": "MISSED_TRUE_OPEN_WINDOW"
-    },
-    {
-      "game": "Texas State @ San Diego State",
-      "state": "MISSED_TRUE_OPEN_WINDOW"
-    }
-  ],
+  "transitions": [],
   "trueOpenMaximumLagSeconds": 900
 }
