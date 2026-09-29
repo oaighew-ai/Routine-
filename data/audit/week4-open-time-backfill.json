@@ -1,398 +1,1025 @@
 {
   "schemaVersion": 2,
   "contract": "CFB_EDGE_OPEN_TIME_BACKFILL_V2",
-  "generatedAt": "2026-09-25T14:54:01.154799+00:00",
-  "targetCount": 58,
-  "eventOpenTimeRecoveredCount": 57,
-  "definitelyNotTrueOpenCount": 57,
-  "unresolvedCount": 1,
+  "generatedAt": "2026-09-29T01:44:30.760741+00:00",
+  "targetCount": 56,
+  "eventOpenTimeRecoveredCount": 55,
+  "definitelyNotTrueOpenCount": 43,
+  "unresolvedCount": 13,
   "trueOpenCount": 0,
   "rows": [
     {
-      "game": "Air Force @ Nevada",
-      "openingLine": 3.8,
+      "game": "Akron @ Central Michigan",
+      "openingLine": -5.5,
       "originalSource": "first_seen",
-      "firstSeen": "2026-09-21T01:04:50.274619+00:00",
-      "eventTicker": "KXNCAAFSPREAD-26SEP26AFANEV",
+      "firstSeen": "2026-09-27T14:29:21.150969+00:00",
+      "eventTicker": "KXNCAAFSPREAD-26OCT03AKRCMU",
       "currentBracketingMarketTickers": [
-        "KXNCAAFSPREAD-26SEP26AFANEV-AFA7",
-        "KXNCAAFSPREAD-26SEP26AFANEV-AFA6"
+        "KXNCAAFSPREAD-26OCT03AKRCMU-CMU6",
+        "KXNCAAFSPREAD-26OCT03AKRCMU-CMU7"
       ],
-      "currentBracketingVenueOpenTime": "2026-09-20T07:07:00+00:00",
+      "currentBracketingVenueOpenTime": "2026-09-27T10:06:00+00:00",
       "recoveredClassification": "first_seen",
       "definitelyNotTrueOpen": true,
-      "latestEventRungOpenTime": "2026-09-20T07:07:00+00:00",
-      "minimumPossibleLagSeconds": 64670.274619,
+      "latestEventRungOpenTime": "2026-09-27T10:06:00+00:00",
+      "minimumPossibleLagSeconds": 15801.150969,
       "historicalPromotionEligible": false,
-      "recoveredAt": "2026-09-25T14:54:01.154799+00:00",
+      "recoveredAt": "2026-09-29T01:44:30.760741+00:00",
       "recoveryMethod": "event_wide_latest_rung_open_time_upper_bound"
     },
     {
-      "game": "App State @ NC State",
-      "openingLine": -14.0,
+      "game": "Alabama @ Mississippi State",
+      "openingLine": 4.8,
       "originalSource": "first_seen",
-      "firstSeen": "2026-09-23T08:20:14.658759+00:00",
-      "eventTicker": "KXNCAAFSPREAD-26SEP26APPNCST",
+      "firstSeen": "2026-09-27T08:58:57.338225+00:00",
+      "eventTicker": "KXNCAAFSPREAD-26OCT03ALAMSST",
       "currentBracketingMarketTickers": [
-        "KXNCAAFSPREAD-26SEP26APPNCST-NCST14",
-        "KXNCAAFSPREAD-26SEP26APPNCST-NCST15"
+        "KXNCAAFSPREAD-26OCT03ALAMSST-ALA7",
+        "KXNCAAFSPREAD-26OCT03ALAMSST-ALA6"
       ],
-      "currentBracketingVenueOpenTime": "2026-09-20T10:06:00+00:00",
+      "currentBracketingVenueOpenTime": "2026-09-27T04:06:00+00:00",
       "recoveredClassification": "first_seen",
       "definitelyNotTrueOpen": true,
-      "latestEventRungOpenTime": "2026-09-20T10:06:00+00:00",
-      "minimumPossibleLagSeconds": 252854.658759,
+      "latestEventRungOpenTime": "2026-09-27T04:06:00+00:00",
+      "minimumPossibleLagSeconds": 17577.338225,
       "historicalPromotionEligible": false,
-      "recoveredAt": "2026-09-25T14:54:01.154799+00:00",
+      "recoveredAt": "2026-09-29T01:44:30.760741+00:00",
       "recoveryMethod": "event_wide_latest_rung_open_time_upper_bound"
     },
     {
-      "game": "Arizona @ Washington State",
-      "openingLine": 10.1,
+      "game": "Arkansas @ Texas A&M",
+      "openingLine": -15.5,
       "originalSource": "first_seen",
-      "firstSeen": "2026-09-23T08:20:14.658759+00:00",
-      "eventTicker": "KXNCAAFSPREAD-26SEP26ARIZWSU",
+      "firstSeen": "2026-09-27T08:58:57.338225+00:00",
+      "eventTicker": "KXNCAAFSPREAD-26OCT03ARKTXAM",
       "currentBracketingMarketTickers": [
-        "KXNCAAFSPREAD-26SEP26ARIZWSU-ARIZ12",
-        "KXNCAAFSPREAD-26SEP26ARIZWSU-ARIZ11"
+        "KXNCAAFSPREAD-26OCT03ARKTXAM-TXAM14",
+        "KXNCAAFSPREAD-26OCT03ARKTXAM-TXAM15"
       ],
-      "currentBracketingVenueOpenTime": "2026-09-20T10:06:00+00:00",
+      "currentBracketingVenueOpenTime": "2026-09-27T07:06:00+00:00",
       "recoveredClassification": "first_seen",
       "definitelyNotTrueOpen": true,
-      "latestEventRungOpenTime": "2026-09-20T10:06:00+00:00",
-      "minimumPossibleLagSeconds": 252854.658759,
+      "latestEventRungOpenTime": "2026-09-27T07:06:00+00:00",
+      "minimumPossibleLagSeconds": 6777.338225,
       "historicalPromotionEligible": false,
-      "recoveredAt": "2026-09-25T14:54:01.154799+00:00",
+      "recoveredAt": "2026-09-29T01:44:30.760741+00:00",
       "recoveryMethod": "event_wide_latest_rung_open_time_upper_bound"
     },
     {
-      "game": "Army @ Temple",
-      "openingLine": 3.0,
+      "game": "Arkansas State @ Louisiana",
+      "openingLine": -6.6,
       "originalSource": "first_seen",
-      "firstSeen": "2026-09-21T01:04:50.274619+00:00",
-      "eventTicker": "KXNCAAFSPREAD-26SEP25ARMYTEM",
+      "firstSeen": "2026-09-28T22:50:50.053746+00:00",
+      "eventTicker": "KXNCAAFSPREAD-26OCT03ARSTULL",
       "currentBracketingMarketTickers": [
-        "KXNCAAFSPREAD-26SEP25ARMYTEM-ARMY4",
-        "KXNCAAFSPREAD-26SEP25ARMYTEM-ARMY3"
+        "KXNCAAFSPREAD-26OCT03ARSTULL-ULL7",
+        "KXNCAAFSPREAD-26OCT03ARSTULL-ULL8"
       ],
-      "currentBracketingVenueOpenTime": "2026-09-20T10:05:00+00:00",
+      "currentBracketingVenueOpenTime": "2026-09-28T22:06:00+00:00",
       "recoveredClassification": "first_seen",
       "definitelyNotTrueOpen": true,
-      "latestEventRungOpenTime": "2026-09-20T10:05:00+00:00",
-      "minimumPossibleLagSeconds": 53990.274619,
+      "latestEventRungOpenTime": "2026-09-28T22:06:00+00:00",
+      "minimumPossibleLagSeconds": 2690.053746,
       "historicalPromotionEligible": false,
-      "recoveredAt": "2026-09-25T14:54:01.154799+00:00",
+      "recoveredAt": "2026-09-29T01:44:30.760741+00:00",
       "recoveryMethod": "event_wide_latest_rung_open_time_upper_bound"
     },
     {
-      "game": "Ball State @ Kent State",
-      "openingLine": -3.2,
+      "game": "Army @ Louisiana Tech",
+      "openingLine": 2.1,
       "originalSource": "first_seen",
-      "firstSeen": "2026-09-23T08:20:14.658759+00:00",
-      "eventTicker": "KXNCAAFSPREAD-26SEP26BALLKENT",
+      "firstSeen": "2026-09-28T22:50:50.053746+00:00",
+      "eventTicker": "KXNCAAFSPREAD-26OCT03ARMYLT",
       "currentBracketingMarketTickers": [
-        "KXNCAAFSPREAD-26SEP26BALLKENT-KENT3",
-        "KXNCAAFSPREAD-26SEP26BALLKENT-KENT4"
+        "KXNCAAFSPREAD-26OCT03ARMYLT-ARMY3",
+        "KXNCAAFSPREAD-26OCT03ARMYLT-ARMY2"
       ],
-      "currentBracketingVenueOpenTime": "2026-09-20T10:06:00+00:00",
+      "currentBracketingVenueOpenTime": "2026-09-28T22:06:00+00:00",
       "recoveredClassification": "first_seen",
       "definitelyNotTrueOpen": true,
-      "latestEventRungOpenTime": "2026-09-20T10:06:00+00:00",
-      "minimumPossibleLagSeconds": 252854.658759,
+      "latestEventRungOpenTime": "2026-09-28T22:06:00+00:00",
+      "minimumPossibleLagSeconds": 2690.053746,
       "historicalPromotionEligible": false,
-      "recoveredAt": "2026-09-25T14:54:01.154799+00:00",
+      "recoveredAt": "2026-09-29T01:44:30.760741+00:00",
       "recoveryMethod": "event_wide_latest_rung_open_time_upper_bound"
     },
     {
-      "game": "Boise State @ Western Michigan",
-      "openingLine": 7.1,
+      "game": "Auburn @ Tennessee",
+      "openingLine": -7.4,
       "originalSource": "first_seen",
-      "firstSeen": "2026-09-23T08:20:14.658759+00:00",
-      "eventTicker": "KXNCAAFSPREAD-26SEP26BSUWMU",
+      "firstSeen": "2026-09-27T08:58:57.338225+00:00",
+      "eventTicker": "KXNCAAFSPREAD-26OCT03AUBTENN",
       "currentBracketingMarketTickers": [
-        "KXNCAAFSPREAD-26SEP26BSUWMU-BSU8",
-        "KXNCAAFSPREAD-26SEP26BSUWMU-BSU7"
+        "KXNCAAFSPREAD-26OCT03AUBTENN-TENN7",
+        "KXNCAAFSPREAD-26OCT03AUBTENN-TENN8"
       ],
-      "currentBracketingVenueOpenTime": "2026-09-20T07:06:00+00:00",
+      "currentBracketingVenueOpenTime": "2026-09-27T01:06:00+00:00",
       "recoveredClassification": "first_seen",
       "definitelyNotTrueOpen": true,
-      "latestEventRungOpenTime": "2026-09-20T07:06:00+00:00",
-      "minimumPossibleLagSeconds": 263654.658759,
+      "latestEventRungOpenTime": "2026-09-27T01:06:00+00:00",
+      "minimumPossibleLagSeconds": 28377.338225,
       "historicalPromotionEligible": false,
-      "recoveredAt": "2026-09-25T14:54:01.154799+00:00",
+      "recoveredAt": "2026-09-29T01:44:30.760741+00:00",
       "recoveryMethod": "event_wide_latest_rung_open_time_upper_bound"
     },
     {
-      "game": "Central Michigan @ Miami",
-      "openingLine": -41.0,
+      "game": "BYU @ TCU",
+      "openingLine": 7.4,
       "originalSource": "first_seen",
-      "firstSeen": "2026-09-23T08:20:14.658759+00:00",
-      "eventTicker": "KXNCAAFSPREAD-26SEP26CMUMIA",
+      "firstSeen": "2026-09-27T08:58:57.338225+00:00",
+      "eventTicker": "KXNCAAFSPREAD-26OCT03BYUTCU",
       "currentBracketingMarketTickers": [
-        "KXNCAAFSPREAD-26SEP26CMUMIA-MIA39",
-        "KXNCAAFSPREAD-26SEP26CMUMIA-MIA42"
+        "KXNCAAFSPREAD-26OCT03BYUTCU-BYU8",
+        "KXNCAAFSPREAD-26OCT03BYUTCU-BYU7"
       ],
-      "currentBracketingVenueOpenTime": "2026-09-20T07:07:00+00:00",
+      "currentBracketingVenueOpenTime": "2026-09-27T01:06:00+00:00",
       "recoveredClassification": "first_seen",
       "definitelyNotTrueOpen": true,
-      "latestEventRungOpenTime": "2026-09-20T07:07:00+00:00",
-      "minimumPossibleLagSeconds": 263594.658759,
+      "latestEventRungOpenTime": "2026-09-27T01:06:00+00:00",
+      "minimumPossibleLagSeconds": 28377.338225,
       "historicalPromotionEligible": false,
-      "recoveredAt": "2026-09-25T14:54:01.154799+00:00",
+      "recoveredAt": "2026-09-29T01:44:30.760741+00:00",
       "recoveryMethod": "event_wide_latest_rung_open_time_upper_bound"
     },
     {
-      "game": "Clemson @ California",
-      "openingLine": -0.3,
+      "game": "Baylor @ Arizona State",
+      "openingLine": -3.5,
       "originalSource": "first_seen",
-      "firstSeen": "2026-09-21T01:04:50.274619+00:00",
-      "eventTicker": "KXNCAAFSPREAD-26SEP25CLEMCAL",
+      "firstSeen": "2026-09-27T18:36:41.390725+00:00",
+      "eventTicker": "KXNCAAFSPREAD-26OCT03BAYASU",
       "currentBracketingMarketTickers": [
-        "KXNCAAFSPREAD-26SEP25CLEMCAL-CLEM2",
-        "KXNCAAFSPREAD-26SEP25CLEMCAL-CAL2"
+        "KXNCAAFSPREAD-26OCT03BAYASU-ASU4",
+        "KXNCAAFSPREAD-26OCT03BAYASU-ASU5"
       ],
-      "currentBracketingVenueOpenTime": "2026-09-20T10:06:00+00:00",
+      "currentBracketingVenueOpenTime": "2026-09-27T10:07:00+00:00",
       "recoveredClassification": "first_seen",
       "definitelyNotTrueOpen": true,
-      "latestEventRungOpenTime": "2026-09-20T10:06:00+00:00",
-      "minimumPossibleLagSeconds": 53930.274619,
+      "latestEventRungOpenTime": "2026-09-27T10:07:00+00:00",
+      "minimumPossibleLagSeconds": 30581.390725,
       "historicalPromotionEligible": false,
-      "recoveredAt": "2026-09-25T14:54:01.154799+00:00",
+      "recoveredAt": "2026-09-29T01:44:30.760741+00:00",
       "recoveryMethod": "event_wide_latest_rung_open_time_upper_bound"
     },
     {
-      "game": "Colorado @ Baylor",
-      "openingLine": -9.9,
+      "game": "Boston College @ SMU",
+      "openingLine": -32.9,
       "originalSource": "first_seen",
-      "firstSeen": "2026-09-21T01:04:50.274619+00:00",
-      "eventTicker": "KXNCAAFSPREAD-26SEP26COLOBAY",
+      "firstSeen": "2026-09-26T15:11:08.396111+00:00",
+      "eventTicker": "KXNCAAFSPREAD-26OCT03BCSMU",
       "currentBracketingMarketTickers": [
-        "KXNCAAFSPREAD-26SEP26COLOBAY-BAY10",
-        "KXNCAAFSPREAD-26SEP26COLOBAY-BAY11"
+        "KXNCAAFSPREAD-26OCT03BCSMU-SMU21",
+        "KXNCAAFSPREAD-26OCT03BCSMU-SMU22"
       ],
-      "currentBracketingVenueOpenTime": "2026-09-20T10:06:00+00:00",
-      "recoveredClassification": "first_seen",
-      "definitelyNotTrueOpen": true,
-      "latestEventRungOpenTime": "2026-09-20T10:06:00+00:00",
-      "minimumPossibleLagSeconds": 53930.274619,
+      "currentBracketingVenueOpenTime": "2026-09-27T10:06:00+00:00",
+      "recoveredClassification": "unverified",
+      "definitelyNotTrueOpen": false,
+      "latestEventRungOpenTime": "2026-09-27T10:06:00+00:00",
+      "minimumPossibleLagSeconds": -68091.603889,
       "historicalPromotionEligible": false,
-      "recoveredAt": "2026-09-25T14:54:01.154799+00:00",
+      "recoveredAt": "2026-09-29T01:44:30.760741+00:00",
       "recoveryMethod": "event_wide_latest_rung_open_time_upper_bound"
     },
     {
-      "game": "Colorado State @ UTSA",
-      "openingLine": -13.1,
+      "game": "Bowling Green @ Miami (OH)",
+      "openingLine": -12.8,
       "originalSource": "first_seen",
-      "firstSeen": "2026-09-23T08:20:14.658759+00:00",
-      "eventTicker": "KXNCAAFSPREAD-26SEP26CSUUTSA",
+      "firstSeen": "2026-09-28T22:50:50.053746+00:00",
+      "eventTicker": "KXNCAAFSPREAD-26OCT03BGSUMOH",
       "currentBracketingMarketTickers": [
-        "KXNCAAFSPREAD-26SEP26CSUUTSA-UTSA14",
-        "KXNCAAFSPREAD-26SEP26CSUUTSA-UTSA15"
+        "KXNCAAFSPREAD-26OCT03BGSUMOH-MOH12",
+        "KXNCAAFSPREAD-26OCT03BGSUMOH-MOH14"
       ],
-      "currentBracketingVenueOpenTime": "2026-09-20T10:06:00+00:00",
+      "currentBracketingVenueOpenTime": "2026-09-28T22:06:00+00:00",
       "recoveredClassification": "first_seen",
       "definitelyNotTrueOpen": true,
-      "latestEventRungOpenTime": "2026-09-20T10:06:00+00:00",
-      "minimumPossibleLagSeconds": 252854.658759,
+      "latestEventRungOpenTime": "2026-09-28T22:06:00+00:00",
+      "minimumPossibleLagSeconds": 2690.053746,
       "historicalPromotionEligible": false,
-      "recoveredAt": "2026-09-25T14:54:01.154799+00:00",
+      "recoveredAt": "2026-09-29T01:44:30.760741+00:00",
       "recoveryMethod": "event_wide_latest_rung_open_time_upper_bound"
     },
     {
-      "game": "Delaware @ Virginia",
-      "openingLine": -20.3,
+      "game": "California @ UNLV",
+      "openingLine": 1.6,
       "originalSource": "first_seen",
-      "firstSeen": "2026-09-21T01:04:50.274619+00:00",
-      "eventTicker": "KXNCAAFSPREAD-26SEP26DELUVA",
+      "firstSeen": "2026-09-27T08:58:57.338225+00:00",
+      "eventTicker": "KXNCAAFSPREAD-26OCT03CALUNLV",
       "currentBracketingMarketTickers": [
-        "KXNCAAFSPREAD-26SEP26DELUVA-UVA18",
-        "KXNCAAFSPREAD-26SEP26DELUVA-UVA21"
+        "KXNCAAFSPREAD-26OCT03CALUNLV-UNLV3",
+        "KXNCAAFSPREAD-26OCT03CALUNLV-UNLV4"
       ],
-      "currentBracketingVenueOpenTime": "2026-09-20T10:06:00+00:00",
+      "currentBracketingVenueOpenTime": "2026-09-27T07:06:00+00:00",
       "recoveredClassification": "first_seen",
       "definitelyNotTrueOpen": true,
-      "latestEventRungOpenTime": "2026-09-20T10:06:00+00:00",
-      "minimumPossibleLagSeconds": 53930.274619,
+      "latestEventRungOpenTime": "2026-09-27T07:06:00+00:00",
+      "minimumPossibleLagSeconds": 6777.338225,
       "historicalPromotionEligible": false,
-      "recoveredAt": "2026-09-25T14:54:01.154799+00:00",
+      "recoveredAt": "2026-09-29T01:44:30.760741+00:00",
       "recoveryMethod": "event_wide_latest_rung_open_time_upper_bound"
     },
     {
-      "game": "Florida Atlantic @ UL Monroe",
-      "openingLine": 13.0,
+      "game": "Cincinnati @ Arizona",
+      "openingLine": -7.5,
       "originalSource": "first_seen",
-      "firstSeen": "2026-09-23T08:20:14.658759+00:00",
-      "eventTicker": "KXNCAAFSPREAD-26SEP26FAUULM",
+      "firstSeen": "2026-09-27T14:29:21.150969+00:00",
+      "eventTicker": "KXNCAAFSPREAD-26OCT03CINARIZ",
       "currentBracketingMarketTickers": [
-        "KXNCAAFSPREAD-26SEP26FAUULM-FAU13",
-        "KXNCAAFSPREAD-26SEP26FAUULM-FAU12"
+        "KXNCAAFSPREAD-26OCT03CINARIZ-ARIZ7",
+        "KXNCAAFSPREAD-26OCT03CINARIZ-ARIZ8"
       ],
-      "currentBracketingVenueOpenTime": "2026-09-20T10:06:00+00:00",
+      "currentBracketingVenueOpenTime": "2026-09-27T10:07:00+00:00",
       "recoveredClassification": "first_seen",
       "definitelyNotTrueOpen": true,
-      "latestEventRungOpenTime": "2026-09-20T10:06:00+00:00",
-      "minimumPossibleLagSeconds": 252854.658759,
+      "latestEventRungOpenTime": "2026-09-27T10:07:00+00:00",
+      "minimumPossibleLagSeconds": 15741.150969,
       "historicalPromotionEligible": false,
-      "recoveredAt": "2026-09-25T14:54:01.154799+00:00",
+      "recoveredAt": "2026-09-29T01:44:30.760741+00:00",
       "recoveryMethod": "event_wide_latest_rung_open_time_upper_bound"
     },
     {
-      "game": "Georgia Tech @ Stanford",
-      "openingLine": 3.3,
+      "game": "Eastern Michigan @ Massachusetts",
+      "openingLine": 24.1,
       "originalSource": "first_seen",
-      "firstSeen": "2026-09-21T01:04:50.274619+00:00",
-      "eventTicker": "KXNCAAFSPREAD-26SEP26GTSTAN",
+      "firstSeen": "2026-09-26T15:11:08.396111+00:00",
+      "eventTicker": "KXNCAAFSPREAD-26OCT03EMUMASS",
       "currentBracketingMarketTickers": [
-        "KXNCAAFSPREAD-26SEP26GTSTAN-GT4",
-        "KXNCAAFSPREAD-26SEP26GTSTAN-GT3"
+        "KXNCAAFSPREAD-26OCT03EMUMASS-MASS6",
+        "KXNCAAFSPREAD-26OCT03EMUMASS-MASS7"
       ],
-      "currentBracketingVenueOpenTime": "2026-09-20T07:07:00+00:00",
-      "recoveredClassification": "first_seen",
-      "definitelyNotTrueOpen": true,
-      "latestEventRungOpenTime": "2026-09-20T07:07:00+00:00",
-      "minimumPossibleLagSeconds": 64670.274619,
+      "currentBracketingVenueOpenTime": "2026-09-28T22:06:00+00:00",
+      "recoveredClassification": "unverified",
+      "definitelyNotTrueOpen": false,
+      "latestEventRungOpenTime": "2026-09-28T22:06:00+00:00",
+      "minimumPossibleLagSeconds": -197691.603889,
       "historicalPromotionEligible": false,
-      "recoveredAt": "2026-09-25T14:54:01.154799+00:00",
+      "recoveredAt": "2026-09-29T01:44:30.760741+00:00",
       "recoveryMethod": "event_wide_latest_rung_open_time_upper_bound"
     },
     {
-      "game": "Hawai'i @ Wyoming",
-      "openingLine": 3.2,
+      "game": "Florida @ Missouri",
+      "openingLine": 5.8,
       "originalSource": "first_seen",
-      "firstSeen": "2026-09-21T01:04:50.274619+00:00",
-      "eventTicker": "KXNCAAFSPREAD-26SEP26HAWWYO",
+      "firstSeen": "2026-09-27T08:58:57.338225+00:00",
+      "eventTicker": "KXNCAAFSPREAD-26OCT03FLAMIZZ",
       "currentBracketingMarketTickers": [
-        "KXNCAAFSPREAD-26SEP26HAWWYO-HAW4",
-        "KXNCAAFSPREAD-26SEP26HAWWYO-HAW3"
+        "KXNCAAFSPREAD-26OCT03FLAMIZZ-FLA7",
+        "KXNCAAFSPREAD-26OCT03FLAMIZZ-FLA6"
       ],
-      "currentBracketingVenueOpenTime": "2026-09-20T07:06:00+00:00",
+      "currentBracketingVenueOpenTime": "2026-09-27T04:06:00+00:00",
       "recoveredClassification": "first_seen",
       "definitelyNotTrueOpen": true,
-      "latestEventRungOpenTime": "2026-09-20T07:06:00+00:00",
-      "minimumPossibleLagSeconds": 64730.274619,
+      "latestEventRungOpenTime": "2026-09-27T04:06:00+00:00",
+      "minimumPossibleLagSeconds": 17577.338225,
       "historicalPromotionEligible": false,
-      "recoveredAt": "2026-09-25T14:54:01.154799+00:00",
+      "recoveredAt": "2026-09-29T01:44:30.760741+00:00",
       "recoveryMethod": "event_wide_latest_rung_open_time_upper_bound"
     },
     {
-      "game": "Houston @ Georgia Southern",
-      "openingLine": 17.7,
+      "game": "Fresno State @ Washington State",
+      "openingLine": -2.0,
       "originalSource": "first_seen",
-      "firstSeen": "2026-09-21T01:04:50.274619+00:00",
-      "eventTicker": "KXNCAAFSPREAD-26SEP26HOUGASO",
+      "firstSeen": "2026-09-28T22:50:50.053746+00:00",
+      "eventTicker": "KXNCAAFSPREAD-26OCT03FRESWSU",
       "currentBracketingMarketTickers": [
-        "KXNCAAFSPREAD-26SEP26HOUGASO-HOU21",
-        "KXNCAAFSPREAD-26SEP26HOUGASO-HOU18"
+        "KXNCAAFSPREAD-26OCT03FRESWSU-WSU2",
+        "KXNCAAFSPREAD-26OCT03FRESWSU-WSU3"
       ],
-      "currentBracketingVenueOpenTime": "2026-09-20T07:06:00+00:00",
+      "currentBracketingVenueOpenTime": "2026-09-28T22:06:00+00:00",
       "recoveredClassification": "first_seen",
       "definitelyNotTrueOpen": true,
-      "latestEventRungOpenTime": "2026-09-20T07:06:00+00:00",
-      "minimumPossibleLagSeconds": 64730.274619,
+      "latestEventRungOpenTime": "2026-09-28T22:06:00+00:00",
+      "minimumPossibleLagSeconds": 2690.053746,
       "historicalPromotionEligible": false,
-      "recoveredAt": "2026-09-25T14:54:01.154799+00:00",
+      "recoveredAt": "2026-09-29T01:44:30.760741+00:00",
       "recoveryMethod": "event_wide_latest_rung_open_time_upper_bound"
     },
     {
-      "game": "Illinois @ Ohio State",
-      "openingLine": -26.6,
-      "originalSource": "first_seen",
-      "firstSeen": "2026-09-23T08:20:14.658759+00:00",
-      "eventTicker": "KXNCAAFSPREAD-26SEP26ILLOSU",
-      "currentBracketingMarketTickers": [
-        "KXNCAAFSPREAD-26SEP26ILLOSU-OSU25",
-        "KXNCAAFSPREAD-26SEP26ILLOSU-OSU28"
-      ],
-      "currentBracketingVenueOpenTime": "2026-09-19T16:06:00+00:00",
-      "recoveredClassification": "first_seen",
-      "definitelyNotTrueOpen": true,
-      "latestEventRungOpenTime": "2026-09-19T16:06:00+00:00",
-      "minimumPossibleLagSeconds": 317654.658759,
-      "historicalPromotionEligible": false,
-      "recoveredAt": "2026-09-25T14:54:01.154799+00:00",
-      "recoveryMethod": "event_wide_latest_rung_open_time_upper_bound"
-    },
-    {
-      "game": "Iowa @ Michigan",
-      "openingLine": -3.8,
-      "originalSource": "first_seen",
-      "firstSeen": "2026-09-21T01:04:50.274619+00:00",
-      "eventTicker": "KXNCAAFSPREAD-26SEP26IOWAMICH",
-      "currentBracketingMarketTickers": [
-        "KXNCAAFSPREAD-26SEP26IOWAMICH-MICH5",
-        "KXNCAAFSPREAD-26SEP26IOWAMICH-MICH6"
-      ],
-      "currentBracketingVenueOpenTime": "2026-09-20T01:07:00+00:00",
-      "recoveredClassification": "first_seen",
-      "definitelyNotTrueOpen": true,
-      "latestEventRungOpenTime": "2026-09-20T01:07:00+00:00",
-      "minimumPossibleLagSeconds": 86270.274619,
-      "historicalPromotionEligible": false,
-      "recoveredAt": "2026-09-25T14:54:01.154799+00:00",
-      "recoveryMethod": "event_wide_latest_rung_open_time_upper_bound"
-    },
-    {
-      "game": "James Madison @ Old Dominion",
-      "openingLine": 4.5,
-      "originalSource": "first_seen",
-      "firstSeen": "2026-09-21T01:04:50.274619+00:00",
-      "eventTicker": "KXNCAAFSPREAD-26SEP26JMUODU",
-      "currentBracketingMarketTickers": [
-        "KXNCAAFSPREAD-26SEP26JMUODU-JMU7",
-        "KXNCAAFSPREAD-26SEP26JMUODU-JMU6"
-      ],
-      "currentBracketingVenueOpenTime": "2026-09-20T07:07:00+00:00",
-      "recoveredClassification": "first_seen",
-      "definitelyNotTrueOpen": true,
-      "latestEventRungOpenTime": "2026-09-20T07:07:00+00:00",
-      "minimumPossibleLagSeconds": 64670.274619,
-      "historicalPromotionEligible": false,
-      "recoveredAt": "2026-09-25T14:54:01.154799+00:00",
-      "recoveryMethod": "event_wide_latest_rung_open_time_upper_bound"
-    },
-    {
-      "game": "Kansas State @ Cincinnati",
-      "openingLine": 6.0,
-      "originalSource": "first_seen",
-      "firstSeen": "2026-09-23T08:20:14.658759+00:00",
-      "eventTicker": "KXNCAAFSPREAD-26SEP26KSUCIN",
-      "currentBracketingMarketTickers": [
-        "KXNCAAFSPREAD-26SEP26KSUCIN-KSU7",
-        "KXNCAAFSPREAD-26SEP26KSUCIN-KSU6"
-      ],
-      "currentBracketingVenueOpenTime": "2026-09-20T07:07:00+00:00",
-      "recoveredClassification": "first_seen",
-      "definitelyNotTrueOpen": true,
-      "latestEventRungOpenTime": "2026-09-20T07:07:00+00:00",
-      "minimumPossibleLagSeconds": 263594.658759,
-      "historicalPromotionEligible": false,
-      "recoveredAt": "2026-09-25T14:54:01.154799+00:00",
-      "recoveryMethod": "event_wide_latest_rung_open_time_upper_bound"
-    },
-    {
-      "game": "Kennesaw State @ Arkansas State",
-      "openingLine": -6.4,
-      "originalSource": "first_seen",
-      "firstSeen": "2026-09-23T08:20:14.658759+00:00",
-      "eventTicker": "KXNCAAFSPREAD-26SEP26KENNARST",
-      "currentBracketingMarketTickers": [
-        "KXNCAAFSPREAD-26SEP26KENNARST-ARST6",
-        "KXNCAAFSPREAD-26SEP26KENNARST-ARST7"
-      ],
-      "currentBracketingVenueOpenTime": "2026-09-20T07:07:00+00:00",
-      "recoveredClassification": "first_seen",
-      "definitelyNotTrueOpen": true,
-      "latestEventRungOpenTime": "2026-09-20T07:07:00+00:00",
-      "minimumPossibleLagSeconds": 263594.658759,
-      "historicalPromotionEligible": false,
-      "recoveredAt": "2026-09-25T14:54:01.154799+00:00",
-      "recoveryMethod": "event_wide_latest_rung_open_time_upper_bound"
-    },
-    {
-      "game": "Liberty @ Coastal Carolina",
+      "game": "Georgia Southern @ Coastal Carolina",
       "openingLine": 2.6,
       "originalSource": "first_seen",
-      "firstSeen": "2026-09-21T01:04:50.274619+00:00",
+      "firstSeen": "2026-09-28T22:50:50.053746+00:00",
+      "eventTicker": "KXNCAAFSPREAD-26OCT03GASOCCAR",
+      "currentBracketingMarketTickers": [
+        "KXNCAAFSPREAD-26OCT03GASOCCAR-GASO4",
+        "KXNCAAFSPREAD-26OCT03GASOCCAR-GASO3"
+      ],
+      "currentBracketingVenueOpenTime": "2026-09-28T22:06:00+00:00",
+      "recoveredClassification": "first_seen",
+      "definitelyNotTrueOpen": true,
+      "latestEventRungOpenTime": "2026-09-28T22:06:00+00:00",
+      "minimumPossibleLagSeconds": 2690.053746,
+      "historicalPromotionEligible": false,
+      "recoveredAt": "2026-09-29T01:44:30.760741+00:00",
+      "recoveryMethod": "event_wide_latest_rung_open_time_upper_bound"
+    },
+    {
+      "game": "Indiana @ Rutgers",
+      "openingLine": 23.0,
+      "originalSource": "first_seen",
+      "firstSeen": "2026-09-27T08:58:57.338225+00:00",
+      "eventTicker": "KXNCAAFSPREAD-26OCT03INDRUTG",
+      "currentBracketingMarketTickers": [
+        "KXNCAAFSPREAD-26OCT03INDRUTG-IND25",
+        "KXNCAAFSPREAD-26OCT03INDRUTG-IND24"
+      ],
+      "currentBracketingVenueOpenTime": "2026-09-27T07:06:00+00:00",
+      "recoveredClassification": "first_seen",
+      "definitelyNotTrueOpen": true,
+      "latestEventRungOpenTime": "2026-09-27T07:06:00+00:00",
+      "minimumPossibleLagSeconds": 6777.338225,
+      "historicalPromotionEligible": false,
+      "recoveredAt": "2026-09-29T01:44:30.760741+00:00",
+      "recoveryMethod": "event_wide_latest_rung_open_time_upper_bound"
+    },
+    {
+      "game": "Kentucky @ South Carolina",
+      "openingLine": -3.7,
+      "originalSource": "first_seen",
+      "firstSeen": "2026-09-27T14:29:21.150969+00:00",
+      "eventTicker": "KXNCAAFSPREAD-26OCT03UKSCAR",
+      "currentBracketingMarketTickers": [
+        "KXNCAAFSPREAD-26OCT03UKSCAR-SCAR3",
+        "KXNCAAFSPREAD-26OCT03UKSCAR-SCAR4"
+      ],
+      "currentBracketingVenueOpenTime": "2026-09-27T07:06:00+00:00",
+      "recoveredClassification": "first_seen",
+      "definitelyNotTrueOpen": true,
+      "latestEventRungOpenTime": "2026-09-27T07:06:00+00:00",
+      "minimumPossibleLagSeconds": 26601.150969,
+      "historicalPromotionEligible": false,
+      "recoveredAt": "2026-09-29T01:44:30.760741+00:00",
+      "recoveryMethod": "event_wide_latest_rung_open_time_upper_bound"
+    },
+    {
+      "game": "Liberty @ Delaware",
+      "openingLine": 7.2,
+      "originalSource": "first_seen",
+      "firstSeen": "2026-09-27T18:36:41.390725+00:00",
+      "eventTicker": "KXNCAAFSPREAD-26OCT02LIBDEL",
+      "currentBracketingMarketTickers": [
+        "KXNCAAFSPREAD-26OCT02LIBDEL-LIB8",
+        "KXNCAAFSPREAD-26OCT02LIBDEL-LIB7"
+      ],
+      "currentBracketingVenueOpenTime": "2026-09-27T16:06:00+00:00",
+      "recoveredClassification": "first_seen",
+      "definitelyNotTrueOpen": true,
+      "latestEventRungOpenTime": "2026-09-27T16:06:00+00:00",
+      "minimumPossibleLagSeconds": 9041.390725,
+      "historicalPromotionEligible": false,
+      "recoveredAt": "2026-09-29T01:44:30.760741+00:00",
+      "recoveryMethod": "event_wide_latest_rung_open_time_upper_bound"
+    },
+    {
+      "game": "Louisville @ NC State",
+      "openingLine": 6.5,
+      "originalSource": "first_seen",
+      "firstSeen": "2026-09-27T14:29:21.150969+00:00",
+      "eventTicker": "KXNCAAFSPREAD-26OCT03LOUNCST",
+      "currentBracketingMarketTickers": [
+        "KXNCAAFSPREAD-26OCT03LOUNCST-LOU7",
+        "KXNCAAFSPREAD-26OCT03LOUNCST-LOU6"
+      ],
+      "currentBracketingVenueOpenTime": "2026-09-27T04:06:00+00:00",
+      "recoveredClassification": "first_seen",
+      "definitelyNotTrueOpen": true,
+      "latestEventRungOpenTime": "2026-09-27T04:06:00+00:00",
+      "minimumPossibleLagSeconds": 37401.150969,
+      "historicalPromotionEligible": false,
+      "recoveredAt": "2026-09-29T01:44:30.760741+00:00",
+      "recoveryMethod": "event_wide_latest_rung_open_time_upper_bound"
+    },
+    {
+      "game": "Marshall @ James Madison",
+      "openingLine": 24.4,
+      "originalSource": "first_seen",
+      "firstSeen": "2026-09-26T15:11:08.396111+00:00",
+      "eventTicker": "KXNCAAFSPREAD-26OCT03MRSHJMU",
+      "currentBracketingMarketTickers": [
+        "KXNCAAFSPREAD-26OCT03MRSHJMU-JMU18",
+        "KXNCAAFSPREAD-26OCT03MRSHJMU-JMU21"
+      ],
+      "currentBracketingVenueOpenTime": "2026-09-27T10:06:00+00:00",
+      "recoveredClassification": "unverified",
+      "definitelyNotTrueOpen": false,
+      "latestEventRungOpenTime": "2026-09-27T10:06:00+00:00",
+      "minimumPossibleLagSeconds": -68091.603889,
+      "historicalPromotionEligible": false,
+      "recoveredAt": "2026-09-29T01:44:30.760741+00:00",
+      "recoveryMethod": "event_wide_latest_rung_open_time_upper_bound"
+    },
+    {
+      "game": "Maryland @ Nebraska",
+      "openingLine": -12.5,
+      "originalSource": "first_seen",
+      "firstSeen": "2026-09-27T08:58:57.338225+00:00",
+      "eventTicker": "KXNCAAFSPREAD-26OCT03MDNEB",
+      "currentBracketingMarketTickers": [
+        "KXNCAAFSPREAD-26OCT03MDNEB-NEB15",
+        "KXNCAAFSPREAD-26OCT03MDNEB-NEB17"
+      ],
+      "currentBracketingVenueOpenTime": "2026-09-27T07:06:00+00:00",
+      "recoveredClassification": "first_seen",
+      "definitelyNotTrueOpen": true,
+      "latestEventRungOpenTime": "2026-09-27T07:06:00+00:00",
+      "minimumPossibleLagSeconds": 6777.338225,
+      "historicalPromotionEligible": false,
+      "recoveredAt": "2026-09-29T01:44:30.760741+00:00",
+      "recoveryMethod": "event_wide_latest_rung_open_time_upper_bound"
+    },
+    {
+      "game": "Memphis @ Charlotte",
+      "openingLine": 20.1,
+      "originalSource": "first_seen",
+      "firstSeen": "2026-09-28T22:50:50.053746+00:00",
+      "eventTicker": "KXNCAAFSPREAD-26OCT03MEMCHAR",
+      "currentBracketingMarketTickers": [
+        "KXNCAAFSPREAD-26OCT03MEMCHAR-MEM21",
+        "KXNCAAFSPREAD-26OCT03MEMCHAR-MEM18"
+      ],
+      "currentBracketingVenueOpenTime": "2026-09-28T22:06:00+00:00",
+      "recoveredClassification": "first_seen",
+      "definitelyNotTrueOpen": true,
+      "latestEventRungOpenTime": "2026-09-28T22:06:00+00:00",
+      "minimumPossibleLagSeconds": 2690.053746,
+      "historicalPromotionEligible": false,
+      "recoveredAt": "2026-09-29T01:44:30.760741+00:00",
+      "recoveryMethod": "event_wide_latest_rung_open_time_upper_bound"
+    },
+    {
+      "game": "Miami @ Clemson",
+      "openingLine": 41.6,
+      "originalSource": "first_seen",
+      "firstSeen": "2026-09-26T15:11:08.396111+00:00",
+      "eventTicker": "KXNCAAFSPREAD-26OCT03MIACLEM",
+      "currentBracketingMarketTickers": [
+        "KXNCAAFSPREAD-26OCT03MIACLEM-MIA18",
+        "KXNCAAFSPREAD-26OCT03MIACLEM-MIA17"
+      ],
+      "currentBracketingVenueOpenTime": "2026-09-27T04:06:00+00:00",
+      "recoveredClassification": "unverified",
+      "definitelyNotTrueOpen": false,
+      "latestEventRungOpenTime": "2026-09-27T04:06:00+00:00",
+      "minimumPossibleLagSeconds": -46491.603889,
+      "historicalPromotionEligible": false,
+      "recoveredAt": "2026-09-29T01:44:30.760741+00:00",
+      "recoveryMethod": "event_wide_latest_rung_open_time_upper_bound"
+    },
+    {
+      "game": "Michigan @ Minnesota",
+      "openingLine": 6.6,
+      "originalSource": "first_seen",
+      "firstSeen": "2026-09-27T23:58:23.681025+00:00",
+      "eventTicker": "KXNCAAFSPREAD-26OCT03MICHMINN",
+      "currentBracketingMarketTickers": [
+        "KXNCAAFSPREAD-26OCT03MICHMINN-MICH7",
+        "KXNCAAFSPREAD-26OCT03MICHMINN-MICH6"
+      ],
+      "currentBracketingVenueOpenTime": "2026-09-26T16:07:00+00:00",
+      "recoveredClassification": "first_seen",
+      "definitelyNotTrueOpen": true,
+      "latestEventRungOpenTime": "2026-09-26T16:07:00+00:00",
+      "minimumPossibleLagSeconds": 114683.681025,
+      "historicalPromotionEligible": false,
+      "recoveredAt": "2026-09-29T01:44:30.760741+00:00",
+      "recoveryMethod": "event_wide_latest_rung_open_time_upper_bound"
+    },
+    {
+      "game": "Michigan State @ Wisconsin",
+      "openingLine": -10.7,
+      "originalSource": "first_seen",
+      "firstSeen": "2026-09-27T14:29:21.150969+00:00",
+      "eventTicker": "KXNCAAFSPREAD-26OCT03MSUWIS",
+      "currentBracketingMarketTickers": [
+        "KXNCAAFSPREAD-26OCT03MSUWIS-WIS10",
+        "KXNCAAFSPREAD-26OCT03MSUWIS-WIS11"
+      ],
+      "currentBracketingVenueOpenTime": "2026-09-27T07:06:00+00:00",
+      "recoveredClassification": "first_seen",
+      "definitelyNotTrueOpen": true,
+      "latestEventRungOpenTime": "2026-09-27T07:06:00+00:00",
+      "minimumPossibleLagSeconds": 26601.150969,
+      "historicalPromotionEligible": false,
+      "recoveredAt": "2026-09-29T01:44:30.760741+00:00",
+      "recoveryMethod": "event_wide_latest_rung_open_time_upper_bound"
+    },
+    {
+      "game": "Middle Tennessee @ Kansas",
+      "openingLine": -18.7,
+      "originalSource": "first_seen",
+      "firstSeen": "2026-09-28T22:50:50.053746+00:00",
+      "eventTicker": "KXNCAAFSPREAD-26OCT03MTUKU",
+      "currentBracketingMarketTickers": [
+        "KXNCAAFSPREAD-26OCT03MTUKU-KU19",
+        "KXNCAAFSPREAD-26OCT03MTUKU-KU21"
+      ],
+      "currentBracketingVenueOpenTime": "2026-09-28T22:05:00+00:00",
+      "recoveredClassification": "first_seen",
+      "definitelyNotTrueOpen": true,
+      "latestEventRungOpenTime": "2026-09-28T22:05:00+00:00",
+      "minimumPossibleLagSeconds": 2750.053746,
+      "historicalPromotionEligible": false,
+      "recoveredAt": "2026-09-29T01:44:30.760741+00:00",
+      "recoveryMethod": "event_wide_latest_rung_open_time_upper_bound"
+    },
+    {
+      "game": "Navy @ Air Force",
+      "openingLine": -1.5,
+      "originalSource": "first_seen",
+      "firstSeen": "2026-09-27T14:29:21.150969+00:00",
+      "eventTicker": "KXNCAAFSPREAD-26OCT03NAVYAFA",
+      "currentBracketingMarketTickers": [
+        "KXNCAAFSPREAD-26OCT03NAVYAFA-AFA3",
+        "KXNCAAFSPREAD-26OCT03NAVYAFA-AFA4"
+      ],
+      "currentBracketingVenueOpenTime": "2026-09-27T10:06:00+00:00",
+      "recoveredClassification": "first_seen",
+      "definitelyNotTrueOpen": true,
+      "latestEventRungOpenTime": "2026-09-27T10:06:00+00:00",
+      "minimumPossibleLagSeconds": 15801.150969,
+      "historicalPromotionEligible": false,
+      "recoveredAt": "2026-09-29T01:44:30.760741+00:00",
+      "recoveryMethod": "event_wide_latest_rung_open_time_upper_bound"
+    },
+    {
+      "game": "North Texas @ Tulsa",
+      "openingLine": 38.3,
+      "originalSource": "first_seen",
+      "firstSeen": "2026-09-26T15:11:08.396111+00:00",
+      "eventTicker": "KXNCAAFSPREAD-26OCT01UNTTLSA",
+      "currentBracketingMarketTickers": [
+        "KXNCAAFSPREAD-26OCT01UNTTLSA-UNT2",
+        "KXNCAAFSPREAD-26OCT01UNTTLSA-TLSA2"
+      ],
+      "currentBracketingVenueOpenTime": "2026-09-27T10:06:00+00:00",
+      "recoveredClassification": "unverified",
+      "definitelyNotTrueOpen": false,
+      "latestEventRungOpenTime": "2026-09-27T10:06:00+00:00",
+      "minimumPossibleLagSeconds": -68091.603889,
+      "historicalPromotionEligible": false,
+      "recoveredAt": "2026-09-29T01:44:30.760741+00:00",
+      "recoveryMethod": "event_wide_latest_rung_open_time_upper_bound"
+    },
+    {
+      "game": "Notre Dame @ North Carolina",
+      "openingLine": 27.3,
+      "originalSource": "first_seen",
+      "firstSeen": "2026-09-26T15:11:08.396111+00:00",
+      "eventTicker": "KXNCAAFSPREAD-26OCT03NDUNC",
+      "currentBracketingMarketTickers": [
+        "KXNCAAFSPREAD-26OCT03NDUNC-ND22",
+        "KXNCAAFSPREAD-26OCT03NDUNC-ND21"
+      ],
+      "currentBracketingVenueOpenTime": "2026-09-27T01:06:00+00:00",
+      "recoveredClassification": "unverified",
+      "definitelyNotTrueOpen": false,
+      "latestEventRungOpenTime": "2026-09-27T01:06:00+00:00",
+      "minimumPossibleLagSeconds": -35691.603889,
+      "historicalPromotionEligible": false,
+      "recoveredAt": "2026-09-29T01:44:30.760741+00:00",
+      "recoveryMethod": "event_wide_latest_rung_open_time_upper_bound"
+    },
+    {
+      "game": "Ohio @ Kent State",
+      "openingLine": 32.8,
+      "originalSource": "first_seen",
+      "firstSeen": "2026-09-26T15:11:08.396111+00:00",
+      "eventTicker": "KXNCAAFSPREAD-26OCT03OHIOKENT",
+      "currentBracketingMarketTickers": [
+        "KXNCAAFSPREAD-26OCT03OHIOKENT-OHIO4",
+        "KXNCAAFSPREAD-26OCT03OHIOKENT-OHIO3"
+      ],
+      "currentBracketingVenueOpenTime": "2026-09-27T10:06:00+00:00",
+      "recoveredClassification": "unverified",
+      "definitelyNotTrueOpen": false,
+      "latestEventRungOpenTime": "2026-09-27T10:06:00+00:00",
+      "minimumPossibleLagSeconds": -68091.603889,
+      "historicalPromotionEligible": false,
+      "recoveredAt": "2026-09-29T01:44:30.760741+00:00",
+      "recoveryMethod": "event_wide_latest_rung_open_time_upper_bound"
+    },
+    {
+      "game": "Ohio State @ Iowa",
+      "openingLine": 26.0,
+      "originalSource": "first_seen",
+      "firstSeen": "2026-09-26T15:11:08.396111+00:00",
+      "eventTicker": "KXNCAAFSPREAD-26OCT03OSUIOWA",
+      "currentBracketingMarketTickers": [
+        "KXNCAAFSPREAD-26OCT03OSUIOWA-OSU15",
+        "KXNCAAFSPREAD-26OCT03OSUIOWA-OSU14"
+      ],
+      "currentBracketingVenueOpenTime": "2026-09-27T01:06:00+00:00",
+      "recoveredClassification": "unverified",
+      "definitelyNotTrueOpen": false,
+      "latestEventRungOpenTime": "2026-09-27T01:06:00+00:00",
+      "minimumPossibleLagSeconds": -35691.603889,
+      "historicalPromotionEligible": false,
+      "recoveredAt": "2026-09-29T01:44:30.760741+00:00",
+      "recoveryMethod": "event_wide_latest_rung_open_time_upper_bound"
+    },
+    {
+      "game": "Old Dominion @ Georgia State",
+      "openingLine": -1.5,
+      "originalSource": "first_seen",
+      "firstSeen": "2026-09-27T18:36:41.390725+00:00",
+      "eventTicker": "KXNCAAFSPREAD-26OCT03ODUGAST",
+      "currentBracketingMarketTickers": [
+        "KXNCAAFSPREAD-26OCT03ODUGAST-GAST2",
+        "KXNCAAFSPREAD-26OCT03ODUGAST-GAST3"
+      ],
+      "currentBracketingVenueOpenTime": "2026-09-27T10:06:00+00:00",
+      "recoveredClassification": "first_seen",
+      "definitelyNotTrueOpen": true,
+      "latestEventRungOpenTime": "2026-09-27T10:06:00+00:00",
+      "minimumPossibleLagSeconds": 30641.390725,
+      "historicalPromotionEligible": false,
+      "recoveredAt": "2026-09-29T01:44:30.760741+00:00",
+      "recoveryMethod": "event_wide_latest_rung_open_time_upper_bound"
+    },
+    {
+      "game": "Oregon State @ Colorado State",
+      "openingLine": 4.8,
+      "originalSource": "first_seen",
+      "firstSeen": "2026-09-27T23:58:23.681025+00:00",
+      "eventTicker": "KXNCAAFSPREAD-26OCT03ORSTCSU",
+      "currentBracketingMarketTickers": [
+        "KXNCAAFSPREAD-26OCT03ORSTCSU-ORST8",
+        "KXNCAAFSPREAD-26OCT03ORSTCSU-ORST7"
+      ],
+      "currentBracketingVenueOpenTime": "2026-09-27T10:06:00+00:00",
+      "recoveredClassification": "first_seen",
+      "definitelyNotTrueOpen": true,
+      "latestEventRungOpenTime": "2026-09-27T10:06:00+00:00",
+      "minimumPossibleLagSeconds": 49943.681025,
+      "historicalPromotionEligible": false,
+      "recoveredAt": "2026-09-29T01:44:30.760741+00:00",
+      "recoveryMethod": "event_wide_latest_rung_open_time_upper_bound"
+    },
+    {
+      "game": "Penn State @ Northwestern",
+      "openingLine": 4.0,
+      "originalSource": "first_seen",
+      "firstSeen": "2026-09-27T08:58:57.338225+00:00",
+      "eventTicker": "KXNCAAFSPREAD-26OCT02PSUNW",
+      "currentBracketingMarketTickers": [
+        "KXNCAAFSPREAD-26OCT02PSUNW-PSU4",
+        "KXNCAAFSPREAD-26OCT02PSUNW-PSU3"
+      ],
+      "currentBracketingVenueOpenTime": "2026-09-26T01:06:00+00:00",
+      "recoveredClassification": "first_seen",
+      "definitelyNotTrueOpen": true,
+      "latestEventRungOpenTime": "2026-09-26T01:06:00+00:00",
+      "minimumPossibleLagSeconds": 114777.338225,
+      "historicalPromotionEligible": false,
+      "recoveredAt": "2026-09-29T01:44:30.760741+00:00",
+      "recoveryMethod": "event_wide_latest_rung_open_time_upper_bound"
+    },
+    {
+      "game": "Pittsburgh @ Virginia Tech",
+      "openingLine": -6.6,
+      "originalSource": "first_seen",
+      "firstSeen": "2026-09-26T15:11:08.396111+00:00",
+      "eventTicker": "KXNCAAFSPREAD-26OCT02PITTVT",
+      "currentBracketingMarketTickers": [
+        "KXNCAAFSPREAD-26OCT02PITTVT-VT3",
+        "KXNCAAFSPREAD-26OCT02PITTVT-VT4"
+      ],
+      "currentBracketingVenueOpenTime": "2026-09-26T01:06:00+00:00",
+      "recoveredClassification": "first_seen",
+      "definitelyNotTrueOpen": true,
+      "latestEventRungOpenTime": "2026-09-26T01:06:00+00:00",
+      "minimumPossibleLagSeconds": 50708.396111,
+      "historicalPromotionEligible": false,
+      "recoveredAt": "2026-09-29T01:44:30.760741+00:00",
+      "recoveryMethod": "event_wide_latest_rung_open_time_upper_bound"
+    },
+    {
+      "game": "Purdue @ Illinois",
+      "openingLine": -9.5,
+      "originalSource": "first_seen",
+      "firstSeen": "2026-09-27T08:58:57.338225+00:00",
+      "eventTicker": "KXNCAAFSPREAD-26OCT03PURILL",
+      "currentBracketingMarketTickers": [
+        "KXNCAAFSPREAD-26OCT03PURILL-ILL10",
+        "KXNCAAFSPREAD-26OCT03PURILL-ILL11"
+      ],
+      "currentBracketingVenueOpenTime": "2026-09-27T07:06:00+00:00",
+      "recoveredClassification": "first_seen",
+      "definitelyNotTrueOpen": true,
+      "latestEventRungOpenTime": "2026-09-27T07:06:00+00:00",
+      "minimumPossibleLagSeconds": 6777.338225,
+      "historicalPromotionEligible": false,
+      "recoveredAt": "2026-09-29T01:44:30.760741+00:00",
+      "recoveryMethod": "event_wide_latest_rung_open_time_upper_bound"
+    },
+    {
+      "game": "San Jos\u00e9 State @ Hawai'i",
+      "openingLine": -3.2,
+      "originalSource": "first_seen",
+      "firstSeen": "2026-09-27T23:58:23.681025+00:00",
+      "eventTicker": "KXNCAAFSPREAD-26OCT04SJSUHAW",
+      "currentBracketingMarketTickers": [
+        "KXNCAAFSPREAD-26OCT04SJSUHAW-HAW3",
+        "KXNCAAFSPREAD-26OCT04SJSUHAW-HAW4"
+      ],
+      "currentBracketingVenueOpenTime": "2026-09-27T10:07:00+00:00",
+      "recoveredClassification": "first_seen",
+      "definitelyNotTrueOpen": true,
+      "latestEventRungOpenTime": "2026-09-27T10:07:00+00:00",
+      "minimumPossibleLagSeconds": 49883.681025,
+      "historicalPromotionEligible": false,
+      "recoveredAt": "2026-09-29T01:44:30.760741+00:00",
+      "recoveryMethod": "event_wide_latest_rung_open_time_upper_bound"
+    },
+    {
+      "game": "Stanford @ Wake Forest",
+      "openingLine": -11.5,
+      "originalSource": "first_seen",
+      "firstSeen": "2026-09-27T08:58:57.338225+00:00",
+      "eventTicker": "KXNCAAFSPREAD-26OCT03STANWAKE",
+      "currentBracketingMarketTickers": [
+        "KXNCAAFSPREAD-26OCT03STANWAKE-WAKE12",
+        "KXNCAAFSPREAD-26OCT03STANWAKE-WAKE14"
+      ],
+      "currentBracketingVenueOpenTime": "2026-09-27T07:06:00+00:00",
+      "recoveredClassification": "first_seen",
+      "definitelyNotTrueOpen": true,
+      "latestEventRungOpenTime": "2026-09-27T07:06:00+00:00",
+      "minimumPossibleLagSeconds": 6777.338225,
+      "historicalPromotionEligible": false,
+      "recoveredAt": "2026-09-29T01:44:30.760741+00:00",
+      "recoveryMethod": "event_wide_latest_rung_open_time_upper_bound"
+    },
+    {
+      "game": "Syracuse @ UConn",
+      "openingLine": 6.2,
+      "originalSource": "first_seen",
+      "firstSeen": "2026-09-27T18:36:41.390725+00:00",
+      "eventTicker": "KXNCAAFSPREAD-26OCT03SYRCONN",
+      "currentBracketingMarketTickers": [
+        "KXNCAAFSPREAD-26OCT03SYRCONN-SYR7",
+        "KXNCAAFSPREAD-26OCT03SYRCONN-SYR6"
+      ],
+      "currentBracketingVenueOpenTime": "2026-09-27T10:06:00+00:00",
+      "recoveredClassification": "first_seen",
+      "definitelyNotTrueOpen": true,
+      "latestEventRungOpenTime": "2026-09-27T10:06:00+00:00",
+      "minimumPossibleLagSeconds": 30641.390725,
+      "historicalPromotionEligible": false,
+      "recoveredAt": "2026-09-29T01:44:30.760741+00:00",
+      "recoveryMethod": "event_wide_latest_rung_open_time_upper_bound"
+    },
+    {
+      "game": "Temple @ South Florida",
+      "openingLine": -6.5,
+      "originalSource": "first_seen",
+      "firstSeen": "2026-09-27T14:29:21.150969+00:00",
+      "eventTicker": "KXNCAAFSPREAD-26OCT03TEMUSF",
+      "currentBracketingMarketTickers": [
+        "KXNCAAFSPREAD-26OCT03TEMUSF-USF6",
+        "KXNCAAFSPREAD-26OCT03TEMUSF-USF7"
+      ],
+      "currentBracketingVenueOpenTime": "2026-09-27T10:06:00+00:00",
+      "recoveredClassification": "first_seen",
+      "definitelyNotTrueOpen": true,
+      "latestEventRungOpenTime": "2026-09-27T10:06:00+00:00",
+      "minimumPossibleLagSeconds": 15801.150969,
+      "historicalPromotionEligible": false,
+      "recoveredAt": "2026-09-29T01:44:30.760741+00:00",
+      "recoveryMethod": "event_wide_latest_rung_open_time_upper_bound"
+    },
+    {
+      "game": "Texas State @ San Diego State",
+      "openingLine": 30.3,
+      "originalSource": "first_seen",
+      "firstSeen": "2026-09-26T15:11:08.396111+00:00",
+      "eventTicker": "KXNCAAFSPREAD-26OCT03TXSTSDSU",
+      "currentBracketingMarketTickers": [
+        "KXNCAAFSPREAD-26OCT03TXSTSDSU-TXST5",
+        "KXNCAAFSPREAD-26OCT03TXSTSDSU-TXST4"
+      ],
+      "currentBracketingVenueOpenTime": "2026-09-27T16:07:00+00:00",
+      "recoveredClassification": "unverified",
+      "definitelyNotTrueOpen": false,
+      "latestEventRungOpenTime": "2026-09-27T16:07:00+00:00",
+      "minimumPossibleLagSeconds": -89751.603889,
+      "historicalPromotionEligible": false,
+      "recoveredAt": "2026-09-29T01:44:30.760741+00:00",
+      "recoveryMethod": "event_wide_latest_rung_open_time_upper_bound"
+    },
+    {
+      "game": "Texas Tech @ Colorado",
+      "openingLine": 34.3,
+      "originalSource": "first_seen",
+      "firstSeen": "2026-09-26T15:11:08.396111+00:00",
+      "eventTicker": "KXNCAAFSPREAD-26OCT03TTUCOLO",
+      "currentBracketingMarketTickers": [
+        "KXNCAAFSPREAD-26OCT03TTUCOLO-TTU14",
+        "KXNCAAFSPREAD-26OCT03TTUCOLO-TTU12"
+      ],
+      "currentBracketingVenueOpenTime": "2026-09-27T10:06:00+00:00",
+      "recoveredClassification": "unverified",
+      "definitelyNotTrueOpen": false,
+      "latestEventRungOpenTime": "2026-09-27T10:06:00+00:00",
+      "minimumPossibleLagSeconds": -68091.603889,
+      "historicalPromotionEligible": false,
+      "recoveredAt": "2026-09-29T01:44:30.760741+00:00",
+      "recoveryMethod": "event_wide_latest_rung_open_time_upper_bound"
+    },
+    {
+      "game": "Toledo @ Ball State",
+      "openingLine": 19.4,
+      "originalSource": "first_seen",
+      "firstSeen": "2026-09-27T23:58:23.681025+00:00",
+      "eventTicker": "KXNCAAFSPREAD-26OCT03TOLBALL",
+      "currentBracketingMarketTickers": [
+        "KXNCAAFSPREAD-26OCT03TOLBALL-TOL21",
+        "KXNCAAFSPREAD-26OCT03TOLBALL-TOL18"
+      ],
+      "currentBracketingVenueOpenTime": "2026-09-27T16:06:00+00:00",
+      "recoveredClassification": "first_seen",
+      "definitelyNotTrueOpen": true,
+      "latestEventRungOpenTime": "2026-09-27T16:06:00+00:00",
+      "minimumPossibleLagSeconds": 28343.681025,
+      "historicalPromotionEligible": false,
+      "recoveredAt": "2026-09-29T01:44:30.760741+00:00",
+      "recoveryMethod": "event_wide_latest_rung_open_time_upper_bound"
+    },
+    {
+      "game": "UCF @ Houston",
+      "openingLine": -10.5,
+      "originalSource": "first_seen",
+      "firstSeen": "2026-09-27T14:29:21.150969+00:00",
+      "eventTicker": "KXNCAAFSPREAD-26OCT03UCFHOU",
+      "currentBracketingMarketTickers": [
+        "KXNCAAFSPREAD-26OCT03UCFHOU-HOU12",
+        "KXNCAAFSPREAD-26OCT03UCFHOU-HOU14"
+      ],
+      "currentBracketingVenueOpenTime": "2026-09-27T10:06:00+00:00",
+      "recoveredClassification": "first_seen",
+      "definitelyNotTrueOpen": true,
+      "latestEventRungOpenTime": "2026-09-27T10:06:00+00:00",
+      "minimumPossibleLagSeconds": 15801.150969,
+      "historicalPromotionEligible": false,
+      "recoveredAt": "2026-09-29T01:44:30.760741+00:00",
+      "recoveryMethod": "event_wide_latest_rung_open_time_upper_bound"
+    },
+    {
+      "game": "UL Monroe @ South Alabama",
+      "openingLine": -14.5,
+      "originalSource": "first_seen",
+      "firstSeen": "2026-09-27T14:29:21.150969+00:00",
+      "eventTicker": "KXNCAAFSPREAD-26OCT03ULMUSA",
+      "currentBracketingMarketTickers": [
+        "KXNCAAFSPREAD-26OCT03ULMUSA-USA14",
+        "KXNCAAFSPREAD-26OCT03ULMUSA-USA15"
+      ],
+      "currentBracketingVenueOpenTime": "2026-09-27T10:06:00+00:00",
+      "recoveredClassification": "first_seen",
+      "definitelyNotTrueOpen": true,
+      "latestEventRungOpenTime": "2026-09-27T10:06:00+00:00",
+      "minimumPossibleLagSeconds": 15801.150969,
+      "historicalPromotionEligible": false,
+      "recoveredAt": "2026-09-29T01:44:30.760741+00:00",
+      "recoveryMethod": "event_wide_latest_rung_open_time_upper_bound"
+    },
+    {
+      "game": "UTEP @ New Mexico",
+      "openingLine": -22.8,
+      "originalSource": "first_seen",
+      "firstSeen": "2026-09-28T22:50:50.053746+00:00",
+      "eventTicker": "KXNCAAFSPREAD-26OCT03UTEPUNM",
+      "currentBracketingMarketTickers": [
+        "KXNCAAFSPREAD-26OCT03UTEPUNM-UNM23",
+        "KXNCAAFSPREAD-26OCT03UTEPUNM-UNM24"
+      ],
+      "currentBracketingVenueOpenTime": "2026-09-28T22:06:00+00:00",
+      "recoveredClassification": "first_seen",
+      "definitelyNotTrueOpen": true,
+      "latestEventRungOpenTime": "2026-09-28T22:06:00+00:00",
+      "minimumPossibleLagSeconds": 2690.053746,
+      "historicalPromotionEligible": false,
+      "recoveredAt": "2026-09-29T01:44:30.760741+00:00",
+      "recoveryMethod": "event_wide_latest_rung_open_time_upper_bound"
+    },
+    {
+      "game": "UTSA @ Rice",
+      "openingLine": 10.5,
+      "originalSource": "first_seen",
+      "firstSeen": "2026-09-27T14:29:21.150969+00:00",
+      "eventTicker": "KXNCAAFSPREAD-26OCT03UTSARICE",
+      "currentBracketingMarketTickers": [
+        "KXNCAAFSPREAD-26OCT03UTSARICE-UTSA14",
+        "KXNCAAFSPREAD-26OCT03UTSARICE-UTSA12"
+      ],
+      "currentBracketingVenueOpenTime": "2026-09-27T10:06:00+00:00",
+      "recoveredClassification": "first_seen",
+      "definitelyNotTrueOpen": true,
+      "latestEventRungOpenTime": "2026-09-27T10:06:00+00:00",
+      "minimumPossibleLagSeconds": 15801.150969,
+      "historicalPromotionEligible": false,
+      "recoveredAt": "2026-09-29T01:44:30.760741+00:00",
+      "recoveryMethod": "event_wide_latest_rung_open_time_upper_bound"
+    },
+    {
+      "game": "Utah State @ Boise State",
+      "openingLine": -20.5,
+      "originalSource": "first_seen",
+      "firstSeen": "2026-09-27T23:58:23.681025+00:00",
+      "eventTicker": "KXNCAAFSPREAD-26OCT03USUBSU",
+      "currentBracketingMarketTickers": [
+        "KXNCAAFSPREAD-26OCT03USUBSU-BSU18",
+        "KXNCAAFSPREAD-26OCT03USUBSU-BSU21"
+      ],
+      "currentBracketingVenueOpenTime": "2026-09-27T16:07:00+00:00",
+      "recoveredClassification": "first_seen",
+      "definitelyNotTrueOpen": true,
+      "latestEventRungOpenTime": "2026-09-27T16:07:00+00:00",
+      "minimumPossibleLagSeconds": 28283.681025,
+      "historicalPromotionEligible": false,
+      "recoveredAt": "2026-09-29T01:44:30.760741+00:00",
+      "recoveryMethod": "event_wide_latest_rung_open_time_upper_bound"
+    },
+    {
+      "game": "Vanderbilt @ Georgia",
+      "openingLine": -24.3,
+      "originalSource": "first_seen",
+      "firstSeen": "2026-09-27T08:58:57.338225+00:00",
+      "eventTicker": "KXNCAAFSPREAD-26OCT03VANUGA",
+      "currentBracketingMarketTickers": [
+        "KXNCAAFSPREAD-26OCT03VANUGA-UGA24",
+        "KXNCAAFSPREAD-26OCT03VANUGA-UGA25"
+      ],
+      "currentBracketingVenueOpenTime": "2026-09-27T04:06:00+00:00",
+      "recoveredClassification": "first_seen",
+      "definitelyNotTrueOpen": true,
+      "latestEventRungOpenTime": "2026-09-27T04:06:00+00:00",
+      "minimumPossibleLagSeconds": 17577.338225,
+      "historicalPromotionEligible": false,
+      "recoveredAt": "2026-09-29T01:44:30.760741+00:00",
+      "recoveryMethod": "event_wide_latest_rung_open_time_upper_bound"
+    },
+    {
+      "game": "Virginia @ Florida State",
+      "openingLine": -45.8,
+      "originalSource": "first_seen",
+      "firstSeen": "2026-09-26T15:11:08.396111+00:00",
+      "eventTicker": "KXNCAAFSPREAD-26OCT03UVAFSU",
+      "currentBracketingMarketTickers": [
+        "KXNCAAFSPREAD-26OCT03UVAFSU-UVA4",
+        "KXNCAAFSPREAD-26OCT03UVAFSU-UVA3"
+      ],
+      "currentBracketingVenueOpenTime": "2026-09-27T07:06:00+00:00",
+      "recoveredClassification": "unverified",
+      "definitelyNotTrueOpen": false,
+      "latestEventRungOpenTime": "2026-09-27T07:06:00+00:00",
+      "minimumPossibleLagSeconds": -57291.603889,
+      "historicalPromotionEligible": false,
+      "recoveredAt": "2026-09-29T01:44:30.760741+00:00",
+      "recoveryMethod": "event_wide_latest_rung_open_time_upper_bound"
+    },
+    {
+      "game": "Washington @ USC",
+      "openingLine": -9.9,
+      "originalSource": "first_seen",
+      "firstSeen": "2026-09-27T18:36:41.390725+00:00",
+      "eventTicker": "KXNCAAFSPREAD-26OCT03WASHUSC",
+      "currentBracketingMarketTickers": [
+        "KXNCAAFSPREAD-26OCT03WASHUSC-USC10",
+        "KXNCAAFSPREAD-26OCT03WASHUSC-USC11"
+      ],
+      "currentBracketingVenueOpenTime": "2026-09-27T10:06:00+00:00",
+      "recoveredClassification": "first_seen",
+      "definitelyNotTrueOpen": true,
+      "latestEventRungOpenTime": "2026-09-27T10:06:00+00:00",
+      "minimumPossibleLagSeconds": 30641.390725,
+      "historicalPromotionEligible": false,
+      "recoveredAt": "2026-09-29T01:44:30.760741+00:00",
+      "recoveryMethod": "event_wide_latest_rung_open_time_upper_bound"
+    },
+    {
+      "game": "West Virginia @ Iowa State",
+      "openingLine": -1.6,
+      "originalSource": "first_seen",
+      "firstSeen": "2026-09-27T18:36:41.390725+00:00",
+      "eventTicker": "KXNCAAFSPREAD-26OCT03WVUISU",
+      "currentBracketingMarketTickers": [
+        "KXNCAAFSPREAD-26OCT03WVUISU-ISU3",
+        "KXNCAAFSPREAD-26OCT03WVUISU-ISU4"
+      ],
+      "currentBracketingVenueOpenTime": "2026-09-27T10:06:00+00:00",
+      "recoveredClassification": "first_seen",
+      "definitelyNotTrueOpen": true,
+      "latestEventRungOpenTime": "2026-09-27T10:06:00+00:00",
+      "minimumPossibleLagSeconds": 30641.390725,
+      "historicalPromotionEligible": false,
+      "recoveredAt": "2026-09-29T01:44:30.760741+00:00",
+      "recoveryMethod": "event_wide_latest_rung_open_time_upper_bound"
+    },
+    {
+      "game": "Western Kentucky @ New Mexico State",
+      "openingLine": 39.8,
+      "originalSource": "first_seen",
+      "firstSeen": "2026-09-26T15:11:08.396111+00:00",
       "eventTicker": null,
       "currentBracketingMarketTickers": [],
       "currentBracketingVenueOpenTime": null,
@@ -401,710 +1028,45 @@
       "latestEventRungOpenTime": null,
       "minimumPossibleLagSeconds": null,
       "historicalPromotionEligible": false,
-      "recoveredAt": "2026-09-25T14:54:01.154799+00:00",
+      "recoveredAt": "2026-09-29T01:44:30.760741+00:00",
       "recoveryMethod": "event_wide_latest_rung_open_time_upper_bound"
     },
     {
-      "game": "Louisiana @ Charlotte",
-      "openingLine": 10.2,
+      "game": "Western Michigan @ Buffalo",
+      "openingLine": -28.4,
       "originalSource": "first_seen",
-      "firstSeen": "2026-09-21T01:04:50.274619+00:00",
-      "eventTicker": "KXNCAAFSPREAD-26SEP26ULLCHAR",
+      "firstSeen": "2026-09-26T15:11:08.396111+00:00",
+      "eventTicker": "KXNCAAFSPREAD-26OCT03WMUBUFF",
       "currentBracketingMarketTickers": [
-        "KXNCAAFSPREAD-26SEP26ULLCHAR-ULL11",
-        "KXNCAAFSPREAD-26SEP26ULLCHAR-ULL10"
+        "KXNCAAFSPREAD-26OCT03WMUBUFF-WMU15",
+        "KXNCAAFSPREAD-26OCT03WMUBUFF-WMU14"
       ],
-      "currentBracketingVenueOpenTime": "2026-09-20T10:06:00+00:00",
-      "recoveredClassification": "first_seen",
-      "definitelyNotTrueOpen": true,
-      "latestEventRungOpenTime": "2026-09-20T10:06:00+00:00",
-      "minimumPossibleLagSeconds": 53930.274619,
+      "currentBracketingVenueOpenTime": "2026-09-28T22:05:00+00:00",
+      "recoveredClassification": "unverified",
+      "definitelyNotTrueOpen": false,
+      "latestEventRungOpenTime": "2026-09-28T22:05:00+00:00",
+      "minimumPossibleLagSeconds": -197631.603889,
       "historicalPromotionEligible": false,
-      "recoveredAt": "2026-09-25T14:54:01.154799+00:00",
+      "recoveredAt": "2026-09-29T01:44:30.760741+00:00",
       "recoveryMethod": "event_wide_latest_rung_open_time_upper_bound"
     },
     {
-      "game": "Massachusetts @ Sacramento State",
-      "openingLine": 4.1,
+      "game": "Wyoming @ North Dakota State",
+      "openingLine": -18.7,
       "originalSource": "first_seen",
-      "firstSeen": "2026-09-23T08:20:14.658759+00:00",
-      "eventTicker": "KXNCAAFSPREAD-26SEP26MASSSAC",
+      "firstSeen": "2026-09-28T22:50:50.053746+00:00",
+      "eventTicker": "KXNCAAFSPREAD-26OCT03WYONDSU",
       "currentBracketingMarketTickers": [
-        "KXNCAAFSPREAD-26SEP26MASSSAC-MASS5",
-        "KXNCAAFSPREAD-26SEP26MASSSAC-MASS4"
+        "KXNCAAFSPREAD-26OCT03WYONDSU-NDSU18",
+        "KXNCAAFSPREAD-26OCT03WYONDSU-NDSU19"
       ],
-      "currentBracketingVenueOpenTime": "2026-09-20T10:06:00+00:00",
+      "currentBracketingVenueOpenTime": "2026-09-28T22:05:00+00:00",
       "recoveredClassification": "first_seen",
       "definitelyNotTrueOpen": true,
-      "latestEventRungOpenTime": "2026-09-20T10:06:00+00:00",
-      "minimumPossibleLagSeconds": 252854.658759,
+      "latestEventRungOpenTime": "2026-09-28T22:05:00+00:00",
+      "minimumPossibleLagSeconds": 2750.053746,
       "historicalPromotionEligible": false,
-      "recoveredAt": "2026-09-25T14:54:01.154799+00:00",
-      "recoveryMethod": "event_wide_latest_rung_open_time_upper_bound"
-    },
-    {
-      "game": "Middle Tennessee @ Jacksonville State",
-      "openingLine": -7.1,
-      "originalSource": "first_seen",
-      "firstSeen": "2026-09-23T08:20:14.658759+00:00",
-      "eventTicker": "KXNCAAFSPREAD-26SEP26MTUJVST",
-      "currentBracketingMarketTickers": [
-        "KXNCAAFSPREAD-26SEP26MTUJVST-JVST7",
-        "KXNCAAFSPREAD-26SEP26MTUJVST-JVST8"
-      ],
-      "currentBracketingVenueOpenTime": "2026-09-20T07:07:00+00:00",
-      "recoveredClassification": "first_seen",
-      "definitelyNotTrueOpen": true,
-      "latestEventRungOpenTime": "2026-09-20T07:07:00+00:00",
-      "minimumPossibleLagSeconds": 263594.658759,
-      "historicalPromotionEligible": false,
-      "recoveredAt": "2026-09-25T14:54:01.154799+00:00",
-      "recoveryMethod": "event_wide_latest_rung_open_time_upper_bound"
-    },
-    {
-      "game": "Minnesota @ Washington",
-      "openingLine": -8.0,
-      "originalSource": "first_seen",
-      "firstSeen": "2026-09-21T01:04:50.274619+00:00",
-      "eventTicker": "KXNCAAFSPREAD-26SEP26MINNWASH",
-      "currentBracketingMarketTickers": [
-        "KXNCAAFSPREAD-26SEP26MINNWASH-WASH10",
-        "KXNCAAFSPREAD-26SEP26MINNWASH-WASH11"
-      ],
-      "currentBracketingVenueOpenTime": "2026-09-20T07:07:00+00:00",
-      "recoveredClassification": "first_seen",
-      "definitelyNotTrueOpen": true,
-      "latestEventRungOpenTime": "2026-09-20T07:07:00+00:00",
-      "minimumPossibleLagSeconds": 64670.274619,
-      "historicalPromotionEligible": false,
-      "recoveredAt": "2026-09-25T14:54:01.154799+00:00",
-      "recoveryMethod": "event_wide_latest_rung_open_time_upper_bound"
-    },
-    {
-      "game": "Missouri @ Mississippi State",
-      "openingLine": -6.1,
-      "originalSource": "first_seen",
-      "firstSeen": "2026-09-23T08:20:14.658759+00:00",
-      "eventTicker": "KXNCAAFSPREAD-26SEP26MIZZMSST",
-      "currentBracketingMarketTickers": [
-        "KXNCAAFSPREAD-26SEP26MIZZMSST-MSST6",
-        "KXNCAAFSPREAD-26SEP26MIZZMSST-MSST7"
-      ],
-      "currentBracketingVenueOpenTime": "2026-09-20T07:07:00+00:00",
-      "recoveredClassification": "first_seen",
-      "definitelyNotTrueOpen": true,
-      "latestEventRungOpenTime": "2026-09-20T07:07:00+00:00",
-      "minimumPossibleLagSeconds": 263594.658759,
-      "historicalPromotionEligible": false,
-      "recoveredAt": "2026-09-25T14:54:01.154799+00:00",
-      "recoveryMethod": "event_wide_latest_rung_open_time_upper_bound"
-    },
-    {
-      "game": "Missouri State @ SMU",
-      "openingLine": -34.3,
-      "originalSource": "first_seen",
-      "firstSeen": "2026-09-21T01:04:50.274619+00:00",
-      "eventTicker": "KXNCAAFSPREAD-26SEP26MOSUSMU",
-      "currentBracketingMarketTickers": [
-        "KXNCAAFSPREAD-26SEP26MOSUSMU-SMU34",
-        "KXNCAAFSPREAD-26SEP26MOSUSMU-SMU35"
-      ],
-      "currentBracketingVenueOpenTime": "2026-09-20T10:06:00+00:00",
-      "recoveredClassification": "first_seen",
-      "definitelyNotTrueOpen": true,
-      "latestEventRungOpenTime": "2026-09-20T10:06:00+00:00",
-      "minimumPossibleLagSeconds": 53930.274619,
-      "historicalPromotionEligible": false,
-      "recoveredAt": "2026-09-25T14:54:01.154799+00:00",
-      "recoveryMethod": "event_wide_latest_rung_open_time_upper_bound"
-    },
-    {
-      "game": "Navy @ UAB",
-      "openingLine": 7.0,
-      "originalSource": "first_seen",
-      "firstSeen": "2026-09-21T01:04:50.274619+00:00",
-      "eventTicker": "KXNCAAFSPREAD-26SEP25NAVYUAB",
-      "currentBracketingMarketTickers": [
-        "KXNCAAFSPREAD-26SEP25NAVYUAB-NAVY8",
-        "KXNCAAFSPREAD-26SEP25NAVYUAB-NAVY7"
-      ],
-      "currentBracketingVenueOpenTime": "2026-09-20T10:06:00+00:00",
-      "recoveredClassification": "first_seen",
-      "definitelyNotTrueOpen": true,
-      "latestEventRungOpenTime": "2026-09-20T10:06:00+00:00",
-      "minimumPossibleLagSeconds": 53930.274619,
-      "historicalPromotionEligible": false,
-      "recoveredAt": "2026-09-25T14:54:01.154799+00:00",
-      "recoveryMethod": "event_wide_latest_rung_open_time_upper_bound"
-    },
-    {
-      "game": "Nebraska @ Michigan State",
-      "openingLine": 5.9,
-      "originalSource": "first_seen",
-      "firstSeen": "2026-09-23T08:20:14.658759+00:00",
-      "eventTicker": "KXNCAAFSPREAD-26SEP26NEBMSU",
-      "currentBracketingMarketTickers": [
-        "KXNCAAFSPREAD-26SEP26NEBMSU-NEB7",
-        "KXNCAAFSPREAD-26SEP26NEBMSU-NEB6"
-      ],
-      "currentBracketingVenueOpenTime": "2026-09-20T07:07:00+00:00",
-      "recoveredClassification": "first_seen",
-      "definitelyNotTrueOpen": true,
-      "latestEventRungOpenTime": "2026-09-20T07:07:00+00:00",
-      "minimumPossibleLagSeconds": 263594.658759,
-      "historicalPromotionEligible": false,
-      "recoveredAt": "2026-09-25T14:54:01.154799+00:00",
-      "recoveryMethod": "event_wide_latest_rung_open_time_upper_bound"
-    },
-    {
-      "game": "New Mexico @ New Mexico State",
-      "openingLine": 11.3,
-      "originalSource": "first_seen",
-      "firstSeen": "2026-09-23T08:20:14.658759+00:00",
-      "eventTicker": "KXNCAAFSPREAD-26SEP26UNMNMSU",
-      "currentBracketingMarketTickers": [
-        "KXNCAAFSPREAD-26SEP26UNMNMSU-UNM12",
-        "KXNCAAFSPREAD-26SEP26UNMNMSU-UNM11"
-      ],
-      "currentBracketingVenueOpenTime": "2026-09-20T07:06:00+00:00",
-      "recoveredClassification": "first_seen",
-      "definitelyNotTrueOpen": true,
-      "latestEventRungOpenTime": "2026-09-20T07:06:00+00:00",
-      "minimumPossibleLagSeconds": 263654.658759,
-      "historicalPromotionEligible": false,
-      "recoveredAt": "2026-09-25T14:54:01.154799+00:00",
-      "recoveryMethod": "event_wide_latest_rung_open_time_upper_bound"
-    },
-    {
-      "game": "Northern Illinois @ Georgia State",
-      "openingLine": -10.3,
-      "originalSource": "first_seen",
-      "firstSeen": "2026-09-23T08:20:14.658759+00:00",
-      "eventTicker": "KXNCAAFSPREAD-26SEP26NIUGAST",
-      "currentBracketingMarketTickers": [
-        "KXNCAAFSPREAD-26SEP26NIUGAST-GAST10",
-        "KXNCAAFSPREAD-26SEP26NIUGAST-GAST11"
-      ],
-      "currentBracketingVenueOpenTime": "2026-09-20T10:06:00+00:00",
-      "recoveredClassification": "first_seen",
-      "definitelyNotTrueOpen": true,
-      "latestEventRungOpenTime": "2026-09-20T10:06:00+00:00",
-      "minimumPossibleLagSeconds": 252854.658759,
-      "historicalPromotionEligible": false,
-      "recoveredAt": "2026-09-25T14:54:01.154799+00:00",
-      "recoveryMethod": "event_wide_latest_rung_open_time_upper_bound"
-    },
-    {
-      "game": "Northwestern @ Indiana",
-      "openingLine": -21.4,
-      "originalSource": "first_seen",
-      "firstSeen": "2026-09-21T01:04:50.274619+00:00",
-      "eventTicker": "KXNCAAFSPREAD-26SEP25NWIND",
-      "currentBracketingMarketTickers": [
-        "KXNCAAFSPREAD-26SEP25NWIND-IND18",
-        "KXNCAAFSPREAD-26SEP25NWIND-IND21"
-      ],
-      "currentBracketingVenueOpenTime": "2026-09-20T07:06:00+00:00",
-      "recoveredClassification": "first_seen",
-      "definitelyNotTrueOpen": true,
-      "latestEventRungOpenTime": "2026-09-20T07:06:00+00:00",
-      "minimumPossibleLagSeconds": 64730.274619,
-      "historicalPromotionEligible": false,
-      "recoveredAt": "2026-09-25T14:54:01.154799+00:00",
-      "recoveryMethod": "event_wide_latest_rung_open_time_upper_bound"
-    },
-    {
-      "game": "Notre Dame @ Purdue",
-      "openingLine": 26.6,
-      "originalSource": "first_seen",
-      "firstSeen": "2026-09-21T01:04:50.274619+00:00",
-      "eventTicker": "KXNCAAFSPREAD-26SEP26NDPUR",
-      "currentBracketingMarketTickers": [
-        "KXNCAAFSPREAD-26SEP26NDPUR-ND28",
-        "KXNCAAFSPREAD-26SEP26NDPUR-ND25"
-      ],
-      "currentBracketingVenueOpenTime": "2026-09-20T07:06:00+00:00",
-      "recoveredClassification": "first_seen",
-      "definitelyNotTrueOpen": true,
-      "latestEventRungOpenTime": "2026-09-20T07:06:00+00:00",
-      "minimumPossibleLagSeconds": 64730.274619,
-      "historicalPromotionEligible": false,
-      "recoveredAt": "2026-09-25T14:54:01.154799+00:00",
-      "recoveryMethod": "event_wide_latest_rung_open_time_upper_bound"
-    },
-    {
-      "game": "Oklahoma @ Georgia",
-      "openingLine": -14.1,
-      "originalSource": "first_seen",
-      "firstSeen": "2026-09-21T01:04:50.274619+00:00",
-      "eventTicker": "KXNCAAFSPREAD-26SEP26OKLAUGA",
-      "currentBracketingMarketTickers": [
-        "KXNCAAFSPREAD-26SEP26OKLAUGA-UGA14",
-        "KXNCAAFSPREAD-26SEP26OKLAUGA-UGA15"
-      ],
-      "currentBracketingVenueOpenTime": "2026-09-20T04:06:00+00:00",
-      "recoveredClassification": "first_seen",
-      "definitelyNotTrueOpen": true,
-      "latestEventRungOpenTime": "2026-09-20T04:06:00+00:00",
-      "minimumPossibleLagSeconds": 75530.274619,
-      "historicalPromotionEligible": false,
-      "recoveredAt": "2026-09-25T14:54:01.154799+00:00",
-      "recoveryMethod": "event_wide_latest_rung_open_time_upper_bound"
-    },
-    {
-      "game": "Oklahoma State @ West Virginia",
-      "openingLine": -1.2,
-      "originalSource": "first_seen",
-      "firstSeen": "2026-09-23T08:20:14.658759+00:00",
-      "eventTicker": "KXNCAAFSPREAD-26SEP26OKSTWVU",
-      "currentBracketingMarketTickers": [
-        "KXNCAAFSPREAD-26SEP26OKSTWVU-WVU2",
-        "KXNCAAFSPREAD-26SEP26OKSTWVU-WVU3"
-      ],
-      "currentBracketingVenueOpenTime": "2026-09-20T07:07:00+00:00",
-      "recoveredClassification": "first_seen",
-      "definitelyNotTrueOpen": true,
-      "latestEventRungOpenTime": "2026-09-20T07:07:00+00:00",
-      "minimumPossibleLagSeconds": 263594.658759,
-      "historicalPromotionEligible": false,
-      "recoveredAt": "2026-09-25T14:54:01.154799+00:00",
-      "recoveryMethod": "event_wide_latest_rung_open_time_upper_bound"
-    },
-    {
-      "game": "Ole Miss @ Florida",
-      "openingLine": -3.0,
-      "originalSource": "first_seen",
-      "firstSeen": "2026-09-21T01:04:50.274619+00:00",
-      "eventTicker": "KXNCAAFSPREAD-26SEP26MISSFLA",
-      "currentBracketingMarketTickers": [
-        "KXNCAAFSPREAD-26SEP26MISSFLA-FLA3",
-        "KXNCAAFSPREAD-26SEP26MISSFLA-FLA4"
-      ],
-      "currentBracketingVenueOpenTime": "2026-09-20T04:06:00+00:00",
-      "recoveredClassification": "first_seen",
-      "definitelyNotTrueOpen": true,
-      "latestEventRungOpenTime": "2026-09-20T04:06:00+00:00",
-      "minimumPossibleLagSeconds": 75530.274619,
-      "historicalPromotionEligible": false,
-      "recoveredAt": "2026-09-25T14:54:01.154799+00:00",
-      "recoveryMethod": "event_wide_latest_rung_open_time_upper_bound"
-    },
-    {
-      "game": "Oregon @ USC",
-      "openingLine": 2.8,
-      "originalSource": "first_seen",
-      "firstSeen": "2026-09-21T01:04:50.274619+00:00",
-      "eventTicker": "KXNCAAFSPREAD-26SEP26OREUSC",
-      "currentBracketingMarketTickers": [
-        "KXNCAAFSPREAD-26SEP26OREUSC-ORE4",
-        "KXNCAAFSPREAD-26SEP26OREUSC-ORE3"
-      ],
-      "currentBracketingVenueOpenTime": "2026-09-20T01:08:00+00:00",
-      "recoveredClassification": "first_seen",
-      "definitelyNotTrueOpen": true,
-      "latestEventRungOpenTime": "2026-09-20T01:08:00+00:00",
-      "minimumPossibleLagSeconds": 86210.274619,
-      "historicalPromotionEligible": false,
-      "recoveredAt": "2026-09-25T14:54:01.154799+00:00",
-      "recoveryMethod": "event_wide_latest_rung_open_time_upper_bound"
-    },
-    {
-      "game": "Oregon State @ UTEP",
-      "openingLine": 10.4,
-      "originalSource": "first_seen",
-      "firstSeen": "2026-09-23T08:20:14.658759+00:00",
-      "eventTicker": "KXNCAAFSPREAD-26SEP26ORSTUTEP",
-      "currentBracketingMarketTickers": [
-        "KXNCAAFSPREAD-26SEP26ORSTUTEP-ORST12",
-        "KXNCAAFSPREAD-26SEP26ORSTUTEP-ORST11"
-      ],
-      "currentBracketingVenueOpenTime": "2026-09-20T10:06:00+00:00",
-      "recoveredClassification": "first_seen",
-      "definitelyNotTrueOpen": true,
-      "latestEventRungOpenTime": "2026-09-20T10:06:00+00:00",
-      "minimumPossibleLagSeconds": 252854.658759,
-      "historicalPromotionEligible": false,
-      "recoveredAt": "2026-09-25T14:54:01.154799+00:00",
-      "recoveryMethod": "event_wide_latest_rung_open_time_upper_bound"
-    },
-    {
-      "game": "Rice @ Fresno State",
-      "openingLine": -13.7,
-      "originalSource": "first_seen",
-      "firstSeen": "2026-09-23T08:20:14.658759+00:00",
-      "eventTicker": "KXNCAAFSPREAD-26SEP26RICEFRES",
-      "currentBracketingMarketTickers": [
-        "KXNCAAFSPREAD-26SEP26RICEFRES-FRES13",
-        "KXNCAAFSPREAD-26SEP26RICEFRES-FRES14"
-      ],
-      "currentBracketingVenueOpenTime": "2026-09-20T07:07:00+00:00",
-      "recoveredClassification": "first_seen",
-      "definitelyNotTrueOpen": true,
-      "latestEventRungOpenTime": "2026-09-20T07:07:00+00:00",
-      "minimumPossibleLagSeconds": 263594.658759,
-      "historicalPromotionEligible": false,
-      "recoveredAt": "2026-09-25T14:54:01.154799+00:00",
-      "recoveryMethod": "event_wide_latest_rung_open_time_upper_bound"
-    },
-    {
-      "game": "Sam Houston @ Texas Tech",
-      "openingLine": -35.0,
-      "originalSource": "first_seen",
-      "firstSeen": "2026-09-21T01:04:50.274619+00:00",
-      "eventTicker": "KXNCAAFSPREAD-26SEP26SHSUTTU",
-      "currentBracketingMarketTickers": [
-        "KXNCAAFSPREAD-26SEP26SHSUTTU-TTU34",
-        "KXNCAAFSPREAD-26SEP26SHSUTTU-TTU36"
-      ],
-      "currentBracketingVenueOpenTime": "2026-09-20T10:06:00+00:00",
-      "recoveredClassification": "first_seen",
-      "definitelyNotTrueOpen": true,
-      "latestEventRungOpenTime": "2026-09-20T10:06:00+00:00",
-      "minimumPossibleLagSeconds": 53930.274619,
-      "historicalPromotionEligible": false,
-      "recoveredAt": "2026-09-25T14:54:01.154799+00:00",
-      "recoveryMethod": "event_wide_latest_rung_open_time_upper_bound"
-    },
-    {
-      "game": "San Diego State @ Toledo",
-      "openingLine": -2.9,
-      "originalSource": "first_seen",
-      "firstSeen": "2026-09-23T08:20:14.658759+00:00",
-      "eventTicker": "KXNCAAFSPREAD-26SEP26SDSUTOL",
-      "currentBracketingMarketTickers": [
-        "KXNCAAFSPREAD-26SEP26SDSUTOL-TOL3",
-        "KXNCAAFSPREAD-26SEP26SDSUTOL-TOL4"
-      ],
-      "currentBracketingVenueOpenTime": "2026-09-20T10:06:00+00:00",
-      "recoveredClassification": "first_seen",
-      "definitelyNotTrueOpen": true,
-      "latestEventRungOpenTime": "2026-09-20T10:06:00+00:00",
-      "minimumPossibleLagSeconds": 252854.658759,
-      "historicalPromotionEligible": false,
-      "recoveredAt": "2026-09-25T14:54:01.154799+00:00",
-      "recoveryMethod": "event_wide_latest_rung_open_time_upper_bound"
-    },
-    {
-      "game": "South Alabama @ Kentucky",
-      "openingLine": -20.6,
-      "originalSource": "first_seen",
-      "firstSeen": "2026-09-21T01:04:50.274619+00:00",
-      "eventTicker": "KXNCAAFSPREAD-26SEP26USAUK",
-      "currentBracketingMarketTickers": [
-        "KXNCAAFSPREAD-26SEP26USAUK-UK21",
-        "KXNCAAFSPREAD-26SEP26USAUK-UK22"
-      ],
-      "currentBracketingVenueOpenTime": "2026-09-20T07:06:00+00:00",
-      "recoveredClassification": "first_seen",
-      "definitelyNotTrueOpen": true,
-      "latestEventRungOpenTime": "2026-09-20T07:06:00+00:00",
-      "minimumPossibleLagSeconds": 64730.274619,
-      "historicalPromotionEligible": false,
-      "recoveredAt": "2026-09-25T14:54:01.154799+00:00",
-      "recoveryMethod": "event_wide_latest_rung_open_time_upper_bound"
-    },
-    {
-      "game": "South Carolina @ Alabama",
-      "openingLine": -13.0,
-      "originalSource": "first_seen",
-      "firstSeen": "2026-09-21T01:04:50.274619+00:00",
-      "eventTicker": "KXNCAAFSPREAD-26SEP26SCARALA",
-      "currentBracketingMarketTickers": [
-        "KXNCAAFSPREAD-26SEP26SCARALA-ALA12",
-        "KXNCAAFSPREAD-26SEP26SCARALA-ALA14"
-      ],
-      "currentBracketingVenueOpenTime": "2026-09-20T04:06:00+00:00",
-      "recoveredClassification": "first_seen",
-      "definitelyNotTrueOpen": true,
-      "latestEventRungOpenTime": "2026-09-20T04:06:00+00:00",
-      "minimumPossibleLagSeconds": 75530.274619,
-      "historicalPromotionEligible": false,
-      "recoveredAt": "2026-09-25T14:54:01.154799+00:00",
-      "recoveryMethod": "event_wide_latest_rung_open_time_upper_bound"
-    },
-    {
-      "game": "South Florida @ Bowling Green",
-      "openingLine": 17.7,
-      "originalSource": "first_seen",
-      "firstSeen": "2026-09-21T01:04:50.274619+00:00",
-      "eventTicker": "KXNCAAFSPREAD-26SEP26USFBGSU",
-      "currentBracketingMarketTickers": [
-        "KXNCAAFSPREAD-26SEP26USFBGSU-USF21",
-        "KXNCAAFSPREAD-26SEP26USFBGSU-USF18"
-      ],
-      "currentBracketingVenueOpenTime": "2026-09-20T07:07:00+00:00",
-      "recoveredClassification": "first_seen",
-      "definitelyNotTrueOpen": true,
-      "latestEventRungOpenTime": "2026-09-20T07:07:00+00:00",
-      "minimumPossibleLagSeconds": 64670.274619,
-      "historicalPromotionEligible": false,
-      "recoveredAt": "2026-09-25T14:54:01.154799+00:00",
-      "recoveryMethod": "event_wide_latest_rung_open_time_upper_bound"
-    },
-    {
-      "game": "Southern Miss @ Tulane",
-      "openingLine": -17.5,
-      "originalSource": "first_seen",
-      "firstSeen": "2026-09-21T01:04:50.274619+00:00",
-      "eventTicker": "KXNCAAFSPREAD-26SEP26USMTULN",
-      "currentBracketingMarketTickers": [
-        "KXNCAAFSPREAD-26SEP26USMTULN-TULN18",
-        "KXNCAAFSPREAD-26SEP26USMTULN-TULN19"
-      ],
-      "currentBracketingVenueOpenTime": "2026-09-20T10:06:00+00:00",
-      "recoveredClassification": "first_seen",
-      "definitelyNotTrueOpen": true,
-      "latestEventRungOpenTime": "2026-09-20T10:06:00+00:00",
-      "minimumPossibleLagSeconds": 53930.274619,
-      "historicalPromotionEligible": false,
-      "recoveredAt": "2026-09-25T14:54:01.154799+00:00",
-      "recoveryMethod": "event_wide_latest_rung_open_time_upper_bound"
-    },
-    {
-      "game": "TCU @ UCF",
-      "openingLine": 3.0,
-      "originalSource": "first_seen",
-      "firstSeen": "2026-09-21T01:04:50.274619+00:00",
-      "eventTicker": "KXNCAAFSPREAD-26SEP26TCUUCF",
-      "currentBracketingMarketTickers": [
-        "KXNCAAFSPREAD-26SEP26TCUUCF-TCU4",
-        "KXNCAAFSPREAD-26SEP26TCUUCF-TCU3"
-      ],
-      "currentBracketingVenueOpenTime": "2026-09-20T10:06:00+00:00",
-      "recoveredClassification": "first_seen",
-      "definitelyNotTrueOpen": true,
-      "latestEventRungOpenTime": "2026-09-20T10:06:00+00:00",
-      "minimumPossibleLagSeconds": 53930.274619,
-      "historicalPromotionEligible": false,
-      "recoveredAt": "2026-09-25T14:54:01.154799+00:00",
-      "recoveryMethod": "event_wide_latest_rung_open_time_upper_bound"
-    },
-    {
-      "game": "Texas @ Tennessee",
-      "openingLine": 3.5,
-      "originalSource": "first_seen",
-      "firstSeen": "2026-09-21T01:04:50.274619+00:00",
-      "eventTicker": "KXNCAAFSPREAD-26SEP26TEXTENN",
-      "currentBracketingMarketTickers": [
-        "KXNCAAFSPREAD-26SEP26TEXTENN-TEX6",
-        "KXNCAAFSPREAD-26SEP26TEXTENN-TEX5"
-      ],
-      "currentBracketingVenueOpenTime": "2026-09-19T16:06:00+00:00",
-      "recoveredClassification": "first_seen",
-      "definitelyNotTrueOpen": true,
-      "latestEventRungOpenTime": "2026-09-19T16:06:00+00:00",
-      "minimumPossibleLagSeconds": 118730.274619,
-      "historicalPromotionEligible": false,
-      "recoveredAt": "2026-09-25T14:54:01.154799+00:00",
-      "recoveryMethod": "event_wide_latest_rung_open_time_upper_bound"
-    },
-    {
-      "game": "Texas A&M @ LSU",
-      "openingLine": -9.7,
-      "originalSource": "first_seen",
-      "firstSeen": "2026-09-21T01:04:50.274619+00:00",
-      "eventTicker": "KXNCAAFSPREAD-26SEP26TXAMLSU",
-      "currentBracketingMarketTickers": [
-        "KXNCAAFSPREAD-26SEP26TXAMLSU-LSU9",
-        "KXNCAAFSPREAD-26SEP26TXAMLSU-LSU10"
-      ],
-      "currentBracketingVenueOpenTime": "2026-09-20T04:06:00+00:00",
-      "recoveredClassification": "first_seen",
-      "definitelyNotTrueOpen": true,
-      "latestEventRungOpenTime": "2026-09-20T04:06:00+00:00",
-      "minimumPossibleLagSeconds": 75530.274619,
-      "historicalPromotionEligible": false,
-      "recoveredAt": "2026-09-25T14:54:01.154799+00:00",
-      "recoveryMethod": "event_wide_latest_rung_open_time_upper_bound"
-    },
-    {
-      "game": "Troy @ Utah State",
-      "openingLine": -3.1,
-      "originalSource": "first_seen",
-      "firstSeen": "2026-09-23T08:20:14.658759+00:00",
-      "eventTicker": "KXNCAAFSPREAD-26SEP26TROYUSU",
-      "currentBracketingMarketTickers": [
-        "KXNCAAFSPREAD-26SEP26TROYUSU-USU3",
-        "KXNCAAFSPREAD-26SEP26TROYUSU-USU4"
-      ],
-      "currentBracketingVenueOpenTime": "2026-09-20T07:07:00+00:00",
-      "recoveredClassification": "first_seen",
-      "definitelyNotTrueOpen": true,
-      "latestEventRungOpenTime": "2026-09-20T07:07:00+00:00",
-      "minimumPossibleLagSeconds": 263594.658759,
-      "historicalPromotionEligible": false,
-      "recoveredAt": "2026-09-25T14:54:01.154799+00:00",
-      "recoveryMethod": "event_wide_latest_rung_open_time_upper_bound"
-    },
-    {
-      "game": "Tulsa @ Arkansas",
-      "openingLine": -6.7,
-      "originalSource": "first_seen",
-      "firstSeen": "2026-09-21T01:04:50.274619+00:00",
-      "eventTicker": "KXNCAAFSPREAD-26SEP26TLSAARK",
-      "currentBracketingMarketTickers": [
-        "KXNCAAFSPREAD-26SEP26TLSAARK-ARK7",
-        "KXNCAAFSPREAD-26SEP26TLSAARK-ARK8"
-      ],
-      "currentBracketingVenueOpenTime": "2026-09-20T10:06:00+00:00",
-      "recoveredClassification": "first_seen",
-      "definitelyNotTrueOpen": true,
-      "latestEventRungOpenTime": "2026-09-20T10:06:00+00:00",
-      "minimumPossibleLagSeconds": 53930.274619,
-      "historicalPromotionEligible": false,
-      "recoveredAt": "2026-09-25T14:54:01.154799+00:00",
-      "recoveryMethod": "event_wide_latest_rung_open_time_upper_bound"
-    },
-    {
-      "game": "UCLA @ Maryland",
-      "openingLine": 1.6,
-      "originalSource": "first_seen",
-      "firstSeen": "2026-09-21T01:04:50.274619+00:00",
-      "eventTicker": "KXNCAAFSPREAD-26SEP26UCLAMD",
-      "currentBracketingMarketTickers": [
-        "KXNCAAFSPREAD-26SEP26UCLAMD-UCLA2",
-        "KXNCAAFSPREAD-26SEP26UCLAMD-MD2"
-      ],
-      "currentBracketingVenueOpenTime": "2026-09-20T07:06:00+00:00",
-      "recoveredClassification": "first_seen",
-      "definitelyNotTrueOpen": true,
-      "latestEventRungOpenTime": "2026-09-20T07:06:00+00:00",
-      "minimumPossibleLagSeconds": 64730.274619,
-      "historicalPromotionEligible": false,
-      "recoveredAt": "2026-09-25T14:54:01.154799+00:00",
-      "recoveryMethod": "event_wide_latest_rung_open_time_upper_bound"
-    },
-    {
-      "game": "UConn @ Miami (OH)",
-      "openingLine": -4.1,
-      "originalSource": "first_seen",
-      "firstSeen": "2026-09-21T01:04:50.274619+00:00",
-      "eventTicker": "KXNCAAFSPREAD-26SEP26CONNMOH",
-      "currentBracketingMarketTickers": [
-        "KXNCAAFSPREAD-26SEP26CONNMOH-MOH3",
-        "KXNCAAFSPREAD-26SEP26CONNMOH-MOH4"
-      ],
-      "currentBracketingVenueOpenTime": "2026-09-20T10:06:00+00:00",
-      "recoveredClassification": "first_seen",
-      "definitelyNotTrueOpen": true,
-      "latestEventRungOpenTime": "2026-09-20T10:06:00+00:00",
-      "minimumPossibleLagSeconds": 53930.274619,
-      "historicalPromotionEligible": false,
-      "recoveredAt": "2026-09-25T14:54:01.154799+00:00",
-      "recoveryMethod": "event_wide_latest_rung_open_time_upper_bound"
-    },
-    {
-      "game": "UNLV @ Akron",
-      "openingLine": 13.5,
-      "originalSource": "first_seen",
-      "firstSeen": "2026-09-21T01:04:50.274619+00:00",
-      "eventTicker": "KXNCAAFSPREAD-26SEP26UNLVAKR",
-      "currentBracketingMarketTickers": [
-        "KXNCAAFSPREAD-26SEP26UNLVAKR-UNLV14",
-        "KXNCAAFSPREAD-26SEP26UNLVAKR-UNLV12"
-      ],
-      "currentBracketingVenueOpenTime": "2026-09-20T10:06:00+00:00",
-      "recoveredClassification": "first_seen",
-      "definitelyNotTrueOpen": true,
-      "latestEventRungOpenTime": "2026-09-20T10:06:00+00:00",
-      "minimumPossibleLagSeconds": 53930.274619,
-      "historicalPromotionEligible": false,
-      "recoveredAt": "2026-09-25T14:54:01.154799+00:00",
-      "recoveryMethod": "event_wide_latest_rung_open_time_upper_bound"
-    },
-    {
-      "game": "Utah @ Iowa State",
-      "openingLine": 8.4,
-      "originalSource": "first_seen",
-      "firstSeen": "2026-09-23T08:20:14.658759+00:00",
-      "eventTicker": "KXNCAAFSPREAD-26SEP26UTAHISU",
-      "currentBracketingMarketTickers": [
-        "KXNCAAFSPREAD-26SEP26UTAHISU-UTAH10",
-        "KXNCAAFSPREAD-26SEP26UTAHISU-UTAH8"
-      ],
-      "currentBracketingVenueOpenTime": "2026-09-20T07:06:00+00:00",
-      "recoveredClassification": "first_seen",
-      "definitelyNotTrueOpen": true,
-      "latestEventRungOpenTime": "2026-09-20T07:06:00+00:00",
-      "minimumPossibleLagSeconds": 263654.658759,
-      "historicalPromotionEligible": false,
-      "recoveredAt": "2026-09-25T14:54:01.154799+00:00",
-      "recoveryMethod": "event_wide_latest_rung_open_time_upper_bound"
-    },
-    {
-      "game": "Vanderbilt @ Auburn",
-      "openingLine": -8.9,
-      "originalSource": "first_seen",
-      "firstSeen": "2026-09-21T01:04:50.274619+00:00",
-      "eventTicker": "KXNCAAFSPREAD-26SEP26VANAUB",
-      "currentBracketingMarketTickers": [
-        "KXNCAAFSPREAD-26SEP26VANAUB-AUB10",
-        "KXNCAAFSPREAD-26SEP26VANAUB-AUB11"
-      ],
-      "currentBracketingVenueOpenTime": "2026-09-20T07:07:00+00:00",
-      "recoveredClassification": "first_seen",
-      "definitelyNotTrueOpen": true,
-      "latestEventRungOpenTime": "2026-09-20T07:07:00+00:00",
-      "minimumPossibleLagSeconds": 64670.274619,
-      "historicalPromotionEligible": false,
-      "recoveredAt": "2026-09-25T14:54:01.154799+00:00",
-      "recoveryMethod": "event_wide_latest_rung_open_time_upper_bound"
-    },
-    {
-      "game": "Virginia Tech @ Boston College",
-      "openingLine": 13.9,
-      "originalSource": "first_seen",
-      "firstSeen": "2026-09-21T01:04:50.274619+00:00",
-      "eventTicker": "KXNCAAFSPREAD-26SEP26VTBC",
-      "currentBracketingMarketTickers": [
-        "KXNCAAFSPREAD-26SEP26VTBC-VT15",
-        "KXNCAAFSPREAD-26SEP26VTBC-VT14"
-      ],
-      "currentBracketingVenueOpenTime": "2026-09-20T07:06:00+00:00",
-      "recoveredClassification": "first_seen",
-      "definitelyNotTrueOpen": true,
-      "latestEventRungOpenTime": "2026-09-20T07:06:00+00:00",
-      "minimumPossibleLagSeconds": 64730.274619,
-      "historicalPromotionEligible": false,
-      "recoveredAt": "2026-09-25T14:54:01.154799+00:00",
-      "recoveryMethod": "event_wide_latest_rung_open_time_upper_bound"
-    },
-    {
-      "game": "Wake Forest @ Louisville",
-      "openingLine": -12.0,
-      "originalSource": "first_seen",
-      "firstSeen": "2026-09-21T01:04:50.274619+00:00",
-      "eventTicker": "KXNCAAFSPREAD-26SEP26WAKELOU",
-      "currentBracketingMarketTickers": [
-        "KXNCAAFSPREAD-26SEP26WAKELOU-LOU12",
-        "KXNCAAFSPREAD-26SEP26WAKELOU-LOU14"
-      ],
-      "currentBracketingVenueOpenTime": "2026-09-20T04:06:00+00:00",
-      "recoveredClassification": "first_seen",
-      "definitelyNotTrueOpen": true,
-      "latestEventRungOpenTime": "2026-09-20T04:06:00+00:00",
-      "minimumPossibleLagSeconds": 75530.274619,
-      "historicalPromotionEligible": false,
-      "recoveredAt": "2026-09-25T14:54:01.154799+00:00",
-      "recoveryMethod": "event_wide_latest_rung_open_time_upper_bound"
-    },
-    {
-      "game": "Wisconsin @ Penn State",
-      "openingLine": -9.8,
-      "originalSource": "first_seen",
-      "firstSeen": "2026-09-23T08:20:14.658759+00:00",
-      "eventTicker": "KXNCAAFSPREAD-26SEP26WISPSU",
-      "currentBracketingMarketTickers": [
-        "KXNCAAFSPREAD-26SEP26WISPSU-PSU10",
-        "KXNCAAFSPREAD-26SEP26WISPSU-PSU11"
-      ],
-      "currentBracketingVenueOpenTime": "2026-09-19T22:07:00+00:00",
-      "recoveredClassification": "first_seen",
-      "definitelyNotTrueOpen": true,
-      "latestEventRungOpenTime": "2026-09-19T22:07:00+00:00",
-      "minimumPossibleLagSeconds": 295994.658759,
-      "historicalPromotionEligible": false,
-      "recoveredAt": "2026-09-25T14:54:01.154799+00:00",
+      "recoveredAt": "2026-09-29T01:44:30.760741+00:00",
       "recoveryMethod": "event_wide_latest_rung_open_time_upper_bound"
     }
   ],
