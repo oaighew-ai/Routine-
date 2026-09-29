@@ -68,6 +68,16 @@ jobs:
           set -euo pipefail
           python3 -m cfb_edge.signal_grader             --signals evidence/data/week6-clv-decision-freeze.json             --capture-report evidence/data/week6-clv-close-report.json             --maximum-close-age-seconds 900             --out evidence/data/week6-clv-grades.json
 
+      - name: Run registered CLV gates
+        if: steps.active.outputs.run == '1'
+        run: |
+          set -euo pipefail
+          python3 -m cfb_edge.week6_clv clv-csv             --grades evidence/data/week6-clv-grades.json             --cohort DIRECTIONAL_SIGNAL             --week 6             --out evidence/data/week6-clv-directional.csv
+          python3 -m cfb_edge.week6_clv clv-csv             --grades evidence/data/week6-clv-grades.json             --cohort EXECUTABLE_SHADOW             --week 6             --out evidence/data/week6-clv-executable.csv
+
+          python3 -m cfb_edge.clv_gate             --observations evidence/data/week6-clv-directional.csv             --json > evidence/data/week6-clv-directional-gate.json
+          python3 -m cfb_edge.clv_gate             --observations evidence/data/week6-clv-executable.csv             --json > evidence/data/week6-clv-executable-gate.json
+
       - name: Rerun registered authority gates
         if: steps.active.outputs.run == '1'
         run: |
@@ -80,6 +90,8 @@ jobs:
           c=json.loads(Path("evidence/data/week6-clv-close-report.json").read_text())
           g=json.loads(Path("evidence/data/week6-clv-grades.json").read_text())
           a=json.loads(Path("evidence/data/authority-gate-audit.json").read_text())
+          dg=json.loads(Path("evidence/data/week6-clv-directional-gate.json").read_text())
+          eg=json.loads(Path("evidence/data/week6-clv-executable-gate.json").read_text())
           print("## Week 6 prospective CLV")
           print(f"- frozen recovered opens: **{c['summary']['frozenOpenRows']}**")
           print(f"- gradeable closes: **{c['summary']['gradeableCloseRows']}**")
@@ -89,6 +101,9 @@ jobs:
           print(f"- directional beat-close rate: **{g['summary']['directionalSignal']['beatCloseRate']}**")
           print(f"- executable-shadow mean CLV: **{g['summary']['executableShadow']['meanLineClvPoints']}**")
           print(f"- executable-shadow beat-close rate: **{g['summary']['executableShadow']['beatCloseRate']}**")
+          print("## Registered CLV gates")
+          print(f"- directional: **{dg['verdict']}**, n={dg['gradeable']}, weeks={dg['week_clusters']}, mean={dg['mean_clv']}, max e-value={dg['max_e_value']}")
+          print(f"- executable shadow: **{eg['verdict']}**, n={eg['gradeable']}, weeks={eg['week_clusters']}, mean={eg['mean_clv']}, max e-value={eg['max_e_value']}")
           print("## Registered S02 authority")
           print(f"- all gates pass: **{a['summary']['allRegisteredGatesPass']}**")
           print(f"- failed: **{a['summary']['recomputedFailedGates']}**")
