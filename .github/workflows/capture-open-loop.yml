@@ -113,7 +113,7 @@ jobs:
                 exit 1
               fi
               echo "provider_week=$WEEK" >> "$GITHUB_OUTPUT"
-              echo "cohort_id=CFB_$(date -u +%Y)_PROVIDER_WEEK_\${WEEK}" >> "$GITHUB_OUTPUT"
+              echo "cohort_id=CFB_$(date -u +%Y)_PROVIDER_WEEK_${WEEK}" >> "$GITHUB_OUTPUT"
               ;;
             3)
               echo "ok=0" >> "$GITHUB_OUTPUT"
