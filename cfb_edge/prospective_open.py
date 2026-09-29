@@ -238,7 +238,13 @@ def update(
             )
             rows.append(locked)
             transitions.append({"game": game, "state": "CAPTURED_TRUE_OPEN"})
-        elif source == "late":
+        elif lag is not None and lag > TRUE_OPEN_MAX_LAG_SECONDS:
+            # The shared provenance classifier intentionally calls a
+            # venue-timestamped observation beyond 900s "first_seen" because
+            # that label is useful in the legacy research log. The prospective
+            # lock has a stricter state machine: once the exact venue open_time
+            # proves our first valid live observation missed the frozen window,
+            # that miss is terminal and can never be repaired later.
             locked = _terminal_row(
                 game=game, kickoff=kickoff, quote=q,
                 state="MISSED_TRUE_OPEN_WINDOW", lag=lag,
