@@ -47,11 +47,11 @@
     "status": "DATA_COLLECTION_ONLY"
   },
   "consistency": {
-    "readinessBr2Games": 57,
+    "readinessBr2Games": 54,
     "readinessSourceManifestComplete": true
   },
   "contract": "CFB_EDGE_PRIVATE_SITE_BRIDGE_V1",
-  "generatedAt": "2026-09-29T01:59:11.362392+00:00",
+  "generatedAt": "2026-09-29T02:02:13.682663+00:00",
   "marketCoverage": {
     "rows": [
       {
@@ -414,20 +414,17 @@
     "nextUnlocks": [
       "Increase replay-complete TRUE_OPEN coverage; do not infer missing opens.",
       "Capture fresh pre-kickoff closes and grade the executable-shadow cohort automatically.",
-      "Add timestamp-clean adapters for: epaDiff.",
       "Do not fit or promote BR2 until a separate feature freeze and future chronological holdout are registered."
     ],
     "stakingEffect": "NONE",
     "status": "PROSPECTIVE_COLLECTION_ACTIVE",
-    "warnings": [
-      "BR2_SNAPSHOT_STALE"
-    ],
+    "warnings": [],
     "week5DecisionRuleChanged": false
   },
   "runway": {
     "br2Warehouse": {
       "complete": false,
-      "detail": "9/10 feature families populated across 57 games; raw-source lineage complete.",
+      "detail": "10/10 feature families populated across 54 games; raw-source lineage complete.",
       "status": "COLLECTING"
     },
     "closeGrading": {
