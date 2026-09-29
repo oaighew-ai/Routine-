@@ -39,7 +39,7 @@ from .providers.kalshi import (
     implied_line_evidence,
 )
 from .providers.oddsapi import OddsApiUnreachable, fetch_pull
-from .teams import resolve
+from .teams import normalize, resolve
 
 CONTRACT = "CFB_EDGE_ACTIVE_MARKET_STATE_V1"
 OPEN_CONTRACT = "CFB_EDGE_KALSHI_CANDLE_OPEN_V1"
@@ -156,6 +156,58 @@ def _slate_identity(
             "canonicalGameId": identity["canonicalGameId"],
         }
     return rows, teams
+
+
+def _provider_team_aliases(
+    team_catalog: Sequence[Mapping[str, Any]],
+    known_teams: set[str],
+) -> dict[str, str]:
+    """Build exact provider aliases from the CFBD team catalog.
+
+    This is intentionally not fuzzy matching. A catalog row may contribute its
+    school name, alternate names, abbreviation, and exact school+mascot forms.
+    Any normalized alias that maps to more than one active-slate team is
+    discarded rather than resolved by input order.
+    """
+    candidates: dict[str, set[str]] = {}
+    for row in team_catalog:
+        school = str(row.get("school") or "").strip()
+        canonical = resolve(school, known_teams) if school else None
+        if canonical is None and school in known_teams:
+            canonical = school
+        if canonical is None:
+            for alt in row.get("alternateNames") or []:
+                canonical = resolve(str(alt), known_teams)
+                if canonical:
+                    break
+        if canonical is None:
+            continue
+        mascot = str(row.get("mascot") or "").strip()
+        bases = [
+            school,
+            str(row.get("abbreviation") or "").strip(),
+            *(str(x).strip() for x in (row.get("alternateNames") or [])),
+        ]
+        names = [x for x in bases if x]
+        if mascot:
+            names.extend(f"{base} {mascot}" for base in bases if base)
+        for name in names:
+            key = normalize(name)
+            if key:
+                candidates.setdefault(key, set()).add(canonical)
+    return {
+        key: next(iter(values))
+        for key, values in candidates.items()
+        if len(values) == 1
+    }
+
+
+def _resolve_external_team(
+    name: str,
+    known_teams: set[str],
+    provider_aliases: Mapping[str, str],
+) -> str | None:
+    return resolve(name, known_teams) or provider_aliases.get(normalize(name))
 
 
 def _fixture_for_event(
@@ -460,6 +512,7 @@ def _odds_quotes(
     *,
     identities: Mapping[str, Mapping[str, Any]],
     known_teams: set[str],
+    team_catalog: Sequence[Mapping[str, Any]] = (),
     raw_dir: str | Path,
     bookmakers: Sequence[str] = BOOKS,
     fetcher=fetch_pull,
@@ -481,17 +534,35 @@ def _odds_quotes(
         **stored,
     }]
 
+    aliases = _provider_team_aliases(team_catalog, known_teams)
     quotes: list[dict[str, Any]] = []
+    matched_events = 0
+    unresolved_events: list[str] = []
+    kickoff_mismatch_events: list[str] = []
     for event in pull.events:
-        away = resolve(str(event.get("away") or ""), known_teams)
-        home = resolve(str(event.get("home") or ""), known_teams)
+        away_raw = str(event.get("away") or "")
+        home_raw = str(event.get("home") or "")
+        away = _resolve_external_team(away_raw, known_teams, aliases)
+        home = _resolve_external_team(home_raw, known_teams, aliases)
         if not away or not home:
+            unresolved_events.append(f"{away_raw} @ {home_raw}")
             continue
         row = identities.get(f"{away} @ {home}")
         if not row:
+            unresolved_events.append(f"{away_raw} @ {home_raw}")
             continue
-        if instant(event.get("commenceTime")) != instant(row["kickoff"]):
+        event_time = instant(event.get("commenceTime"))
+        fixture_time = instant(row["kickoff"])
+        if not event_time or not fixture_time:
+            kickoff_mismatch_events.append(f"{away_raw} @ {home_raw}")
             continue
+        kickoff_delta = abs((event_time - fixture_time).total_seconds())
+        if kickoff_delta > 3600:
+            kickoff_mismatch_events.append(
+                f"{away_raw} @ {home_raw}:{int(kickoff_delta)}s"
+            )
+            continue
+        matched_events += 1
         for bookmaker in event.get("bookmakers") or []:
             book = str(bookmaker.get("key") or "").strip().lower()
             if not book:
@@ -540,6 +611,9 @@ def _odds_quotes(
         "creditsRemaining": pull.credits_remaining,
         "creditsUsed": pull.credits_used,
         "lastCost": pull.last_cost,
+        "matchedEvents": matched_events,
+        "unresolvedEvents": sorted(set(unresolved_events)),
+        "kickoffMismatchEvents": sorted(set(kickoff_mismatch_events)),
     }
     return quotes, manifest, health
 
@@ -548,6 +622,7 @@ def capture(
     *,
     slate: Sequence[Mapping[str, Any]],
     week_games: Sequence[Mapping[str, Any]],
+    team_catalog: Sequence[Mapping[str, Any]] = (),
     raw_dir: str | Path,
     kalshi_opener: Callable[[str], bytes] | None = None,
     odds_fetcher=fetch_pull,
@@ -700,6 +775,7 @@ def capture(
         sportsbook_quotes, odds_manifest, odds_health = _odds_quotes(
             identities=identities,
             known_teams=known_teams,
+            team_catalog=team_catalog,
             raw_dir=raw_dir,
             fetcher=odds_fetcher,
         )
@@ -797,6 +873,7 @@ def main(argv: list[str] | None = None) -> int:
     p = argparse.ArgumentParser(description=__doc__)
     p.add_argument("--slate", required=True)
     p.add_argument("--week-games", required=True)
+    p.add_argument("--teams")
     p.add_argument("--raw-dir", required=True)
     p.add_argument("--quotes-out", required=True)
     p.add_argument("--status-out", required=True)
@@ -806,6 +883,7 @@ def main(argv: list[str] | None = None) -> int:
     report = capture(
         slate=_read_slate(args.slate),
         week_games=_load_list(args.week_games),
+        team_catalog=_load_list(args.teams) if args.teams else (),
         raw_dir=args.raw_dir,
     )
     Path(args.quotes_out).write_text(
