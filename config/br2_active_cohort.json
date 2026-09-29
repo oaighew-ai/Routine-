@@ -1,0 +1,34 @@
+{
+  "schemaVersion": 1,
+  "contract": "CFB_EDGE_COHORT_IDENTITY_V1",
+  "cohortId": "CFB_2026_PRODUCT_WEEK6_BR2",
+  "season": 2026,
+  "productWeek": 6,
+  "gameWindow": {
+    "startsAt": "2026-10-02T00:00:00Z",
+    "endsAt": "2026-10-04T12:00:00Z"
+  },
+  "captureWindow": {
+    "startsAt": "2026-09-27T00:00:00Z",
+    "endsAt": "2026-10-04T12:00:00Z"
+  },
+  "prospectiveWindow": {
+    "startsAt": "2026-09-27T00:00:00Z",
+    "endsAt": "2026-10-02T22:00:00Z"
+  },
+  "providerWeeks": {
+    "cfbfastR": 5,
+    "collegefootballdata": 5
+  },
+  "policy": {
+    "identityUsesProviderWeek": false,
+    "frozenDecisionRuleChanged": false,
+    "s04Es2DecisionEffect": "NONE",
+    "stakingEffect": "NONE",
+    "deliveryEffect": "NONE",
+    "br2FeatureContract": "point-in-time-football-context-collection-3",
+    "epaSource": "sportsdataverse_cfb_team_summaries_weekly",
+    "qbContinuitySource": "cfbd_prior_game_participation",
+    "notes": "BR2-only prospective collection for the Oct 2-3 slate. Does not alter the frozen Week 5 S04_ES2 experiment."
+  }
+}
