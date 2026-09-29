@@ -79,6 +79,7 @@ jobs:
         env:
           CFBD_API_KEY: ${{ secrets.CFBD_API_KEY }}
           CFBD_TARGET_WEEK: ${{ steps.prospective.outputs.cfbd_week }}
+          COHORT_ID: ${{ steps.prospective.outputs.cohort_id }}
         run: |
           set -euo pipefail
           python3 - <<'PY'
@@ -112,6 +113,7 @@ jobs:
                   )
                   meta.append({
                       "kind":kind,"season":2026,"week":week,
+                      "source":item.get("source") or "collegefootballdata",
                       "endpoint":endpoint,"downloadPath":str(target),"retrievedAt":received,
                   })
                   health.append({
@@ -127,7 +129,7 @@ jobs:
                       failure["httpStatus"]=exc.code
                       if kind == "wepa" and exc.code in (401,403):
                           failure["availability"]="AUTHORIZATION_OR_ENTITLEMENT_BLOCKED"
-                          failure["nextAction"]="Verify the configured key belongs to the subscribed CFBD account and that opponent-adjusted endpoint entitlement is active. Tier cannot be inferred from this response."
+                          failure["nextAction"]="CFBD WEPA remains monitored but is not the active collection-3 EPA source."
                   health.append(failure)
                   if required:
                       raise
@@ -144,6 +146,10 @@ jobs:
                   f"/games?year=2026&week={week}&seasonType=regular",
                   f"games-w{week}.json","games",week=week,required=True,
               )
+              pull(
+                  f"/plays/stats?year=2026&week={week}&seasonType=regular",
+                  f"play-stats-w{week}.json","play_stats",week=week,required=False,
+              )
 
           # Target-cohort schedule/context uses the explicit provider mapping.
           pull(
@@ -152,7 +158,8 @@ jobs:
           )
           pull("/teams?year=2026","teams.json","teams")
           pull("/venues","venues.json","venues")
-          pull("/wepa/team/season?year=2026","wepa.json","wepa")
+          # Monitor CFBD WEPA independently. Collection-3 EPA is SportsDataverse.
+          pull("/wepa/team/season?year=2026","cfbd-wepa-monitor.json","wepa")
           prior_week=target_week-1
           pull(
               f"/stats/season/advanced?year=2026&startWeek=1&endWeek={prior_week}",
@@ -164,9 +171,9 @@ jobs:
           )
           (root/"source-health.json").write_text(
               json.dumps({
-                  "schemaVersion":1,
+                  "schemaVersion":2,
                   "contract":"CFB_EDGE_BR2_SOURCE_HEALTH_V1",
-                  "cohortId":"CFB_2026_PRODUCT_WEEK5",
+                  "cohortId":os.environ["COHORT_ID"],
                   "providerWeek":target_week,
                   "sources":health,
               },indent=2,sort_keys=True)+"\n",encoding="utf-8"
@@ -209,16 +216,18 @@ jobs:
                   "path":str(target.relative_to("capture-data")),
               })
 
-          cohort_raw=Path("config/week5_cohort.json").read_bytes()
+          cohort_path=Path(os.environ["COHORT_CONFIG"])
+          cohort_raw=cohort_path.read_bytes()
           cohort_sha=hashlib.sha256(cohort_raw).hexdigest()
+          cohort=json.loads(cohort_raw)
           manifest.append({
               "kind":"cohort_contract",
               "source":"github_main",
-              "cohortId":"CFB_2026_PRODUCT_WEEK5",
+              "cohortId":cohort["cohortId"],
               "retrievedAt":os.environ["ASOF"],
               "sha256":cohort_sha,
               "bytes":len(cohort_raw),
-              "path":"config/week5_cohort.json",
+              "path":str(cohort_path),
           })
           (root/"source-manifest.json").write_text(
               json.dumps(manifest,indent=2,sort_keys=True)+"\n",encoding="utf-8"
