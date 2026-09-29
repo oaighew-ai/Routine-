@@ -320,6 +320,11 @@ def recover_event_open(
         venue_open = max(x for x in used_opens if x is not None)
         lag = (stamp - venue_open).total_seconds()
         tickers = [str(x.get("ticker") or "") for x in used if x.get("ticker")]
+        if lag < MIN_OPEN_LAG_SECONDS:
+            # A candle that predates a selected rung's own open_time cannot
+            # prove the event-level opening. Keep scanning rather than letting
+            # an impossible early state block a later valid one.
+            continue
         first_valid = {
             "openingLine": float(line),
             "observedAt": _iso(stamp),
@@ -328,7 +333,7 @@ def recover_event_open(
             "marketTickers": tickers,
             "quoteInputs": [dict(x) for x in used],
             "openAuditGrade": (
-                MIN_OPEN_LAG_SECONDS <= lag <= MAX_OPEN_LAG_SECONDS
+                lag <= MAX_OPEN_LAG_SECONDS
                 and len(set(tickers)) >= 2
             ),
         }
@@ -664,6 +669,17 @@ def capture(
         1 for x in states
         if (x.get("features") or {}).get("openToDecisionSpread") is not None
     )
+    validated_information_rows = sum(
+        1 for x in states
+        if "FRESH_MARKET_EVIDENCE_MISSING" not in (x.get("exclusions") or [])
+        and "AUDIT_GRADE_OPEN_MISSING" not in (x.get("exclusions") or [])
+        and (x.get("features") or {}).get("openToDecisionSpread") is not None
+        and int((x.get("features") or {}).get("freshBookCount") or 0) >= 1
+    )
+    three_plus_fresh_book_rows = sum(
+        1 for x in states
+        if int((x.get("features") or {}).get("freshBookCount") or 0) >= 3
+    )
     book_counts = [
         int((x.get("features") or {}).get("freshBookCount") or 0)
         for x in states
@@ -696,6 +712,8 @@ def capture(
             "freshMarketRows": fresh_rows,
             "auditGradeOpenStateRows": open_state_rows,
             "openToDecisionRows": open_to_decision_rows,
+            "validatedInformationRows": validated_information_rows,
+            "threePlusFreshBookRows": three_plus_fresh_book_rows,
             "sportsbookQuoteRows": len(sportsbook_quotes),
             "meanFreshSportsbookCount": (
                 sum(book_counts) / len(book_counts) if book_counts else 0.0
