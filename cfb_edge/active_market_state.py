@@ -39,6 +39,7 @@ from .providers.kalshi import (
     implied_line_evidence,
 )
 from .providers.oddsapi import OddsApiUnreachable, fetch_pull
+from .prospective_open import CONTRACT as PROSPECTIVE_OPEN_CONTRACT
 from .teams import ALIASES, normalize, resolve
 
 CONTRACT = "CFB_EDGE_ACTIVE_MARKET_STATE_V1"
@@ -130,6 +131,13 @@ def _load_list(path: str | Path) -> list[dict[str, Any]]:
     value = json.loads(Path(path).read_text(encoding="utf-8"))
     if not isinstance(value, list):
         raise ValueError(f"{path}: expected JSON array")
+    return value
+
+
+def _load_object(path: str | Path) -> dict[str, Any]:
+    value = json.loads(Path(path).read_text(encoding="utf-8"))
+    if not isinstance(value, dict):
+        raise ValueError(f"{path}: expected JSON object")
     return value
 
 
@@ -626,12 +634,128 @@ def _odds_quotes(
     return quotes, manifest, health
 
 
+def _prospective_open_evidence(
+    *,
+    status: Mapping[str, Any] | None,
+    identities: Mapping[str, Mapping[str, Any]],
+    expected_cohort_id: str | None = None,
+) -> tuple[list[dict[str, Any]], list[dict[str, Any]], list[dict[str, Any]]]:
+    """Translate forward-only prospective locks into information-state quotes.
+
+    This function never reconstructs an opening. It accepts only rows already
+    locked by CFB_EDGE_PROSPECTIVE_OPEN_V1 and verifies they still match the
+    active canonical slate.
+    """
+    if not status:
+        return [], [], []
+    if status.get("contract") != PROSPECTIVE_OPEN_CONTRACT:
+        return [], [], []
+    if expected_cohort_id and status.get("cohortId") != expected_cohort_id:
+        rows = [
+            {
+                "game": fixture["game"],
+                "canonicalGameId": fixture["canonicalGameId"],
+                "contract": PROSPECTIVE_OPEN_CONTRACT,
+                "auditGrade": False,
+                "reason": "PROSPECTIVE_COHORT_MISMATCH",
+                "expectedCohortId": expected_cohort_id,
+                "observedCohortId": status.get("cohortId"),
+            }
+            for fixture in identities.values()
+        ]
+        return [], rows, []
+
+    by_game = {
+        str(r.get("game")): r
+        for r in status.get("rows") or []
+        if isinstance(r, Mapping) and r.get("game")
+    }
+    quotes: list[dict[str, Any]] = []
+    rows: list[dict[str, Any]] = []
+    manifest: list[dict[str, Any]] = []
+
+    for fixture in identities.values():
+        game = fixture["game"]
+        raw = by_game.get(game)
+        if not raw:
+            rows.append({
+                "game": game,
+                "contract": PROSPECTIVE_OPEN_CONTRACT,
+                "auditGrade": False,
+                "reason": "PROSPECTIVE_OPEN_MISSING",
+            })
+            continue
+
+        row = dict(raw)
+        row["canonicalGameId"] = fixture["canonicalGameId"]
+        rows.append(row)
+
+        if (
+            raw.get("state") != "CAPTURED_TRUE_OPEN"
+            or raw.get("auditGrade") is not True
+            or raw.get("historicalRecoveryUsed") is not False
+            or not raw.get("evidenceSha256")
+            or not raw.get("evidencePath")
+            or not raw.get("eventTicker")
+            or len(set(map(str, raw.get("marketTickers") or []))) < 2
+            or _time(raw.get("kickoff")) != _time(fixture.get("kickoff"))
+            or _time(raw.get("observedAt")) is None
+            or _time(raw.get("pollTime")) is None
+            or _time(raw.get("venueOpenTime")) is None
+        ):
+            continue
+
+        observed = str(raw["observedAt"])
+        retrieved = str(raw["pollTime"])
+        lag = _number(raw.get("openLagSeconds"))
+        if lag is None or lag < MIN_OPEN_LAG_SECONDS or lag > MAX_OPEN_LAG_SECONDS:
+            continue
+        if _time(observed) > _time(retrieved):
+            continue
+
+        quotes.append({
+            "canonicalGameId": fixture["canonicalGameId"],
+            "game": game,
+            "book": "kalshi",
+            "market": "spread",
+            "period": "full_game",
+            "side": "home",
+            "quoteKind": "derived_line",
+            "sourceSha256": raw["evidenceSha256"],
+            "observedAt": observed,
+            "retrievedAt": retrieved,
+            "spread": float(raw["openingLine"]),
+            "provenance": "true_open",
+            "openAuditGrade": True,
+            "role": "opening",
+            "provenanceContract": PROSPECTIVE_OPEN_CONTRACT,
+            "venueOpenTime": raw["venueOpenTime"],
+            "openLagSeconds": lag,
+            "eventTicker": raw["eventTicker"],
+            "marketTickers": list(raw.get("marketTickers") or []),
+        })
+        manifest.append({
+            "kind": "prospective_open_evidence",
+            "source": "live_kalshi_poll",
+            "endpoint": PROSPECTIVE_OPEN_CONTRACT,
+            "retrievedAt": retrieved,
+            "game": game,
+            "sha256": raw["evidenceSha256"],
+            "path": raw["evidencePath"],
+        })
+
+    return quotes, rows, manifest
+
+
 def capture(
     *,
     slate: Sequence[Mapping[str, Any]],
     week_games: Sequence[Mapping[str, Any]],
     team_catalog: Sequence[Mapping[str, Any]] = (),
     raw_dir: str | Path,
+    prospective_open_status: Mapping[str, Any] | None = None,
+    expected_open_cohort_id: str | None = None,
+    prospective_only: bool = False,
     kalshi_opener: Callable[[str], bytes] | None = None,
     odds_fetcher=fetch_pull,
 ) -> dict[str, Any]:
@@ -673,19 +797,35 @@ def capture(
         game for game, rows in event_candidates.items() if len(rows) != 1
     )
 
-    # Fetch every candidate event's candles once, globally batched. Ambiguous
-    # games are intentionally excluded because their market identity is not
-    # authoritative enough to justify archive recovery.
-    candle_markets = [
-        market
-        for candidates in event_candidates.values()
-        if len(candidates) == 1
-        for market in candidates[0][1]
-    ]
-    candle_map, candle_manifest, ticker_sources = _fetch_candles(
-        candle_markets, raw_dir, opener=kalshi_opener
+    prospective_quotes, prospective_rows, prospective_manifest = (
+        _prospective_open_evidence(
+            status=prospective_open_status,
+            identities=identities,
+            expected_cohort_id=expected_open_cohort_id,
+        )
     )
-    manifest.extend(candle_manifest)
+    if prospective_open_status is not None:
+        open_quotes.extend(prospective_quotes)
+        open_rows.extend(prospective_rows)
+        manifest.extend(prospective_manifest)
+    prospective_games = {str(q.get("game")) for q in prospective_quotes}
+
+    # Historical candle recovery is legacy-only. From the configured forward
+    # cohort onward, the absence of a live prospective lock remains missing;
+    # we do not reconstruct it after the fact.
+    candle_map: dict[str, list[dict[str, Any]]] = {}
+    ticker_sources: dict[str, list[dict[str, str]]] = {}
+    if not prospective_only:
+        candle_markets = [
+            market
+            for candidates in event_candidates.values()
+            if len(candidates) == 1
+            for market in candidates[0][1]
+        ]
+        candle_map, candle_manifest, ticker_sources = _fetch_candles(
+            candle_markets, raw_dir, opener=kalshi_opener
+        )
+        manifest.extend(candle_manifest)
 
     for game, candidates in sorted(event_candidates.items()):
         if len(candidates) != 1:
@@ -716,6 +856,9 @@ def capture(
             "eventTicker": event,
             "marketTickers": [str(x.get("ticker") or "") for x in used],
         })
+
+        if prospective_only or game in prospective_games:
+            continue
 
         event_sources = [
             source
@@ -849,7 +992,12 @@ def capture(
             "week5ArtifactsChanged": False,
             "trueOpenToleranceSeconds": MAX_OPEN_LAG_SECONDS,
             "clockSkewSeconds": MIN_OPEN_LAG_SECONDS,
-            "historicalOpenSource": OPEN_CONTRACT,
+            "historicalOpenSource": (
+                "DISABLED_PROSPECTIVE_ONLY" if prospective_only else OPEN_CONTRACT
+            ),
+            "prospectiveOpenSource": PROSPECTIVE_OPEN_CONTRACT,
+            "prospectiveOnly": bool(prospective_only),
+            "expectedOpenCohortId": expected_open_cohort_id,
             "freshMarketMaxAgeSeconds": MAX_FRESH_SECONDS,
         },
         "summary": {
@@ -857,6 +1005,16 @@ def capture(
             "canonicalRows": len(identities),
             "kalshiCurrentMatchedRows": len(current_quotes),
             "auditGradeRecoveredOpenRows": audit_open,
+            "auditGradeProspectiveOpenRows": sum(
+                1 for x in open_rows
+                if x.get("auditGrade") is True
+                and x.get("contract") == PROSPECTIVE_OPEN_CONTRACT
+            ),
+            "auditGradeHistoricalRecoveredOpenRows": sum(
+                1 for x in open_rows
+                if x.get("auditGrade") is True
+                and x.get("contract") == OPEN_CONTRACT
+            ),
             "freshMarketRows": fresh_rows,
             "auditGradeOpenStateRows": open_state_rows,
             "openToDecisionRows": open_to_decision_rows,
@@ -882,6 +1040,9 @@ def main(argv: list[str] | None = None) -> int:
     p.add_argument("--slate", required=True)
     p.add_argument("--week-games", required=True)
     p.add_argument("--teams")
+    p.add_argument("--prospective-open-status")
+    p.add_argument("--expected-open-cohort-id")
+    p.add_argument("--prospective-only", action="store_true")
     p.add_argument("--raw-dir", required=True)
     p.add_argument("--quotes-out", required=True)
     p.add_argument("--status-out", required=True)
@@ -893,6 +1054,12 @@ def main(argv: list[str] | None = None) -> int:
         week_games=_load_list(args.week_games),
         team_catalog=_load_list(args.teams) if args.teams else (),
         raw_dir=args.raw_dir,
+        prospective_open_status=(
+            _load_object(args.prospective_open_status)
+            if args.prospective_open_status else None
+        ),
+        expected_open_cohort_id=args.expected_open_cohort_id,
+        prospective_only=args.prospective_only,
     )
     Path(args.quotes_out).write_text(
         json.dumps(report["quotes"], indent=2, sort_keys=True) + "\n",

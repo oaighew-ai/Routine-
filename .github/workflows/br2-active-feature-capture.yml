@@ -369,17 +369,37 @@ jobs:
         if: steps.prospective.outputs.run == '1'
         env:
           ODDS_API_KEY: ${{ secrets.ODDS_API_KEY }}
+          CFBD_TARGET_WEEK: ${{ steps.prospective.outputs.cfbd_week }}
         run: |
           set -euo pipefail
           mkdir -p capture-data/data/features/br2/market/raw
-          python3 -m cfb_edge.active_market_state \
-            --slate .tmp/br2/slate.csv \
-            --week-games .tmp/br2/games-target.json \
-            --teams .tmp/br2/teams.json \
-            --raw-dir capture-data/data/features/br2/market/raw \
-            --quotes-out .tmp/br2/information-quotes.json \
-            --status-out .tmp/br2/market-information-status.json \
+
+          MARKET_ARGS=(
+            --slate .tmp/br2/slate.csv
+            --week-games .tmp/br2/games-target.json
+            --teams .tmp/br2/teams.json
+            --raw-dir capture-data/data/features/br2/market/raw
+            --quotes-out .tmp/br2/information-quotes.json
+            --status-out .tmp/br2/market-information-status.json
             --manifest-out .tmp/br2/market-source-manifest.json
+          )
+
+          # Provider Week 5 is already frozen with venue-candle recovery. From
+          # Week 6 forward, only the live prospective lock may supply an open.
+          if [ "$CFBD_TARGET_WEEK" -ge 6 ]; then
+            EXPECTED_OPEN_COHORT="CFB_$(date -u +%Y)_PROVIDER_WEEK_${CFBD_TARGET_WEEK}"
+            MARKET_ARGS+=(
+              --prospective-only
+              --expected-open-cohort-id "$EXPECTED_OPEN_COHORT"
+            )
+            if [ -f capture-data/data/prospective-open-status.json ]; then
+              MARKET_ARGS+=(
+                --prospective-open-status capture-data/data/prospective-open-status.json
+              )
+            fi
+          fi
+
+          python3 -m cfb_edge.active_market_state "${MARKET_ARGS[@]}"
 
           python3 - <<'PY'
           import json
@@ -390,7 +410,6 @@ jobs:
           rows.extend(json.loads(market.read_text()))
           source.write_text(json.dumps(rows,indent=2,sort_keys=True)+"\n")
           PY
-
       - name: Freeze shared BR2 decision time
         if: steps.prospective.outputs.run == '1'
         id: decision

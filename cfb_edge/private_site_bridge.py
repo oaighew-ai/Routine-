@@ -75,6 +75,8 @@ def build(
     br2: Mapping[str, Any] | None,
     market_audit: Mapping[str, Any] | None = None,
     market_information: Mapping[str, Any] | None = None,
+    week6_clv: Mapping[str, Any] | None = None,
+    authority_audit: Mapping[str, Any] | None = None,
     generated_at: datetime | None = None,
 ) -> dict[str, Any]:
     now=generated_at or datetime.now(timezone.utc)
@@ -100,6 +102,8 @@ def build(
             "grades":(grades or {}).get("generatedAt"),
             "br2":(br2 or {}).get("generatedAt"),
             "authority":(authority or {}).get("asOf"),
+            "week6Clv":(week6_clv or {}).get("generatedAt"),
+            "authorityAudit":(authority_audit or {}).get("generatedAt"),
         },
         "marketCoverage":{
             "status":(market_audit or {}).get("status") or "UNAVAILABLE",
@@ -115,6 +119,17 @@ def build(
             "generatedAt":(market_information or {}).get("generatedAt"),
             "summary":(market_information or {}).get("summary") or {},
             "openingPolicy":((market_information or {}).get("policy") or {}),
+        },
+        "week6Clv":{
+            "status":(week6_clv or {}).get("status") or "PENDING",
+            "contract":(week6_clv or {}).get("contract"),
+            "generatedAt":(week6_clv or {}).get("generatedAt"),
+            "summary":(week6_clv or {}).get("summary") or {},
+        },
+        "authorityAudit":{
+            "contract":(authority_audit or {}).get("contract"),
+            "generatedAt":(authority_audit or {}).get("generatedAt"),
+            "summary":(authority_audit or {}).get("summary") or {},
         },
         "authority":{
             "picksSource":"PRIVATE_SITE_LOCAL",
@@ -173,6 +188,8 @@ def main(argv: list[str] | None=None) -> int:
     p.add_argument("--br2")
     p.add_argument("--market-audit")
     p.add_argument("--market-information")
+    p.add_argument("--week6-clv")
+    p.add_argument("--authority-audit")
     p.add_argument("--out", required=True)
     args=p.parse_args(argv)
     report=build(
@@ -184,6 +201,8 @@ def main(argv: list[str] | None=None) -> int:
         br2=_json(args.br2),
         market_audit=_json(args.market_audit),
         market_information=_json(args.market_information),
+        week6_clv=_json(args.week6_clv),
+        authority_audit=_json(args.authority_audit),
     )
     out=Path(args.out)
     out.parent.mkdir(parents=True,exist_ok=True)
