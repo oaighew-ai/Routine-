@@ -160,6 +160,7 @@ def update(
     *,
     slate: Sequence[Mapping[str, Any]],
     slate_sha256: str,
+    cohort_id: str,
     snapshot: Mapping[str, Any],
     existing: Mapping[str, Any] | None,
     evidence_dir: str | Path,
@@ -171,8 +172,10 @@ def update(
         raise ValueError("generated_at must be timezone-aware")
     stamp = now.astimezone(timezone.utc).isoformat()
 
-    if existing and existing.get("slateSha256") not in (None, slate_sha256):
-        raise ValueError("prospective-open status belongs to a different slate")
+    if not str(cohort_id or "").strip():
+        raise ValueError("cohort_id is required")
+    if existing and existing.get("cohortId") not in (None, cohort_id):
+        raise ValueError("prospective-open status belongs to a different cohort")
 
     old = {
         str(r.get("game")): dict(r)
@@ -268,6 +271,7 @@ def update(
         "schemaVersion": 1,
         "contract": CONTRACT,
         "generatedAt": stamp,
+        "cohortId": cohort_id,
         "slateSha256": slate_sha256,
         "pollIntervalTargetSeconds": 60,
         "trueOpenMaximumLagSeconds": TRUE_OPEN_MAX_LAG_SECONDS,
@@ -293,6 +297,7 @@ def main(argv: list[str] | None = None) -> int:
     p = argparse.ArgumentParser(description=__doc__)
     p.add_argument("--snapshot", required=True)
     p.add_argument("--slate", required=True)
+    p.add_argument("--cohort-id", required=True)
     p.add_argument("--out", required=True)
     p.add_argument("--latest-out")
     p.add_argument("--evidence-dir", required=True)
@@ -307,6 +312,7 @@ def main(argv: list[str] | None = None) -> int:
     report = update(
         slate=slate,
         slate_sha256=_slate_sha(args.slate),
+        cohort_id=args.cohort_id,
         snapshot=snapshot,
         existing=current,
         evidence_dir=args.evidence_dir,
