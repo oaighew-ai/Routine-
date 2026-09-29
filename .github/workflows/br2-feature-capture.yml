@@ -328,27 +328,64 @@ jobs:
           )
           PY
 
-      - name: Validate official-source QB evidence
+      - name: Freeze one BR2 decision timestamp
         if: steps.prospective.outputs.run == '1'
+        id: decision
+        run: |
+          echo "decision_time=$(date -u '+%Y-%m-%dT%H:%M:%SZ')" >> "$GITHUB_OUTPUT"
+
+      - name: Build opponent-adjusted EPA evidence
+        if: steps.prospective.outputs.run == '1'
+        env:
+          CFBD_TARGET_WEEK: ${{ steps.prospective.outputs.cfbd_week }}
+          DECISION_TIME: ${{ steps.decision.outputs.decision_time }}
         run: |
           set -euo pipefail
-          INBOX="capture-data/data/features/br2/qb/packets.json"
-          if [ -f "$INBOX" ]; then
-            cp "$INBOX" .tmp/br2/qb-packets.json
-          else
-            printf '[]\n' > .tmp/br2/qb-packets.json
-          fi
-          python3 -m cfb_edge.br2_web_evidence \
-            --packets .tmp/br2/qb-packets.json \
-            --official-source-registry config/br2_official_source_registry.json \
-            --evidence-root capture-data \
-            --out .tmp/br2/qb-evidence.json
+          PRIOR_WEEK=$((CFBD_TARGET_WEEK - 1))
+          python3 -m cfb_edge.br2_epa \
+            --csv .tmp/br2/sdv-team-summaries-weekly.csv \
+            --slate .tmp/br2/slate.csv \
+            --season 2026 \
+            --through-week "$PRIOR_WEEK" \
+            --decision-time "$DECISION_TIME" \
+            --source-manifest .tmp/br2/source-manifest.json \
+            --out .tmp/br2/epa-evidence.json
+          python3 - <<'PY'
+          import json
+          from pathlib import Path
+          report=json.loads(Path(".tmp/br2/epa-evidence.json").read_text())
+          Path(".tmp/br2/wepa.json").write_text(
+              json.dumps(report.get("rows") or [],indent=2,sort_keys=True)+"\n",
+              encoding="utf-8",
+          )
+          PY
 
+      - name: Build participation-based QB continuity
+        if: steps.prospective.outputs.run == '1'
+        env:
+          CFBD_TARGET_WEEK: ${{ steps.prospective.outputs.cfbd_week }}
+          DECISION_TIME: ${{ steps.decision.outputs.decision_time }}
+        run: |
+          set -euo pipefail
+          PRIOR_WEEK=$((CFBD_TARGET_WEEK - 1))
+          ARGS=()
+          for week in $(seq 1 "$PRIOR_WEEK"); do
+            ARGS+=(--play-stats-json ".tmp/br2/play-stats-w${week}.json")
+            ARGS+=(--games-json ".tmp/br2/games-w${week}.json")
+          done
+          python3 -m cfb_edge.br2_qb_continuity \
+            --slate .tmp/br2/slate.csv \
+            "${ARGS[@]}" \
+            --source-manifest .tmp/br2/source-manifest.json \
+            --decision-time "$DECISION_TIME" \
+            --lookback-games 3 \
+            --out .tmp/br2/qb-evidence.json
       - name: Build audited context
         if: steps.prospective.outputs.run == '1'
+        env:
+          DECISION_TIME: ${{ steps.decision.outputs.decision_time }}
         run: |
           set -euo pipefail
-          ASOF="$(date -u '+%Y-%m-%dT%H:%M:%SZ')"
           python3 -m cfb_edge.br2_context \
             --slate .tmp/br2/slate.csv \
             --week-games .tmp/br2/games-target.json \
@@ -359,7 +396,7 @@ jobs:
             --source-manifest .tmp/br2/source-manifest.json \
             --weather .tmp/br2/weather.json \
             --qb-evidence .tmp/br2/qb-evidence.json \
-            --as-of "$ASOF" \
+            --as-of "$DECISION_TIME" \
             --revision "$GITHUB_SHA" \
             --out .tmp/br2/context.json
 
