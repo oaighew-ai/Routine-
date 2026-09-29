@@ -209,6 +209,15 @@ def build_context(
     team_locs = _index_team_locations(teams)
     venue_idx = _index_venues(venues)
     wepa_idx = _wepa_index(wepa)
+    epa_meta = next(
+        (r.get("_meta") for r in wepa if isinstance(r.get("_meta"), Mapping)),
+        {},
+    ) or {}
+    epa_source_kind = (
+        "wepa" if any(r.get("kind") == "wepa" for r in source_manifest)
+        else "oa_epa_internal" if any(r.get("kind") == "oa_epa_internal" for r in source_manifest)
+        else None
+    )
     adv_idx = _advanced_index(advanced)
     weather_idx = _weather_index(weather)
     qb_idx = _qb_index(qb_evidence)
@@ -247,7 +256,14 @@ def build_context(
             if he is not None and ae is not None:
                 features["epaDiff"] = he - ae
                 audit["epaDiff"] = True
-                evidence["epa"] = {"homeNet": he, "awayNet": ae}
+                evidence["epa"] = {
+                    "homeNet": he,
+                    "awayNet": ae,
+                    "sourceKind": epa_source_kind,
+                    "contract": epa_meta.get("contract") or ("CFBD_WEPA" if epa_source_kind == "wepa" else None),
+                    "provider": epa_meta.get("provider") or ("collegefootballdata" if epa_source_kind == "wepa" else None),
+                    "throughWeek": epa_meta.get("throughWeek"),
+                }
             else:
                 audit["epaDiff"] = False
 
@@ -311,16 +327,24 @@ def build_context(
                 audit["qbContinuityDiff"] = False
 
         feature_as_of = {}
-        required = {"epaDiff": ("wepa",), "linePlayDiff": ("advanced_stats",),
+        required = {"linePlayDiff": ("advanced_stats",),
                     "travelMilesDiff": ("teams", "venues", "week_games")}
+        feature_as_of["epaDiff"] = (
+            source_time(source_manifest, (epa_source_kind,), as_of.isoformat(), raw.get("kickoff"))
+            if epa_source_kind else None
+        )
         for feature, kinds in required.items():
             feature_as_of[feature] = source_time(source_manifest, kinds, as_of.isoformat(), raw.get("kickoff"))
         wr = weather_idx.get(_norm(game)) or {}
         feature_as_of["windMph"] = wr.get("retrievedAt") if known_at(wr.get("retrievedAt"), as_of.isoformat(), raw.get("kickoff")) and instant(wr.get("kickoff")) == kickoff else None
         qr = qb_idx.get(_norm(game)) or {}
-        qb_times = [qr.get(side, {}).get(k) for side in ("home", "away")
-                    for k in ("retrievedAt", "priorRetrievedAt") if isinstance(qr.get(side), dict)]
-        feature_as_of["qbContinuityDiff"] = max(qb_times, key=instant) if len(qb_times) == 4 and all(known_at(t, as_of.isoformat(), raw.get("kickoff")) for t in qb_times) and instant(qr.get("kickoff")) == kickoff else None
+        qb_time = qr.get("featureAsOf")
+        feature_as_of["qbContinuityDiff"] = (
+            qb_time
+            if known_at(qb_time, as_of.isoformat(), raw.get("kickoff"))
+            and instant(qr.get("kickoff")) == kickoff
+            else None
+        )
         for feature in features:
             if not identity or not feature_as_of.get(feature):
                 features[feature] = None

@@ -29,12 +29,12 @@ The archived CFBD source-health result records HTTP 401 for `/wepa/team/season?y
 | Canonical decision time | Context and warehouse share exactly one decisionTime; sources must precede it and kickoff; context hashes are checked; future/incomplete-game plays excluded. | Continued prospective snapshots and operational verification. |
 | True-open provenance | Existing capture-health publication confirmed; late rows stay excluded. | A genuinely new opening captured on time, or an already-existing qualifying contemporaneous archive. |
 | Game identity | Immutable CFBD anchor, exact kickoff/orientation resolution, ambiguous fixtures rejected; crosswalk rejects conflicting provider mappings. Real replay resolves 57/57. | Reviewed Action, sportsbook, cfbfastR and exchange crosswalk coverage. IDs are not inferred from similar strings. |
-| EPA / QB coverage | Missing stays missing; latest inspected coverage is EPA 0/57, QB 1/57. | CFBD entitlement plus broader verified official source coverage. |
+| EPA / QB coverage | Week 5 remains immutable at EPA 0/57 and QB 1/57. For later cohorts, QB continuity now derives from completed-game CFBD passing-attempt usage with validated official starter overrides; EPA prefers CFBD WEPA and has a versioned cfbfastR play-EPA opponent-adjusted fallback. | Live prospective run must prove actual provider coverage/schema and replay. No Week 5 backfill. |
 | Monitor ingestion | Existing discovery/capture boundaries preserved. | Autonomous discovery-to-archive-to-candidate ingestion remains unimplemented. It can run outside the five ChatGPT task slots, but requires provisioned provider credentials and a durable job. Candidate extraction must not self-approve evidence. |
 | Weather replay | Single-run replay validator checks raw hash, explicit model run, availability before decision, units and kickoff forecast point. | Real archived-run availability evidence and an end-to-end historical golden fixture. The helper alone is not proof that a forecast was available. |
 | Statistical plan | Existing no-fit/no-promotion gate retained. | Preregister the complete analysis plan below before any fit. No fitted BR2 model or holdout result is claimed. |
 | Semantic tests | Real CFBD record subsets with original archive lineage test game identity, line-yard orientation, home/away sign, venue coordinates and dome boolean; adversarial timestamp and API tests added. | Broader real neutral-site/dome and provider-schema fixtures, plus complete external crosswalk tests. |
-| QB v2 | Frozen v1 preserved. | Separate BR2.1 shadow schema and evidence-backed collection for starts, snaps, OR designations, availability and status-change age. |
+| QB v2 | Historical Week 5 artifact is frozen. Active prospective collection uses `CFB_EDGE_BR2_QB_CONTINUITY_V4`: last-three completed-game attempt share with optional validated official starter override. | Preserve richer starts/snaps/OR/availability/status-age diagnostics as shadow fields; do not add weights until separately frozen. |
 
 ## Statistical plan to register before fitting
 
@@ -47,3 +47,24 @@ Reserve named future weeks that begin after the feature/analysis freeze. Never u
 The BR2 CFBD workflow now retries only transient GET failures (429/5xx/network) with bounded waits, records response receipt times, and rejects non-array schema responses. It does not retry authorization failures. Weather rejects post-kickoff captures, negative wind and truthy non-boolean dome values. These are tested repairs, not a blanket claim that every external service is available.
 
 Weather, source entitlements, scheduled-job punctuality, and monitor ingestion must remain explicit health signals. A green workflow is execution success, not proof of complete feature coverage or model quality.
+
+
+## September 28 prospective coverage repair
+
+The coverage fix is deliberately forward-only.
+
+- QB continuity no longer depends on finding two consecutive historical
+  depth-chart PDFs for every school. CFBD `/games/players?category=passing`
+  supplies archived completed-game participation. The most recent
+  passing-attempt leader is the default incumbent; a validated official
+  pregame starter can override only when it maps to prior participation.
+- CFBD WEPA remains preferred. If the endpoint remains authorization-blocked,
+  `CFB_EDGE_OA_EPA_V1` downloads and hashes the current cfbfastR 2026
+  play-by-play asset, selects only completed prior-week play-EPA rows, archives
+  that exact used subset, and fits a fixed 50-play-ridge two-way
+  offense/defense-allowed adjustment.
+- A failure in either new adapter stays null and does not erase the other BR2
+  families.
+- The new active cohort is `CFB_2026_PRODUCT_WEEK6` (Oct. 2–3 product slate,
+  provider Week 5). It is separate from the completed Week 5 S04_ES2 audit
+  cohort.
