@@ -473,7 +473,6 @@ jobs:
             "${ARGS[@]}" \
             --context-json .tmp/br2/context.json \
             --source-manifest .tmp/br2/source-manifest.json \
-            --context-json .tmp/br2/context.json \
             --information-quotes .tmp/br2/information-quotes.json \
             --as-of "$ASOF" \
             --revision "$GITHUB_SHA" \
@@ -506,6 +505,8 @@ jobs:
           print(f"- recovered audit-grade opens: **{ms['auditGradeRecoveredOpenRows']}/{ms['canonicalRows']}**")
           print(f"- fresh market rows: **{ms['freshMarketRows']}/{ms['canonicalRows']}**")
           print(f"- open-to-decision rows: **{ms['openToDecisionRows']}/{ms['canonicalRows']}**")
+          print(f"- validated information rows: **{ms['validatedInformationRows']}/{ms['canonicalRows']}**")
+          print(f"- >=3 fresh sportsbook rows: **{ms['threePlusFreshBookRows']}/{ms['canonicalRows']}**")
           print(f"- mean fresh sportsbook count: **{ms['meanFreshSportsbookCount']:.2f}**")
           PY
 
