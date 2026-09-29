@@ -12,6 +12,7 @@ from cfb_edge.week6_clv import (
     CLOSE_CONTRACT,
     DECISION_CONTRACT,
     build_close_report,
+    build_clv_gate_csv,
     freeze_decisions,
 )
 
@@ -96,6 +97,46 @@ class Week6ClvTests(unittest.TestCase):
         row=r["games"][0]
         self.assertEqual(row["observations"][-1]["derivedHomeLine"],-4.0)
         self.assertEqual(row["closeAgeSeconds"],300)
+
+    def test_clv_gate_csv_is_side_aware_and_never_uses_provisional_close(self):
+        grades={
+            "rows":[
+                {
+                    "cohort":"DIRECTIONAL_SIGNAL","game":"A @ H","side":"H",
+                    "openingHomeLine":-3.0,"closingHomeLine":-4.0,
+                    "gradeable":True,
+                    "provenance":{"entrySource":"true_open"},
+                },
+                {
+                    "cohort":"DIRECTIONAL_SIGNAL","game":"B @ C","side":"B",
+                    "openingHomeLine":2.5,"closingHomeLine":1.0,
+                    "gradeable":True,
+                    "provenance":{"entrySource":"true_open"},
+                },
+                {
+                    "cohort":"DIRECTIONAL_SIGNAL","game":"D @ E","side":"E",
+                    "openingHomeLine":-7.0,"closingHomeLine":-8.0,
+                    "gradeable":False,
+                    "provenance":{"entrySource":"true_open"},
+                },
+            ]
+        }
+        import csv
+        with tempfile.TemporaryDirectory() as td:
+            path=Path(td)/"clv.csv"
+            s=build_clv_gate_csv(
+                grades=grades,cohort="DIRECTIONAL_SIGNAL",week=6,out=path
+            )
+            rows=list(csv.DictReader(path.open()))
+        self.assertEqual(s["rows"],3)
+        self.assertEqual(s["gradeableRows"],2)
+        # Home favorite -3 -> -4 beats close by +1.
+        self.assertEqual(float(rows[0]["open_line"]),-3.0)
+        self.assertEqual(float(rows[0]["close_line"]),-4.0)
+        # Away side is sign-flipped: home +2.5 -> +1 means away -2.5 -> -1.
+        self.assertEqual(float(rows[1]["open_line"]),-2.5)
+        self.assertEqual(float(rows[1]["close_line"]),-1.0)
+        self.assertEqual(rows[2]["close_line"],"")
 
     def test_authority_audit_does_not_promote_from_clv(self):
         authority={
