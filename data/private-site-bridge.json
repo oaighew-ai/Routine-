@@ -121,7 +121,7 @@
     "readinessSourceManifestComplete": true
   },
   "contract": "CFB_EDGE_PRIVATE_SITE_BRIDGE_V1",
-  "generatedAt": "2026-09-29T23:26:14.037767+00:00",
+  "generatedAt": "2026-09-30T02:14:30.574714+00:00",
   "marketCoverage": {
     "rows": [
       {
@@ -477,6 +477,122 @@
       "slateRows": 57,
       "unresolvedRawNameCount": 103
     }
+  },
+  "promotionScorecard": {
+    "contract": "CFB_EDGE_PROMOTION_SCORECARD_V1",
+    "decisionEffect": "NONE",
+    "generatedAt": "2026-09-30T02:14:30.526568+00:00",
+    "models": [
+      {
+        "actualStakeUnits": 0,
+        "contract": "CFB_EDGE_PROMOTION_SCORECARD_V1",
+        "deliveryEligible": false,
+        "generatedAt": "2026-09-30T02:14:30.526639+00:00",
+        "metrics": {
+          "games": 0,
+          "requiredGames": 4710,
+          "requiredWeeks": 26,
+          "weeks": 0
+        },
+        "modelId": "S04_ES2",
+        "nextAction": "Missing modelSha256; Missing featureContractSha256; Missing trainingProtocolSha256; Missing executionPolicySha256; Missing registeredAt; Missing holdoutStart; Missing holdoutEnd; Missing holdoutWeeks; Missing candidateAttempt; Invalid modelSha256; Invalid featureContractSha256; Invalid trainingProtocolSha256; Invalid executionPolicySha256; Registration must precede the future holdout; Policy binding, attempt limit or dependence review missing; Named future holdout weeks are incomplete",
+        "policyId": "CFB_EDGE_PROMOTION_REVIEW_V1",
+        "policySha256": "1bb11b16fd03716418342d7cc63d82550043e1849b577b662c02cb113640cd77",
+        "promotionEffect": "NONE",
+        "samplePlan": {
+          "designEffect": 1.5,
+          "method": "normal approximation for planning only",
+          "note": "Assumptions, not measured BR2 performance. Smaller true edges or greater dependence need more observations. No optional extension after viewing outcomes.",
+          "power": 0.8,
+          "requiredGames": 4710,
+          "returnSD": 1.0,
+          "targetNetReturn": 0.05
+        },
+        "stages": {
+          "dataIntegrity": {
+            "reason": "Complete reviewed decision ledger and replayable evidence required; missing rows cannot be silently discarded",
+            "status": "BLOCKED"
+          },
+          "economics": {
+            "reason": "Positive stressed net-return lower bound, market forecast improvement and calibration required at the one final look",
+            "status": "BLOCKED"
+          },
+          "historicalReplay": {
+            "reason": "Reviewed, policy-bound evidence required before the holdout begins",
+            "status": "BLOCKED"
+          },
+          "prospectiveHoldout": {
+            "reason": "0/4710 distinct games; 0/26 weeks. Final evaluation date not reached or not registered.",
+            "status": "BLOCKED"
+          },
+          "registration": {
+            "reason": "Missing modelSha256; Missing featureContractSha256; Missing trainingProtocolSha256; Missing executionPolicySha256; Missing registeredAt; Missing holdoutStart; Missing holdoutEnd; Missing holdoutWeeks; Missing candidateAttempt; Invalid modelSha256; Invalid featureContractSha256; Invalid trainingProtocolSha256; Invalid executionPolicySha256; Registration must precede the future holdout; Policy binding, attempt limit or dependence review missing; Named future holdout weeks are incomplete",
+            "status": "BLOCKED"
+          },
+          "walkForward": {
+            "reason": "Reviewed, policy-bound evidence required before the holdout begins",
+            "status": "BLOCKED"
+          }
+        },
+        "stakingEnabled": false,
+        "status": "BLOCKED"
+      },
+      {
+        "actualStakeUnits": 0,
+        "contract": "CFB_EDGE_PROMOTION_SCORECARD_V1",
+        "deliveryEligible": false,
+        "generatedAt": "2026-09-30T02:14:30.526754+00:00",
+        "metrics": {
+          "games": 0,
+          "requiredGames": 4710,
+          "requiredWeeks": 26,
+          "weeks": 0
+        },
+        "modelId": "S04_BR2",
+        "nextAction": "Missing modelSha256; Missing featureContractSha256; Missing trainingProtocolSha256; Missing executionPolicySha256; Missing registeredAt; Missing holdoutStart; Missing holdoutEnd; Missing holdoutWeeks; Missing candidateAttempt; Invalid modelSha256; Invalid featureContractSha256; Invalid trainingProtocolSha256; Invalid executionPolicySha256; Registration must precede the future holdout; Policy binding, attempt limit or dependence review missing; Named future holdout weeks are incomplete",
+        "policyId": "CFB_EDGE_PROMOTION_REVIEW_V1",
+        "policySha256": "1bb11b16fd03716418342d7cc63d82550043e1849b577b662c02cb113640cd77",
+        "promotionEffect": "NONE",
+        "samplePlan": {
+          "designEffect": 1.5,
+          "method": "normal approximation for planning only",
+          "note": "Assumptions, not measured BR2 performance. Smaller true edges or greater dependence need more observations. No optional extension after viewing outcomes.",
+          "power": 0.8,
+          "requiredGames": 4710,
+          "returnSD": 1.0,
+          "targetNetReturn": 0.05
+        },
+        "stages": {
+          "dataIntegrity": {
+            "reason": "Complete reviewed decision ledger and replayable evidence required; missing rows cannot be silently discarded",
+            "status": "BLOCKED"
+          },
+          "economics": {
+            "reason": "Positive stressed net-return lower bound, market forecast improvement and calibration required at the one final look",
+            "status": "BLOCKED"
+          },
+          "historicalReplay": {
+            "reason": "Reviewed, policy-bound evidence required before the holdout begins",
+            "status": "BLOCKED"
+          },
+          "prospectiveHoldout": {
+            "reason": "0/4710 distinct games; 0/26 weeks. Final evaluation date not reached or not registered.",
+            "status": "BLOCKED"
+          },
+          "registration": {
+            "reason": "Missing modelSha256; Missing featureContractSha256; Missing trainingProtocolSha256; Missing executionPolicySha256; Missing registeredAt; Missing holdoutStart; Missing holdoutEnd; Missing holdoutWeeks; Missing candidateAttempt; Invalid modelSha256; Invalid featureContractSha256; Invalid trainingProtocolSha256; Invalid executionPolicySha256; Registration must precede the future holdout; Policy binding, attempt limit or dependence review missing; Named future holdout weeks are incomplete",
+            "status": "BLOCKED"
+          },
+          "walkForward": {
+            "reason": "Reviewed, policy-bound evidence required before the holdout begins",
+            "status": "BLOCKED"
+          }
+        },
+        "stakingEnabled": false,
+        "status": "BLOCKED"
+      }
+    ],
+    "stakingEnabled": false
   },
   "research": {
     "deliveryEffect": "NONE",
