@@ -74,6 +74,7 @@ def build(
     grades: Mapping[str, Any] | None,
     br2: Mapping[str, Any] | None,
     market_audit: Mapping[str, Any] | None = None,
+    promotion: Mapping[str, Any] | None = None,
     market_information: Mapping[str, Any] | None = None,
     week6_clv: Mapping[str, Any] | None = None,
     authority_audit: Mapping[str, Any] | None = None,
@@ -91,6 +92,7 @@ def build(
     open_stage=(power.get("stages") or {}).get("openProvenance") or {}
 
     return {
+        "promotionScorecard": promotion,
         "schemaVersion":1,
         "contract":CONTRACT,
         "generatedAt":now.isoformat(),
@@ -187,6 +189,7 @@ def main(argv: list[str] | None=None) -> int:
     p.add_argument("--grades")
     p.add_argument("--br2")
     p.add_argument("--market-audit")
+    p.add_argument("--promotion")
     p.add_argument("--market-information")
     p.add_argument("--week6-clv")
     p.add_argument("--authority-audit")
@@ -200,6 +203,7 @@ def main(argv: list[str] | None=None) -> int:
         grades=_json(args.grades),
         br2=_json(args.br2),
         market_audit=_json(args.market_audit),
+        promotion=_json(args.promotion),
         market_information=_json(args.market_information),
         week6_clv=_json(args.week6_clv),
         authority_audit=_json(args.authority_audit),
