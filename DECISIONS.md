@@ -1506,3 +1506,93 @@ compatibility branch and its test can go. If a third shape appears, the same
 failure mode returns; the guard against that is
 `tests/test_kalshi_book.py::test_the_live_shape_is_not_an_empty_book`, which
 fails loudly rather than reporting an empty board.
+
+## 2026-09-30 — D37. The pick path prices Kalshi moneylines at the fill, not the quote
+
+**Decision.** `shop.py` accepts an injected `fill_probe`. When given, every
+moneyline row on a venue that publishes resting size is priced at the average
+that `gate.DEFAULT_SIZE` contracts would actually pay, by walking the live
+ladder through `Book.vwap` (D36), and rows whose resting size cannot cover the
+order are flagged `NO_FILL` with stake nailed to zero. The probe lives in
+`cfb_edge/fill.py`, is wired into `.github/workflows/shop-board.yml`, and is
+**off by default**.
+
+**Why this was needed.** `shop.py` has warned in prose since it was written
+that "a median is what was quoted, not what you would be filled at, and the gap
+between the two is where this kind of edge usually dies." Nothing measured that
+gap. Only `board.py` reached `parse_book`, `vwap`, `depth` and `gate.py`;
+`shop.py` — the module that produces the picks — reached none of them and took
+its Kalshi price from The Odds API, which publishes no size at all.
+
+**What it actually changes, stated precisely.** Not the decision. No shopped row
+can BET as things stand: `decide` returns PASS with zero stake for any row
+without a registered Stage-A-eligible signal, `shop` passes none, and
+`systems.jsonl` is empty. What changes is the EV written to the record. On a
+live-shaped fixture a Kalshi moneyline quoted at +400 carries **+15.7%** EV
+against the sharp reference; walked at 200 contracts against a ladder holding 10
+at that price, the executable average is 39c and the same row is **−39.9%**.
+That number is what the board ranks by and what the SHADOW ledger grades, so an
+EV inflated by size that is not there produces a candidate that reads as a miss
+later for a reason nobody can reconstruct. The fill test becomes a bet-blocker
+the moment a system is registered; until then it is a truth-in-labelling fix on
+the record, which is what the ledger exists to protect.
+
+**The venue asymmetry, which is the design question this decision settles.**
+Only Kalshi publishes depth, so only Kalshi rows face the test. This does not
+make the soft-book rows safe: a DraftKings row still carries no fill test and
+its price is exactly as unverified as every Kalshi row was before this. The one
+venue whose liquidity can be checked is now held to a stricter standard than the
+venues whose liquidity cannot, so the board will under-select Kalshi relative to
+books that get no scrutiny at all. Reading "fewer Kalshi rows survive" as
+"Kalshi is worse" inverts the finding, which is only that Kalshi is where being
+wrong about size is detectable. The absence of `NO_FILL` on a soft-book row
+carries no information and must never be read as a fill test that passed.
+
+**Moneylines only, and that is not a shortcut.** A Kalshi contract and a book's
+moneyline on the same team are the same bet, which is why `shop.py` already
+notes that moneylines "have no line and are always comparable". Spreads are not:
+`strike_of` floors half-points because 16.5 and 16 settle identically on the
+exchange, while a book quoting −16.5 against −16 is offering a different wager.
+Bridging that needs the margin PMF, and `shop.py` already refuses those
+comparisons as `LINE_MISMATCH` for exactly that reason. Spread and total rows
+are left untested rather than tested badly.
+
+**Off by default, on purpose.** `s04_es1` and `s04_es2` price frozen cohorts
+through `shop()`. D33, D34 and D35 make those cohorts forward-only, so
+re-pricing a settled cohort against a ladder pulled today would rewrite a
+measurement after the fact. The probe is injected by the live board only, and
+`tests/test_fill.py::test_without_a_probe_nothing_changes` holds the default
+path in place.
+
+**The size is a policy input, not a derived one.** Deriving the fill size from
+the stake is circular: the stake depends on the edge, the edge depends on the
+executable price, the executable price depends on the size. `board.py` already
+breaks that loop with an exogenous `--size`, and `fill.py` imports the same
+`gate.DEFAULT_SIZE` so "the size the gate insists it can fill" has one
+definition. **This is a PRIOR (Law 6):** 200 contracts is the number `gate.py`
+has always used and no derivation for it exists in this repository. It is not
+measured and must not be presented as if it were.
+
+**Law 4 and Law 5.** The probe runs before `decide`, not after, so the gate sees
+the executable price and each row is still gated exactly once. Deciding on the
+quote and re-deciding on the fill would gate twice and leave two EVs on the
+record with no rule for which one counts. `venue_price` keeps meaning what the
+venue published, because `s04_es1` and `s04_es2` record it as `currentPrice`;
+the price the gate saw is `ShopRow.decided_price`, which reads off
+`decision.quote.price` so the two cannot drift apart.
+
+**Verification.** 26 tests in `tests/test_fill.py`, kept in a new file so a
+concurrent edit to `test_shop.py` cannot conflict with it. Proven non-vacuous by
+disabling the wiring in `shop.py` and re-running: 6 of the 26 fail, and they are
+exactly the 6 that assert the wiring. `test_a_thin_kalshi_book_is_flagged_
+NO_FILL_with_no_stake` deliberately does not assert `not bets`, because that
+would pass whether or not this code existed and would credit the fill test with
+a refusal it did not make.
+
+**Reversal criterion.** If The Odds API begins publishing resting size, or
+another venue on the board does, the asymmetry argument weakens and
+`FILL_TESTED_VENUES` should grow to match rather than staying Kalshi-only out of
+habit. If a margin-PMF bridge for strikes is ever derived and measured, the
+moneyline-only restriction can be revisited — but not before, since that bridge
+is the model error `shop.py` exists to keep out. If `gate.DEFAULT_SIZE` is ever
+derived from something, this entry's PRIOR tag comes off with it.
