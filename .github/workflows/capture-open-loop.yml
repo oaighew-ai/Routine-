@@ -136,23 +136,57 @@ jobs:
           deadline=$(( $(date -u +%s) + LOOP_MINUTES * 60 ))
           polls=0; pushes=0; failures=0; since_push=0
 
-          # Push what we have. A rejected push means another poller moved the
-          # branch: take its version rather than forcing. Forcing would replace
-          # an earlier first-seen with a later one, which is the single error
-          # this whole system exists to avoid. The market we just recorded is
-          # re-recorded on the next poll, seconds later.
+          # Every successful poll's snapshot is kept here until a push carries
+          # it. Other workflows commit to capture-data outside this job's
+          # concurrency group, so a push can be rejected at any time. Taking
+          # their branch is still right (forcing would replace an earlier
+          # first-seen with a later one), but the polls we had not pushed are
+          # then replayed on top at their original observation time instead of
+          # being thrown away. Before this, a lost push cost the poll, and a
+          # market that opened in it was first seen a poll later or not at all.
+          UNPUSHED="$RUNNER_TEMP/unpushed"
+          mkdir -p "$UNPUSHED"
+          COHORT_ID="${{ steps.slate.outputs.cohort_id }}"
+          PROS_DIR="capture-data/data/open-capture/$COHORT_ID"
+          mkdir -p "$PROS_DIR/evidence"
+
+          replay_unpushed () {
+            local f n=0
+            for f in $(ls "$UNPUSHED"/*.json 2>/dev/null | sort); do
+              python3 -m cfb_edge.watch --log capture-data/data/opens.jsonl.gz \
+                --out capture-data/data/opens.csv --replay-snapshot "$f" || return 1
+              python3 -m cfb_edge.prospective_open --snapshot "$f" \
+                --slate capture-data/data/slate_current.csv --cohort-id "$COHORT_ID" \
+                --out "$PROS_DIR/status.json" \
+                --latest-out capture-data/data/prospective-open-status.json \
+                --evidence-dir "$PROS_DIR/evidence" --revision "$GITHUB_SHA" || return 1
+              n=$((n + 1))
+            done
+            echo "replayed $n unpushed poll(s) onto the moved branch"
+          }
+
           persist () {
-            local message="$1"
-            cd capture-data
-            git add -A data
-            if git diff --cached --quiet; then cd ..; return 1; fi
-            git commit -q -m "$message"
-            if git push -q 2>/dev/null; then cd ..; return 0; fi
-            echo "push rejected; taking the branch as it is"
-            git reset --hard -q HEAD~1
-            git fetch -q origin capture-data
-            git reset --hard -q origin/capture-data
-            cd ..
+            local message="$1" attempt
+            for attempt in 1 2 3; do
+              git -C capture-data add -A data
+              if git -C capture-data diff --cached --quiet; then
+                rm -f "$UNPUSHED"/*.json
+                return 1
+              fi
+              git -C capture-data commit -q -m "$message"
+              if git -C capture-data push -q 2>/dev/null; then
+                rm -f "$UNPUSHED"/*.json
+                return 0
+              fi
+              echo "push rejected (attempt $attempt); taking the branch and replaying unpushed polls"
+              git -C capture-data reset --hard -q HEAD~1
+              git -C capture-data fetch -q origin capture-data
+              git -C capture-data reset --hard -q origin/capture-data
+              if ! replay_unpushed; then
+                echo "replay failed; the polls stay queued for the next push"
+                return 1
+              fi
+            done
             return 1
           }
 
@@ -174,9 +208,7 @@ jobs:
               failures=$((failures + 1))
               echo "poll $polls failed; continuing"
             else
-              COHORT_ID="${{ steps.slate.outputs.cohort_id }}"
-              PROS_DIR="capture-data/data/open-capture/$COHORT_ID"
-              mkdir -p "$PROS_DIR/evidence"
+              cp "$SNAPSHOT" "$UNPUSHED/$(date -u +%s%N).json"
               python3 -m cfb_edge.prospective_open \
                 --snapshot "$SNAPSHOT" \
                 --slate capture-data/data/slate_current.csv \
@@ -257,44 +289,42 @@ jobs:
 
       - name: Keep it
         if: steps.slate.outputs.ok == '1'
-        working-directory: capture-data
         run: |
-          git config user.name  "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add -A data
-          if git diff --cached --quiet; then
-            echo "nothing new since the last push in the loop" >> "$GITHUB_STEP_SUMMARY"
-            exit 0
-          fi
-          git commit -q -m "capture open loop: close $(date -u '+%Y-%m-%d %H:%M UTC')"
+          set -u
+          git -C capture-data config user.name  "github-actions[bot]"
+          git -C capture-data config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          UNPUSHED="$RUNNER_TEMP/unpushed"
+          mkdir -p "$UNPUSHED"
+          COHORT_ID="${{ steps.slate.outputs.cohort_id }}"
+          PROS_DIR="capture-data/data/open-capture/$COHORT_ID"
+          mkdir -p "$PROS_DIR/evidence"
           for attempt in 1 2 3; do
-            if git push; then exit 0; fi
-            echo "push rejected, taking the branch as it is (attempt $attempt)"
-            git reset --hard -q HEAD~1
-            git fetch -q origin capture-data
-            git reset --hard -q origin/capture-data
-            cd "$GITHUB_WORKSPACE"
-            SNAPSHOT="/tmp/kalshi-live-poll.json"
-            python3 -m cfb_edge.watch --source kalshi \
-              --slate capture-data/data/slate_current.csv \
-              --log capture-data/data/opens.jsonl.gz \
-              --out capture-data/data/opens.csv \
-              --snapshot-out "$SNAPSHOT" --once
-            COHORT_ID="${{ steps.slate.outputs.cohort_id }}"
-            PROS_DIR="capture-data/data/open-capture/$COHORT_ID"
-            mkdir -p "$PROS_DIR/evidence"
-            python3 -m cfb_edge.prospective_open \
-              --snapshot "$SNAPSHOT" \
-              --slate capture-data/data/slate_current.csv \
-              --cohort-id "$COHORT_ID" \
-              --out "$PROS_DIR/status.json" \
-              --latest-out capture-data/data/prospective-open-status.json \
-              --evidence-dir "$PROS_DIR/evidence" \
-              --revision "$GITHUB_SHA"
-            cd capture-data
-            git add -A data
-            git diff --cached --quiet && exit 0
-            git commit -q -m "capture open loop: close $(date -u '+%Y-%m-%d %H:%M UTC')"
+            git -C capture-data add -A data
+            if git -C capture-data diff --cached --quiet; then
+              echo "nothing new since the last push in the loop" >> "$GITHUB_STEP_SUMMARY"
+              exit 0
+            fi
+            git -C capture-data commit -q -m "capture open loop: close $(date -u '+%Y-%m-%d %H:%M UTC')"
+            if git -C capture-data push; then
+              rm -f "$UNPUSHED"/*.json
+              exit 0
+            fi
+            # Take the branch as it is, then replay the polls this run never
+            # pushed, at the times they were observed. No fresh poll stands in
+            # for a lost one.
+            echo "push rejected, replaying unpushed polls (attempt $attempt)"
+            git -C capture-data reset --hard -q HEAD~1
+            git -C capture-data fetch -q origin capture-data
+            git -C capture-data reset --hard -q origin/capture-data
+            for f in $(ls "$UNPUSHED"/*.json 2>/dev/null | sort); do
+              python3 -m cfb_edge.watch --log capture-data/data/opens.jsonl.gz \
+                --out capture-data/data/opens.csv --replay-snapshot "$f"
+              python3 -m cfb_edge.prospective_open --snapshot "$f" \
+                --slate capture-data/data/slate_current.csv --cohort-id "$COHORT_ID" \
+                --out "$PROS_DIR/status.json" \
+                --latest-out capture-data/data/prospective-open-status.json \
+                --evidence-dir "$PROS_DIR/evidence" --revision "$GITHUB_SHA"
+            done
           done
-          echo "could not push after three attempts" >> "$GITHUB_STEP_SUMMARY"
+          echo "could not push after three attempts; unpushed polls remain in the job log only" >> "$GITHUB_STEP_SUMMARY"
           exit 1

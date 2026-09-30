@@ -46,7 +46,7 @@ import time
 from dataclasses import dataclass, field
 from datetime import datetime, timezone
 from pathlib import Path
-from typing import Callable, Iterable, Mapping
+from typing import Any, Callable, Iterable, Mapping
 
 # When the board for the coming cohort actually opens, in UTC. Measured, not
 # assumed: `data/audit/week4-open-time-backfill.json` recovered Kalshi's own
@@ -249,6 +249,10 @@ class OpeningBook:
     # open gives the close, because every poll is written and nothing is
     # overwritten. No second data source, and no way for the two to disagree.
     latest: dict[tuple[str, str, str], Quote] = field(default_factory=dict)
+    # `polled_at` of every poll already in the log. A replayed snapshot whose
+    # poll is already here is skipped, so recovery after a lost push can be
+    # run more than once without writing the same poll twice.
+    polls: set[str] = field(default_factory=set)
 
     @classmethod
     def load(cls, path: str | Path) -> "OpeningBook":
@@ -267,6 +271,8 @@ class OpeningBook:
                     rec = json.loads(line)
                 except json.JSONDecodeError:
                     continue
+                if rec.get("polled_at"):
+                    book.polls.add(str(rec["polled_at"]))
                 for q in rec.get("quotes", []):
                     try:
                         quote = Quote(**q)
@@ -275,13 +281,18 @@ class OpeningBook:
                     book._observe(quote)
         return book
 
-    def record(self, quotes: Iterable[Quote]) -> list[Quote]:
+    def record(self, quotes: Iterable[Quote], *, polled_at: str | None = None) -> list[Quote]:
         """Append a poll to the log and return the quotes that were new.
 
         The return value is the point of the whole exercise: those are markets
         that had not been seen before, so their price is an opening line.
+
+        ``polled_at`` is the poll's own time. It is supplied only when a poll
+        is being replayed from its saved snapshot, so the log keeps the moment
+        the market was actually observed rather than the moment it was written.
         """
         quotes = list(quotes)
+        stamp = polled_at or datetime.now(timezone.utc).isoformat()
         fresh = [q for q in quotes if q.key not in self.opens]
         for q in quotes:
             self._observe(q)
@@ -290,10 +301,40 @@ class OpeningBook:
         opener = gzip.open if self.path.suffix == ".gz" else open
         with opener(self.path, "at", encoding="utf-8") as fh:
             fh.write(json.dumps({
-                "polled_at": datetime.now(timezone.utc).isoformat(),
+                "polled_at": stamp,
                 "quotes": [q.__dict__ for q in quotes],
             }) + "\n")
+        self.polls.add(stamp)
         return fresh
+
+    def replay(self, snapshot: Mapping[str, Any]) -> tuple[list[Quote], bool]:
+        """Record a saved live-poll snapshot exactly as it was observed.
+
+        The open loop keeps every poll it has not yet pushed. When a push is
+        rejected because another writer moved the branch, it takes the branch
+        as it is and replays those snapshots on top, so the first sighting of
+        a market keeps its real time instead of being re-observed a poll later
+        or lost. Returns the newly opened quotes and whether anything was
+        written; a poll already in the log is skipped.
+        """
+        if snapshot.get("contract") != "CFB_EDGE_LIVE_QUOTE_SNAPSHOT_V1":
+            raise ValueError("not a CFB_EDGE_LIVE_QUOTE_SNAPSHOT_V1 snapshot")
+        stamp = str(snapshot.get("polled_at") or "")
+        if not stamp:
+            raise ValueError("snapshot has no polled_at; its observation time is unknown")
+        if stamp in self.polls:
+            return [], False
+        quotes = []
+        for raw in snapshot.get("quotes") or []:
+            data = dict(raw)
+            for key in ("market_tickers", "quote_inputs"):
+                if isinstance(data.get(key), list):
+                    data[key] = tuple(data[key])
+            try:
+                quotes.append(Quote(**data))
+            except TypeError:
+                continue
+        return self.record(quotes, polled_at=stamp), True
 
     def _observe(self, quote: Quote) -> None:
         """Fold one quote into the derived views, in a single pass."""
@@ -500,6 +541,9 @@ def main(argv: list[str] | None = None) -> int:
     p.add_argument("--max-polls", type=int, default=None, dest="max_polls")
     p.add_argument("--rebuild", action="store_true",
                    help="skip polling; rebuild the opens CSV from the existing log")
+    p.add_argument("--replay-snapshot", action="append", default=[], dest="replay",
+                   help="skip polling; record a saved --snapshot-out file with its "
+                        "original poll time (repeatable, applied in order)")
     p.add_argument("--slate",
                    help="the week's slate CSV. Required with --source kalshi, "
                         "because nothing in a Kalshi market says which team is "
@@ -522,7 +566,21 @@ def main(argv: list[str] | None = None) -> int:
     book = OpeningBook.load(args.log)
     print(f"{len(book.opens)} markets already have a recorded open.")
 
-    if not args.rebuild:
+    if args.replay:
+        written = skipped = opened = 0
+        for path in args.replay:
+            try:
+                snap = json.loads(Path(path).read_text(encoding="utf-8"))
+                fresh, wrote = book.replay(snap)
+            except (OSError, ValueError) as exc:
+                print(f"cannot replay {path}: {exc}")
+                return 2
+            written += int(wrote)
+            skipped += int(not wrote)
+            opened += len(fresh)
+        print(f"replayed {written} saved poll(s), skipped {skipped} already logged; "
+              f"{opened} market(s) opened")
+    elif not args.rebuild:
         def announce(fresh: list[Quote]) -> None:
             games = sorted({q.game for q in fresh})
             print(f"[{datetime.now(timezone.utc):%Y-%m-%d %H:%M} UTC] "
