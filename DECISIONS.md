@@ -1345,8 +1345,6 @@ label.
 **Authority effect.** None. This is research-only S04_BR2 evidence.
 S02 remains the sole delivery candidate. Frozen Week 5 S04_ES2, staking,
 delivery and promotion rules are unchanged.
-
-
 ## 2026-09-29 — D34. Week 6 recovered opens become a frozen prospective CLV cohort
 
 **Decision.** The 27 audit-grade recovered true-open rows from the active
@@ -1431,3 +1429,170 @@ authority are unchanged. S04_BR2 remains `DATA_COLLECTION_ONLY`.
 that proves equal or stronger venue-time, raw-quote, identity and immutable
 lineage guarantees prospectively. Do not restore retrospective recovery for
 new cohorts.
+
+## 2026-09-25 — D36. The Kalshi order book is read from the fixed-point wire shape
+
+**Decision.** `parse_book` accepts both `orderbook_fp` (the live shape) and
+`orderbook` (the integer-cent shape it was written against), normalising both
+to cents. `Level.size` and `Book.depth` become floats.
+
+**Why this was not caught by a test or an alarm.** Kalshi moved prices and
+contract counts to fixed-point strings and re-wrapped the book under
+`orderbook_fp`. `parse_book` read only `orderbook`, so a successful request
+parsed to an empty book: `best_ask` None, `depth` 0, `vwap` refusing every
+size. That is indistinguishable from a market with nothing resting in it, so
+nothing raised and nothing logged. The suite passed throughout, because its
+only book fixture was hand-written in the old shape. A gate that refuses on
+thin depth (`gate.py`'s DEPTH check) would therefore have refused every
+Kalshi row for a reason that was never true.
+
+The market-level rename (`yes_ask` to `yes_ask_dollars`) was already handled
+by `_side_price`. Two sites still read the removed spellings: `parse_book`,
+and the `find_markets` listing, which printed None for every price.
+
+**Evidence.** Measured, not inferred, and measured twice. A probe workflow
+(`.github/workflows/kalshi-depth.yml`, no Odds API credits) read the three CFB
+series on two days. The two runs agree on what matters and disagree sharply on
+one number, so both are recorded rather than reconciled.
+
+| median size resting at the best ask | 2026-09-24 | 2026-09-25 |
+|---|---|---|
+| <=10c | 105 | 882 |
+| 11-25c | 108 | 305 |
+| 26-45c | 1,000 | 1,864 |
+| 46-55c | 3,000 | 4,020 |
+| >55c | 296 | 400 |
+| priced markets | 4,746 | 4,751 |
+| longshots <=10c | 300 | 330 |
+| empty books in that band | 0/300 | 0/330 |
+| median spread in that band | 2c | 2c |
+| quoting inside 5c | 295/300 | 328/330 |
+
+**Stable across both, and the finding that stands:** no empty longshot book,
+a 2c median spread, and about 99% of the band quoting inside 5c. The
+thin-book hypothesis that motivated the earlier longshot suppression is dead.
+Those are real markets.
+
+**Not stable, and a correction to what this session reported first:** the
+median resting size moved by up to a factor of eight in a single day. The
+earlier claim that a $94.29 stake at ~9c (~1,048 contracts) wants roughly ten
+times the top of book was true of the 2026-09-24 snapshot and is not true of
+the 2026-09-25 one, where 1,048 against 882 is about 1.2x and walking one
+rung fills it.
+
+The conclusion that survives is stronger than the one it replaces: the size
+gap is real but varies by nearly an order of magnitude between pulls, so **no
+static size or depth threshold can be derived from a single snapshot** --
+under Law 6 any such constant would be a PRIOR wearing a measurement's
+clothes. Sizing has to walk the live ladder at decision time, which is
+precisely what `Book.vwap` does and what this fix restores.
+
+`liquidity_dollars` reads 0.00 on all 4,746 markets despite real resting
+sizes. It is unusable and must not enter any gate.
+
+**Derivation for `_SIZE_TOLERANCE = 1e-6` (Law 6).** Not a PRIOR. Kalshi
+documents contract granularity as 0.01 contracts, so no genuine unfilled
+residual can be smaller than that; 1e-6 sits four orders of magnitude below
+the smallest real quantity and admits only float error from walking the
+ladder. Source: docs.kalshi.com/getting_started/fixed_point_migration, read
+2026-09-25.
+
+**Sub-cent prices are real.** `price_ranges` tick to $0.0001 on the tapered
+grids, so cents are carried as floats rather than integers. A rung can sit at
+1.2c, and rounding it is a real price error, not a display nicety.
+
+**Reversal criterion.** If Kalshi retires the legacy `orderbook` key, the
+compatibility branch and its test can go. If a third shape appears, the same
+failure mode returns; the guard against that is
+`tests/test_kalshi_book.py::test_the_live_shape_is_not_an_empty_book`, which
+fails loudly rather than reporting an empty board.
+
+## 2026-09-30 — D37. The pick path prices Kalshi moneylines at the fill, not the quote
+
+**Decision.** `shop.py` accepts an injected `fill_probe`. When given, every
+moneyline row on a venue that publishes resting size is priced at the average
+that `gate.DEFAULT_SIZE` contracts would actually pay, by walking the live
+ladder through `Book.vwap` (D36), and rows whose resting size cannot cover the
+order are flagged `NO_FILL` with stake nailed to zero. The probe lives in
+`cfb_edge/fill.py`, is wired into `.github/workflows/shop-board.yml`, and is
+**off by default**.
+
+**Why this was needed.** `shop.py` has warned in prose since it was written
+that "a median is what was quoted, not what you would be filled at, and the gap
+between the two is where this kind of edge usually dies." Nothing measured that
+gap. Only `board.py` reached `parse_book`, `vwap`, `depth` and `gate.py`;
+`shop.py` — the module that produces the picks — reached none of them and took
+its Kalshi price from The Odds API, which publishes no size at all.
+
+**What it actually changes, stated precisely.** Not the decision. No shopped row
+can BET as things stand: `decide` returns PASS with zero stake for any row
+without a registered Stage-A-eligible signal, `shop` passes none, and
+`systems.jsonl` is empty. What changes is the EV written to the record. On a
+live-shaped fixture a Kalshi moneyline quoted at +400 carries **+15.7%** EV
+against the sharp reference; walked at 200 contracts against a ladder holding 10
+at that price, the executable average is 39c and the same row is **−39.9%**.
+That number is what the board ranks by and what the SHADOW ledger grades, so an
+EV inflated by size that is not there produces a candidate that reads as a miss
+later for a reason nobody can reconstruct. The fill test becomes a bet-blocker
+the moment a system is registered; until then it is a truth-in-labelling fix on
+the record, which is what the ledger exists to protect.
+
+**The venue asymmetry, which is the design question this decision settles.**
+Only Kalshi publishes depth, so only Kalshi rows face the test. This does not
+make the soft-book rows safe: a DraftKings row still carries no fill test and
+its price is exactly as unverified as every Kalshi row was before this. The one
+venue whose liquidity can be checked is now held to a stricter standard than the
+venues whose liquidity cannot, so the board will under-select Kalshi relative to
+books that get no scrutiny at all. Reading "fewer Kalshi rows survive" as
+"Kalshi is worse" inverts the finding, which is only that Kalshi is where being
+wrong about size is detectable. The absence of `NO_FILL` on a soft-book row
+carries no information and must never be read as a fill test that passed.
+
+**Moneylines only, and that is not a shortcut.** A Kalshi contract and a book's
+moneyline on the same team are the same bet, which is why `shop.py` already
+notes that moneylines "have no line and are always comparable". Spreads are not:
+`strike_of` floors half-points because 16.5 and 16 settle identically on the
+exchange, while a book quoting −16.5 against −16 is offering a different wager.
+Bridging that needs the margin PMF, and `shop.py` already refuses those
+comparisons as `LINE_MISMATCH` for exactly that reason. Spread and total rows
+are left untested rather than tested badly.
+
+**Off by default, on purpose.** `s04_es1` and `s04_es2` price frozen cohorts
+through `shop()`. D33, D34 and D35 make those cohorts forward-only, so
+re-pricing a settled cohort against a ladder pulled today would rewrite a
+measurement after the fact. The probe is injected by the live board only, and
+`tests/test_fill.py::test_without_a_probe_nothing_changes` holds the default
+path in place.
+
+**The size is a policy input, not a derived one.** Deriving the fill size from
+the stake is circular: the stake depends on the edge, the edge depends on the
+executable price, the executable price depends on the size. `board.py` already
+breaks that loop with an exogenous `--size`, and `fill.py` imports the same
+`gate.DEFAULT_SIZE` so "the size the gate insists it can fill" has one
+definition. **This is a PRIOR (Law 6):** 200 contracts is the number `gate.py`
+has always used and no derivation for it exists in this repository. It is not
+measured and must not be presented as if it were.
+
+**Law 4 and Law 5.** The probe runs before `decide`, not after, so the gate sees
+the executable price and each row is still gated exactly once. Deciding on the
+quote and re-deciding on the fill would gate twice and leave two EVs on the
+record with no rule for which one counts. `venue_price` keeps meaning what the
+venue published, because `s04_es1` and `s04_es2` record it as `currentPrice`;
+the price the gate saw is `ShopRow.decided_price`, which reads off
+`decision.quote.price` so the two cannot drift apart.
+
+**Verification.** 26 tests in `tests/test_fill.py`, kept in a new file so a
+concurrent edit to `test_shop.py` cannot conflict with it. Proven non-vacuous by
+disabling the wiring in `shop.py` and re-running: 6 of the 26 fail, and they are
+exactly the 6 that assert the wiring. `test_a_thin_kalshi_book_is_flagged_
+NO_FILL_with_no_stake` deliberately does not assert `not bets`, because that
+would pass whether or not this code existed and would credit the fill test with
+a refusal it did not make.
+
+**Reversal criterion.** If The Odds API begins publishing resting size, or
+another venue on the board does, the asymmetry argument weakens and
+`FILL_TESTED_VENUES` should grow to match rather than staying Kalshi-only out of
+habit. If a margin-PMF bridge for strikes is ever derived and measured, the
+moneyline-only restriction can be revisited — but not before, since that bridge
+is the model error `shop.py` exists to keep out. If `gate.DEFAULT_SIZE` is ever
+derived from something, this entry's PRIOR tag comes off with it.

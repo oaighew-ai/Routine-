@@ -43,18 +43,34 @@ game reads as enormous value and is gone before it can be taken. Kickoff is
 read from the pull's own clock, rows past it are logged `IN_PLAY`, and they
 never bet.
 
-**Nothing here is a fill.** A median is what was quoted, not what you would be
-filled at, and the gap between the two is where this kind of edge usually dies.
-Every row carries `priceSource` and SHADOW grading is what decides whether the
-edge is real. The engine's job is to find the candidates; the ledger's job is
-to find out whether they were worth finding.
+**A quote is not a fill, and where the size can be checked it now is.** A median
+is what was quoted, not what you would be filled at, and the gap between the two
+is where this kind of edge usually dies. Pass `fill_probe` and every moneyline
+row on a venue that publishes a ladder is priced at the average the intended
+size would actually pay, walking the book, with `NO_FILL` on the rows whose
+resting size cannot cover it. `fill.py` holds that machinery and the reasons it
+covers only some rows: briefly, only Kalshi publishes depth and only a moneyline
+is the same bet on both sides of the comparison, so the test is conservative
+where it applies and absent everywhere else. Absent is not a pass. A soft-book
+row carries no fill test and its price remains exactly as unverified as every
+row here used to be, which is why a board with fewer surviving Kalshi rows is
+evidence about measurability and not about the venue.
+
+Without `fill_probe` this module behaves as it always did. That default is
+deliberate: `s04_es1` and `s04_es2` price frozen cohorts through here, and
+D33-D35 make those forward-only, so re-pricing a settled cohort against a ladder
+pulled today would rewrite a measurement after the fact.
+
+Every row still carries `priceSource` and SHADOW grading is still what decides
+whether the edge is real. The engine's job is to find the candidates; the
+ledger's job is to find out whether they were worth finding.
 """
 
 from __future__ import annotations
 
 from dataclasses import dataclass
 from datetime import datetime, timezone
-from typing import Any, Mapping, Sequence
+from typing import Any, Mapping, Protocol, Sequence
 
 from .engine import config, reasons
 from .engine.posterior import Decision, Quote, decide
@@ -76,6 +92,25 @@ SHARP_REFERENCE = "pinnacle"
 MIN_CONSENSUS_BOOKS = 3
 
 
+class FillLike(Protocol):
+    """What a fill probe returns. `fill.Fill` satisfies this.
+
+    Declared structurally so this module stays free of any venue's client: it
+    needs an executable price and a reason, not a Kalshi import.
+    """
+
+    price: float | None
+    ticker: str | None
+    vwap_cents: float | None
+    flag: str | None
+
+
+class FillProbe(Protocol):
+    """Prices one side at the size the operator intends to take."""
+
+    def __call__(self, *, side: str, home: str, away: str) -> FillLike: ...
+
+
 @dataclass(frozen=True)
 class ShopRow:
     """One venue's price on one side, decided against the others' median."""
@@ -94,6 +129,9 @@ class ShopRow:
     consensus_price: float | None
     consensus_books: tuple[str, ...]
     reference: str = "soft_median"
+    # None means no ladder was consulted for this row, which is the state every
+    # row was in before the fill test existed. It is not a pass.
+    fill: FillLike | None = None
 
     @property
     def bets(self) -> bool:
@@ -102,6 +140,23 @@ class ShopRow:
     @property
     def ev(self) -> float:
         return self.decision.ev
+
+    @property
+    def priced_at_fill(self) -> bool:
+        """Whether this row's price is a walked ladder rather than a quote."""
+        return self.fill is not None and self.fill.vwap_cents is not None
+
+    @property
+    def decided_price(self) -> float:
+        """The price the decision was actually made on.
+
+        `venue_price` stays what the venue published, because that is what it
+        has always meant and what the cohort writers record as `currentPrice`.
+        When a ladder was walked the two differ, and this is the one Law 4 cares
+        about: it reads straight off the quote the gate saw, so the two can
+        never drift apart.
+        """
+        return float(self.decision.quote.price)
 
 
 def shop(
@@ -115,12 +170,19 @@ def shop(
     now: datetime | None = None,
     age_seconds: float | None = None,
     min_consensus_books: int = MIN_CONSENSUS_BOOKS,
+    fill_probe: FillProbe | None = None,
+    fill_venues: Sequence[str] = ("kalshi",),
+    fill_markets: Sequence[str] = ("h2h",),
 ) -> list[ShopRow]:
     """Every venue, every side, decided against the other books' median.
 
     Returns one row per (event, market, side, venue) that the venue actually
     quotes, including the ones that do not bet, because a board that shows only
     what cleared cannot be checked against what did not.
+
+    `fill_probe`, when given, replaces the quoted price with the average the
+    intended size would pay on venues that publish a ladder, before the decision
+    is made rather than after. See the module docstring and `fill.py`.
     """
     now = now or utcnow()
     markets = list(
@@ -176,13 +238,37 @@ def shop(
                     else:
                         continue
 
+                    flags: list[str] = []
+                    if market != "h2h" and _line_differs(view.venue_line, ref_line):
+                        flags.append(reasons.LINE_MISMATCH)
+                    if _has_started(view.commence_time, now):
+                        flags.append(reasons.IN_PLAY)
+
+                    # The fill test runs before the decision, not after it, so
+                    # the gate sees the executable price and each row is still
+                    # gated exactly once (Law 5). Deciding on the quote and then
+                    # re-deciding on the fill would gate twice and leave two
+                    # answers on the record with no rule for which one counts.
+                    fill: FillLike | None = None
+                    price = float(view.venue_price)
+                    if (fill_probe is not None
+                            and venue in fill_venues
+                            and market in fill_markets):
+                        fill = fill_probe(
+                            side=side, home=view.home, away=view.away
+                        )
+                        if fill.flag:
+                            flags.append(fill.flag)
+                        if fill.price is not None:
+                            price = float(fill.price)
+
                     quote = Quote(
                         event_id=view.event_id or f"{view.away} @ {view.home}",
                         sport=sport,
                         market=market,
                         side=side,
                         line=view.venue_line,
-                        price=float(view.venue_price),
+                        price=price,
                         other_price=view.venue_other_price,
                         consensus_price=ref_price,
                         consensus_other_price=ref_other,
@@ -191,11 +277,6 @@ def shop(
                         starts_at=view.commence_time,
                         price_source="capture",
                     )
-                    flags: list[str] = []
-                    if market != "h2h" and _line_differs(view.venue_line, ref_line):
-                        flags.append(reasons.LINE_MISMATCH)
-                    if _has_started(view.commence_time, now):
-                        flags.append(reasons.IN_PLAY)
 
                     d = decide(
                         quote, (), cfg=cfg,
@@ -204,9 +285,10 @@ def shop(
                         integrity_flags=flags,
                     )
                     if (reasons.LINE_MISMATCH in d.reason_codes
-                            or reasons.IN_PLAY in d.reason_codes):
-                        # Logged, never bet. One is a different wager; the
-                        # other is a price that has already gone.
+                            or reasons.IN_PLAY in d.reason_codes
+                            or reasons.NO_FILL in d.reason_codes):
+                        # Logged, never bet. A different wager, a price that has
+                        # already gone, and a size the book cannot fill.
                         d.decision = reasons.PASS
                         d.stake_units = 0.0
                     rows.append(ShopRow(
@@ -224,6 +306,7 @@ def shop(
                         consensus_price=ref_price,
                         consensus_books=view.book_set,
                         reference=ref_kind,
+                        fill=fill,
                     ))
 
     return _one_per_game_and_side(rows)
@@ -325,6 +408,29 @@ def summary(rows: Sequence[ShopRow]) -> str:
             f"{fallback} quotes priced against the soft median because the "
             f"sharp book did not quote them; those are the weakest rows here"
         )
+    filled = [r for r in rows if r.priced_at_fill]
+    no_fill = [r for r in rows
+               if reasons.NO_FILL in r.decision.reason_codes]
+    if filled or no_fill:
+        lines.append(
+            f"{len(filled)} rows priced off a walked ladder rather than a "
+            f"quote, {len(no_fill)} logged NO_FILL because the resting size "
+            f"could not cover the order; every other row on this board is an "
+            f"untested quote, which is not the same as one that passed"
+        )
+        moved = [r for r in filled
+                 if abs(r.decided_price - r.venue_price) > 1e-9]
+        if moved:
+            lines.append(
+                "fill moved the price on " + ", ".join(
+                    f"{r.side} {r.venue} {r.venue_price:+.0f}->"
+                    f"{r.decided_price:+.0f}"
+                    for r in sorted(
+                        moved,
+                        key=lambda r: -abs(r.decided_price - r.venue_price),
+                    )[:5]
+                )
+            )
     if bets:
         lines.append(
             "best EV " + ", ".join(
