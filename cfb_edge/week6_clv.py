@@ -19,6 +19,8 @@ from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any, Mapping, Sequence
 
+from .clv import GRADEABLE
+
 FREEZE_CONTRACT = "CFB_EDGE_WEEK6_CLV_FREEZE_V1"
 DECISION_CONTRACT = "CFB_EDGE_WEEK6_CLV_DECISION_FREEZE_V1"
 CLOSE_CONTRACT = "CFB_EDGE_WEEK6_CLV_CLOSE_REPORT_V1"
@@ -288,8 +290,14 @@ def build_clv_gate_csv(
     return {
         "cohort":cohort,
         "rows":len(rows),
+        # GRADEABLE in clv.py is the only authority on which provenance
+        # counts, and it is {true_open, fill}. Hardcoding "true_open" here
+        # reported a real fill -- an order that actually filled, the strongest
+        # evidence there is -- as ungradeable, while cfb_edge.clv_gate graded
+        # it. Two numbers with the same name and different answers.
         "gradeableRows":sum(
-            r["close_line"] is not None and r["source"]=="true_open" for r in rows
+            r["close_line"] is not None and r["source"] in GRADEABLE
+            for r in rows
         ),
     }
 
