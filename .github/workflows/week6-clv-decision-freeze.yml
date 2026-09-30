@@ -1,0 +1,148 @@
+name: Week 6 recovered-open decision freeze
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - cfb_edge/week6_clv.py
+      - cfb_edge/s04_es2.py
+      - cfb_edge/market_quality.py
+      - cfb_edge/authority_gate_audit.py
+      - config/week6_clv_freeze.json
+      - config/br2_active_cohort.json
+      - config/s04_es2.json
+      - config/s03_m1.json
+      - config/week5_freeze.json
+      - .github/workflows/week6-clv-decision-freeze.yml
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: cfb-week6-clv-decision-freeze
+  cancel-in-progress: false
+
+jobs:
+  freeze:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Code
+        uses: actions/checkout@v4
+
+      - name: Evidence
+        uses: actions/checkout@v4
+        with:
+          ref: capture-data
+          path: evidence
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+
+      - name: Stop if immutable decision freeze already exists
+        id: existing
+        run: |
+          set -euo pipefail
+          if [ -f evidence/data/week6-clv-decision-freeze.json ]; then
+            echo "exists=1" >> "$GITHUB_OUTPUT"
+            echo "Week 6 CLV decision freeze already exists; refusing to rerun live selection." >> "$GITHUB_STEP_SUMMARY"
+          else
+            echo "exists=0" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Validate active cohort is still prospective
+        if: steps.existing.outputs.exists == '0'
+        id: prospective
+        run: |
+          set -euo pipefail
+          python3 -m cfb_edge.cohort status             --config config/br2_active_cohort.json             --mode prospective > /tmp/cohort.env
+          cat /tmp/cohort.env >> "$GITHUB_OUTPUT"
+          cat /tmp/cohort.env >> "$GITHUB_STEP_SUMMARY"
+          test "$(grep '^run=' /tmp/cohort.env | cut -d= -f2)" = "1"
+
+      - name: Build canonical active slate and recovered-open input
+        if: steps.existing.outputs.exists == '0'
+        run: |
+          set -euo pipefail
+          mkdir -p .tmp/week6-clv
+          python3 -m cfb_edge.cohort build-slate             --config config/br2_active_cohort.json             --out .tmp/week6-clv/slate.csv
+          python3 -m cfb_edge.cohort validate-slate             --config config/br2_active_cohort.json             --slate .tmp/week6-clv/slate.csv >> "$GITHUB_STEP_SUMMARY"
+          python3 -m cfb_edge.week6_clv opens-csv             --freeze config/week6_clv_freeze.json             --out .tmp/week6-clv/opens.csv
+
+      - name: Run unchanged S04_ES2 rule once
+        if: steps.existing.outputs.exists == '0'
+        env:
+          ODDS_API_KEY: ${{ secrets.ODDS_API_KEY }}
+        run: |
+          set -euo pipefail
+          test -f evidence/data/early-season-learning.json
+          python3 -m cfb_edge.s04_es2             --learning evidence/data/early-season-learning.json             --slate .tmp/week6-clv/slate.csv             --opens .tmp/week6-clv/opens.csv             --challenger config/s04_es2.json             --edge-config config/edge_os.json             --market-quality-config config/s03_m1.json             --freeze-manifest config/week5_freeze.json             --history-dir evidence/data/snapshots/s04_es2             --out .tmp/week6-clv/s04-es2.json             --snapshot-out .tmp/week6-clv/odds-snapshot.json
+
+      - name: Freeze exact pre-outcome decisions
+        if: steps.existing.outputs.exists == '0'
+        run: |
+          set -euo pipefail
+          python3 -m cfb_edge.week6_clv freeze-decisions             --freeze config/week6_clv_freeze.json             --report .tmp/week6-clv/s04-es2.json             --out .tmp/week6-clv/decision-freeze.json
+
+          python3 - <<'PY' >> "$GITHUB_STEP_SUMMARY"
+          import json
+          from pathlib import Path
+          r=json.loads(Path(".tmp/week6-clv/decision-freeze.json").read_text())
+          audit=[x for x in r["candidateAuditRows"] if x.get("auditGrade")]
+          exe=[x for x in r["inspectedLiveRows"] if x.get("status")=="EXECUTABLE_SHADOW"]
+          print("## Week 6 recovered-open decision freeze")
+          print("- registered recovered opens: **27**")
+          print(f"- frozen 4–6 gap directional signals: **{len(audit)}**")
+          print(f"- frozen executable-shadow rows: **{len(exe)}**")
+          print(f"- fully qualified unique rows: **{r['qualifiedCount']}**")
+          print("- decision/staking/delivery effect: **NONE**")
+          PY
+
+      - name: Rerun registered S02 authority gates
+        if: steps.existing.outputs.exists == '0'
+        run: |
+          set -euo pipefail
+          python3 -m cfb_edge.authority_gate_audit             --authority config/delivery_authority.json             --out .tmp/week6-clv/authority-gates.json
+          python3 - <<'PY' >> "$GITHUB_STEP_SUMMARY"
+          import json
+          from pathlib import Path
+          r=json.loads(Path(".tmp/week6-clv/authority-gates.json").read_text())
+          s=r["summary"]
+          print("## Registered S02 authority gates")
+          print(f"- pass all gates: **{s['allRegisteredGatesPass']}**")
+          print(f"- failed: **{s['recomputedFailedGates']}**")
+          print(f"- incomplete: **{s['incompleteGates']}**")
+          print("- CLV evidence cannot directly promote S02.")
+          PY
+
+      - name: Publish immutable decision evidence
+        if: steps.existing.outputs.exists == '0'
+        run: |
+          set -euo pipefail
+          cp .tmp/week6-clv/slate.csv evidence/data/week6_2026_slate.csv
+          cp .tmp/week6-clv/s04-es2.json evidence/data/week6-s04-es2-decision.json
+          cp .tmp/week6-clv/decision-freeze.json evidence/data/week6-clv-decision-freeze.json
+          cp .tmp/week6-clv/authority-gates.json evidence/data/authority-gate-audit.json
+          mkdir -p evidence/data/snapshots/week6_clv
+          gzip -c .tmp/week6-clv/odds-snapshot.json > evidence/data/snapshots/week6_clv/decision-odds.json.gz
+
+      - name: Keep immutable decision evidence
+        if: steps.existing.outputs.exists == '0'
+        working-directory: evidence
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add             data/week6_2026_slate.csv             data/week6-s04-es2-decision.json             data/week6-clv-decision-freeze.json             data/authority-gate-audit.json             data/snapshots/week6_clv/decision-odds.json.gz
+          git diff --cached --quiet && exit 0
+          git commit -q -m "Freeze Week 6 recovered-open CLV decisions $(date -u '+%Y-%m-%d %H:%M UTC')"
+          for attempt in 1 2 3; do
+            git fetch origin capture-data
+            if git rebase origin/capture-data && git push origin HEAD:capture-data; then
+              exit 0
+            fi
+            git rebase --abort || true
+            sleep $((attempt * 2))
+          done
+          exit 1

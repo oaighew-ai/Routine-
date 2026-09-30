@@ -24,7 +24,7 @@
     {
       "id": "CFBD_WEPA",
       "provider": "CollegeFootballData",
-      "role": "FEATURE_AUTHORITATIVE_PROSPECTIVE_ONLY",
+      "role": "FEATURE_AUTHORITATIVE_PREFERRED_PROSPECTIVE",
       "featureFamilies": [
         "epaDiff"
       ],
@@ -41,7 +41,8 @@
         "reason": "CFBD classifies opponent-adjusted metrics as Tier 1+; Free includes general advanced metrics but not opponent-adjusted metrics.",
         "source": "https://collegefootballdata.com/api-tiers"
       },
-      "failurePolicy": "If opponent-adjusted access is unavailable, epaDiff remains null. Never substitute PPA or unadjusted EPA under this feature name."
+      "failurePolicy": "If opponent-adjusted access is unavailable, use only the separately versioned CFBFASTR_OA_EPA prospective fallback. Never substitute PPA or unadjusted EPA.",
+      "fallback": "CFBFASTR_OA_EPA"
     },
     {
       "id": "CFBD_ADVANCED",
@@ -98,7 +99,7 @@
     {
       "id": "OFFICIAL_TEAM_MATERIALS",
       "provider": "University/conference athletic departments",
-      "role": "CANDIDATE_EVIDENCE",
+      "role": "STARTER_OVERRIDE_EVIDENCE",
       "featureFamilies": [
         "qbContinuityDiff"
       ],
@@ -117,7 +118,7 @@
         "deterministic fact validation",
         "both home and away team packets"
       ],
-      "featureRule": "team continuity = 1 if first-listed QB matches prior official depth chart, else 0; qbContinuityDiff = home continuity - away continuity",
+      "featureRule": "Optional validated official pregame starter may override the measured incumbent only if the named QB maps to captured prior participation. Official-source failure does not erase measured historical continuity.",
       "failClosed": true
     },
     {
@@ -150,6 +151,119 @@
       ],
       "lockedFieldsPolicy": "unavailable; never bypass access controls",
       "prohibitedUse": "Action projections, expert picks, locked betting percentages, or PRO grades cannot become BR2 labels/features"
+    },
+    {
+      "id": "CFBFASTR_OA_EPA",
+      "provider": "sportsdataverse/cfbfastR",
+      "role": "FEATURE_AUTHORITATIVE_PROSPECTIVE_FALLBACK",
+      "featureFamilies": [
+        "epaDiff"
+      ],
+      "sourceAsset": "sportsdataverse-data release cfbfastR_cfb_pbp/play_by_play_2026.csv",
+      "contract": "CFB_EDGE_OA_EPA_V1",
+      "definition": "Fixed two-way regularized opponent adjustment over play-level EPA from completed weeks strictly before the target cohort; team net = offense effect - defense-allowed effect.",
+      "algorithm": {
+        "family": "TWO_WAY_ALTERNATING_RIDGE",
+        "ridgeEquivalentPlays": 50,
+        "iterations": 50
+      },
+      "requirements": [
+        "source asset retrieval timestamp before decision time",
+        "full source asset SHA-256",
+        "canonical used-row subset archived by SHA-256",
+        "throughWeek strictly before target provider week",
+        "no post-decision or target-cohort plays",
+        "source contract retained in feature evidence"
+      ],
+      "failurePolicy": "If download, schema, cutoff, or replay validation fails, epaDiff remains null."
+    },
+    {
+      "id": "CFBD_QB_USAGE",
+      "provider": "CollegeFootballData",
+      "role": "FEATURE_AUTHORITATIVE",
+      "featureFamilies": [
+        "qbContinuityDiff"
+      ],
+      "endpoint": "/games/players?category=passing",
+      "contract": "CFB_EDGE_BR2_QB_CONTINUITY_V4",
+      "definition": "For each team, select the most recent completed-game passing-attempt leader unless a validated official starter override maps to prior participation. Continuity is selected-QB attempts divided by team attempts over the last three completed games; game feature is home minus away.",
+      "requirements": [
+        "only completed games before decision time",
+        "raw player-box payloads archived by SHA-256",
+        "last three completed team games only",
+        "missing participation remains null",
+        "official override must be known by decision time"
+      ],
+      "failClosed": true
+    },
+    {
+      "id": "KALSHI_CANDLE_OPEN",
+      "provider": "Kalshi",
+      "role": "MARKET_OPEN_PROVENANCE_LEGACY_RESEARCH",
+      "featureFamilies": [],
+      "endpoint": "/markets/candlesticks",
+      "contract": "CFB_EDGE_KALSHI_CANDLE_OPEN_V1",
+      "definition": "First two-sided implied spread reconstructed from 1-minute exchange bid/ask candles around the exact listed contracts' open_time.",
+      "requirements": [
+        "canonical football-game identity before use",
+        "exact event and selected contract tickers preserved",
+        "1-minute yes-bid/yes-ask source candles archived by SHA-256",
+        "selected-rung venue open time equals the latest open_time among the rungs used to derive the line",
+        "first valid implied line must be between -60 and +900 seconds of that venue open time",
+        "live opens.csv is never rewritten by archive recovery"
+      ],
+      "failurePolicy": "No two-sided implied line inside the frozen tolerance leaves audit-grade open missing. Never widen the 900-second limit.",
+      "validThroughProviderWeek": 5,
+      "note": "Preserved for the already-open provider Week 5 cohort only. Provider Week 6+ must use the prospective live lock and may not recover missing opens after the fact."
+    },
+    {
+      "id": "ODDS_API_INFORMATION_STATE",
+      "provider": "The Odds API",
+      "role": "MARKET_INFORMATION_RESEARCH",
+      "featureFamilies": [],
+      "endpoint": "/v4/sports/americanfootball_ncaaf/odds",
+      "definition": "Fresh home-side spread quotes from the fixed book set, timestamped by provider market last_update and captured before the shared decision time.",
+      "bookSet": [
+        "pinnacle",
+        "draftkings",
+        "fanduel",
+        "betmgm",
+        "betrivers"
+      ],
+      "requirements": [
+        "spreads only",
+        "canonical home/away team pair resolved through the CFBD team catalog and provider kickoff within 3600 seconds of the canonical fixture",
+        "provider last_update retained as observedAt",
+        "capture retrieval time retained separately",
+        "canonical extracted pull archived by SHA-256",
+        "maximum quote age 900 seconds",
+        "derived Kalshi lines never count as sportsbook depth",
+        "provider-name aliases that resolve to more than one active-slate team are discarded"
+      ],
+      "failurePolicy": "Source failure or stale quotes remain missing; no synthetic book price is created."
+    },
+    {
+      "id": "KALSHI_PROSPECTIVE_OPEN",
+      "provider": "Kalshi",
+      "role": "MARKET_OPEN_PROVENANCE_PRIMARY_FORWARD_ONLY",
+      "featureFamilies": [],
+      "contract": "CFB_EDGE_PROSPECTIVE_OPEN_V1",
+      "source": "live /markets polling through cfb_edge.watch",
+      "validFromProviderWeek": 6,
+      "definition": "First valid two-sided implied spread observed prospectively by the live one-minute poller, locked immutably at observation time.",
+      "requirements": [
+        "one-minute target polling across the full measured Saturday-through-Tuesday release band",
+        "exact canonical game identity",
+        "exact event ticker and at least two market tickers",
+        "raw quote inputs preserved",
+        "provider venue open_time preserved",
+        "first_valid_two_sided_quote_time equals the live observation that locked the row",
+        "open lag between -60 and +900 seconds",
+        "content-addressed evidence SHA-256",
+        "terminal true-open or missed-window state can never be upgraded later",
+        "historical recovery prohibited for provider Week 6+"
+      ],
+      "failurePolicy": "If the live poller misses the window, the row is permanently MISSED_TRUE_OPEN_WINDOW for that cohort. Do not recover it from candles later."
     }
   ]
 }
