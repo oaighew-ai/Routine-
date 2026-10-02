@@ -260,6 +260,22 @@ class TestComputedEvidence(unittest.TestCase):
             kalshi_last=datetime(2026, 9, 29, 21, 6, tzinfo=timezone.utc),
             prospective_window={"startsAt": "2026-09-27T00:00:00Z", "endsAt": "2026-10-02T23:00:00Z"})
         self.assertEqual(state["state"], wc.GATE_PASS)
+        self.assertEqual(state["late"], [])
+
+    def test_a_capture_that_landed_hours_late_is_reported_late_not_missed(self):
+        """What the evidence plane showed on 2026-10-01: the 13:30 slot's
+        snapshot arrived at 18:57. It landed, and the board was five hours
+        older than scheduled when anything read it."""
+        state = wc.scheduler_state(
+            as_of=datetime(2026, 10, 2, 12, 55, tzinfo=timezone.utc),
+            br2_generated=datetime(2026, 10, 1, 18, 57, tzinfo=timezone.utc),
+            kalshi_last=datetime(2026, 9, 29, 21, 6, tzinfo=timezone.utc),
+            prospective_window={"startsAt": "2026-09-27T00:00:00Z", "endsAt": "2026-10-02T23:00:00Z"})
+        self.assertEqual(state["state"], wc.GATE_DEGRADED)
+        self.assertEqual(state["missed"], [])
+        self.assertEqual(len(state["late"]), 1)
+        self.assertAlmostEqual(state["br2LatenessHours"], 5.45, places=2)
+        self.assertIn("5.5 h late", state["detail"])
 
     def test_in_season_clv_counts_week_clusters_honestly(self):
         learning = {"contract": "X", "season": 2026, "rows": [
@@ -269,6 +285,141 @@ class TestComputedEvidence(unittest.TestCase):
         out = wc.in_season_clv(learning)
         self.assertEqual(out["allGames"]["n"], 3)
         self.assertEqual(out["registeredRule"]["n"], 1)
+
+
+def br2_rows(games, *, decision="2026-10-01T11:00:00+00:00"):
+    return {"generatedAt": decision, "rows": [
+        {"game": g, "canonicalGameId": f"cfbd:{i}", "pregameEligible": True,
+         "decisionTime": decision, "snapshotAt": decision, "rowSha256": "x" * 64,
+         "features": {"qbContinuityDiff": 0.1, "epaDiff": 0.05, "windMph": 6.0}}
+        for i, g in enumerate(games)]}
+
+
+class TestWeekAgnosticInputs(unittest.TestCase):
+    """The card is rebuilt every week from 'latest' files that the previous
+    week also wrote. None of last week's rows may count toward this week."""
+
+    def test_a_feature_file_left_by_another_week_certifies_nothing(self):
+        with tempfile.TemporaryDirectory() as d:
+            f = Fixture(Path(d))
+            stale = Path(d) / "br2.json"
+            stale.write_text(json.dumps(br2_rows(["Last @ Week", "Other @ Game"])))
+            card = wc.build(f.inputs(br2_status=str(stale)), as_of=AS_OF)
+            health = {h["key"]: h for h in card["systemHealth"]}
+            self.assertEqual(health["informationState"]["state"], wc.GATE_FAIL)
+            self.assertEqual(health["qbContinuity"]["evidence"]["covered"], 0)
+            self.assertEqual(health["qbContinuity"]["state"], wc.GATE_FAIL)
+
+    def test_this_weeks_feature_rows_are_counted_from_the_rows_themselves(self):
+        with tempfile.TemporaryDirectory() as d:
+            f = Fixture(Path(d))
+            path = Path(d) / "br2.json"
+            path.write_text(json.dumps(br2_rows(["Arkansas @ Texas A&M", "Georgia State @ Troy"])))
+            card = wc.build(f.inputs(br2_status=str(path)), as_of=AS_OF)
+            health = {h["key"]: h for h in card["systemHealth"]}
+            self.assertEqual(health["informationState"]["state"], wc.GATE_PASS)
+            self.assertEqual(health["weather"]["evidence"], {"covered": 2, "games": 4})
+            self.assertEqual(health["weather"]["state"], wc.GATE_DEGRADED)
+
+    def test_the_epa_line_follows_the_captures_own_source_report(self):
+        blocked = {"sources": [
+            {"kind": "wepa", "ok": False, "httpStatus": 401,
+             "availability": "AUTHORIZATION_OR_ENTITLEMENT_BLOCKED"},
+            {"kind": "oa_epa_internal", "ok": True}]}
+        self.assertEqual(wc.epa_source(blocked)["state"], wc.GATE_DEGRADED)
+        self.assertIn("HTTP 401", wc.epa_source(blocked)["note"])
+        restored = {"sources": [{"kind": "wepa", "ok": True}, {"kind": "oa_epa_internal", "ok": True}]}
+        self.assertEqual(wc.epa_source(restored)["state"], wc.GATE_PASS)
+        self.assertNotIn("401", wc.epa_source(restored)["note"])
+        dead = {"sources": [{"kind": "wepa", "ok": False}, {"kind": "oa_epa_internal", "ok": False}]}
+        self.assertEqual(wc.epa_source(dead)["state"], wc.GATE_FAIL)
+        self.assertEqual(wc.epa_source(None)["state"], wc.GATE_DEGRADED)
+
+    def test_a_true_open_captured_live_passes_the_open_gate(self):
+        with tempfile.TemporaryDirectory() as d:
+            f = Fixture(Path(d))
+            pros = Path(d) / "pros.json"
+            pros.write_text(json.dumps({
+                "summary": {"capturedTrueOpenRows": 1, "missedTrueOpenRows": 1, "pendingRows": 1,
+                            "slateRows": 4},
+                "rows": [
+                    {"game": "Arkansas @ Texas A&M", "state": "CAPTURED_TRUE_OPEN",
+                     "openingLine": -13.5, "openLagSeconds": 84.0,
+                     "venueOpenTime": "2026-09-27T07:06:00+00:00"},
+                    {"game": "Georgia State @ Troy", "state": "MISSED_TRUE_OPEN_WINDOW",
+                     "openingLine": -7.0, "openLagSeconds": 40000.0},
+                    {"game": "Temple @ Hawai'i", "state": "PENDING"}]}))
+            card = wc.build(f.inputs(prospective=str(pros)), as_of=AS_OF)
+            rows = by_game(card)
+            self.assertEqual(rows["Arkansas @ Texas A&M"]["gates"]["openProvenance"]["state"],
+                             wc.GATE_PASS)
+            self.assertEqual(rows["Georgia State @ Troy"]["gates"]["openProvenance"]["state"],
+                             wc.GATE_FAIL)
+            self.assertEqual(rows["Temple @ Hawai'i"]["gates"]["openProvenance"]["state"],
+                             wc.GATE_DEGRADED)
+            health = {h["key"]: h for h in card["systemHealth"]}
+            self.assertEqual(health["openingProvenance"]["state"], wc.GATE_DEGRADED)
+            self.assertIn("1/4", health["openingProvenance"]["detail"])
+
+    def test_no_open_evidence_at_all_fails_the_open_line(self):
+        with tempfile.TemporaryDirectory() as d:
+            card = wc.build(Fixture(Path(d)).inputs(), as_of=AS_OF)
+            health = {h["key"]: h for h in card["systemHealth"]}
+            self.assertEqual(health["openingProvenance"]["state"], wc.GATE_FAIL)
+            self.assertIn("No prospective open-capture status", health["openingProvenance"]["detail"])
+
+    def test_a_week_without_a_cohort_contract_says_so(self):
+        with tempfile.TemporaryDirectory() as d:
+            card = wc.build(Fixture(Path(d)).inputs(cohort=None), as_of=AS_OF)
+            row = by_game(card)["Arkansas @ Texas A&M"]
+            self.assertEqual(row["gates"]["cohortIdentity"]["state"], wc.GATE_DEGRADED)
+            self.assertIn("No cohort contract", row["gates"]["cohortIdentity"]["detail"])
+
+
+class TestBuildScript(unittest.TestCase):
+    """scripts/build_weekly_card.sh is the one command every caller uses."""
+
+    SCRIPT = ROOT / "scripts" / "build_weekly_card.sh"
+
+    def run_script(self, tmp: Path, as_of: str):
+        import os
+        import subprocess
+
+        f = Fixture(tmp)
+        raw = tmp / "ev" / "data" / "features" / "br2" / "market" / "raw"
+        raw.mkdir(parents=True)
+        (raw / "before.json.gz").write_bytes(f.board.read_bytes())          # fetched 11:55
+        late = json.loads(gzip.open(f.board, "rt").read())
+        late["fetched_at"] = "2026-10-01T18:00:00+00:00"
+        with gzip.open(raw / "after.json.gz", "wt", encoding="utf-8") as fh:
+            json.dump(late, fh)
+        out = tmp / "out"
+        env = {**os.environ, "SLATE": str(f.slate), "WEEK": "5", "SEASON": "2026"}
+        done = subprocess.run(["bash", str(self.SCRIPT), str(tmp / "ev"), str(out), as_of],
+                              cwd=ROOT, env=env, capture_output=True, text=True)
+        return done, out
+
+    @unittest.skipUnless(__import__("shutil").which("bash"), "needs bash")
+    def test_it_builds_a_card_and_never_reads_a_board_from_the_future(self):
+        with tempfile.TemporaryDirectory() as d:
+            done, out = self.run_script(Path(d), "2026-10-01T12:00:00Z")
+            self.assertEqual(done.returncode, 0, done.stdout + done.stderr)
+            card = json.loads((out / "weekly-card.json").read_text())
+            self.assertEqual(card["summary"]["games"], 4)
+            self.assertEqual(card["label"]["productWeek"], 6)
+            self.assertEqual(card["label"]["providerWeek"], 5)
+            board = next(i for i in card["inputs"] if i["name"] == "board")
+            self.assertTrue(board["path"].endswith("before.json.gz"), board["path"])
+            self.assertTrue((out / "weekly-card.html").read_text().startswith("<title>"))
+
+    @unittest.skipUnless(__import__("shutil").which("bash"), "needs bash")
+    def test_a_later_decision_time_may_use_the_later_board(self):
+        with tempfile.TemporaryDirectory() as d:
+            done, out = self.run_script(Path(d), "2026-10-01T19:00:00Z")
+            self.assertEqual(done.returncode, 0, done.stdout + done.stderr)
+            card = json.loads((out / "weekly-card.json").read_text())
+            board = next(i for i in card["inputs"] if i["name"] == "board")
+            self.assertTrue(board["path"].endswith("after.json.gz"), board["path"])
 
 
 class TestRender(unittest.TestCase):

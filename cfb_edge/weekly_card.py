@@ -92,6 +92,9 @@ KICKOFF_TOLERANCE_SECONDS = 3600
 EVIDENCE_FACTOR = {GATE_PASS: 1.0, GATE_DEGRADED: 0.85, GATE_FAIL: 0.5, GATE_NA: 1.0}
 EXECUTION_HALF_LIFE_HOURS = 4.0
 
+# A scheduled input is overdue, or late, past this many hours after its slot.
+SCHEDULE_GRACE_HOURS = 2.0
+
 ROW_GATES = ("marketCapture", "execution", "openProvenance", "informationState",
              "qbContinuity", "epa", "weather", "cohortIdentity")
 
@@ -404,12 +407,41 @@ def _gate(state: str, detail: str, **evidence: Any) -> dict[str, Any]:
     return g
 
 
+def epa_source(br2_health: Mapping | None) -> dict[str, Any]:
+    """Which opponent-adjusted EPA source the capture actually used.
+
+    Read from the capture's own source-health report, so the card stops saying
+    the preferred source is blocked the day it stops being blocked.
+    """
+    sources = (br2_health or {}).get("sources") or []
+    wepa = next((s for s in sources if s.get("kind") == "wepa"), None)
+    internal = next((s for s in sources if s.get("kind") == "oa_epa_internal"), None)
+    if wepa and wepa.get("ok"):
+        return {"state": GATE_PASS, "note": "Preferred CFBD WEPA in use."}
+    if internal and internal.get("ok"):
+        why = ""
+        if wepa:
+            status = wepa.get("httpStatus")
+            why = (f" ({str(wepa.get('availability') or 'unavailable').replace('_', ' ').lower()}"
+                   + (f", HTTP {status}" if status else "") + ")")
+        return {"state": GATE_DEGRADED,
+                "note": f"Preferred CFBD WEPA unavailable{why}; versioned cfbfastR fallback "
+                        f"CFB_EDGE_OA_EPA_V1 in use through the prior week."}
+    if not sources:
+        return {"state": GATE_DEGRADED, "note": "No source-health report supplied for the capture."}
+    return {"state": GATE_FAIL,
+            "note": "Neither CFBD WEPA nor the internal fallback reported healthy."}
+
+
 def row_gates(*, game: SlateGame, event: BoardEvent | None, ref: tuple | None,
               as_of: datetime, board_fetched: datetime | None, br2: Mapping | None,
               recovered: Mapping | None, prospective: Mapping | None,
               in_cohort: bool, max_quote_age: float, odds_max_age: float,
-              min_books: int) -> dict[str, dict[str, Any]]:
+              min_books: int, epa_src: Mapping[str, Any] | None = None,
+              freeze_label: str | None = None,
+              cohort_registered: bool = True) -> dict[str, dict[str, Any]]:
     g: dict[str, dict[str, Any]] = {}
+    epa_src = epa_src or epa_source(None)
     # market capture
     if event is None:
         g["marketCapture"] = _gate(GATE_FAIL, "Game not on the captured sportsbook board.")
@@ -442,9 +474,20 @@ def row_gates(*, game: SlateGame, event: BoardEvent | None, ref: tuple | None,
         g["openProvenance"] = _gate(
             GATE_PASS, f"Venue-proven open {float(recovered['openingHomeLine']):+.1f} "
                        f"(lag {int(recovered.get('openLagSeconds') or 0)} s, recovered pre-outcome, "
-                       f"frozen in config/week6_clv_freeze.json).",
+                       f"frozen in {freeze_label or 'the registered freeze'}).",
             openingHomeLine=recovered.get("openingHomeLine"),
             venueOpenTime=recovered.get("venueOpenTime"))
+    elif prospective is not None and prospective.get("state") == "CAPTURED_TRUE_OPEN":
+        g["openProvenance"] = _gate(
+            GATE_PASS, f"True open {float(prospective['openingLine']):+.1f} observed live "
+                       f"{int(prospective.get('openLagSeconds') or 0)} s after the venue opened.",
+            openState=prospective.get("state"), openingHomeLine=prospective.get("openingLine"),
+            venueOpenTime=prospective.get("venueOpenTime"))
+    elif prospective is not None and prospective.get("state") == "PENDING":
+        g["openProvenance"] = _gate(
+            GATE_DEGRADED, "The venue has not opened this market yet, or no two-sided quote "
+                           "has been seen; the open can still be captured.",
+            openState="PENDING")
     elif prospective is not None and prospective.get("state"):
         g["openProvenance"] = _gate(
             GATE_FAIL, f"Prospective open state {prospective.get('state')}; "
@@ -474,12 +517,12 @@ def row_gates(*, game: SlateGame, event: BoardEvent | None, ref: tuple | None,
                          if qb is not None else
                          _gate(GATE_DEGRADED, "QB continuity not captured for this game."))
     epa = _num(feats.get("epaDiff"))
-    g["epa"] = _gate(
-        GATE_DEGRADED,
-        (f"Opponent-adjusted EPA difference {epa:+.3f} from the versioned cfbfastR "
-         f"fallback; preferred CFBD WEPA is authorization-blocked.")
-        if epa is not None else "Opponent-adjusted EPA not captured.",
-        epaDiff=epa)
+    if epa is None:
+        g["epa"] = _gate(GATE_DEGRADED, "Opponent-adjusted EPA not captured.", epaDiff=None)
+    else:
+        g["epa"] = _gate(epa_src["state"],
+                         f"Opponent-adjusted EPA difference {epa:+.3f}. {epa_src['note']}",
+                         epaDiff=epa)
     wind = _num(feats.get("windMph"))
     if wind is None:
         g["weather"] = _gate(GATE_DEGRADED, "No pre-game forecast captured.")
@@ -491,10 +534,15 @@ def row_gates(*, game: SlateGame, event: BoardEvent | None, ref: tuple | None,
         g["weather"] = _gate(state, f"Forecast wind {wind:.0f} mph"
                              + (f", captured {lead:.0f} h before kickoff." if lead is not None else "."),
                              windMph=wind, forecastLeadHours=_round(lead, 1))
-    g["cohortIdentity"] = (_gate(GATE_PASS, "Inside the frozen cohort's game window.")
-                           if in_cohort else
-                           _gate(GATE_DEGRADED, "Outside the frozen cohort's game window "
-                                                "(a Thursday kickoff the window omits); market data only."))
+    if in_cohort:
+        g["cohortIdentity"] = _gate(GATE_PASS, "Inside the registered cohort's game window.")
+    elif cohort_registered:
+        g["cohortIdentity"] = _gate(
+            GATE_DEGRADED, "Outside the registered cohort's game window (it kicks off before "
+                           "the weekend freeze); market data only.")
+    else:
+        g["cohortIdentity"] = _gate(
+            GATE_DEGRADED, "No cohort contract is registered for this week; market data only.")
     return g
 
 
@@ -509,13 +557,17 @@ def evaluate_game(*, game: SlateGame, event: BoardEvent | None, board_fetched: d
                   as_of: datetime, cfg: engine_config.Config, authority: Mapping[str, Any],
                   br2: Mapping | None, recovered: Mapping | None, prospective: Mapping | None,
                   shadow: Mapping | None, kalshi: Mapping | None, in_cohort: bool,
-                  min_books: int) -> dict[str, Any]:
+                  min_books: int, epa_src: Mapping[str, Any] | None = None,
+                  freeze_label: str | None = None,
+                  cohort_registered: bool = True) -> dict[str, Any]:
     max_quote_age = float((authority.get("requirements") or {}).get("maximumQuoteAgeSeconds", 900))
     odds_max_age = float(cfg.max_age_seconds("odds") or 5400)
     ref = _reference(event) if event is not None else None
     gates = row_gates(game=game, event=event, ref=ref, as_of=as_of, board_fetched=board_fetched,
                       br2=br2, recovered=recovered, prospective=prospective, in_cohort=in_cohort,
-                      max_quote_age=max_quote_age, odds_max_age=odds_max_age, min_books=min_books)
+                      max_quote_age=max_quote_age, odds_max_age=odds_max_age, min_books=min_books,
+                      epa_src=epa_src, freeze_label=freeze_label,
+                      cohort_registered=cohort_registered)
     row: dict[str, Any] = {
         "game": game.game, "away": game.away, "home": game.home,
         "kickoff": _iso(game.kickoff),
@@ -721,7 +773,8 @@ def system_health(*, as_of: datetime, rows: Sequence[Mapping[str, Any]], board_f
                   br2_status: Mapping | None, br2_health: Mapping | None,
                   authority: Mapping[str, Any], clv_gate: Mapping | None,
                   grades: Mapping | None, scheduler: Mapping | None,
-                  registry_sha: str | None, calibration: Mapping | None) -> list[dict[str, Any]]:
+                  registry_sha: str | None, calibration: Mapping | None,
+                  shadow_signals: int = 0) -> list[dict[str, Any]]:
     out: list[dict[str, Any]] = []
 
     def add(key: str, label: str, state: str, detail: str, **evidence: Any) -> None:
@@ -747,34 +800,54 @@ def system_health(*, as_of: datetime, rows: Sequence[Mapping[str, Any]], board_f
     summ = (prospective_status or {}).get("summary") or {}
     captured = int(summ.get("capturedTrueOpenRows") or 0)
     missed = int(summ.get("missedTrueOpenRows") or 0)
-    add("openingProvenance", "Opening provenance",
-        GATE_PASS if captured >= cohort_rows and cohort_rows else GATE_DEGRADED,
-        f"Prospective true opens captured live: {captured}/{summ.get('slateRows', n)} "
-        f"({missed} missed the 900 s window). Venue-proven recovered opens frozen "
-        f"for this cohort: {recovered_rows}/{cohort_rows}. Recovery is one-way; no late row is upgraded.",
-        capturedTrueOpenRows=captured, missedTrueOpenRows=missed,
+    pending = int(summ.get("pendingRows") or 0)
+    if not prospective_status:
+        live = "No prospective open-capture status exists for this week."
+    else:
+        live = (f"Prospective true opens captured live: {captured}/{summ.get('slateRows', n)} "
+                f"({missed} missed the 900 s window, {pending} pending).")
+    recovered_text = (f" Venue-proven recovered opens frozen for this cohort: "
+                      f"{recovered_rows}/{cohort_rows}." if recovered_rows else "")
+    if cohort_rows and captured >= cohort_rows:
+        open_state = GATE_PASS
+    elif captured + recovered_rows == 0 and not pending:
+        open_state = GATE_FAIL
+    else:
+        open_state = GATE_DEGRADED
+    add("openingProvenance", "Opening provenance", open_state,
+        f"{live}{recovered_text} Recovery is one-way; no late row is upgraded.",
+        capturedTrueOpenRows=captured, missedTrueOpenRows=missed, pendingRows=pending,
         recoveredTrueOpenRows=recovered_rows)
 
-    br2_rows = (br2_status or {}).get("rows") or []
+    # Only rows for games on this slate: the file is whichever week wrote last.
+    games_here = {r["game"] for r in rows}
+    br2_rows = [r for r in ((br2_status or {}).get("rows") or []) if r.get("game") in games_here]
     eligible = sum(1 for r in br2_rows if r.get("pregameEligible"))
-    add("informationState", "Information-state integrity",
-        GATE_PASS if br2_rows and eligible == len(br2_rows) else GATE_DEGRADED,
-        f"{eligible}/{len(br2_rows)} point-in-time rows pre-game eligible; one decision time "
-        f"per row, sources precede it; no closing labels in any decision input.",
-        br2GeneratedAt=(br2_status or {}).get("generatedAt"))
+    if not br2_rows:
+        add("informationState", "Information-state integrity", GATE_FAIL,
+            "No point-in-time feature row exists for any game on this slate, so the "
+            "information state of the inputs cannot be certified.",
+            br2GeneratedAt=(br2_status or {}).get("generatedAt"))
+    else:
+        add("informationState", "Information-state integrity",
+            GATE_PASS if eligible == len(br2_rows) else GATE_DEGRADED,
+            f"{eligible}/{len(br2_rows)} point-in-time rows pre-game eligible; one decision "
+            f"time per row, sources precede it; no closing labels in any decision input.",
+            br2GeneratedAt=(br2_status or {}).get("generatedAt"))
 
-    cov = ((br2_status or {}).get("summary") or {}).get("featureCoverageRows") or {}
-    for key, label, feat, extra in (
+    def covered(feature: str) -> int:
+        return sum(1 for r in br2_rows if _num((r.get("features") or {}).get(feature)) is not None)
+
+    src = epa_source(br2_health)
+    for key, label, feat, extra, full_state in (
             ("qbContinuity", "QB continuity", "qbContinuityDiff",
-             "CFB_EDGE_BR2_QB_CONTINUITY_V4 (last-3 completed games, attempt share)."),
-            ("opponentAdjustedEpa", "Opponent-adjusted EPA", "epaDiff",
-             "Preferred CFBD WEPA is authorization-blocked (HTTP 401); versioned "
-             "cfbfastR fallback CFB_EDGE_OA_EPA_V1 in use through the prior week."),
+             "CFB_EDGE_BR2_QB_CONTINUITY_V4 (last-3 completed games, attempt share).", GATE_PASS),
+            ("opponentAdjustedEpa", "Opponent-adjusted EPA", "epaDiff", src["note"], src["state"]),
             ("weather", "Weather", "windMph",
-             "Open-Meteo pre-game forecast; refresh inside 72 h of kickoff.")):
-        c = int(cov.get(feat) or 0)
-        add(key, label, GATE_PASS if c == n and key == "qbContinuity" else GATE_DEGRADED,
-            f"{c}/{n} slate games covered. {extra}", covered=c, games=n)
+             "Open-Meteo pre-game forecast; refresh inside 72 h of kickoff.", GATE_PASS)):
+        c = covered(feat)
+        state = GATE_FAIL if c == 0 else (full_state if c == n else GATE_DEGRADED)
+        add(key, label, state, f"{c}/{n} slate games covered. {extra}", covered=c, games=n)
 
     add("injuries", "Injury availability", GATE_FAIL,
         "No injury or availability feed is integrated. The production posterior inherits "
@@ -794,8 +867,11 @@ def system_health(*, as_of: datetime, rows: Sequence[Mapping[str, Any]], board_f
                     f"{(clv_gate or {}).get('observations', 0)} captured rows "
                     f"(null {((clv_gate or {}).get('nullMeanPoints') or 0):+.3f} pts). "
                     f"Shadow signal grades: {gsum.get('gradeableRows', 0)} gradeable of "
-                    f"{gsum.get('signalRows', 0)} signal rows. This week's frozen cohort "
-                    f"grades after kickoff from the live Kalshi close.")
+                    f"{gsum.get('signalRows', 0)} signal rows. "
+                    + ("This week's frozen shadow cohort grades after kickoff from the live "
+                       "Kalshi close." if shadow_signals else
+                       "No shadow cohort is registered for this week, so nothing here will "
+                       "grade."))
     add("grading", "Grading", g_state, g_detail)
 
     add("modelVersion", "Model version", GATE_PASS,
@@ -868,14 +944,17 @@ def in_season_clv(learning: Mapping[str, Any] | None, *, min_week: int = 3,
     weeks: dict[int, list[float]] = {}
     for r in rows:
         weeks.setdefault(int(r.get("week") or 0), []).append(float(r["directional_clv"]))
-    rule = [float(r["directional_clv"]) for r in rows
-            if int(r.get("week") or 0) >= min_week
-            and abs(float(r.get("projection_gap_vs_open") or 0.0)) >= min_gap]
+    in_rule = [r for r in rows
+               if int(r.get("week") or 0) >= min_week
+               and abs(float(r.get("projection_gap_vs_open") or 0.0)) >= min_gap]
+    rule = stats([float(r["directional_clv"]) for r in in_rule])
+    # The weeks behind the subset are the clusters it rests on; one week is one.
+    rule["weeks"] = sorted({int(r.get("week") or 0) for r in in_rule})
     return {"source": learning.get("contract"), "season": learning.get("season"),
             "openPolicy": (learning.get("sourcePolicy") or {}).get("cfbdLines"),
             "allGames": stats([float(r["directional_clv"]) for r in rows]),
             "byWeek": {str(w): stats(x) for w, x in sorted(weeks.items())},
-            "registeredRule": stats(rule)}
+            "registeredRule": rule}
 
 
 def _in_release_window(when: datetime) -> bool:
@@ -889,32 +968,48 @@ def scheduler_state(*, as_of: datetime, br2_generated: datetime | None,
     """Did the scheduled jobs that feed this card actually run when due?
 
     Two checks the evidence plane can answer on its own. The BR2 active capture
-    is registered for 13:30 UTC on weekdays while the cohort is prospective; a
-    slot more than two hours past with no newer snapshot is a missed run. The
-    Kalshi poller must be fresh inside the release window; outside it, idle is
-    the expected state. A green workflow elsewhere is not evidence here.
+    is registered for 13:30 UTC on weekdays while the cohort is prospective. A
+    slot more than two hours past with no newer snapshot has not landed; a
+    snapshot that arrived more than two hours after its slot landed late, and
+    the card says by how much, because a late board is an older board at
+    decision time. The Kalshi poller must be fresh inside the release window;
+    outside it, idle is the expected state. A green workflow elsewhere is not
+    evidence here.
     """
     missed: list[str] = []
+    late: list[str] = []
     notes: list[str] = []
+    lateness_hours: float | None = None
     win = prospective_window or {}
     w_start, w_end = _instant(win.get("startsAt")), _instant(win.get("endsAt"))
     slot = as_of.replace(hour=13, minute=30, second=0, microsecond=0)
-    while slot.weekday() > 4 or slot > as_of - timedelta(hours=2):
+    while slot.weekday() > 4 or slot > as_of - timedelta(hours=SCHEDULE_GRACE_HOURS):
         slot -= timedelta(days=1)
     if w_start and w_end and w_start <= slot <= w_end:
         if br2_generated is None or br2_generated < slot:
-            missed.append(f"BR2 active capture due {_iso(slot)} (latest snapshot "
-                          f"{_iso(br2_generated) or 'none'})")
+            missed.append(f"BR2 active capture due {_iso(slot)} has not landed (latest "
+                          f"snapshot {_iso(br2_generated) or 'none'})")
+        else:
+            lateness_hours = round((br2_generated - slot).total_seconds() / 3600.0, 2)
+            if lateness_hours > SCHEDULE_GRACE_HOURS:
+                late.append(f"BR2 active capture due {_iso(slot)} landed "
+                            f"{lateness_hours:.1f} h late ({_iso(br2_generated)})")
     if _in_release_window(as_of):
         if kalshi_last is None or (as_of - kalshi_last).total_seconds() > 1800:
             missed.append(f"Kalshi poll inside the release window (latest {_iso(kalshi_last)})")
     else:
         notes.append("Kalshi release window closed; poller idle as scheduled "
                      f"(latest poll {_iso(kalshi_last)}).")
-    state = GATE_PASS if not missed else GATE_DEGRADED
-    detail = ("All checked scheduled inputs landed when due. " if not missed else
-              "Missed: " + "; ".join(missed) + ". ") + " ".join(notes)
-    return {"state": state, "detail": detail.strip(), "missed": missed}
+    state = GATE_PASS if not (missed or late) else GATE_DEGRADED
+    parts = []
+    if missed:
+        parts.append("Missed: " + "; ".join(missed) + ".")
+    if late:
+        parts.append("Late: " + "; ".join(late) + ".")
+    if not parts:
+        parts.append("All checked scheduled inputs landed when due.")
+    return {"state": state, "detail": " ".join(parts + notes).strip(), "missed": missed,
+            "late": late, "br2LatenessHours": lateness_hours}
 
 
 # ---------------------------------------------------------------------------
@@ -990,6 +1085,12 @@ def _display_path(path: str, *, evidence_root: str | None, evidence_revision: st
             return f"capture-data{'@' + rev if rev else ''}:{rel.as_posix()}"
         except ValueError:
             pass
+    if Path(path).is_absolute():
+        try:
+            return Path(path).resolve().relative_to(Path.cwd().resolve()).as_posix()
+        except ValueError:
+            # Built for this run (the slate): the hash beside it is its identity.
+            return f"build:{Path(path).name}"
     return Path(path).as_posix()
 
 
@@ -1003,19 +1104,30 @@ def build(inputs: Inputs, *, as_of: datetime, label: Mapping[str, Any] | None = 
     events, board_fetched = read_board(board_payload)
     mapped, unmapped = map_board(events, slate)
     kalshi = kalshi_latest(inputs.kalshi_log)
+    # "Latest" files on the evidence plane belong to whichever week wrote them
+    # last. Only rows for games on this slate count, so a file left over from
+    # another week contributes nothing rather than another week's totals.
+    on_slate = {g.game for g in slate}
+
+    def this_week(index: Mapping[str, Any]) -> dict[str, Any]:
+        return {game: row for game, row in index.items() if game in on_slate}
+
     prospective = load_json(inputs.prospective) or {}
-    pros_index = index_rows(prospective.get("rows"))
+    pros_index = this_week(index_rows(prospective.get("rows")))
     freeze = load_json(inputs.recovered_freeze) or {}
-    recovered_index = index_rows(freeze.get("rows"))
-    shadow_index = _shadow_index(load_json(inputs.shadow_decision))
+    recovered_index = this_week(index_rows(freeze.get("rows")))
+    shadow_index = this_week(_shadow_index(load_json(inputs.shadow_decision)))
     br2 = load_json(inputs.br2_status) or {}
-    br2_index = index_rows(br2.get("rows"))
+    br2_index = this_week(index_rows(br2.get("rows")))
     cohort = load_json(inputs.cohort) or {}
     window = cohort.get("gameWindow") or {}
     w_start, w_end = _instant(window.get("startsAt")), _instant(window.get("endsAt"))
     mq = load_json(inputs.market_quality) or {}
     min_books = int(mq.get("minimumFreshSameLineBooks") or MIN_SAME_LINE_BOOKS)
 
+    br2_health = load_json(inputs.br2_health)
+    epa_src = epa_source(br2_health)
+    freeze_label = Path(inputs.recovered_freeze).as_posix() if inputs.recovered_freeze else None
     rows = []
     for g in sorted(slate, key=lambda s: (s.kickoff or datetime.max.replace(tzinfo=timezone.utc), s.game)):
         in_cohort = bool(w_start and w_end and g.kickoff and w_start <= g.kickoff <= w_end)
@@ -1023,7 +1135,8 @@ def build(inputs: Inputs, *, as_of: datetime, label: Mapping[str, Any] | None = 
             game=g, event=mapped.get(g.game), board_fetched=board_fetched, as_of=as_of, cfg=cfg,
             authority=authority, br2=br2_index.get(g.game), recovered=recovered_index.get(g.game),
             prospective=pros_index.get(g.game), shadow=shadow_index.get(g.game),
-            kalshi=kalshi.get(g.game), in_cohort=in_cohort, min_books=min_books))
+            kalshi=kalshi.get(g.game), in_cohort=in_cohort, min_books=min_books,
+            epa_src=epa_src, freeze_label=freeze_label, cohort_registered=bool(cohort)))
     rank(rows)
 
     capture_status = None
@@ -1039,10 +1152,11 @@ def build(inputs: Inputs, *, as_of: datetime, label: Mapping[str, Any] | None = 
         as_of=as_of, rows=rows, board_fetched=board_fetched, kalshi=kalshi,
         capture_status=capture_status, prospective_status=prospective,
         recovered_rows=len(recovered_index), cohort_rows=len(br2_index) or len(slate),
-        br2_status=br2, br2_health=load_json(inputs.br2_health), authority=authority,
+        br2_status=br2, br2_health=br2_health, authority=authority,
         clv_gate=clv_report, grades=load_json(inputs.grades),
         scheduler=sched, registry_sha=sha256_file(inputs.registry),
-        calibration=load_json(inputs.calibration))
+        calibration=load_json(inputs.calibration),
+        shadow_signals=sum(1 for s in shadow_index.values() if s.get("auditGrade")))
 
     counts = {d: sum(1 for r in rows if r["decision"]["disposition"] == d) for d in (BET, LEAN, PASS)}
     plays = sorted([r for r in rows if r["decision"]["disposition"] in (BET, LEAN)],

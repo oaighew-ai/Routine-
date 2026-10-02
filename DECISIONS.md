@@ -1698,12 +1698,14 @@ With no registered evidence the posterior equals the reference's no-vig
 probability (Pinnacle, else the US-book median), because the projection's
 weight is zero: its incremental coefficient over the close is -0.012
 (t = -0.43) across 9,113 walk-forward games. Measured calibration of that
-reference: Pinnacle no-vig closing probabilities over 5,199 games, 2012-2025,
-expected calibration error 0.013 and Brier 0.2501 against 0.2500 for a coin
-flip. It is calibrated near 50% and nearly uninformative about who covers,
-which is what an efficient spread market looks like. Spread confidence on this
-card will therefore sit near 50%, and a figure far from 50% points at a data
-problem before an edge.
+reference: Pinnacle no-vig closing probabilities over 5,199 games, expected
+calibration error 0.013 and Brier 0.2501 against 0.2500 for a coin flip. It is
+calibrated near 50% and nearly uninformative about who covers, which is what
+an efficient spread market looks like. Spread confidence on this card will
+therefore sit near 50%, and a figure far from 50% points at a data problem
+before an edge. **Limit of that measurement:** the source carries priced
+Pinnacle closes for 2012-2019 only, so the reference's calibration since 2020
+is assumed, not measured here.
 
 **Edge** is expected value per unit at the executable price against the
 reference; the card uses the worse of the two de-vig methods. The minimum
@@ -1739,21 +1741,43 @@ factors only with values fitted to graded card history.
 
 ## 2026-10-02 — D41. Orchestration repairs are forward-only
 
-Two defects let the evidence plane lose or bury information without anyone
-deciding it should. (The capture repairs are D38.)
+Three defects let the evidence plane lose, bury or stop collecting information
+without anyone deciding it should. (The capture repairs are D38.)
 
-**1. A cohort may not drop games of its own week in silence.**
-`cohort.build_slate` filtered the provider week to the game window without
-recording what it removed. The Week 6 contract's window opens Friday
-2026-10-02 23:00 UTC and so dropped the two Thursday games (Western Kentucky
-at New Mexico State, North Texas at Tulsa). Contracts written from now on set
-`coverage.requireFullProviderWeek: true`; `build_slate` then refuses to drop a
-same-week game (inside the capture window, outside the game window) unless
-`coverage.excludedGames` names it with a reason. Games outside the capture
-window are provider mislabels and are still dropped. Existing contracts keep
-their frozen windows; `build-slate` now prints what they leave out.
+**1. A cohort names the games it leaves out.** `cohort.build_slate` filtered
+the provider week to the game window without recording what it removed. The
+Week 6 contract's window opens Friday 2026-10-02 23:00 UTC and so dropped the
+two Thursday games (Western Kentucky at New Mexico State, North Texas at
+Tulsa). A contract now carries `coverage.excludedGames`, each with a reason,
+and every build reports any game of its own week (inside the capture window,
+outside the game window) that the contract does not name. The report is loud
+and not fatal: a kickoff that moves after registration must not cost the other
+fifty games their capture. Games outside the capture window are provider
+mislabels and are still dropped. The Week 5 and Week 6 contracts keep their
+frozen windows and are reported the same way.
 
-**2. Closed-cohort workflows lose their automatic triggers.** Eight workflows
+**2. The next cohort is derived and registered ahead, not typed each week.**
+`config/br2_active_cohort.json` was edited by hand for each new week, and its
+prospective window closes 2026-10-02 23:00 UTC. With nothing written for the
+following week the feature capture, and with it the only sportsbook board the
+card reads, would have stopped on Monday. `cohort propose` now derives a
+weekend contract from the provider schedule by the rule the Week 6 contract
+was written to (games from Friday 23:00 UTC to Sunday 12:00 UTC; capture from
+the previous Sunday 00:00 UTC; prospective until the game window opens), and
+that rule reproduces the registered Week 6 windows exactly. Contracts for
+product weeks 7 to 14 (provider weeks 6 to 13) are registered under
+`config/cohorts/`, each naming the midweek games it leaves out. The feature
+capture resolves its cohort by date with `cohort active`: the one contract
+whose prospective window is open, the Week 6 file when none is, and a failed
+run when two are. No weekly configuration change remains.
+
+A registered contract is not rewritten. Thanksgiving week (product week 14)
+leaves out 13 games, most of them on the Friday, because the weekend rule
+freezes features on Friday evening; that is the rule's cost and it is
+recorded in the contract, not hidden. Changing it needs a new contract before
+that week's window opens.
+
+**3. Closed-cohort workflows lose their automatic triggers.** Eight workflows
 served cohorts whose windows have closed and kept firing on schedule or on
 `workflow_run` cascades: `s04-es1-live`, `s04-es2-week5`,
 `week5-close-capture`, `week5-signal-grade`, `week5-capture-health`,
@@ -1777,11 +1801,18 @@ were never candidates, not failed joins. The experiment's frozen Week 6
 decisions are being graded, so the mislabel is recorded here and the module is
 left alone until that cohort closes.
 
+Not built: nothing yet applies the frozen S04_ES2 rule to the prospective
+opens of product week 7 onward. The decision freeze and close grading exist
+for Week 6 only (D34), and D34 requires a separately registered cohort before
+the protocol is reused. Until the owner registers one, true opens captured
+from this weekend on are evidence about the capture, not about the strategy.
+
 **Authority effect.** None. No frozen rule, threshold or decision changed;
 the Week 5 and Week 6 cohort contracts are untouched.
 
 **Reversal criterion.** Restore any retired trigger from the parent of this
-commit if a closed cohort must be re-captured.
+commit if a closed cohort must be re-captured. Replace the weekend rule only
+by registering new contracts before their windows open.
 
 ## 2026-10-02 — D42. Finding: the CLV breakeven depends on the strike (no rule change)
 

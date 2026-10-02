@@ -447,6 +447,13 @@ def _shadow(card: Mapping[str, Any]) -> str:
     return f"<div class='frame'><table><thead>{head}</thead><tbody>{''.join(body)}</tbody></table></div>"
 
 
+# datetime.weekday(): Monday is 0. A football week runs Tuesday to Monday.
+DAY_TAG = {0: "mon", 1: "tue", 2: "wed", 3: "thu", 4: "fri", 5: "sat", 6: "sun"}
+DAY_NAME = {0: "Monday", 1: "Tuesday", 2: "Wednesday", 3: "Thursday", 4: "Friday",
+            5: "Saturday", 6: "Sunday"}
+DAY_ORDER = [1, 2, 3, 4, 5, 6, 0]
+
+
 def _dots(gates: Mapping[str, Any]) -> str:
     out = []
     for k in GATE_ORDER:
@@ -459,13 +466,15 @@ def _dots(gates: Mapping[str, Any]) -> str:
 def _pass_list(card: Mapping[str, Any]) -> str:
     rows = card.get("passList") or []
     body = []
+    days_seen: set[int] = set()
     for i, r in enumerate(rows):
         m = r.get("market") or {}
         tags = ["all"]
         kick = _instant(r.get("kickoff"))
         if kick is not None:
             local = kick.astimezone(_ET) if _ET is not None else kick - timedelta(hours=4)
-            tags.append({3: "thu", 4: "fri", 5: "sat"}.get(local.weekday(), "other"))
+            days_seen.add(local.weekday())
+            tags.append(DAY_TAG[local.weekday()])
         codes = [c for c in r["decision"]["reasonCodes"] if c not in GLOBAL_CODES]
         if "LINE_MISMATCH" in codes:
             tags.append("mismatch")
@@ -515,8 +524,10 @@ def _pass_list(card: Mapping[str, Any]) -> str:
     everywhere = sorted({c for r in rows for c in r["decision"]["reasonCodes"] if c in GLOBAL_CODES
                          and all(c in x["decision"]["reasonCodes"] for x in rows)})
     note = (f"<p class='codes'>Every row also carries: {e(', '.join(everywhere))}.</p>" if everywhere else "")
-    chips = [("all", "All"), ("thu", "Thursday"), ("fri", "Friday"), ("sat", "Saturday"),
-             ("shadow", "Shadow signal"), ("mismatch", "Line mismatch"), ("outside", "Outside cohort")]
+    # One chip per day that actually has a game (US Eastern), so a week with
+    # Tuesday and Wednesday kickoffs gets those chips and no empty ones.
+    chips = ([("all", "All")] + [(DAY_TAG[d], DAY_NAME[d]) for d in sorted(days_seen, key=DAY_ORDER.index)]
+             + [("shadow", "Shadow signal"), ("mismatch", "Line mismatch"), ("outside", "Outside cohort")])
     chip_html = "".join(f"<button class='chip' type='button' data-filter='{k}' aria-pressed='false'>{e(v)}</button>"
                         for k, v in chips)
     return (f"{note}<div class='chips' role='group' aria-label='Filter the pass list'>{chip_html}</div>"
@@ -540,10 +551,25 @@ def _measured_lines(calibration: Mapping[str, Any] | None, card: Mapping[str, An
               for k, v in sorted(seasons.items()) if k in ("2024", "2025")]
     tot = sum(n for m, n in recent if m is not None)
     recent_mean = (sum(m * n for m, n in recent if m is not None) / tot) if tot else None
-    ins = ((card.get("inSeasonClv") or {}).get("allGames") or {}).get("mean")
+    in_season = card.get("inSeasonClv") or {}
+    ins = (in_season.get("allGames") or {}).get("mean")
     return [("2023–25 rule", reg, "var(--ok)"),
             ("2024–25 rule", recent_mean, "var(--warn)"),
-            ("2026 wk 1–3, all games", ins, "var(--bad)")]
+            (f"{_in_season_span(in_season)}, all games", ins, "var(--bad)")]
+
+
+def _span(numbers: Sequence[int]) -> str:
+    numbers = sorted(set(numbers))
+    if not numbers:
+        return ""
+    return str(numbers[0]) if len(numbers) == 1 else f"{numbers[0]}–{numbers[-1]}"
+
+
+def _in_season_span(in_season: Mapping[str, Any]) -> str:
+    """'2026 wk 1–3' from the weeks the in-season measurement actually holds."""
+    weeks = [int(w) for w in (in_season.get("byWeek") or {}) if str(w).isdigit()]
+    season = in_season.get("season")
+    return f"{season or 'this season'} wk {_span(weeks)}".strip()
 
 
 def _evidence_chart(calibration: Mapping[str, Any] | None, card: Mapping[str, Any]) -> str:
@@ -626,8 +652,9 @@ def _evidence(calibration: Mapping[str, Any] | None, card: Mapping[str, Any]) ->
     if pin.get("games"):
         facts.append(f"The market prior is calibrated and carries no side information on a spread: Pinnacle "
                      f"no-vig Brier {pin.get('brier'):.4f} against a coin flip's {pin.get('brierCoinFlip'):.4f}, "
-                     f"ECE {pin.get('ece'):.3f}, n = {pin.get('games')} (2006–2019). A confidence near 50% is "
-                     f"what calibration allows.")
+                     f"ECE {pin.get('ece'):.3f}, n = {pin.get('games')} ({_span(pin.get('seasons') or [])}; the "
+                     f"source has no priced Pinnacle closes after that, so recent calibration is assumed). "
+                     f"A confidence near 50% is what calibration allows.")
     if clv:
         facts.append(f"Line movement is predictable but small and unstable: the registered rule (week 3+, "
                      f"gap 4+) earned {signed(clv.get('mean'), 3)} pts (95% CI {signed(clv.get('lo95'), 2)} to "
@@ -644,11 +671,20 @@ def _evidence(calibration: Mapping[str, Any] | None, card: Mapping[str, Any]) ->
     rr = ins.get("registeredRule") or {}
     if ins.get("allGames"):
         a = ins["allGames"]
-        facts.append(f"This season so far: {signed(a.get('mean'), 3)} pts over {a.get('n')} games "
-                     f"(t {signed(a.get('t'), 2)}); the registered subset is {signed(rr.get('mean'), 3)} over "
-                     f"{rr.get('n')} games, all from week 3, which is one week cluster. Week 1 was "
-                     f"{signed(((ins.get('byWeek') or {}).get('1') or {}).get('mean'), 2)}. One good week is the "
+        by_week = ins.get("byWeek") or {}
+        rule_weeks = rr.get("weeks") or []
+        if len(rule_weeks) == 1:
+            where = (f", all from week {rule_weeks[0]}, which is one week cluster. One good week is the "
                      f"case the four-cluster minimum exists for.")
+        elif rule_weeks:
+            where = f", across weeks {_span(rule_weeks)} ({len(rule_weeks)} week clusters)."
+        else:
+            where = "."
+        weekly = "; ".join(f"week {w} {signed((v or {}).get('mean'), 2)}" for w, v in sorted(by_week.items()))
+        facts.append(f"This season so far ({_in_season_span(ins)}): {signed(a.get('mean'), 3)} pts over "
+                     f"{a.get('n')} games (t {signed(a.get('t'), 2)}); the registered subset is "
+                     f"{signed(rr.get('mean'), 3)} over {rr.get('n')} games{where}"
+                     + (f" By week: {weekly}." if weekly else ""))
     if wf.get("pooledN"):
         facts.append(f"Per-game direction does not forecast out of sample: walk-forward P(line moves our way) "
                      f"scored Brier {wf.get('pooledBrier'):.4f} against a coin flip's "
