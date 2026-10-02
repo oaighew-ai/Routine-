@@ -1581,6 +1581,60 @@ class TestReleaseWindowCoversTheVenueOpen(unittest.TestCase):
         self.assertFalse(in_release_window(datetime(2026, 9, 22, 18, 0)))
         self.assertFalse(in_release_window(datetime(2026, 9, 23, 12, 0)))  # Wed
 
+    # The venue's own open time for 55 of the 56 games of the Oct 1-3 slate,
+    # from data/prospective-open-status.json on capture-data (D38). The first
+    # row is Friday evening US time and sat outside a window that began
+    # Saturday at 12:00.
+    SECOND_COHORT_OPENS = (
+        ("2026-09-26T01:06:00+00:00", 2),
+        ("2026-09-26T16:07:00+00:00", 1),
+        ("2026-09-27T01:06:00+00:00", 4),
+        ("2026-09-27T04:06:00+00:00", 5),
+        ("2026-09-27T07:06:00+00:00", 9),
+        ("2026-09-27T10:06:00+00:00", 19),
+        ("2026-09-27T16:06:00+00:00", 4),
+        ("2026-09-28T22:05:00+00:00", 11),
+    )
+
+    def test_every_open_of_the_second_cohort_is_inside_the_window(self):
+        from datetime import datetime
+        from cfb_edge.watch import in_release_window
+
+        self.assertEqual(sum(n for _, n in self.SECOND_COHORT_OPENS), 55)
+        for stamp, count in self.SECOND_COHORT_OPENS:
+            with self.subTest(stamp=stamp, events=count):
+                self.assertTrue(
+                    in_release_window(datetime.fromisoformat(stamp)),
+                    f"{count} events opened at {stamp} and the window excludes it",
+                )
+
+    def test_a_saturday_noon_start_missed_the_friday_evening_opens(self):
+        """Guards the fix itself: reinstating Saturday 12:00 fails here."""
+        from datetime import datetime
+        from cfb_edge.watch import RELEASE_WINDOW_UTC
+
+        previous = {5: range(12, 24), 6: range(0, 24), 0: range(0, 24), 1: range(0, 18)}
+        missed = 0
+        for stamp, count in self.SECOND_COHORT_OPENS:
+            when = datetime.fromisoformat(stamp)
+            hours = previous.get(when.weekday())
+            if hours is None or when.hour not in hours:
+                missed += count
+        self.assertEqual(missed, 2)
+        self.assertNotEqual(RELEASE_WINDOW_UTC, previous)
+
+    def test_the_window_opens_friday_evening_and_not_before(self):
+        """Two three-hour release steps ahead of the earliest measured open,
+        Saturday 01:06. The margin is a PRIOR; the bound it protects is not."""
+        from datetime import datetime
+        from cfb_edge.watch import in_release_window
+
+        self.assertFalse(in_release_window(datetime(2026, 10, 2, 17, 59)))   # Fri
+        self.assertTrue(in_release_window(datetime(2026, 10, 2, 18, 0)))
+        self.assertTrue(in_release_window(datetime(2026, 10, 3, 1, 6)))      # Sat
+        self.assertTrue(in_release_window(datetime(2026, 10, 3, 11, 59)))
+        self.assertFalse(in_release_window(datetime(2026, 10, 1, 20, 0)))    # Thu
+
 
 class TestOpenLoopCoversTheVenueOpen(unittest.TestCase):
     """The loop exists because cron delivery cannot be relied on.
@@ -1600,11 +1654,12 @@ class TestOpenLoopCoversTheVenueOpen(unittest.TestCase):
 
     WORKFLOW = ".github/workflows/capture-open-loop.yml"
 
-    # From data/audit/week4-open-time-backfill.json: the earliest and latest
-    # venue open recovered for the 35 events of one cohort. Minutes from
-    # Saturday 00:00 UTC.
-    BAND_START = 16 * 60 + 6            # Sat 16:06
-    BAND_END = 24 * 60 + 10 * 60 + 6    # Sun 10:06
+    # The earliest and latest venue open measured across two cohorts, in
+    # minutes from Saturday 00:00 UTC: data/audit/week4-open-time-backfill.json
+    # (35 events, Sat 16:06 to Sun 10:06) and
+    # data/prospective-open-status.json (55 events, Sat 01:06 to Mon 22:06).
+    BAND_START = 1 * 60 + 6                    # Sat 01:06
+    BAND_END = 2 * 1440 + 22 * 60 + 6          # Mon 22:06
 
     @classmethod
     def _text(cls):
@@ -1623,8 +1678,8 @@ class TestOpenLoopCoversTheVenueOpen(unittest.TestCase):
 
     @staticmethod
     def _minutes_from_saturday(weekday, hour, minute):
-        """Saturday 00:00 UTC is zero; the window runs Saturday to Tuesday."""
-        order = {5: 0, 6: 1, 0: 2, 1: 3}   # Sat, Sun, Mon, Tue
+        """Saturday 00:00 UTC is zero; the window runs Friday to Tuesday."""
+        order = {4: -1, 5: 0, 6: 1, 0: 2, 1: 3}   # Fri, Sat, Sun, Mon, Tue
         return order[weekday] * 1440 + hour * 60 + minute
 
     @classmethod
@@ -1711,6 +1766,14 @@ class TestOpenLoopCoversTheVenueOpen(unittest.TestCase):
         self.assertLessEqual(timeout, 360, "above the hosted-runner ceiling")
         self.assertGreaterEqual(
             timeout - run, 10, "no room left to report and push after the loop")
+
+    def test_the_first_launch_is_when_the_window_opens(self):
+        """A launch before the window polls nothing; one after it leaves the
+        first hours to a cron that may never arrive."""
+        from cfb_edge.watch import RELEASE_WINDOW_UTC
+
+        friday = RELEASE_WINDOW_UTC[4]
+        self.assertEqual(self._launches()[0], -1440 + friday[0] * 60)
 
     def test_it_shares_the_capture_concurrency_group(self):
         """Two pollers pushing the same log would race and one would lose its
@@ -3128,12 +3191,12 @@ class TestKickoffGuard(unittest.TestCase):
                              f"UTC{offset:+d}")
 
         # And an instant outside the window stays outside it, read from
-        # anywhere. Saturday before noon UTC, ahead of the hours the exchange
-        # was measured opening in. Saturday is deliberately a day the window
-        # covers in part: on a day it excludes entirely every timezone answers
-        # False anyway, so such a case could not catch a wall-clock misread.
-        # Read in UTC+9 this instant is 15:00 Saturday, which is inside.
-        quiet = datetime(2026, 9, 12, 6, 0, tzinfo=timezone.utc)
+        # anywhere. Friday at noon UTC, six hours before the window opens.
+        # Friday is deliberately a day the window covers in part: on a day it
+        # excludes entirely every timezone answers False anyway, so such a
+        # case could not catch a wall-clock misread. Read in UTC+9 this
+        # instant is 21:00 Friday, which is inside.
+        quiet = datetime(2026, 9, 11, 12, 0, tzinfo=timezone.utc)
         for offset in (0, -4, -7, 2, 9):
             local = quiet.astimezone(timezone(timedelta(hours=offset)))
             self.assertFalse(in_release_window(local), f"UTC{offset:+d}")
@@ -3145,8 +3208,8 @@ class TestKickoffGuard(unittest.TestCase):
         from cfb_edge.watch import in_postseason_window, in_release_window
 
         self.assertTrue(in_release_window(datetime(2026, 9, 13, 22, 30)))
-        # Saturday 06:30: before the hours the venue was measured opening in.
-        self.assertFalse(in_release_window(datetime(2026, 9, 12, 6, 30)))
+        # Friday 12:30: six hours before the window opens.
+        self.assertFalse(in_release_window(datetime(2026, 9, 11, 12, 30)))
         self.assertEqual(
             in_release_window(datetime(2026, 9, 13, 22, 30)),
             in_release_window(datetime(2026, 9, 13, 22, 30,

@@ -1431,3 +1431,75 @@ authority are unchanged. S04_BR2 remains `DATA_COLLECTION_ONLY`.
 that proves equal or stronger venue-time, raw-quote, identity and immutable
 lineage guarantees prospectively. Do not restore retrospective recovery for
 new cohorts.
+
+
+## 2026-10-02 — D38. The opening capture: a wider window, a self-carrying loop, and no lost polls
+
+(D36 and D37 are held by open pull request #24; this entry is numbered past
+them so neither has to be renumbered again.)
+
+**Decision.** Three changes to the prospective opening capture (D35). None
+touches the true-open rule: the first valid two-sided quote must still be
+observed within -60/+900 seconds of the venue's own open time, and a missed
+row is still terminal.
+
+**1. The release window opens Friday 18:00 UTC, not Saturday 12:00.**
+`data/prospective-open-status.json` carries the venue's open time for 55 of
+the 56 games of the Oct 1-3 slate:
+
+    Sat 2026-09-26 01:06Z   2      Sun 2026-09-27 10:06Z  19
+    Sat 2026-09-26 16:07Z   1      Sun 2026-09-27 16:06Z   4
+    Sun 2026-09-27 01:06Z   4      Mon 2026-09-28 22:05Z  11
+    Sun 2026-09-27 04:06Z   5
+    Sun 2026-09-27 07:06Z   9
+
+Two opened Friday evening US time, eleven hours before the window, so no poll
+could have graded them. Across both measured cohorts every open sits a few
+minutes past the hour on a three-hour step. The new start is the earliest
+measured open less two of those steps, rounded down to the hour. **Two steps
+of margin is a PRIOR (Law 6).** `slate.opening_week` already names the next
+week by then: in the 2026 schedule every provider week from 2 to 13 has its
+first kickoff at least 25 hours before that Saturday 01:06.
+
+**2. The loop hands itself to the next link.** Scheduled launches here arrive
+hours late: the 13:30 UTC feature capture landed at 18:44, 18:29 and 18:57 on
+three consecutive days, and inside the last release window the gaps between
+polls reached 8.0, 6.6, 5.7 and 5.5 hours. A late launch is a hole exactly as
+wide as the delay. A link that finished its slot now dispatches its successor
+with `workflow_dispatch`, which is not delayed, before it writes its report;
+the shared concurrency group keeps the two from overlapping. Three guards stop
+a broken link from re-launching itself for four days: the loop step finished,
+at least one poll succeeded, and the link ran ten minutes. A cancelled run is
+not resurrected. The crons stay as the backstop and now begin Friday 18:00.
+
+**3. A poll lost to a push race is replayed at its original time.** The loop
+shares `capture-data` with other writers. On a rejected push it reset to the
+remote branch, which discarded the poll it had just recorded, and its closing
+step then polled again. A market that opened in the lost poll was first seen
+a poll later or not at all. Each poll's snapshot is now queued until a push
+carries it and is replayed after a reset (`watch --replay-snapshot`, then
+`prospective_open`) with its own `polled_at`. The live poll and its snapshot
+share one stamp, so a replay of a poll that did land writes nothing.
+
+**What this does not establish.** No cohort has yet produced a `true_open`
+row: 0 of 150 legacy rows and 0 of 55 prospective rows. Every miss so far is
+explained by polling that was absent or began after the open, so the venue's
+side of the rule is untested. If markets routinely post their first two-sided
+quote more than fifteen minutes after they open, continuous polling will
+still grade nothing, and the first weekend this runs is what will show it.
+
+**Verification.** `tests/test_open_loop_recovery.py` runs the workflow's own
+push-recovery shell against local git remotes with a competing writer.
+`tests/test_open_loop_handover.py` runs the hand-over step against a stand-in
+`gh` across all three guards, the closed window and a failed dispatch. Both
+measured cohorts are pinned in `tests/test_model.py`; restoring the Saturday
+noon start fails seven tests. Not verified: the hand-over on a real runner,
+which needs one release window to observe.
+
+**Authority effect.** None. Capture only. No threshold, gate, frozen rule,
+stake or delivery permission changes.
+
+**Reversal criterion.** Move the window again if a cohort opens before Friday
+18:00 UTC. Drop the hand-over if GitHub delivers scheduled launches within the
+fifteen-minute tolerance for a full season. Drop the replay queue only if the
+loop gets exclusive write access to its files.

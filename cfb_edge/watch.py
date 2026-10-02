@@ -67,14 +67,40 @@ from typing import Any, Callable, Iterable, Mapping
 # opening price. All 35 rows graded `first_seen`, none `true_open`, at a
 # median of 18 hours and a minimum of 15 hours behind the venue.
 #
-# Saturday starts at 12:00 rather than 16:00 because the recovered times are
-# upper bounds (`event_wide_latest_rung_open_time_upper_bound`): a true open
-# can only be earlier than the number above, never later, so the window needs
-# margin on that side and none on the other.
+# The times are upper bounds (`event_wide_latest_rung_open_time_upper_bound`):
+# a true open can only be earlier than the number above, never later, so the
+# window needs margin on that side and none on the other.
+#
+# The next cohort then showed the window was still too late and too short.
+# `data/prospective-open-status.json` carries the venue's own open time for 55
+# of the 56 games of the Oct 1-3 slate:
+#
+#     Sat 2026-09-26 01:06Z   2 events   <- Friday evening US time
+#     Sat 2026-09-26 16:07Z   1
+#     Sun 2026-09-27 01:06Z   4
+#     Sun 2026-09-27 04:06Z   5
+#     Sun 2026-09-27 07:06Z   9
+#     Sun 2026-09-27 10:06Z  19
+#     Sun 2026-09-27 16:06Z   4
+#     Mon 2026-09-28 22:05Z  11
+#
+# Two of the 55 opened eleven hours before a window that began Saturday at
+# 12:00, so no poll could have graded them however reliably it ran. Across
+# both cohorts every open sits a few minutes past an hour on a three-hour
+# step (01, 04, 07, 10, 16, 22). The window therefore opens Friday at 18:00:
+# the earliest measured open, Saturday 01:06, less two of those steps and
+# rounded down to the hour. Two steps of margin is a PRIOR (Law 6), not a
+# measurement; a cohort that opens earlier than Friday 18:00 moves it again.
+#
+# Friday evening is only useful once the week being played has kicked off,
+# because `slate.opening_week` names the earliest week with no game started.
+# Every week of October and November has a Tuesday-to-Friday game. In a week
+# that does not, these hours poll the current slate and record nothing new.
 RELEASE_WINDOW_UTC = {
-    5: range(12, 24),   # Saturday afternoon, when the next board goes up
-    6: range(0, 24),    # Sunday, all day: 34 of 35 measured opens land here
-    0: range(0, 24),    # Monday, all day
+    4: range(18, 24),   # Friday evening: 2 of 55 measured opens were Sat 01:06
+    5: range(0, 24),    # Saturday, all day
+    6: range(0, 24),    # Sunday, all day: most measured opens land here
+    0: range(0, 24),    # Monday, all day: 11 of 55 opened Monday 22:05
     1: range(0, 18),    # Tuesday, until the market has settled
 }
 
@@ -287,9 +313,10 @@ class OpeningBook:
         The return value is the point of the whole exercise: those are markets
         that had not been seen before, so their price is an opening line.
 
-        ``polled_at`` is the poll's own time. It is supplied only when a poll
-        is being replayed from its saved snapshot, so the log keeps the moment
-        the market was actually observed rather than the moment it was written.
+        ``polled_at`` is the poll's own time. A live poll that also writes a
+        snapshot passes it so both carry one stamp, and a replay passes the
+        snapshot's, so the log keeps the moment the market was actually
+        observed rather than the moment it was written.
         """
         quotes = list(quotes)
         stamp = polled_at or datetime.now(timezone.utc).isoformat()
@@ -555,6 +582,10 @@ def main(argv: list[str] | None = None) -> int:
                         "key, and measured on the venue that actually fills "
                         "you. oddsapi reads sportsbook opens, needs "
                         "ODDS_API_KEY, and costs about 8,400 credits a month.")
+    p.add_argument("--window-open", action="store_true", dest="window_open",
+                   help="poll nothing; exit 0 if the release window is open "
+                        "and 1 if it is closed (at --at, default now)")
+    p.add_argument("--at", help="with --window-open, the UTC time to test (ISO 8601)")
     p.add_argument("--regions", default="us,us2,eu",
                    help="the-odds-api regions. Billing is one credit per "
                         "region per market, so this is the main lever on cost: "
@@ -562,6 +593,15 @@ def main(argv: list[str] | None = None) -> int:
                         "month at the schedule below; 'us' costs a third of "
                         "that and drops the low-hold European books.")
     args = p.parse_args(argv)
+
+    if args.window_open:
+        when = _parse_time(args.at) if args.at else None
+        if args.at and when is None:
+            print(f"cannot read --at {args.at!r} as a time")
+            return 2
+        is_open = in_release_window(when)
+        print("release window open" if is_open else "release window closed")
+        return 0 if is_open else 1
 
     book = OpeningBook.load(args.log)
     print(f"{len(book.opens)} markets already have a recorded open.")
@@ -619,12 +659,16 @@ def main(argv: list[str] | None = None) -> int:
                 # A diagnostic has no next poll to recover on.
                 try:
                     quotes = fetch()
-                    fresh = book.record(quotes)
+                    # One stamp for the log line and the snapshot. A replay
+                    # recognises a poll by this value, so if they differed a
+                    # poll whose push did land would be written a second time.
+                    stamp = datetime.now(timezone.utc).isoformat()
+                    fresh = book.record(quotes, polled_at=stamp)
                     if args.snapshot_out:
                         snapshot = {
                             "schemaVersion": 1,
                             "contract": "CFB_EDGE_LIVE_QUOTE_SNAPSHOT_V1",
-                            "polled_at": datetime.now(timezone.utc).isoformat(),
+                            "polled_at": stamp,
                             "quotes": [q.__dict__ for q in quotes],
                         }
                         target = Path(args.snapshot_out)
