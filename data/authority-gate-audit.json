@@ -48,7 +48,7 @@
     },
     {
       "gate": "VALIDATION_FRESHNESS",
-      "observed": 910563.783284,
+      "observed": 1230112.637717,
       "passed": false,
       "required": 604800
     },
@@ -65,16 +65,20 @@
       "required": true
     }
   ],
-  "generatedAt": "2026-09-29T06:58:13.926284+00:00",
+  "generatedAt": "2026-10-02T23:44:02.780717+00:00",
   "modelId": "S02",
   "modelVersion": "market-anchor-shrinkage-1",
   "registeredAllowPaperDelivery": false,
   "registeredStatus": "MODEL_REVIEW_REQUIRED",
   "researchContext": {
     "note": "Week 6 CLV is research context only. It is not an input to the registered S02 delivery-authority gates.",
-    "week6ClvContract": null,
-    "week6ExecutableShadow": null,
-    "week6GradeableRows": null
+    "week6ClvContract": "CFB_EDGE_S04_ES2_SIGNAL_GRADES_V1",
+    "week6ExecutableShadow": {
+      "beatCloseRate": null,
+      "gradeableRows": 0,
+      "meanLineClvPoints": null
+    },
+    "week6GradeableRows": 0
   },
   "schemaVersion": 1,
   "stakingEffect": "NONE",
