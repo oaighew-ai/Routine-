@@ -1787,7 +1787,8 @@ card's system health supersedes it). Each run skipped its work, but a
 successful completion still set off the readiness and bridge workflows.
 Measured on `capture-data` over the seven days to 2026-10-02: 154 bridge
 commits, 142 readiness commits and 61 signal-grade commits, each changing only
-a `generatedAt` stamp, against 9 feature snapshots and 53 capture commits.
+a `generatedAt` stamp, against 9 feature snapshots and 57 capture commits
+out of 579 in all.
 Every one of those 357 commits was also a chance for the capture loop's push
 to be rejected (D38). Each retired workflow keeps `workflow_dispatch`, its
 code, configs and evidence, and a header naming this entry.
