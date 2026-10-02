@@ -95,6 +95,38 @@ class TestReplay(unittest.TestCase):
             self.assertIn("true_open", out.read_text())
 
 
+class TestALivePollAndItsSnapshotShareOneStamp(unittest.TestCase):
+    """Replay recognises a poll by `polled_at`. If the log line and the
+    snapshot were stamped separately, a poll whose push did land (the server
+    took it, the client saw an error) would be replayed as a second poll."""
+
+    def test_replaying_a_poll_that_is_already_in_the_log_writes_nothing(self):
+        from unittest import mock
+
+        from cfb_edge.providers import kalshi
+
+        quote = watch.Quote(**snapshot()["quotes"][0])
+        with tempfile.TemporaryDirectory() as d:
+            d = Path(d)
+            slate = d / "slate.csv"
+            slate.write_text("game,projected_margin,side,posted_line,total,kickoff\n"
+                             "Away @ Home,-3.0,,,52.0,2026-10-10T16:00:00Z\n")
+            log, snap = d / "opens.jsonl.gz", d / "poll.json"
+            with mock.patch.object(kalshi, "board_quotes", return_value=[quote]):
+                rc = watch.main(["--source", "kalshi", "--slate", str(slate), "--log", str(log),
+                                 "--snapshot-out", str(snap), "--once"])
+            self.assertEqual(rc, 0)
+            with gzip.open(log, "rt") as fh:
+                logged = json.loads(fh.readline())["polled_at"]
+            self.assertEqual(json.loads(snap.read_text())["polled_at"], logged)
+
+            fresh, wrote = watch.OpeningBook.load(log).replay(json.loads(snap.read_text()))
+            self.assertFalse(wrote)
+            self.assertEqual(fresh, [])
+            with gzip.open(log, "rt") as fh:
+                self.assertEqual(sum(1 for line in fh if line.strip()), 1)
+
+
 class TestTheLoopReplaysInsteadOfDiscarding(unittest.TestCase):
     """The workflow must keep unpushed polls and replay them after a reset."""
 
