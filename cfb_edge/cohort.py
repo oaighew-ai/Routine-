@@ -162,6 +162,65 @@ def validate_slate_file(
     return validate_slate_rows(read_slate(path), contract)
 
 
+def _requires_full_week(contract: Mapping[str, Any]) -> bool:
+    return bool((contract.get("coverage") or {}).get("requireFullProviderWeek"))
+
+
+def _excused(contract: Mapping[str, Any]) -> dict[str, str]:
+    """Games a strict contract leaves out on purpose, each with its reason."""
+    out: dict[str, str] = {}
+    for item in (contract.get("coverage") or {}).get("excludedGames") or []:
+        game, reason = str(item.get("game") or "").strip(), str(item.get("reason") or "").strip()
+        if not game or not reason:
+            raise CohortError("every coverage.excludedGames entry needs a game and a reason")
+        out[game] = reason
+    return out
+
+
+def partition_provider_week(
+    rows: Sequence[Any],
+    contract: Mapping[str, Any],
+) -> dict[str, list[Any]]:
+    """Split one provider week into the cohort and what it leaves out.
+
+    A provider-week game outside the game window but inside the capture window
+    belongs to this week: the window is too narrow for it (the 2026 Week 6
+    contract starts Friday 23:00 UTC and so drops two Thursday games). A game
+    outside the capture window is a provider mislabel from another week.
+    """
+    g_start, g_end = window(contract, "game")
+    c_start, c_end = window(contract, "capture")
+    parts: dict[str, list[Any]] = {"cohort": [], "sameWeekOutsideWindow": [], "otherWeek": []}
+    for row in rows:
+        kickoff = _time(getattr(row, "kickoff", None))
+        if g_start <= kickoff < g_end:
+            parts["cohort"].append(row)
+        elif c_start <= kickoff < c_end:
+            parts["sameWeekOutsideWindow"].append(row)
+        else:
+            parts["otherWeek"].append(row)
+    return parts
+
+
+def coverage_report(rows: Sequence[Any], contract: Mapping[str, Any]) -> dict[str, Any]:
+    parts = partition_provider_week(rows, contract)
+    excused = _excused(contract)
+    left_out = [
+        {"game": getattr(r, "game", ""), "kickoff": str(getattr(r, "kickoff", "")),
+         "excusedBecause": excused.get(getattr(r, "game", ""))}
+        for r in parts["sameWeekOutsideWindow"]
+    ]
+    unexcused = [x for x in left_out if not x["excusedBecause"]]
+    return {
+        "requireFullProviderWeek": _requires_full_week(contract),
+        "cohortRows": len(parts["cohort"]),
+        "sameWeekOutsideWindow": left_out,
+        "unexcusedSameWeekOutsideWindow": len(unexcused),
+        "otherWeekRowsDropped": len(parts["otherWeek"]),
+        "complete": not unexcused,
+    }
+
+
 def build_slate(
     contract: Mapping[str, Any],
     *,
@@ -170,12 +229,17 @@ def build_slate(
     season = int(contract["season"])
     week = provider_week(contract, "cfbfastR")
     rows = list((builder or slate_module.build)(season, week))
-    start, end = window(contract, "game")
-    filtered = []
-    for row in rows:
-        kickoff = _time(getattr(row, "kickoff", None))
-        if start <= kickoff < end:
-            filtered.append(row)
+    # Contracts written before 2026-10-02 keep their frozen windows. A contract
+    # that sets coverage.requireFullProviderWeek may not drop a game of its own
+    # week without naming it and the reason (D41).
+    coverage = coverage_report(rows, contract)
+    if coverage["requireFullProviderWeek"] and not coverage["complete"]:
+        missing = [x["game"] for x in coverage["sameWeekOutsideWindow"] if not x["excusedBecause"]]
+        raise CohortError(
+            f"{contract['cohortId']} game window drops {len(missing)} game(s) of its own provider "
+            f"week: {', '.join(missing)}; widen gameWindow or list them in coverage.excludedGames"
+        )
+    filtered = partition_provider_week(rows, contract)["cohort"]
     if not filtered:
         raise CohortError(
             f"{contract['cohortId']} produced no games from cfbfastR provider week {week}"
@@ -241,10 +305,14 @@ def main(argv: list[str] | None = None) -> int:
         print(provider_week(contract, args.provider))
         return 0
     if args.command == "build-slate":
-        rows = build_slate(contract)
+        season, week = int(contract["season"]), provider_week(contract, "cfbfastR")
+        provider_rows = list(slate_module.build(season, week))
+        rows = build_slate(contract, builder=lambda s, w: provider_rows)
         Path(args.out).parent.mkdir(parents=True, exist_ok=True)
         slate_module.write_csv(rows, args.out)
         audit = validate_slate_file(args.out, contract)
+        # Whatever the window leaves out of its own week is printed, never dropped silently.
+        audit["coverage"] = coverage_report(provider_rows, contract)
         print(json.dumps(audit, sort_keys=True))
         return 0
     if args.command == "validate-slate":

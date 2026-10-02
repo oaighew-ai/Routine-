@@ -1,7 +1,7 @@
 """The one weekly card: every game, one disposition, every number traced.
 
 ``CFB_EDGE_WEEKLY_CARD_V1`` is the single human-facing weekly output of CFB
-Edge (DECISIONS.md D38). It is a pure function of committed configuration,
+Edge (DECISIONS.md D39 and D40). It is a pure function of committed configuration,
 evidence-plane artifacts and an explicit ``--as-of`` time, so a scheduled run
 and an interactive run cannot disagree, and a card can be rebuilt byte for
 byte from the files it cites.
@@ -318,7 +318,7 @@ def _reference(event: BoardEvent) -> tuple[str, float, float, float] | None:
 
 def _side_pmf(ref_home_line: float, side: str) -> dict[int, float]:
     """The fitted margin distribution for the backed side, centred on the
-    sharp reference number (sigma at the reference total: D39 records that the
+    sharp reference number (sigma at the reference total: D40 records that the
     slate's total column is a constant, so no game-specific total is used)."""
     mean_home = -ref_home_line
     return margin_pmf(mean_home if side == "home" else -mean_home,

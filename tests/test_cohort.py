@@ -7,7 +7,9 @@ from datetime import datetime, timezone
 from pathlib import Path
 
 from cfb_edge.cohort import (
+    CohortError,
     build_slate,
+    coverage_report,
     load,
     provider_week,
     status,
@@ -67,6 +69,59 @@ class CohortIdentityTests(unittest.TestCase):
         rows = build_slate(c, builder=builder)
         self.assertEqual(seen, [(2026, 4)])
         self.assertEqual([r.game for r in rows], ["A @ H"])
+
+
+class ProviderWeekCoverageTests(unittest.TestCase):
+    """A cohort may not drop games of its own week without saying so (D41)."""
+
+    WEEK6 = ROOT / "config" / "br2_active_cohort.json"
+
+    @staticmethod
+    def provider_week5(season, week):
+        return [
+            # The two Thursday Oct 1 games the frozen Week 6 window starts after.
+            SlateRow("Western Kentucky @ New Mexico State", 1.0, False, "2026-10-01", "2026-10-02T00:00:00Z"),
+            SlateRow("North Texas @ Tulsa", 1.0, False, "2026-10-01", "2026-10-02T01:00:00Z"),
+            SlateRow("Friday @ Night", 1.0, False, "2026-10-02", "2026-10-02T23:30:00Z"),
+            SlateRow("Saturday @ Noon", 1.0, False, "2026-10-03", "2026-10-03T16:00:00Z"),
+            # A provider mislabel from the following week.
+            SlateRow("Next @ Week", 1.0, False, "2026-10-10", "2026-10-10T16:00:00Z"),
+        ]
+
+    def test_the_frozen_week6_contract_still_builds_and_reports_what_it_drops(self):
+        c = load(self.WEEK6)
+        rows = build_slate(c, builder=self.provider_week5)
+        self.assertEqual([r.game for r in rows], ["Friday @ Night", "Saturday @ Noon"])
+        report = coverage_report(self.provider_week5(2026, 5), c)
+        self.assertFalse(report["requireFullProviderWeek"])
+        self.assertFalse(report["complete"])
+        self.assertEqual([x["game"] for x in report["sameWeekOutsideWindow"]],
+                         ["Western Kentucky @ New Mexico State", "North Texas @ Tulsa"])
+        self.assertEqual(report["otherWeekRowsDropped"], 1)
+
+    def test_a_strict_contract_refuses_to_drop_its_own_thursday_games(self):
+        c = dict(load(self.WEEK6), coverage={"requireFullProviderWeek": True})
+        with self.assertRaises(CohortError) as ctx:
+            build_slate(c, builder=self.provider_week5)
+        self.assertIn("Western Kentucky @ New Mexico State", str(ctx.exception))
+        self.assertIn("North Texas @ Tulsa", str(ctx.exception))
+
+    def test_a_strict_contract_covering_the_whole_week_builds(self):
+        c = dict(load(self.WEEK6), coverage={"requireFullProviderWeek": True},
+                 gameWindow={"startsAt": "2026-10-01T16:00:00Z", "endsAt": "2026-10-04T12:00:00Z"})
+        rows = build_slate(c, builder=self.provider_week5)
+        self.assertEqual(len(rows), 4)
+        self.assertNotIn("Next @ Week", [r.game for r in rows])
+
+    def test_a_named_exclusion_needs_a_reason_and_is_then_allowed(self):
+        excluded = [{"game": "Western Kentucky @ New Mexico State", "reason": "no Kalshi market"},
+                    {"game": "North Texas @ Tulsa", "reason": "no Kalshi market"}]
+        c = dict(load(self.WEEK6), coverage={"requireFullProviderWeek": True, "excludedGames": excluded})
+        self.assertEqual(len(build_slate(c, builder=self.provider_week5)), 2)
+        bad = dict(load(self.WEEK6), coverage={"requireFullProviderWeek": True,
+                                                "excludedGames": [{"game": "North Texas @ Tulsa"}]})
+        with self.assertRaises(CohortError):
+            build_slate(bad, builder=self.provider_week5)
 
 
 if __name__ == "__main__":

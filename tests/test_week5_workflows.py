@@ -37,30 +37,10 @@ class Week5WorkflowCohortTests(unittest.TestCase):
                     self.assertNotIn(token, text)
 
 
-    def test_late_open_schedule_covers_week5_prospective_calendar_window(self):
-        text = (ROOT / ".github/workflows/week5-late-open-capture.yml").read_text(
-            encoding="utf-8"
-        )
-        self.assertIn('cron: "*/15 * 20-25 9 *"', text)
-        self.assertNotIn('cron: "*/15 * * 9 3,4"', text)
-        self.assertNotIn('cron: "*/15 0-19 * 9 5"', text)
-
-    def test_late_open_capture_has_independent_trigger_fallbacks(self):
-        text = (ROOT / ".github/workflows/week5-late-open-capture.yml").read_text(
-            encoding="utf-8"
-        )
-        self.assertIn('"S04 ES2 Week 5 audit shadow"', text)
-        self.assertIn('"BR2 point-in-time feature capture"', text)
-        self.assertIn("github.event_name != 'workflow_run'", text)
-        self.assertIn("github.event.workflow_run.conclusion == 'success'", text)
-
-    def test_capture_health_follows_both_capture_paths_and_runs_on_own_fix(self):
-        text = (ROOT / ".github/workflows/week5-capture-health.yml").read_text(
-            encoding="utf-8"
-        )
-        self.assertIn('"capture", "Week 5 late-open tail capture"', text)
-        self.assertIn("github.event_name != 'workflow_run'", text)
-        self.assertIn(".github/workflows/week5-capture-health.yml", text)
+    # The schedule and workflow_run pins that lived here described the Week 5
+    # window while it was open. That window closed on 2026-09-27 and D41
+    # retired the automatic triggers; RetiredCohortWorkflowTests below pins
+    # the retired state instead. The original triggers are in git history.
 
     def test_es2_decision_files_are_not_part_of_cohort_fix_surface(self):
         # The cohort identity layer must remain independent from frozen
@@ -70,6 +50,47 @@ class Week5WorkflowCohortTests(unittest.TestCase):
         self.assertIn('"minimumConservativeExecutableEv": 0.005', freeze)
         self.assertIn('"maximumOpenCaptureLagSeconds": 900', freeze)
         self.assertIn('"actualStakeUnits": 0', freeze)
+
+
+RETIRED = [
+    "s04-es1-live.yml",
+    "s04-es2-week5.yml",
+    "week5-close-capture.yml",
+    "week5-signal-grade.yml",
+    "week5-capture-health.yml",
+    "week5-late-open-capture.yml",
+    "br2-feature-capture.yml",
+    "powerup-health.yml",
+]
+
+
+def _on_block(text: str) -> str:
+    lines = text.splitlines()
+    start = lines.index("on:")
+    end = next(i for i in range(start + 1, len(lines)) if lines[i][:1].isalpha())
+    return "\n".join(line for line in lines[start:end] if line.strip())
+
+
+class RetiredCohortWorkflowTests(unittest.TestCase):
+    """Closed-cohort workflows run only when someone asks (D41)."""
+
+    def test_retired_workflows_have_no_automatic_trigger(self):
+        for name in RETIRED:
+            with self.subTest(workflow=name):
+                text = (ROOT / ".github/workflows" / name).read_text(encoding="utf-8")
+                self.assertEqual(_on_block(text), "on:\n  workflow_dispatch:")
+                self.assertIn("RETIRED 2026-10-02 (D41)", text)
+
+    def test_retirement_kept_the_jobs(self):
+        for name in RETIRED:
+            with self.subTest(workflow=name):
+                text = (ROOT / ".github/workflows" / name).read_text(encoding="utf-8")
+                self.assertIn("\njobs:\n", text)
+
+    def test_the_live_week6_grader_was_not_retired(self):
+        text = (ROOT / ".github/workflows/week6-clv-close-grade.yml").read_text(encoding="utf-8")
+        self.assertIn("schedule:", _on_block(text))
+        self.assertNotIn("RETIRED", text)
 
 
 if __name__ == "__main__":
