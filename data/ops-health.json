@@ -30,32 +30,32 @@
   },
   "capture": {
     "allowDelivery": false,
-    "codeRevision": "fb152861dbaf849014b61e19d5654a399e4683c9",
+    "codeRevision": "13b0daeb7975714406200bcb03969882defcb4f7",
     "freshAtGeneration": true,
     "freshNow": true,
-    "gamesMissing": 1,
-    "gamesObserved": 55,
-    "gamesTotal": 56,
-    "logSha256": "03deddab1546f54ed667e5e85ba29c72080350847f2d39338fb633facaecb229",
+    "gamesMissing": 50,
+    "gamesObserved": 8,
+    "gamesTotal": 58,
+    "logSha256": "3201ac7086e2ee99e209429a1a40ec2edae1ead8bba73a649de1a3a27c033cb0",
     "outcome": "success",
-    "pollAt": "2026-09-29T21:06:06.693143+00:00",
-    "slateSha256": "cde2955171fa33fa74a8bade6248e3b21a1d455c106c262feaeece9b85d1a0e3",
+    "pollAt": "2026-10-03T15:25:18.211884+00:00",
+    "slateSha256": "45413a92b1c3cd9684f3373affe81440d8f2580e9751003172c27f35da718f21",
     "topExclusions": [
       {
         "code": "DECISION_EVIDENCE_UNVERIFIED",
-        "count": 56
+        "count": 58
       },
       {
         "code": "EXECUTABLE_CONTRACT_UNVERIFIED",
-        "count": 56
+        "count": 58
       },
       {
         "code": "OPEN_NOT_AUDIT_GRADE_TRUE_OPEN",
-        "count": 56
+        "count": 58
       },
       {
         "code": "ABSENT_FROM_LATEST_POLL",
-        "count": 1
+        "count": 50
       }
     ]
   },
@@ -65,7 +65,7 @@
     "authoritativeContract": "https://cfb-edge-research.oaighew.chatgpt.site/api/picks",
     "githubDiagnosticOnly": true
   },
-  "generatedAt": "2026-09-29T21:07:01.168172+00:00",
+  "generatedAt": "2026-10-03T15:25:39.153338+00:00",
   "latestRun": {},
   "ledger": {
     "betRows": 0,
@@ -207,7 +207,7 @@
     "Preserve the private Site as S02 authority until its exact implementation and source hash can be reproduced here. Do not reverse-engineer it from metadata."
   ],
   "phase": "SHADOW",
-  "revision": "fb152861dbaf849014b61e19d5654a399e4683c9",
+  "revision": "13b0daeb7975714406200bcb03969882defcb4f7",
   "schemaVersion": 1,
   "stage": "capture_refresh",
   "state": "SHADOW_BLOCKED",
