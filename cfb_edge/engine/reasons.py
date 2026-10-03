@@ -48,12 +48,21 @@ LINE_MISMATCH = "LINE_MISMATCH"
 # +323% and a +108% that were simply a stale book against a moving game.
 IN_PLAY = "IN_PLAY"
 
+# The venue publishes a ladder and the ladder cannot fill the size the operator
+# intends to take, so there is no price at which this bet exists at this size.
+# Distinct from a thin-but-fillable book, which gets a worse price rather than
+# this code, and distinct from UNMAPPED, which means no contract was identified
+# in the first place. Only venues that publish resting size can earn this: for
+# everyone else the price is still an unverified quote, which is why the absence
+# of this code on a soft-book row says nothing about whether it would fill.
+NO_FILL = "NO_FILL"
+
 ALL = frozenset({
     NO_EVIDENCE, AGGREGATE_ONLY, CLV_KILL, LUCK_RISK,
     FAMILY_DUP, OPPOSED, NEG_EV, DEVIG_SENSITIVE, DOMINATED,
     SUB_MIN, CEILING_HIT,
     STALE, UNMAPPED, DEVIG_IMPLAUSIBLE, BOOK_DISAGREE, LOOKAHEAD,
-    UNGRADEABLE_PRICE, LINE_MISMATCH, IN_PLAY,
+    UNGRADEABLE_PRICE, LINE_MISMATCH, IN_PLAY, NO_FILL,
 })
 
 # Decisions
