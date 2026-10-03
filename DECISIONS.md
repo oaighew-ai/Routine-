@@ -1596,3 +1596,320 @@ habit. If a margin-PMF bridge for strikes is ever derived and measured, the
 moneyline-only restriction can be revisited — but not before, since that bridge
 is the model error `shop.py` exists to keep out. If `gate.DEFAULT_SIZE` is ever
 derived from something, this entry's PRIOR tag comes off with it.
+
+## 2026-10-02 — D38. The opening capture: a wider window, a self-carrying loop, and no lost polls
+
+(D36 and D37 are held by open pull request #24; this entry is numbered past
+them so neither has to be renumbered again.)
+
+**Decision.** Three changes to the prospective opening capture (D35). None
+touches the true-open rule: the first valid two-sided quote must still be
+observed within -60/+900 seconds of the venue's own open time, and a missed
+row is still terminal.
+
+**1. The release window opens Friday 18:00 UTC, not Saturday 12:00.**
+`data/prospective-open-status.json` carries the venue's open time for 55 of
+the 56 games of the Oct 1-3 slate:
+
+    Sat 2026-09-26 01:06Z   2      Sun 2026-09-27 10:06Z  19
+    Sat 2026-09-26 16:07Z   1      Sun 2026-09-27 16:06Z   4
+    Sun 2026-09-27 01:06Z   4      Mon 2026-09-28 22:05Z  11
+    Sun 2026-09-27 04:06Z   5
+    Sun 2026-09-27 07:06Z   9
+
+Two opened Friday evening US time, eleven hours before the window, so no poll
+could have graded them. Across both measured cohorts every open sits a few
+minutes past the hour on a three-hour step. The new start is the earliest
+measured open less two of those steps, rounded down to the hour. **Two steps
+of margin is a PRIOR (Law 6).** `slate.opening_week` already names the next
+week by then: in the 2026 schedule every provider week from 2 to 13 has its
+first kickoff at least 25 hours before that Saturday 01:06.
+
+**2. The loop hands itself to the next link.** Scheduled launches here arrive
+hours late: the 13:30 UTC feature capture landed at 18:44, 18:29 and 18:57 on
+three consecutive days, and inside the last release window the gaps between
+polls reached 8.0, 6.6, 5.7 and 5.5 hours. A late launch is a hole exactly as
+wide as the delay. A link that finished its slot now dispatches its successor
+with `workflow_dispatch`, which is not delayed, before it writes its report;
+the shared concurrency group keeps the two from overlapping. Three guards stop
+a broken link from re-launching itself for four days: the loop step finished,
+at least one poll succeeded, and the link ran ten minutes. A cancelled run is
+not resurrected. The crons stay as the backstop and now begin Friday 18:00.
+
+**3. A poll lost to a push race is replayed at its original time.** The loop
+shares `capture-data` with other writers. On a rejected push it reset to the
+remote branch, which discarded the poll it had just recorded, and its closing
+step then polled again. A market that opened in the lost poll was first seen
+a poll later or not at all. Each poll's snapshot is now queued until a push
+carries it and is replayed after a reset (`watch --replay-snapshot`, then
+`prospective_open`) with its own `polled_at`. The live poll and its snapshot
+share one stamp, so a replay of a poll that did land writes nothing.
+
+**What this does not establish.** No cohort has yet produced a `true_open`
+row: 0 of 150 legacy rows and 0 of 55 prospective rows. Every miss so far is
+explained by polling that was absent or began after the open, so the venue's
+side of the rule is untested. If markets routinely post their first two-sided
+quote more than fifteen minutes after they open, continuous polling will
+still grade nothing, and the first weekend this runs is what will show it.
+
+**Verification.** `tests/test_open_loop_recovery.py` runs the workflow's own
+push-recovery shell against local git remotes with a competing writer.
+`tests/test_open_loop_handover.py` runs the hand-over step against a stand-in
+`gh` across all three guards, the closed window and a failed dispatch. Both
+measured cohorts are pinned in `tests/test_model.py`; restoring the Saturday
+noon start fails seven tests. Not verified: the hand-over on a real runner,
+which needs one release window to observe.
+
+**Authority effect.** None. Capture only. No threshold, gate, frozen rule,
+stake or delivery permission changes.
+
+**Reversal criterion.** Move the window again if a cohort opens before Friday
+18:00 UTC. Drop the hand-over if GitHub delivers scheduled launches within the
+fifteen-minute tolerance for a full season. Drop the replay queue only if the
+loop gets exclusive write access to its files.
+
+## 2026-10-02 — D39. One operating path, one card, and promotion as a separate registered act
+
+**Decision.** CFB Edge runs on one path, described in full in
+`docs/CFB_EDGE_OPERATIONS.md`:
+
+- Control plane: `main` (code, configs, registries, this file), changed by
+  pull request only. Evidence plane: `capture-data`, append-only, the only
+  branch automation writes (D3).
+- One decision engine, `cfb_edge.engine.decide`. Nothing else produces a stake.
+- One weekly output, `cfb_edge.weekly_card` (`CFB_EDGE_WEEKLY_CARD_V1`),
+  rendered by `cfb_edge.card_render`. Any surface that shows picks derives from
+  that JSON.
+- One authority, `config/delivery_authority.json` (D17, D19). The card can
+  print BET only when that file allows delivery (D40).
+- One scheduled Claude task, "CFB Edge weekly routine": it builds and
+  publishes the card and checks that capture is landing. It never merges,
+  promotes, stakes, or edits a frozen config.
+
+Surfaces that competed with this are superseded, not deleted, so history
+survives: the LATTICE dashboard and `edge_os_v3_lattice.md` in the claude.ai
+project (seeded sample data), the Week 3 Orders and CFB Edge Picks artifacts,
+and the Ground Truth artifact (its test count and decision range predate D37).
+
+**Production, challenger, promotion are three different things.**
+
+- *Production* is what the authority names and allows. Today that is S02 at
+  `MODEL_REVIEW_REQUIRED` with `allowPaperDelivery: false` and five failed
+  gates, so production delivers nothing and the card's BET count is zero by
+  construction until that file changes.
+- A *challenger* is any registry entry that is not production (S04_ES2 frozen
+  shadow, S04_BR2 data collection, the monitors). It runs from a frozen
+  config, records its prediction before the outcome exists, stakes zero, and
+  cannot change a card disposition; the card shows it under "Shadow signals".
+- *Promotion* moves a challenger into the authority. Every condition below is
+  required; none substitutes for another.
+  1. Registration before the holdout: the fields
+     `CFB_EDGE_PROMOTION_REVIEW_V1` lists (model, feature-contract,
+     training-protocol and execution-policy hashes, holdout start/end/weeks,
+     attempt number), committed here before any holdout outcome exists.
+  2. Evidence from gradeable rows only (`GRADEABLE` in `clv.py`: `true_open`,
+     `fill`). Recovered, `first_seen` and `late` rows never count.
+  3. The registered policy's single final look: net return per unit after all
+     costs (primary), paired Brier improvement of at least 0.001 against the
+     decision market (secondary), calibration error at most 0.05, a 0.01 per
+     unit stress cost, 5,000 bootstrap replicates, familywise alpha 0.05. Its
+     minimum holdout is 26 weeks and 4,710 games. At roughly 55 games a week
+     that is more than one full season, so no challenger can be promoted
+     under the policy as registered before the 2027 regular season ends.
+  4. `CFB_EDGE_CLV_GATE_V1` (D31) reads PASS, or a successor null that was
+     registered before its data (D42).
+  5. The authority's own gates pass for the candidate: 200 non-push
+     forecasts, 8 week clusters, log-loss advantage of at least 0.003, Brier
+     no worse than the market, anytime e-value of at least 20, validation no
+     older than seven days.
+  6. The walk-forward history (`scripts/walkforward_backtest.py`) shows no
+     degradation against the market baseline. Necessary, never sufficient.
+  7. The owner merges a pull request that edits
+     `config/delivery_authority.json`. No automation makes that edit.
+- *Demotion.* Any registered gate that fails on a later re-check reverts the
+  authority file to its previous commit, recorded here.
+
+**Why.** Twenty-five workflows, three scheduled tasks, two pull-request
+check-in loops, a private Site and at least four pick surfaces each made sense
+locally. Together they could not answer "what is this week's card, and why".
+One card from one engine under one authority can.
+
+**Authority effect.** None. S02 remains the sole delivery candidate, the
+private Site remains the registered authority, and the frozen S04_ES2 rules,
+S04_BR2 `DATA_COLLECTION_ONLY` and every threshold are unchanged.
+
+**Reversal criterion.** Split the path only when a component must run where
+this repository cannot, such as the private Site's model, and then only with
+that component writing its output to `capture-data`, so the card still reads
+one evidence plane.
+
+## 2026-10-02 — D40. What the weekly card's dispositions and numbers mean
+
+**Dispositions**, exactly one per game:
+
+- **BET** only when the engine returns BET with a stake (a registered Stage-A
+  signal, gated once, D15), the authority allows paper delivery, the
+  executable quote is no older than `maximumQuoteAgeSeconds` (900 s), and
+  neither critical gate (market capture, information state) reads FAIL.
+  Today the card passes the engine no registered system, because none exists
+  in this repository: `systems.jsonl` is empty and S02 is an external
+  implementation. So the card cannot print BET. If the authority ever allows
+  delivery, the card must show the authority's own picks, mirrored to
+  `capture-data`, and never compute a second set.
+- **LEAN** when a book's price beats the sharp reference's no-vig price at
+  the same number under both multiplicative and power de-vig, and the engine
+  did not flag `DEVIG_SENSITIVE`, but evidence, authority or freshness blocks
+  a bet. Zero stake. A lean is a price observation logged so its closing-line
+  value can be measured, not a prediction.
+- **PASS** otherwise, with reason codes. PASS is a complete answer.
+
+**Confidence** is the engine's posterior probability that the pick covers at
+its executable number, push-adjusted through the fitted margin distribution.
+With no registered evidence the posterior equals the reference's no-vig
+probability (Pinnacle, else the US-book median), because the projection's
+weight is zero: its incremental coefficient over the close is -0.012
+(t = -0.43) across 9,113 walk-forward games. Measured calibration of that
+reference: Pinnacle no-vig closing probabilities over 5,199 games, expected
+calibration error 0.013 and Brier 0.2501 against 0.2500 for a coin flip. It is
+calibrated near 50% and nearly uninformative about who covers, which is what
+an efficient spread market looks like. Spread confidence on this card will
+therefore sit near 50%, and a figure far from 50% points at a data problem
+before an edge. **Limit of that measurement:** the source carries priced
+Pinnacle closes for 2012-2019 only, so the reference's calibration since 2020
+is assumed, not measured here.
+
+**Edge** is expected value per unit at the executable price against the
+reference; the card uses the worse of the two de-vig methods. The minimum
+acceptable price is the worst price at which the engine's
+`max_playable_price` sweep still clears.
+
+**The margin distribution uses one sigma for every game.** The slate's
+`total` column is the constant 52.0 on all 56 rows, a placeholder and not a
+market total, so the card takes sigma at `REFERENCE_TOTAL` instead of
+pretending to a game-specific one. It affects only the push probability and
+the value of a half point, never which side has the edge.
+
+**Gate states** are PASS, DEGRADED, FAIL and NOT APPLICABLE. A missing input
+is FAIL or DEGRADED with a reason, never PASS. A critical FAIL blocks BET.
+
+**Ranking** is `max(conservative EV, 0) x evidence factor x execution factor`,
+with evidence factors 1.0 / 0.85 / 0.5 for PASS / DEGRADED / FAIL per gate
+and execution halving every four hours of quote age. **Both factors are PRIOR
+(Law 6)**: chosen, not derived. The ranking orders the card and has not been
+validated against realized return; the card prints that.
+
+**Traceability.** The card records the SHA-256 of every input, the code and
+evidence revisions, and its own SHA-256 over a canonical serialization; the
+same inputs at the same `--as-of` rebuild it byte for byte
+(`tests/test_weekly_card.py`).
+
+**Authority effect.** None. The card cannot produce a BET the engine and the
+authority would not.
+
+**Reversal criterion.** Replace the confidence definition only with a model
+probability that has completed the promotion path in D39. Replace the PRIOR
+factors only with values fitted to graded card history.
+
+## 2026-10-02 — D41. Orchestration repairs are forward-only
+
+Three defects let the evidence plane lose, bury or stop collecting information
+without anyone deciding it should. (The capture repairs are D38.)
+
+**1. A cohort names the games it leaves out.** `cohort.build_slate` filtered
+the provider week to the game window without recording what it removed. The
+Week 6 contract's window opens Friday 2026-10-02 23:00 UTC and so dropped the
+two Thursday games (Western Kentucky at New Mexico State, North Texas at
+Tulsa). A contract now carries `coverage.excludedGames`, each with a reason,
+and every build reports any game of its own week (inside the capture window,
+outside the game window) that the contract does not name. The report is loud
+and not fatal: a kickoff that moves after registration must not cost the other
+fifty games their capture. Games outside the capture window are provider
+mislabels and are still dropped. The Week 5 and Week 6 contracts keep their
+frozen windows and are reported the same way.
+
+**2. The next cohort is derived and registered ahead, not typed each week.**
+`config/br2_active_cohort.json` was edited by hand for each new week, and its
+prospective window closes 2026-10-02 23:00 UTC. With nothing written for the
+following week the feature capture, and with it the only sportsbook board the
+card reads, would have stopped on Monday. `cohort propose` now derives a
+weekend contract from the provider schedule by the rule the Week 6 contract
+was written to (games from Friday 23:00 UTC to Sunday 12:00 UTC; capture from
+the previous Sunday 00:00 UTC; prospective until the game window opens), and
+that rule reproduces the registered Week 6 windows exactly. Contracts for
+product weeks 7 to 14 (provider weeks 6 to 13) are registered under
+`config/cohorts/`, each naming the midweek games it leaves out. The feature
+capture resolves its cohort by date with `cohort active`: the one contract
+whose prospective window is open, the Week 6 file when none is, and a failed
+run when two are. No weekly configuration change remains.
+
+A registered contract is not rewritten. Thanksgiving week (product week 14)
+leaves out 13 games, most of them on the Friday, because the weekend rule
+freezes features on Friday evening; that is the rule's cost and it is
+recorded in the contract, not hidden. Changing it needs a new contract before
+that week's window opens.
+
+**3. Closed-cohort workflows lose their automatic triggers.** Eight workflows
+served cohorts whose windows have closed and kept firing on schedule or on
+`workflow_run` cascades: `s04-es1-live`, `s04-es2-week5`,
+`week5-close-capture`, `week5-signal-grade`, `week5-capture-health`,
+`week5-late-open-capture`, `br2-feature-capture` (superseded by
+`br2-active-feature-capture`) and `powerup-health` (Week 5 readiness; the
+card's system health supersedes it). Each run skipped its work, but a
+successful completion still set off the readiness and bridge workflows.
+Measured on `capture-data` over the seven days to 2026-10-02: 154 bridge
+commits, 142 readiness commits and 61 signal-grade commits, each changing only
+a `generatedAt` stamp, against 9 feature snapshots and 57 capture commits
+out of 579 in all.
+Every one of those 357 commits was also a chance for the capture loop's push
+to be rejected (D38). Each retired workflow keeps `workflow_dispatch`, its
+code, configs and evidence, and a header naming this entry.
+`week6-clv-close-grade` stays live until Week 6 is graded.
+
+Not changed: `private-site-bridge` still republishes after each remaining
+upstream run, because the private Site is its consumer and this repository
+cannot see whether the Site reads the stamp for freshness. `s04_es2.py`
+reports 102 `mappingFailures` for Week 6; those are board rows for games that
+were never candidates, not failed joins. The experiment's frozen Week 6
+decisions are being graded, so the mislabel is recorded here and the module is
+left alone until that cohort closes.
+
+Not built: nothing yet applies the frozen S04_ES2 rule to the prospective
+opens of product week 7 onward. The decision freeze and close grading exist
+for Week 6 only (D34), and D34 requires a separately registered cohort before
+the protocol is reused. Until the owner registers one, true opens captured
+from this weekend on are evidence about the capture, not about the strategy.
+
+**Authority effect.** None. No frozen rule, threshold or decision changed;
+the Week 5 and Week 6 cohort contracts are untouched.
+
+**Reversal criterion.** Restore any retired trigger from the parent of this
+commit if a closed cohort must be re-captured. Replace the weekend rule only
+by registering new contracts before their windows open.
+
+## 2026-10-02 — D42. Finding: the CLV breakeven depends on the strike (no rule change)
+
+D31 sets one null, 0.675 points: the Kalshi fee at P = 0.5 converted to points
+with the at-the-money slope of the margin distribution. The slope is not
+constant. Where probability mass piles up on key margins a point is worth
+more probability, so fewer points cover the same fee. Recomputed from the
+fitted margin distribution and `kalshi_fees`: about 0.26 points at a strike
+on 3 or 7, 0.38 at 14, 0.74 at pick'em, 1.72 at an off-key 9
+(`docs/research/walkforward_2026.json`, `economics`).
+
+Against those numbers the registered rule (week 3 or later, gap of at least
+4) measured +0.339 points of CLV over 676 games in 2023-2025 with consistent
+opens (95% interval +0.14 to +0.54, 39 week clusters). The interval straddles
+the key-number breakeven and sits wholly below the pick'em one. By season:
+2023 +0.681, 2024 +0.123, 2025 +0.141, so the pooled figure leans on one year.
+The 2026 in-season measurement is +0.052 (t = 0.32, 155 games). These are
+sportsbook closes; that they transfer to exchange strikes is untested.
+
+**What this does not do.** It does not change D31's null, the CLV gate, or
+any threshold. Replacing a null after looking at the data it would judge is
+the error this file exists to prevent. The owner may register a strike-aware
+null for a future cohort before that cohort's data exists; until then D31
+stands.
+
+**Reversal criterion.** Superseded by a registered strike-aware null, or
+withdrawn if a recomputation with a better-fitted margin distribution moves
+the key-number breakeven above 0.54.

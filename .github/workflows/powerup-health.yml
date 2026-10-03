@@ -1,22 +1,12 @@
 name: CFB evidence readiness
 
+# RETIRED 2026-10-02 (D41). Served one closed cohort:
+#   Week 5 evidence readiness (superseded by the weekly card's system health).
+# Kept for audit and manual re-runs only. Code, configs and evidence are
+# untouched; only the automatic triggers were removed. The canonical
+# operating path is docs/CFB_EDGE_OPERATIONS.md. To revive, restore the
+# `on:` block from the parent of the D41 commit.
 on:
-  workflow_run:
-    workflows:
-      - "Week 5 capture health"
-      - "S04 ES2 Week 5 audit shadow"
-      - "week5 automatic signal grading"
-      - "BR2 point-in-time feature capture"
-      - "BR2 active point-in-time feature capture"
-      - "Week 5 close capture"
-    types: [completed]
-  push:
-    branches: [main]
-    paths:
-      - cfb_edge/powerup_health.py
-      - cfb_edge/cohort.py
-      - config/week5_cohort.json
-      - .github/workflows/powerup-health.yml
   workflow_dispatch:
 
 permissions:

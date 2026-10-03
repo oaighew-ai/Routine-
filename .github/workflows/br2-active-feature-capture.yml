@@ -50,6 +50,21 @@ jobs:
         with:
           python-version: "3.13"
 
+      # The cohort advances by date, not by editing a file each week. Contracts
+      # for the coming weeks are registered under config/cohorts/ before their
+      # windows open; whichever one is prospective now is the cohort this run
+      # works for. Nothing open there leaves the job-level default in place,
+      # which is the Week 6 contract. Two open at once fails the run rather
+      # than guess (DECISIONS.md D41).
+      - name: Resolve the cohort whose prospective window is open
+        run: |
+          set -euo pipefail
+          python3 -m cfb_edge.cohort active \
+            --dir config/cohorts \
+            --fallback "$BR2_COHORT_CONFIG" \
+            --mode prospective \
+            --github-env BR2_COHORT_CONFIG | tee -a "$GITHUB_ENV" >> "$GITHUB_STEP_SUMMARY"
+
       - name: Resolve active prospective window
         id: prospective
         run: |

@@ -1,9 +1,12 @@
 name: Week 5 close capture
 
+# RETIRED 2026-10-02 (D41). Served one closed cohort:
+#   product Week 5 closes (CFB_2026_PRODUCT_WEEK5; closed 2026-09-27).
+# Kept for audit and manual re-runs only. Code, configs and evidence are
+# untouched; only the automatic triggers were removed. The canonical
+# operating path is docs/CFB_EDGE_OPERATIONS.md. To revive, restore the
+# `on:` block from the parent of the D41 commit.
 on:
-  schedule:
-    - cron: "*/30 16-23 * 9-11 4,5,6"
-    - cron: "*/30 0-6 * 9-11 0"
   workflow_dispatch:
 
 permissions:

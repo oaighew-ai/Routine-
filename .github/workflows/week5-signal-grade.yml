@@ -1,11 +1,12 @@
 name: week5 automatic signal grading
 
+# RETIRED 2026-10-02 (D41). Served one closed cohort:
+#   product Week 5 S04_ES2 grading (0 audit-grade signals to grade).
+# Kept for audit and manual re-runs only. Code, configs and evidence are
+# untouched; only the automatic triggers were removed. The canonical
+# operating path is docs/CFB_EDGE_OPERATIONS.md. To revive, restore the
+# `on:` block from the parent of the D41 commit.
 on:
-  workflow_run:
-    workflows: ["capture", "S04 ES2 Week 5 audit shadow", "Week 5 close capture"]
-    types: [completed]
-  schedule:
-    - cron: "20 4 * 9-11 0,1"   # post-Saturday/Sunday grading sweep
   workflow_dispatch:
 
 permissions:

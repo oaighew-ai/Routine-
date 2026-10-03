@@ -1,0 +1,762 @@
+{
+ "calibration": {
+  "folds": [
+   {
+    "bands": [
+     {
+      "band": "4-6",
+      "n": 77,
+      "observed": 0.6103896103896104,
+      "predicted": 0.5362318840579711,
+      "testMeanClv": 0.2597402597402597,
+      "trainMeanClv": 0.5630841121495327
+     },
+     {
+      "band": "6-8",
+      "n": 37,
+      "observed": 0.4864864864864865,
+      "predicted": 0.4939759036144578,
+      "testMeanClv": 0.06756756756756757,
+      "trainMeanClv": 0.20454545454545456
+     },
+     {
+      "band": "8-10",
+      "n": 31,
+      "observed": 0.5483870967741935,
+      "predicted": 0.5038167938931297,
+      "testMeanClv": 0.16129032258064516,
+      "trainMeanClv": 0.8467741935483871
+     },
+     {
+      "band": "10+",
+      "n": 30,
+      "observed": 0.5,
+      "predicted": 0.5378787878787878,
+      "testMeanClv": -0.075,
+      "trainMeanClv": 2.3046875
+     }
+    ],
+    "season": 2024,
+    "testN": 487,
+    "trainN": 543
+   },
+   {
+    "bands": [
+     {
+      "band": "4-6",
+      "n": 74,
+      "observed": 0.43243243243243246,
+      "predicted": 0.5563380281690141,
+      "testMeanClv": 0.15202702702702703,
+      "trainMeanClv": 0.4361413043478261
+     },
+     {
+      "band": "6-8",
+      "n": 43,
+      "observed": 0.5116279069767442,
+      "predicted": 0.49261083743842365,
+      "testMeanClv": 0.09302325581395349,
+      "trainMeanClv": 0.1553398058252427
+     },
+     {
+      "band": "8-10",
+      "n": 31,
+      "observed": 0.5806451612903226,
+      "predicted": 0.5123456790123457,
+      "testMeanClv": 0.5887096774193549,
+      "trainMeanClv": 0.5040322580645161
+     },
+     {
+      "band": "10+",
+      "n": 36,
+      "observed": 0.4444444444444444,
+      "predicted": 0.5308641975308642,
+      "testMeanClv": -0.08333333333333333,
+      "trainMeanClv": 1.153225806451613
+     }
+    ],
+    "season": 2025,
+    "testN": 512,
+    "trainN": 1030
+   }
+  ],
+  "pooledBrier": 0.2511733752198615,
+  "pooledBrierCoinFlip": 0.25,
+  "pooledN": 359,
+  "shrinkage": "Beta(50,50) prior toward 0.5",
+  "target": "P(line moves toward the model's side), non-zero moves only"
+ },
+ "contract": "CFB_EDGE_WALKFORWARD_V1",
+ "decisionEffect": "NONE",
+ "economics": {
+  "note": "Line movement (points) needed for a Kalshi spread contract to pay its fee, by strike, for a pick'em game (sigma at the reference total). Key-number strikes need far less movement than off-key strikes. Whether line CLV measured on sportsbook openers transfers to an exchange strike is untested (MODEL.md). Not a fitted result.",
+  "rows": [
+   {
+    "breakevenClvPoints": 0.7417138950108626,
+    "kalshiFeeProbability": 0.017499999999999998,
+    "label": "pick'em strike, off key",
+    "price": 0.4999999999999997,
+    "probabilityPerPoint": 0.023594003183321388,
+    "strike": 0.5
+   },
+   {
+    "breakevenClvPoints": 0.26918323074734585,
+    "kalshiFeeProbability": 0.01737586020477617,
+    "label": "just under 3",
+    "price": 0.4578879394228365,
+    "probabilityPerPoint": 0.06455030707720821,
+    "strike": 2.5
+   },
+   {
+    "breakevenClvPoints": 0.25876902077113845,
+    "kalshiFeeProbability": 0.016703619752845456,
+    "label": "key number 3",
+    "price": 0.3933376323456283,
+    "probabilityPerPoint": 0.06455030707720821,
+    "strike": 3.0
+   },
+   {
+    "breakevenClvPoints": 0.2530167653612846,
+    "kalshiFeeProbability": 0.013960960493739127,
+    "label": "key number 7",
+    "price": 0.2751495892102969,
+    "probabilityPerPoint": 0.05517800559106889,
+    "strike": 7.0
+   },
+   {
+    "breakevenClvPoints": 1.7198558206865764,
+    "kalshiFeeProbability": 0.013153342933651148,
+    "label": "off-key 9",
+    "price": 0.25081111391588756,
+    "probabilityPerPoint": 0.007647933492704206,
+    "strike": 9.0
+   },
+   {
+    "breakevenClvPoints": 0.3826251818921518,
+    "kalshiFeeProbability": 0.009610854497678602,
+    "label": "key number 14",
+    "price": 0.16428869753225253,
+    "probabilityPerPoint": 0.025118196481870747,
+    "strike": 14.0
+   }
+  ]
+ },
+ "encompassing": {
+  "closeLineCoef": 1.0304443212900907,
+  "closeLineT": 41.326288635203916,
+  "impliedModelWeight": -0.012211173583595247,
+  "n": 9113,
+  "projectionCoef": -0.012211173583595247,
+  "projectionT": -0.43264315754957977,
+  "residualSd": 15.509094111218381
+ },
+ "encompassingByEra": {
+  "2012-2015": {
+   "closeLineCoef": 1.0470674722346667,
+   "closeLineT": 21.76561211250592,
+   "impliedModelWeight": 0.012205765250181244,
+   "n": 2674,
+   "projectionCoef": 0.012205765250181244,
+   "projectionT": 0.22446671736701412,
+   "residualSd": 15.372524832077017
+  },
+  "2016-2019": {
+   "closeLineCoef": 1.120753683914658,
+   "closeLineT": 22.962250066513665,
+   "impliedModelWeight": -0.12456480655394397,
+   "n": 2755,
+   "projectionCoef": -0.12456480655394397,
+   "projectionT": -2.255957590000987,
+   "residualSd": 15.887284702757386
+  },
+  "2021-2023": {
+   "closeLineCoef": 0.99391780918197,
+   "closeLineT": 20.687188318933455,
+   "impliedModelWeight": -0.021214382143043053,
+   "n": 2191,
+   "projectionCoef": -0.021214382143043053,
+   "projectionT": -0.3833317227894264,
+   "residualSd": 15.324965667682903
+  },
+  "2024-2025": {
+   "closeLineCoef": 0.9374608907628308,
+   "closeLineT": 16.81062494605541,
+   "impliedModelWeight": 0.10107124812508372,
+   "n": 1493,
+   "projectionCoef": 0.10107124812508372,
+   "projectionT": 1.639870946433092,
+   "residualSd": 15.26392068679819
+  }
+ },
+ "excluded": {
+  "2020": "no opening lines in the source; COVID season"
+ },
+ "h1": {
+  "all": {
+   "beatCloseRate": 0.5154639175257731,
+   "clv": {
+    "clusters": 46,
+    "hi95": 0.2876625761942686,
+    "lo95": 0.07755970855530936,
+    "mean": 0.18261114237478898,
+    "n": 1777,
+    "se": 0.05359767031606103,
+    "t": 3.407072383891803
+   },
+   "coverRateAtClose": 0.5051724137931034,
+   "coverRateAtOpen": 0.5096810933940774,
+   "decisions": 1756,
+   "maxDrawdownUnits": -72.72727272727425,
+   "n": 1777,
+   "roiAtAssumedMinus110": -0.026972458065852148
+  },
+  "byEra_registeredRule": {
+   "2012-2015": {
+    "n": 0
+   },
+   "2016-2019": {
+    "n": 0
+   },
+   "2021-2023": {
+    "beatCloseRate": 0.5508474576271186,
+    "clv": {
+     "clusters": 13,
+     "hi95": 1.0347802840819604,
+     "lo95": 0.32796481395725535,
+     "mean": 0.6813725490196079,
+     "n": 255,
+     "se": 0.18031006890936352,
+     "t": 3.7788935090591833
+    },
+    "coverRateAtClose": 0.5161290322580645,
+    "coverRateAtOpen": 0.5454545454545454,
+    "decisions": 253,
+    "maxDrawdownUnits": -14.72727272727273,
+    "n": 255,
+    "roiAtAssumedMinus110": 0.04132231404958677
+   },
+   "2024-2025": {
+    "beatCloseRate": 0.5153203342618384,
+    "clv": {
+     "clusters": 26,
+     "hi95": 0.31500721445868096,
+     "lo95": -0.05016160875796841,
+     "mean": 0.1324228028503563,
+     "n": 421,
+     "se": 0.09315531204506362,
+     "t": 1.421527124360843
+    },
+    "coverRateAtClose": 0.4878048780487805,
+    "coverRateAtOpen": 0.5036319612590799,
+    "decisions": 413,
+    "maxDrawdownUnits": -26.636363636363626,
+    "n": 421,
+    "roiAtAssumedMinus110": -0.03852080123266563
+   }
+  },
+  "byGap": {
+   "0-2": {
+    "beatCloseRate": 0.5058823529411764,
+    "clv": {
+     "clusters": 43,
+     "hi95": 0.29755016528785705,
+     "lo95": -0.08341295115064293,
+     "mean": 0.10706860706860707,
+     "n": 481,
+     "se": 0.09718446847920918,
+     "t": 1.1017049199740432
+    },
+    "coverRateAtClose": 0.4734607218683652,
+    "coverRateAtOpen": 0.46638655462184875,
+    "decisions": 476,
+    "maxDrawdownUnits": -60.636363636363754,
+    "n": 481,
+    "roiAtAssumedMinus110": -0.10962566844919787
+   },
+   "10-14": {
+    "beatCloseRate": 0.51,
+    "clv": {
+     "clusters": 33,
+     "hi95": 0.7317903221902877,
+     "lo95": -0.2622251047989834,
+     "mean": 0.23478260869565218,
+     "n": 115,
+     "se": 0.2535753640278753,
+     "t": 0.9258888756631846
+    },
+    "coverRateAtClose": 0.49557522123893805,
+    "coverRateAtOpen": 0.5357142857142857,
+    "decisions": 112,
+    "maxDrawdownUnits": -10.09090909090909,
+    "n": 115,
+    "roiAtAssumedMinus110": 0.02272727272727274
+   },
+   "14+": {
+    "beatCloseRate": 0.4634146341463415,
+    "clv": {
+     "clusters": 20,
+     "hi95": 0.6352446224530347,
+     "lo95": -0.31459244853999124,
+     "mean": 0.16032608695652173,
+     "n": 92,
+     "se": 0.24230537525332294,
+     "t": 0.6616695431907181
+    },
+    "coverRateAtClose": 0.5,
+    "coverRateAtOpen": 0.5384615384615384,
+    "decisions": 91,
+    "maxDrawdownUnits": -13.454545454545453,
+    "n": 92,
+    "roiAtAssumedMinus110": 0.027972027972027986
+   },
+   "2-4": {
+    "beatCloseRate": 0.5207253886010362,
+    "clv": {
+     "clusters": 44,
+     "hi95": 0.2600588141553647,
+     "lo95": -0.069371452736296,
+     "mean": 0.09534368070953436,
+     "n": 451,
+     "se": 0.08403833339072977,
+     "t": 1.1345260771205592
+    },
+    "coverRateAtClose": 0.5337837837837838,
+    "coverRateAtOpen": 0.5279642058165548,
+    "decisions": 447,
+    "maxDrawdownUnits": -31.363636363636303,
+    "n": 451,
+    "roiAtAssumedMinus110": 0.007931665649786427
+   },
+   "4-6": {
+    "beatCloseRate": 0.5474452554744526,
+    "clv": {
+     "clusters": 43,
+     "hi95": 0.5669152764216916,
+     "lo95": 0.06695569132024393,
+     "mean": 0.31693548387096776,
+     "n": 310,
+     "se": 0.12754071048506319,
+     "t": 2.484975053577778
+    },
+    "coverRateAtClose": 0.5198675496688742,
+    "coverRateAtOpen": 0.5278688524590164,
+    "decisions": 305,
+    "maxDrawdownUnits": -20.272727272727277,
+    "n": 310,
+    "roiAtAssumedMinus110": 0.00774962742175851
+   },
+   "6-8": {
+    "beatCloseRate": 0.5087719298245614,
+    "clv": {
+     "clusters": 44,
+     "hi95": 0.39918303615618533,
+     "lo95": -0.040935613475772986,
+     "mean": 0.1791237113402062,
+     "n": 194,
+     "se": 0.11227516572243836,
+     "t": 1.5953992157359875
+    },
+    "coverRateAtClose": 0.5159574468085106,
+    "coverRateAtOpen": 0.515625,
+    "decisions": 192,
+    "maxDrawdownUnits": -13.727272727272728,
+    "n": 194,
+    "roiAtAssumedMinus110": -0.015625
+   },
+   "8-10": {
+    "beatCloseRate": 0.5087719298245614,
+    "clv": {
+     "clusters": 39,
+     "hi95": 0.7821725887251976,
+     "lo95": 0.04245427694644427,
+     "mean": 0.4123134328358209,
+     "n": 134,
+     "se": 0.18870365096396766,
+     "t": 2.1849785668140083
+    },
+    "coverRateAtClose": 0.48484848484848486,
+    "coverRateAtOpen": 0.5112781954887218,
+    "decisions": 133,
+    "maxDrawdownUnits": -14.909090909090914,
+    "n": 134,
+    "roiAtAssumedMinus110": -0.023923444976076593
+   }
+  },
+  "bySeason_registeredRule": {
+   "2023": {
+    "beatCloseRate": 0.5508474576271186,
+    "clv": {
+     "clusters": 13,
+     "hi95": 1.0347802840819604,
+     "lo95": 0.32796481395725535,
+     "mean": 0.6813725490196079,
+     "n": 255,
+     "se": 0.18031006890936352,
+     "t": 3.7788935090591833
+    },
+    "coverRateAtClose": 0.5161290322580645,
+    "coverRateAtOpen": 0.5454545454545454,
+    "decisions": 253,
+    "maxDrawdownUnits": -14.72727272727273,
+    "n": 255,
+    "roiAtAssumedMinus110": 0.04132231404958677
+   },
+   "2024": {
+    "beatCloseRate": 0.5542857142857143,
+    "clv": {
+     "clusters": 13,
+     "hi95": 0.37923385684220645,
+     "lo95": -0.1328923934275723,
+     "mean": 0.12317073170731707,
+     "n": 205,
+     "se": 0.13064445159943336,
+     "t": 0.9427934382163329
+    },
+    "coverRateAtClose": 0.485,
+    "coverRateAtOpen": 0.5024875621890548,
+    "decisions": 201,
+    "maxDrawdownUnits": -21.090909090909108,
+    "n": 205,
+    "roiAtAssumedMinus110": -0.04070556309362282
+   },
+   "2025": {
+    "beatCloseRate": 0.4782608695652174,
+    "clv": {
+     "clusters": 13,
+     "hi95": 0.41186832289003383,
+     "lo95": -0.12946091548262648,
+     "mean": 0.1412037037037037,
+     "n": 216,
+     "se": 0.13809419346241336,
+     "t": 1.022517313460661
+    },
+    "coverRateAtClose": 0.49047619047619045,
+    "coverRateAtOpen": 0.5047169811320755,
+    "decisions": 212,
+    "maxDrawdownUnits": -23.363636363636388,
+    "n": 216,
+    "roiAtAssumedMinus110": -0.03644939965694686
+   }
+  },
+  "byWeek": {
+   "1-2": {
+    "beatCloseRate": 0.4726027397260274,
+    "clv": {
+     "clusters": 6,
+     "hi95": 0.27437542687366034,
+     "lo95": -0.2684582671103467,
+     "mean": 0.0029585798816568047,
+     "n": 169,
+     "se": 0.13847798315918547,
+     "t": 0.02136498390690605
+    },
+    "coverRateAtClose": 0.5449101796407185,
+    "coverRateAtOpen": 0.5449101796407185,
+    "decisions": 167,
+    "maxDrawdownUnits": -7.545454545454545,
+    "n": 169,
+    "roiAtAssumedMinus110": 0.040283070223189936
+   },
+   "12-20": {
+    "beatCloseRate": 0.5850340136054422,
+    "clv": {
+     "clusters": 12,
+     "hi95": 1.0246732201382391,
+     "lo95": 0.10265597240834473,
+     "mean": 0.5636645962732919,
+     "n": 161,
+     "se": 0.23520848156374857,
+     "t": 2.396446728986352
+    },
+    "coverRateAtClose": 0.6163522012578616,
+    "coverRateAtOpen": 0.6329113924050633,
+    "decisions": 158,
+    "maxDrawdownUnits": -6.272727272727277,
+    "n": 161,
+    "roiAtAssumedMinus110": 0.20828538550057535
+   },
+   "3-4": {
+    "beatCloseRate": 0.532258064516129,
+    "clv": {
+     "clusters": 6,
+     "hi95": 0.37989387860367885,
+     "lo95": 0.011410469222408154,
+     "mean": 0.1956521739130435,
+     "n": 138,
+     "se": 0.09400086974012006,
+     "t": 2.081386847312734
+    },
+    "coverRateAtClose": 0.4925373134328358,
+    "coverRateAtOpen": 0.5259259259259259,
+    "decisions": 135,
+    "maxDrawdownUnits": -9.818181818181817,
+    "n": 138,
+    "roiAtAssumedMinus110": 0.00404040404040405
+   },
+   "5-7": {
+    "beatCloseRate": 0.46808510638297873,
+    "clv": {
+     "clusters": 9,
+     "hi95": 0.46094256403480754,
+     "lo95": -0.23503894957697619,
+     "mean": 0.11295180722891567,
+     "n": 166,
+     "se": 0.17754630449280198,
+     "t": 0.636182248634158
+    },
+    "coverRateAtClose": 0.4472049689440994,
+    "coverRateAtOpen": 0.45454545454545453,
+    "decisions": 165,
+    "maxDrawdownUnits": -33.81818181818182,
+    "n": 166,
+    "roiAtAssumedMinus110": -0.13223140495867775
+   },
+   "8-11": {
+    "beatCloseRate": 0.5300546448087432,
+    "clv": {
+     "clusters": 12,
+     "hi95": 0.8505039237151906,
+     "lo95": 0.031012663962534492,
+     "mean": 0.44075829383886256,
+     "n": 211,
+     "se": 0.20905389279404493,
+     "t": 2.1083476989978247
+    },
+    "coverRateAtClose": 0.45098039215686275,
+    "coverRateAtOpen": 0.4807692307692308,
+    "decisions": 208,
+    "maxDrawdownUnits": -24.27272727272729,
+    "n": 211,
+    "roiAtAssumedMinus110": -0.08216783216783217
+   }
+  },
+  "consistentOpenSignals": 1777,
+  "registeredRule": {
+   "beatCloseRate": 0.5294117647058824,
+   "clv": {
+    "clusters": 39,
+    "hi95": 0.5408094401269524,
+    "lo95": 0.13818464271328423,
+    "mean": 0.33949704142011833,
+    "n": 676,
+    "se": 0.10271040750348678,
+    "t": 3.3053811164033515
+   },
+   "coverRateAtClose": 0.49848024316109424,
+   "coverRateAtOpen": 0.5195195195195195,
+   "decisions": 666,
+   "maxDrawdownUnits": -28.000000000000043,
+   "n": 676,
+   "roiAtAssumedMinus110": -0.008190008190008168
+  },
+  "registeredRule_awaySide": {
+   "beatCloseRate": 0.5476190476190477,
+   "clv": {
+    "clusters": 38,
+    "hi95": 0.750670540600066,
+    "lo95": 0.1773996348385305,
+    "mean": 0.46403508771929824,
+    "n": 285,
+    "se": 0.1462425780003917,
+    "t": 3.173050516916184
+   },
+   "coverRateAtClose": 0.5179856115107914,
+   "coverRateAtOpen": 0.5406360424028268,
+   "decisions": 283,
+   "maxDrawdownUnits": -19.272727272727295,
+   "n": 285,
+   "roiAtAssumedMinus110": 0.03212335367812401
+  },
+  "registeredRule_favorite": {
+   "beatCloseRate": 0.5133079847908745,
+   "clv": {
+    "clusters": 36,
+    "hi95": 0.59948151259532,
+    "lo95": -0.0665867757532147,
+    "mean": 0.26644736842105265,
+    "n": 304,
+    "se": 0.16991537968074866,
+    "t": 1.5681180180491987
+   },
+   "coverRateAtClose": 0.5268456375838926,
+   "coverRateAtOpen": 0.5418060200668896,
+   "decisions": 299,
+   "maxDrawdownUnits": -12.818181818181817,
+   "n": 304,
+   "roiAtAssumedMinus110": 0.034356947400425684
+  },
+  "registeredRule_homeSide": {
+   "beatCloseRate": 0.5160349854227405,
+   "clv": {
+    "clusters": 38,
+    "hi95": 0.5080073305583369,
+    "lo95": -0.010564875315370176,
+    "mean": 0.24872122762148338,
+    "n": 391,
+    "se": 0.13228882802900693,
+    "t": 1.8801378115387517
+   },
+   "coverRateAtClose": 0.4842105263157895,
+   "coverRateAtOpen": 0.5039164490861618,
+   "decisions": 383,
+   "maxDrawdownUnits": -24.454545454545478,
+   "n": 391,
+   "roiAtAssumedMinus110": -0.03797768810823645
+  },
+  "registeredRule_underdog": {
+   "beatCloseRate": 0.5421686746987951,
+   "clv": {
+    "clusters": 39,
+    "hi95": 0.6435982166395122,
+    "lo95": 0.15478888013468128,
+    "mean": 0.39919354838709675,
+    "n": 372,
+    "se": 0.12469625931245687,
+    "t": 3.201327374118096
+   },
+   "coverRateAtClose": 0.475,
+   "coverRateAtOpen": 0.5013623978201635,
+   "decisions": 367,
+   "maxDrawdownUnits": -31.272727272727277,
+   "n": 372,
+   "roiAtAssumedMinus110": -0.04285360416150605
+  },
+  "s04Band_4to6_week3plus": {
+   "beatCloseRate": 0.5426356589147286,
+   "clv": {
+    "clusters": 37,
+    "hi95": 0.5803164886129268,
+    "lo95": 0.05071799414569389,
+    "mean": 0.31551724137931036,
+    "n": 290,
+    "se": 0.13510165675184516,
+    "t": 2.3354061598138114
+   },
+   "coverRateAtClose": 0.5,
+   "coverRateAtOpen": 0.5087719298245614,
+   "decisions": 285,
+   "maxDrawdownUnits": -22.363636363636363,
+   "n": 290,
+   "roiAtAssumedMinus110": -0.028708133971291884
+  },
+  "singleBookOpens_registeredRule_notPooled": {
+   "beatCloseRate": 0.5707569346497414,
+   "clv": {
+    "clusters": 133,
+    "hi95": 0.64119899743887,
+    "lo95": 0.3214687877960294,
+    "mean": 0.4813338926174497,
+    "n": 2384,
+    "se": 0.08156382899052057,
+    "t": 5.90131555341021
+   },
+   "coverRateAtClose": 0.4802379940501487,
+   "coverRateAtOpen": 0.49550706033376124,
+   "decisions": 2337,
+   "maxDrawdownUnits": -158.54545454545584,
+   "n": 2384,
+   "roiAtAssumedMinus110": -0.05403197572645582
+  },
+  "singleBookSignalsExcluded": 6905,
+  "variantsTested": 27
+ },
+ "marketBaseline": {
+  "closeLineBias": -0.10260068034675739,
+  "closeLineMae": 12.240151432020191,
+  "closeLineMae_sameGames": 12.04398538504778,
+  "closeLineResidualSd": 15.509495904909066,
+  "favoriteCoverRateAtClose": 0.4976436265709156,
+  "games": 9113,
+  "homeCoverRateAtClose": 0.49302065884980456,
+  "openGames": 1779,
+  "openLineMae_sameGames": 12.103288364249579,
+  "pinnacleNoVigCalibration": {
+   "bins": [
+    {
+     "bin": "0.44",
+     "meanPredicted": 0.4537719398619394,
+     "n": 10,
+     "observed": 0.4
+    },
+    {
+     "bin": "0.46",
+     "meanPredicted": 0.47439828296789255,
+     "n": 189,
+     "observed": 0.48148148148148145
+    },
+    {
+     "bin": "0.48",
+     "meanPredicted": 0.49030796154859574,
+     "n": 1907,
+     "observed": 0.4824331410592554
+    },
+    {
+     "bin": "0.50",
+     "meanPredicted": 0.506146201824895,
+     "n": 2880,
+     "observed": 0.49618055555555557
+    },
+    {
+     "bin": "0.52",
+     "meanPredicted": 0.5255314901852355,
+     "n": 204,
+     "observed": 0.4362745098039216
+    },
+    {
+     "bin": "0.54",
+     "meanPredicted": 0.5494516717543556,
+     "n": 8,
+     "observed": 0.375
+    },
+    {
+     "bin": "0.56",
+     "meanPredicted": 0.5664739884393063,
+     "n": 1,
+     "observed": 0.0
+    }
+   ],
+   "brier": 0.2501333042221801,
+   "brierCoinFlip": 0.25,
+   "ece": 0.012649605540838528,
+   "games": 5199,
+   "seasons": [
+    2012,
+    2013,
+    2014,
+    2015,
+    2016,
+    2017,
+    2018,
+    2019
+   ]
+  },
+  "projectionBias": 0.3058575661143433,
+  "projectionMae": 13.37961593328215
+ },
+ "promotionEffect": "NONE",
+ "provenance": {
+  "closeLine": "median of real books' home-side closing lines",
+  "notBooks": [
+   "numberfire",
+   "teamrankings"
+  ],
+  "openLine": "median of >=2 books' openers within 2.0 pts; reference-only, untimestamped (D12)",
+  "price": "ROI graded at an ASSUMED -110; not an observed fill",
+  "projection": "cfb_edge.slate.build_from_rows, as-of week start"
+ },
+ "seasons": [
+  2012,
+  2013,
+  2014,
+  2015,
+  2016,
+  2017,
+  2018,
+  2019,
+  2021,
+  2022,
+  2023,
+  2024,
+  2025
+ ]
+}

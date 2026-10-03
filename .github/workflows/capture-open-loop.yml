@@ -13,10 +13,18 @@
 # polling in the right hours; it did nothing about whether a poll happens.
 #
 # So this asks cron for long-lived launches and does the waiting itself. The
-# chain now covers the entire measured Saturday-through-Tuesday release band.
-# The Sep 25-26 cohort opened Sat/Sun, while the Oct 2-3 cohort continued
-# posting through Monday night. A Sunday-only loop therefore cannot be called
-# prospective.
+# chain covers the entire measured Friday-evening-through-Tuesday release band.
+# The Sep 25-26 cohort opened Sat/Sun; the Oct 2-3 cohort began Friday evening
+# US time (Sat 01:06 UTC) and kept posting through Monday night. A Sunday-only
+# loop therefore cannot be called prospective.
+#
+# Cron is only the backstop now. Scheduled launches in this repository arrive
+# hours late (the 13:30 UTC feature capture landed at 18:44, 18:29 and 18:57
+# on three consecutive days), and a late launch is a hole in the chain. So a
+# link that ran its slot hands over to the next one itself with
+# workflow_dispatch, which is not delayed. One launch that arrives is enough
+# to carry the chain to the close of the window; the crons restart it if a
+# link dies.
 #
 # Each live poll is also handed to CFB_EDGE_PROSPECTIVE_OPEN_V1. That contract
 # freezes the first valid two-sided state immediately and never upgrades a late
@@ -35,9 +43,13 @@ on:
       - cfb_edge/prospective_open.py
       - cfb_edge/watch.py
   schedule:
-    # Cron numbers days from Sunday: 6 is Saturday, 0 is Sunday. Each launch
-    # begins where the previous one ends. A test pins the chain against
-    # RELEASE_WINDOW_UTC and against the measured open band.
+    # Cron numbers days from Sunday: 5 is Friday, 6 is Saturday, 0 is Sunday.
+    # Each launch begins no later than the previous one ends. A test pins the
+    # chain against RELEASE_WINDOW_UTC and against the measured open band.
+    - cron: "0 18 * 9-11 5"    # Fri 18:00, when the release window opens
+    - cron: "30 23 * 9-11 5"   # Fri 23:30
+    - cron: "0 5 * 9-11 6"     # Sat 05:00
+    - cron: "30 10 * 9-11 6"   # Sat 10:30
     - cron: "0 12 * 9-11 6"    # Sat 12:00
     - cron: "30 17 * 9-11 6"   # Sat 17:30
     - cron: "0 23 * 9-11 6"    # Sat 23:00
@@ -57,6 +69,7 @@ on:
 
 permissions:
   contents: write
+  actions: write   # the hand-over below dispatches the next link
 
 # The same group `capture.yml` uses. Two pollers pushing the same log would
 # race and one would lose its poll. While a loop holds the group the ordinary
@@ -76,6 +89,10 @@ env:
   # Push the accumulated log at least this often even when no new market
   # appeared, so a runner that dies does not take the movement record with it.
   FORCE_PUSH_EVERY_POLLS: "10"
+  # A link shorter than this does not hand over. A link that fails at once
+  # would otherwise dispatch its successor at once, and so on for the whole
+  # window.
+  MIN_HANDOVER_SECONDS: "600"
 
 jobs:
   loop:
@@ -134,25 +151,60 @@ jobs:
           git -C capture-data config user.email "41898282+github-actions[bot]@users.noreply.github.com"
 
           deadline=$(( $(date -u +%s) + LOOP_MINUTES * 60 ))
+          echo "started=$(date -u +%s)" >> "$GITHUB_OUTPUT"
           polls=0; pushes=0; failures=0; since_push=0
 
-          # Push what we have. A rejected push means another poller moved the
-          # branch: take its version rather than forcing. Forcing would replace
-          # an earlier first-seen with a later one, which is the single error
-          # this whole system exists to avoid. The market we just recorded is
-          # re-recorded on the next poll, seconds later.
+          # Every successful poll's snapshot is kept here until a push carries
+          # it. Other workflows commit to capture-data outside this job's
+          # concurrency group, so a push can be rejected at any time. Taking
+          # their branch is still right (forcing would replace an earlier
+          # first-seen with a later one), but the polls we had not pushed are
+          # then replayed on top at their original observation time instead of
+          # being thrown away. Before this, a lost push cost the poll, and a
+          # market that opened in it was first seen a poll later or not at all.
+          UNPUSHED="$RUNNER_TEMP/unpushed"
+          mkdir -p "$UNPUSHED"
+          COHORT_ID="${{ steps.slate.outputs.cohort_id }}"
+          PROS_DIR="capture-data/data/open-capture/$COHORT_ID"
+          mkdir -p "$PROS_DIR/evidence"
+
+          replay_unpushed () {
+            local f n=0
+            for f in $(ls "$UNPUSHED"/*.json 2>/dev/null | sort); do
+              python3 -m cfb_edge.watch --log capture-data/data/opens.jsonl.gz \
+                --out capture-data/data/opens.csv --replay-snapshot "$f" || return 1
+              python3 -m cfb_edge.prospective_open --snapshot "$f" \
+                --slate capture-data/data/slate_current.csv --cohort-id "$COHORT_ID" \
+                --out "$PROS_DIR/status.json" \
+                --latest-out capture-data/data/prospective-open-status.json \
+                --evidence-dir "$PROS_DIR/evidence" --revision "$GITHUB_SHA" || return 1
+              n=$((n + 1))
+            done
+            echo "replayed $n unpushed poll(s) onto the moved branch"
+          }
+
           persist () {
-            local message="$1"
-            cd capture-data
-            git add -A data
-            if git diff --cached --quiet; then cd ..; return 1; fi
-            git commit -q -m "$message"
-            if git push -q 2>/dev/null; then cd ..; return 0; fi
-            echo "push rejected; taking the branch as it is"
-            git reset --hard -q HEAD~1
-            git fetch -q origin capture-data
-            git reset --hard -q origin/capture-data
-            cd ..
+            local message="$1" attempt
+            for attempt in 1 2 3; do
+              git -C capture-data add -A data
+              if git -C capture-data diff --cached --quiet; then
+                rm -f "$UNPUSHED"/*.json
+                return 1
+              fi
+              git -C capture-data commit -q -m "$message"
+              if git -C capture-data push -q 2>/dev/null; then
+                rm -f "$UNPUSHED"/*.json
+                return 0
+              fi
+              echo "push rejected (attempt $attempt); taking the branch and replaying unpushed polls"
+              git -C capture-data reset --hard -q HEAD~1
+              git -C capture-data fetch -q origin capture-data
+              git -C capture-data reset --hard -q origin/capture-data
+              if ! replay_unpushed; then
+                echo "replay failed; the polls stay queued for the next push"
+                return 1
+              fi
+            done
             return 1
           }
 
@@ -174,9 +226,7 @@ jobs:
               failures=$((failures + 1))
               echo "poll $polls failed; continuing"
             else
-              COHORT_ID="${{ steps.slate.outputs.cohort_id }}"
-              PROS_DIR="capture-data/data/open-capture/$COHORT_ID"
-              mkdir -p "$PROS_DIR/evidence"
+              cp "$SNAPSHOT" "$UNPUSHED/$(date -u +%s%N).json"
               python3 -m cfb_edge.prospective_open \
                 --snapshot "$SNAPSHOT" \
                 --slate capture-data/data/slate_current.csv \
@@ -207,6 +257,44 @@ jobs:
           echo "polls=$polls"       >> "$GITHUB_OUTPUT"
           echo "pushes=$pushes"     >> "$GITHUB_OUTPUT"
           echo "failures=$failures" >> "$GITHUB_OUTPUT"
+
+      # The next link is asked for here, before the report and the final push,
+      # so it is already queued when this job ends. It cannot start early: both
+      # runs are in the `cfb-capture` group. Three guards keep a broken link
+      # from re-launching itself in a tight circle: the loop step finished, at
+      # least one poll succeeded, and the link ran for MIN_HANDOVER_SECONDS.
+      # Anything else is left to the crons above.
+      - name: Hand over to the next link
+        if: ${{ !cancelled() && steps.slate.outputs.ok == '1' && steps.loop.outcome == 'success' }}
+        env:
+          GH_TOKEN: ${{ github.token }}
+          POLLS: ${{ steps.loop.outputs.polls }}
+          FAILURES: ${{ steps.loop.outputs.failures }}
+          STARTED: ${{ steps.loop.outputs.started }}
+          REF: ${{ github.ref_name }}
+        run: |
+          set -u
+          now=$(date -u +%s)
+          ran=$(( now - ${STARTED:-$now} ))
+          good=$(( ${POLLS:-0} - ${FAILURES:-0} ))
+          note () { echo "$1"; echo "- hand-over: $1" >> "$GITHUB_STEP_SUMMARY"; }
+          if [ "$good" -lt 1 ]; then
+            note "no successful poll in this link; the restart is left to cron"
+            exit 0
+          fi
+          if [ "$ran" -lt "$MIN_HANDOVER_SECONDS" ]; then
+            note "this link ran ${ran}s, under ${MIN_HANDOVER_SECONDS}s; the restart is left to cron"
+            exit 0
+          fi
+          if ! python3 -m cfb_edge.watch --window-open ${HANDOVER_AT:+--at "$HANDOVER_AT"}; then
+            note "release window closed; the chain ends here"
+            exit 0
+          fi
+          if gh workflow run capture-open-loop.yml --ref "$REF"; then
+            note "next link dispatched on $REF"
+          else
+            note "dispatch failed; the restart is left to cron"
+          fi
 
       - name: Build read-only capture report
         if: steps.slate.outputs.ok == '1'
@@ -257,44 +345,42 @@ jobs:
 
       - name: Keep it
         if: steps.slate.outputs.ok == '1'
-        working-directory: capture-data
         run: |
-          git config user.name  "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add -A data
-          if git diff --cached --quiet; then
-            echo "nothing new since the last push in the loop" >> "$GITHUB_STEP_SUMMARY"
-            exit 0
-          fi
-          git commit -q -m "capture open loop: close $(date -u '+%Y-%m-%d %H:%M UTC')"
+          set -u
+          git -C capture-data config user.name  "github-actions[bot]"
+          git -C capture-data config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          UNPUSHED="$RUNNER_TEMP/unpushed"
+          mkdir -p "$UNPUSHED"
+          COHORT_ID="${{ steps.slate.outputs.cohort_id }}"
+          PROS_DIR="capture-data/data/open-capture/$COHORT_ID"
+          mkdir -p "$PROS_DIR/evidence"
           for attempt in 1 2 3; do
-            if git push; then exit 0; fi
-            echo "push rejected, taking the branch as it is (attempt $attempt)"
-            git reset --hard -q HEAD~1
-            git fetch -q origin capture-data
-            git reset --hard -q origin/capture-data
-            cd "$GITHUB_WORKSPACE"
-            SNAPSHOT="/tmp/kalshi-live-poll.json"
-            python3 -m cfb_edge.watch --source kalshi \
-              --slate capture-data/data/slate_current.csv \
-              --log capture-data/data/opens.jsonl.gz \
-              --out capture-data/data/opens.csv \
-              --snapshot-out "$SNAPSHOT" --once
-            COHORT_ID="${{ steps.slate.outputs.cohort_id }}"
-            PROS_DIR="capture-data/data/open-capture/$COHORT_ID"
-            mkdir -p "$PROS_DIR/evidence"
-            python3 -m cfb_edge.prospective_open \
-              --snapshot "$SNAPSHOT" \
-              --slate capture-data/data/slate_current.csv \
-              --cohort-id "$COHORT_ID" \
-              --out "$PROS_DIR/status.json" \
-              --latest-out capture-data/data/prospective-open-status.json \
-              --evidence-dir "$PROS_DIR/evidence" \
-              --revision "$GITHUB_SHA"
-            cd capture-data
-            git add -A data
-            git diff --cached --quiet && exit 0
-            git commit -q -m "capture open loop: close $(date -u '+%Y-%m-%d %H:%M UTC')"
+            git -C capture-data add -A data
+            if git -C capture-data diff --cached --quiet; then
+              echo "nothing new since the last push in the loop" >> "$GITHUB_STEP_SUMMARY"
+              exit 0
+            fi
+            git -C capture-data commit -q -m "capture open loop: close $(date -u '+%Y-%m-%d %H:%M UTC')"
+            if git -C capture-data push; then
+              rm -f "$UNPUSHED"/*.json
+              exit 0
+            fi
+            # Take the branch as it is, then replay the polls this run never
+            # pushed, at the times they were observed. No fresh poll stands in
+            # for a lost one.
+            echo "push rejected, replaying unpushed polls (attempt $attempt)"
+            git -C capture-data reset --hard -q HEAD~1
+            git -C capture-data fetch -q origin capture-data
+            git -C capture-data reset --hard -q origin/capture-data
+            for f in $(ls "$UNPUSHED"/*.json 2>/dev/null | sort); do
+              python3 -m cfb_edge.watch --log capture-data/data/opens.jsonl.gz \
+                --out capture-data/data/opens.csv --replay-snapshot "$f"
+              python3 -m cfb_edge.prospective_open --snapshot "$f" \
+                --slate capture-data/data/slate_current.csv --cohort-id "$COHORT_ID" \
+                --out "$PROS_DIR/status.json" \
+                --latest-out capture-data/data/prospective-open-status.json \
+                --evidence-dir "$PROS_DIR/evidence" --revision "$GITHUB_SHA"
+            done
           done
-          echo "could not push after three attempts" >> "$GITHUB_STEP_SUMMARY"
+          echo "could not push after three attempts; unpushed polls remain in the job log only" >> "$GITHUB_STEP_SUMMARY"
           exit 1

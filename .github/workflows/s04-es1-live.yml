@@ -1,20 +1,12 @@
 name: S04 ES1 live shadow
 
+# RETIRED 2026-10-02 (D41). Served one closed cohort:
+#   S04_ES1, product Week 4 (contaminated shadow; Week 4 closed 2026-09-20).
+# Kept for audit and manual re-runs only. Code, configs and evidence are
+# untouched; only the automatic triggers were removed. The canonical
+# operating path is docs/CFB_EDGE_OPERATIONS.md. To revive, restore the
+# `on:` block from the parent of the D41 commit.
 on:
-  push:
-    branches: [main]
-    paths:
-      - cfb_edge/s04_es1.py
-      - cfb_edge/market_quality.py
-      - config/s04_es1.json
-      - config/s03_m1.json
-      - config/experiment_registry.json
-      - config/model_registry.json
-      - config/model_implementation_registry.json
-      - .github/workflows/s04-es1-live.yml
-  schedule:
-    - cron: "0 */6 * 9-11 0-3"
-    - cron: "0 */2 * 9-11 4-6"
   workflow_dispatch:
 
 permissions:

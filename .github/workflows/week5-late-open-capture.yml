@@ -1,24 +1,12 @@
 name: Week 5 late-open tail capture
 
+# RETIRED 2026-10-02 (D41). Served one closed cohort:
+#   product Week 5 late-open tail (Sep 20-25 only).
+# Kept for audit and manual re-runs only. Code, configs and evidence are
+# untouched; only the automatic triggers were removed. The canonical
+# operating path is docs/CFB_EDGE_OPERATIONS.md. To revive, restore the
+# `on:` block from the parent of the D41 commit.
 on:
-  push:
-    branches: [main]
-    paths:
-      - .github/workflows/week5-late-open-capture.yml
-      - cfb_edge/cohort.py
-      - cfb_edge/providers/kalshi.py
-      - cfb_edge/teams.py
-      - cfb_edge/kalshi_market_audit.py
-      - config/week5_cohort.json
-  # Poll throughout the configured Sep 20-25 prospective window.
-  # cfb_edge.cohort is the runtime gate, so post-window invocations no-op.
-  schedule:
-    - cron: "*/15 * 20-25 9 *"
-  workflow_run:
-    workflows:
-      - "S04 ES2 Week 5 audit shadow"
-      - "BR2 point-in-time feature capture"
-    types: [completed]
   workflow_dispatch:
 
 permissions:

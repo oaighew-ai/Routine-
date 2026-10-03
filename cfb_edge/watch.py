@@ -46,7 +46,7 @@ import time
 from dataclasses import dataclass, field
 from datetime import datetime, timezone
 from pathlib import Path
-from typing import Callable, Iterable, Mapping
+from typing import Any, Callable, Iterable, Mapping
 
 # When the board for the coming cohort actually opens, in UTC. Measured, not
 # assumed: `data/audit/week4-open-time-backfill.json` recovered Kalshi's own
@@ -67,14 +67,40 @@ from typing import Callable, Iterable, Mapping
 # opening price. All 35 rows graded `first_seen`, none `true_open`, at a
 # median of 18 hours and a minimum of 15 hours behind the venue.
 #
-# Saturday starts at 12:00 rather than 16:00 because the recovered times are
-# upper bounds (`event_wide_latest_rung_open_time_upper_bound`): a true open
-# can only be earlier than the number above, never later, so the window needs
-# margin on that side and none on the other.
+# The times are upper bounds (`event_wide_latest_rung_open_time_upper_bound`):
+# a true open can only be earlier than the number above, never later, so the
+# window needs margin on that side and none on the other.
+#
+# The next cohort then showed the window was still too late and too short.
+# `data/prospective-open-status.json` carries the venue's own open time for 55
+# of the 56 games of the Oct 1-3 slate:
+#
+#     Sat 2026-09-26 01:06Z   2 events   <- Friday evening US time
+#     Sat 2026-09-26 16:07Z   1
+#     Sun 2026-09-27 01:06Z   4
+#     Sun 2026-09-27 04:06Z   5
+#     Sun 2026-09-27 07:06Z   9
+#     Sun 2026-09-27 10:06Z  19
+#     Sun 2026-09-27 16:06Z   4
+#     Mon 2026-09-28 22:05Z  11
+#
+# Two of the 55 opened eleven hours before a window that began Saturday at
+# 12:00, so no poll could have graded them however reliably it ran. Across
+# both cohorts every open sits a few minutes past an hour on a three-hour
+# step (01, 04, 07, 10, 16, 22). The window therefore opens Friday at 18:00:
+# the earliest measured open, Saturday 01:06, less two of those steps and
+# rounded down to the hour. Two steps of margin is a PRIOR (Law 6), not a
+# measurement; a cohort that opens earlier than Friday 18:00 moves it again.
+#
+# Friday evening is only useful once the week being played has kicked off,
+# because `slate.opening_week` names the earliest week with no game started.
+# Every week of October and November has a Tuesday-to-Friday game. In a week
+# that does not, these hours poll the current slate and record nothing new.
 RELEASE_WINDOW_UTC = {
-    5: range(12, 24),   # Saturday afternoon, when the next board goes up
-    6: range(0, 24),    # Sunday, all day: 34 of 35 measured opens land here
-    0: range(0, 24),    # Monday, all day
+    4: range(18, 24),   # Friday evening: 2 of 55 measured opens were Sat 01:06
+    5: range(0, 24),    # Saturday, all day
+    6: range(0, 24),    # Sunday, all day: most measured opens land here
+    0: range(0, 24),    # Monday, all day: 11 of 55 opened Monday 22:05
     1: range(0, 18),    # Tuesday, until the market has settled
 }
 
@@ -249,6 +275,10 @@ class OpeningBook:
     # open gives the close, because every poll is written and nothing is
     # overwritten. No second data source, and no way for the two to disagree.
     latest: dict[tuple[str, str, str], Quote] = field(default_factory=dict)
+    # `polled_at` of every poll already in the log. A replayed snapshot whose
+    # poll is already here is skipped, so recovery after a lost push can be
+    # run more than once without writing the same poll twice.
+    polls: set[str] = field(default_factory=set)
 
     @classmethod
     def load(cls, path: str | Path) -> "OpeningBook":
@@ -267,6 +297,8 @@ class OpeningBook:
                     rec = json.loads(line)
                 except json.JSONDecodeError:
                     continue
+                if rec.get("polled_at"):
+                    book.polls.add(str(rec["polled_at"]))
                 for q in rec.get("quotes", []):
                     try:
                         quote = Quote(**q)
@@ -275,13 +307,19 @@ class OpeningBook:
                     book._observe(quote)
         return book
 
-    def record(self, quotes: Iterable[Quote]) -> list[Quote]:
+    def record(self, quotes: Iterable[Quote], *, polled_at: str | None = None) -> list[Quote]:
         """Append a poll to the log and return the quotes that were new.
 
         The return value is the point of the whole exercise: those are markets
         that had not been seen before, so their price is an opening line.
+
+        ``polled_at`` is the poll's own time. A live poll that also writes a
+        snapshot passes it so both carry one stamp, and a replay passes the
+        snapshot's, so the log keeps the moment the market was actually
+        observed rather than the moment it was written.
         """
         quotes = list(quotes)
+        stamp = polled_at or datetime.now(timezone.utc).isoformat()
         fresh = [q for q in quotes if q.key not in self.opens]
         for q in quotes:
             self._observe(q)
@@ -290,10 +328,40 @@ class OpeningBook:
         opener = gzip.open if self.path.suffix == ".gz" else open
         with opener(self.path, "at", encoding="utf-8") as fh:
             fh.write(json.dumps({
-                "polled_at": datetime.now(timezone.utc).isoformat(),
+                "polled_at": stamp,
                 "quotes": [q.__dict__ for q in quotes],
             }) + "\n")
+        self.polls.add(stamp)
         return fresh
+
+    def replay(self, snapshot: Mapping[str, Any]) -> tuple[list[Quote], bool]:
+        """Record a saved live-poll snapshot exactly as it was observed.
+
+        The open loop keeps every poll it has not yet pushed. When a push is
+        rejected because another writer moved the branch, it takes the branch
+        as it is and replays those snapshots on top, so the first sighting of
+        a market keeps its real time instead of being re-observed a poll later
+        or lost. Returns the newly opened quotes and whether anything was
+        written; a poll already in the log is skipped.
+        """
+        if snapshot.get("contract") != "CFB_EDGE_LIVE_QUOTE_SNAPSHOT_V1":
+            raise ValueError("not a CFB_EDGE_LIVE_QUOTE_SNAPSHOT_V1 snapshot")
+        stamp = str(snapshot.get("polled_at") or "")
+        if not stamp:
+            raise ValueError("snapshot has no polled_at; its observation time is unknown")
+        if stamp in self.polls:
+            return [], False
+        quotes = []
+        for raw in snapshot.get("quotes") or []:
+            data = dict(raw)
+            for key in ("market_tickers", "quote_inputs"):
+                if isinstance(data.get(key), list):
+                    data[key] = tuple(data[key])
+            try:
+                quotes.append(Quote(**data))
+            except TypeError:
+                continue
+        return self.record(quotes, polled_at=stamp), True
 
     def _observe(self, quote: Quote) -> None:
         """Fold one quote into the derived views, in a single pass."""
@@ -500,6 +568,9 @@ def main(argv: list[str] | None = None) -> int:
     p.add_argument("--max-polls", type=int, default=None, dest="max_polls")
     p.add_argument("--rebuild", action="store_true",
                    help="skip polling; rebuild the opens CSV from the existing log")
+    p.add_argument("--replay-snapshot", action="append", default=[], dest="replay",
+                   help="skip polling; record a saved --snapshot-out file with its "
+                        "original poll time (repeatable, applied in order)")
     p.add_argument("--slate",
                    help="the week's slate CSV. Required with --source kalshi, "
                         "because nothing in a Kalshi market says which team is "
@@ -511,6 +582,10 @@ def main(argv: list[str] | None = None) -> int:
                         "key, and measured on the venue that actually fills "
                         "you. oddsapi reads sportsbook opens, needs "
                         "ODDS_API_KEY, and costs about 8,400 credits a month.")
+    p.add_argument("--window-open", action="store_true", dest="window_open",
+                   help="poll nothing; exit 0 if the release window is open "
+                        "and 1 if it is closed (at --at, default now)")
+    p.add_argument("--at", help="with --window-open, the UTC time to test (ISO 8601)")
     p.add_argument("--regions", default="us,us2,eu",
                    help="the-odds-api regions. Billing is one credit per "
                         "region per market, so this is the main lever on cost: "
@@ -519,10 +594,33 @@ def main(argv: list[str] | None = None) -> int:
                         "that and drops the low-hold European books.")
     args = p.parse_args(argv)
 
+    if args.window_open:
+        when = _parse_time(args.at) if args.at else None
+        if args.at and when is None:
+            print(f"cannot read --at {args.at!r} as a time")
+            return 2
+        is_open = in_release_window(when)
+        print("release window open" if is_open else "release window closed")
+        return 0 if is_open else 1
+
     book = OpeningBook.load(args.log)
     print(f"{len(book.opens)} markets already have a recorded open.")
 
-    if not args.rebuild:
+    if args.replay:
+        written = skipped = opened = 0
+        for path in args.replay:
+            try:
+                snap = json.loads(Path(path).read_text(encoding="utf-8"))
+                fresh, wrote = book.replay(snap)
+            except (OSError, ValueError) as exc:
+                print(f"cannot replay {path}: {exc}")
+                return 2
+            written += int(wrote)
+            skipped += int(not wrote)
+            opened += len(fresh)
+        print(f"replayed {written} saved poll(s), skipped {skipped} already logged; "
+              f"{opened} market(s) opened")
+    elif not args.rebuild:
         def announce(fresh: list[Quote]) -> None:
             games = sorted({q.game for q in fresh})
             print(f"[{datetime.now(timezone.utc):%Y-%m-%d %H:%M} UTC] "
@@ -561,12 +659,16 @@ def main(argv: list[str] | None = None) -> int:
                 # A diagnostic has no next poll to recover on.
                 try:
                     quotes = fetch()
-                    fresh = book.record(quotes)
+                    # One stamp for the log line and the snapshot. A replay
+                    # recognises a poll by this value, so if they differed a
+                    # poll whose push did land would be written a second time.
+                    stamp = datetime.now(timezone.utc).isoformat()
+                    fresh = book.record(quotes, polled_at=stamp)
                     if args.snapshot_out:
                         snapshot = {
                             "schemaVersion": 1,
                             "contract": "CFB_EDGE_LIVE_QUOTE_SNAPSHOT_V1",
-                            "polled_at": datetime.now(timezone.utc).isoformat(),
+                            "polled_at": stamp,
                             "quotes": [q.__dict__ for q in quotes],
                         }
                         target = Path(args.snapshot_out)
