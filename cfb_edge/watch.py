@@ -119,6 +119,14 @@ SPARSE_INTERVAL_SECONDS = 3600      # hourly when nothing is expected
 TRUE_OPEN_MAX_LAG_SECONDS = 15 * 60
 TRUE_OPEN_CLOCK_SKEW_SECONDS = 60
 
+# A close is the last price seen before kickoff, and a grader accepts it only
+# when it is at most this old at kickoff.
+CLOSE_MAX_AGE_SECONDS = 15 * 60
+# How long before kickoff a game of the week being played joins the poll. The
+# tolerance above is what has to be covered; the extra five minutes are five
+# polls of margin and are a PRIOR (Law 6), chosen and not derived.
+CLOSING_WINDOW_SECONDS = CLOSE_MAX_AGE_SECONDS + 5 * 60
+
 
 def _as_utc(when: datetime | None) -> datetime:
     """The moment, in UTC, whatever timezone it arrived in.
@@ -609,6 +617,102 @@ def _slate_kickoffs(path: str) -> dict[str, str]:
     return out
 
 
+def closing_fixtures(
+    path: str | Path,
+    now: datetime | None = None,
+    window_seconds: int = CLOSING_WINDOW_SECONDS,
+) -> dict[str, str]:
+    """Games on a slate that kick off within the window, keyed to their kickoff.
+
+    The open loop polls the week whose lines are opening, which from Friday
+    evening is next week. Nothing then watched the week being played, so the
+    last price before kickoff was whatever a scheduled job happened to see.
+    On 3 October 2026 that was hours old for every frozen Week 6 game that
+    had started, and none could be graded (D44). A game joins the poll
+    shortly before it starts and leaves at kickoff, so a close costs twenty
+    observations and not a weekend of them.
+
+    A row with no readable kickoff is left out: there is no moment to be near.
+    """
+    moment = _as_utc(now)
+    out: dict[str, str] = {}
+    for game, kickoff in _slate_kickoffs(str(path)).items():
+        start = _parse_time(kickoff)
+        if start is None:
+            continue
+        lead = (start - moment).total_seconds()
+        if 0 < lead <= window_seconds:
+            out[game] = kickoff
+    return out
+
+
+def close_coverage(
+    log_path: str | Path,
+    slate_path: str | Path,
+    now: datetime | None = None,
+    max_age_seconds: int = CLOSE_MAX_AGE_SECONDS,
+) -> dict[str, Any]:
+    """How many started games on a slate have a close a grader would accept.
+
+    A close is the newest price seen at or before kickoff. It counts when it
+    is at most ``max_age_seconds`` old at kickoff. Read straight from the
+    append-only log, so the answer is the evidence and not a report about it.
+    A quote from another game day's market is not counted (D43).
+    """
+    moment = _as_utc(now)
+    kickoffs = {g: _parse_time(k) for g, k in _slate_kickoffs(str(slate_path)).items()}
+    newest: dict[str, datetime] = {}
+    path = Path(log_path)
+    if path.exists():
+        opener = gzip.open if path.suffix == ".gz" else open
+        with opener(path, "rt", encoding="utf-8") as fh:
+            for line in fh:
+                line = line.strip()
+                if not line:
+                    continue
+                try:
+                    rec = json.loads(line)
+                except json.JSONDecodeError:
+                    continue
+                for q in rec.get("quotes", []):
+                    game = q.get("game")
+                    start = kickoffs.get(game)
+                    if start is None or q.get("market") != "spread":
+                        continue
+                    if event_matches_kickoff(q.get("event_ticker"), start.isoformat()) is False:
+                        continue
+                    seen = _parse_time(q.get("seen_at") or "")
+                    if seen is None or seen > start:
+                        continue
+                    if game not in newest or seen > newest[game]:
+                        newest[game] = seen
+    rows = []
+    for game, start in sorted(kickoffs.items()):
+        if start is None or start > moment:
+            continue
+        seen = newest.get(game)
+        age = None if seen is None else (start - seen).total_seconds()
+        rows.append({
+            "game": game,
+            "kickoff": start.isoformat(),
+            "closeSeenAt": None if seen is None else seen.isoformat(),
+            "closeAgeSeconds": age,
+            "gradeable": age is not None and age <= max_age_seconds,
+        })
+    fresh = sum(r["gradeable"] for r in rows)
+    missing = sum(r["closeSeenAt"] is None for r in rows)
+    return {
+        "asOf": moment.isoformat(),
+        "maximumCloseAgeSeconds": max_age_seconds,
+        "slateGames": len(kickoffs),
+        "startedGames": len(rows),
+        "gradeableCloses": int(fresh),
+        "staleCloses": len(rows) - int(fresh) - int(missing),
+        "noPriceBeforeKickoff": int(missing),
+        "games": rows,
+    }
+
+
 def main(argv: list[str] | None = None) -> int:
     """Run the capture.
 
@@ -643,6 +747,14 @@ def main(argv: list[str] | None = None) -> int:
                         "because nothing in a Kalshi market says which team is "
                         "at home and a line written upside down is a sign error "
                         "on everything downstream.")
+    p.add_argument("--closing-slate", dest="closing_slate",
+                   help="with --source kalshi, the slate of the week being "
+                        "played. Its games join the poll only when kickoff is "
+                        "near, so the last price before kickoff is recorded.")
+    p.add_argument("--closing-window-seconds", dest="closing_window", type=int,
+                   default=CLOSING_WINDOW_SECONDS,
+                   help="how long before kickoff a --closing-slate game joins "
+                        f"the poll (default {CLOSING_WINDOW_SECONDS})")
     p.add_argument("--source", default="kalshi", choices=("kalshi", "oddsapi"),
                    help="where the line comes from. kalshi (the default) reads "
                         "the spread ladder and inverts it to a line: free, no "
@@ -652,7 +764,11 @@ def main(argv: list[str] | None = None) -> int:
     p.add_argument("--window-open", action="store_true", dest="window_open",
                    help="poll nothing; exit 0 if the release window is open "
                         "and 1 if it is closed (at --at, default now)")
-    p.add_argument("--at", help="with --window-open, the UTC time to test (ISO 8601)")
+    p.add_argument("--at", help="with --window-open or --close-coverage, the UTC "
+                                "time to test (ISO 8601)")
+    p.add_argument("--close-coverage", action="store_true", dest="close_coverage",
+                   help="poll nothing; report how many started games on --slate "
+                        "have a price in --log within fifteen minutes of kickoff")
     p.add_argument("--regions", default="us,us2,eu",
                    help="the-odds-api regions. Billing is one credit per "
                         "region per market, so this is the main lever on cost: "
@@ -669,6 +785,22 @@ def main(argv: list[str] | None = None) -> int:
         is_open = in_release_window(when)
         print("release window open" if is_open else "release window closed")
         return 0 if is_open else 1
+
+    if args.close_coverage:
+        if not args.slate:
+            print("--close-coverage needs --slate: the games and their kickoffs")
+            return 2
+        when = _parse_time(args.at) if args.at else None
+        if args.at and when is None:
+            print(f"cannot read --at {args.at!r} as a time")
+            return 2
+        report = close_coverage(args.log, args.slate, when)
+        print(f"closes: {report['gradeableCloses']} of {report['startedGames']} started "
+              f"games have a price within {report['maximumCloseAgeSeconds'] // 60} minutes "
+              f"of kickoff ({report['staleCloses']} older, "
+              f"{report['noPriceBeforeKickoff']} with none; "
+              f"{report['slateGames']} games on the slate)")
+        return 0
 
     book = OpeningBook.load(args.log)
     print(f"{len(book.opens)} markets already have a recorded open.")
@@ -709,10 +841,25 @@ def main(argv: list[str] | None = None) -> int:
 
             def fetch() -> list[Quote]:
                 # The slate names the home team; a Kalshi market does not.
-                return board_quotes(
-                    games=_slate_games(args.slate),
-                    kickoffs=_slate_kickoffs(args.slate),
-                )
+                games = _slate_games(args.slate)
+                kickoffs = _slate_kickoffs(args.slate)
+                if args.closing_slate:
+                    try:
+                        near = closing_fixtures(args.closing_slate,
+                                                window_seconds=args.closing_window)
+                    except (OSError, KeyError) as exc:
+                        # The opening poll must not be lost to a closing slate
+                        # that is missing or malformed.
+                        print(f"closing slate unusable, polling opens only: {exc}")
+                        near = {}
+                    added = [g for g in near if g not in kickoffs]
+                    for game in added:
+                        games.append(game)
+                        kickoffs[game] = near[game]
+                    if added:
+                        print(f"closing: {len(added)} game(s) within "
+                              f"{args.closing_window // 60} min of kickoff")
+                return board_quotes(games=games, kickoffs=kickoffs)
 
             unreachable: tuple[type[Exception], ...] = (KalshiUnreachable,)
         else:

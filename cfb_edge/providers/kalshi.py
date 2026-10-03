@@ -592,30 +592,40 @@ def board_quotes(
         resolved_teams = {resolve(t, known_teams) for t in teams}
         if None in resolved_teams:
             continue
-        if len(resolved_teams) == 1:
+        one_sided = len(resolved_teams) == 1
+        if one_sided:
             # One-sided. The pair is not in the markets, so take it from the
-            # slate: exactly one fixture may contain this resolved team, or the
-            # orientation is a guess again and the game is skipped.
+            # slate: every fixture containing this resolved team is a
+            # candidate, and the game day below has to leave exactly one.
             solo = next(iter(resolved_teams))
             hits = [f for f in schedule if solo in f]
-            fixture = hits[0] if len(hits) == 1 else None
-        else:
+        elif len(resolved_teams) == 2:
             hits = [f for f in schedule if frozenset(f) == frozenset(resolved_teams)]
-            fixture = hits[0] if len(resolved_teams) == 2 and len(hits) == 1 else None
-        if fixture is None:
+        else:
+            hits = []
+        # The game day decides between candidates before uniqueness does. A
+        # slate can hold the same team twice, once for the week being played
+        # and once for the week whose lines are opening, and each of that
+        # team's markets belongs to exactly one of them (D43, D44).
+        dated = []
+        for candidate in hits:
+            kickoff = kickoffs.get(f"{candidate[0]} @ {candidate[1]}")
+            same_day = event_matches_kickoff(event, str(kickoff) if kickoff else None)
+            if same_day is False:
+                # Another week's market for a team that is also on this slate.
+                continue
+            if same_day is None and one_sided:
+                # One team name and no date to check it by: a guess.
+                continue
+            dated.append(candidate)
+        if len(dated) != 1:
+            # None, or more than one: orientation would be a guess again.
             continue
-        away, home = fixture
+        away, home = dated[0]
         game = f"{away} @ {home}"
         # Contract close_time is an exchange settlement/trading timestamp, not
         # necessarily the football kickoff. Only the schedule may supply kickoff.
         commence = kickoffs.get(game)
-        same_day = event_matches_kickoff(event, str(commence) if commence else None)
-        if same_day is False:
-            # Another week's market for a team that is also on this slate.
-            continue
-        if same_day is None and len(resolved_teams) == 1:
-            # One team name and no date to check it by: a guess.
-            continue
         line, used = implied_line_evidence(markets, home=home, away=away)
         if line is None:
             continue

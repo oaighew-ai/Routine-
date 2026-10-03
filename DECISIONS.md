@@ -2048,3 +2048,82 @@ permission changes. The true-open window is untouched.
 **Reversal criterion.** Widen `EVENT_DAY_OFFSETS` only on a logged quote whose
 market is provably the game's own and falls outside it. Drop the one-team
 refusal only if the exchange stops listing two weeks at once.
+
+## 2026-10-03 — D44. The loop records closes, and the fallback restarts the loop
+
+**Finding. Product Week 6 will close without a gradeable row.** The frozen
+cohort has 27 recovered opens and 5 signal rows (D34). A close is the last
+price before kickoff and grades only when it is at most 900 seconds old at
+kickoff. From the capture log at `capture-data` `4d124f7` (2026-10-03 23:41
+UTC): 23 of the 27 games had kicked off, none had a price inside 900 seconds
+of its kickoff, and the newest price before kickoff was between 7.2 and 73.9
+hours old. Four games had not started (kickoffs 00:00, 00:00, 01:30 and 03:00
+UTC on 2026-10-04), so the final count is at most 4 and is whatever the log
+shows after that.
+
+**Why.** Two things, either of which was enough.
+
+- From Friday 18:00 UTC the open loop polls the week whose lines are opening,
+  which is next week (D38). Nothing polls the week being played.
+- Its closes were left to `week6-clv-close-grade`, which needs a scheduled
+  start inside the fifteen minutes before each kickoff. Its crons cover 20:00
+  to 06:59 UTC, so a noon or 3:30 pm Eastern kickoff was never coverable. And
+  of the 47 scheduled starts inside the game window up to 23:42 UTC, 4
+  produced a poll, the last of them about two hours late.
+
+**Decision.**
+
+1. *The loop records closes.* Each link also builds the slate of the week
+   being played (`slate --week current`, written to `data/slate_playing.csv`).
+   A game on it joins the loop's poll `CLOSING_WINDOW_SECONDS` before kickoff
+   and leaves at kickoff (`watch --closing-slate`). The window is the 900
+   second close tolerance plus 300 seconds; **the 300 is a PRIOR (Law 6)**,
+   five polls of margin. It is the same single read of the exchange board, so
+   it costs no request, and about twenty log entries a game. A failed build
+   of that slate leaves the last good file and cannot stop the open capture.
+   The prospective lock still reads the opening week alone.
+2. *A team on both slates.* The poll can now hold the same team twice, this
+   week and next. The game day (D43) chooses between a team's fixtures before
+   uniqueness is required, so each of its markets is read as its own game.
+   Two fixtures on the same day are still skipped.
+3. *The fallback restarts the loop.* The loop carries itself (D38), but a
+   link that is cancelled, fails, or loses its queued successor leaves
+   nothing polling until a cron launch arrives, and those arrive hours late.
+   `capture.yml` shares the loop's concurrency group, so it runs only when no
+   loop does. When its own poll succeeded inside the release window it now
+   asks for a loop as its last step. A run whose poll failed asks for
+   nothing, so an outage cannot turn this into a relaunch circle.
+4. *The Week 6 workflows lose their triggers.* `week6-clv-close-grade` and
+   `week6-clv-decision-freeze` keep `workflow_dispatch`, their code, configs
+   and evidence. The cohort's game window closes 2026-10-04 12:00 UTC; after
+   that the grader skips its work and the freeze refuses to rerun, and each
+   completion only sets off the bridge. This entry must not be merged before
+   that time.
+5. *One count.* `watch --close-coverage` reads the log and prints how many
+   started games on a slate have a price inside the tolerance. It is the
+   number the Saturday check reports, and it read 0 of 49 for the week being
+   played at the revision above.
+
+**What this does not do.** It does not change any grader. `grade` still takes
+the last price before kickoff with no age limit; an age limit there changes a
+registered measurement and is the owner's to register. It does not capture
+closes for games that kick off outside the release window (Tuesday 18:00 to
+Friday 18:00 UTC), which the weekend cohorts leave out anyway (D41). It does
+not recover Week 6: a close that was not observed cannot be rebuilt.
+
+**Verification.** `tests/test_close_capture.py`: which games join the poll,
+a team on both slates, the command, a close a grader accepts, and the
+workflow's own text. `tests/test_capture_restart.py` runs the restart step's
+shell against a stand-in `gh`: inside the window, outside it, and a refused
+request. `tests/test_week5_workflows.py` pins the set of workflows that still
+have an automatic trigger, and `tests/test_operations_runbook.py` ties every
+workflow, file, command and decision the runbook names to the repository.
+825 tests pass. Not verified: any of this on a runner.
+
+**Authority effect.** None. No threshold, gate, frozen rule, stake or delivery
+permission changes.
+
+**Reversal criterion.** Drop the closing slate if a registered close source
+replaces the exchange log. Drop the restart step if scheduled launches arrive
+within the fifteen-minute tolerance for a full season. Change the 300 second
+margin only on logged closes that show polls missing inside it.

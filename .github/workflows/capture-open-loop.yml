@@ -142,6 +142,29 @@ jobs:
               ;;
           esac
 
+      # The week being played, for closes. From Friday evening the slate above
+      # is next week's, and nothing else watches this week's games as they
+      # kick off: on 2026-10-03 no frozen Week 6 game had a price within
+      # fifteen minutes of its kickoff (D44). Its games join the poll only
+      # when kickoff is near. Built aside and moved into place, so a failed
+      # build leaves the last good file, and not fatal, so a link that cannot
+      # build it still captures opens.
+      - name: Build the slate for the week being played
+        if: steps.slate.outputs.ok == '1'
+        run: |
+          set +e
+          python3 -m cfb_edge.slate --season "$(date -u +%Y)" --week current \
+            --out "$RUNNER_TEMP/slate_playing.csv" > /tmp/playing.log 2>&1
+          rc=$?
+          set -e
+          cat /tmp/playing.log
+          if [ "$rc" -eq 0 ] && [ -s "$RUNNER_TEMP/slate_playing.csv" ]; then
+            mv "$RUNNER_TEMP/slate_playing.csv" capture-data/data/slate_playing.csv
+            echo "- closes: polling the week being played near each kickoff" >> "$GITHUB_STEP_SUMMARY"
+          else
+            echo "- closes: no new slate for the week being played (exit $rc); the last good one is used if present" >> "$GITHUB_STEP_SUMMARY"
+          fi
+
       - name: Poll continuously until the launch's slot ends
         id: loop
         if: steps.slate.outputs.ok == '1'
@@ -217,9 +240,17 @@ jobs:
               break
             fi
 
+            # Games of the week being played join the poll only inside the
+            # closing window, so this is the same single board read either way.
+            CLOSING=()
+            if [ -s capture-data/data/slate_playing.csv ]; then
+              CLOSING=(--closing-slate capture-data/data/slate_playing.csv)
+            fi
+
             SNAPSHOT="/tmp/kalshi-live-poll.json"
             if ! python3 -m cfb_edge.watch --source kalshi \
                    --slate capture-data/data/slate_current.csv \
+                   ${CLOSING[@]+"${CLOSING[@]}"} \
                    --log capture-data/data/opens.jsonl.gz \
                    --out capture-data/data/opens.csv \
                    --snapshot-out "$SNAPSHOT" --once; then

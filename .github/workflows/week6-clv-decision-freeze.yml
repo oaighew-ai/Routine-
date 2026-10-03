@@ -1,19 +1,15 @@
 name: Week 6 recovered-open decision freeze
 
+# RETIRED 2026-10-04 (D44). Served one closed cohort:
+#   product Week 6 decision freeze (CFB_2026_PRODUCT_WEEK6; frozen
+#   2026-09-29, game window closed 2026-10-04 12:00 UTC).
+# The freeze refuses to run once its artifact exists, so every push to the
+# paths it watched did nothing except set off the bridge. Kept for audit and
+# manual re-runs only. Code, configs and evidence are untouched; only the
+# automatic triggers were removed. The canonical operating path is
+# docs/CFB_EDGE_OPERATIONS.md. To revive, restore the `on:` block from the
+# parent of the D44 commit.
 on:
-  push:
-    branches: [main]
-    paths:
-      - cfb_edge/week6_clv.py
-      - cfb_edge/s04_es2.py
-      - cfb_edge/market_quality.py
-      - cfb_edge/authority_gate_audit.py
-      - config/week6_clv_freeze.json
-      - config/br2_active_cohort.json
-      - config/s04_es2.json
-      - config/s03_m1.json
-      - config/week5_freeze.json
-      - .github/workflows/week6-clv-decision-freeze.yml
   workflow_dispatch:
 
 permissions:
