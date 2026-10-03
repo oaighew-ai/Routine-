@@ -7,6 +7,15 @@ for each slate game either locks as audit-grade true_open inside the frozen
 
 A terminal row is never upgraded on a later poll. Prospective evidence can be
 incomplete, but it cannot be rewritten by hindsight.
+
+One thing is not a terminal row at all: a lock written against another game's
+market. The exchange lists next week's board while this week's is still open,
+and a market matched on a shared team once locked Georgia at Alabama against
+Vanderbilt at Georgia (D43). The event ticker names its game day, so a row
+whose ticker names a different day than the kickoff it was locked with never
+observed that game. It is moved to ``voidedRows`` with everything it recorded,
+and the game waits for its own market. A row whose ticker agrees with its
+kickoff is never reopened by this or anything else.
 """
 from __future__ import annotations
 
@@ -23,10 +32,12 @@ from .watch import (
     TRUE_OPEN_MAX_LAG_SECONDS,
     TRUE_OPEN_CLOCK_SKEW_SECONDS,
     classify_open_provenance,
+    event_matches_kickoff,
 )
 
 CONTRACT = "CFB_EDGE_PROSPECTIVE_OPEN_V1"
 TERMINAL = {"CAPTURED_TRUE_OPEN", "MISSED_TRUE_OPEN_WINDOW"}
+VOID_REASON = "EVENT_DAY_DOES_NOT_MATCH_KICKOFF"
 REQUIRED_QUOTE_FIELDS = (
     "game", "book", "market", "line", "seen_at", "commence_time",
     "venue_open_time", "event_ticker", "market_tickers", "quote_inputs",
@@ -112,6 +123,8 @@ def _quote_complete(q: Mapping[str, Any]) -> bool:
         return False
     if seen >= kickoff:
         return False
+    if event_matches_kickoff(str(q.get("event_ticker")), str(q.get("commence_time"))) is False:
+        return False
     return True
 
 
@@ -182,22 +195,48 @@ def update(
         for r in (existing or {}).get("rows") or []
         if r.get("game")
     }
+    kickoff_of = {
+        str(f.get("game") or "").strip(): str(f.get("kickoff") or "").strip()
+        for f in slate
+    }
     quotes_by_game: dict[str, list[dict[str, Any]]] = {}
+    refused: list[dict[str, Any]] = []
     for raw in snapshot.get("quotes") or []:
         if not isinstance(raw, Mapping):
             continue
         if raw.get("book") != "kalshi" or raw.get("market") != "spread":
             continue
         game = str(raw.get("game") or "").strip()
-        if game:
-            quotes_by_game.setdefault(game, []).append(dict(raw))
+        if not game:
+            continue
+        # The schedule's kickoff decides, with the quote's own as the fallback
+        # for a game the slate has no time for.
+        kickoff = kickoff_of.get(game) or str(raw.get("commence_time") or "")
+        if event_matches_kickoff(str(raw.get("event_ticker") or ""), kickoff) is False:
+            refused.append({"game": game, "eventTicker": raw.get("event_ticker")})
+            continue
+        quotes_by_game.setdefault(game, []).append(dict(raw))
 
+    voided: list[dict[str, Any]] = [
+        dict(r) for r in (existing or {}).get("voidedRows") or []
+    ]
+    newly_voided = 0
     rows: list[dict[str, Any]] = []
     transitions: list[dict[str, str]] = []
     for fixture in slate:
         game = str(fixture.get("game") or "").strip()
         kickoff = str(fixture.get("kickoff") or "").strip()
         prior = old.get(game)
+        if prior and prior.get("eventTicker") and event_matches_kickoff(
+            str(prior.get("eventTicker")), str(prior.get("kickoff") or kickoff)
+        ) is False:
+            # Written against another game day's market. Judged by the kickoff
+            # the row was locked with, so a game rescheduled afterwards cannot
+            # void a lock that was right when it was made.
+            voided.append({**prior, "voidReason": VOID_REASON, "voidedAt": stamp})
+            transitions.append({"game": game, "state": "VOIDED_WRONG_EVENT"})
+            newly_voided += 1
+            prior = None
         if prior and prior.get("state") in TERMINAL:
             rows.append(prior)
             continue
@@ -264,6 +303,7 @@ def update(
             rows.append(base)
 
     rows.sort(key=lambda r: r["game"])
+    voided.sort(key=lambda r: (str(r.get("game")), str(r.get("voidedAt"))))
     captured = sum(r.get("state") == "CAPTURED_TRUE_OPEN" for r in rows)
     missed = sum(r.get("state") == "MISSED_TRUE_OPEN_WINDOW" for r in rows)
     pending = len(rows) - captured - missed
@@ -287,9 +327,14 @@ def update(
             "pendingRows": int(pending),
             "terminalRows": int(captured + missed),
             "newTransitions": len(transitions),
+            "voidedRows": len(voided),
+            "newlyVoidedRows": newly_voided,
+            "refusedWrongEventQuotes": len(refused),
         },
         "transitions": transitions,
         "rows": rows,
+        "voidedRows": voided,
+        "refusedWrongEventQuotes": refused,
     }
 
 
@@ -330,6 +375,7 @@ def main(argv: list[str] | None = None) -> int:
     print(
         f"prospective opens: true={s['capturedTrueOpenRows']}/"
         f"{s['slateRows']} missed={s['missedTrueOpenRows']} pending={s['pendingRows']}"
+        f" voided={s['voidedRows']}"
     )
     return 0
 

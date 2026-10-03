@@ -20,6 +20,7 @@ from pathlib import Path
 from typing import Any, Mapping, Sequence
 
 from .clv import GRADEABLE
+from .watch import event_matches_kickoff
 
 FREEZE_CONTRACT = "CFB_EDGE_WEEK6_CLV_FREEZE_V1"
 DECISION_CONTRACT = "CFB_EDGE_WEEK6_CLV_DECISION_FREEZE_V1"
@@ -162,6 +163,11 @@ def build_close_report(
     if now.tzinfo is None:
         raise ValueError("now must be timezone-aware")
     by_game={r["game"]:[] for r in freeze.get("rows") or []}
+    # The frozen kickoff decides which exchange event is this game's. A quote
+    # read from another game day's market for the same team is not a close of
+    # this game, however near kickoff it was seen (D43).
+    frozen_kickoff={r["game"]:str(r.get("kickoff") or "") for r in freeze.get("rows") or []}
+    wrong_event:dict[str,int]={}
     path=Path(log_path)
     if path.exists():
         opener=gzip.open if path.suffix==".gz" else open
@@ -174,6 +180,12 @@ def build_close_report(
                 for q in rec.get("quotes") or []:
                     game=str(q.get("game") or "")
                     if game not in by_game or q.get("market")!="spread":
+                        continue
+                    if event_matches_kickoff(
+                        str(q.get("event_ticker") or ""),
+                        frozen_kickoff.get(game) or str(q.get("commence_time") or ""),
+                    ) is False:
+                        wrong_event[game]=wrong_event.get(game,0)+1
                         continue
                     at=_time(q.get("seen_at"))
                     line_value=_num(q.get("line"))
@@ -221,6 +233,7 @@ def build_close_report(
             "closeAgeSeconds":close_age,
             "gradeableClose":not exclusions,
             "exclusions":exclusions,
+            "wrongEventQuotesIgnored":wrong_event.get(game,0),
         })
 
     gradeable=sum(bool(x["gradeableClose"]) for x in games)
@@ -235,6 +248,7 @@ def build_close_report(
             "frozenOpenRows":len(games),
             "gradeableCloseRows":gradeable,
             "pendingOrExcludedRows":len(games)-gradeable,
+            "wrongEventQuotesIgnored":sum(wrong_event.values()),
         },
         "games":games,
     }

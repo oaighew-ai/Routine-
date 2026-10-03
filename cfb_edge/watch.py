@@ -42,9 +42,10 @@ from __future__ import annotations
 
 import gzip
 import json
+import re
 import time
 from dataclasses import dataclass, field
-from datetime import datetime, timezone
+from datetime import date, datetime, timezone
 from pathlib import Path
 from typing import Any, Callable, Iterable, Mapping
 
@@ -176,6 +177,52 @@ def classify_open_provenance(
     return (FIRST_SEEN if in_release_window(seen) else LATE), None
 
 
+# An exchange event ticker names its game day: KXNCAAFSPREAD-26OCT03VANUGA is
+# Vanderbilt at Georgia on 3 October 2026.
+_EVENT_TICKER_DATE = re.compile(r"^[A-Z0-9]+-(\d{2})([A-Z]{3})(\d{2})")
+_EVENT_MONTHS = {
+    name: number for number, name in enumerate(
+        ("JAN", "FEB", "MAR", "APR", "MAY", "JUN",
+         "JUL", "AUG", "SEP", "OCT", "NOV", "DEC"), start=1)
+}
+# The ticker carries the US game day. A kickoff in UTC falls on that day, or
+# on the next one for an evening game. Nothing else has been observed (D43).
+EVENT_DAY_OFFSETS = (0, 1)
+
+
+def event_ticker_date(ticker: str | None) -> date | None:
+    """The game day an exchange event ticker names, or None if it names none."""
+    found = _EVENT_TICKER_DATE.match(str(ticker or "").strip().upper())
+    if not found:
+        return None
+    month = _EVENT_MONTHS.get(found.group(2))
+    if month is None:
+        return None
+    try:
+        return date(2000 + int(found.group(1)), month, int(found.group(3)))
+    except ValueError:
+        return None
+
+
+def event_matches_kickoff(ticker: str | None, kickoff: str | None) -> bool | None:
+    """Whether an exchange event is the game that kicks off at ``kickoff``.
+
+    A team plays every week, and the exchange lists next week's market while
+    this week's is still open. A market matched on a team name alone can
+    therefore belong to another week: on 3 October 2026 the Vanderbilt at
+    Georgia market was recorded as the opening line of Georgia at Alabama, a
+    game seven days later, and locked that game as a missed open (D43).
+
+    True or False when both the ticker's day and the kickoff are readable,
+    None when either is not, which the caller has to decide about.
+    """
+    day = event_ticker_date(ticker)
+    start = _parse_time(kickoff or "")
+    if day is None or start is None:
+        return None
+    return (start.date() - day).days in EVENT_DAY_OFFSETS
+
+
 def in_release_window(when: datetime | None = None) -> bool:
     """Whether now is when a regular week's opening lines are likely to appear."""
     when = _as_utc(when)
@@ -237,6 +284,15 @@ class Quote:
         return (self.game, self.book, self.market)
 
     @property
+    def wrong_event(self) -> bool:
+        """Whether this quote was read from a market for a different game day.
+
+        True only when the event ticker and the kickoff both say so. A quote
+        that carries neither is left to the checks it always had.
+        """
+        return event_matches_kickoff(self.event_ticker, self.commence_time) is False
+
+    @property
     def before_kickoff(self) -> bool | None:
         """Whether this quote was seen before the game started.
 
@@ -279,6 +335,10 @@ class OpeningBook:
     # poll is already here is skipped, so recovery after a lost push can be
     # run more than once without writing the same poll twice.
     polls: set[str] = field(default_factory=set)
+    # Quotes the log holds that were read from another game day's market,
+    # keyed by (game, event ticker) with how often each was seen. The log is
+    # append-only and keeps them; no derived view is built from them.
+    wrong_event: dict[tuple[str, str], int] = field(default_factory=dict)
 
     @classmethod
     def load(cls, path: str | Path) -> "OpeningBook":
@@ -320,7 +380,7 @@ class OpeningBook:
         """
         quotes = list(quotes)
         stamp = polled_at or datetime.now(timezone.utc).isoformat()
-        fresh = [q for q in quotes if q.key not in self.opens]
+        fresh = [q for q in quotes if q.key not in self.opens and not q.wrong_event]
         for q in quotes:
             self._observe(q)
 
@@ -365,6 +425,13 @@ class OpeningBook:
 
     def _observe(self, quote: Quote) -> None:
         """Fold one quote into the derived views, in a single pass."""
+        if quote.wrong_event:
+            # Another game day's market, matched on a shared team. It was
+            # never this game's price, so it is not its open, its latest or
+            # its close. Counted, so a report can say how many were refused.
+            seen = (quote.game, str(quote.event_ticker))
+            self.wrong_event[seen] = self.wrong_event.get(seen, 0) + 1
+            return
         self.opens.setdefault(quote.key, quote)   # first wins, never overwritten
         self.latest[quote.key] = quote            # last wins, deliberately
         gated = quote.before_kickoff

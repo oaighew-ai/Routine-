@@ -15,9 +15,14 @@ class KalshiAliasTests(unittest.TestCase):
         ("Sacramento St.", "Sacramento State"),
     )
 
-    @staticmethod
-    def markets(team):
-        return [dict(event_ticker="E", ticker=f"E-{strike}",
+    # These ladders name one team. The game day in the ticker and the
+    # schedule's kickoff are what tie such a market to a fixture (D43).
+    EVENT = "KXNCAAFSPREAD-26SEP26E"
+    KICKOFF = "2026-09-26T19:30:00Z"
+
+    @classmethod
+    def markets(cls, team):
+        return [dict(event_ticker=cls.EVENT, ticker=f"E-{strike}",
                      yes_sub_title=f"{team} wins by over {strike} points",
                      yes_bid=bid, yes_ask=bid + 2)
                 for strike, bid in ((3.5, 54), (7.5, 44))]
@@ -25,6 +30,7 @@ class KalshiAliasTests(unittest.TestCase):
     def quotes(self, games, markets):
         payload = json.dumps({"markets": markets}).encode()
         return board_quotes(games=games, opener=lambda _: payload,
+                            kickoffs={game: self.KICKOFF for game in games},
                             seen_at="2026-09-23T12:00:00+00:00")
 
     def test_documented_aliases_resolve_and_preserve_both_orientations(self):
