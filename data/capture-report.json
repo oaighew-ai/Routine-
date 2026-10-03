@@ -1,12 +1,12 @@
 {
   "schemaVersion": 1,
   "cohort": "ROUTINE_KALSHI_CAPTURE",
-  "generatedAt": "2026-10-03T15:25:18.298339+00:00",
-  "pollAt": "2026-10-03T15:25:18.211884+00:00",
+  "generatedAt": "2026-10-03T21:20:02.640480+00:00",
+  "pollAt": "2026-10-03T21:20:02.445807+00:00",
   "captureOutcome": "success",
   "freshAtGeneration": true,
   "codeRevision": "13b0daeb7975714406200bcb03969882defcb4f7",
-  "logSha256": "3201ac7086e2ee99e209429a1a40ec2edae1ead8bba73a649de1a3a27c033cb0",
+  "logSha256": "5006ded2d16665b02428f783ebff46735441af9f1a1d3998ac112cb12451b112",
   "slateSha256": "45413a92b1c3cd9684f3373affe81440d8f2580e9751003172c27f35da718f21",
   "allowDelivery": false,
   "actualStakeUnits": 0,
@@ -222,15 +222,9 @@
         "KXNCAAFSPREAD-26OCT03VANUGA-UGA28",
         "KXNCAAFSPREAD-26OCT03VANUGA-UGA25"
       ],
-      "observations": [
-        {
-          "book": "kalshi",
-          "derivedHomeLine": 24.9,
-          "observedAt": "2026-10-03T15:25:17.558341+00:00",
-          "kickoff": "2026-10-10T04:00:00.000Z"
-        }
-      ],
+      "observations": [],
       "exclusions": [
+        "ABSENT_FROM_LATEST_POLL",
         "DECISION_EVIDENCE_UNVERIFIED",
         "EXECUTABLE_CONTRACT_UNVERIFIED",
         "OPEN_NOT_AUDIT_GRADE_TRUE_OPEN"
@@ -307,7 +301,7 @@
         {
           "book": "kalshi",
           "derivedHomeLine": 24.4,
-          "observedAt": "2026-10-03T15:25:17.558341+00:00",
+          "observedAt": "2026-10-03T21:20:01.715806+00:00",
           "kickoff": "2026-10-10T04:00:00.000Z"
         }
       ],
@@ -330,15 +324,9 @@
         "KXNCAAFSPREAD-26OCT09IOWAWASH-IOWA2",
         "KXNCAAFSPREAD-26OCT09IOWAWASH-WASH2"
       ],
-      "observations": [
-        {
-          "book": "kalshi",
-          "derivedHomeLine": -0.5,
-          "observedAt": "2026-10-03T15:25:17.558341+00:00",
-          "kickoff": "2026-10-10T01:00:00.000Z"
-        }
-      ],
+      "observations": [],
       "exclusions": [
+        "ABSENT_FROM_LATEST_POLL",
         "DECISION_EVIDENCE_UNVERIFIED",
         "EXECUTABLE_CONTRACT_UNVERIFIED",
         "OPEN_NOT_AUDIT_GRADE_TRUE_OPEN"
@@ -379,7 +367,7 @@
         {
           "book": "kalshi",
           "derivedHomeLine": 2.9,
-          "observedAt": "2026-10-03T15:25:17.558341+00:00",
+          "observedAt": "2026-10-03T21:20:01.715806+00:00",
           "kickoff": "2026-10-07T23:00:00.000Z"
         }
       ],
@@ -459,8 +447,8 @@
       "observations": [
         {
           "book": "kalshi",
-          "derivedHomeLine": 54.5,
-          "observedAt": "2026-10-03T15:25:17.558341+00:00",
+          "derivedHomeLine": 54.6,
+          "observedAt": "2026-10-03T21:20:01.715806+00:00",
           "kickoff": "2026-10-10T04:00:00.000Z"
         }
       ],
@@ -582,15 +570,24 @@
       "game": "New Mexico State @ Florida International",
       "action": "NO BET",
       "stakeUnits": 0,
-      "openClassification": "unverified",
+      "openClassification": "first_seen",
       "auditGradeOpen": false,
-      "firstSeen": null,
-      "venueOpenTime": null,
-      "openLagSeconds": null,
-      "marketTickers": [],
-      "observations": [],
+      "firstSeen": "2026-10-03T20:27:44.621602+00:00",
+      "venueOpenTime": "2026-10-02T22:06:00+00:00",
+      "openLagSeconds": 80504.621602,
+      "marketTickers": [
+        "KXNCAAFSPREAD-26OCT07NMSUFIU-FIU4",
+        "KXNCAAFSPREAD-26OCT07NMSUFIU-FIU5"
+      ],
+      "observations": [
+        {
+          "book": "kalshi",
+          "derivedHomeLine": -4.0,
+          "observedAt": "2026-10-03T21:20:01.715806+00:00",
+          "kickoff": "2026-10-07T23:30:00.000Z"
+        }
+      ],
       "exclusions": [
-        "ABSENT_FROM_LATEST_POLL",
         "DECISION_EVIDENCE_UNVERIFIED",
         "EXECUTABLE_CONTRACT_UNVERIFIED",
         "OPEN_NOT_AUDIT_GRADE_TRUE_OPEN"
@@ -811,7 +808,7 @@
         {
           "book": "kalshi",
           "derivedHomeLine": -9.8,
-          "observedAt": "2026-10-03T15:25:17.558341+00:00",
+          "observedAt": "2026-10-03T21:20:01.715806+00:00",
           "kickoff": "2026-10-07T00:00:00.000Z"
         }
       ],
@@ -834,15 +831,9 @@
         "KXNCAAFSPREAD-26OCT03NDUNC-ND21",
         "KXNCAAFSPREAD-26OCT03NDUNC-ND22"
       ],
-      "observations": [
-        {
-          "book": "kalshi",
-          "derivedHomeLine": -21.2,
-          "observedAt": "2026-10-03T15:25:17.558341+00:00",
-          "kickoff": "2026-10-10T19:30:00.000Z"
-        }
-      ],
+      "observations": [],
       "exclusions": [
+        "ABSENT_FROM_LATEST_POLL",
         "DECISION_EVIDENCE_UNVERIFIED",
         "EXECUTABLE_CONTRACT_UNVERIFIED",
         "OPEN_NOT_AUDIT_GRADE_TRUE_OPEN"
@@ -969,15 +960,9 @@
         "KXNCAAFSPREAD-26OCT03SAMUAB-UAB34",
         "KXNCAAFSPREAD-26OCT03SAMUAB-UAB31"
       ],
-      "observations": [
-        {
-          "book": "kalshi",
-          "derivedHomeLine": 31.0,
-          "observedAt": "2026-10-03T15:25:17.558341+00:00",
-          "kickoff": "2026-10-10T04:00:00.000Z"
-        }
-      ],
+      "observations": [],
       "exclusions": [
+        "ABSENT_FROM_LATEST_POLL",
         "DECISION_EVIDENCE_UNVERIFIED",
         "EXECUTABLE_CONTRACT_UNVERIFIED",
         "OPEN_NOT_AUDIT_GRADE_TRUE_OPEN"
@@ -1131,8 +1116,8 @@
   "openEvidence": {
     "trueOpenToleranceSeconds": 900,
     "classificationCounts": {
-      "unverified": 50,
-      "first_seen": 8
+      "unverified": 49,
+      "first_seen": 9
     },
     "auditGradeCount": 0,
     "policy": "Only true_open may enter CLV promotion or stopping evidence."
