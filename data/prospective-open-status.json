@@ -4,7 +4,7 @@
   "contract": "CFB_EDGE_PROSPECTIVE_OPEN_V1",
   "decisionEffect": "NONE",
   "deliveryEffect": "NONE",
-  "generatedAt": "2026-10-04T19:18:44.137678+00:00",
+  "generatedAt": "2026-10-04T19:23:11.963580+00:00",
   "historicalRecoveryAllowed": false,
   "pollIntervalTargetSeconds": 60,
   "rows": [
@@ -151,7 +151,7 @@
       "firstEventSeenAt": null,
       "game": "Boise State @ Fresno State",
       "kickoff": "2026-10-11T02:30:00.000Z",
-      "lastPollAt": "2026-10-04T19:18:44.062731+00:00",
+      "lastPollAt": "2026-10-04T19:23:11.891237+00:00",
       "locked": false,
       "state": "PENDING"
     },
@@ -252,7 +252,7 @@
       "firstEventSeenAt": null,
       "game": "Charlotte @ North Texas",
       "kickoff": "2026-10-10T04:00:00.000Z",
-      "lastPollAt": "2026-10-04T19:18:44.062731+00:00",
+      "lastPollAt": "2026-10-04T19:23:11.891237+00:00",
       "locked": false,
       "state": "PENDING"
     },
@@ -905,7 +905,7 @@
       "firstEventSeenAt": null,
       "game": "Kent State @ Western Michigan",
       "kickoff": "2026-10-10T04:00:00.000Z",
-      "lastPollAt": "2026-10-04T19:18:44.062731+00:00",
+      "lastPollAt": "2026-10-04T19:23:11.891237+00:00",
       "locked": false,
       "state": "PENDING"
     },
@@ -957,19 +957,56 @@
     },
     {
       "auditGrade": false,
-      "firstEventSeenAt": null,
+      "codeRevision": "9dd9d54c7073b3f46093fe0dae62b8c724de77b9",
+      "contract": "CFB_EDGE_PROSPECTIVE_OPEN_V1",
+      "eventTicker": "KXNCAAFSPREAD-26OCT10ULLLT",
+      "evidencePath": "data/open-capture/CFB_2026_PROVIDER_WEEK_6/evidence/516805b622d2e2a11cbd172c3c4a256a679f36715ebcab59ed4b874787f00ddf.json.gz",
+      "evidenceSha256": "516805b622d2e2a11cbd172c3c4a256a679f36715ebcab59ed4b874787f00ddf",
+      "firstEventSeenAt": "2026-10-04T19:23:11.532633+00:00",
+      "firstValidTwoSidedQuoteTime": "2026-10-04T19:23:11.532633+00:00",
       "game": "Louisiana @ Louisiana Tech",
-      "kickoff": "2026-10-10T04:00:00.000Z",
-      "lastPollAt": "2026-10-04T19:18:44.062731+00:00",
-      "locked": false,
-      "state": "PENDING"
+      "historicalRecoveryUsed": false,
+      "kickoff": "2026-10-10T23:30:00.000Z",
+      "locked": true,
+      "marketTickers": [
+        "KXNCAAFSPREAD-26OCT10ULLLT-LT3",
+        "KXNCAAFSPREAD-26OCT10ULLLT-LT4"
+      ],
+      "observedAt": "2026-10-04T19:23:11.532633+00:00",
+      "openLagSeconds": 1031.532633,
+      "openingLine": -2.6,
+      "pollTime": "2026-10-04T19:23:11.532633+00:00",
+      "quoteInputs": [
+        {
+          "openTime": "2026-10-04T19:06:00Z",
+          "probability": 0.505,
+          "strike": 2.5,
+          "team": "Louisiana Tech",
+          "ticker": "KXNCAAFSPREAD-26OCT10ULLLT-LT3",
+          "yesAsk": 0.54,
+          "yesBid": 0.47
+        },
+        {
+          "openTime": "2026-10-04T19:06:00Z",
+          "probability": 0.42,
+          "strike": 3.5,
+          "team": "Louisiana Tech",
+          "ticker": "KXNCAAFSPREAD-26OCT10ULLLT-LT4",
+          "yesAsk": 0.47,
+          "yesBid": 0.37
+        }
+      ],
+      "schemaVersion": 1,
+      "source": "LIVE_KALSHI_POLL",
+      "state": "MISSED_TRUE_OPEN_WINDOW",
+      "venueOpenTime": "2026-10-04T19:06:00+00:00"
     },
     {
       "auditGrade": false,
       "firstEventSeenAt": null,
       "game": "Maryland @ Ohio State",
       "kickoff": "2026-10-10T04:00:00.000Z",
-      "lastPollAt": "2026-10-04T19:18:44.062731+00:00",
+      "lastPollAt": "2026-10-04T19:23:11.891237+00:00",
       "locked": false,
       "state": "PENDING"
     },
@@ -978,7 +1015,7 @@
       "firstEventSeenAt": null,
       "game": "Miami (OH) @ Massachusetts",
       "kickoff": "2026-10-10T04:00:00.000Z",
-      "lastPollAt": "2026-10-04T19:18:44.062731+00:00",
+      "lastPollAt": "2026-10-04T19:23:11.891237+00:00",
       "locked": false,
       "state": "PENDING"
     },
@@ -1076,12 +1113,49 @@
     },
     {
       "auditGrade": false,
-      "firstEventSeenAt": null,
+      "codeRevision": "9dd9d54c7073b3f46093fe0dae62b8c724de77b9",
+      "contract": "CFB_EDGE_PROSPECTIVE_OPEN_V1",
+      "eventTicker": "KXNCAAFSPREAD-26OCT10NEVUTEP",
+      "evidencePath": "data/open-capture/CFB_2026_PROVIDER_WEEK_6/evidence/c37b171d86401311dbd3cb2586f4b713410f482f6bc6359b835c24188adf3621.json.gz",
+      "evidenceSha256": "c37b171d86401311dbd3cb2586f4b713410f482f6bc6359b835c24188adf3621",
+      "firstEventSeenAt": "2026-10-04T19:23:11.532633+00:00",
+      "firstValidTwoSidedQuoteTime": "2026-10-04T19:23:11.532633+00:00",
       "game": "Nevada @ UTEP",
-      "kickoff": "2026-10-10T04:00:00.000Z",
-      "lastPollAt": "2026-10-04T19:18:44.062731+00:00",
-      "locked": false,
-      "state": "PENDING"
+      "historicalRecoveryUsed": false,
+      "kickoff": "2026-10-10T23:00:00.000Z",
+      "locked": true,
+      "marketTickers": [
+        "KXNCAAFSPREAD-26OCT10NEVUTEP-NEV11",
+        "KXNCAAFSPREAD-26OCT10NEVUTEP-NEV10"
+      ],
+      "observedAt": "2026-10-04T19:23:11.532633+00:00",
+      "openLagSeconds": 1031.532633,
+      "openingLine": 9.8,
+      "pollTime": "2026-10-04T19:23:11.532633+00:00",
+      "quoteInputs": [
+        {
+          "openTime": "2026-10-04T19:06:00Z",
+          "probability": 0.52,
+          "strike": 10.5,
+          "team": "Nevada",
+          "ticker": "KXNCAAFSPREAD-26OCT10NEVUTEP-NEV11",
+          "yesAsk": 0.53,
+          "yesBid": 0.43
+        },
+        {
+          "openTime": "2026-10-04T19:06:00Z",
+          "probability": 0.49,
+          "strike": 9.5,
+          "team": "Nevada",
+          "ticker": "KXNCAAFSPREAD-26OCT10NEVUTEP-NEV10",
+          "yesAsk": 0.54,
+          "yesBid": 0.48
+        }
+      ],
+      "schemaVersion": 1,
+      "source": "LIVE_KALSHI_POLL",
+      "state": "MISSED_TRUE_OPEN_WINDOW",
+      "venueOpenTime": "2026-10-04T19:06:00+00:00"
     },
     {
       "auditGrade": false,
@@ -1180,7 +1254,7 @@
       "firstEventSeenAt": null,
       "game": "North Dakota State @ UNLV",
       "kickoff": "2026-10-10T23:00:00.000Z",
-      "lastPollAt": "2026-10-04T19:18:44.062731+00:00",
+      "lastPollAt": "2026-10-04T19:23:11.891237+00:00",
       "locked": false,
       "state": "PENDING"
     },
@@ -1278,12 +1352,49 @@
     },
     {
       "auditGrade": false,
-      "firstEventSeenAt": null,
+      "codeRevision": "9dd9d54c7073b3f46093fe0dae62b8c724de77b9",
+      "contract": "CFB_EDGE_PROSPECTIVE_OPEN_V1",
+      "eventTicker": "KXNCAAFSPREAD-26OCT10RICEECU",
+      "evidencePath": "data/open-capture/CFB_2026_PROVIDER_WEEK_6/evidence/a845b9e284b7384495ecca727e0de537b4f64c67b625329a3e1f5d9c23c7e6ac.json.gz",
+      "evidenceSha256": "a845b9e284b7384495ecca727e0de537b4f64c67b625329a3e1f5d9c23c7e6ac",
+      "firstEventSeenAt": "2026-10-04T19:23:11.532633+00:00",
+      "firstValidTwoSidedQuoteTime": "2026-10-04T19:23:11.532633+00:00",
       "game": "Rice @ East Carolina",
-      "kickoff": "2026-10-10T04:00:00.000Z",
-      "lastPollAt": "2026-10-04T19:18:44.062731+00:00",
-      "locked": false,
-      "state": "PENDING"
+      "historicalRecoveryUsed": false,
+      "kickoff": "2026-10-10T20:00:00.000Z",
+      "locked": true,
+      "marketTickers": [
+        "KXNCAAFSPREAD-26OCT10RICEECU-ECU10",
+        "KXNCAAFSPREAD-26OCT10RICEECU-ECU11"
+      ],
+      "observedAt": "2026-10-04T19:23:11.532633+00:00",
+      "openLagSeconds": 1031.532633,
+      "openingLine": -9.9,
+      "pollTime": "2026-10-04T19:23:11.532633+00:00",
+      "quoteInputs": [
+        {
+          "openTime": "2026-10-04T19:06:00Z",
+          "probability": 0.52,
+          "strike": 9.5,
+          "team": "East Carolina",
+          "ticker": "KXNCAAFSPREAD-26OCT10RICEECU-ECU10",
+          "yesAsk": 0.55,
+          "yesBid": 0.49
+        },
+        {
+          "openTime": "2026-10-04T19:06:00Z",
+          "probability": 0.475,
+          "strike": 10.5,
+          "team": "East Carolina",
+          "ticker": "KXNCAAFSPREAD-26OCT10RICEECU-ECU11",
+          "yesAsk": 0.52,
+          "yesBid": 0.43
+        }
+      ],
+      "schemaVersion": 1,
+      "source": "LIVE_KALSHI_POLL",
+      "state": "MISSED_TRUE_OPEN_WINDOW",
+      "venueOpenTime": "2026-10-04T19:06:00+00:00"
     },
     {
       "auditGrade": false,
@@ -2072,7 +2183,7 @@
       "firstEventSeenAt": null,
       "game": "UConn @ Temple",
       "kickoff": "2026-10-10T04:00:00.000Z",
-      "lastPollAt": "2026-10-04T19:18:44.062731+00:00",
+      "lastPollAt": "2026-10-04T19:23:11.891237+00:00",
       "locked": false,
       "state": "PENDING"
     },
@@ -2312,19 +2423,23 @@
   "stakingEffect": "NONE",
   "summary": {
     "capturedTrueOpenRows": 25,
-    "missedTrueOpenRows": 23,
-    "newTransitions": 2,
-    "pendingRows": 10,
+    "missedTrueOpenRows": 26,
+    "newTransitions": 3,
+    "pendingRows": 7,
     "slateRows": 58,
-    "terminalRows": 48
+    "terminalRows": 51
   },
   "transitions": [
     {
-      "game": "Air Force @ Northern Illinois",
-      "state": "CAPTURED_TRUE_OPEN"
+      "game": "Louisiana @ Louisiana Tech",
+      "state": "MISSED_TRUE_OPEN_WINDOW"
     },
     {
-      "game": "Houston @ Kansas State",
+      "game": "Nevada @ UTEP",
+      "state": "MISSED_TRUE_OPEN_WINDOW"
+    },
+    {
+      "game": "Rice @ East Carolina",
       "state": "MISSED_TRUE_OPEN_WINDOW"
     }
   ],
