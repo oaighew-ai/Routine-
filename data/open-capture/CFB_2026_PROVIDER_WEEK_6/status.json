@@ -4,7 +4,7 @@
   "contract": "CFB_EDGE_PROSPECTIVE_OPEN_V1",
   "decisionEffect": "NONE",
   "deliveryEffect": "NONE",
-  "generatedAt": "2026-10-04T19:41:45.198664+00:00",
+  "generatedAt": "2026-10-04T19:47:55.648621+00:00",
   "historicalRecoveryAllowed": false,
   "pollIntervalTargetSeconds": 60,
   "rows": [
@@ -151,7 +151,7 @@
       "firstEventSeenAt": null,
       "game": "Boise State @ Fresno State",
       "kickoff": "2026-10-11T02:30:00.000Z",
-      "lastPollAt": "2026-10-04T19:41:45.121880+00:00",
+      "lastPollAt": "2026-10-04T19:47:55.573159+00:00",
       "locked": false,
       "state": "PENDING"
     },
@@ -252,7 +252,7 @@
       "firstEventSeenAt": null,
       "game": "Charlotte @ North Texas",
       "kickoff": "2026-10-10T04:00:00.000Z",
-      "lastPollAt": "2026-10-04T19:41:45.121880+00:00",
+      "lastPollAt": "2026-10-04T19:47:55.573159+00:00",
       "locked": false,
       "state": "PENDING"
     },
@@ -902,12 +902,49 @@
     },
     {
       "auditGrade": false,
-      "firstEventSeenAt": null,
+      "codeRevision": "9dd9d54c7073b3f46093fe0dae62b8c724de77b9",
+      "contract": "CFB_EDGE_PROSPECTIVE_OPEN_V1",
+      "eventTicker": "KXNCAAFSPREAD-26OCT10KENTWMU",
+      "evidencePath": "data/open-capture/CFB_2026_PROVIDER_WEEK_6/evidence/ff1fe900596c13932ba25de70dd76744a2c7dd0a7776daec9ea4639e932a4ce5.json.gz",
+      "evidenceSha256": "ff1fe900596c13932ba25de70dd76744a2c7dd0a7776daec9ea4639e932a4ce5",
+      "firstEventSeenAt": "2026-10-04T19:47:55.219392+00:00",
+      "firstValidTwoSidedQuoteTime": "2026-10-04T19:47:55.219392+00:00",
       "game": "Kent State @ Western Michigan",
-      "kickoff": "2026-10-10T04:00:00.000Z",
-      "lastPollAt": "2026-10-04T19:41:45.121880+00:00",
-      "locked": false,
-      "state": "PENDING"
+      "historicalRecoveryUsed": false,
+      "kickoff": "2026-10-10T19:30:00.000Z",
+      "locked": true,
+      "marketTickers": [
+        "KXNCAAFSPREAD-26OCT10KENTWMU-WMU14",
+        "KXNCAAFSPREAD-26OCT10KENTWMU-WMU15"
+      ],
+      "observedAt": "2026-10-04T19:47:55.219392+00:00",
+      "openLagSeconds": 2515.219392,
+      "openingLine": -13.9,
+      "pollTime": "2026-10-04T19:47:55.219392+00:00",
+      "quoteInputs": [
+        {
+          "openTime": "2026-10-04T19:06:00Z",
+          "probability": 0.52,
+          "strike": 13.5,
+          "team": "Western Michigan",
+          "ticker": "KXNCAAFSPREAD-26OCT10KENTWMU-WMU14",
+          "yesAsk": 0.55,
+          "yesBid": 0.49
+        },
+        {
+          "openTime": "2026-10-04T19:06:00Z",
+          "probability": 0.475,
+          "strike": 14.5,
+          "team": "Western Michigan",
+          "ticker": "KXNCAAFSPREAD-26OCT10KENTWMU-WMU15",
+          "yesAsk": 0.54,
+          "yesBid": 0.41
+        }
+      ],
+      "schemaVersion": 1,
+      "source": "LIVE_KALSHI_POLL",
+      "state": "MISSED_TRUE_OPEN_WINDOW",
+      "venueOpenTime": "2026-10-04T19:06:00+00:00"
     },
     {
       "auditGrade": false,
@@ -1006,7 +1043,7 @@
       "firstEventSeenAt": null,
       "game": "Maryland @ Ohio State",
       "kickoff": "2026-10-10T04:00:00.000Z",
-      "lastPollAt": "2026-10-04T19:41:45.121880+00:00",
+      "lastPollAt": "2026-10-04T19:47:55.573159+00:00",
       "locked": false,
       "state": "PENDING"
     },
@@ -1291,7 +1328,7 @@
       "firstEventSeenAt": null,
       "game": "North Dakota State @ UNLV",
       "kickoff": "2026-10-10T23:00:00.000Z",
-      "lastPollAt": "2026-10-04T19:41:45.121880+00:00",
+      "lastPollAt": "2026-10-04T19:47:55.573159+00:00",
       "locked": false,
       "state": "PENDING"
     },
@@ -2497,12 +2534,17 @@
   "stakingEffect": "NONE",
   "summary": {
     "capturedTrueOpenRows": 25,
-    "missedTrueOpenRows": 28,
-    "newTransitions": 0,
-    "pendingRows": 5,
+    "missedTrueOpenRows": 29,
+    "newTransitions": 1,
+    "pendingRows": 4,
     "slateRows": 58,
-    "terminalRows": 53
+    "terminalRows": 54
   },
-  "transitions": [],
+  "transitions": [
+    {
+      "game": "Kent State @ Western Michigan",
+      "state": "MISSED_TRUE_OPEN_WINDOW"
+    }
+  ],
   "trueOpenMaximumLagSeconds": 900
 }
