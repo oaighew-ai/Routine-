@@ -4,7 +4,7 @@
   "contract": "CFB_EDGE_PROSPECTIVE_OPEN_V1",
   "decisionEffect": "NONE",
   "deliveryEffect": "NONE",
-  "generatedAt": "2026-10-04T20:15:42.703454+00:00",
+  "generatedAt": "2026-10-04T20:22:54.693160+00:00",
   "historicalRecoveryAllowed": false,
   "pollIntervalTargetSeconds": 60,
   "rows": [
@@ -286,12 +286,49 @@
     },
     {
       "auditGrade": false,
-      "firstEventSeenAt": null,
+      "codeRevision": "9dd9d54c7073b3f46093fe0dae62b8c724de77b9",
+      "contract": "CFB_EDGE_PROSPECTIVE_OPEN_V1",
+      "eventTicker": "KXNCAAFSPREAD-26OCT10CHARUNT",
+      "evidencePath": "data/open-capture/CFB_2026_PROVIDER_WEEK_6/evidence/d0bb9bfc4f4a468c32056a8d8a8291790dc1e64f3cb982c3f553a39e040c7b27.json.gz",
+      "evidenceSha256": "d0bb9bfc4f4a468c32056a8d8a8291790dc1e64f3cb982c3f553a39e040c7b27",
+      "firstEventSeenAt": "2026-10-04T20:22:54.332255+00:00",
+      "firstValidTwoSidedQuoteTime": "2026-10-04T20:22:54.332255+00:00",
       "game": "Charlotte @ North Texas",
-      "kickoff": "2026-10-10T04:00:00.000Z",
-      "lastPollAt": "2026-10-04T20:15:42.630980+00:00",
-      "locked": false,
-      "state": "PENDING"
+      "historicalRecoveryUsed": false,
+      "kickoff": "2026-10-10T19:30:00.000Z",
+      "locked": true,
+      "marketTickers": [
+        "KXNCAAFSPREAD-26OCT10CHARUNT-UNT25",
+        "KXNCAAFSPREAD-26OCT10CHARUNT-UNT28"
+      ],
+      "observedAt": "2026-10-04T20:22:54.332255+00:00",
+      "openLagSeconds": 15414.332255,
+      "openingLine": -26.9,
+      "pollTime": "2026-10-04T20:22:54.332255+00:00",
+      "quoteInputs": [
+        {
+          "openTime": "2026-10-04T16:06:00Z",
+          "probability": 0.52,
+          "strike": 24.5,
+          "team": "North Texas",
+          "ticker": "KXNCAAFSPREAD-26OCT10CHARUNT-UNT25",
+          "yesAsk": 0.53,
+          "yesBid": 0.51
+        },
+        {
+          "openTime": "2026-10-04T16:06:00Z",
+          "probability": 0.495,
+          "strike": 27.5,
+          "team": "North Texas",
+          "ticker": "KXNCAAFSPREAD-26OCT10CHARUNT-UNT28",
+          "yesAsk": 0.54,
+          "yesBid": 0.45
+        }
+      ],
+      "schemaVersion": 1,
+      "source": "LIVE_KALSHI_POLL",
+      "state": "MISSED_TRUE_OPEN_WINDOW",
+      "venueOpenTime": "2026-10-04T16:06:00+00:00"
     },
     {
       "auditGrade": true,
@@ -1080,7 +1117,7 @@
       "firstEventSeenAt": null,
       "game": "Maryland @ Ohio State",
       "kickoff": "2026-10-10T04:00:00.000Z",
-      "lastPollAt": "2026-10-04T20:15:42.630980+00:00",
+      "lastPollAt": "2026-10-04T20:22:54.620360+00:00",
       "locked": false,
       "state": "PENDING"
     },
@@ -2608,12 +2645,17 @@
   "stakingEffect": "NONE",
   "summary": {
     "capturedTrueOpenRows": 25,
-    "missedTrueOpenRows": 31,
-    "newTransitions": 0,
-    "pendingRows": 2,
+    "missedTrueOpenRows": 32,
+    "newTransitions": 1,
+    "pendingRows": 1,
     "slateRows": 58,
-    "terminalRows": 56
+    "terminalRows": 57
   },
-  "transitions": [],
+  "transitions": [
+    {
+      "game": "Charlotte @ North Texas",
+      "state": "MISSED_TRUE_OPEN_WINDOW"
+    }
+  ],
   "trueOpenMaximumLagSeconds": 900
 }
