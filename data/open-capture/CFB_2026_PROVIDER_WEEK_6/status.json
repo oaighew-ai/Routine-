@@ -4,7 +4,7 @@
   "contract": "CFB_EDGE_PROSPECTIVE_OPEN_V1",
   "decisionEffect": "NONE",
   "deliveryEffect": "NONE",
-  "generatedAt": "2026-10-04T20:05:26.261102+00:00",
+  "generatedAt": "2026-10-04T20:15:42.703454+00:00",
   "historicalRecoveryAllowed": false,
   "pollIntervalTargetSeconds": 60,
   "rows": [
@@ -289,7 +289,7 @@
       "firstEventSeenAt": null,
       "game": "Charlotte @ North Texas",
       "kickoff": "2026-10-10T04:00:00.000Z",
-      "lastPollAt": "2026-10-04T20:05:26.187455+00:00",
+      "lastPollAt": "2026-10-04T20:15:42.630980+00:00",
       "locked": false,
       "state": "PENDING"
     },
@@ -1080,7 +1080,7 @@
       "firstEventSeenAt": null,
       "game": "Maryland @ Ohio State",
       "kickoff": "2026-10-10T04:00:00.000Z",
-      "lastPollAt": "2026-10-04T20:05:26.187455+00:00",
+      "lastPollAt": "2026-10-04T20:15:42.630980+00:00",
       "locked": false,
       "state": "PENDING"
     },
@@ -2609,16 +2609,11 @@
   "summary": {
     "capturedTrueOpenRows": 25,
     "missedTrueOpenRows": 31,
-    "newTransitions": 1,
+    "newTransitions": 0,
     "pendingRows": 2,
     "slateRows": 58,
     "terminalRows": 56
   },
-  "transitions": [
-    {
-      "game": "Boise State @ Fresno State",
-      "state": "MISSED_TRUE_OPEN_WINDOW"
-    }
-  ],
+  "transitions": [],
   "trueOpenMaximumLagSeconds": 900
 }
