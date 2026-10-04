@@ -4,7 +4,7 @@
   "contract": "CFB_EDGE_PROSPECTIVE_OPEN_V1",
   "decisionEffect": "NONE",
   "deliveryEffect": "NONE",
-  "generatedAt": "2026-10-04T21:26:39.872838+00:00",
+  "generatedAt": "2026-10-04T21:36:56.866512+00:00",
   "historicalRecoveryAllowed": false,
   "pollIntervalTargetSeconds": 60,
   "rows": [
@@ -2683,16 +2683,11 @@
   "summary": {
     "capturedTrueOpenRows": 25,
     "missedTrueOpenRows": 33,
-    "newTransitions": 1,
+    "newTransitions": 0,
     "pendingRows": 0,
     "slateRows": 58,
     "terminalRows": 58
   },
-  "transitions": [
-    {
-      "game": "Maryland @ Ohio State",
-      "state": "MISSED_TRUE_OPEN_WINDOW"
-    }
-  ],
+  "transitions": [],
   "trueOpenMaximumLagSeconds": 900
 }
