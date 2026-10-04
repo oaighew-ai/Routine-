@@ -4,7 +4,7 @@
   "contract": "CFB_EDGE_PROSPECTIVE_OPEN_V1",
   "decisionEffect": "NONE",
   "deliveryEffect": "NONE",
-  "generatedAt": "2026-10-04T19:29:22.261308+00:00",
+  "generatedAt": "2026-10-04T19:31:26.997152+00:00",
   "historicalRecoveryAllowed": false,
   "pollIntervalTargetSeconds": 60,
   "rows": [
@@ -151,7 +151,7 @@
       "firstEventSeenAt": null,
       "game": "Boise State @ Fresno State",
       "kickoff": "2026-10-11T02:30:00.000Z",
-      "lastPollAt": "2026-10-04T19:29:22.188966+00:00",
+      "lastPollAt": "2026-10-04T19:31:26.924743+00:00",
       "locked": false,
       "state": "PENDING"
     },
@@ -252,7 +252,7 @@
       "firstEventSeenAt": null,
       "game": "Charlotte @ North Texas",
       "kickoff": "2026-10-10T04:00:00.000Z",
-      "lastPollAt": "2026-10-04T19:29:22.188966+00:00",
+      "lastPollAt": "2026-10-04T19:31:26.924743+00:00",
       "locked": false,
       "state": "PENDING"
     },
@@ -905,7 +905,7 @@
       "firstEventSeenAt": null,
       "game": "Kent State @ Western Michigan",
       "kickoff": "2026-10-10T04:00:00.000Z",
-      "lastPollAt": "2026-10-04T19:29:22.188966+00:00",
+      "lastPollAt": "2026-10-04T19:31:26.924743+00:00",
       "locked": false,
       "state": "PENDING"
     },
@@ -1006,7 +1006,7 @@
       "firstEventSeenAt": null,
       "game": "Maryland @ Ohio State",
       "kickoff": "2026-10-10T04:00:00.000Z",
-      "lastPollAt": "2026-10-04T19:29:22.188966+00:00",
+      "lastPollAt": "2026-10-04T19:31:26.924743+00:00",
       "locked": false,
       "state": "PENDING"
     },
@@ -1291,7 +1291,7 @@
       "firstEventSeenAt": null,
       "game": "North Dakota State @ UNLV",
       "kickoff": "2026-10-10T23:00:00.000Z",
-      "lastPollAt": "2026-10-04T19:29:22.188966+00:00",
+      "lastPollAt": "2026-10-04T19:31:26.924743+00:00",
       "locked": false,
       "state": "PENDING"
     },
@@ -2217,12 +2217,49 @@
     },
     {
       "auditGrade": false,
-      "firstEventSeenAt": null,
+      "codeRevision": "9dd9d54c7073b3f46093fe0dae62b8c724de77b9",
+      "contract": "CFB_EDGE_PROSPECTIVE_OPEN_V1",
+      "eventTicker": "KXNCAAFSPREAD-26OCT10CONNTEM",
+      "evidencePath": "data/open-capture/CFB_2026_PROVIDER_WEEK_6/evidence/414a338954fe4ae3525f6feb1f65d6bdc2353938eb84b4caf00b7023cc67b13a.json.gz",
+      "evidenceSha256": "414a338954fe4ae3525f6feb1f65d6bdc2353938eb84b4caf00b7023cc67b13a",
+      "firstEventSeenAt": "2026-10-04T19:31:26.730743+00:00",
+      "firstValidTwoSidedQuoteTime": "2026-10-04T19:31:26.730743+00:00",
       "game": "UConn @ Temple",
-      "kickoff": "2026-10-10T04:00:00.000Z",
-      "lastPollAt": "2026-10-04T19:29:22.188966+00:00",
-      "locked": false,
-      "state": "PENDING"
+      "historicalRecoveryUsed": false,
+      "kickoff": "2026-10-10T19:45:00.000Z",
+      "locked": true,
+      "marketTickers": [
+        "KXNCAAFSPREAD-26OCT10CONNTEM-TEM4",
+        "KXNCAAFSPREAD-26OCT10CONNTEM-TEM6"
+      ],
+      "observedAt": "2026-10-04T19:31:26.730743+00:00",
+      "openLagSeconds": 1526.730743,
+      "openingLine": -3.9,
+      "pollTime": "2026-10-04T19:31:26.730743+00:00",
+      "quoteInputs": [
+        {
+          "openTime": "2026-10-04T19:06:00Z",
+          "probability": 0.51,
+          "strike": 3.5,
+          "team": "Temple",
+          "ticker": "KXNCAAFSPREAD-26OCT10CONNTEM-TEM4",
+          "yesAsk": 0.54,
+          "yesBid": 0.48
+        },
+        {
+          "openTime": "2026-10-04T19:06:00Z",
+          "probability": 0.465,
+          "strike": 5.5,
+          "team": "Temple",
+          "ticker": "KXNCAAFSPREAD-26OCT10CONNTEM-TEM6",
+          "yesAsk": 0.53,
+          "yesBid": 0.4
+        }
+      ],
+      "schemaVersion": 1,
+      "source": "LIVE_KALSHI_POLL",
+      "state": "MISSED_TRUE_OPEN_WINDOW",
+      "venueOpenTime": "2026-10-04T19:06:00+00:00"
     },
     {
       "auditGrade": false,
@@ -2460,15 +2497,15 @@
   "stakingEffect": "NONE",
   "summary": {
     "capturedTrueOpenRows": 25,
-    "missedTrueOpenRows": 27,
+    "missedTrueOpenRows": 28,
     "newTransitions": 1,
-    "pendingRows": 6,
+    "pendingRows": 5,
     "slateRows": 58,
-    "terminalRows": 52
+    "terminalRows": 53
   },
   "transitions": [
     {
-      "game": "Miami (OH) @ Massachusetts",
+      "game": "UConn @ Temple",
       "state": "MISSED_TRUE_OPEN_WINDOW"
     }
   ],
