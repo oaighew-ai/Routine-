@@ -2059,7 +2059,8 @@ UTC): 23 of the 27 games had kicked off, none had a price inside 900 seconds
 of its kickoff, and the newest price before kickoff was between 7.2 and 73.9
 hours old. Four games had not started (kickoffs 00:00, 00:00, 01:30 and 03:00
 UTC on 2026-10-04), so the final count is at most 4 and is whatever the log
-shows after that.
+shows after that. It showed 0 of 27 at `94e656a`, after the game window
+closed: the nearest any price came to its kickoff was 50 minutes.
 
 **Why.** Two things, either of which was enough.
 
@@ -2118,7 +2119,7 @@ shell against a stand-in `gh`: inside the window, outside it, and a refused
 request. `tests/test_week5_workflows.py` pins the set of workflows that still
 have an automatic trigger, and `tests/test_operations_runbook.py` ties every
 workflow, file, command and decision the runbook names to the repository.
-825 tests pass. Not verified: any of this on a runner.
+836 tests pass. Not verified: any of this on a runner.
 
 **Authority effect.** None. No threshold, gate, frozen rule, stake or delivery
 permission changes.

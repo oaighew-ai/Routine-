@@ -148,7 +148,7 @@ allowed to act. **rejected** was tested and failed.
 | S04_BR1 | rejected | Historical out-of-sample |
 | S04_BR2 | collection | `DATA_COLLECTION_ONLY` |
 | F03 | rejected | |
-| CLV gate `CFB_EDGE_CLV_GATE_V1` | insufficient | Needs `true_open` rows. See section 9 |
+| CLV gate `CFB_EDGE_CLV_GATE_V1` | insufficient | Needs 96 gradeable rows across 4 weeks. A row needs a `true_open` and a close. See section 9 |
 | Opening capture | live | D35, D38, D43 |
 | Close capture | live from D44 | Not yet observed on a runner |
 
@@ -207,7 +207,7 @@ every listing measured so far fell a few minutes past one of those hours
 |---|---|---|
 | No `capture open loop` commit for 20 minutes inside the window | Actions, `capture open loop` | Start it on `main`. One run is enough; it carries itself |
 | Loop running, zero captured | `status.json` for the cohort: are rows pending or missed | Pending is normal before markets are listed. Missed rows carry the venue open time and the lag |
-| A game locked against another game's market | `voidedRows` in the cohort's `status.json` | Nothing. The lock voids it on the next poll (D43) |
+| A game locked against another game's market | `voidedRows` in the cohort's `status.json` | Nothing. The lock voids the row and rebuilds the game's row from the logged polls (D43) |
 | Card build exits non-zero | The script's last lines | Exit 3: no week left. Otherwise the slate or an input is missing; publish nothing |
 | Card shows a board more than a day old | Newest file under `data/features/br2/market/raw/` | Expected on Saturday: the feature capture runs Monday to Friday |
 | Feature capture late | Card, "Scheduler" gate | Nothing. Late is recorded and degrades the gate |
@@ -225,59 +225,63 @@ or remove: a Saturday 14:00 capture check, and a one-off for 2026-12-06 that
 closes the season. D39 names one task; the older Saturday check should be
 disabled once the weekly routine has been seen to work for a full weekend.
 
-## 9. Known gaps, as of 2026-10-03
+## 9. Known gaps, as of 2026-10-04
 
 Dated facts. Each line says what is known and what is not.
 
-1. **No true open has been captured.** None in product Weeks 5 and 6, and
-   none yet in Week 7, whose release window is open until 2026-10-06.
-   One-minute polling first ran without long gaps on 2026-10-03, from 15:50.
-   One market listed after that yielded no line through 915 seconds.
-   Another, listed 17 hours before polling began, yielded none for a further
-   five hours of polling (D43). Whether the exchange posts a two-sided quote
-   inside the window at all is not yet known. The whole measurement rests on
-   that question.
-2. **Markets listed outside the release window cannot be true opens.** Two
+1. **True opens are captured for about two markets in three.** The first 17
+   were captured on 2026-10-04, in product Week 7, with lags of 211 to 800
+   seconds. None were captured in Weeks 5 and 6. In the same hours, eight
+   markets yielded no readable line until 1.6 to 5 hours after their listed
+   open, with polls a minute apart (D43). One night is not a rate.
+2. **The log cannot say why a listed market had no line.** It records only
+   lines the reader could read. A market that missed the window may have
+   had no quotes, or quotes the reader refuses (a ladder that does not
+   straddle 50%, or a bid and ask further apart than `MAX_SPREAD`). Logging
+   the reason would settle which, and it decides whether the 900 second
+   window or the reader is what to look at.
+3. **Markets listed outside the release window cannot be true opens.** Two
    of product Week 7's markets were listed on a Wednesday and a Thursday,
    when nothing polls. Both are midweek games, which are listed about a
    week ahead. Covering them means polling all week.
-3. **Product Week 6 has at most 4 gradeable closes of 27**, and none among
-   the 23 games that had started by 23:41 on 2026-10-03 (D44).
-   Unrecoverable.
-4. **S04_ES2 has no registered cohort after Week 6.** True opens captured
+4. **Product Week 6 has no gradeable close.** None of its 27 frozen games
+   had a price within 900 seconds of kickoff (D44). Unrecoverable.
+5. **S04_ES2 has no registered cohort after Week 6.** True opens captured
    now are evidence about the capture, not about the strategy (D41).
-5. **No injury or availability feed.** The card's injury gate reads FAIL
+6. **No injury or availability feed.** The card's injury gate reads FAIL
    every week.
-6. **CFBD WEPA returns 401.** The feature capture uses the cfbfastR fallback
+7. **CFBD WEPA returns 401.** The feature capture uses the cfbfastR fallback
    through the prior week.
-7. **Saturday's card carries Friday's prices.** The board is captured Monday
+8. **Saturday's card carries Friday's prices.** The board is captured Monday
    to Friday, so any price edge shown on Saturday is against a board up to
    a day old.
-8. **The delivery authority snapshot is dated 2026-09-18.** This repository
+9. **The delivery authority snapshot is dated 2026-09-18.** This repository
    cannot see the private Site, so it cannot tell whether that is current.
-9. **`grade` has no age limit on a close.** It takes the last price before
+10. **`grade` has no age limit on a close.** It takes the last price before
    kickoff however old. Week 6's grader has a 900 second limit; the general
    one does not. An age limit there is the owner's to register (D44).
-10. **A team with two open moneyline markets gets no fill price.**
+11. **A team with two open moneyline markets gets no fill price.**
     `fill.moneyline_index` drops a team that resolves to more than one
     ticker, which happens if next week's market is listed while this week's
     is open. It fails closed. The game-day rule (D43) would choose between
     them.
-11. **`kalshi_market_audit` still matches on team name alone.** It served the
+12. **`kalshi_market_audit` still matches on team name alone.** It served the
     Week 5 audit and has no trigger.
-12. **The card's confidence rests on a 2012 to 2019 sample.** Calibration of
+13. **The card's confidence rests on a 2012 to 2019 sample.** Calibration of
     the sharp reference since 2020 is assumed (D40).
-13. **The slate's `total` column is a constant 52.0** (D40).
-14. **Thanksgiving week leaves out 13 games** (D41). Changing that needs a
+14. **The slate's `total` column is a constant 52.0** (D40).
+15. **Thanksgiving week leaves out 13 games** (D41). Changing that needs a
     new contract before 2026-11-22.
-15. **The card is not built by a workflow.** The scheduled Claude task or a
+16. **The card is not built by a workflow.** The scheduled Claude task or a
     person builds it.
-16. **Scheduled starts mostly do not arrive.** Inside product Week 6's game
+17. **Scheduled starts mostly do not arrive.** Inside product Week 6's game
     window, 4 of 47 scheduled starts of the close workflow produced a poll
     (D44).
-17. **Not yet seen working on a runner:** the loop's hand-over, the restart
-    step, close capture, and the cohort resolver's first scheduled run. They
-    were tested locally against stand-ins.
+18. **Not yet seen working on a runner:** the restart step, close capture,
+    and the cohort resolver's first scheduled run. They were tested locally
+    against stand-ins. Seen working on 2026-10-04: the loop handing itself
+    to the next link twice with no gap, and one replay after another job
+    wrote to the branch (D38).
 
 ## 10. Where the reasons are
 
