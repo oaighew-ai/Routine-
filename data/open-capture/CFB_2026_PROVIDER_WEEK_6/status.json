@@ -4,7 +4,7 @@
   "contract": "CFB_EDGE_PROSPECTIVE_OPEN_V1",
   "decisionEffect": "NONE",
   "deliveryEffect": "NONE",
-  "generatedAt": "2026-10-04T21:24:35.109308+00:00",
+  "generatedAt": "2026-10-04T21:26:39.872838+00:00",
   "historicalRecoveryAllowed": false,
   "pollIntervalTargetSeconds": 60,
   "rows": [
@@ -1114,12 +1114,49 @@
     },
     {
       "auditGrade": false,
-      "firstEventSeenAt": null,
+      "codeRevision": "9dd9d54c7073b3f46093fe0dae62b8c724de77b9",
+      "contract": "CFB_EDGE_PROSPECTIVE_OPEN_V1",
+      "eventTicker": "KXNCAAFSPREAD-26OCT10MDOSU",
+      "evidencePath": "data/open-capture/CFB_2026_PROVIDER_WEEK_6/evidence/0061b4989ed54124b1db8b0c30a74dc7b759e576ed35b1457e7ecbe2d8f45691.json.gz",
+      "evidenceSha256": "0061b4989ed54124b1db8b0c30a74dc7b759e576ed35b1457e7ecbe2d8f45691",
+      "firstEventSeenAt": "2026-10-04T21:26:39.558239+00:00",
+      "firstValidTwoSidedQuoteTime": "2026-10-04T21:26:39.558239+00:00",
       "game": "Maryland @ Ohio State",
-      "kickoff": "2026-10-10T04:00:00.000Z",
-      "lastPollAt": "2026-10-04T21:24:35.033910+00:00",
-      "locked": false,
-      "state": "PENDING"
+      "historicalRecoveryUsed": false,
+      "kickoff": "2026-10-10T20:15:00.000Z",
+      "locked": true,
+      "marketTickers": [
+        "KXNCAAFSPREAD-26OCT10MDOSU-OSU34",
+        "KXNCAAFSPREAD-26OCT10MDOSU-OSU36"
+      ],
+      "observedAt": "2026-10-04T21:26:39.558239+00:00",
+      "openLagSeconds": 51639.558239,
+      "openingLine": -35.0,
+      "pollTime": "2026-10-04T21:26:39.558239+00:00",
+      "quoteInputs": [
+        {
+          "openTime": "2026-10-04T07:06:00Z",
+          "probability": 0.545,
+          "strike": 33.5,
+          "team": "Ohio St.",
+          "ticker": "KXNCAAFSPREAD-26OCT10MDOSU-OSU34",
+          "yesAsk": 0.56,
+          "yesBid": 0.53
+        },
+        {
+          "openTime": "2026-10-04T07:06:00Z",
+          "probability": 0.485,
+          "strike": 35.5,
+          "team": "Ohio St.",
+          "ticker": "KXNCAAFSPREAD-26OCT10MDOSU-OSU36",
+          "yesAsk": 0.49,
+          "yesBid": 0.48
+        }
+      ],
+      "schemaVersion": 1,
+      "source": "LIVE_KALSHI_POLL",
+      "state": "MISSED_TRUE_OPEN_WINDOW",
+      "venueOpenTime": "2026-10-04T07:06:00+00:00"
     },
     {
       "auditGrade": false,
@@ -2645,12 +2682,17 @@
   "stakingEffect": "NONE",
   "summary": {
     "capturedTrueOpenRows": 25,
-    "missedTrueOpenRows": 32,
-    "newTransitions": 0,
-    "pendingRows": 1,
+    "missedTrueOpenRows": 33,
+    "newTransitions": 1,
+    "pendingRows": 0,
     "slateRows": 58,
-    "terminalRows": 57
+    "terminalRows": 58
   },
-  "transitions": [],
+  "transitions": [
+    {
+      "game": "Maryland @ Ohio State",
+      "state": "MISSED_TRUE_OPEN_WINDOW"
+    }
+  ],
   "trueOpenMaximumLagSeconds": 900
 }
