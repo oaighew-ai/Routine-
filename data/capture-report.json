@@ -1,13 +1,13 @@
 {
   "schemaVersion": 1,
   "cohort": "ROUTINE_KALSHI_CAPTURE",
-  "generatedAt": "2026-10-03T21:20:02.640480+00:00",
-  "pollAt": "2026-10-03T21:20:02.445807+00:00",
+  "generatedAt": "2026-10-04T02:49:51.949573+00:00",
+  "pollAt": "2026-10-04T02:49:49.827750+00:00",
   "captureOutcome": "success",
   "freshAtGeneration": true,
-  "codeRevision": "13b0daeb7975714406200bcb03969882defcb4f7",
-  "logSha256": "5006ded2d16665b02428f783ebff46735441af9f1a1d3998ac112cb12451b112",
-  "slateSha256": "45413a92b1c3cd9684f3373affe81440d8f2580e9751003172c27f35da718f21",
+  "codeRevision": "9dd9d54c7073b3f46093fe0dae62b8c724de77b9",
+  "logSha256": "4a121eb6d202b61f52ec442c1974663f15b2bbe97a06c9786c49403c846fc935",
+  "slateSha256": "1a95c3a693768bef64d67145ccfd55af19afd41faa17fd45124a6b90c60e9dab",
   "allowDelivery": false,
   "actualStakeUnits": 0,
   "games": [
@@ -222,9 +222,15 @@
         "KXNCAAFSPREAD-26OCT03VANUGA-UGA28",
         "KXNCAAFSPREAD-26OCT03VANUGA-UGA25"
       ],
-      "observations": [],
+      "observations": [
+        {
+          "book": "kalshi",
+          "derivedHomeLine": 0.5,
+          "observedAt": "2026-10-04T02:49:49.626762+00:00",
+          "kickoff": "2026-10-10T23:30:00.000Z"
+        }
+      ],
       "exclusions": [
-        "ABSENT_FROM_LATEST_POLL",
         "DECISION_EVIDENCE_UNVERIFIED",
         "EXECUTABLE_CONTRACT_UNVERIFIED",
         "OPEN_NOT_AUDIT_GRADE_TRUE_OPEN"
@@ -300,9 +306,9 @@
       "observations": [
         {
           "book": "kalshi",
-          "derivedHomeLine": 24.4,
-          "observedAt": "2026-10-03T21:20:01.715806+00:00",
-          "kickoff": "2026-10-10T04:00:00.000Z"
+          "derivedHomeLine": 28.8,
+          "observedAt": "2026-10-04T02:49:49.626762+00:00",
+          "kickoff": "2026-10-10T16:00:00.000Z"
         }
       ],
       "exclusions": [
@@ -366,8 +372,8 @@
       "observations": [
         {
           "book": "kalshi",
-          "derivedHomeLine": 2.9,
-          "observedAt": "2026-10-03T21:20:01.715806+00:00",
+          "derivedHomeLine": 3.0,
+          "observedAt": "2026-10-04T02:49:49.626762+00:00",
           "kickoff": "2026-10-07T23:00:00.000Z"
         }
       ],
@@ -447,9 +453,9 @@
       "observations": [
         {
           "book": "kalshi",
-          "derivedHomeLine": 54.6,
-          "observedAt": "2026-10-03T21:20:01.715806+00:00",
-          "kickoff": "2026-10-10T04:00:00.000Z"
+          "derivedHomeLine": 54.4,
+          "observedAt": "2026-10-04T02:49:49.626762+00:00",
+          "kickoff": "2026-10-10T23:00:00.000Z"
         }
       ],
       "exclusions": [
@@ -582,8 +588,8 @@
       "observations": [
         {
           "book": "kalshi",
-          "derivedHomeLine": -4.0,
-          "observedAt": "2026-10-03T21:20:01.715806+00:00",
+          "derivedHomeLine": -3.8,
+          "observedAt": "2026-10-04T02:49:49.626762+00:00",
           "kickoff": "2026-10-07T23:30:00.000Z"
         }
       ],
@@ -807,8 +813,8 @@
       "observations": [
         {
           "book": "kalshi",
-          "derivedHomeLine": -9.8,
-          "observedAt": "2026-10-03T21:20:01.715806+00:00",
+          "derivedHomeLine": -10.3,
+          "observedAt": "2026-10-04T02:49:49.626762+00:00",
           "kickoff": "2026-10-07T00:00:00.000Z"
         }
       ],
@@ -879,18 +885,26 @@
       "game": "Texas @ Oklahoma",
       "action": "NO BET",
       "stakeUnits": 0,
-      "openClassification": "unverified",
-      "auditGradeOpen": false,
-      "firstSeen": null,
-      "venueOpenTime": null,
-      "openLagSeconds": null,
-      "marketTickers": [],
-      "observations": [],
+      "openClassification": "true_open",
+      "auditGradeOpen": true,
+      "firstSeen": "2026-10-04T01:19:19.518999+00:00",
+      "venueOpenTime": "2026-10-04T01:06:00+00:00",
+      "openLagSeconds": 799.518999,
+      "marketTickers": [
+        "KXNCAAFSPREAD-26OCT10TEXOKLA-TEX11",
+        "KXNCAAFSPREAD-26OCT10TEXOKLA-TEX10"
+      ],
+      "observations": [
+        {
+          "book": "kalshi",
+          "derivedHomeLine": 9.6,
+          "observedAt": "2026-10-04T02:49:49.626762+00:00",
+          "kickoff": "2026-10-10T19:30:00.000Z"
+        }
+      ],
       "exclusions": [
-        "ABSENT_FROM_LATEST_POLL",
         "DECISION_EVIDENCE_UNVERIFIED",
-        "EXECUTABLE_CONTRACT_UNVERIFIED",
-        "OPEN_NOT_AUDIT_GRADE_TRUE_OPEN"
+        "EXECUTABLE_CONTRACT_UNVERIFIED"
       ]
     },
     {
@@ -990,18 +1004,20 @@
       "game": "UCLA @ Oregon",
       "action": "NO BET",
       "stakeUnits": 0,
-      "openClassification": "unverified",
-      "auditGradeOpen": false,
-      "firstSeen": null,
-      "venueOpenTime": null,
-      "openLagSeconds": null,
-      "marketTickers": [],
+      "openClassification": "true_open",
+      "auditGradeOpen": true,
+      "firstSeen": "2026-10-04T01:19:19.518999+00:00",
+      "venueOpenTime": "2026-10-04T01:06:00+00:00",
+      "openLagSeconds": 799.518999,
+      "marketTickers": [
+        "KXNCAAFSPREAD-26OCT10UCLAORE-ORE10",
+        "KXNCAAFSPREAD-26OCT10UCLAORE-ORE13"
+      ],
       "observations": [],
       "exclusions": [
         "ABSENT_FROM_LATEST_POLL",
         "DECISION_EVIDENCE_UNVERIFIED",
-        "EXECUTABLE_CONTRACT_UNVERIFIED",
-        "OPEN_NOT_AUDIT_GRADE_TRUE_OPEN"
+        "EXECUTABLE_CONTRACT_UNVERIFIED"
       ]
     },
     {
@@ -1116,10 +1132,11 @@
   "openEvidence": {
     "trueOpenToleranceSeconds": 900,
     "classificationCounts": {
-      "unverified": 49,
-      "first_seen": 9
+      "unverified": 47,
+      "first_seen": 9,
+      "true_open": 2
     },
-    "auditGradeCount": 0,
+    "auditGradeCount": 2,
     "policy": "Only true_open may enter CLV promotion or stopping evidence."
   },
   "limitations": [
