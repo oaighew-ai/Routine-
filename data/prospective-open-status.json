@@ -4,7 +4,7 @@
   "contract": "CFB_EDGE_PROSPECTIVE_OPEN_V1",
   "decisionEffect": "NONE",
   "deliveryEffect": "NONE",
-  "generatedAt": "2026-10-04T19:59:15.467796+00:00",
+  "generatedAt": "2026-10-04T20:05:26.261102+00:00",
   "historicalRecoveryAllowed": false,
   "pollIntervalTargetSeconds": 60,
   "rows": [
@@ -148,12 +148,49 @@
     },
     {
       "auditGrade": false,
-      "firstEventSeenAt": null,
+      "codeRevision": "9dd9d54c7073b3f46093fe0dae62b8c724de77b9",
+      "contract": "CFB_EDGE_PROSPECTIVE_OPEN_V1",
+      "eventTicker": "KXNCAAFSPREAD-26OCT10BSUFRES",
+      "evidencePath": "data/open-capture/CFB_2026_PROVIDER_WEEK_6/evidence/ce60e10838d89fb6ebf09b8b8297ec4056dc90b6a71da28e427742791e587030.json.gz",
+      "evidenceSha256": "ce60e10838d89fb6ebf09b8b8297ec4056dc90b6a71da28e427742791e587030",
+      "firstEventSeenAt": "2026-10-04T20:05:25.789569+00:00",
+      "firstValidTwoSidedQuoteTime": "2026-10-04T20:05:25.789569+00:00",
       "game": "Boise State @ Fresno State",
+      "historicalRecoveryUsed": false,
       "kickoff": "2026-10-11T02:30:00.000Z",
-      "lastPollAt": "2026-10-04T19:59:15.393946+00:00",
-      "locked": false,
-      "state": "PENDING"
+      "locked": true,
+      "marketTickers": [
+        "KXNCAAFSPREAD-26OCT10BSUFRES-BSU8",
+        "KXNCAAFSPREAD-26OCT10BSUFRES-BSU7"
+      ],
+      "observedAt": "2026-10-04T20:05:25.789569+00:00",
+      "openLagSeconds": 35965.789569,
+      "openingLine": 7.2,
+      "pollTime": "2026-10-04T20:05:25.789569+00:00",
+      "quoteInputs": [
+        {
+          "openTime": "2026-10-04T10:06:00Z",
+          "probability": 0.52,
+          "strike": 7.5,
+          "team": "Boise St.",
+          "ticker": "KXNCAAFSPREAD-26OCT10BSUFRES-BSU8",
+          "yesAsk": 0.49,
+          "yesBid": 0.47
+        },
+        {
+          "openTime": "2026-10-04T10:06:00Z",
+          "probability": 0.43999999999999995,
+          "strike": 6.5,
+          "team": "Boise St.",
+          "ticker": "KXNCAAFSPREAD-26OCT10BSUFRES-BSU7",
+          "yesAsk": 0.61,
+          "yesBid": 0.51
+        }
+      ],
+      "schemaVersion": 1,
+      "source": "LIVE_KALSHI_POLL",
+      "state": "MISSED_TRUE_OPEN_WINDOW",
+      "venueOpenTime": "2026-10-04T10:06:00+00:00"
     },
     {
       "auditGrade": true,
@@ -252,7 +289,7 @@
       "firstEventSeenAt": null,
       "game": "Charlotte @ North Texas",
       "kickoff": "2026-10-10T04:00:00.000Z",
-      "lastPollAt": "2026-10-04T19:59:15.393946+00:00",
+      "lastPollAt": "2026-10-04T20:05:26.187455+00:00",
       "locked": false,
       "state": "PENDING"
     },
@@ -1043,7 +1080,7 @@
       "firstEventSeenAt": null,
       "game": "Maryland @ Ohio State",
       "kickoff": "2026-10-10T04:00:00.000Z",
-      "lastPollAt": "2026-10-04T19:59:15.393946+00:00",
+      "lastPollAt": "2026-10-04T20:05:26.187455+00:00",
       "locked": false,
       "state": "PENDING"
     },
@@ -2571,15 +2608,15 @@
   "stakingEffect": "NONE",
   "summary": {
     "capturedTrueOpenRows": 25,
-    "missedTrueOpenRows": 30,
+    "missedTrueOpenRows": 31,
     "newTransitions": 1,
-    "pendingRows": 3,
+    "pendingRows": 2,
     "slateRows": 58,
-    "terminalRows": 55
+    "terminalRows": 56
   },
   "transitions": [
     {
-      "game": "North Dakota State @ UNLV",
+      "game": "Boise State @ Fresno State",
       "state": "MISSED_TRUE_OPEN_WINDOW"
     }
   ],
