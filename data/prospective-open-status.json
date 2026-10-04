@@ -4,7 +4,7 @@
   "contract": "CFB_EDGE_PROSPECTIVE_OPEN_V1",
   "decisionEffect": "NONE",
   "deliveryEffect": "NONE",
-  "generatedAt": "2026-10-04T19:58:12.101512+00:00",
+  "generatedAt": "2026-10-04T19:59:15.467796+00:00",
   "historicalRecoveryAllowed": false,
   "pollIntervalTargetSeconds": 60,
   "rows": [
@@ -151,7 +151,7 @@
       "firstEventSeenAt": null,
       "game": "Boise State @ Fresno State",
       "kickoff": "2026-10-11T02:30:00.000Z",
-      "lastPollAt": "2026-10-04T19:58:12.027339+00:00",
+      "lastPollAt": "2026-10-04T19:59:15.393946+00:00",
       "locked": false,
       "state": "PENDING"
     },
@@ -252,7 +252,7 @@
       "firstEventSeenAt": null,
       "game": "Charlotte @ North Texas",
       "kickoff": "2026-10-10T04:00:00.000Z",
-      "lastPollAt": "2026-10-04T19:58:12.027339+00:00",
+      "lastPollAt": "2026-10-04T19:59:15.393946+00:00",
       "locked": false,
       "state": "PENDING"
     },
@@ -1043,7 +1043,7 @@
       "firstEventSeenAt": null,
       "game": "Maryland @ Ohio State",
       "kickoff": "2026-10-10T04:00:00.000Z",
-      "lastPollAt": "2026-10-04T19:58:12.027339+00:00",
+      "lastPollAt": "2026-10-04T19:59:15.393946+00:00",
       "locked": false,
       "state": "PENDING"
     },
@@ -1325,12 +1325,49 @@
     },
     {
       "auditGrade": false,
-      "firstEventSeenAt": null,
+      "codeRevision": "9dd9d54c7073b3f46093fe0dae62b8c724de77b9",
+      "contract": "CFB_EDGE_PROSPECTIVE_OPEN_V1",
+      "eventTicker": "KXNCAAFSPREAD-26OCT10NDSUUNLV",
+      "evidencePath": "data/open-capture/CFB_2026_PROVIDER_WEEK_6/evidence/e2422500f109b54014d78d0776362fea71ced0924d2c9759df660e060d9af402.json.gz",
+      "evidenceSha256": "e2422500f109b54014d78d0776362fea71ced0924d2c9759df660e060d9af402",
+      "firstEventSeenAt": "2026-10-04T19:59:14.873942+00:00",
+      "firstValidTwoSidedQuoteTime": "2026-10-04T19:59:14.873942+00:00",
       "game": "North Dakota State @ UNLV",
+      "historicalRecoveryUsed": false,
       "kickoff": "2026-10-10T23:00:00.000Z",
-      "lastPollAt": "2026-10-04T19:58:12.027339+00:00",
-      "locked": false,
-      "state": "PENDING"
+      "locked": true,
+      "marketTickers": [
+        "KXNCAAFSPREAD-26OCT10NDSUUNLV-NDSU6",
+        "KXNCAAFSPREAD-26OCT10NDSUUNLV-NDSU4"
+      ],
+      "observedAt": "2026-10-04T19:59:14.873942+00:00",
+      "openLagSeconds": 3194.873942,
+      "openingLine": 3.5,
+      "pollTime": "2026-10-04T19:59:14.873942+00:00",
+      "quoteInputs": [
+        {
+          "openTime": "2026-10-04T19:06:00Z",
+          "probability": 0.55,
+          "strike": 5.5,
+          "team": "North Dakota St.",
+          "ticker": "KXNCAAFSPREAD-26OCT10NDSUUNLV-NDSU6",
+          "yesAsk": 0.52,
+          "yesBid": 0.38
+        },
+        {
+          "openTime": "2026-10-04T19:06:00Z",
+          "probability": 0.5,
+          "strike": 3.5,
+          "team": "North Dakota St.",
+          "ticker": "KXNCAAFSPREAD-26OCT10NDSUUNLV-NDSU4",
+          "yesAsk": 0.52,
+          "yesBid": 0.48
+        }
+      ],
+      "schemaVersion": 1,
+      "source": "LIVE_KALSHI_POLL",
+      "state": "MISSED_TRUE_OPEN_WINDOW",
+      "venueOpenTime": "2026-10-04T19:06:00+00:00"
     },
     {
       "auditGrade": true,
@@ -2534,12 +2571,17 @@
   "stakingEffect": "NONE",
   "summary": {
     "capturedTrueOpenRows": 25,
-    "missedTrueOpenRows": 29,
-    "newTransitions": 0,
-    "pendingRows": 4,
+    "missedTrueOpenRows": 30,
+    "newTransitions": 1,
+    "pendingRows": 3,
     "slateRows": 58,
-    "terminalRows": 54
+    "terminalRows": 55
   },
-  "transitions": [],
+  "transitions": [
+    {
+      "game": "North Dakota State @ UNLV",
+      "state": "MISSED_TRUE_OPEN_WINDOW"
+    }
+  ],
   "trueOpenMaximumLagSeconds": 900
 }
