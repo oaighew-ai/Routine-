@@ -4,7 +4,7 @@
   "contract": "CFB_EDGE_PROSPECTIVE_OPEN_V1",
   "decisionEffect": "NONE",
   "deliveryEffect": "NONE",
-  "generatedAt": "2026-10-04T07:06:26.717475+00:00",
+  "generatedAt": "2026-10-04T07:09:31.209596+00:00",
   "historicalRecoveryAllowed": false,
   "pollIntervalTargetSeconds": 60,
   "rows": [
@@ -13,7 +13,7 @@
       "firstEventSeenAt": null,
       "game": "Air Force @ Northern Illinois",
       "kickoff": "2026-10-10T23:30:00.000Z",
-      "lastPollAt": "2026-10-04T07:06:26.647023+00:00",
+      "lastPollAt": "2026-10-04T07:09:31.139784+00:00",
       "locked": false,
       "state": "PENDING"
     },
@@ -22,7 +22,7 @@
       "firstEventSeenAt": null,
       "game": "Arizona @ West Virginia",
       "kickoff": "2026-10-10T04:00:00.000Z",
-      "lastPollAt": "2026-10-04T07:06:26.647023+00:00",
+      "lastPollAt": "2026-10-04T07:09:31.139784+00:00",
       "locked": false,
       "state": "PENDING"
     },
@@ -31,7 +31,7 @@
       "firstEventSeenAt": null,
       "game": "Ball State @ Northwestern",
       "kickoff": "2026-10-10T04:00:00.000Z",
-      "lastPollAt": "2026-10-04T07:06:26.647023+00:00",
+      "lastPollAt": "2026-10-04T07:09:31.139784+00:00",
       "locked": false,
       "state": "PENDING"
     },
@@ -40,7 +40,7 @@
       "firstEventSeenAt": null,
       "game": "Boise State @ Fresno State",
       "kickoff": "2026-10-11T02:30:00.000Z",
-      "lastPollAt": "2026-10-04T07:06:26.647023+00:00",
+      "lastPollAt": "2026-10-04T07:09:31.139784+00:00",
       "locked": false,
       "state": "PENDING"
     },
@@ -49,7 +49,7 @@
       "firstEventSeenAt": null,
       "game": "Buffalo @ Toledo",
       "kickoff": "2026-10-10T04:00:00.000Z",
-      "lastPollAt": "2026-10-04T07:06:26.647023+00:00",
+      "lastPollAt": "2026-10-04T07:09:31.139784+00:00",
       "locked": false,
       "state": "PENDING"
     },
@@ -58,7 +58,7 @@
       "firstEventSeenAt": null,
       "game": "Central Michigan @ Ohio",
       "kickoff": "2026-10-10T04:00:00.000Z",
-      "lastPollAt": "2026-10-04T07:06:26.647023+00:00",
+      "lastPollAt": "2026-10-04T07:09:31.139784+00:00",
       "locked": false,
       "state": "PENDING"
     },
@@ -67,7 +67,7 @@
       "firstEventSeenAt": null,
       "game": "Charlotte @ North Texas",
       "kickoff": "2026-10-10T04:00:00.000Z",
-      "lastPollAt": "2026-10-04T07:06:26.647023+00:00",
+      "lastPollAt": "2026-10-04T07:09:31.139784+00:00",
       "locked": false,
       "state": "PENDING"
     },
@@ -76,25 +76,62 @@
       "firstEventSeenAt": null,
       "game": "Coastal Carolina @ Marshall",
       "kickoff": "2026-10-10T04:00:00.000Z",
-      "lastPollAt": "2026-10-04T07:06:26.647023+00:00",
+      "lastPollAt": "2026-10-04T07:09:31.139784+00:00",
       "locked": false,
       "state": "PENDING"
     },
     {
-      "auditGrade": false,
-      "firstEventSeenAt": null,
+      "auditGrade": true,
+      "codeRevision": "9dd9d54c7073b3f46093fe0dae62b8c724de77b9",
+      "contract": "CFB_EDGE_PROSPECTIVE_OPEN_V1",
+      "eventTicker": "KXNCAAFSPREAD-26OCT10DUKEGT",
+      "evidencePath": "data/open-capture/CFB_2026_PROVIDER_WEEK_6/evidence/893bc5c4293d7ba9db3926c54554e398728a1ab99abdf87f9c135a777fd99c11.json.gz",
+      "evidenceSha256": "893bc5c4293d7ba9db3926c54554e398728a1ab99abdf87f9c135a777fd99c11",
+      "firstEventSeenAt": "2026-10-04T07:09:30.952165+00:00",
+      "firstValidTwoSidedQuoteTime": "2026-10-04T07:09:30.952165+00:00",
       "game": "Duke @ Georgia Tech",
-      "kickoff": "2026-10-10T04:00:00.000Z",
-      "lastPollAt": "2026-10-04T07:06:26.647023+00:00",
-      "locked": false,
-      "state": "PENDING"
+      "historicalRecoveryUsed": false,
+      "kickoff": "2026-10-10T19:30:00.000Z",
+      "locked": true,
+      "marketTickers": [
+        "KXNCAAFSPREAD-26OCT10DUKEGT-DUKE7",
+        "KXNCAAFSPREAD-26OCT10DUKEGT-DUKE4"
+      ],
+      "observedAt": "2026-10-04T07:09:30.952165+00:00",
+      "openLagSeconds": 210.952165,
+      "openingLine": 6.0,
+      "pollTime": "2026-10-04T07:09:30.952165+00:00",
+      "quoteInputs": [
+        {
+          "openTime": "2026-10-04T07:06:00Z",
+          "probability": 0.51,
+          "strike": 6.5,
+          "team": "Duke",
+          "ticker": "KXNCAAFSPREAD-26OCT10DUKEGT-DUKE7",
+          "yesAsk": 0.54,
+          "yesBid": 0.44
+        },
+        {
+          "openTime": "2026-10-04T07:06:00Z",
+          "probability": 0.44999999999999996,
+          "strike": 3.5,
+          "team": "Duke",
+          "ticker": "KXNCAAFSPREAD-26OCT10DUKEGT-DUKE4",
+          "yesAsk": 0.6,
+          "yesBid": 0.5
+        }
+      ],
+      "schemaVersion": 1,
+      "source": "LIVE_KALSHI_POLL",
+      "state": "CAPTURED_TRUE_OPEN",
+      "venueOpenTime": "2026-10-04T07:06:00+00:00"
     },
     {
       "auditGrade": false,
       "firstEventSeenAt": null,
       "game": "Eastern Michigan @ Akron",
       "kickoff": "2026-10-10T19:30:00.000Z",
-      "lastPollAt": "2026-10-04T07:06:26.647023+00:00",
+      "lastPollAt": "2026-10-04T07:09:31.139784+00:00",
       "locked": false,
       "state": "PENDING"
     },
@@ -195,7 +232,7 @@
       "firstEventSeenAt": null,
       "game": "Hawai'i @ Arizona State",
       "kickoff": "2026-10-10T04:00:00.000Z",
-      "lastPollAt": "2026-10-04T07:06:26.647023+00:00",
+      "lastPollAt": "2026-10-04T07:09:31.139784+00:00",
       "locked": false,
       "state": "PENDING"
     },
@@ -204,7 +241,7 @@
       "firstEventSeenAt": null,
       "game": "Houston @ Kansas State",
       "kickoff": "2026-10-10T04:00:00.000Z",
-      "lastPollAt": "2026-10-04T07:06:26.647023+00:00",
+      "lastPollAt": "2026-10-04T07:09:31.139784+00:00",
       "locked": false,
       "state": "PENDING"
     },
@@ -213,7 +250,7 @@
       "firstEventSeenAt": null,
       "game": "Illinois @ Michigan State",
       "kickoff": "2026-10-10T04:00:00.000Z",
-      "lastPollAt": "2026-10-04T07:06:26.647023+00:00",
+      "lastPollAt": "2026-10-04T07:09:31.139784+00:00",
       "locked": false,
       "state": "PENDING"
     },
@@ -406,7 +443,7 @@
       "firstEventSeenAt": null,
       "game": "James Madison @ Georgia Southern",
       "kickoff": "2026-10-10T04:00:00.000Z",
-      "lastPollAt": "2026-10-04T07:06:26.647023+00:00",
+      "lastPollAt": "2026-10-04T07:09:31.139784+00:00",
       "locked": false,
       "state": "PENDING"
     },
@@ -415,7 +452,7 @@
       "firstEventSeenAt": null,
       "game": "Kansas @ Utah",
       "kickoff": "2026-10-10T04:00:00.000Z",
-      "lastPollAt": "2026-10-04T07:06:26.647023+00:00",
+      "lastPollAt": "2026-10-04T07:09:31.139784+00:00",
       "locked": false,
       "state": "PENDING"
     },
@@ -424,7 +461,7 @@
       "firstEventSeenAt": null,
       "game": "Kent State @ Western Michigan",
       "kickoff": "2026-10-10T04:00:00.000Z",
-      "lastPollAt": "2026-10-04T07:06:26.647023+00:00",
+      "lastPollAt": "2026-10-04T07:09:31.139784+00:00",
       "locked": false,
       "state": "PENDING"
     },
@@ -479,7 +516,7 @@
       "firstEventSeenAt": null,
       "game": "Louisiana @ Louisiana Tech",
       "kickoff": "2026-10-10T04:00:00.000Z",
-      "lastPollAt": "2026-10-04T07:06:26.647023+00:00",
+      "lastPollAt": "2026-10-04T07:09:31.139784+00:00",
       "locked": false,
       "state": "PENDING"
     },
@@ -488,7 +525,7 @@
       "firstEventSeenAt": null,
       "game": "Maryland @ Ohio State",
       "kickoff": "2026-10-10T04:00:00.000Z",
-      "lastPollAt": "2026-10-04T07:06:26.647023+00:00",
+      "lastPollAt": "2026-10-04T07:09:31.139784+00:00",
       "locked": false,
       "state": "PENDING"
     },
@@ -497,25 +534,62 @@
       "firstEventSeenAt": null,
       "game": "Miami (OH) @ Massachusetts",
       "kickoff": "2026-10-10T04:00:00.000Z",
-      "lastPollAt": "2026-10-04T07:06:26.647023+00:00",
+      "lastPollAt": "2026-10-04T07:09:31.139784+00:00",
       "locked": false,
       "state": "PENDING"
     },
     {
-      "auditGrade": false,
-      "firstEventSeenAt": null,
+      "auditGrade": true,
+      "codeRevision": "9dd9d54c7073b3f46093fe0dae62b8c724de77b9",
+      "contract": "CFB_EDGE_PROSPECTIVE_OPEN_V1",
+      "eventTicker": "KXNCAAFSPREAD-26OCT10MINNPUR",
+      "evidencePath": "data/open-capture/CFB_2026_PROVIDER_WEEK_6/evidence/eade00257c9b9740b7fefe7909fd2152c39b08ffc85333237b765406525c1360.json.gz",
+      "evidenceSha256": "eade00257c9b9740b7fefe7909fd2152c39b08ffc85333237b765406525c1360",
+      "firstEventSeenAt": "2026-10-04T07:09:30.952165+00:00",
+      "firstValidTwoSidedQuoteTime": "2026-10-04T07:09:30.952165+00:00",
       "game": "Minnesota @ Purdue",
-      "kickoff": "2026-10-10T04:00:00.000Z",
-      "lastPollAt": "2026-10-04T07:06:26.647023+00:00",
-      "locked": false,
-      "state": "PENDING"
+      "historicalRecoveryUsed": false,
+      "kickoff": "2026-10-11T00:00:00.000Z",
+      "locked": true,
+      "marketTickers": [
+        "KXNCAAFSPREAD-26OCT10MINNPUR-MINN8",
+        "KXNCAAFSPREAD-26OCT10MINNPUR-MINN5"
+      ],
+      "observedAt": "2026-10-04T07:09:30.952165+00:00",
+      "openLagSeconds": 210.952165,
+      "openingLine": 4.5,
+      "pollTime": "2026-10-04T07:09:30.952165+00:00",
+      "quoteInputs": [
+        {
+          "openTime": "2026-10-04T07:06:00Z",
+          "probability": 0.5800000000000001,
+          "strike": 7.5,
+          "team": "Minnesota",
+          "ticker": "KXNCAAFSPREAD-26OCT10MINNPUR-MINN8",
+          "yesAsk": 0.47,
+          "yesBid": 0.37
+        },
+        {
+          "openTime": "2026-10-04T07:06:00Z",
+          "probability": 0.5,
+          "strike": 4.5,
+          "team": "Minnesota",
+          "ticker": "KXNCAAFSPREAD-26OCT10MINNPUR-MINN5",
+          "yesAsk": 0.55,
+          "yesBid": 0.45
+        }
+      ],
+      "schemaVersion": 1,
+      "source": "LIVE_KALSHI_POLL",
+      "state": "CAPTURED_TRUE_OPEN",
+      "venueOpenTime": "2026-10-04T07:06:00+00:00"
     },
     {
       "auditGrade": false,
       "firstEventSeenAt": null,
       "game": "Missouri State @ Western Kentucky",
       "kickoff": "2026-10-08T23:00:00.000Z",
-      "lastPollAt": "2026-10-04T07:06:26.647023+00:00",
+      "lastPollAt": "2026-10-04T07:09:31.139784+00:00",
       "locked": false,
       "state": "PENDING"
     },
@@ -524,7 +598,7 @@
       "firstEventSeenAt": null,
       "game": "Nevada @ UTEP",
       "kickoff": "2026-10-10T04:00:00.000Z",
-      "lastPollAt": "2026-10-04T07:06:26.647023+00:00",
+      "lastPollAt": "2026-10-04T07:09:31.139784+00:00",
       "locked": false,
       "state": "PENDING"
     },
@@ -579,7 +653,7 @@
       "firstEventSeenAt": null,
       "game": "North Carolina @ Pittsburgh",
       "kickoff": "2026-10-10T04:00:00.000Z",
-      "lastPollAt": "2026-10-04T07:06:26.647023+00:00",
+      "lastPollAt": "2026-10-04T07:09:31.139784+00:00",
       "locked": false,
       "state": "PENDING"
     },
@@ -588,7 +662,7 @@
       "firstEventSeenAt": null,
       "game": "North Dakota State @ UNLV",
       "kickoff": "2026-10-10T23:00:00.000Z",
-      "lastPollAt": "2026-10-04T07:06:26.647023+00:00",
+      "lastPollAt": "2026-10-04T07:09:31.139784+00:00",
       "locked": false,
       "state": "PENDING"
     },
@@ -597,25 +671,62 @@
       "firstEventSeenAt": null,
       "game": "Old Dominion @ App State",
       "kickoff": "2026-10-10T04:00:00.000Z",
-      "lastPollAt": "2026-10-04T07:06:26.647023+00:00",
+      "lastPollAt": "2026-10-04T07:09:31.139784+00:00",
       "locked": false,
       "state": "PENDING"
     },
     {
-      "auditGrade": false,
-      "firstEventSeenAt": null,
+      "auditGrade": true,
+      "codeRevision": "9dd9d54c7073b3f46093fe0dae62b8c724de77b9",
+      "contract": "CFB_EDGE_PROSPECTIVE_OPEN_V1",
+      "eventTicker": "KXNCAAFSPREAD-26OCT10MISSVAN",
+      "evidencePath": "data/open-capture/CFB_2026_PROVIDER_WEEK_6/evidence/ec77a38f4443ec1f534f3d53499bd85c60bf72b4f846f0221b605089d7aa7638.json.gz",
+      "evidenceSha256": "ec77a38f4443ec1f534f3d53499bd85c60bf72b4f846f0221b605089d7aa7638",
+      "firstEventSeenAt": "2026-10-04T07:09:30.952165+00:00",
+      "firstValidTwoSidedQuoteTime": "2026-10-04T07:09:30.952165+00:00",
       "game": "Ole Miss @ Vanderbilt",
-      "kickoff": "2026-10-10T04:00:00.000Z",
-      "lastPollAt": "2026-10-04T07:06:26.647023+00:00",
-      "locked": false,
-      "state": "PENDING"
+      "historicalRecoveryUsed": false,
+      "kickoff": "2026-10-10T19:30:00.000Z",
+      "locked": true,
+      "marketTickers": [
+        "KXNCAAFSPREAD-26OCT10MISSVAN-MISS14",
+        "KXNCAAFSPREAD-26OCT10MISSVAN-MISS12"
+      ],
+      "observedAt": "2026-10-04T07:09:30.952165+00:00",
+      "openLagSeconds": 210.952165,
+      "openingLine": 11.5,
+      "pollTime": "2026-10-04T07:09:30.952165+00:00",
+      "quoteInputs": [
+        {
+          "openTime": "2026-10-04T07:06:00Z",
+          "probability": 0.53,
+          "strike": 13.5,
+          "team": "Ole Miss",
+          "ticker": "KXNCAAFSPREAD-26OCT10MISSVAN-MISS14",
+          "yesAsk": 0.52,
+          "yesBid": 0.42
+        },
+        {
+          "openTime": "2026-10-04T07:06:00Z",
+          "probability": 0.5,
+          "strike": 11.5,
+          "team": "Ole Miss",
+          "ticker": "KXNCAAFSPREAD-26OCT10MISSVAN-MISS12",
+          "yesAsk": 0.55,
+          "yesBid": 0.45
+        }
+      ],
+      "schemaVersion": 1,
+      "source": "LIVE_KALSHI_POLL",
+      "state": "CAPTURED_TRUE_OPEN",
+      "venueOpenTime": "2026-10-04T07:06:00+00:00"
     },
     {
       "auditGrade": false,
       "firstEventSeenAt": null,
       "game": "Rice @ East Carolina",
       "kickoff": "2026-10-10T04:00:00.000Z",
-      "lastPollAt": "2026-10-04T07:06:26.647023+00:00",
+      "lastPollAt": "2026-10-04T07:09:31.139784+00:00",
       "locked": false,
       "state": "PENDING"
     },
@@ -624,25 +735,62 @@
       "firstEventSeenAt": null,
       "game": "Sacramento State @ Bowling Green",
       "kickoff": "2026-10-10T04:00:00.000Z",
-      "lastPollAt": "2026-10-04T07:06:26.647023+00:00",
+      "lastPollAt": "2026-10-04T07:09:31.139784+00:00",
       "locked": false,
       "state": "PENDING"
     },
     {
-      "auditGrade": false,
-      "firstEventSeenAt": null,
+      "auditGrade": true,
+      "codeRevision": "9dd9d54c7073b3f46093fe0dae62b8c724de77b9",
+      "contract": "CFB_EDGE_PROSPECTIVE_OPEN_V1",
+      "eventTicker": "KXNCAAFSPREAD-26OCT08SHSULIB",
+      "evidencePath": "data/open-capture/CFB_2026_PROVIDER_WEEK_6/evidence/d43746510c9d124970b7dc1f13716b4f47940ba9206e4ed1d7d86dc487baaefc.json.gz",
+      "evidenceSha256": "d43746510c9d124970b7dc1f13716b4f47940ba9206e4ed1d7d86dc487baaefc",
+      "firstEventSeenAt": "2026-10-04T07:09:30.952165+00:00",
+      "firstValidTwoSidedQuoteTime": "2026-10-04T07:09:30.952165+00:00",
       "game": "Sam Houston @ Liberty",
+      "historicalRecoveryUsed": false,
       "kickoff": "2026-10-08T23:00:00.000Z",
-      "lastPollAt": "2026-10-04T07:06:26.647023+00:00",
-      "locked": false,
-      "state": "PENDING"
+      "locked": true,
+      "marketTickers": [
+        "KXNCAAFSPREAD-26OCT08SHSULIB-LIB14",
+        "KXNCAAFSPREAD-26OCT08SHSULIB-LIB17"
+      ],
+      "observedAt": "2026-10-04T07:09:30.952165+00:00",
+      "openLagSeconds": 210.952165,
+      "openingLine": -14.0,
+      "pollTime": "2026-10-04T07:09:30.952165+00:00",
+      "quoteInputs": [
+        {
+          "openTime": "2026-10-04T07:06:00Z",
+          "probability": 0.51,
+          "strike": 13.5,
+          "team": "Liberty",
+          "ticker": "KXNCAAFSPREAD-26OCT08SHSULIB-LIB14",
+          "yesAsk": 0.56,
+          "yesBid": 0.46
+        },
+        {
+          "openTime": "2026-10-04T07:06:00Z",
+          "probability": 0.45,
+          "strike": 16.5,
+          "team": "Liberty",
+          "ticker": "KXNCAAFSPREAD-26OCT08SHSULIB-LIB17",
+          "yesAsk": 0.5,
+          "yesBid": 0.4
+        }
+      ],
+      "schemaVersion": 1,
+      "source": "LIVE_KALSHI_POLL",
+      "state": "CAPTURED_TRUE_OPEN",
+      "venueOpenTime": "2026-10-04T07:06:00+00:00"
     },
     {
       "auditGrade": false,
       "firstEventSeenAt": null,
       "game": "San Diego State @ Oregon State",
       "kickoff": "2026-10-10T22:00:00.000Z",
-      "lastPollAt": "2026-10-04T07:06:26.647023+00:00",
+      "lastPollAt": "2026-10-04T07:09:31.139784+00:00",
       "locked": false,
       "state": "PENDING"
     },
@@ -651,7 +799,7 @@
       "firstEventSeenAt": null,
       "game": "South Alabama @ Arkansas State",
       "kickoff": "2026-10-08T23:30:00.000Z",
-      "lastPollAt": "2026-10-04T07:06:26.647023+00:00",
+      "lastPollAt": "2026-10-04T07:09:31.139784+00:00",
       "locked": false,
       "state": "PENDING"
     },
@@ -660,7 +808,7 @@
       "firstEventSeenAt": null,
       "game": "South Carolina @ Florida",
       "kickoff": "2026-10-10T04:00:00.000Z",
-      "lastPollAt": "2026-10-04T07:06:26.647023+00:00",
+      "lastPollAt": "2026-10-04T07:09:31.139784+00:00",
       "locked": false,
       "state": "PENDING"
     },
@@ -669,7 +817,7 @@
       "firstEventSeenAt": null,
       "game": "South Florida @ UTSA",
       "kickoff": "2026-10-08T23:30:00.000Z",
-      "lastPollAt": "2026-10-04T07:06:26.647023+00:00",
+      "lastPollAt": "2026-10-04T07:09:31.139784+00:00",
       "locked": false,
       "state": "PENDING"
     },
@@ -770,18 +918,55 @@
       "firstEventSeenAt": null,
       "game": "Syracuse @ Virginia",
       "kickoff": "2026-10-10T04:00:00.000Z",
-      "lastPollAt": "2026-10-04T07:06:26.647023+00:00",
+      "lastPollAt": "2026-10-04T07:09:31.139784+00:00",
       "locked": false,
       "state": "PENDING"
     },
     {
-      "auditGrade": false,
-      "firstEventSeenAt": null,
+      "auditGrade": true,
+      "codeRevision": "9dd9d54c7073b3f46093fe0dae62b8c724de77b9",
+      "contract": "CFB_EDGE_PROSPECTIVE_OPEN_V1",
+      "eventTicker": "KXNCAAFSPREAD-26OCT10TENNARK",
+      "evidencePath": "data/open-capture/CFB_2026_PROVIDER_WEEK_6/evidence/4ee30cecae4306942a219eefb050e82d80bde6e8b87dd364d35c362ae9ce08ad.json.gz",
+      "evidenceSha256": "4ee30cecae4306942a219eefb050e82d80bde6e8b87dd364d35c362ae9ce08ad",
+      "firstEventSeenAt": "2026-10-04T07:09:30.952165+00:00",
+      "firstValidTwoSidedQuoteTime": "2026-10-04T07:09:30.952165+00:00",
       "game": "Tennessee @ Arkansas",
-      "kickoff": "2026-10-10T04:00:00.000Z",
-      "lastPollAt": "2026-10-04T07:06:26.647023+00:00",
-      "locked": false,
-      "state": "PENDING"
+      "historicalRecoveryUsed": false,
+      "kickoff": "2026-10-10T20:15:00.000Z",
+      "locked": true,
+      "marketTickers": [
+        "KXNCAAFSPREAD-26OCT10TENNARK-TENN18",
+        "KXNCAAFSPREAD-26OCT10TENNARK-TENN15"
+      ],
+      "observedAt": "2026-10-04T07:09:30.952165+00:00",
+      "openLagSeconds": 210.952165,
+      "openingLine": 14.5,
+      "pollTime": "2026-10-04T07:09:30.952165+00:00",
+      "quoteInputs": [
+        {
+          "openTime": "2026-10-04T07:06:00Z",
+          "probability": 0.56,
+          "strike": 17.5,
+          "team": "Tennessee",
+          "ticker": "KXNCAAFSPREAD-26OCT10TENNARK-TENN18",
+          "yesAsk": 0.49,
+          "yesBid": 0.39
+        },
+        {
+          "openTime": "2026-10-04T07:06:00Z",
+          "probability": 0.5,
+          "strike": 14.5,
+          "team": "Tennessee",
+          "ticker": "KXNCAAFSPREAD-26OCT10TENNARK-TENN15",
+          "yesAsk": 0.55,
+          "yesBid": 0.45
+        }
+      ],
+      "schemaVersion": 1,
+      "source": "LIVE_KALSHI_POLL",
+      "state": "CAPTURED_TRUE_OPEN",
+      "venueOpenTime": "2026-10-04T07:06:00+00:00"
     },
     {
       "auditGrade": true,
@@ -834,7 +1019,7 @@
       "firstEventSeenAt": null,
       "game": "Texas A&M @ Missouri",
       "kickoff": "2026-10-10T04:00:00.000Z",
-      "lastPollAt": "2026-10-04T07:06:26.647023+00:00",
+      "lastPollAt": "2026-10-04T07:09:31.139784+00:00",
       "locked": false,
       "state": "PENDING"
     },
@@ -843,7 +1028,7 @@
       "firstEventSeenAt": null,
       "game": "Tulane @ Army",
       "kickoff": "2026-10-10T16:00:00.000Z",
-      "lastPollAt": "2026-10-04T07:06:26.647023+00:00",
+      "lastPollAt": "2026-10-04T07:09:31.139784+00:00",
       "locked": false,
       "state": "PENDING"
     },
@@ -852,7 +1037,7 @@
       "firstEventSeenAt": null,
       "game": "Tulsa @ Navy",
       "kickoff": "2026-10-10T19:30:00.000Z",
-      "lastPollAt": "2026-10-04T07:06:26.647023+00:00",
+      "lastPollAt": "2026-10-04T07:09:31.139784+00:00",
       "locked": false,
       "state": "PENDING"
     },
@@ -907,7 +1092,7 @@
       "firstEventSeenAt": null,
       "game": "UCF @ Oklahoma State",
       "kickoff": "2026-10-10T04:00:00.000Z",
-      "lastPollAt": "2026-10-04T07:06:26.647023+00:00",
+      "lastPollAt": "2026-10-04T07:09:31.139784+00:00",
       "locked": false,
       "state": "PENDING"
     },
@@ -962,7 +1147,7 @@
       "firstEventSeenAt": null,
       "game": "UConn @ Temple",
       "kickoff": "2026-10-10T04:00:00.000Z",
-      "lastPollAt": "2026-10-04T07:06:26.647023+00:00",
+      "lastPollAt": "2026-10-04T07:09:31.139784+00:00",
       "locked": false,
       "state": "PENDING"
     },
@@ -1017,7 +1202,7 @@
       "firstEventSeenAt": null,
       "game": "Virginia Tech @ California",
       "kickoff": "2026-10-10T04:00:00.000Z",
-      "lastPollAt": "2026-10-04T07:06:26.647023+00:00",
+      "lastPollAt": "2026-10-04T07:09:31.139784+00:00",
       "locked": false,
       "state": "PENDING"
     },
@@ -1026,7 +1211,7 @@
       "firstEventSeenAt": null,
       "game": "Wake Forest @ NC State",
       "kickoff": "2026-10-10T04:00:00.000Z",
-      "lastPollAt": "2026-10-04T07:06:26.647023+00:00",
+      "lastPollAt": "2026-10-04T07:09:31.139784+00:00",
       "locked": false,
       "state": "PENDING"
     },
@@ -1035,7 +1220,7 @@
       "firstEventSeenAt": null,
       "game": "Washington State @ Utah State",
       "kickoff": "2026-10-10T01:00:00.000Z",
-      "lastPollAt": "2026-10-04T07:06:26.647023+00:00",
+      "lastPollAt": "2026-10-04T07:09:31.139784+00:00",
       "locked": false,
       "state": "PENDING"
     },
@@ -1044,7 +1229,7 @@
       "firstEventSeenAt": null,
       "game": "Wyoming @ San Jos\u00e9 State",
       "kickoff": "2026-10-10T01:00:00.000Z",
-      "lastPollAt": "2026-10-04T07:06:26.647023+00:00",
+      "lastPollAt": "2026-10-04T07:09:31.139784+00:00",
       "locked": false,
       "state": "PENDING"
     }
@@ -1053,13 +1238,34 @@
   "slateSha256": "eb6aec90af5a7a9ceba7a4241431982192be61ea0148917bd2c853b1c6871e70",
   "stakingEffect": "NONE",
   "summary": {
-    "capturedTrueOpenRows": 2,
+    "capturedTrueOpenRows": 7,
     "missedTrueOpenRows": 12,
-    "newTransitions": 0,
-    "pendingRows": 44,
+    "newTransitions": 5,
+    "pendingRows": 39,
     "slateRows": 58,
-    "terminalRows": 14
+    "terminalRows": 19
   },
-  "transitions": [],
+  "transitions": [
+    {
+      "game": "Sam Houston @ Liberty",
+      "state": "CAPTURED_TRUE_OPEN"
+    },
+    {
+      "game": "Duke @ Georgia Tech",
+      "state": "CAPTURED_TRUE_OPEN"
+    },
+    {
+      "game": "Ole Miss @ Vanderbilt",
+      "state": "CAPTURED_TRUE_OPEN"
+    },
+    {
+      "game": "Tennessee @ Arkansas",
+      "state": "CAPTURED_TRUE_OPEN"
+    },
+    {
+      "game": "Minnesota @ Purdue",
+      "state": "CAPTURED_TRUE_OPEN"
+    }
+  ],
   "trueOpenMaximumLagSeconds": 900
 }
