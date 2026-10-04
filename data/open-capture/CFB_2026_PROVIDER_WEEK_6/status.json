@@ -4,7 +4,7 @@
   "contract": "CFB_EDGE_PROSPECTIVE_OPEN_V1",
   "decisionEffect": "NONE",
   "deliveryEffect": "NONE",
-  "generatedAt": "2026-10-04T19:47:55.648621+00:00",
+  "generatedAt": "2026-10-04T19:58:12.101512+00:00",
   "historicalRecoveryAllowed": false,
   "pollIntervalTargetSeconds": 60,
   "rows": [
@@ -151,7 +151,7 @@
       "firstEventSeenAt": null,
       "game": "Boise State @ Fresno State",
       "kickoff": "2026-10-11T02:30:00.000Z",
-      "lastPollAt": "2026-10-04T19:47:55.573159+00:00",
+      "lastPollAt": "2026-10-04T19:58:12.027339+00:00",
       "locked": false,
       "state": "PENDING"
     },
@@ -252,7 +252,7 @@
       "firstEventSeenAt": null,
       "game": "Charlotte @ North Texas",
       "kickoff": "2026-10-10T04:00:00.000Z",
-      "lastPollAt": "2026-10-04T19:47:55.573159+00:00",
+      "lastPollAt": "2026-10-04T19:58:12.027339+00:00",
       "locked": false,
       "state": "PENDING"
     },
@@ -1043,7 +1043,7 @@
       "firstEventSeenAt": null,
       "game": "Maryland @ Ohio State",
       "kickoff": "2026-10-10T04:00:00.000Z",
-      "lastPollAt": "2026-10-04T19:47:55.573159+00:00",
+      "lastPollAt": "2026-10-04T19:58:12.027339+00:00",
       "locked": false,
       "state": "PENDING"
     },
@@ -1328,7 +1328,7 @@
       "firstEventSeenAt": null,
       "game": "North Dakota State @ UNLV",
       "kickoff": "2026-10-10T23:00:00.000Z",
-      "lastPollAt": "2026-10-04T19:47:55.573159+00:00",
+      "lastPollAt": "2026-10-04T19:58:12.027339+00:00",
       "locked": false,
       "state": "PENDING"
     },
@@ -2535,16 +2535,11 @@
   "summary": {
     "capturedTrueOpenRows": 25,
     "missedTrueOpenRows": 29,
-    "newTransitions": 1,
+    "newTransitions": 0,
     "pendingRows": 4,
     "slateRows": 58,
     "terminalRows": 54
   },
-  "transitions": [
-    {
-      "game": "Kent State @ Western Michigan",
-      "state": "MISSED_TRUE_OPEN_WINDOW"
-    }
-  ],
+  "transitions": [],
   "trueOpenMaximumLagSeconds": 900
 }
