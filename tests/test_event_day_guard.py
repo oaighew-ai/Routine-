@@ -375,6 +375,166 @@ class TheLock(unittest.TestCase):
         self.assertEqual(report["rows"][0]["eventTicker"], "KXNCAAFSPREAD-26OCT10UGAALA")
 
 
+class TheRebuild(unittest.TestCase):
+    """While a false row stood the lock ignored the game, but the poller kept
+    logging it. The game's row is recomputed from those logged polls, so it
+    says what was observed and when, not "first seen now"."""
+
+    GAME, KICKOFF = "Georgia @ Alabama", "2026-10-10T04:00:00.000Z"
+    OWN = "KXNCAAFSPREAD-26OCT10UGAALA"
+    OPENED = "2026-10-04T01:06:00+00:00"
+    NOW = "2026-10-04T12:45:00+00:00"
+
+    def setUp(self):
+        self._tmp = tempfile.TemporaryDirectory()
+        self.addCleanup(self._tmp.cleanup)
+        self.tmp = Path(self._tmp.name)
+        self.slate = [{"game": self.GAME, "kickoff": self.KICKOFF}]
+        self.status = {"cohortId": "C", "rows": [{
+            "game": self.GAME, "kickoff": self.KICKOFF,
+            "state": "MISSED_TRUE_OPEN_WINDOW", "locked": True, "auditGrade": False,
+            "eventTicker": "KXNCAAFSPREAD-26OCT03VANUGA", "observedAt": LOCKED_AT,
+            "venueOpenTime": "2026-09-27T04:06:00+00:00", "openLagSeconds": 560667.8}]}
+
+    def poll_of(self, seen_at, event=None, line=-2.5, opened=None):
+        q = quote(self.GAME, event or self.OWN, line, seen_at, self.KICKOFF,
+                  opened or self.OPENED)
+        return {"polled_at": seen_at, "quotes": [q.__dict__]}
+
+    def run_update(self, history, live=(), at=None):
+        at = at or self.NOW
+        return prospective_open.update(
+            slate=self.slate, slate_sha256="s", cohort_id="C",
+            snapshot={"polled_at": at, "quotes": [q.__dict__ for q in live]},
+            existing=self.status, evidence_dir=self.tmp / "evidence", revision="fix",
+            generated_at=datetime.fromisoformat(at), history=history)
+
+    def test_a_sighting_inside_the_window_is_the_true_open_it_was(self):
+        """Georgia at Alabama: its own market was logged 800 seconds after it
+        opened, eleven hours before the false row was voided."""
+        report = self.run_update([
+            self.poll_of("2026-10-04T01:05:00+00:00", event="KXNCAAFSPREAD-26OCT03VANUGA",
+                         line=24.8, opened="2026-09-27T04:06:00+00:00"),
+            self.poll_of("2026-10-04T01:19:20+00:00"),
+            self.poll_of("2026-10-04T01:20:21+00:00", line=-3.0),
+        ])
+        row = report["rows"][0]
+        self.assertEqual(row["state"], "CAPTURED_TRUE_OPEN")
+        self.assertEqual(row["eventTicker"], self.OWN)
+        self.assertEqual(row["observedAt"], "2026-10-04T01:19:20+00:00")
+        self.assertEqual(row["openLagSeconds"], 800.0)
+        self.assertEqual(row["openingLine"], -2.5)          # the first sighting, not a later one
+        self.assertEqual(row["codeRevision"], "test")       # the code that observed it
+        self.assertIs(row["rebuiltFromLog"], True)
+        self.assertEqual(row["rebuiltAt"], self.NOW)
+        self.assertIs(row["historicalRecoveryUsed"], False)
+        self.assertTrue((self.tmp / "evidence" / f"{row['evidenceSha256']}.json.gz").exists())
+        self.assertEqual(report["voidedRows"][0]["rebuiltFromLog"], True)
+        self.assertEqual([t["state"] for t in report["transitions"]],
+                         ["VOIDED_WRONG_EVENT", "CAPTURED_TRUE_OPEN"])
+        self.assertEqual(report["summary"]["capturedTrueOpenRows"], 1)
+
+    def test_a_late_sighting_is_a_miss_at_the_time_it_was_seen(self):
+        """Not a miss at the time the fix ran. The lag is the evidence about
+        the venue, and "now" would overstate it by hours."""
+        report = self.run_update([self.poll_of("2026-10-04T01:45:00+00:00")])
+        row = report["rows"][0]
+        self.assertEqual(row["state"], "MISSED_TRUE_OPEN_WINDOW")
+        self.assertEqual(row["observedAt"], "2026-10-04T01:45:00+00:00")
+        self.assertEqual(row["openLagSeconds"], 2340.0)
+        self.assertIs(row["rebuiltFromLog"], True)
+
+    def test_the_first_terminal_state_stands(self):
+        report = self.run_update([self.poll_of("2026-10-04T01:45:00+00:00"),
+                                  self.poll_of("2026-10-04T01:46:00+00:00")])
+        self.assertEqual(report["rows"][0]["observedAt"], "2026-10-04T01:45:00+00:00")
+
+    def test_a_market_not_in_the_log_leaves_the_game_pending(self):
+        report = self.run_update([])
+        self.assertEqual(report["rows"][0]["state"], "PENDING")
+        self.assertNotIn("rebuiltFromLog", report["rows"][0])
+        self.assertEqual(report["voidedRows"][0]["rebuiltFromLog"], False)
+        own = quote(self.GAME, self.OWN, -2.5, "2026-10-04T13:07:00+00:00", self.KICKOFF,
+                    "2026-10-04T13:06:00+00:00")
+        self.status = report
+        later = self.run_update(None, live=[own], at="2026-10-04T13:07:00+00:00")
+        self.assertEqual(later["rows"][0]["state"], "CAPTURED_TRUE_OPEN")
+        self.assertNotIn("rebuiltFromLog", later["rows"][0])
+
+    def test_only_polls_from_the_false_row_to_this_one_are_read(self):
+        before = self.poll_of("2026-10-03T15:00:00+00:00", opened="2026-10-03T14:59:00+00:00")
+        this_one = self.poll_of(self.NOW, opened="2026-10-04T12:44:00+00:00")
+        report = self.run_update([before, this_one])
+        self.assertEqual(report["rows"][0]["state"], "PENDING")
+
+    def test_the_log_is_read_in_the_order_things_were_seen(self):
+        """A poll replayed after a lost push sits later in the file than polls
+        taken after it."""
+        log = self.tmp / "opens.jsonl.gz"
+        with gzip.open(log, "wt", encoding="utf-8") as fh:
+            for rec in (self.poll_of("2026-10-04T01:40:00+00:00"),
+                        self.poll_of("2026-10-04T01:19:20+00:00"),
+                        self.poll_of("2026-10-03T12:00:00+00:00")):
+                fh.write(json.dumps(rec) + "\n")
+            fh.write("not json\n")
+        polls = prospective_open.logged_polls(
+            log, datetime.fromisoformat(LOCKED_AT), datetime.fromisoformat(self.NOW))
+        self.assertEqual([p["polled_at"] for p in polls],
+                         ["2026-10-04T01:19:20+00:00", "2026-10-04T01:40:00+00:00"])
+        self.assertEqual(self.run_update(polls)["rows"][0]["openLagSeconds"], 800.0)
+
+    def test_a_failed_rebuild_costs_the_rebuild_and_nothing_else(self):
+        from unittest import mock
+
+        with mock.patch.object(prospective_open, "_rebuilt_rows",
+                               side_effect=RuntimeError("disk full")):
+            report = self.run_update([self.poll_of("2026-10-04T01:19:20+00:00")])
+        self.assertEqual(report["rows"][0]["state"], "PENDING")
+        self.assertEqual(report["voidedRows"][0]["rebuildError"], "RuntimeError: disk full")
+        self.assertEqual(report["voidedRows"][0]["rebuiltFromLog"], False)
+
+    def test_a_row_that_was_right_is_never_rebuilt(self):
+        self.status["rows"][0].update(eventTicker=self.OWN, observedAt="2026-10-04T05:00:00+00:00",
+                                      venueOpenTime=self.OPENED, openLagSeconds=14040.0)
+        report = self.run_update([self.poll_of("2026-10-04T01:19:20+00:00")])
+        self.assertEqual(report["rows"][0]["observedAt"], "2026-10-04T05:00:00+00:00")
+        self.assertEqual(report["voidedRows"], [])
+
+    def cli(self, *extra):
+        data = self.tmp / "data"
+        out = data / "open-capture" / "C" / "status.json"
+        out.parent.mkdir(parents=True, exist_ok=True)
+        out.write_text(json.dumps(self.status), encoding="utf-8")
+        slate = data / "slate_current.csv"
+        slate.write_text(f"game,kickoff\n{self.GAME},{self.KICKOFF}\n", encoding="utf-8")
+        snap = self.tmp / "snap.json"
+        snap.write_text(json.dumps({"polled_at": self.NOW, "quotes": []}), encoding="utf-8")
+        rc = prospective_open.main(["--snapshot", str(snap), "--slate", str(slate),
+                                    "--cohort-id", "C", "--out", str(out),
+                                    "--evidence-dir", str(out.parent / "evidence"), *extra])
+        self.assertEqual(rc, 0)
+        return json.loads(out.read_text(encoding="utf-8"))
+
+    def write_log(self, path):
+        path.parent.mkdir(parents=True, exist_ok=True)
+        with gzip.open(path, "wt", encoding="utf-8") as fh:
+            fh.write(json.dumps(self.poll_of("2026-10-04T01:19:20+00:00")) + "\n")
+
+    def test_the_command_finds_the_log_beside_the_evidence(self):
+        self.write_log(self.tmp / "data" / "opens.jsonl.gz")
+        self.assertEqual(self.cli()["rows"][0]["state"], "CAPTURED_TRUE_OPEN")
+
+    def test_the_command_takes_a_log_it_is_given(self):
+        self.write_log(self.tmp / "elsewhere" / "log.jsonl.gz")
+        report = self.cli("--log", str(self.tmp / "elsewhere" / "log.jsonl.gz"))
+        self.assertEqual(report["rows"][0]["state"], "CAPTURED_TRUE_OPEN")
+
+    def test_with_no_log_the_row_is_voided_and_the_game_waits(self):
+        report = self.cli()
+        self.assertEqual(report["rows"][0]["state"], "PENDING")
+        self.assertEqual(report["summary"]["voidedRows"], 1)
+
+
 class TheReaders(unittest.TestCase):
     GAME = "Maryland @ Nebraska"
     KICKOFF = "2026-10-03T20:00:00.000Z"

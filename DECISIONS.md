@@ -1991,11 +1991,56 @@ New Mexico State at FIU opened 2026-10-02 22:06 and first yielded a line in
 the log at 2026-10-03 20:27. Two rows are not a finding. D35's window is
 unchanged.
 
+**Addendum, 2026-10-04, before merge.** Two things changed between writing
+this entry and merging it (`capture-data` at `94e656a`, 1,195 one-minute polls
+since 2026-10-03 15:50 UTC with one gap, of 21 minutes, on the old code).
+
+*The window can be met, and not by every market.* Overnight the lock captured
+17 true opens with lags of 211 to 800 seconds, the first this project has
+recorded. Eight other markets listed in the same hours yielded no readable
+line until 1.6 to 5 hours after their listed open, with polls a minute apart
+throughout. (A ninth, listed twelve hours before polling began, first yielded
+one 24 hours after.) The log holds only lines the reader could read, so it
+cannot say whether those markets had no quotes or had quotes the reader
+refuses: a ladder that does not straddle 50%, or a bid and ask further apart
+than `MAX_SPREAD`. D35's window is still unchanged.
+
+*A voided row is rebuilt from the log.* Georgia at Alabama's own market was
+listed at 01:06 UTC and first read at 01:19:19, 800 seconds later, while its
+false row still stood. Voiding the row and waiting for the next live poll
+would have locked that game as first seen at merge time, hours late, and the
+two other games whose own markets were already in the log (Indiana at
+Nebraska, read at 2,209 seconds, and LSU at Kentucky, at 2,341) with lags
+overstated by hours. Those lags are the evidence about the venue. So when a
+row is voided, the game's row is recomputed from the logged polls, oldest
+first, from the moment the false row was written up to the poll being
+processed, through the same state machine, stopping at the first terminal
+state as the live lock does. Only this project's own live polls are read; no
+historical endpoint is. A row produced this way carries `rebuiltFromLog`. A
+rebuild that fails leaves the game pending and records why, so a repair
+cannot cost a live poll. This is the rule CLAUDE.md already states: recompute
+every aggregate from ledger rows.
+
+Run against `94e656a`, the lock goes from 17 captured, 18 missed and 23
+pending to 18 captured, 15 missed, 25 pending and 5 voided: Georgia at Alabama
+captured at 800 seconds, two rebuilt as misses at the lag they were seen
+with, two still waiting for their own markets. The opening book goes from 17
+`true_open` games to 18, the same game. So one row does become gradeable that
+was not, which the section above could not yet say.
+
+**The owner's call.** Whether a row rebuilt from the log is audit-grade is a
+judgment about evidence, and merging this entry makes it. The alternative is
+to void without rebuilding, and the lock then records those three games as
+first seen at merge time.
+
 **Verification.** `tests/test_event_day_guard.py`: the rule against the eight
 rows the lock held, the board reader, the opening book over a log that already
 holds a wrong line, the lock repair (five voided, three kept, voiding
-idempotent, a real miss never reopened, a rescheduled game not voided), and
-the three log readers. 786 tests pass. Not verified on a runner.
+idempotent, a real miss never reopened, a rescheduled game not voided), the
+rebuild (a sighting inside the window, a late one, none, log order, a failed
+rebuild, the command's log path), and the three log readers. 797 tests pass.
+The rebuild was also run against the real status file and log. Not verified
+on a runner.
 
 **Authority effect.** None. No threshold, gate, frozen rule, stake or delivery
 permission changes. The true-open window is untouched.
