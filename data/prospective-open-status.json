@@ -4,18 +4,55 @@
   "contract": "CFB_EDGE_PROSPECTIVE_OPEN_V1",
   "decisionEffect": "NONE",
   "deliveryEffect": "NONE",
-  "generatedAt": "2026-10-04T19:13:33.568857+00:00",
+  "generatedAt": "2026-10-04T19:18:44.137678+00:00",
   "historicalRecoveryAllowed": false,
   "pollIntervalTargetSeconds": 60,
   "rows": [
     {
-      "auditGrade": false,
-      "firstEventSeenAt": null,
+      "auditGrade": true,
+      "codeRevision": "9dd9d54c7073b3f46093fe0dae62b8c724de77b9",
+      "contract": "CFB_EDGE_PROSPECTIVE_OPEN_V1",
+      "eventTicker": "KXNCAAFSPREAD-26OCT10AFANIU",
+      "evidencePath": "data/open-capture/CFB_2026_PROVIDER_WEEK_6/evidence/a7e88e7be2d013cf76bb28cf70dac072081a9c83a48aaad17519acbcfe0e8b99.json.gz",
+      "evidenceSha256": "a7e88e7be2d013cf76bb28cf70dac072081a9c83a48aaad17519acbcfe0e8b99",
+      "firstEventSeenAt": "2026-10-04T19:18:43.565019+00:00",
+      "firstValidTwoSidedQuoteTime": "2026-10-04T19:18:43.565019+00:00",
       "game": "Air Force @ Northern Illinois",
+      "historicalRecoveryUsed": false,
       "kickoff": "2026-10-10T23:30:00.000Z",
-      "lastPollAt": "2026-10-04T19:13:33.495902+00:00",
-      "locked": false,
-      "state": "PENDING"
+      "locked": true,
+      "marketTickers": [
+        "KXNCAAFSPREAD-26OCT10AFANIU-AFA13",
+        "KXNCAAFSPREAD-26OCT10AFANIU-AFA12"
+      ],
+      "observedAt": "2026-10-04T19:18:43.565019+00:00",
+      "openLagSeconds": 763.565019,
+      "openingLine": 11.5,
+      "pollTime": "2026-10-04T19:18:43.565019+00:00",
+      "quoteInputs": [
+        {
+          "openTime": "2026-10-04T19:06:00Z",
+          "probability": 0.505,
+          "strike": 12.5,
+          "team": "Air Force",
+          "ticker": "KXNCAAFSPREAD-26OCT10AFANIU-AFA13",
+          "yesAsk": 0.53,
+          "yesBid": 0.46
+        },
+        {
+          "openTime": "2026-10-04T19:06:00Z",
+          "probability": 0.5,
+          "strike": 11.5,
+          "team": "Air Force",
+          "ticker": "KXNCAAFSPREAD-26OCT10AFANIU-AFA12",
+          "yesAsk": 0.54,
+          "yesBid": 0.46
+        }
+      ],
+      "schemaVersion": 1,
+      "source": "LIVE_KALSHI_POLL",
+      "state": "CAPTURED_TRUE_OPEN",
+      "venueOpenTime": "2026-10-04T19:06:00+00:00"
     },
     {
       "auditGrade": true,
@@ -114,7 +151,7 @@
       "firstEventSeenAt": null,
       "game": "Boise State @ Fresno State",
       "kickoff": "2026-10-11T02:30:00.000Z",
-      "lastPollAt": "2026-10-04T19:13:33.495902+00:00",
+      "lastPollAt": "2026-10-04T19:18:44.062731+00:00",
       "locked": false,
       "state": "PENDING"
     },
@@ -215,7 +252,7 @@
       "firstEventSeenAt": null,
       "game": "Charlotte @ North Texas",
       "kickoff": "2026-10-10T04:00:00.000Z",
-      "lastPollAt": "2026-10-04T19:13:33.495902+00:00",
+      "lastPollAt": "2026-10-04T19:18:44.062731+00:00",
       "locked": false,
       "state": "PENDING"
     },
@@ -497,12 +534,49 @@
     },
     {
       "auditGrade": false,
-      "firstEventSeenAt": null,
+      "codeRevision": "9dd9d54c7073b3f46093fe0dae62b8c724de77b9",
+      "contract": "CFB_EDGE_PROSPECTIVE_OPEN_V1",
+      "eventTicker": "KXNCAAFSPREAD-26OCT10HOUKSU",
+      "evidencePath": "data/open-capture/CFB_2026_PROVIDER_WEEK_6/evidence/f96662d8ebf02e2a39c8154ae92ad16a2b7c87e5cb9e90b07e5e4a18356b5c04.json.gz",
+      "evidenceSha256": "f96662d8ebf02e2a39c8154ae92ad16a2b7c87e5cb9e90b07e5e4a18356b5c04",
+      "firstEventSeenAt": "2026-10-04T19:18:43.565019+00:00",
+      "firstValidTwoSidedQuoteTime": "2026-10-04T19:18:43.565019+00:00",
       "game": "Houston @ Kansas State",
-      "kickoff": "2026-10-10T04:00:00.000Z",
-      "lastPollAt": "2026-10-04T19:13:33.495902+00:00",
-      "locked": false,
-      "state": "PENDING"
+      "historicalRecoveryUsed": false,
+      "kickoff": "2026-10-10T19:30:00.000Z",
+      "locked": true,
+      "marketTickers": [
+        "KXNCAAFSPREAD-26OCT10HOUKSU-KSU2",
+        "KXNCAAFSPREAD-26OCT10HOUKSU-KSU3"
+      ],
+      "observedAt": "2026-10-04T19:18:43.565019+00:00",
+      "openLagSeconds": 33163.565019,
+      "openingLine": -1.5,
+      "pollTime": "2026-10-04T19:18:43.565019+00:00",
+      "quoteInputs": [
+        {
+          "openTime": "2026-10-04T10:06:00Z",
+          "probability": 0.5,
+          "strike": 1.5,
+          "team": "Kansas St.",
+          "ticker": "KXNCAAFSPREAD-26OCT10HOUKSU-KSU2",
+          "yesAsk": 0.52,
+          "yesBid": 0.48
+        },
+        {
+          "openTime": "2026-10-04T10:06:00Z",
+          "probability": 0.49,
+          "strike": 2.5,
+          "team": "Kansas St.",
+          "ticker": "KXNCAAFSPREAD-26OCT10HOUKSU-KSU3",
+          "yesAsk": 0.5,
+          "yesBid": 0.48
+        }
+      ],
+      "schemaVersion": 1,
+      "source": "LIVE_KALSHI_POLL",
+      "state": "MISSED_TRUE_OPEN_WINDOW",
+      "venueOpenTime": "2026-10-04T10:06:00+00:00"
     },
     {
       "auditGrade": false,
@@ -831,7 +905,7 @@
       "firstEventSeenAt": null,
       "game": "Kent State @ Western Michigan",
       "kickoff": "2026-10-10T04:00:00.000Z",
-      "lastPollAt": "2026-10-04T19:13:33.495902+00:00",
+      "lastPollAt": "2026-10-04T19:18:44.062731+00:00",
       "locked": false,
       "state": "PENDING"
     },
@@ -886,7 +960,7 @@
       "firstEventSeenAt": null,
       "game": "Louisiana @ Louisiana Tech",
       "kickoff": "2026-10-10T04:00:00.000Z",
-      "lastPollAt": "2026-10-04T19:13:33.495902+00:00",
+      "lastPollAt": "2026-10-04T19:18:44.062731+00:00",
       "locked": false,
       "state": "PENDING"
     },
@@ -895,7 +969,7 @@
       "firstEventSeenAt": null,
       "game": "Maryland @ Ohio State",
       "kickoff": "2026-10-10T04:00:00.000Z",
-      "lastPollAt": "2026-10-04T19:13:33.495902+00:00",
+      "lastPollAt": "2026-10-04T19:18:44.062731+00:00",
       "locked": false,
       "state": "PENDING"
     },
@@ -904,7 +978,7 @@
       "firstEventSeenAt": null,
       "game": "Miami (OH) @ Massachusetts",
       "kickoff": "2026-10-10T04:00:00.000Z",
-      "lastPollAt": "2026-10-04T19:13:33.495902+00:00",
+      "lastPollAt": "2026-10-04T19:18:44.062731+00:00",
       "locked": false,
       "state": "PENDING"
     },
@@ -1005,7 +1079,7 @@
       "firstEventSeenAt": null,
       "game": "Nevada @ UTEP",
       "kickoff": "2026-10-10T04:00:00.000Z",
-      "lastPollAt": "2026-10-04T19:13:33.495902+00:00",
+      "lastPollAt": "2026-10-04T19:18:44.062731+00:00",
       "locked": false,
       "state": "PENDING"
     },
@@ -1106,7 +1180,7 @@
       "firstEventSeenAt": null,
       "game": "North Dakota State @ UNLV",
       "kickoff": "2026-10-10T23:00:00.000Z",
-      "lastPollAt": "2026-10-04T19:13:33.495902+00:00",
+      "lastPollAt": "2026-10-04T19:18:44.062731+00:00",
       "locked": false,
       "state": "PENDING"
     },
@@ -1207,7 +1281,7 @@
       "firstEventSeenAt": null,
       "game": "Rice @ East Carolina",
       "kickoff": "2026-10-10T04:00:00.000Z",
-      "lastPollAt": "2026-10-04T19:13:33.495902+00:00",
+      "lastPollAt": "2026-10-04T19:18:44.062731+00:00",
       "locked": false,
       "state": "PENDING"
     },
@@ -1998,7 +2072,7 @@
       "firstEventSeenAt": null,
       "game": "UConn @ Temple",
       "kickoff": "2026-10-10T04:00:00.000Z",
-      "lastPollAt": "2026-10-04T19:13:33.495902+00:00",
+      "lastPollAt": "2026-10-04T19:18:44.062731+00:00",
       "locked": false,
       "state": "PENDING"
     },
@@ -2237,13 +2311,22 @@
   "slateSha256": "08ffb0882ea7cdbc7b37fe55f01c666c80f850cfaf26dc733a5befba842366ab",
   "stakingEffect": "NONE",
   "summary": {
-    "capturedTrueOpenRows": 24,
-    "missedTrueOpenRows": 22,
-    "newTransitions": 0,
-    "pendingRows": 12,
+    "capturedTrueOpenRows": 25,
+    "missedTrueOpenRows": 23,
+    "newTransitions": 2,
+    "pendingRows": 10,
     "slateRows": 58,
-    "terminalRows": 46
+    "terminalRows": 48
   },
-  "transitions": [],
+  "transitions": [
+    {
+      "game": "Air Force @ Northern Illinois",
+      "state": "CAPTURED_TRUE_OPEN"
+    },
+    {
+      "game": "Houston @ Kansas State",
+      "state": "MISSED_TRUE_OPEN_WINDOW"
+    }
+  ],
   "trueOpenMaximumLagSeconds": 900
 }
