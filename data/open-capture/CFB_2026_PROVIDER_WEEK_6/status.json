@@ -4,7 +4,7 @@
   "contract": "CFB_EDGE_PROSPECTIVE_OPEN_V1",
   "decisionEffect": "NONE",
   "deliveryEffect": "NONE",
-  "generatedAt": "2026-10-05T22:48:32.377281+00:00",
+  "generatedAt": "2026-10-05T22:59:09.450756+00:00",
   "historicalRecoveryAllowed": false,
   "pollIntervalTargetSeconds": 60,
   "refusedWrongEventQuotes": [],
@@ -2694,56 +2694,15 @@
   "summary": {
     "capturedTrueOpenRows": 27,
     "missedTrueOpenRows": 31,
-    "newTransitions": 10,
-    "newlyVoidedRows": 5,
+    "newTransitions": 0,
+    "newlyVoidedRows": 0,
     "pendingRows": 0,
     "refusedWrongEventQuotes": 0,
     "slateRows": 58,
     "terminalRows": 58,
     "voidedRows": 5
   },
-  "transitions": [
-    {
-      "game": "Georgia @ Alabama",
-      "state": "VOIDED_WRONG_EVENT"
-    },
-    {
-      "game": "Georgia @ Alabama",
-      "state": "CAPTURED_TRUE_OPEN"
-    },
-    {
-      "game": "Indiana @ Nebraska",
-      "state": "VOIDED_WRONG_EVENT"
-    },
-    {
-      "game": "Indiana @ Nebraska",
-      "state": "MISSED_TRUE_OPEN_WINDOW"
-    },
-    {
-      "game": "LSU @ Kentucky",
-      "state": "VOIDED_WRONG_EVENT"
-    },
-    {
-      "game": "LSU @ Kentucky",
-      "state": "MISSED_TRUE_OPEN_WINDOW"
-    },
-    {
-      "game": "Stanford @ Notre Dame",
-      "state": "VOIDED_WRONG_EVENT"
-    },
-    {
-      "game": "Stanford @ Notre Dame",
-      "state": "MISSED_TRUE_OPEN_WINDOW"
-    },
-    {
-      "game": "UAB @ Memphis",
-      "state": "VOIDED_WRONG_EVENT"
-    },
-    {
-      "game": "UAB @ Memphis",
-      "state": "CAPTURED_TRUE_OPEN"
-    }
-  ],
+  "transitions": [],
   "trueOpenMaximumLagSeconds": 900,
   "voidedRows": [
     {
