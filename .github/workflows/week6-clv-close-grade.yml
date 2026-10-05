@@ -51,8 +51,15 @@ jobs:
         if: steps.active.outputs.run == '1'
         run: |
           set -euo pipefail
+          CLOSE_LOG="$RUNNER_TEMP/week6-clv-close-log.jsonl.gz"
+          CLOSE_CAPTURE_DIR="evidence/data/week6-clv-close-capture"
+          cp evidence/data/opens.jsonl.gz "$CLOSE_LOG"
+          mkdir -p "$CLOSE_CAPTURE_DIR"
+          echo "WEEK6_CLV_CLOSE_LOG=$CLOSE_LOG" >> "$GITHUB_ENV"
+
           for attempt in 1 2 3; do
-            python3 -m cfb_edge.watch --source kalshi               --slate evidence/data/week6_2026_slate.csv               --log evidence/data/opens.jsonl.gz --once
+            SNAPSHOT="$CLOSE_CAPTURE_DIR/run-${GITHUB_RUN_ID}-attempt-${attempt}.json"
+            python3 -m cfb_edge.watch --source kalshi               --slate evidence/data/week6_2026_slate.csv               --log "$CLOSE_LOG"               --snapshot-out "$SNAPSHOT" --once
             [ "$attempt" -eq 3 ] || sleep 240
           done
 
@@ -60,7 +67,7 @@ jobs:
         if: steps.active.outputs.run == '1'
         run: |
           set -euo pipefail
-          python3 -m cfb_edge.week6_clv close-report             --freeze config/week6_clv_freeze.json             --log evidence/data/opens.jsonl.gz             --maximum-close-age-seconds 900             --out evidence/data/week6-clv-close-report.json
+          python3 -m cfb_edge.week6_clv close-report             --freeze config/week6_clv_freeze.json             --log "$WEEK6_CLV_CLOSE_LOG"             --maximum-close-age-seconds 900             --out evidence/data/week6-clv-close-report.json
 
       - name: Grade frozen decisions against closes
         if: steps.active.outputs.run == '1'
@@ -117,7 +124,7 @@ jobs:
           set -euo pipefail
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add             data/opens.jsonl.gz             data/week6-clv-close-report.json             data/week6-clv-grades.json             data/authority-gate-audit.json
+          git add             data/week6-clv-close-capture/             data/week6-clv-close-report.json             data/week6-clv-grades.json             data/authority-gate-audit.json
           git diff --cached --quiet && exit 0
           git commit -q -m "Week 6 CLV grading $(date -u '+%Y-%m-%d %H:%M UTC')"
           for attempt in 1 2 3; do
