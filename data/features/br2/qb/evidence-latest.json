@@ -2,952 +2,457 @@
   "contract": "CFB_EDGE_BR2_QB_CONTINUITY_V4",
   "decisionEffect": "NONE",
   "definition": "home minus away incumbent-QB passing-attempt share across each team's last three completed games; incumbent is last-game attempt leader unless a validated official pregame starter maps to captured participation",
-  "generatedAt": "2026-10-02T18:33:37.866324+00:00",
+  "generatedAt": "2026-10-05T21:10:48.625580+00:00",
   "rows": [
     {
       "auditGrade": true,
       "away": {
         "availabilityVerified": false,
-        "continuity": 0.8412698412698413,
+        "continuity": 0.9705882352941176,
         "exclusions": [],
         "gameCount": 3,
         "gamesConsidered": [
-          "401868187",
-          "401866422",
-          "401869941"
-        ],
-        "notes": [],
-        "qbAttemptsLast3": 53.0,
-        "selectedQbId": "5138131",
-        "selectedQbName": "Deshawn Purdie",
-        "starterSource": "LAST_COMPLETED_GAME_ATTEMPT_LEADER",
-        "team": "Liberty",
-        "teamAttemptsLast3": 63.0
-      },
-      "decisionTime": "2026-10-02T18:33:37.866324+00:00",
-      "exclusions": [],
-      "featureAsOf": "2026-10-02T18:33:09.844659+00:00",
-      "featureValue": -0.6105006105006106,
-      "game": "Liberty @ Delaware",
-      "home": {
-        "availabilityVerified": false,
-        "continuity": 0.23076923076923078,
-        "exclusions": [],
-        "gameCount": 3,
-        "gamesConsidered": [
-          "401856684",
-          "401869940",
-          "401858239"
-        ],
-        "notes": [],
-        "qbAttemptsLast3": 21.0,
-        "selectedQbId": "5224762",
-        "selectedQbName": "Braden Streeter",
-        "starterSource": "LAST_COMPLETED_GAME_ATTEMPT_LEADER",
-        "team": "Delaware",
-        "teamAttemptsLast3": 91.0
-      },
-      "kickoff": "2026-10-02T23:00:00+00:00"
-    },
-    {
-      "auditGrade": true,
-      "away": {
-        "availabilityVerified": false,
-        "continuity": 0.8476190476190476,
-        "exclusions": [],
-        "gameCount": 3,
-        "gamesConsidered": [
-          "401856790",
-          "401858225",
-          "401858236"
-        ],
-        "notes": [],
-        "qbAttemptsLast3": 89.0,
-        "selectedQbId": "5208095",
-        "selectedQbName": "Mason Heintschel",
-        "starterSource": "LAST_COMPLETED_GAME_ATTEMPT_LEADER",
-        "team": "Pittsburgh",
-        "teamAttemptsLast3": 105.0
-      },
-      "decisionTime": "2026-10-02T18:33:37.866324+00:00",
-      "exclusions": [],
-      "featureAsOf": "2026-10-02T18:33:09.844659+00:00",
-      "featureValue": 0.13543179983857956,
-      "game": "Pittsburgh @ Virginia Tech",
-      "home": {
-        "availabilityVerified": false,
-        "continuity": 0.9830508474576272,
-        "exclusions": [],
-        "gameCount": 3,
-        "gamesConsidered": [
-          "401858221",
-          "401858232",
-          "401858242"
-        ],
-        "notes": [],
-        "qbAttemptsLast3": 116.0,
-        "selectedQbId": "5144078",
-        "selectedQbName": "Ethan Grunkemeyer",
-        "starterSource": "LAST_COMPLETED_GAME_ATTEMPT_LEADER",
-        "team": "Virginia Tech",
-        "teamAttemptsLast3": 118.0
-      },
-      "kickoff": "2026-10-02T23:00:00+00:00"
-    },
-    {
-      "auditGrade": true,
-      "away": {
-        "availabilityVerified": false,
-        "continuity": 0.5714285714285714,
-        "exclusions": [],
-        "gameCount": 3,
-        "gamesConsidered": [
-          "401866412",
-          "401858451",
-          "401864512"
-        ],
-        "notes": [],
-        "qbAttemptsLast3": 56.0,
-        "selectedQbId": "5146903",
-        "selectedQbName": "Brayden Roggow",
-        "starterSource": "LAST_COMPLETED_GAME_ATTEMPT_LEADER",
-        "team": "Akron",
-        "teamAttemptsLast3": 98.0
-      },
-      "decisionTime": "2026-10-02T18:33:37.866324+00:00",
-      "exclusions": [],
-      "featureAsOf": "2026-10-02T18:33:09.844659+00:00",
-      "featureValue": -0.21957671957671954,
-      "game": "Akron @ Central Michigan",
-      "home": {
-        "availabilityVerified": false,
-        "continuity": 0.35185185185185186,
-        "exclusions": [],
-        "gameCount": 3,
-        "gamesConsidered": [
-          "401866415",
-          "401864508",
-          "401858238"
-        ],
-        "notes": [],
-        "qbAttemptsLast3": 19.0,
-        "selectedQbId": "5149056",
-        "selectedQbName": "Jadyn Glasser",
-        "starterSource": "LAST_COMPLETED_GAME_ATTEMPT_LEADER",
-        "team": "Central Michigan",
-        "teamAttemptsLast3": 54.0
-      },
-      "kickoff": "2026-10-03T19:30:00+00:00"
-    },
-    {
-      "auditGrade": true,
-      "away": {
-        "availabilityVerified": false,
-        "continuity": 1.0,
-        "exclusions": [],
-        "gameCount": 3,
-        "gamesConsidered": [
-          "401856674",
           "401856685",
-          "401856696"
-        ],
-        "notes": [],
-        "qbAttemptsLast3": 80.0,
-        "selectedQbId": "5141629",
-        "selectedQbName": "Keelon Russell",
-        "starterSource": "LAST_COMPLETED_GAME_ATTEMPT_LEADER",
-        "team": "Alabama",
-        "teamAttemptsLast3": 80.0
-      },
-      "decisionTime": "2026-10-02T18:33:37.866324+00:00",
-      "exclusions": [],
-      "featureAsOf": "2026-10-02T18:33:09.844659+00:00",
-      "featureValue": -0.011494252873563204,
-      "game": "Alabama @ Mississippi State",
-      "home": {
-        "availabilityVerified": false,
-        "continuity": 0.9885057471264368,
-        "exclusions": [],
-        "gameCount": 3,
-        "gamesConsidered": [
-          "401856677",
-          "401856691",
-          "401856703"
-        ],
-        "notes": [],
-        "qbAttemptsLast3": 86.0,
-        "selectedQbId": "5177084",
-        "selectedQbName": "Kamario Taylor",
-        "starterSource": "LAST_COMPLETED_GAME_ATTEMPT_LEADER",
-        "team": "Mississippi State",
-        "teamAttemptsLast3": 87.0
-      },
-      "kickoff": "2026-10-03T16:00:00+00:00"
-    },
-    {
-      "auditGrade": true,
-      "away": {
-        "availabilityVerified": false,
-        "continuity": 0.7698412698412699,
-        "exclusions": [],
-        "gameCount": 3,
-        "gamesConsidered": [
-          "401856670",
-          "401856686",
-          "401856697"
-        ],
-        "notes": [],
-        "qbAttemptsLast3": 97.0,
-        "selectedQbId": "5079516",
-        "selectedQbName": "KJ Jackson",
-        "starterSource": "LAST_COMPLETED_GAME_ATTEMPT_LEADER",
-        "team": "Arkansas",
-        "teamAttemptsLast3": 126.0
-      },
-      "decisionTime": "2026-10-02T18:33:37.866324+00:00",
-      "exclusions": [],
-      "featureAsOf": "2026-10-02T18:33:09.844659+00:00",
-      "featureValue": 0.2202577400597202,
-      "game": "Arkansas @ Texas A&M",
-      "home": {
-        "availabilityVerified": false,
-        "continuity": 0.9900990099009901,
-        "exclusions": [],
-        "gameCount": 3,
-        "gamesConsidered": [
-          "401856683",
-          "401856694",
-          "401856702"
-        ],
-        "notes": [],
-        "qbAttemptsLast3": 100.0,
-        "selectedQbId": "4870971",
-        "selectedQbName": "Marcel Reed",
-        "starterSource": "LAST_COMPLETED_GAME_ATTEMPT_LEADER",
-        "team": "Texas A&M",
-        "teamAttemptsLast3": 101.0
-      },
-      "kickoff": "2026-10-03T23:00:00+00:00"
-    },
-    {
-      "auditGrade": true,
-      "away": {
-        "availabilityVerified": false,
-        "continuity": 0.8333333333333334,
-        "exclusions": [],
-        "gameCount": 3,
-        "gamesConsidered": [
-          "401862701",
-          "401862702",
-          "401862779"
-        ],
-        "notes": [],
-        "qbAttemptsLast3": 25.0,
-        "selectedQbId": "5150297",
-        "selectedQbName": "Cale Hellums",
-        "starterSource": "LAST_COMPLETED_GAME_ATTEMPT_LEADER",
-        "team": "Army",
-        "teamAttemptsLast3": 30.0
-      },
-      "decisionTime": "2026-10-02T18:33:37.866324+00:00",
-      "exclusions": [],
-      "featureAsOf": "2026-10-02T18:33:09.844659+00:00",
-      "featureValue": -0.2666666666666667,
-      "game": "Army @ Louisiana Tech",
-      "home": {
-        "availabilityVerified": false,
-        "continuity": 0.5666666666666667,
-        "exclusions": [],
-        "gameCount": 3,
-        "gamesConsidered": [
-          "401869129",
-          "401867796",
-          "401867804"
-        ],
-        "notes": [],
-        "qbAttemptsLast3": 51.0,
-        "selectedQbId": "5296376",
-        "selectedQbName": "Trey Kukuk",
-        "starterSource": "LAST_COMPLETED_GAME_ATTEMPT_LEADER",
-        "team": "Louisiana Tech",
-        "teamAttemptsLast3": 90.0
-      },
-      "kickoff": "2026-10-03T23:30:00+00:00"
-    },
-    {
-      "auditGrade": true,
-      "away": {
-        "availabilityVerified": true,
-        "continuity": 0.9473684210526315,
-        "exclusions": [],
-        "gameCount": 3,
-        "gamesConsidered": [
-          "401856671",
-          "401856687",
-          "401856698"
-        ],
-        "notes": [],
-        "qbAttemptsLast3": 90.0,
-        "selectedQbId": "4880272",
-        "selectedQbName": "Byrum Brown",
-        "starterSource": "OFFICIAL_PREGAME_OVERRIDE",
-        "team": "Auburn",
-        "teamAttemptsLast3": 95.0
-      },
-      "decisionTime": "2026-10-02T18:33:37.866324+00:00",
-      "exclusions": [],
-      "featureAsOf": "2026-10-02T18:33:09.844659+00:00",
-      "featureValue": 0.014656895403064696,
-      "game": "Auburn @ Tennessee",
-      "home": {
-        "availabilityVerified": false,
-        "continuity": 0.9620253164556962,
-        "exclusions": [],
-        "gameCount": 3,
-        "gamesConsidered": [
-          "401856681",
-          "401856692",
-          "401856704"
-        ],
-        "notes": [],
-        "qbAttemptsLast3": 76.0,
-        "selectedQbId": "5158973",
-        "selectedQbName": "Faizon Brandon",
-        "starterSource": "LAST_COMPLETED_GAME_ATTEMPT_LEADER",
-        "team": "Tennessee",
-        "teamAttemptsLast3": 79.0
-      },
-      "kickoff": "2026-10-03T19:30:00+00:00"
-    },
-    {
-      "auditGrade": true,
-      "away": {
-        "availabilityVerified": false,
-        "continuity": 0.9538461538461539,
-        "exclusions": [],
-        "gameCount": 3,
-        "gamesConsidered": [
-          "401856775",
-          "401856810",
-          "401856795"
-        ],
-        "notes": [],
-        "qbAttemptsLast3": 62.0,
-        "selectedQbId": "5141367",
-        "selectedQbName": "Bear Bachmeier",
-        "starterSource": "LAST_COMPLETED_GAME_ATTEMPT_LEADER",
-        "team": "BYU",
-        "teamAttemptsLast3": 65.0
-      },
-      "decisionTime": "2026-10-02T18:33:37.866324+00:00",
-      "exclusions": [],
-      "featureAsOf": "2026-10-02T18:33:09.844659+00:00",
-      "featureValue": 0.03625285605483619,
-      "game": "BYU @ TCU",
-      "home": {
-        "availabilityVerified": false,
-        "continuity": 0.9900990099009901,
-        "exclusions": [],
-        "gameCount": 3,
-        "gamesConsidered": [
-          "401856789",
-          "401856799",
-          "401856815"
-        ],
-        "notes": [],
-        "qbAttemptsLast3": 100.0,
-        "selectedQbId": "5083569",
-        "selectedQbName": "Jaden Craig",
-        "starterSource": "LAST_COMPLETED_GAME_ATTEMPT_LEADER",
-        "team": "TCU",
-        "teamAttemptsLast3": 101.0
-      },
-      "kickoff": "2026-10-03T23:00:00+00:00"
-    },
-    {
-      "auditGrade": true,
-      "away": {
-        "availabilityVerified": false,
-        "continuity": 1.0,
-        "exclusions": [],
-        "gameCount": 3,
-        "gamesConsidered": [
-          "401858214",
-          "401858227",
-          "401858242"
-        ],
-        "notes": [],
-        "qbAttemptsLast3": 73.0,
-        "selectedQbId": "5307005",
-        "selectedQbName": "Mason McKenzie",
-        "starterSource": "LAST_COMPLETED_GAME_ATTEMPT_LEADER",
-        "team": "Boston College",
-        "teamAttemptsLast3": 73.0
-      },
-      "decisionTime": "2026-10-02T18:33:37.866324+00:00",
-      "exclusions": [],
-      "featureAsOf": "2026-10-02T18:33:09.844659+00:00",
-      "featureValue": -0.15094339622641506,
-      "game": "Boston College @ SMU",
-      "home": {
-        "availabilityVerified": false,
-        "continuity": 0.8490566037735849,
-        "exclusions": [],
-        "gameCount": 3,
-        "gamesConsidered": [
-          "401858223",
-          "401858230",
-          "401858241"
-        ],
-        "notes": [],
-        "qbAttemptsLast3": 90.0,
-        "selectedQbId": "5084084",
-        "selectedQbName": "Kevin Jennings",
-        "starterSource": "LAST_COMPLETED_GAME_ATTEMPT_LEADER",
-        "team": "SMU",
-        "teamAttemptsLast3": 106.0
-      },
-      "kickoff": "2026-10-03T16:00:00+00:00"
-    },
-    {
-      "auditGrade": true,
-      "away": {
-        "availabilityVerified": false,
-        "continuity": 0.9242424242424242,
-        "exclusions": [],
-        "gameCount": 3,
-        "gamesConsidered": [
-          "401858441",
-          "401856798",
-          "401862785"
-        ],
-        "notes": [],
-        "qbAttemptsLast3": 61.0,
-        "selectedQbId": "5385753",
-        "selectedQbName": "Jay Kastantin",
-        "starterSource": "LAST_COMPLETED_GAME_ATTEMPT_LEADER",
-        "team": "Bowling Green",
-        "teamAttemptsLast3": 66.0
-      },
-      "decisionTime": "2026-10-02T18:33:37.866324+00:00",
-      "exclusions": [],
-      "featureAsOf": "2026-10-02T18:33:09.844659+00:00",
-      "featureValue": 0.00909090909090915,
-      "game": "Bowling Green @ Miami (OH)",
-      "home": {
-        "availabilityVerified": false,
-        "continuity": 0.9333333333333333,
-        "exclusions": [],
-        "gameCount": 3,
-        "gamesConsidered": [
-          "401866417",
-          "401856797",
-          "401861970"
-        ],
-        "notes": [],
-        "qbAttemptsLast3": 70.0,
-        "selectedQbId": "5141549",
-        "selectedQbName": "David McComb",
-        "starterSource": "LAST_COMPLETED_GAME_ATTEMPT_LEADER",
-        "team": "Miami (OH)",
-        "teamAttemptsLast3": 75.0
-      },
-      "kickoff": "2026-10-03T19:30:00+00:00"
-    },
-    {
-      "auditGrade": true,
-      "away": {
-        "availabilityVerified": false,
-        "continuity": 0.897196261682243,
-        "exclusions": [],
-        "gameCount": 3,
-        "gamesConsidered": [
-          "401858216",
-          "401858233",
-          "401858234"
-        ],
-        "notes": [],
-        "qbAttemptsLast3": 96.0,
-        "selectedQbId": "5164313",
-        "selectedQbName": "Jaron-Keawe Sagapolutele",
-        "starterSource": "LAST_COMPLETED_GAME_ATTEMPT_LEADER",
-        "team": "California",
-        "teamAttemptsLast3": 107.0
-      },
-      "decisionTime": "2026-10-02T18:33:37.866324+00:00",
-      "exclusions": [],
-      "featureAsOf": "2026-10-02T18:33:09.844659+00:00",
-      "featureValue": 0.027803738317757065,
-      "game": "California @ UNLV",
-      "home": {
-        "availabilityVerified": false,
-        "continuity": 0.925,
-        "exclusions": [],
-        "gameCount": 3,
-        "gamesConsidered": [
-          "401864497",
-          "401862705",
-          "401864512"
-        ],
-        "notes": [],
-        "qbAttemptsLast3": 74.0,
-        "selectedQbId": "4870607",
-        "selectedQbName": "Jackson Arnold",
-        "starterSource": "LAST_COMPLETED_GAME_ATTEMPT_LEADER",
-        "team": "UNLV",
-        "teamAttemptsLast3": 80.0
-      },
-      "kickoff": "2026-10-03T19:30:00+00:00"
-    },
-    {
-      "auditGrade": true,
-      "away": {
-        "availabilityVerified": false,
-        "continuity": 0.9787234042553191,
-        "exclusions": [],
-        "gameCount": 3,
-        "gamesConsidered": [
-          "401858440",
-          "401858460",
-          "401866427"
-        ],
-        "notes": [],
-        "qbAttemptsLast3": 92.0,
-        "selectedQbId": "4690158",
-        "selectedQbName": "Noah Kim",
-        "starterSource": "LAST_COMPLETED_GAME_ATTEMPT_LEADER",
-        "team": "Eastern Michigan",
-        "teamAttemptsLast3": 94.0
-      },
-      "decisionTime": "2026-10-02T18:33:37.866324+00:00",
-      "exclusions": [],
-      "featureAsOf": "2026-10-02T18:33:09.844659+00:00",
-      "featureValue": -0.05145067698259187,
-      "game": "Eastern Michigan @ Massachusetts",
-      "home": {
-        "availabilityVerified": false,
-        "continuity": 0.9272727272727272,
-        "exclusions": [],
-        "gameCount": 3,
-        "gamesConsidered": [
-          "401866420",
-          "401866424",
-          "401866429"
-        ],
-        "notes": [],
-        "qbAttemptsLast3": 51.0,
-        "selectedQbId": "4920153",
-        "selectedQbName": "William Watson III",
-        "starterSource": "LAST_COMPLETED_GAME_ATTEMPT_LEADER",
-        "team": "Massachusetts",
-        "teamAttemptsLast3": 55.0
-      },
-      "kickoff": "2026-10-03T19:30:00+00:00"
-    },
-    {
-      "auditGrade": true,
-      "away": {
-        "availabilityVerified": false,
-        "continuity": 0.8461538461538461,
-        "exclusions": [],
-        "gameCount": 3,
-        "gamesConsidered": [
-          "401856672",
-          "401856687",
-          "401856699"
+          "401858237",
+          "401858253"
         ],
         "notes": [],
         "qbAttemptsLast3": 66.0,
-        "selectedQbId": "5132812",
-        "selectedQbName": "Aaron Philo",
+        "selectedQbId": "4838679",
+        "selectedQbName": "Ashton Daniels",
         "starterSource": "LAST_COMPLETED_GAME_ATTEMPT_LEADER",
-        "team": "Florida",
-        "teamAttemptsLast3": 78.0
+        "team": "Florida State",
+        "teamAttemptsLast3": 68.0
       },
-      "decisionTime": "2026-10-02T18:33:37.866324+00:00",
+      "decisionTime": "2026-10-05T21:10:48.625580+00:00",
       "exclusions": [],
-      "featureAsOf": "2026-10-02T18:33:09.844659+00:00",
-      "featureValue": 0.13137424373379425,
-      "game": "Florida @ Missouri",
+      "featureAsOf": "2026-10-05T21:09:59.746427+00:00",
+      "featureValue": 0.02941176470588236,
+      "game": "Florida State @ Louisville",
       "home": {
         "availabilityVerified": false,
-        "continuity": 0.9775280898876404,
+        "continuity": 1.0,
         "exclusions": [],
         "gameCount": 3,
         "gamesConsidered": [
-          "401856678",
-          "401856689",
-          "401856703"
-        ],
-        "notes": [],
-        "qbAttemptsLast3": 87.0,
-        "selectedQbId": "5141684",
-        "selectedQbName": "Austin Simmons",
-        "starterSource": "LAST_COMPLETED_GAME_ATTEMPT_LEADER",
-        "team": "Missouri",
-        "teamAttemptsLast3": 89.0
-      },
-      "kickoff": "2026-10-03T19:30:00+00:00"
-    },
-    {
-      "auditGrade": true,
-      "away": {
-        "availabilityVerified": false,
-        "continuity": 0.9833333333333333,
-        "exclusions": [],
-        "gameCount": 3,
-        "gamesConsidered": [
-          "401858219",
-          "401869948",
-          "401856806"
-        ],
-        "notes": [],
-        "qbAttemptsLast3": 118.0,
-        "selectedQbId": "4685740",
-        "selectedQbName": "Max Johnson",
-        "starterSource": "LAST_COMPLETED_GAME_ATTEMPT_LEADER",
-        "team": "Georgia Southern",
-        "teamAttemptsLast3": 120.0
-      },
-      "decisionTime": "2026-10-02T18:33:37.866324+00:00",
-      "exclusions": [],
-      "featureAsOf": "2026-10-02T18:33:09.844659+00:00",
-      "featureValue": -0.02827715355805238,
-      "game": "Georgia Southern @ Coastal Carolina",
-      "home": {
-        "availabilityVerified": false,
-        "continuity": 0.9550561797752809,
-        "exclusions": [],
-        "gameCount": 3,
-        "gamesConsidered": [
-          "401868008",
-          "401869940",
-          "401869941"
-        ],
-        "notes": [],
-        "qbAttemptsLast3": 85.0,
-        "selectedQbId": "5296439",
-        "selectedQbName": "Deuce Bailey",
-        "starterSource": "LAST_COMPLETED_GAME_ATTEMPT_LEADER",
-        "team": "Coastal Carolina",
-        "teamAttemptsLast3": 89.0
-      },
-      "kickoff": "2026-10-03T23:00:00+00:00"
-    },
-    {
-      "auditGrade": true,
-      "away": {
-        "availabilityVerified": false,
-        "continuity": 0.9736842105263158,
-        "exclusions": [],
-        "gameCount": 3,
-        "gamesConsidered": [
-          "401856674",
-          "401856694",
-          "401864576"
-        ],
-        "notes": [],
-        "qbAttemptsLast3": 74.0,
-        "selectedQbId": "4918099",
-        "selectedQbName": "Kenny Minchey",
-        "starterSource": "LAST_COMPLETED_GAME_ATTEMPT_LEADER",
-        "team": "Kentucky",
-        "teamAttemptsLast3": 76.0
-      },
-      "decisionTime": "2026-10-02T18:33:37.866324+00:00",
-      "exclusions": [],
-      "featureAsOf": "2026-10-02T18:33:09.844659+00:00",
-      "featureValue": -0.03429027113237637,
-      "game": "Kentucky @ South Carolina",
-      "home": {
-        "availabilityVerified": false,
-        "continuity": 0.9393939393939394,
-        "exclusions": [],
-        "gameCount": 3,
-        "gamesConsidered": [
-          "401856680",
-          "401856691",
-          "401856696"
-        ],
-        "notes": [],
-        "qbAttemptsLast3": 93.0,
-        "selectedQbId": "4875127",
-        "selectedQbName": "Lanorris Sellers",
-        "starterSource": "LAST_COMPLETED_GAME_ATTEMPT_LEADER",
-        "team": "South Carolina",
-        "teamAttemptsLast3": 99.0
-      },
-      "kickoff": "2026-10-03T20:15:00+00:00"
-    },
-    {
-      "auditGrade": true,
-      "away": {
-        "availabilityVerified": false,
-        "continuity": 0.9195402298850575,
-        "exclusions": [],
-        "gameCount": 3,
-        "gamesConsidered": [
-          "401858215",
           "401858230",
-          "401858243"
+          "401858243",
+          "401858248"
         ],
         "notes": [],
-        "qbAttemptsLast3": 80.0,
+        "qbAttemptsLast3": 89.0,
         "selectedQbId": "5078278",
         "selectedQbName": "Lincoln Kienholz",
         "starterSource": "LAST_COMPLETED_GAME_ATTEMPT_LEADER",
         "team": "Louisville",
-        "teamAttemptsLast3": 87.0
-      },
-      "decisionTime": "2026-10-02T18:33:37.866324+00:00",
-      "exclusions": [],
-      "featureAsOf": "2026-10-02T18:33:09.844659+00:00",
-      "featureValue": -0.003750756200846972,
-      "game": "Louisville @ NC State",
-      "home": {
-        "availabilityVerified": false,
-        "continuity": 0.9157894736842105,
-        "exclusions": [],
-        "gameCount": 3,
-        "gamesConsidered": [
-          "401858222",
-          "401856695",
-          "401864572"
-        ],
-        "notes": [],
-        "qbAttemptsLast3": 87.0,
-        "selectedQbId": "5079301",
-        "selectedQbName": "CJ Bailey",
-        "starterSource": "LAST_COMPLETED_GAME_ATTEMPT_LEADER",
-        "team": "NC State",
-        "teamAttemptsLast3": 95.0
-      },
-      "kickoff": "2026-10-03T19:30:00+00:00"
-    },
-    {
-      "auditGrade": true,
-      "away": {
-        "availabilityVerified": false,
-        "continuity": 0.797752808988764,
-        "exclusions": [],
-        "gameCount": 3,
-        "gamesConsidered": [
-          "401871045",
-          "401871047",
-          "401868188"
-        ],
-        "notes": [],
-        "qbAttemptsLast3": 71.0,
-        "selectedQbId": "4432691",
-        "selectedQbName": "Carlos Del Rio-Wilson",
-        "starterSource": "LAST_COMPLETED_GAME_ATTEMPT_LEADER",
-        "team": "Marshall",
         "teamAttemptsLast3": 89.0
       },
-      "decisionTime": "2026-10-02T18:33:37.866324+00:00",
-      "exclusions": [],
-      "featureAsOf": "2026-10-02T18:33:09.844659+00:00",
-      "featureValue": 0.108497191011236,
-      "game": "Marshall @ James Madison",
-      "home": {
-        "availabilityVerified": false,
-        "continuity": 0.90625,
-        "exclusions": [],
-        "gameCount": 3,
-        "gamesConsidered": [
-          "401867929",
-          "401860887",
-          "401869961"
-        ],
-        "notes": [],
-        "qbAttemptsLast3": 87.0,
-        "selectedQbId": "5153978",
-        "selectedQbName": "Camden Coleman",
-        "starterSource": "LAST_COMPLETED_GAME_ATTEMPT_LEADER",
-        "team": "James Madison",
-        "teamAttemptsLast3": 96.0
-      },
-      "kickoff": "2026-10-03T19:45:00+00:00"
+      "kickoff": "2026-10-09T23:00:00+00:00"
     },
     {
       "auditGrade": true,
       "away": {
         "availabilityVerified": false,
-        "continuity": 0.9838709677419355,
+        "continuity": 0.825,
         "exclusions": [],
         "gameCount": 3,
         "gamesConsidered": [
-          "401858444",
-          "401858232",
-          "401858462"
+          "401864502",
+          "401864509",
+          "401862791"
         ],
         "notes": [],
-        "qbAttemptsLast3": 122.0,
-        "selectedQbId": "5141695",
-        "selectedQbName": "Malik Washington",
+        "qbAttemptsLast3": 33.0,
+        "selectedQbId": "5238868",
+        "selectedQbName": "Liam Szarka",
         "starterSource": "LAST_COMPLETED_GAME_ATTEMPT_LEADER",
-        "team": "Maryland",
-        "teamAttemptsLast3": 124.0
+        "team": "Air Force",
+        "teamAttemptsLast3": 40.0
       },
-      "decisionTime": "2026-10-02T18:33:37.866324+00:00",
+      "decisionTime": "2026-10-05T21:10:48.625580+00:00",
       "exclusions": [],
-      "featureAsOf": "2026-10-02T18:33:09.844659+00:00",
-      "featureValue": -0.13681214421252375,
-      "game": "Maryland @ Nebraska",
+      "featureAsOf": "2026-10-05T21:09:59.746427+00:00",
+      "featureValue": 0.09673913043478266,
+      "game": "Air Force @ Northern Illinois",
       "home": {
         "availabilityVerified": false,
-        "continuity": 0.8470588235294118,
+        "continuity": 0.9217391304347826,
         "exclusions": [],
         "gameCount": 3,
         "gamesConsidered": [
-          "401858441",
-          "401858452",
-          "401858464"
+          "401864503",
+          "401856793",
+          "401864511"
         ],
         "notes": [],
-        "qbAttemptsLast3": 72.0,
-        "selectedQbId": "5044387",
-        "selectedQbName": "Anthony Colandrea",
+        "qbAttemptsLast3": 106.0,
+        "selectedQbId": "4881032",
+        "selectedQbName": "Taron Dickens",
         "starterSource": "LAST_COMPLETED_GAME_ATTEMPT_LEADER",
-        "team": "Nebraska",
-        "teamAttemptsLast3": 85.0
+        "team": "Northern Illinois",
+        "teamAttemptsLast3": 115.0
       },
-      "kickoff": "2026-10-03T20:00:00+00:00"
+      "kickoff": "2026-10-10T23:30:00+00:00"
     },
     {
       "auditGrade": true,
       "away": {
         "availabilityVerified": false,
-        "continuity": 0.9473684210526315,
+        "continuity": 0.9727272727272728,
         "exclusions": [],
         "gameCount": 3,
         "gamesConsidered": [
-          "401862695",
-          "401860881",
-          "401862772"
+          "401856793",
+          "401856804",
+          "401856820"
         ],
         "notes": [],
-        "qbAttemptsLast3": 72.0,
-        "selectedQbId": "5165807",
-        "selectedQbName": "Marcus Stokes",
+        "qbAttemptsLast3": 107.0,
+        "selectedQbId": "4801717",
+        "selectedQbName": "Noah Fifita",
         "starterSource": "LAST_COMPLETED_GAME_ATTEMPT_LEADER",
-        "team": "Memphis",
-        "teamAttemptsLast3": 76.0
+        "team": "Arizona",
+        "teamAttemptsLast3": 110.0
       },
-      "decisionTime": "2026-10-02T18:33:37.866324+00:00",
+      "decisionTime": "2026-10-05T21:10:48.625580+00:00",
       "exclusions": [],
-      "featureAsOf": "2026-10-02T18:33:09.844659+00:00",
-      "featureValue": -0.17317487266553477,
-      "game": "Memphis @ Charlotte",
-      "home": {
-        "availabilityVerified": false,
-        "continuity": 0.7741935483870968,
-        "exclusions": [],
-        "gameCount": 3,
-        "gamesConsidered": [
-          "401856676",
-          "401864574",
-          "401862780"
-        ],
-        "notes": [],
-        "qbAttemptsLast3": 72.0,
-        "selectedQbId": "5089540",
-        "selectedQbName": "Cole Gonzales",
-        "starterSource": "LAST_COMPLETED_GAME_ATTEMPT_LEADER",
-        "team": "Charlotte",
-        "teamAttemptsLast3": 93.0
-      },
-      "kickoff": "2026-10-03T19:30:00+00:00"
-    },
-    {
-      "auditGrade": true,
-      "away": {
-        "availabilityVerified": false,
-        "continuity": 0.7835051546391752,
-        "exclusions": [],
-        "gameCount": 3,
-        "gamesConsidered": [
-          "401858213",
-          "401858226",
-          "401858238"
-        ],
-        "notes": [],
-        "qbAttemptsLast3": 76.0,
-        "selectedQbId": "5121169",
-        "selectedQbName": "Darian Mensah",
-        "starterSource": "LAST_COMPLETED_GAME_ATTEMPT_LEADER",
-        "team": "Miami",
-        "teamAttemptsLast3": 97.0
-      },
-      "decisionTime": "2026-10-02T18:33:37.866324+00:00",
-      "exclusions": [],
-      "featureAsOf": "2026-10-02T18:33:09.844659+00:00",
-      "featureValue": 0.11184368257012711,
-      "game": "Miami @ Clemson",
-      "home": {
-        "availabilityVerified": false,
-        "continuity": 0.8953488372093024,
-        "exclusions": [],
-        "gameCount": 3,
-        "gamesConsidered": [
-          "401858219",
-          "401858229",
-          "401858234"
-        ],
-        "notes": [],
-        "qbAttemptsLast3": 77.0,
-        "selectedQbId": "5159078",
-        "selectedQbName": "Tait Reynolds",
-        "starterSource": "LAST_COMPLETED_GAME_ATTEMPT_LEADER",
-        "team": "Clemson",
-        "teamAttemptsLast3": 86.0
-      },
-      "kickoff": "2026-10-03T23:30:00+00:00"
-    },
-    {
-      "auditGrade": true,
-      "away": {
-        "availabilityVerified": false,
-        "continuity": 0.958904109589041,
-        "exclusions": [],
-        "gameCount": 3,
-        "gamesConsidered": [
-          "401856679",
-          "401858450",
-          "401858463"
-        ],
-        "notes": [],
-        "qbAttemptsLast3": 70.0,
-        "selectedQbId": "5141741",
-        "selectedQbName": "Bryce Underwood",
-        "starterSource": "LAST_COMPLETED_GAME_ATTEMPT_LEADER",
-        "team": "Michigan",
-        "teamAttemptsLast3": 73.0
-      },
-      "decisionTime": "2026-10-02T18:33:37.866324+00:00",
-      "exclusions": [],
-      "featureAsOf": "2026-10-02T18:33:09.844659+00:00",
-      "featureValue": 0.04109589041095896,
-      "game": "Michigan @ Minnesota",
+      "featureAsOf": "2026-10-05T21:09:59.746427+00:00",
+      "featureValue": 0.027272727272727226,
+      "game": "Arizona @ West Virginia",
       "home": {
         "availabilityVerified": false,
         "continuity": 1.0,
         "exclusions": [],
         "gameCount": 3,
         "gamesConsidered": [
-          "401856677",
-          "401858451",
-          "401858470"
+          "401856802",
+          "401856881",
+          "401856822"
+        ],
+        "notes": [],
+        "qbAttemptsLast3": 62.0,
+        "selectedQbId": "5079465",
+        "selectedQbName": "Michael Hawkins Jr.",
+        "starterSource": "LAST_COMPLETED_GAME_ATTEMPT_LEADER",
+        "team": "West Virginia",
+        "teamAttemptsLast3": 62.0
+      },
+      "kickoff": "2026-10-10T16:00:00+00:00"
+    },
+    {
+      "auditGrade": true,
+      "away": {
+        "availabilityVerified": false,
+        "continuity": 0.6506024096385542,
+        "exclusions": [],
+        "gameCount": 3,
+        "gamesConsidered": [
+          "401866422",
+          "401866425",
+          "401866431"
+        ],
+        "notes": [],
+        "qbAttemptsLast3": 54.0,
+        "selectedQbId": "5075392",
+        "selectedQbName": "Keldric Luster",
+        "starterSource": "LAST_COMPLETED_GAME_ATTEMPT_LEADER",
+        "team": "Ball State",
+        "teamAttemptsLast3": 83.0
+      },
+      "decisionTime": "2026-10-05T21:10:48.625580+00:00",
+      "exclusions": [],
+      "featureAsOf": "2026-10-05T21:09:59.746427+00:00",
+      "featureValue": 0.33424607520993066,
+      "game": "Ball State @ Northwestern",
+      "home": {
+        "availabilityVerified": false,
+        "continuity": 0.9848484848484849,
+        "exclusions": [],
+        "gameCount": 3,
+        "gamesConsidered": [
+          "401856796",
+          "401858461",
+          "401858476"
+        ],
+        "notes": [],
+        "qbAttemptsLast3": 65.0,
+        "selectedQbId": "5075805",
+        "selectedQbName": "Aidan Chiles",
+        "starterSource": "LAST_COMPLETED_GAME_ATTEMPT_LEADER",
+        "team": "Northwestern",
+        "teamAttemptsLast3": 66.0
+      },
+      "kickoff": "2026-10-10T16:30:00+00:00"
+    },
+    {
+      "auditGrade": true,
+      "away": {
+        "availabilityVerified": false,
+        "continuity": 1.0,
+        "exclusions": [],
+        "gameCount": 3,
+        "gamesConsidered": [
+          "401858456",
+          "401866426",
+          "401866432"
+        ],
+        "notes": [],
+        "qbAttemptsLast3": 71.0,
+        "selectedQbId": "5222591",
+        "selectedQbName": "Jason Wright",
+        "starterSource": "LAST_COMPLETED_GAME_ATTEMPT_LEADER",
+        "team": "Buffalo",
+        "teamAttemptsLast3": 71.0
+      },
+      "decisionTime": "2026-10-05T21:10:48.625580+00:00",
+      "exclusions": [],
+      "featureAsOf": "2026-10-05T21:09:59.746427+00:00",
+      "featureValue": 0.0,
+      "game": "Buffalo @ Toledo",
+      "home": {
+        "availabilityVerified": false,
+        "continuity": 1.0,
+        "exclusions": [],
+        "gameCount": 3,
+        "gamesConsidered": [
+          "401862774",
+          "401860893",
+          "401866431"
         ],
         "notes": [],
         "qbAttemptsLast3": 108.0,
-        "selectedQbId": "5144959",
-        "selectedQbName": "Drake Lindsey",
+        "selectedQbId": "5082330",
+        "selectedQbName": "John Alan Richter",
         "starterSource": "LAST_COMPLETED_GAME_ATTEMPT_LEADER",
-        "team": "Minnesota",
+        "team": "Toledo",
         "teamAttemptsLast3": 108.0
       },
-      "kickoff": "2026-10-03T16:00:00+00:00"
+      "kickoff": "2026-10-10T19:30:00+00:00"
+    },
+    {
+      "auditGrade": true,
+      "away": {
+        "availabilityVerified": false,
+        "continuity": 0.56,
+        "exclusions": [],
+        "gameCount": 3,
+        "gamesConsidered": [
+          "401864508",
+          "401858238",
+          "401866430"
+        ],
+        "notes": [],
+        "qbAttemptsLast3": 28.0,
+        "selectedQbId": "5084769",
+        "selectedQbName": "Angel H Flores",
+        "starterSource": "LAST_COMPLETED_GAME_ATTEMPT_LEADER",
+        "team": "Central Michigan",
+        "teamAttemptsLast3": 50.0
+      },
+      "decisionTime": "2026-10-05T21:10:48.625580+00:00",
+      "exclusions": [],
+      "featureAsOf": "2026-10-05T21:09:59.746427+00:00",
+      "featureValue": 0.12181818181818171,
+      "game": "Central Michigan @ Ohio",
+      "home": {
+        "availabilityVerified": false,
+        "continuity": 0.6818181818181818,
+        "exclusions": [],
+        "gameCount": 3,
+        "gamesConsidered": [
+          "401866423",
+          "401866428",
+          "401866434"
+        ],
+        "notes": [],
+        "qbAttemptsLast3": 45.0,
+        "selectedQbId": "5171031",
+        "selectedQbName": "Matt Vezza",
+        "starterSource": "LAST_COMPLETED_GAME_ATTEMPT_LEADER",
+        "team": "Ohio",
+        "teamAttemptsLast3": 66.0
+      },
+      "kickoff": "2026-10-10T19:30:00+00:00"
+    },
+    {
+      "auditGrade": true,
+      "away": {
+        "availabilityVerified": false,
+        "continuity": 0.8024691358024691,
+        "exclusions": [],
+        "gameCount": 3,
+        "gamesConsidered": [
+          "401864574",
+          "401862780",
+          "401862787"
+        ],
+        "notes": [],
+        "qbAttemptsLast3": 65.0,
+        "selectedQbId": "5089540",
+        "selectedQbName": "Cole Gonzales",
+        "starterSource": "LAST_COMPLETED_GAME_ATTEMPT_LEADER",
+        "team": "Charlotte",
+        "teamAttemptsLast3": 81.0
+      },
+      "decisionTime": "2026-10-05T21:10:48.625580+00:00",
+      "exclusions": [],
+      "featureAsOf": "2026-10-05T21:09:59.746427+00:00",
+      "featureValue": 0.11688570290720823,
+      "game": "Charlotte @ North Texas",
+      "home": {
+        "availabilityVerified": false,
+        "continuity": 0.9193548387096774,
+        "exclusions": [],
+        "gameCount": 3,
+        "gamesConsidered": [
+          "401860889",
+          "401862783",
+          "401862786"
+        ],
+        "notes": [],
+        "qbAttemptsLast3": 114.0,
+        "selectedQbId": "4801307",
+        "selectedQbName": "Tayven Jackson",
+        "starterSource": "LAST_COMPLETED_GAME_ATTEMPT_LEADER",
+        "team": "North Texas",
+        "teamAttemptsLast3": 124.0
+      },
+      "kickoff": "2026-10-10T19:30:00+00:00"
+    },
+    {
+      "auditGrade": true,
+      "away": {
+        "availabilityVerified": false,
+        "continuity": 0.9893617021276596,
+        "exclusions": [],
+        "gameCount": 3,
+        "gamesConsidered": [
+          "401869940",
+          "401869941",
+          "401869942"
+        ],
+        "notes": [],
+        "qbAttemptsLast3": 93.0,
+        "selectedQbId": "5296439",
+        "selectedQbName": "Deuce Bailey",
+        "starterSource": "LAST_COMPLETED_GAME_ATTEMPT_LEADER",
+        "team": "Coastal Carolina",
+        "teamAttemptsLast3": 94.0
+      },
+      "decisionTime": "2026-10-05T21:10:48.625580+00:00",
+      "exclusions": [],
+      "featureAsOf": "2026-10-05T21:09:59.746427+00:00",
+      "featureValue": -0.13466084742680495,
+      "game": "Coastal Carolina @ Marshall",
+      "home": {
+        "availabilityVerified": false,
+        "continuity": 0.8547008547008547,
+        "exclusions": [],
+        "gameCount": 3,
+        "gamesConsidered": [
+          "401871047",
+          "401868188",
+          "401869962"
+        ],
+        "notes": [],
+        "qbAttemptsLast3": 100.0,
+        "selectedQbId": "4432691",
+        "selectedQbName": "Carlos Del Rio-Wilson",
+        "starterSource": "LAST_COMPLETED_GAME_ATTEMPT_LEADER",
+        "team": "Marshall",
+        "teamAttemptsLast3": 117.0
+      },
+      "kickoff": "2026-10-10T23:00:00+00:00"
+    },
+    {
+      "auditGrade": true,
+      "away": {
+        "availabilityVerified": false,
+        "continuity": 0.8375,
+        "exclusions": [],
+        "gameCount": 3,
+        "gamesConsidered": [
+          "401858217",
+          "401858231",
+          "401858244"
+        ],
+        "notes": [],
+        "qbAttemptsLast3": 67.0,
+        "selectedQbId": "4694149",
+        "selectedQbName": "Walker Eget",
+        "starterSource": "LAST_COMPLETED_GAME_ATTEMPT_LEADER",
+        "team": "Duke",
+        "teamAttemptsLast3": 80.0
+      },
+      "decisionTime": "2026-10-05T21:10:48.625580+00:00",
+      "exclusions": [],
+      "featureAsOf": "2026-10-05T21:09:59.746427+00:00",
+      "featureValue": 0.15259900990099007,
+      "game": "Duke @ Georgia Tech",
+      "home": {
+        "availabilityVerified": false,
+        "continuity": 0.9900990099009901,
+        "exclusions": [],
+        "gameCount": 3,
+        "gamesConsidered": [
+          "401856681",
+          "401858228",
+          "401858240"
+        ],
+        "notes": [],
+        "qbAttemptsLast3": 100.0,
+        "selectedQbId": "5191162",
+        "selectedQbName": "Alberto Mendoza",
+        "starterSource": "LAST_COMPLETED_GAME_ATTEMPT_LEADER",
+        "team": "Georgia Tech",
+        "teamAttemptsLast3": 101.0
+      },
+      "kickoff": "2026-10-10T19:30:00+00:00"
+    },
+    {
+      "auditGrade": true,
+      "away": {
+        "availabilityVerified": false,
+        "continuity": 0.9795918367346939,
+        "exclusions": [],
+        "gameCount": 3,
+        "gamesConsidered": [
+          "401858460",
+          "401866427",
+          "401866433"
+        ],
+        "notes": [],
+        "qbAttemptsLast3": 96.0,
+        "selectedQbId": "4690158",
+        "selectedQbName": "Noah Kim",
+        "starterSource": "LAST_COMPLETED_GAME_ATTEMPT_LEADER",
+        "team": "Eastern Michigan",
+        "teamAttemptsLast3": 98.0
+      },
+      "decisionTime": "2026-10-05T21:10:48.625580+00:00",
+      "exclusions": [],
+      "featureAsOf": "2026-10-05T21:09:59.746427+00:00",
+      "featureValue": -0.13423101199242582,
+      "game": "Eastern Michigan @ Akron",
+      "home": {
+        "availabilityVerified": false,
+        "continuity": 0.845360824742268,
+        "exclusions": [],
+        "gameCount": 3,
+        "gamesConsidered": [
+          "401858451",
+          "401864512",
+          "401866430"
+        ],
+        "notes": [],
+        "qbAttemptsLast3": 82.0,
+        "selectedQbId": "5146903",
+        "selectedQbName": "Brayden Roggow",
+        "starterSource": "LAST_COMPLETED_GAME_ATTEMPT_LEADER",
+        "team": "Akron",
+        "teamAttemptsLast3": 97.0
+      },
+      "kickoff": "2026-10-10T19:30:00+00:00"
     },
     {
       "auditGrade": true,
@@ -957,167 +462,594 @@
         "exclusions": [],
         "gameCount": 3,
         "gamesConsidered": [
-          "401858440",
-          "401858453",
-          "401858464"
+          "401856686",
+          "401856700",
+          "401856705"
         ],
         "notes": [],
-        "qbAttemptsLast3": 63.0,
+        "qbAttemptsLast3": 70.0,
+        "selectedQbId": "4685578",
+        "selectedQbName": "Gunner Stockton",
+        "starterSource": "LAST_COMPLETED_GAME_ATTEMPT_LEADER",
+        "team": "Georgia",
+        "teamAttemptsLast3": 80.0
+      },
+      "decisionTime": "2026-10-05T21:10:48.625580+00:00",
+      "exclusions": [],
+      "featureAsOf": "2026-10-05T21:09:59.746427+00:00",
+      "featureValue": 0.10030864197530864,
+      "game": "Georgia @ Alabama",
+      "home": {
+        "availabilityVerified": false,
+        "continuity": 0.9753086419753086,
+        "exclusions": [],
+        "gameCount": 3,
+        "gamesConsidered": [
+          "401856685",
+          "401856696",
+          "401856707"
+        ],
+        "notes": [],
+        "qbAttemptsLast3": 79.0,
+        "selectedQbId": "5141629",
+        "selectedQbName": "Keelon Russell",
+        "starterSource": "LAST_COMPLETED_GAME_ATTEMPT_LEADER",
+        "team": "Alabama",
+        "teamAttemptsLast3": 81.0
+      },
+      "kickoff": "2026-10-10T23:30:00+00:00"
+    },
+    {
+      "auditGrade": true,
+      "away": {
+        "availabilityVerified": false,
+        "continuity": 1.0,
+        "exclusions": [],
+        "gameCount": 3,
+        "gamesConsidered": [
+          "401856811",
+          "401856806",
+          "401856819"
+        ],
+        "notes": [],
+        "qbAttemptsLast3": 93.0,
+        "selectedQbId": "4685574",
+        "selectedQbName": "Conner Weigman",
+        "starterSource": "LAST_COMPLETED_GAME_ATTEMPT_LEADER",
+        "team": "Houston",
+        "teamAttemptsLast3": 93.0
+      },
+      "decisionTime": "2026-10-05T21:10:48.625580+00:00",
+      "exclusions": [],
+      "featureAsOf": "2026-10-05T21:09:59.746427+00:00",
+      "featureValue": 0.0,
+      "game": "Houston @ Kansas State",
+      "home": {
+        "availabilityVerified": false,
+        "continuity": 1.0,
+        "exclusions": [],
+        "gameCount": 3,
+        "gamesConsidered": [
+          "401856781",
+          "401856792",
+          "401856814"
+        ],
+        "notes": [],
+        "qbAttemptsLast3": 112.0,
+        "selectedQbId": "4870857",
+        "selectedQbName": "Avery Johnson",
+        "starterSource": "LAST_COMPLETED_GAME_ATTEMPT_LEADER",
+        "team": "Kansas State",
+        "teamAttemptsLast3": 112.0
+      },
+      "kickoff": "2026-10-10T19:30:00+00:00"
+    },
+    {
+      "auditGrade": true,
+      "away": {
+        "availabilityVerified": false,
+        "continuity": 0.9903846153846154,
+        "exclusions": [],
+        "gameCount": 3,
+        "gamesConsidered": [
+          "401858448",
+          "401858465",
+          "401858472"
+        ],
+        "notes": [],
+        "qbAttemptsLast3": 103.0,
+        "selectedQbId": "4795295",
+        "selectedQbName": "Katin Houser",
+        "starterSource": "LAST_COMPLETED_GAME_ATTEMPT_LEADER",
+        "team": "Illinois",
+        "teamAttemptsLast3": 104.0
+      },
+      "decisionTime": "2026-10-05T21:10:48.625580+00:00",
+      "exclusions": [],
+      "featureAsOf": "2026-10-05T21:09:59.746427+00:00",
+      "featureValue": -0.05288461538461542,
+      "game": "Illinois @ Michigan State",
+      "home": {
+        "availabilityVerified": false,
+        "continuity": 0.9375,
+        "exclusions": [],
+        "gameCount": 3,
+        "gamesConsidered": [
+          "401858453",
+          "401858464",
+          "401858479"
+        ],
+        "notes": [],
+        "qbAttemptsLast3": 75.0,
         "selectedQbId": "5146670",
         "selectedQbName": "Alessio Milivojevic",
         "starterSource": "LAST_COMPLETED_GAME_ATTEMPT_LEADER",
         "team": "Michigan State",
-        "teamAttemptsLast3": 72.0
+        "teamAttemptsLast3": 80.0
       },
-      "decisionTime": "2026-10-02T18:33:37.866324+00:00",
-      "exclusions": [],
-      "featureAsOf": "2026-10-02T18:33:09.844659+00:00",
-      "featureValue": 0.125,
-      "game": "Michigan State @ Wisconsin",
-      "home": {
-        "availabilityVerified": false,
-        "continuity": 1.0,
-        "exclusions": [],
-        "gameCount": 3,
-        "gamesConsidered": [
-          "401858447",
-          "401858460",
-          "401858466"
-        ],
-        "notes": [],
-        "qbAttemptsLast3": 93.0,
-        "selectedQbId": "5125715",
-        "selectedQbName": "Colton Joseph",
-        "starterSource": "LAST_COMPLETED_GAME_ATTEMPT_LEADER",
-        "team": "Wisconsin",
-        "teamAttemptsLast3": 93.0
-      },
-      "kickoff": "2026-10-03T16:30:00+00:00"
+      "kickoff": "2026-10-10T19:30:00+00:00"
     },
     {
       "auditGrade": true,
       "away": {
         "availabilityVerified": false,
-        "continuity": 1.0,
+        "continuity": 0.963855421686747,
         "exclusions": [],
         "gameCount": 3,
         "gamesConsidered": [
-          "401871045",
-          "401864443",
-          "401871048"
+          "401858449",
+          "401858461",
+          "401858477"
         ],
         "notes": [],
-        "qbAttemptsLast3": 104.0,
-        "selectedQbId": "5194626",
-        "selectedQbName": "Roman Gagliano",
+        "qbAttemptsLast3": 80.0,
+        "selectedQbId": "4685401",
+        "selectedQbName": "Josh Hoover",
         "starterSource": "LAST_COMPLETED_GAME_ATTEMPT_LEADER",
-        "team": "Middle Tennessee",
-        "teamAttemptsLast3": 104.0
+        "team": "Indiana",
+        "teamAttemptsLast3": 83.0
       },
-      "decisionTime": "2026-10-02T18:33:37.866324+00:00",
+      "decisionTime": "2026-10-05T21:10:48.625580+00:00",
       "exclusions": [],
-      "featureAsOf": "2026-10-02T18:33:09.844659+00:00",
-      "featureValue": -0.0786516853932584,
-      "game": "Middle Tennessee @ Kansas",
+      "featureAsOf": "2026-10-05T21:09:59.746427+00:00",
+      "featureValue": -0.018203247773703524,
+      "game": "Indiana @ Nebraska",
       "home": {
         "availabilityVerified": false,
-        "continuity": 0.9213483146067416,
+        "continuity": 0.9456521739130435,
         "exclusions": [],
         "gameCount": 3,
         "gamesConsidered": [
-          "401856769",
-          "401856678",
-          "401856812"
+          "401858452",
+          "401858464",
+          "401858475"
         ],
         "notes": [],
-        "qbAttemptsLast3": 82.0,
-        "selectedQbId": "5079604",
-        "selectedQbName": "Isaiah Marshall",
+        "qbAttemptsLast3": 87.0,
+        "selectedQbId": "5044387",
+        "selectedQbName": "Anthony Colandrea",
         "starterSource": "LAST_COMPLETED_GAME_ATTEMPT_LEADER",
-        "team": "Kansas",
-        "teamAttemptsLast3": 89.0
+        "team": "Nebraska",
+        "teamAttemptsLast3": 92.0
       },
-      "kickoff": "2026-10-03T16:00:00+00:00"
+      "kickoff": "2026-10-10T16:00:00+00:00"
     },
     {
       "auditGrade": true,
       "away": {
         "availabilityVerified": false,
-        "continuity": 0.5952380952380952,
+        "continuity": 0.8222222222222222,
         "exclusions": [],
         "gameCount": 3,
         "gamesConsidered": [
-          "401862696",
-          "401862703",
-          "401862778"
+          "401858471",
+          "401858463",
+          "401858473"
         ],
         "notes": [],
-        "qbAttemptsLast3": 25.0,
-        "selectedQbId": "5220473",
-        "selectedQbName": "Jackson Gutierrez",
+        "qbAttemptsLast3": 74.0,
+        "selectedQbId": "5089314",
+        "selectedQbName": "Hank Brown",
         "starterSource": "LAST_COMPLETED_GAME_ATTEMPT_LEADER",
-        "team": "Navy",
-        "teamAttemptsLast3": 42.0
+        "team": "Iowa",
+        "teamAttemptsLast3": 90.0
       },
-      "decisionTime": "2026-10-02T18:33:37.866324+00:00",
+      "decisionTime": "2026-10-05T21:10:48.625580+00:00",
       "exclusions": [],
-      "featureAsOf": "2026-10-02T18:33:09.844659+00:00",
-      "featureValue": 0.17619047619047623,
-      "game": "Navy @ Air Force",
+      "featureAsOf": "2026-10-05T21:09:59.746427+00:00",
+      "featureValue": 0.1338217338217339,
+      "game": "Iowa @ Washington",
       "home": {
         "availabilityVerified": false,
-        "continuity": 0.7714285714285715,
+        "continuity": 0.9560439560439561,
         "exclusions": [],
         "gameCount": 3,
         "gamesConsidered": [
-          "401864496",
-          "401864502",
-          "401864509"
+          "401858459",
+          "401858470",
+          "401858478"
         ],
         "notes": [],
-        "qbAttemptsLast3": 27.0,
-        "selectedQbId": "5238868",
-        "selectedQbName": "Liam Szarka",
+        "qbAttemptsLast3": 87.0,
+        "selectedQbId": "5079653",
+        "selectedQbName": "Demond Williams Jr.",
         "starterSource": "LAST_COMPLETED_GAME_ATTEMPT_LEADER",
-        "team": "Air Force",
-        "teamAttemptsLast3": 35.0
+        "team": "Washington",
+        "teamAttemptsLast3": 91.0
       },
-      "kickoff": "2026-10-03T16:00:00+00:00"
+      "kickoff": "2026-10-10T01:00:00+00:00"
     },
     {
       "auditGrade": true,
       "away": {
         "availabilityVerified": false,
-        "continuity": 0.7951807228915663,
+        "continuity": 0.9655172413793104,
         "exclusions": [],
         "gameCount": 3,
         "gamesConsidered": [
-          "401859184",
-          "401858453",
-          "401858467"
+          "401856798",
+          "401856816",
+          "401856822"
+        ],
+        "notes": [],
+        "qbAttemptsLast3": 84.0,
+        "selectedQbId": "5080403",
+        "selectedQbName": "Jaylen Raynor",
+        "starterSource": "LAST_COMPLETED_GAME_ATTEMPT_LEADER",
+        "team": "Iowa State",
+        "teamAttemptsLast3": 87.0
+      },
+      "decisionTime": "2026-10-05T21:10:48.625580+00:00",
+      "exclusions": [],
+      "featureAsOf": "2026-10-05T21:09:59.746427+00:00",
+      "featureValue": 0.019557385486361212,
+      "game": "Iowa State @ BYU",
+      "home": {
+        "availabilityVerified": false,
+        "continuity": 0.9850746268656716,
+        "exclusions": [],
+        "gameCount": 3,
+        "gamesConsidered": [
+          "401856810",
+          "401856795",
+          "401856818"
         ],
         "notes": [],
         "qbAttemptsLast3": 66.0,
-        "selectedQbId": "5079369",
-        "selectedQbName": "C.J. Carr",
+        "selectedQbId": "5141367",
+        "selectedQbName": "Bear Bachmeier",
         "starterSource": "LAST_COMPLETED_GAME_ATTEMPT_LEADER",
-        "team": "Notre Dame",
-        "teamAttemptsLast3": 83.0
+        "team": "BYU",
+        "teamAttemptsLast3": 67.0
       },
-      "decisionTime": "2026-10-02T18:33:37.866324+00:00",
+      "kickoff": "2026-10-10T02:15:00+00:00"
+    },
+    {
+      "auditGrade": true,
+      "away": {
+        "availabilityVerified": false,
+        "continuity": 1.0,
+        "exclusions": [],
+        "gameCount": 3,
+        "gamesConsidered": [
+          "401860887",
+          "401869961",
+          "401869962"
+        ],
+        "notes": [],
+        "qbAttemptsLast3": 101.0,
+        "selectedQbId": "5153978",
+        "selectedQbName": "Camden Coleman",
+        "starterSource": "LAST_COMPLETED_GAME_ATTEMPT_LEADER",
+        "team": "James Madison",
+        "teamAttemptsLast3": 101.0
+      },
+      "decisionTime": "2026-10-05T21:10:48.625580+00:00",
       "exclusions": [],
-      "featureAsOf": "2026-10-02T18:33:09.844659+00:00",
-      "featureValue": 0.13339070567986233,
-      "game": "Notre Dame @ North Carolina",
+      "featureAsOf": "2026-10-05T21:09:59.746427+00:00",
+      "featureValue": -0.029126213592232997,
+      "game": "James Madison @ Georgia Southern",
       "home": {
+        "availabilityVerified": false,
+        "continuity": 0.970873786407767,
+        "exclusions": [],
+        "gameCount": 3,
+        "gamesConsidered": [
+          "401869948",
+          "401856806",
+          "401869942"
+        ],
+        "notes": [],
+        "qbAttemptsLast3": 100.0,
+        "selectedQbId": "4685740",
+        "selectedQbName": "Max Johnson",
+        "starterSource": "LAST_COMPLETED_GAME_ATTEMPT_LEADER",
+        "team": "Georgia Southern",
+        "teamAttemptsLast3": 103.0
+      },
+      "kickoff": "2026-10-10T23:30:00+00:00"
+    },
+    {
+      "auditGrade": true,
+      "away": {
+        "availabilityVerified": false,
+        "continuity": 0.9259259259259259,
+        "exclusions": [],
+        "gameCount": 3,
+        "gamesConsidered": [
+          "401858454",
+          "401866425",
+          "401866434"
+        ],
+        "notes": [],
+        "qbAttemptsLast3": 75.0,
+        "selectedQbId": "5119841",
+        "selectedQbName": "Dru Deshields",
+        "starterSource": "LAST_COMPLETED_GAME_ATTEMPT_LEADER",
+        "team": "Kent State",
+        "teamAttemptsLast3": 81.0
+      },
+      "decisionTime": "2026-10-05T21:10:48.625580+00:00",
+      "exclusions": [],
+      "featureAsOf": "2026-10-05T21:09:59.746427+00:00",
+      "featureValue": 0.0470470470470471,
+      "game": "Kent State @ Western Michigan",
+      "home": {
+        "availabilityVerified": false,
+        "continuity": 0.972972972972973,
+        "exclusions": [],
+        "gameCount": 3,
+        "gamesConsidered": [
+          "401862773",
+          "401860897",
+          "401866432"
+        ],
+        "notes": [],
+        "qbAttemptsLast3": 72.0,
+        "selectedQbId": "5074245",
+        "selectedQbName": "Broc Lowry",
+        "starterSource": "LAST_COMPLETED_GAME_ATTEMPT_LEADER",
+        "team": "Western Michigan",
+        "teamAttemptsLast3": 74.0
+      },
+      "kickoff": "2026-10-10T19:30:00+00:00"
+    },
+    {
+      "auditGrade": true,
+      "away": {
+        "availabilityVerified": false,
+        "continuity": 0.7087378640776699,
+        "exclusions": [],
+        "gameCount": 3,
+        "gamesConsidered": [
+          "401856688",
+          "401856702",
+          "401856706"
+        ],
+        "notes": [],
+        "qbAttemptsLast3": 73.0,
+        "selectedQbId": "5078810",
+        "selectedQbName": "Sam Leavitt",
+        "starterSource": "LAST_COMPLETED_GAME_ATTEMPT_LEADER",
+        "team": "LSU",
+        "teamAttemptsLast3": 103.0
+      },
+      "decisionTime": "2026-10-05T21:10:48.625580+00:00",
+      "exclusions": [],
+      "featureAsOf": "2026-10-05T21:09:59.746427+00:00",
+      "featureValue": 0.2794974300399772,
+      "game": "LSU @ Kentucky",
+      "home": {
+        "availabilityVerified": false,
+        "continuity": 0.9882352941176471,
+        "exclusions": [],
+        "gameCount": 3,
+        "gamesConsidered": [
+          "401856694",
+          "401864576",
+          "401856709"
+        ],
+        "notes": [],
+        "qbAttemptsLast3": 84.0,
+        "selectedQbId": "4918099",
+        "selectedQbName": "Kenny Minchey",
+        "starterSource": "LAST_COMPLETED_GAME_ATTEMPT_LEADER",
+        "team": "Kentucky",
+        "teamAttemptsLast3": 85.0
+      },
+      "kickoff": "2026-10-10T23:00:00+00:00"
+    },
+    {
+      "auditGrade": true,
+      "away": {
+        "availabilityVerified": false,
+        "continuity": 0.9571428571428572,
+        "exclusions": [],
+        "gameCount": 3,
+        "gamesConsidered": [
+          "401862776",
+          "401862780",
+          "401869932"
+        ],
+        "notes": [],
+        "qbAttemptsLast3": 67.0,
+        "selectedQbId": "4871091",
+        "selectedQbName": "D'Wayne' Winfield",
+        "starterSource": "LAST_COMPLETED_GAME_ATTEMPT_LEADER",
+        "team": "Louisiana",
+        "teamAttemptsLast3": 70.0
+      },
+      "decisionTime": "2026-10-05T21:10:48.625580+00:00",
+      "exclusions": [],
+      "featureAsOf": "2026-10-05T21:09:59.746427+00:00",
+      "featureValue": -0.20714285714285718,
+      "game": "Louisiana @ Louisiana Tech",
+      "home": {
+        "availabilityVerified": false,
+        "continuity": 0.75,
+        "exclusions": [],
+        "gameCount": 3,
+        "gamesConsidered": [
+          "401867796",
+          "401867804",
+          "401869842"
+        ],
+        "notes": [],
+        "qbAttemptsLast3": 69.0,
+        "selectedQbId": "5296376",
+        "selectedQbName": "Trey Kukuk",
+        "starterSource": "LAST_COMPLETED_GAME_ATTEMPT_LEADER",
+        "team": "Louisiana Tech",
+        "teamAttemptsLast3": 92.0
+      },
+      "kickoff": "2026-10-10T23:30:00+00:00"
+    },
+    {
+      "auditGrade": true,
+      "away": {
+        "availabilityVerified": false,
+        "continuity": 0.9920634920634921,
+        "exclusions": [],
+        "gameCount": 3,
+        "gamesConsidered": [
+          "401858232",
+          "401858462",
+          "401858475"
+        ],
+        "notes": [],
+        "qbAttemptsLast3": 125.0,
+        "selectedQbId": "5141695",
+        "selectedQbName": "Malik Washington",
+        "starterSource": "LAST_COMPLETED_GAME_ATTEMPT_LEADER",
+        "team": "Maryland",
+        "teamAttemptsLast3": 126.0
+      },
+      "decisionTime": "2026-10-05T21:10:48.625580+00:00",
+      "exclusions": [],
+      "featureAsOf": "2026-10-05T21:09:59.746427+00:00",
+      "featureValue": -0.057997557997558014,
+      "game": "Maryland @ Ohio State",
+      "home": {
+        "availabilityVerified": false,
+        "continuity": 0.9340659340659341,
+        "exclusions": [],
+        "gameCount": 3,
+        "gamesConsidered": [
+          "401858454",
+          "401858465",
+          "401858473"
+        ],
+        "notes": [],
+        "qbAttemptsLast3": 85.0,
+        "selectedQbId": "5079712",
+        "selectedQbName": "Julian Sayin",
+        "starterSource": "LAST_COMPLETED_GAME_ATTEMPT_LEADER",
+        "team": "Ohio State",
+        "teamAttemptsLast3": 91.0
+      },
+      "kickoff": "2026-10-10T20:15:00+00:00"
+    },
+    {
+      "auditGrade": true,
+      "away": {
+        "availabilityVerified": false,
+        "continuity": 0.32142857142857145,
+        "exclusions": [],
+        "gameCount": 3,
+        "gamesConsidered": [
+          "401856797",
+          "401861970",
+          "401866477"
+        ],
+        "notes": [],
+        "qbAttemptsLast3": 27.0,
+        "selectedQbId": "5388435",
+        "selectedQbName": "Caleb Heavner",
+        "starterSource": "LAST_COMPLETED_GAME_ATTEMPT_LEADER",
+        "team": "Miami (OH)",
+        "teamAttemptsLast3": 84.0
+      },
+      "decisionTime": "2026-10-05T21:10:48.625580+00:00",
+      "exclusions": [],
+      "featureAsOf": "2026-10-05T21:09:59.746427+00:00",
+      "featureValue": 0.6785714285714286,
+      "game": "Miami (OH) @ Massachusetts",
+      "home": {
+        "availabilityVerified": false,
+        "continuity": 1.0,
+        "exclusions": [],
+        "gameCount": 3,
+        "gamesConsidered": [
+          "401866424",
+          "401866429",
+          "401866433"
+        ],
+        "notes": [],
+        "qbAttemptsLast3": 68.0,
+        "selectedQbId": "4920153",
+        "selectedQbName": "William Watson III",
+        "starterSource": "LAST_COMPLETED_GAME_ATTEMPT_LEADER",
+        "team": "Massachusetts",
+        "teamAttemptsLast3": 68.0
+      },
+      "kickoff": "2026-10-10T18:00:00+00:00"
+    },
+    {
+      "auditGrade": true,
+      "away": {
+        "availabilityVerified": false,
+        "continuity": 0.5978260869565217,
+        "exclusions": [],
+        "gameCount": 3,
+        "gamesConsidered": [
+          "401864500",
+          "401864443",
+          "401864509"
+        ],
+        "notes": [],
+        "qbAttemptsLast3": 55.0,
+        "selectedQbId": "5205097",
+        "selectedQbName": "Carter Jones",
+        "starterSource": "LAST_COMPLETED_GAME_ATTEMPT_LEADER",
+        "team": "Nevada",
+        "teamAttemptsLast3": 92.0
+      },
+      "decisionTime": "2026-10-05T21:10:48.625580+00:00",
+      "exclusions": [],
+      "featureAsOf": "2026-10-05T21:09:59.746427+00:00",
+      "featureValue": 0.16079460269865065,
+      "game": "Nevada @ UTEP",
+      "home": {
+        "availabilityVerified": false,
+        "continuity": 0.7586206896551724,
+        "exclusions": [],
+        "gameCount": 3,
+        "gamesConsidered": [
+          "401858450",
+          "401860895",
+          "401864514"
+        ],
+        "notes": [],
+        "qbAttemptsLast3": 44.0,
+        "selectedQbId": "5141395",
+        "selectedQbName": "EJ Colson",
+        "starterSource": "LAST_COMPLETED_GAME_ATTEMPT_LEADER",
+        "team": "UTEP",
+        "teamAttemptsLast3": 58.0
+      },
+      "kickoff": "2026-10-10T23:00:00+00:00"
+    },
+    {
+      "auditGrade": true,
+      "away": {
         "availabilityVerified": false,
         "continuity": 0.9285714285714286,
         "exclusions": [],
         "gameCount": 3,
         "gamesConsidered": [
-          "401856766",
           "401858218",
-          "401858229"
+          "401858229",
+          "401858250"
         ],
         "notes": [],
         "qbAttemptsLast3": 78.0,
@@ -1127,1267 +1059,705 @@
         "team": "North Carolina",
         "teamAttemptsLast3": 84.0
       },
-      "kickoff": "2026-10-03T16:00:00+00:00"
-    },
-    {
-      "auditGrade": true,
-      "away": {
-        "availabilityVerified": false,
-        "continuity": 0.6666666666666666,
-        "exclusions": [],
-        "gameCount": 3,
-        "gamesConsidered": [
-          "401866418",
-          "401866423",
-          "401866428"
-        ],
-        "notes": [],
-        "qbAttemptsLast3": 48.0,
-        "selectedQbId": "5171031",
-        "selectedQbName": "Matt Vezza",
-        "starterSource": "LAST_COMPLETED_GAME_ATTEMPT_LEADER",
-        "team": "Ohio",
-        "teamAttemptsLast3": 72.0
-      },
-      "decisionTime": "2026-10-02T18:33:37.866324+00:00",
+      "decisionTime": "2026-10-05T21:10:48.625580+00:00",
       "exclusions": [],
-      "featureAsOf": "2026-10-02T18:33:09.844659+00:00",
-      "featureValue": 0.21171171171171177,
-      "game": "Ohio @ Kent State",
+      "featureAsOf": "2026-10-05T21:09:59.746427+00:00",
+      "featureValue": -0.19272237196765507,
+      "game": "North Carolina @ Pittsburgh",
       "home": {
         "availabilityVerified": false,
-        "continuity": 0.8783783783783784,
+        "continuity": 0.7358490566037735,
         "exclusions": [],
         "gameCount": 3,
         "gamesConsidered": [
-          "401866416",
-          "401858454",
-          "401866425"
+          "401858225",
+          "401858236",
+          "401858245"
         ],
         "notes": [],
-        "qbAttemptsLast3": 65.0,
-        "selectedQbId": "5119841",
-        "selectedQbName": "Dru Deshields",
+        "qbAttemptsLast3": 78.0,
+        "selectedQbId": "5208095",
+        "selectedQbName": "Mason Heintschel",
         "starterSource": "LAST_COMPLETED_GAME_ATTEMPT_LEADER",
-        "team": "Kent State",
-        "teamAttemptsLast3": 74.0
+        "team": "Pittsburgh",
+        "teamAttemptsLast3": 106.0
       },
-      "kickoff": "2026-10-03T19:30:00+00:00"
+      "kickoff": "2026-10-10T16:00:00+00:00"
     },
     {
       "auditGrade": true,
       "away": {
         "availabilityVerified": false,
-        "continuity": 0.9375,
+        "continuity": 0.9863013698630136,
         "exclusions": [],
         "gameCount": 3,
         "gamesConsidered": [
-          "401856682",
-          "401858454",
-          "401858465"
+          "401864502",
+          "401864507",
+          "401864515"
         ],
         "notes": [],
-        "qbAttemptsLast3": 90.0,
-        "selectedQbId": "5079712",
-        "selectedQbName": "Julian Sayin",
+        "qbAttemptsLast3": 72.0,
+        "selectedQbId": "5087156",
+        "selectedQbName": "Nathan Hayes",
         "starterSource": "LAST_COMPLETED_GAME_ATTEMPT_LEADER",
-        "team": "Ohio State",
-        "teamAttemptsLast3": 96.0
+        "team": "North Dakota State",
+        "teamAttemptsLast3": 73.0
       },
-      "decisionTime": "2026-10-02T18:33:37.866324+00:00",
+      "decisionTime": "2026-10-05T21:10:48.625580+00:00",
       "exclusions": [],
-      "featureAsOf": "2026-10-02T18:33:09.844659+00:00",
-      "featureValue": -0.0625,
-      "game": "Ohio State @ Iowa",
+      "featureAsOf": "2026-10-05T21:09:59.746427+00:00",
+      "featureValue": -0.06865431103948427,
+      "game": "North Dakota State @ UNLV",
       "home": {
         "availabilityVerified": false,
-        "continuity": 0.875,
+        "continuity": 0.9176470588235294,
         "exclusions": [],
         "gameCount": 3,
         "gamesConsidered": [
-          "401856788",
-          "401858471",
-          "401858463"
+          "401862705",
+          "401864512",
+          "401858247"
         ],
         "notes": [],
-        "qbAttemptsLast3": 77.0,
-        "selectedQbId": "5089314",
-        "selectedQbName": "Hank Brown",
+        "qbAttemptsLast3": 78.0,
+        "selectedQbId": "4870607",
+        "selectedQbName": "Jackson Arnold",
         "starterSource": "LAST_COMPLETED_GAME_ATTEMPT_LEADER",
-        "team": "Iowa",
-        "teamAttemptsLast3": 88.0
+        "team": "UNLV",
+        "teamAttemptsLast3": 85.0
       },
-      "kickoff": "2026-10-03T19:30:00+00:00"
+      "kickoff": "2026-10-10T23:00:00+00:00"
     },
     {
       "auditGrade": true,
       "away": {
         "availabilityVerified": false,
-        "continuity": 0.48148148148148145,
+        "continuity": 0.3977272727272727,
         "exclusions": [],
         "gameCount": 3,
         "gamesConsidered": [
-          "401858221",
           "401862710",
-          "401869961"
+          "401869961",
+          "401869956"
         ],
         "notes": [],
-        "qbAttemptsLast3": 39.0,
-        "selectedQbId": "5295919",
-        "selectedQbName": "Ryan Huff",
+        "qbAttemptsLast3": 35.0,
+        "selectedQbId": "5193346",
+        "selectedQbName": "Quinn Henicle",
         "starterSource": "LAST_COMPLETED_GAME_ATTEMPT_LEADER",
         "team": "Old Dominion",
-        "teamAttemptsLast3": 81.0
+        "teamAttemptsLast3": 88.0
       },
-      "decisionTime": "2026-10-02T18:33:37.866324+00:00",
+      "decisionTime": "2026-10-05T21:10:48.625580+00:00",
       "exclusions": [],
-      "featureAsOf": "2026-10-02T18:33:09.844659+00:00",
-      "featureValue": 0.4866036249014973,
-      "game": "Old Dominion @ Georgia State",
+      "featureAsOf": "2026-10-05T21:09:59.746427+00:00",
+      "featureValue": 0.5840909090909091,
+      "game": "Old Dominion @ App State",
       "home": {
         "availabilityVerified": false,
-        "continuity": 0.9680851063829787,
+        "continuity": 0.9818181818181818,
         "exclusions": [],
         "gameCount": 3,
         "gamesConsidered": [
-          "401869955",
-          "401856800",
-          "401864511"
+          "401864571",
+          "401864574",
+          "401864572"
         ],
         "notes": [],
-        "qbAttemptsLast3": 91.0,
-        "selectedQbId": "5193926",
-        "selectedQbName": "Cameran Brown",
+        "qbAttemptsLast3": 108.0,
+        "selectedQbId": "4870999",
+        "selectedQbName": "Malachi Singleton",
         "starterSource": "LAST_COMPLETED_GAME_ATTEMPT_LEADER",
-        "team": "Georgia State",
-        "teamAttemptsLast3": 94.0
-      },
-      "kickoff": "2026-10-03T19:30:00+00:00"
-    },
-    {
-      "auditGrade": true,
-      "away": {
-        "availabilityVerified": false,
-        "continuity": 0.9426229508196722,
-        "exclusions": [],
-        "gameCount": 3,
-        "gamesConsidered": [
-          "401856783",
-          "401860886",
-          "401860895"
-        ],
-        "notes": [],
-        "qbAttemptsLast3": 115.0,
-        "selectedQbId": "5212654",
-        "selectedQbName": "Braden Atkinson",
-        "starterSource": "LAST_COMPLETED_GAME_ATTEMPT_LEADER",
-        "team": "Oregon State",
-        "teamAttemptsLast3": 122.0
-      },
-      "decisionTime": "2026-10-02T18:33:37.866324+00:00",
-      "exclusions": [],
-      "featureAsOf": "2026-10-02T18:33:09.844659+00:00",
-      "featureValue": -0.32971972501322055,
-      "game": "Oregon State @ Colorado State",
-      "home": {
-        "availabilityVerified": false,
-        "continuity": 0.6129032258064516,
-        "exclusions": [],
-        "gameCount": 3,
-        "gamesConsidered": [
-          "401860882",
-          "401856795",
-          "401860896"
-        ],
-        "notes": [],
-        "qbAttemptsLast3": 76.0,
-        "selectedQbId": "5212610",
-        "selectedQbName": "Ksaan Farrar",
-        "starterSource": "LAST_COMPLETED_GAME_ATTEMPT_LEADER",
-        "team": "Colorado State",
-        "teamAttemptsLast3": 124.0
-      },
-      "kickoff": "2026-10-03T22:00:00+00:00"
-    },
-    {
-      "auditGrade": true,
-      "away": {
-        "availabilityVerified": false,
-        "continuity": 0.9146341463414634,
-        "exclusions": [],
-        "gameCount": 3,
-        "gamesConsidered": [
-          "401858442",
-          "401858456",
-          "401858466"
-        ],
-        "notes": [],
-        "qbAttemptsLast3": 75.0,
-        "selectedQbId": "4801299",
-        "selectedQbName": "Rocco Becht",
-        "starterSource": "LAST_COMPLETED_GAME_ATTEMPT_LEADER",
-        "team": "Penn State",
-        "teamAttemptsLast3": 82.0
-      },
-      "decisionTime": "2026-10-02T18:33:37.866324+00:00",
-      "exclusions": [],
-      "featureAsOf": "2026-10-02T18:33:09.844659+00:00",
-      "featureValue": 0.0722079589216944,
-      "game": "Penn State @ Northwestern",
-      "home": {
-        "availabilityVerified": false,
-        "continuity": 0.9868421052631579,
-        "exclusions": [],
-        "gameCount": 3,
-        "gamesConsidered": [
-          "401858431",
-          "401856796",
-          "401858461"
-        ],
-        "notes": [],
-        "qbAttemptsLast3": 75.0,
-        "selectedQbId": "5075805",
-        "selectedQbName": "Aidan Chiles",
-        "starterSource": "LAST_COMPLETED_GAME_ATTEMPT_LEADER",
-        "team": "Northwestern",
-        "teamAttemptsLast3": 76.0
-      },
-      "kickoff": "2026-10-03T00:00:00+00:00"
-    },
-    {
-      "auditGrade": true,
-      "away": {
-        "availabilityVerified": false,
-        "continuity": 0.9090909090909091,
-        "exclusions": [],
-        "gameCount": 3,
-        "gamesConsidered": [
-          "401858224",
-          "401858458",
-          "401858467"
-        ],
-        "notes": [],
-        "qbAttemptsLast3": 100.0,
-        "selectedQbId": "5104738",
-        "selectedQbName": "Ryan Browne",
-        "starterSource": "LAST_COMPLETED_GAME_ATTEMPT_LEADER",
-        "team": "Purdue",
+        "team": "App State",
         "teamAttemptsLast3": 110.0
       },
-      "decisionTime": "2026-10-02T18:33:37.866324+00:00",
-      "exclusions": [],
-      "featureAsOf": "2026-10-02T18:33:09.844659+00:00",
-      "featureValue": 0.07149161518093561,
-      "game": "Purdue @ Illinois",
-      "home": {
-        "availabilityVerified": false,
-        "continuity": 0.9805825242718447,
-        "exclusions": [],
-        "gameCount": 3,
-        "gamesConsidered": [
-          "401858217",
-          "401858448",
-          "401858465"
-        ],
-        "notes": [],
-        "qbAttemptsLast3": 101.0,
-        "selectedQbId": "4795295",
-        "selectedQbName": "Katin Houser",
-        "starterSource": "LAST_COMPLETED_GAME_ATTEMPT_LEADER",
-        "team": "Illinois",
-        "teamAttemptsLast3": 103.0
-      },
-      "kickoff": "2026-10-03T20:15:00+00:00"
+      "kickoff": "2026-10-10T17:00:00+00:00"
     },
     {
       "auditGrade": true,
       "away": {
         "availabilityVerified": false,
-        "continuity": 0.956140350877193,
+        "continuity": 0.9310344827586207,
         "exclusions": [],
         "gameCount": 3,
         "gamesConsidered": [
-          "401858206",
-          "401858231",
-          "401858240"
+          "401856676",
+          "401856688",
+          "401856699"
         ],
         "notes": [],
-        "qbAttemptsLast3": 109.0,
-        "selectedQbId": "4878681",
-        "selectedQbName": "Davis Warren",
+        "qbAttemptsLast3": 108.0,
+        "selectedQbId": "4911529",
+        "selectedQbName": "Trinidad Chambliss",
         "starterSource": "LAST_COMPLETED_GAME_ATTEMPT_LEADER",
-        "team": "Stanford",
-        "teamAttemptsLast3": 114.0
+        "team": "Ole Miss",
+        "teamAttemptsLast3": 116.0
       },
-      "decisionTime": "2026-10-02T18:33:37.866324+00:00",
+      "decisionTime": "2026-10-05T21:10:48.625580+00:00",
       "exclusions": [],
-      "featureAsOf": "2026-10-02T18:33:09.844659+00:00",
-      "featureValue": 0.04385964912280704,
-      "game": "Stanford @ Wake Forest",
+      "featureAsOf": "2026-10-05T21:09:59.746427+00:00",
+      "featureValue": -0.21060437523173892,
+      "game": "Ole Miss @ Vanderbilt",
       "home": {
+        "availabilityVerified": true,
+        "continuity": 0.7204301075268817,
+        "exclusions": [],
+        "gameCount": 3,
+        "gamesConsidered": [
+          "401856695",
+          "401856698",
+          "401856705"
+        ],
+        "notes": [],
+        "qbAttemptsLast3": 67.0,
+        "selectedQbId": "5158948",
+        "selectedQbName": "Jared Curtis",
+        "starterSource": "OFFICIAL_PREGAME_OVERRIDE",
+        "team": "Vanderbilt",
+        "teamAttemptsLast3": 93.0
+      },
+      "kickoff": "2026-10-10T19:30:00+00:00"
+    },
+    {
+      "auditGrade": true,
+      "away": {
         "availabilityVerified": false,
         "continuity": 1.0,
         "exclusions": [],
         "gameCount": 3,
         "gamesConsidered": [
-          "401858224",
-          "401858226",
-          "401858243"
+          "401862773",
+          "401860891",
+          "401862788"
         ],
         "notes": [],
-        "qbAttemptsLast3": 92.0,
-        "selectedQbId": "4920227",
-        "selectedQbName": "Giovanni Lopez",
+        "qbAttemptsLast3": 49.0,
+        "selectedQbId": "4685291",
+        "selectedQbName": "Jacurri Brown",
         "starterSource": "LAST_COMPLETED_GAME_ATTEMPT_LEADER",
-        "team": "Wake Forest",
-        "teamAttemptsLast3": 92.0
+        "team": "Rice",
+        "teamAttemptsLast3": 49.0
       },
-      "kickoff": "2026-10-03T16:00:00+00:00"
-    },
-    {
-      "auditGrade": true,
-      "away": {
-        "availabilityVerified": false,
-        "continuity": 0.8879310344827587,
-        "exclusions": [],
-        "gameCount": 3,
-        "gamesConsidered": [
-          "401858208",
-          "401858216",
-          "401858225"
-        ],
-        "notes": [],
-        "qbAttemptsLast3": 103.0,
-        "selectedQbId": "4685694",
-        "selectedQbName": "Steven Angeli",
-        "starterSource": "LAST_COMPLETED_GAME_ATTEMPT_LEADER",
-        "team": "Syracuse",
-        "teamAttemptsLast3": 116.0
-      },
-      "decisionTime": "2026-10-02T18:33:37.866324+00:00",
+      "decisionTime": "2026-10-05T21:10:48.625580+00:00",
       "exclusions": [],
-      "featureAsOf": "2026-10-02T18:33:09.844659+00:00",
-      "featureValue": 0.07360742705570289,
-      "game": "Syracuse @ UConn",
+      "featureAsOf": "2026-10-05T21:09:59.746427+00:00",
+      "featureValue": -0.5520833333333333,
+      "game": "Rice @ East Carolina",
       "home": {
         "availabilityVerified": false,
-        "continuity": 0.9615384615384616,
+        "continuity": 0.4479166666666667,
         "exclusions": [],
         "gameCount": 3,
         "gamesConsidered": [
-          "401858444",
-          "401861963",
-          "401861970"
+          "401864571",
+          "401862710",
+          "401862781"
         ],
         "notes": [],
-        "qbAttemptsLast3": 75.0,
-        "selectedQbId": "5079619",
-        "selectedQbName": "Kalieb Osborne",
+        "qbAttemptsLast3": 43.0,
+        "selectedQbId": "5075800",
+        "selectedQbName": "Emory Williams",
         "starterSource": "LAST_COMPLETED_GAME_ATTEMPT_LEADER",
-        "team": "UConn",
-        "teamAttemptsLast3": 78.0
+        "team": "East Carolina",
+        "teamAttemptsLast3": 96.0
       },
-      "kickoff": "2026-10-03T16:00:00+00:00"
+      "kickoff": "2026-10-10T20:00:00+00:00"
     },
     {
       "auditGrade": true,
       "away": {
         "availabilityVerified": false,
-        "continuity": 0.7384615384615385,
+        "continuity": 1.0,
         "exclusions": [],
         "gameCount": 3,
         "gamesConsidered": [
-          "401858442",
-          "401862774",
-          "401862779"
+          "401860883",
+          "401864507",
+          "401866429"
         ],
         "notes": [],
-        "qbAttemptsLast3": 48.0,
-        "selectedQbId": "5078166",
-        "selectedQbName": "Ajani Sheppard",
+        "qbAttemptsLast3": 115.0,
+        "selectedQbId": "5158748",
+        "selectedQbName": "Jackson Sharman",
         "starterSource": "LAST_COMPLETED_GAME_ATTEMPT_LEADER",
-        "team": "Temple",
-        "teamAttemptsLast3": 65.0
+        "team": "Sacramento State",
+        "teamAttemptsLast3": 115.0
       },
-      "decisionTime": "2026-10-02T18:33:37.866324+00:00",
+      "decisionTime": "2026-10-05T21:10:48.625580+00:00",
       "exclusions": [],
-      "featureAsOf": "2026-10-02T18:33:09.844659+00:00",
-      "featureValue": 0.22206477732793517,
-      "game": "Temple @ South Florida",
+      "featureAsOf": "2026-10-05T21:09:59.746427+00:00",
+      "featureValue": -0.05747126436781613,
+      "game": "Sacramento State @ Bowling Green",
       "home": {
         "availabilityVerified": false,
-        "continuity": 0.9605263157894737,
+        "continuity": 0.9425287356321839,
         "exclusions": [],
         "gameCount": 3,
         "gamesConsidered": [
-          "401862702",
-          "401862777",
-          "401862785"
+          "401856798",
+          "401862785",
+          "401866477"
         ],
         "notes": [],
-        "qbAttemptsLast3": 73.0,
-        "selectedQbId": "5079620",
-        "selectedQbName": "Michael Van Buren Jr.",
+        "qbAttemptsLast3": 82.0,
+        "selectedQbId": "5385753",
+        "selectedQbName": "Jay Kastantin",
         "starterSource": "LAST_COMPLETED_GAME_ATTEMPT_LEADER",
-        "team": "South Florida",
-        "teamAttemptsLast3": 76.0
-      },
-      "kickoff": "2026-10-03T23:30:00+00:00"
-    },
-    {
-      "auditGrade": true,
-      "away": {
-        "availabilityVerified": false,
-        "continuity": 0.9540229885057471,
-        "exclusions": [],
-        "gameCount": 3,
-        "gamesConsidered": [
-          "401856783",
-          "401856811",
-          "401856805"
-        ],
-        "notes": [],
-        "qbAttemptsLast3": 83.0,
-        "selectedQbId": "5126468",
-        "selectedQbName": "Will Hammond",
-        "starterSource": "LAST_COMPLETED_GAME_ATTEMPT_LEADER",
-        "team": "Texas Tech",
+        "team": "Bowling Green",
         "teamAttemptsLast3": 87.0
       },
-      "decisionTime": "2026-10-02T18:33:37.866324+00:00",
-      "exclusions": [],
-      "featureAsOf": "2026-10-02T18:33:09.844659+00:00",
-      "featureValue": -0.6993060073736717,
-      "game": "Texas Tech @ Colorado",
-      "home": {
-        "availabilityVerified": false,
-        "continuity": 0.25471698113207547,
-        "exclusions": [],
-        "gameCount": 3,
-        "gamesConsidered": [
-          "401856785",
-          "401856796",
-          "401856813"
-        ],
-        "notes": [],
-        "qbAttemptsLast3": 27.0,
-        "selectedQbId": "5079771",
-        "selectedQbName": "Isaac Wilson",
-        "starterSource": "LAST_COMPLETED_GAME_ATTEMPT_LEADER",
-        "team": "Colorado",
-        "teamAttemptsLast3": 106.0
-      },
-      "kickoff": "2026-10-03T23:30:00+00:00"
+      "kickoff": "2026-10-10T16:00:00+00:00"
     },
     {
       "auditGrade": true,
       "away": {
+        "availabilityVerified": false,
+        "continuity": 0.9354838709677419,
+        "exclusions": [],
+        "gameCount": 3,
+        "gamesConsidered": [
+          "401860887",
+          "401860893",
+          "401860900"
+        ],
+        "notes": [],
+        "qbAttemptsLast3": 87.0,
+        "selectedQbId": "4685311",
+        "selectedQbName": "Jayden Denegal",
+        "starterSource": "LAST_COMPLETED_GAME_ATTEMPT_LEADER",
+        "team": "San Diego State",
+        "teamAttemptsLast3": 93.0
+      },
+      "decisionTime": "2026-10-05T21:10:48.625580+00:00",
+      "exclusions": [],
+      "featureAsOf": "2026-10-05T21:09:59.746427+00:00",
+      "featureValue": -0.0027915632754341724,
+      "game": "San Diego State @ Oregon State",
+      "home": {
         "availabilityVerified": false,
         "continuity": 0.9326923076923077,
         "exclusions": [],
         "gameCount": 3,
         "gamesConsidered": [
-          "401866419",
-          "401862774",
-          "401860893"
+          "401860886",
+          "401860895",
+          "401860899"
         ],
         "notes": [],
         "qbAttemptsLast3": 97.0,
-        "selectedQbId": "5082330",
-        "selectedQbName": "John Alan Richter",
+        "selectedQbId": "5212654",
+        "selectedQbName": "Braden Atkinson",
         "starterSource": "LAST_COMPLETED_GAME_ATTEMPT_LEADER",
-        "team": "Toledo",
+        "team": "Oregon State",
         "teamAttemptsLast3": 104.0
       },
-      "decisionTime": "2026-10-02T18:33:37.866324+00:00",
-      "exclusions": [],
-      "featureAsOf": "2026-10-02T18:33:09.844659+00:00",
-      "featureValue": -0.5951923076923077,
-      "game": "Toledo @ Ball State",
-      "home": {
-        "availabilityVerified": false,
-        "continuity": 0.3375,
-        "exclusions": [],
-        "gameCount": 3,
-        "gamesConsidered": [
-          "401866413",
-          "401866422",
-          "401866425"
-        ],
-        "notes": [],
-        "qbAttemptsLast3": 27.0,
-        "selectedQbId": "5152153",
-        "selectedQbName": "Tyler Mizzell",
-        "starterSource": "LAST_COMPLETED_GAME_ATTEMPT_LEADER",
-        "team": "Ball State",
-        "teamAttemptsLast3": 80.0
-      },
-      "kickoff": "2026-10-03T18:00:00+00:00"
+      "kickoff": "2026-10-10T22:00:00+00:00"
     },
     {
       "auditGrade": true,
       "away": {
         "availabilityVerified": false,
-        "continuity": 0.5441176470588235,
+        "continuity": 0.9636363636363636,
         "exclusions": [],
         "gameCount": 3,
         "gamesConsidered": [
-          "401856790",
-          "401856800",
-          "401856815"
+          "401856691",
+          "401856696",
+          "401856709"
         ],
         "notes": [],
-        "qbAttemptsLast3": 37.0,
-        "selectedQbId": "5085337",
-        "selectedQbName": "Keyone Jenkins",
+        "qbAttemptsLast3": 106.0,
+        "selectedQbId": "4875127",
+        "selectedQbName": "Lanorris Sellers",
         "starterSource": "LAST_COMPLETED_GAME_ATTEMPT_LEADER",
-        "team": "UCF",
-        "teamAttemptsLast3": 68.0
+        "team": "South Carolina",
+        "teamAttemptsLast3": 110.0
       },
-      "decisionTime": "2026-10-02T18:33:37.866324+00:00",
+      "decisionTime": "2026-10-05T21:10:48.625580+00:00",
       "exclusions": [],
-      "featureAsOf": "2026-10-02T18:33:09.844659+00:00",
-      "featureValue": 0.3672747580044676,
-      "game": "UCF @ Houston",
+      "featureAsOf": "2026-10-05T21:09:59.746427+00:00",
+      "featureValue": -0.03422459893048124,
+      "game": "South Carolina @ Florida",
       "home": {
         "availabilityVerified": false,
-        "continuity": 0.9113924050632911,
+        "continuity": 0.9294117647058824,
         "exclusions": [],
         "gameCount": 3,
         "gamesConsidered": [
-          "401856787",
-          "401856811",
-          "401856806"
+          "401856687",
+          "401856699",
+          "401856708"
         ],
         "notes": [],
-        "qbAttemptsLast3": 72.0,
-        "selectedQbId": "4685574",
-        "selectedQbName": "Conner Weigman",
+        "qbAttemptsLast3": 79.0,
+        "selectedQbId": "5132812",
+        "selectedQbName": "Aaron Philo",
         "starterSource": "LAST_COMPLETED_GAME_ATTEMPT_LEADER",
-        "team": "Houston",
-        "teamAttemptsLast3": 79.0
+        "team": "Florida",
+        "teamAttemptsLast3": 85.0
       },
-      "kickoff": "2026-10-03T16:00:00+00:00"
+      "kickoff": "2026-10-10T16:45:00+00:00"
     },
     {
       "auditGrade": true,
       "away": {
         "availabilityVerified": false,
-        "continuity": 0.5263157894736842,
+        "continuity": 0.9333333333333333,
         "exclusions": [],
         "gameCount": 3,
         "gamesConsidered": [
-          "401862708",
-          "401868317",
-          "401862782"
+          "401858231",
+          "401858240",
+          "401858251"
         ],
         "notes": [],
-        "qbAttemptsLast3": 50.0,
-        "selectedQbId": "5122054",
-        "selectedQbName": "Aidan Armenta",
+        "qbAttemptsLast3": 98.0,
+        "selectedQbId": "4878681",
+        "selectedQbName": "Davis Warren",
         "starterSource": "LAST_COMPLETED_GAME_ATTEMPT_LEADER",
-        "team": "UL Monroe",
-        "teamAttemptsLast3": 95.0
+        "team": "Stanford",
+        "teamAttemptsLast3": 105.0
       },
-      "decisionTime": "2026-10-02T18:33:37.866324+00:00",
+      "decisionTime": "2026-10-05T21:10:48.625580+00:00",
       "exclusions": [],
-      "featureAsOf": "2026-10-02T18:33:09.844659+00:00",
-      "featureValue": 0.13684210526315788,
-      "game": "UL Monroe @ South Alabama",
+      "featureAsOf": "2026-10-05T21:09:59.746427+00:00",
+      "featureValue": 0.01603375527426154,
+      "game": "Stanford @ Notre Dame",
       "home": {
         "availabilityVerified": false,
-        "continuity": 0.6631578947368421,
+        "continuity": 0.9493670886075949,
         "exclusions": [],
         "gameCount": 3,
         "gamesConsidered": [
-          "401864575",
-          "401866423",
-          "401864576"
-        ],
-        "notes": [],
-        "qbAttemptsLast3": 63.0,
-        "selectedQbId": "5148858",
-        "selectedQbName": "Jared Hollins",
-        "starterSource": "LAST_COMPLETED_GAME_ATTEMPT_LEADER",
-        "team": "South Alabama",
-        "teamAttemptsLast3": 95.0
-      },
-      "kickoff": "2026-10-03T23:00:00+00:00"
-    },
-    {
-      "auditGrade": true,
-      "away": {
-        "availabilityVerified": false,
-        "continuity": 0.8688524590163934,
-        "exclusions": [],
-        "gameCount": 3,
-        "gamesConsidered": [
-          "401864505",
-          "401858450",
-          "401860895"
-        ],
-        "notes": [],
-        "qbAttemptsLast3": 53.0,
-        "selectedQbId": "5141395",
-        "selectedQbName": "EJ Colson",
-        "starterSource": "LAST_COMPLETED_GAME_ATTEMPT_LEADER",
-        "team": "UTEP",
-        "teamAttemptsLast3": 61.0
-      },
-      "decisionTime": "2026-10-02T18:33:37.866324+00:00",
-      "exclusions": [],
-      "featureAsOf": "2026-10-02T18:33:09.844659+00:00",
-      "featureValue": -0.20218579234972678,
-      "game": "UTEP @ New Mexico",
-      "home": {
-        "availabilityVerified": false,
-        "continuity": 0.6666666666666666,
-        "exclusions": [],
-        "gameCount": 3,
-        "gamesConsidered": [
-          "401865252",
-          "401856690",
-          "401864579"
-        ],
-        "notes": [],
-        "qbAttemptsLast3": 36.0,
-        "selectedQbId": "5261479",
-        "selectedQbName": "Toa Faavae",
-        "starterSource": "LAST_COMPLETED_GAME_ATTEMPT_LEADER",
-        "team": "New Mexico",
-        "teamAttemptsLast3": 54.0
-      },
-      "kickoff": "2026-10-03T20:00:00+00:00"
-    },
-    {
-      "auditGrade": true,
-      "away": {
-        "availabilityVerified": false,
-        "continuity": 0.9895833333333334,
-        "exclusions": [],
-        "gameCount": 3,
-        "gamesConsidered": [
-          "401860884",
-          "401856693",
-          "401860896"
-        ],
-        "notes": [],
-        "qbAttemptsLast3": 95.0,
-        "selectedQbId": "4775136",
-        "selectedQbName": "Owen McCown",
-        "starterSource": "LAST_COMPLETED_GAME_ATTEMPT_LEADER",
-        "team": "UTSA",
-        "teamAttemptsLast3": 96.0
-      },
-      "decisionTime": "2026-10-02T18:33:37.866324+00:00",
-      "exclusions": [],
-      "featureAsOf": "2026-10-02T18:33:09.844659+00:00",
-      "featureValue": 0.01041666666666663,
-      "game": "UTSA @ Rice",
-      "home": {
-        "availabilityVerified": false,
-        "continuity": 1.0,
-        "exclusions": [],
-        "gameCount": 3,
-        "gamesConsidered": [
-          "401859184",
-          "401862773",
-          "401860891"
-        ],
-        "notes": [],
-        "qbAttemptsLast3": 47.0,
-        "selectedQbId": "4685291",
-        "selectedQbName": "Jacurri Brown",
-        "starterSource": "LAST_COMPLETED_GAME_ATTEMPT_LEADER",
-        "team": "Rice",
-        "teamAttemptsLast3": 47.0
-      },
-      "kickoff": "2026-10-03T23:00:00+00:00"
-    },
-    {
-      "auditGrade": true,
-      "away": {
-        "availabilityVerified": false,
-        "continuity": 0.9883720930232558,
-        "exclusions": [],
-        "gameCount": 3,
-        "gamesConsidered": [
-          "401858446",
-          "401856801",
-          "401860894"
-        ],
-        "notes": [],
-        "qbAttemptsLast3": 85.0,
-        "selectedQbId": "5081197",
-        "selectedQbName": "Grady Brosterhous",
-        "starterSource": "LAST_COMPLETED_GAME_ATTEMPT_LEADER",
-        "team": "Utah State",
-        "teamAttemptsLast3": 86.0
-      },
-      "decisionTime": "2026-10-02T18:33:37.866324+00:00",
-      "exclusions": [],
-      "featureAsOf": "2026-10-02T18:33:09.844659+00:00",
-      "featureValue": 0.011627906976744207,
-      "game": "Utah State @ Boise State",
-      "home": {
-        "availabilityVerified": false,
-        "continuity": 1.0,
-        "exclusions": [],
-        "gameCount": 3,
-        "gamesConsidered": [
-          "401860881",
-          "401860885",
-          "401860897"
-        ],
-        "notes": [],
-        "qbAttemptsLast3": 82.0,
-        "selectedQbId": "4870513",
-        "selectedQbName": "Maddux Madsen",
-        "starterSource": "LAST_COMPLETED_GAME_ATTEMPT_LEADER",
-        "team": "Boise State",
-        "teamAttemptsLast3": 82.0
-      },
-      "kickoff": "2026-10-03T23:30:00+00:00"
-    },
-    {
-      "auditGrade": true,
-      "away": {
-        "availabilityVerified": true,
-        "continuity": 0.898989898989899,
-        "exclusions": [],
-        "gameCount": 3,
-        "gamesConsidered": [
-          "401856684",
-          "401856695",
-          "401856698"
-        ],
-        "notes": [],
-        "qbAttemptsLast3": 89.0,
-        "selectedQbId": "5158948",
-        "selectedQbName": "Jared Curtis",
-        "starterSource": "OFFICIAL_PREGAME_OVERRIDE",
-        "team": "Vanderbilt",
-        "teamAttemptsLast3": 99.0
-      },
-      "decisionTime": "2026-10-02T18:33:37.866324+00:00",
-      "exclusions": [],
-      "featureAsOf": "2026-10-02T18:33:09.844659+00:00",
-      "featureValue": -0.15926387159263877,
-      "game": "Vanderbilt @ Georgia",
-      "home": {
-        "availabilityVerified": false,
-        "continuity": 0.7397260273972602,
-        "exclusions": [],
-        "gameCount": 3,
-        "gamesConsidered": [
-          "401856673",
-          "401856686",
-          "401856700"
-        ],
-        "notes": [],
-        "qbAttemptsLast3": 54.0,
-        "selectedQbId": "4685578",
-        "selectedQbName": "Gunner Stockton",
-        "starterSource": "LAST_COMPLETED_GAME_ATTEMPT_LEADER",
-        "team": "Georgia",
-        "teamAttemptsLast3": 73.0
-      },
-      "kickoff": "2026-10-03T16:45:00+00:00"
-    },
-    {
-      "auditGrade": true,
-      "away": {
-        "availabilityVerified": false,
-        "continuity": 0.7425742574257426,
-        "exclusions": [],
-        "gameCount": 3,
-        "gamesConsidered": [
-          "401858220",
-          "401856802",
-          "401858239"
+          "401858453",
+          "401858467",
+          "401858250"
         ],
         "notes": [],
         "qbAttemptsLast3": 75.0,
+        "selectedQbId": "5079369",
+        "selectedQbName": "C.J. Carr",
+        "starterSource": "LAST_COMPLETED_GAME_ATTEMPT_LEADER",
+        "team": "Notre Dame",
+        "teamAttemptsLast3": 79.0
+      },
+      "kickoff": "2026-10-10T19:30:00+00:00"
+    },
+    {
+      "auditGrade": true,
+      "away": {
+        "availabilityVerified": false,
+        "continuity": 0.3697478991596639,
+        "exclusions": [],
+        "gameCount": 3,
+        "gamesConsidered": [
+          "401858216",
+          "401858225",
+          "401858252"
+        ],
+        "notes": [],
+        "qbAttemptsLast3": 44.0,
+        "selectedQbId": "5153782",
+        "selectedQbName": "Amari Odom",
+        "starterSource": "LAST_COMPLETED_GAME_ATTEMPT_LEADER",
+        "team": "Syracuse",
+        "teamAttemptsLast3": 119.0
+      },
+      "decisionTime": "2026-10-05T21:10:48.625580+00:00",
+      "exclusions": [],
+      "featureAsOf": "2026-10-05T21:09:59.746427+00:00",
+      "featureValue": 0.48346311001464803,
+      "game": "Syracuse @ Virginia",
+      "home": {
+        "availabilityVerified": false,
+        "continuity": 0.8532110091743119,
+        "exclusions": [],
+        "gameCount": 3,
+        "gamesConsidered": [
+          "401856802",
+          "401858239",
+          "401858253"
+        ],
+        "notes": [],
+        "qbAttemptsLast3": 93.0,
         "selectedQbId": "4685696",
         "selectedQbName": "Beau Pribula",
         "starterSource": "LAST_COMPLETED_GAME_ATTEMPT_LEADER",
         "team": "Virginia",
-        "teamAttemptsLast3": 101.0
+        "teamAttemptsLast3": 109.0
       },
-      "decisionTime": "2026-10-02T18:33:37.866324+00:00",
-      "exclusions": [],
-      "featureAsOf": "2026-10-02T18:33:09.844659+00:00",
-      "featureValue": 0.22964796479647964,
-      "game": "Virginia @ Florida State",
-      "home": {
-        "availabilityVerified": false,
-        "continuity": 0.9722222222222222,
-        "exclusions": [],
-        "gameCount": 3,
-        "gamesConsidered": [
-          "401858212",
-          "401856685",
-          "401858237"
-        ],
-        "notes": [],
-        "qbAttemptsLast3": 70.0,
-        "selectedQbId": "4838679",
-        "selectedQbName": "Ashton Daniels",
-        "starterSource": "LAST_COMPLETED_GAME_ATTEMPT_LEADER",
-        "team": "Florida State",
-        "teamAttemptsLast3": 72.0
-      },
-      "kickoff": "2026-10-03T19:30:00+00:00"
+      "kickoff": "2026-10-10T23:30:00+00:00"
     },
     {
       "auditGrade": true,
       "away": {
         "availabilityVerified": false,
-        "continuity": 0.9714285714285714,
+        "continuity": 0.17105263157894737,
         "exclusions": [],
         "gameCount": 3,
         "gamesConsidered": [
-          "401858446",
-          "401858459",
-          "401858470"
+          "401856692",
+          "401856704",
+          "401856710"
         ],
         "notes": [],
-        "qbAttemptsLast3": 102.0,
-        "selectedQbId": "5079653",
-        "selectedQbName": "Demond Williams Jr.",
+        "qbAttemptsLast3": 13.0,
+        "selectedQbId": "5141571",
+        "selectedQbName": "George MacIntyre",
         "starterSource": "LAST_COMPLETED_GAME_ATTEMPT_LEADER",
-        "team": "Washington",
-        "teamAttemptsLast3": 105.0
+        "team": "Tennessee",
+        "teamAttemptsLast3": 76.0
       },
-      "decisionTime": "2026-10-02T18:33:37.866324+00:00",
+      "decisionTime": "2026-10-05T21:10:48.625580+00:00",
       "exclusions": [],
-      "featureAsOf": "2026-10-02T18:33:09.844659+00:00",
-      "featureValue": 0.00952380952380949,
-      "game": "Washington @ USC",
+      "featureAsOf": "2026-10-05T21:09:59.746427+00:00",
+      "featureValue": 0.6833163004598876,
+      "game": "Tennessee @ Arkansas",
       "home": {
         "availabilityVerified": false,
-        "continuity": 0.9809523809523809,
+        "continuity": 0.8543689320388349,
         "exclusions": [],
         "gameCount": 3,
         "gamesConsidered": [
-          "401858445",
-          "401858457",
-          "401858469"
+          "401856686",
+          "401856697",
+          "401856711"
         ],
         "notes": [],
-        "qbAttemptsLast3": 103.0,
-        "selectedQbId": "4685454",
-        "selectedQbName": "Jayden Maiava",
+        "qbAttemptsLast3": 88.0,
+        "selectedQbId": "5079516",
+        "selectedQbName": "KJ Jackson",
         "starterSource": "LAST_COMPLETED_GAME_ATTEMPT_LEADER",
-        "team": "USC",
-        "teamAttemptsLast3": 105.0
+        "team": "Arkansas",
+        "teamAttemptsLast3": 103.0
       },
-      "kickoff": "2026-10-03T23:30:00+00:00"
+      "kickoff": "2026-10-10T20:15:00+00:00"
     },
     {
       "auditGrade": true,
       "away": {
         "availabilityVerified": false,
-        "continuity": 0.9019607843137255,
+        "continuity": 0.978021978021978,
         "exclusions": [],
         "gameCount": 3,
         "gamesConsidered": [
-          "401856791",
-          "401856802",
-          "401856881"
-        ],
-        "notes": [],
-        "qbAttemptsLast3": 46.0,
-        "selectedQbId": "5079465",
-        "selectedQbName": "Michael Hawkins Jr.",
-        "starterSource": "LAST_COMPLETED_GAME_ATTEMPT_LEADER",
-        "team": "West Virginia",
-        "teamAttemptsLast3": 51.0
-      },
-      "decisionTime": "2026-10-02T18:33:37.866324+00:00",
-      "exclusions": [],
-      "featureAsOf": "2026-10-02T18:33:09.844659+00:00",
-      "featureValue": 0.0850522026992615,
-      "game": "West Virginia @ Iowa State",
-      "home": {
-        "availabilityVerified": false,
-        "continuity": 0.987012987012987,
-        "exclusions": [],
-        "gameCount": 3,
-        "gamesConsidered": [
-          "401856788",
-          "401856798",
-          "401856816"
-        ],
-        "notes": [],
-        "qbAttemptsLast3": 76.0,
-        "selectedQbId": "5080403",
-        "selectedQbName": "Jaylen Raynor",
-        "starterSource": "LAST_COMPLETED_GAME_ATTEMPT_LEADER",
-        "team": "Iowa State",
-        "teamAttemptsLast3": 77.0
-      },
-      "kickoff": "2026-10-03T16:00:00+00:00"
-    },
-    {
-      "auditGrade": true,
-      "away": {
-        "availabilityVerified": false,
-        "continuity": 0.9066666666666666,
-        "exclusions": [],
-        "gameCount": 3,
-        "gamesConsidered": [
-          "401866421",
-          "401862773",
-          "401860897"
-        ],
-        "notes": [],
-        "qbAttemptsLast3": 68.0,
-        "selectedQbId": "5074245",
-        "selectedQbName": "Broc Lowry",
-        "starterSource": "LAST_COMPLETED_GAME_ATTEMPT_LEADER",
-        "team": "Western Michigan",
-        "teamAttemptsLast3": 75.0
-      },
-      "decisionTime": "2026-10-02T18:33:37.866324+00:00",
-      "exclusions": [],
-      "featureAsOf": "2026-10-02T18:33:09.844659+00:00",
-      "featureValue": -0.05560283687943257,
-      "game": "Western Michigan @ Buffalo",
-      "home": {
-        "availabilityVerified": false,
-        "continuity": 0.851063829787234,
-        "exclusions": [],
-        "gameCount": 3,
-        "gamesConsidered": [
-          "401866414",
-          "401858456",
-          "401866426"
-        ],
-        "notes": [],
-        "qbAttemptsLast3": 80.0,
-        "selectedQbId": "5222591",
-        "selectedQbName": "Jason Wright",
-        "starterSource": "LAST_COMPLETED_GAME_ATTEMPT_LEADER",
-        "team": "Buffalo",
-        "teamAttemptsLast3": 94.0
-      },
-      "kickoff": "2026-10-03T17:00:00+00:00"
-    },
-    {
-      "auditGrade": true,
-      "away": {
-        "availabilityVerified": false,
-        "continuity": 0.9875,
-        "exclusions": [],
-        "gameCount": 3,
-        "gamesConsidered": [
-          "401864506",
-          "401864508",
-          "401864510"
-        ],
-        "notes": [],
-        "qbAttemptsLast3": 79.0,
-        "selectedQbId": "4838536",
-        "selectedQbName": "Tyler Hughes",
-        "starterSource": "LAST_COMPLETED_GAME_ATTEMPT_LEADER",
-        "team": "Wyoming",
-        "teamAttemptsLast3": 80.0
-      },
-      "decisionTime": "2026-10-02T18:33:37.866324+00:00",
-      "exclusions": [],
-      "featureAsOf": "2026-10-02T18:33:09.844659+00:00",
-      "featureValue": -0.05506756756756759,
-      "game": "Wyoming @ North Dakota State",
-      "home": {
-        "availabilityVerified": false,
-        "continuity": 0.9324324324324325,
-        "exclusions": [],
-        "gameCount": 3,
-        "gamesConsidered": [
-          "401864499",
-          "401864502",
-          "401864507"
-        ],
-        "notes": [],
-        "qbAttemptsLast3": 69.0,
-        "selectedQbId": "5087156",
-        "selectedQbName": "Nathan Hayes",
-        "starterSource": "LAST_COMPLETED_GAME_ATTEMPT_LEADER",
-        "team": "North Dakota State",
-        "teamAttemptsLast3": 74.0
-      },
-      "kickoff": "2026-10-03T19:30:00+00:00"
-    },
-    {
-      "auditGrade": true,
-      "away": {
-        "availabilityVerified": false,
-        "continuity": 1.0,
-        "exclusions": [],
-        "gameCount": 3,
-        "gamesConsidered": [
-          "401868241",
-          "401856799",
-          "401869931"
-        ],
-        "notes": [],
-        "qbAttemptsLast3": 72.0,
-        "selectedQbId": "5123665",
-        "selectedQbName": "Trey Owens",
-        "starterSource": "LAST_COMPLETED_GAME_ATTEMPT_LEADER",
-        "team": "Arkansas State",
-        "teamAttemptsLast3": 72.0
-      },
-      "decisionTime": "2026-10-02T18:33:37.866324+00:00",
-      "exclusions": [],
-      "featureAsOf": "2026-10-02T18:33:09.844659+00:00",
-      "featureValue": -0.04225352112676062,
-      "game": "Arkansas State @ Louisiana",
-      "home": {
-        "availabilityVerified": false,
-        "continuity": 0.9577464788732394,
-        "exclusions": [],
-        "gameCount": 3,
-        "gamesConsidered": [
-          "401858445",
-          "401862776",
-          "401862780"
-        ],
-        "notes": [],
-        "qbAttemptsLast3": 68.0,
-        "selectedQbId": "4871091",
-        "selectedQbName": "D'Wayne' Winfield",
-        "starterSource": "LAST_COMPLETED_GAME_ATTEMPT_LEADER",
-        "team": "Louisiana",
-        "teamAttemptsLast3": 71.0
-      },
-      "kickoff": "2026-10-04T00:00:00+00:00"
-    },
-    {
-      "auditGrade": true,
-      "away": {
-        "availabilityVerified": false,
-        "continuity": 0.37142857142857144,
-        "exclusions": [],
-        "gameCount": 3,
-        "gamesConsidered": [
-          "401856784",
-          "401867804",
-          "401856813"
-        ],
-        "notes": [],
-        "qbAttemptsLast3": 39.0,
-        "selectedQbId": "5079555",
-        "selectedQbName": "D.J. Lagway",
-        "starterSource": "LAST_COMPLETED_GAME_ATTEMPT_LEADER",
-        "team": "Baylor",
-        "teamAttemptsLast3": 105.0
-      },
-      "decisionTime": "2026-10-02T18:33:37.866324+00:00",
-      "exclusions": [],
-      "featureAsOf": "2026-10-02T18:33:09.844659+00:00",
-      "featureValue": 0.5317972350230414,
-      "game": "Baylor @ Arizona State",
-      "home": {
-        "availabilityVerified": false,
-        "continuity": 0.9032258064516129,
-        "exclusions": [],
-        "gameCount": 3,
-        "gamesConsidered": [
-          "401856774",
-          "401856683",
-          "401856812"
-        ],
-        "notes": [],
-        "qbAttemptsLast3": 84.0,
-        "selectedQbId": "5141378",
-        "selectedQbName": "Cutter Boley",
-        "starterSource": "LAST_COMPLETED_GAME_ATTEMPT_LEADER",
-        "team": "Arizona State",
-        "teamAttemptsLast3": 93.0
-      },
-      "kickoff": "2026-10-04T02:30:00+00:00"
-    },
-    {
-      "auditGrade": true,
-      "away": {
-        "availabilityVerified": false,
-        "continuity": 0.9195402298850575,
-        "exclusions": [],
-        "gameCount": 3,
-        "gamesConsidered": [
-          "401856786",
-          "401856797",
-          "401856814"
-        ],
-        "notes": [],
-        "qbAttemptsLast3": 80.0,
-        "selectedQbId": "4685345",
-        "selectedQbName": "JC French",
-        "starterSource": "LAST_COMPLETED_GAME_ATTEMPT_LEADER",
-        "team": "Cincinnati",
-        "teamAttemptsLast3": 87.0
-      },
-      "decisionTime": "2026-10-02T18:33:37.866324+00:00",
-      "exclusions": [],
-      "featureAsOf": "2026-10-02T18:33:09.844659+00:00",
-      "featureValue": 0.05161361626878869,
-      "game": "Cincinnati @ Arizona",
-      "home": {
-        "availabilityVerified": false,
-        "continuity": 0.9711538461538461,
-        "exclusions": [],
-        "gameCount": 3,
-        "gamesConsidered": [
-          "401856810",
-          "401856793",
-          "401856804"
-        ],
-        "notes": [],
-        "qbAttemptsLast3": 101.0,
-        "selectedQbId": "4801717",
-        "selectedQbName": "Noah Fifita",
-        "starterSource": "LAST_COMPLETED_GAME_ATTEMPT_LEADER",
-        "team": "Arizona",
-        "teamAttemptsLast3": 104.0
-      },
-      "kickoff": "2026-10-04T03:00:00+00:00"
-    },
-    {
-      "auditGrade": true,
-      "away": {
-        "availabilityVerified": false,
-        "continuity": 0.956989247311828,
-        "exclusions": [],
-        "gameCount": 3,
-        "gamesConsidered": [
-          "401860883",
-          "401860888",
-          "401860891"
+          "401856682",
+          "401856693",
+          "401856704"
         ],
         "notes": [],
         "qbAttemptsLast3": 89.0,
-        "selectedQbId": "5010409",
-        "selectedQbName": "Jayden Mandal",
+        "selectedQbId": "4870906",
+        "selectedQbName": "Arch Manning",
         "starterSource": "LAST_COMPLETED_GAME_ATTEMPT_LEADER",
-        "team": "Fresno State",
+        "team": "Texas",
+        "teamAttemptsLast3": 91.0
+      },
+      "decisionTime": "2026-10-05T21:10:48.625580+00:00",
+      "exclusions": [],
+      "featureAsOf": "2026-10-05T21:09:59.746427+00:00",
+      "featureValue": 0.01122533380597901,
+      "game": "Texas @ Oklahoma",
+      "home": {
+        "availabilityVerified": false,
+        "continuity": 0.989247311827957,
+        "exclusions": [],
+        "gameCount": 3,
+        "gamesConsidered": [
+          "401856679",
+          "401856690",
+          "401856700"
+        ],
+        "notes": [],
+        "qbAttemptsLast3": 92.0,
+        "selectedQbId": "4915980",
+        "selectedQbName": "John Mateer",
+        "starterSource": "LAST_COMPLETED_GAME_ATTEMPT_LEADER",
+        "team": "Oklahoma",
         "teamAttemptsLast3": 93.0
       },
-      "decisionTime": "2026-10-02T18:33:37.866324+00:00",
-      "exclusions": [],
-      "featureAsOf": "2026-10-02T18:33:09.844659+00:00",
-      "featureValue": 0.043010752688172005,
-      "game": "Fresno State @ Washington State",
-      "home": {
-        "availabilityVerified": false,
-        "continuity": 1.0,
-        "exclusions": [],
-        "gameCount": 3,
-        "gamesConsidered": [
-          "401856781",
-          "401860890",
-          "401856804"
-        ],
-        "notes": [],
-        "qbAttemptsLast3": 83.0,
-        "selectedQbId": "5226019",
-        "selectedQbName": "Caden Pinnick",
-        "starterSource": "LAST_COMPLETED_GAME_ATTEMPT_LEADER",
-        "team": "Washington State",
-        "teamAttemptsLast3": 83.0
-      },
-      "kickoff": "2026-10-04T01:30:00+00:00"
+      "kickoff": "2026-10-10T19:30:00+00:00"
     },
     {
       "auditGrade": true,
       "away": {
         "availabilityVerified": false,
-        "continuity": 0.9142857142857143,
+        "continuity": 0.9894736842105263,
         "exclusions": [],
         "gameCount": 3,
         "gamesConsidered": [
-          "401858439",
-          "401858449",
-          "401858461"
+          "401856694",
+          "401856702",
+          "401856711"
         ],
         "notes": [],
-        "qbAttemptsLast3": 64.0,
-        "selectedQbId": "4685401",
-        "selectedQbName": "Josh Hoover",
+        "qbAttemptsLast3": 94.0,
+        "selectedQbId": "4870971",
+        "selectedQbName": "Marcel Reed",
         "starterSource": "LAST_COMPLETED_GAME_ATTEMPT_LEADER",
-        "team": "Indiana",
-        "teamAttemptsLast3": 70.0
+        "team": "Texas A&M",
+        "teamAttemptsLast3": 95.0
       },
-      "decisionTime": "2026-10-02T18:33:37.866324+00:00",
+      "decisionTime": "2026-10-05T21:10:48.625580+00:00",
       "exclusions": [],
-      "featureAsOf": "2026-10-02T18:33:09.844659+00:00",
-      "featureValue": -0.31878009630818616,
-      "game": "Indiana @ Rutgers",
+      "featureAsOf": "2026-10-05T21:09:59.746427+00:00",
+      "featureValue": -0.0007096392667060858,
+      "game": "Texas A&M @ Missouri",
       "home": {
         "availabilityVerified": false,
-        "continuity": 0.5955056179775281,
+        "continuity": 0.9887640449438202,
         "exclusions": [],
         "gameCount": 3,
         "gamesConsidered": [
-          "401858214",
-          "401858457",
-          "401858468"
+          "401856689",
+          "401856703",
+          "401856708"
         ],
         "notes": [],
-        "qbAttemptsLast3": 53.0,
-        "selectedQbId": "4870900",
-        "selectedQbName": "Dylan Lonergan",
+        "qbAttemptsLast3": 88.0,
+        "selectedQbId": "5141684",
+        "selectedQbName": "Austin Simmons",
         "starterSource": "LAST_COMPLETED_GAME_ATTEMPT_LEADER",
-        "team": "Rutgers",
+        "team": "Missouri",
         "teamAttemptsLast3": 89.0
       },
-      "kickoff": "2026-10-04T00:00:00+00:00"
+      "kickoff": "2026-10-10T16:00:00+00:00"
     },
     {
       "auditGrade": true,
       "away": {
         "availabilityVerified": false,
-        "continuity": 0.9823008849557522,
+        "continuity": 0.935064935064935,
         "exclusions": [],
         "gameCount": 3,
         "gamesConsidered": [
-          "401864495",
-          "401864504",
-          "401860888"
+          "401864575",
+          "401856792",
+          "401862784"
         ],
         "notes": [],
-        "qbAttemptsLast3": 111.0,
-        "selectedQbId": "5295238",
-        "selectedQbName": "Luke Weaver",
+        "qbAttemptsLast3": 72.0,
+        "selectedQbId": "5091890",
+        "selectedQbName": "Kadin Semonza",
         "starterSource": "LAST_COMPLETED_GAME_ATTEMPT_LEADER",
-        "team": "San Jos\u00e9 State",
-        "teamAttemptsLast3": 113.0
+        "team": "Tulane",
+        "teamAttemptsLast3": 77.0
       },
-      "decisionTime": "2026-10-02T18:33:37.866324+00:00",
+      "decisionTime": "2026-10-05T21:10:48.625580+00:00",
       "exclusions": [],
-      "featureAsOf": "2026-10-02T18:33:09.844659+00:00",
-      "featureValue": -0.004857275933195848,
-      "game": "San Jos\u00e9 State @ Hawai'i",
+      "featureAsOf": "2026-10-05T21:09:59.746427+00:00",
+      "featureValue": 0.04054482103262591,
+      "game": "Tulane @ Army",
       "home": {
         "availabilityVerified": false,
-        "continuity": 0.9774436090225563,
+        "continuity": 0.975609756097561,
         "exclusions": [],
         "gameCount": 3,
         "gamesConsidered": [
-          "401864497",
-          "401864578",
-          "401864510"
+          "401862702",
+          "401862779",
+          "401869842"
         ],
         "notes": [],
-        "qbAttemptsLast3": 130.0,
-        "selectedQbId": "5101124",
-        "selectedQbName": "Micah Alejado",
+        "qbAttemptsLast3": 40.0,
+        "selectedQbId": "5150297",
+        "selectedQbName": "Cale Hellums",
         "starterSource": "LAST_COMPLETED_GAME_ATTEMPT_LEADER",
-        "team": "Hawai'i",
-        "teamAttemptsLast3": 133.0
+        "team": "Army",
+        "teamAttemptsLast3": 41.0
       },
-      "kickoff": "2026-10-04T03:59:00+00:00"
+      "kickoff": "2026-10-10T16:00:00+00:00"
+    },
+    {
+      "auditGrade": true,
+      "away": {
+        "availabilityVerified": false,
+        "continuity": 0.42574257425742573,
+        "exclusions": [],
+        "gameCount": 3,
+        "gamesConsidered": [
+          "401862775",
+          "401856697",
+          "401862786"
+        ],
+        "notes": [],
+        "qbAttemptsLast3": 43.0,
+        "selectedQbId": "5224011",
+        "selectedQbName": "Baylor Hayes",
+        "starterSource": "LAST_COMPLETED_GAME_ATTEMPT_LEADER",
+        "team": "Tulsa",
+        "teamAttemptsLast3": 101.0
+      },
+      "decisionTime": "2026-10-05T21:10:48.625580+00:00",
+      "exclusions": [],
+      "featureAsOf": "2026-10-05T21:09:59.746427+00:00",
+      "featureValue": 0.31499816648331497,
+      "game": "Tulsa @ Navy",
+      "home": {
+        "availabilityVerified": false,
+        "continuity": 0.7407407407407407,
+        "exclusions": [],
+        "gameCount": 3,
+        "gamesConsidered": [
+          "401862703",
+          "401862778",
+          "401862791"
+        ],
+        "notes": [],
+        "qbAttemptsLast3": 40.0,
+        "selectedQbId": "5220473",
+        "selectedQbName": "Jackson Gutierrez",
+        "starterSource": "LAST_COMPLETED_GAME_ATTEMPT_LEADER",
+        "team": "Navy",
+        "teamAttemptsLast3": 54.0
+      },
+      "kickoff": "2026-10-10T19:30:00+00:00"
+    },
+    {
+      "auditGrade": true,
+      "away": {
+        "availabilityVerified": false,
+        "continuity": 0.9545454545454546,
+        "exclusions": [],
+        "gameCount": 3,
+        "gamesConsidered": [
+          "401862776",
+          "401862778",
+          "401862793"
+        ],
+        "notes": [],
+        "qbAttemptsLast3": 63.0,
+        "selectedQbId": "5057381",
+        "selectedQbName": "Ryder Burton",
+        "starterSource": "LAST_COMPLETED_GAME_ATTEMPT_LEADER",
+        "team": "UAB",
+        "teamAttemptsLast3": 66.0
+      },
+      "decisionTime": "2026-10-05T21:10:48.625580+00:00",
+      "exclusions": [],
+      "featureAsOf": "2026-10-05T21:09:59.746427+00:00",
+      "featureValue": -0.06324110671936767,
+      "game": "UAB @ Memphis",
+      "home": {
+        "availabilityVerified": false,
+        "continuity": 0.8913043478260869,
+        "exclusions": [],
+        "gameCount": 3,
+        "gamesConsidered": [
+          "401860881",
+          "401862772",
+          "401862787"
+        ],
+        "notes": [],
+        "qbAttemptsLast3": 82.0,
+        "selectedQbId": "5165807",
+        "selectedQbName": "Marcus Stokes",
+        "starterSource": "LAST_COMPLETED_GAME_ATTEMPT_LEADER",
+        "team": "Memphis",
+        "teamAttemptsLast3": 92.0
+      },
+      "kickoff": "2026-10-10T23:00:00+00:00"
     },
     {
       "auditGrade": true,
@@ -2397,50 +1767,545 @@
         "exclusions": [],
         "gameCount": 3,
         "gamesConsidered": [
-          "401860884",
-          "401860889",
-          "401860892"
+          "401856800",
+          "401856815",
+          "401856819"
         ],
         "notes": [],
         "qbAttemptsLast3": 72.0,
-        "selectedQbId": "5148803",
-        "selectedQbName": "Brad Jackson",
+        "selectedQbId": "5085337",
+        "selectedQbName": "Keyone Jenkins",
         "starterSource": "LAST_COMPLETED_GAME_ATTEMPT_LEADER",
-        "team": "Texas State",
+        "team": "UCF",
         "teamAttemptsLast3": 75.0
       },
-      "decisionTime": "2026-10-02T18:33:37.866324+00:00",
+      "decisionTime": "2026-10-05T21:10:48.625580+00:00",
       "exclusions": [],
-      "featureAsOf": "2026-10-02T18:33:09.844659+00:00",
-      "featureValue": -0.03954545454545455,
-      "game": "Texas State @ San Diego State",
+      "featureAsOf": "2026-10-05T21:09:59.746427+00:00",
+      "featureValue": -0.02122448979591829,
+      "game": "UCF @ Oklahoma State",
       "home": {
         "availabilityVerified": false,
-        "continuity": 0.9204545454545454,
+        "continuity": 0.9387755102040817,
+        "exclusions": [],
+        "gameCount": 3,
+        "gamesConsidered": [
+          "401856782",
+          "401856803",
+          "401856881"
+        ],
+        "notes": [],
+        "qbAttemptsLast3": 92.0,
+        "selectedQbId": "5219834",
+        "selectedQbName": "Drew Mestemaker",
+        "starterSource": "LAST_COMPLETED_GAME_ATTEMPT_LEADER",
+        "team": "Oklahoma State",
+        "teamAttemptsLast3": 98.0
+      },
+      "kickoff": "2026-10-10T16:00:00+00:00"
+    },
+    {
+      "auditGrade": true,
+      "away": {
+        "availabilityVerified": false,
+        "continuity": 0.9746835443037974,
         "exclusions": [],
         "gameCount": 3,
         "gamesConsidered": [
           "401858443",
-          "401860887",
-          "401860893"
+          "401858458",
+          "401858462"
         ],
         "notes": [],
-        "qbAttemptsLast3": 81.0,
-        "selectedQbId": "4685311",
-        "selectedQbName": "Jayden Denegal",
+        "qbAttemptsLast3": 77.0,
+        "selectedQbId": "4870799",
+        "selectedQbName": "Nico Iamaleava",
         "starterSource": "LAST_COMPLETED_GAME_ATTEMPT_LEADER",
-        "team": "San Diego State",
-        "teamAttemptsLast3": 88.0
+        "team": "UCLA",
+        "teamAttemptsLast3": 79.0
       },
-      "kickoff": "2026-10-04T02:30:00+00:00"
+      "decisionTime": "2026-10-05T21:10:48.625580+00:00",
+      "exclusions": [],
+      "featureAsOf": "2026-10-05T21:09:59.746427+00:00",
+      "featureValue": -0.6382349461729564,
+      "game": "UCLA @ Oregon",
+      "home": {
+        "availabilityVerified": false,
+        "continuity": 0.3364485981308411,
+        "exclusions": [],
+        "gameCount": 3,
+        "gamesConsidered": [
+          "401856782",
+          "401858455",
+          "401858469"
+        ],
+        "notes": [],
+        "qbAttemptsLast3": 36.0,
+        "selectedQbId": "5079572",
+        "selectedQbName": "Dylan Raiola",
+        "starterSource": "LAST_COMPLETED_GAME_ATTEMPT_LEADER",
+        "team": "Oregon",
+        "teamAttemptsLast3": 107.0
+      },
+      "kickoff": "2026-10-10T19:30:00+00:00"
+    },
+    {
+      "auditGrade": true,
+      "away": {
+        "availabilityVerified": false,
+        "continuity": 0.9587628865979382,
+        "exclusions": [],
+        "gameCount": 3,
+        "gamesConsidered": [
+          "401861963",
+          "401861970",
+          "401858252"
+        ],
+        "notes": [],
+        "qbAttemptsLast3": 93.0,
+        "selectedQbId": "5079619",
+        "selectedQbName": "Kalieb Osborne",
+        "starterSource": "LAST_COMPLETED_GAME_ATTEMPT_LEADER",
+        "team": "UConn",
+        "teamAttemptsLast3": 97.0
+      },
+      "decisionTime": "2026-10-05T21:10:48.625580+00:00",
+      "exclusions": [],
+      "featureAsOf": "2026-10-05T21:09:59.746427+00:00",
+      "featureValue": 0.02369325375293896,
+      "game": "UConn @ Temple",
+      "home": {
+        "availabilityVerified": false,
+        "continuity": 0.9824561403508771,
+        "exclusions": [],
+        "gameCount": 3,
+        "gamesConsidered": [
+          "401862774",
+          "401862779",
+          "401862792"
+        ],
+        "notes": [],
+        "qbAttemptsLast3": 56.0,
+        "selectedQbId": "5078166",
+        "selectedQbName": "Ajani Sheppard",
+        "starterSource": "LAST_COMPLETED_GAME_ATTEMPT_LEADER",
+        "team": "Temple",
+        "teamAttemptsLast3": 57.0
+      },
+      "kickoff": "2026-10-10T19:45:00+00:00"
+    },
+    {
+      "auditGrade": true,
+      "away": {
+        "availabilityVerified": false,
+        "continuity": 1.0,
+        "exclusions": [],
+        "gameCount": 3,
+        "gamesConsidered": [
+          "401858457",
+          "401858469",
+          "401858478"
+        ],
+        "notes": [],
+        "qbAttemptsLast3": 108.0,
+        "selectedQbId": "4685454",
+        "selectedQbName": "Jayden Maiava",
+        "starterSource": "LAST_COMPLETED_GAME_ATTEMPT_LEADER",
+        "team": "USC",
+        "teamAttemptsLast3": 108.0
+      },
+      "decisionTime": "2026-10-05T21:10:48.625580+00:00",
+      "exclusions": [],
+      "featureAsOf": "2026-10-05T21:09:59.746427+00:00",
+      "featureValue": -0.07291666666666663,
+      "game": "USC @ Penn State",
+      "home": {
+        "availabilityVerified": false,
+        "continuity": 0.9270833333333334,
+        "exclusions": [],
+        "gameCount": 3,
+        "gamesConsidered": [
+          "401858456",
+          "401858466",
+          "401858476"
+        ],
+        "notes": [],
+        "qbAttemptsLast3": 89.0,
+        "selectedQbId": "4801299",
+        "selectedQbName": "Rocco Becht",
+        "starterSource": "LAST_COMPLETED_GAME_ATTEMPT_LEADER",
+        "team": "Penn State",
+        "teamAttemptsLast3": 96.0
+      },
+      "kickoff": "2026-10-10T23:30:00+00:00"
+    },
+    {
+      "auditGrade": true,
+      "away": {
+        "availabilityVerified": false,
+        "continuity": 1.0,
+        "exclusions": [],
+        "gameCount": 3,
+        "gamesConsidered": [
+          "401858232",
+          "401858242",
+          "401858245"
+        ],
+        "notes": [],
+        "qbAttemptsLast3": 115.0,
+        "selectedQbId": "5144078",
+        "selectedQbName": "Ethan Grunkemeyer",
+        "starterSource": "LAST_COMPLETED_GAME_ATTEMPT_LEADER",
+        "team": "Virginia Tech",
+        "teamAttemptsLast3": 115.0
+      },
+      "decisionTime": "2026-10-05T21:10:48.625580+00:00",
+      "exclusions": [],
+      "featureAsOf": "2026-10-05T21:09:59.746427+00:00",
+      "featureValue": -0.6818181818181819,
+      "game": "Virginia Tech @ California",
+      "home": {
+        "availabilityVerified": false,
+        "continuity": 0.3181818181818182,
+        "exclusions": [],
+        "gameCount": 3,
+        "gamesConsidered": [
+          "401858233",
+          "401858234",
+          "401858247"
+        ],
+        "notes": [],
+        "qbAttemptsLast3": 42.0,
+        "selectedQbId": "5054036",
+        "selectedQbName": "Jackson Brousseau",
+        "starterSource": "LAST_COMPLETED_GAME_ATTEMPT_LEADER",
+        "team": "California",
+        "teamAttemptsLast3": 132.0
+      },
+      "kickoff": "2026-10-10T19:30:00+00:00"
+    },
+    {
+      "auditGrade": true,
+      "away": {
+        "availabilityVerified": false,
+        "continuity": 0.968421052631579,
+        "exclusions": [],
+        "gameCount": 3,
+        "gamesConsidered": [
+          "401858226",
+          "401858243",
+          "401858251"
+        ],
+        "notes": [],
+        "qbAttemptsLast3": 92.0,
+        "selectedQbId": "4920227",
+        "selectedQbName": "Giovanni Lopez",
+        "starterSource": "LAST_COMPLETED_GAME_ATTEMPT_LEADER",
+        "team": "Wake Forest",
+        "teamAttemptsLast3": 95.0
+      },
+      "decisionTime": "2026-10-05T21:10:48.625580+00:00",
+      "exclusions": [],
+      "featureAsOf": "2026-10-05T21:09:59.746427+00:00",
+      "featureValue": 0.013721804511278135,
+      "game": "Wake Forest @ NC State",
+      "home": {
+        "availabilityVerified": false,
+        "continuity": 0.9821428571428571,
+        "exclusions": [],
+        "gameCount": 3,
+        "gamesConsidered": [
+          "401856695",
+          "401864572",
+          "401858248"
+        ],
+        "notes": [],
+        "qbAttemptsLast3": 110.0,
+        "selectedQbId": "5079301",
+        "selectedQbName": "CJ Bailey",
+        "starterSource": "LAST_COMPLETED_GAME_ATTEMPT_LEADER",
+        "team": "NC State",
+        "teamAttemptsLast3": 112.0
+      },
+      "kickoff": "2026-10-10T16:00:00+00:00"
+    },
+    {
+      "auditGrade": true,
+      "away": {
+        "availabilityVerified": false,
+        "continuity": 1.0,
+        "exclusions": [],
+        "gameCount": 3,
+        "gamesConsidered": [
+          "401860890",
+          "401856804",
+          "401860921"
+        ],
+        "notes": [],
+        "qbAttemptsLast3": 97.0,
+        "selectedQbId": "5226019",
+        "selectedQbName": "Caden Pinnick",
+        "starterSource": "LAST_COMPLETED_GAME_ATTEMPT_LEADER",
+        "team": "Washington State",
+        "teamAttemptsLast3": 97.0
+      },
+      "decisionTime": "2026-10-05T21:10:48.625580+00:00",
+      "exclusions": [],
+      "featureAsOf": "2026-10-05T21:09:59.746427+00:00",
+      "featureValue": -0.08536585365853655,
+      "game": "Washington State @ Utah State",
+      "home": {
+        "availabilityVerified": false,
+        "continuity": 0.9146341463414634,
+        "exclusions": [],
+        "gameCount": 3,
+        "gamesConsidered": [
+          "401856801",
+          "401860894",
+          "401860898"
+        ],
+        "notes": [],
+        "qbAttemptsLast3": 75.0,
+        "selectedQbId": "5081197",
+        "selectedQbName": "Grady Brosterhous",
+        "starterSource": "LAST_COMPLETED_GAME_ATTEMPT_LEADER",
+        "team": "Utah State",
+        "teamAttemptsLast3": 82.0
+      },
+      "kickoff": "2026-10-10T01:00:00+00:00"
+    },
+    {
+      "auditGrade": true,
+      "away": {
+        "availabilityVerified": false,
+        "continuity": 0.9852941176470589,
+        "exclusions": [],
+        "gameCount": 3,
+        "gamesConsidered": [
+          "401864508",
+          "401864510",
+          "401864515"
+        ],
+        "notes": [],
+        "qbAttemptsLast3": 67.0,
+        "selectedQbId": "4838536",
+        "selectedQbName": "Tyler Hughes",
+        "starterSource": "LAST_COMPLETED_GAME_ATTEMPT_LEADER",
+        "team": "Wyoming",
+        "teamAttemptsLast3": 68.0
+      },
+      "decisionTime": "2026-10-05T21:10:48.625580+00:00",
+      "exclusions": [],
+      "featureAsOf": "2026-10-05T21:09:59.746427+00:00",
+      "featureValue": 0.014705882352941124,
+      "game": "Wyoming @ San Jos\u00e9 State",
+      "home": {
+        "availabilityVerified": false,
+        "continuity": 1.0,
+        "exclusions": [],
+        "gameCount": 3,
+        "gamesConsidered": [
+          "401864504",
+          "401860888",
+          "401864513"
+        ],
+        "notes": [],
+        "qbAttemptsLast3": 100.0,
+        "selectedQbId": "5295238",
+        "selectedQbName": "Luke Weaver",
+        "starterSource": "LAST_COMPLETED_GAME_ATTEMPT_LEADER",
+        "team": "San Jos\u00e9 State",
+        "teamAttemptsLast3": 100.0
+      },
+      "kickoff": "2026-10-10T01:00:00+00:00"
+    },
+    {
+      "auditGrade": true,
+      "away": {
+        "availabilityVerified": false,
+        "continuity": 1.0,
+        "exclusions": [],
+        "gameCount": 3,
+        "gamesConsidered": [
+          "401860885",
+          "401860897",
+          "401860898"
+        ],
+        "notes": [],
+        "qbAttemptsLast3": 75.0,
+        "selectedQbId": "4870513",
+        "selectedQbName": "Maddux Madsen",
+        "starterSource": "LAST_COMPLETED_GAME_ATTEMPT_LEADER",
+        "team": "Boise State",
+        "teamAttemptsLast3": 75.0
+      },
+      "decisionTime": "2026-10-05T21:10:48.625580+00:00",
+      "exclusions": [],
+      "featureAsOf": "2026-10-05T21:09:59.746427+00:00",
+      "featureValue": 0.0,
+      "game": "Boise State @ Fresno State",
+      "home": {
+        "availabilityVerified": false,
+        "continuity": 1.0,
+        "exclusions": [],
+        "gameCount": 3,
+        "gamesConsidered": [
+          "401860888",
+          "401860891",
+          "401860921"
+        ],
+        "notes": [],
+        "qbAttemptsLast3": 96.0,
+        "selectedQbId": "5010409",
+        "selectedQbName": "Jayden Mandal",
+        "starterSource": "LAST_COMPLETED_GAME_ATTEMPT_LEADER",
+        "team": "Fresno State",
+        "teamAttemptsLast3": 96.0
+      },
+      "kickoff": "2026-10-11T02:30:00+00:00"
+    },
+    {
+      "auditGrade": true,
+      "away": {
+        "availabilityVerified": false,
+        "continuity": 0.96875,
+        "exclusions": [],
+        "gameCount": 3,
+        "gamesConsidered": [
+          "401864578",
+          "401864510",
+          "401864513"
+        ],
+        "notes": [],
+        "qbAttemptsLast3": 124.0,
+        "selectedQbId": "5101124",
+        "selectedQbName": "Micah Alejado",
+        "starterSource": "LAST_COMPLETED_GAME_ATTEMPT_LEADER",
+        "team": "Hawai'i",
+        "teamAttemptsLast3": 128.0
+      },
+      "decisionTime": "2026-10-05T21:10:48.625580+00:00",
+      "exclusions": [],
+      "featureAsOf": "2026-10-05T21:09:59.746427+00:00",
+      "featureValue": 0.02134900990099009,
+      "game": "Hawai'i @ Arizona State",
+      "home": {
+        "availabilityVerified": false,
+        "continuity": 0.9900990099009901,
+        "exclusions": [],
+        "gameCount": 3,
+        "gamesConsidered": [
+          "401856683",
+          "401856812",
+          "401856817"
+        ],
+        "notes": [],
+        "qbAttemptsLast3": 100.0,
+        "selectedQbId": "5141378",
+        "selectedQbName": "Cutter Boley",
+        "starterSource": "LAST_COMPLETED_GAME_ATTEMPT_LEADER",
+        "team": "Arizona State",
+        "teamAttemptsLast3": 101.0
+      },
+      "kickoff": "2026-10-11T01:30:00+00:00"
+    },
+    {
+      "auditGrade": true,
+      "away": {
+        "availabilityVerified": false,
+        "continuity": 0.9550561797752809,
+        "exclusions": [],
+        "gameCount": 3,
+        "gamesConsidered": [
+          "401856678",
+          "401856812",
+          "401856807"
+        ],
+        "notes": [],
+        "qbAttemptsLast3": 85.0,
+        "selectedQbId": "5079604",
+        "selectedQbName": "Isaiah Marshall",
+        "starterSource": "LAST_COMPLETED_GAME_ATTEMPT_LEADER",
+        "team": "Kansas",
+        "teamAttemptsLast3": 89.0
+      },
+      "decisionTime": "2026-10-05T21:10:48.625580+00:00",
+      "exclusions": [],
+      "featureAsOf": "2026-10-05T21:09:59.746427+00:00",
+      "featureValue": -0.05288226673180263,
+      "game": "Kansas @ Utah",
+      "home": {
+        "availabilityVerified": false,
+        "continuity": 0.9021739130434783,
+        "exclusions": [],
+        "gameCount": 3,
+        "gamesConsidered": [
+          "401856670",
+          "401856801",
+          "401856816"
+        ],
+        "notes": [],
+        "qbAttemptsLast3": 83.0,
+        "selectedQbId": "5105849",
+        "selectedQbName": "Devon Dampier",
+        "starterSource": "LAST_COMPLETED_GAME_ATTEMPT_LEADER",
+        "team": "Utah",
+        "teamAttemptsLast3": 92.0
+      },
+      "kickoff": "2026-10-11T02:15:00+00:00"
+    },
+    {
+      "auditGrade": true,
+      "away": {
+        "availabilityVerified": false,
+        "continuity": 1.0,
+        "exclusions": [],
+        "gameCount": 3,
+        "gamesConsidered": [
+          "401858451",
+          "401858470",
+          "401858474"
+        ],
+        "notes": [],
+        "qbAttemptsLast3": 85.0,
+        "selectedQbId": "5144959",
+        "selectedQbName": "Drake Lindsey",
+        "starterSource": "LAST_COMPLETED_GAME_ATTEMPT_LEADER",
+        "team": "Minnesota",
+        "teamAttemptsLast3": 85.0
+      },
+      "decisionTime": "2026-10-05T21:10:48.625580+00:00",
+      "exclusions": [],
+      "featureAsOf": "2026-10-05T21:09:59.746427+00:00",
+      "featureValue": -0.10526315789473684,
+      "game": "Minnesota @ Purdue",
+      "home": {
+        "availabilityVerified": false,
+        "continuity": 0.8947368421052632,
+        "exclusions": [],
+        "gameCount": 3,
+        "gamesConsidered": [
+          "401858458",
+          "401858467",
+          "401858472"
+        ],
+        "notes": [],
+        "qbAttemptsLast3": 85.0,
+        "selectedQbId": "5104738",
+        "selectedQbName": "Ryan Browne",
+        "starterSource": "LAST_COMPLETED_GAME_ATTEMPT_LEADER",
+        "team": "Purdue",
+        "teamAttemptsLast3": 95.0
+      },
+      "kickoff": "2026-10-11T00:00:00+00:00"
     }
   ],
   "schemaVersion": 4,
   "status": "DATA_COLLECTION_ONLY",
   "summary": {
-    "auditGradeGameRows": 54,
-    "games": 54,
-    "officialStarterOverrides": 2,
-    "teamsWithContinuity": 108
+    "auditGradeGameRows": 51,
+    "games": 51,
+    "officialStarterOverrides": 1,
+    "teamsWithContinuity": 102
   }
 }

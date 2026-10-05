@@ -1,7 +1,7 @@
 {
-  "cohortId": "CFB_2026_PRODUCT_WEEK6",
+  "cohortId": "CFB_2026_PRODUCT_WEEK7",
   "contract": "CFB_EDGE_BR2_SOURCE_HEALTH_V1",
-  "providerWeek": 5,
+  "providerWeek": 6,
   "schemaVersion": 2,
   "sources": [
     {
@@ -77,10 +77,28 @@
       "rows": 123
     },
     {
+      "endpoint": "/plays?year=2026&week=5&seasonType=regular",
+      "kind": "plays",
+      "ok": true,
+      "rows": 20368
+    },
+    {
       "endpoint": "/games?year=2026&week=5&seasonType=regular",
-      "kind": "week_games",
+      "kind": "games",
       "ok": true,
       "rows": 304
+    },
+    {
+      "endpoint": "/games/players?year=2026&week=5&seasonType=regular&category=passing",
+      "kind": "player_box",
+      "ok": true,
+      "rows": 114
+    },
+    {
+      "endpoint": "/games?year=2026&week=6&seasonType=regular",
+      "kind": "week_games",
+      "ok": true,
+      "rows": 277
     },
     {
       "endpoint": "/teams?year=2026",
@@ -104,19 +122,19 @@
       "ok": false
     },
     {
-      "endpoint": "/stats/season/advanced?year=2026&startWeek=1&endWeek=4",
+      "endpoint": "/stats/season/advanced?year=2026&startWeek=1&endWeek=5",
       "kind": "advanced_stats",
       "ok": true,
       "rows": 138
     },
     {
       "contract": "CFB_EDGE_OA_EPA_V1",
-      "eligiblePlays": 99595,
+      "eligiblePlays": 118620,
       "fallbackFor": "wepa",
       "kind": "oa_epa_internal",
       "ok": true,
       "rows": 313,
-      "throughWeek": 4
+      "throughWeek": 5
     }
   ]
 }
