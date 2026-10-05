@@ -1,0 +1,121 @@
+{
+  "contract": "CFB_EDGE_LIVE_QUOTE_SNAPSHOT_V1",
+  "polled_at": "2026-10-05T01:24:07.600614+00:00",
+  "quotes": [
+    {
+      "book": "kalshi",
+      "code_revision": "a1be75d3bc2f0ff5e2d378217a53caf47b7fa356",
+      "commence_time": "2026-10-03T00:00:00.000Z",
+      "event_ticker": "KXNCAAFSPREAD-26OCT10BALLNW",
+      "first_valid_two_sided_quote_time": "2026-10-05T01:24:05.261670+00:00",
+      "game": "Penn State @ Northwestern",
+      "line": -35.9,
+      "market": "spread",
+      "market_tickers": [
+        "KXNCAAFSPREAD-26OCT10BALLNW-NW36",
+        "KXNCAAFSPREAD-26OCT10BALLNW-NW39"
+      ],
+      "poll_time": "2026-10-05T01:24:05.261670+00:00",
+      "price": null,
+      "quote_inputs": [
+        {
+          "openTime": "2026-10-04T10:06:00Z",
+          "probability": 0.51,
+          "strike": 35.5,
+          "team": "Northwestern",
+          "ticker": "KXNCAAFSPREAD-26OCT10BALLNW-NW36",
+          "yesAsk": 0.52,
+          "yesBid": 0.5
+        },
+        {
+          "openTime": "2026-10-04T10:06:00Z",
+          "probability": 0.43,
+          "strike": 38.5,
+          "team": "Northwestern",
+          "ticker": "KXNCAAFSPREAD-26OCT10BALLNW-NW39",
+          "yesAsk": 0.44,
+          "yesBid": 0.42
+        }
+      ],
+      "seen_at": "2026-10-05T01:24:05.261670+00:00",
+      "venue_open_time": "2026-10-04T10:06:00+00:00"
+    },
+    {
+      "book": "kalshi",
+      "code_revision": "a1be75d3bc2f0ff5e2d378217a53caf47b7fa356",
+      "commence_time": "2026-10-03T19:30:00.000Z",
+      "event_ticker": "KXNCAAFSPREAD-26OCT10MDOSU",
+      "first_valid_two_sided_quote_time": "2026-10-05T01:24:05.261670+00:00",
+      "game": "Ohio State @ Iowa",
+      "line": 34.8,
+      "market": "spread",
+      "market_tickers": [
+        "KXNCAAFSPREAD-26OCT10MDOSU-OSU36",
+        "KXNCAAFSPREAD-26OCT10MDOSU-OSU34"
+      ],
+      "poll_time": "2026-10-05T01:24:05.261670+00:00",
+      "price": null,
+      "quote_inputs": [
+        {
+          "openTime": "2026-10-04T07:06:00Z",
+          "probability": 0.52,
+          "strike": 35.5,
+          "team": "Ohio St.",
+          "ticker": "KXNCAAFSPREAD-26OCT10MDOSU-OSU36",
+          "yesAsk": 0.49,
+          "yesBid": 0.47
+        },
+        {
+          "openTime": "2026-10-04T07:06:00Z",
+          "probability": 0.45999999999999996,
+          "strike": 33.5,
+          "team": "Ohio St.",
+          "ticker": "KXNCAAFSPREAD-26OCT10MDOSU-OSU34",
+          "yesAsk": 0.55,
+          "yesBid": 0.53
+        }
+      ],
+      "seen_at": "2026-10-05T01:24:05.261670+00:00",
+      "venue_open_time": "2026-10-04T07:06:00+00:00"
+    },
+    {
+      "book": "kalshi",
+      "code_revision": "a1be75d3bc2f0ff5e2d378217a53caf47b7fa356",
+      "commence_time": "2026-10-03T16:00:00.000Z",
+      "event_ticker": "KXNCAAFSPREAD-26OCT10STANND",
+      "first_valid_two_sided_quote_time": "2026-10-05T01:24:05.261670+00:00",
+      "game": "Notre Dame @ North Carolina",
+      "line": 37.4,
+      "market": "spread",
+      "market_tickers": [
+        "KXNCAAFSPREAD-26OCT10STANND-ND39",
+        "KXNCAAFSPREAD-26OCT10STANND-ND36"
+      ],
+      "poll_time": "2026-10-05T01:24:05.261670+00:00",
+      "price": null,
+      "quote_inputs": [
+        {
+          "openTime": "2026-10-04T04:06:00Z",
+          "probability": 0.515,
+          "strike": 38.5,
+          "team": "Notre Dame",
+          "ticker": "KXNCAAFSPREAD-26OCT10STANND-ND39",
+          "yesAsk": 0.49,
+          "yesBid": 0.48
+        },
+        {
+          "openTime": "2026-10-04T04:06:00Z",
+          "probability": 0.475,
+          "strike": 35.5,
+          "team": "Notre Dame",
+          "ticker": "KXNCAAFSPREAD-26OCT10STANND-ND36",
+          "yesAsk": 0.53,
+          "yesBid": 0.52
+        }
+      ],
+      "seen_at": "2026-10-05T01:24:05.261670+00:00",
+      "venue_open_time": "2026-10-04T04:06:00+00:00"
+    }
+  ],
+  "schemaVersion": 1
+}
