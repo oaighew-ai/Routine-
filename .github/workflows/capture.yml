@@ -34,8 +34,11 @@ on:
   # observation. Keep this path for operator recovery/debug only.
   workflow_dispatch:
 
+# `actions: write` is for one thing: asking for the open loop when none is
+# running (the last step).
 permissions:
   contents: write
+  actions: write
 
 # Runs must not overlap: two of them would race to push the same log and one
 # would lose its poll. Queued rather than cancelled where possible.
@@ -207,3 +210,30 @@ jobs:
           done
           echo "could not push after three attempts" >> "$GITHUB_STEP_SUMMARY"
           exit 1
+
+      # The open loop carries itself from link to link (D38). A link that was
+      # cancelled, that failed, or whose queued successor was displaced by one
+      # of these runs leaves nothing polling until a cron launch arrives, and
+      # those arrive hours late. This job shares the loop's concurrency group,
+      # so it only ever runs when no loop does. If it polled successfully
+      # inside the release window it asks for a loop. The request queues
+      # behind this job and replaces a loop already queued, which is the same
+      # loop. A run whose own poll failed asks for nothing, so a broken
+      # exchange or schedule cannot turn this into a relaunch circle (D44).
+      - name: Restart the open loop if none is running
+        if: ${{ !cancelled() && steps.slate.outputs.ok == '1' && steps.poll.outcome == 'success' }}
+        env:
+          GH_TOKEN: ${{ github.token }}
+          REF: ${{ github.ref_name }}
+        run: |
+          set -u
+          note () { echo "$1"; echo "- loop: $1" >> "$GITHUB_STEP_SUMMARY"; }
+          if ! python3 -m cfb_edge.watch --window-open ${RESTART_AT:+--at "$RESTART_AT"}; then
+            note "release window closed; no loop requested"
+            exit 0
+          fi
+          if gh workflow run capture-open-loop.yml --ref "$REF"; then
+            note "open loop requested on $REF"
+          else
+            note "could not request the open loop; the crons remain"
+          fi

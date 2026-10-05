@@ -1913,3 +1913,218 @@ stands.
 **Reversal criterion.** Superseded by a registered strike-aware null, or
 withdrawn if a recomputation with a better-fitted margin distribution moves
 the key-number breakeven above 0.54.
+
+## 2026-10-03 — D43. A market belongs to a game only if it is dated on that game's day
+
+**Decision.** An exchange event is attributed to a slate fixture only when the
+game day in its ticker is the kickoff's UTC date or the day before
+(`watch.event_matches_kickoff`; `KXNCAAFSPREAD-26OCT03VANUGA` is 3 October).
+A ladder that names one team and cannot be dated is skipped. A ladder that
+names both teams is still taken when there is nothing to check it against.
+
+**What went wrong.** The capture reads a spread ladder, finds which teams it
+is written on, and looks the fixture up in the slate. A favourite's ladder is
+often quoted on one side only, so it names one team, and the lookup took the
+one slate fixture containing that team. Every team plays again next week, and
+the exchange lists next week's markets while this week's are still open. So
+when the loop moved to the following week's slate it read this week's market
+as next week's game.
+
+On 2026-10-03 at 15:17 UTC that wrote five lines into the capture log and at
+15:50 locked all five games as missed opens:
+
+    Georgia @ Alabama        from 26OCT03VANUGA   (Vanderbilt at Georgia)
+    Indiana @ Nebraska       from 26OCT03INDRUTG  (Indiana at Rutgers)
+    LSU @ Kentucky           from 26OCT03MCNSLSU  (McNeese at LSU)
+    Stanford @ Notre Dame    from 26OCT03NDUNC    (Notre Dame at North Carolina)
+    UAB @ Memphis            from 26OCT03SAMUAB   (Samford at UAB)
+
+A missed row is terminal (D35), so none of those games could have captured
+its own market when it opened. The same defect a week earlier (first poll
+2026-09-26 15:11 UTC) matched 14 games on the 1-3 October slate to a
+26 September market. For 13 of them that line took the first-seen slot, and
+first seen is never overwritten; the fourteenth already had its own.
+
+**Evidence** (`capture-data` at `1a228ff`, 960 polls). Of 30,365 Kalshi spread
+quotes in the log, 30,009 carry an event ticker, all of one shape. For 28,329
+the kickoff's UTC date is the ticker's day or the next one. The other 1,680
+are 23 pairs of a game and a market 6, 7 or 8 days apart: 20 are a market
+from the week before its fixture (the 5 above and 15 on 26 September) and 3
+are a market from the week after. There is nothing in between. The 356 quotes
+with no ticker predate the field.
+
+**What changes.**
+
+- `providers.kalshi.board_quotes` and `active_market_state._fixture_for_event`
+  refuse a market dated on another day than the fixture.
+- `OpeningBook` builds no open, latest or close from such a quote, and counts
+  them. The raw log is append-only and keeps every line it has.
+- `week6_clv.build_close_report`, `capture_report.build` and
+  `weekly_card.kalshi_latest` read the log directly and skip them the same way.
+- `prospective_open.update` refuses them, and voids a row whose ticker names a
+  different day than the kickoff the row was locked with. The row moves to
+  `voidedRows` whole, with `voidReason`, and the game returns to PENDING. It
+  is judged by its own recorded kickoff, so a later reschedule cannot void a
+  lock that was right when it was made, and a row whose ticker agrees with its
+  kickoff is never reopened.
+
+**What this does to derived history.** Run against the evidence above:
+
+- The lock for provider week 6 goes from 9 missed and 49 pending to 4 missed,
+  54 pending and 5 voided. The four that remain are misses on their own
+  markets.
+- Games with a recorded Kalshi open go from 159 to 154. Thirteen games change
+  from another market's line to their own first sighting; five lose a line
+  that was never theirs and have none yet. Every changed row classifies as
+  `first_seen`. The count of `true_open` rows stays 0, so nothing becomes
+  gradeable that was not.
+- No frozen decision changes. The 27 frozen Week 6 opens were recovered from
+  each game's own market (venue open 26 to 28 September). Of the 14 affected
+  games, 6 are in that cohort with no captured open, 6 have a recovered open
+  from the right market, and 2 are outside it.
+
+**What this does not establish.** Whether the exchange posts a two-sided
+quote inside 900 seconds of `open_time`. The two markets first seen on
+2026-10-03 after continuous polling began suggest it may not: Indiana at
+Nebraska opened 16:06:00 and yielded no line through 16:21:15 (915 s), and
+New Mexico State at FIU opened 2026-10-02 22:06 and first yielded a line in
+the log at 2026-10-03 20:27. Two rows are not a finding. D35's window is
+unchanged.
+
+**Addendum, 2026-10-04, before merge.** Two things changed between writing
+this entry and merging it (`capture-data` at `94e656a`, 1,195 one-minute polls
+since 2026-10-03 15:50 UTC with one gap, of 21 minutes, on the old code).
+
+*The window can be met, and not by every market.* Overnight the lock captured
+17 true opens with lags of 211 to 800 seconds, the first this project has
+recorded. Eight other markets listed in the same hours yielded no readable
+line until 1.6 to 5 hours after their listed open, with polls a minute apart
+throughout. (A ninth, listed twelve hours before polling began, first yielded
+one 24 hours after.) The log holds only lines the reader could read, so it
+cannot say whether those markets had no quotes or had quotes the reader
+refuses: a ladder that does not straddle 50%, or a bid and ask further apart
+than `MAX_SPREAD`. D35's window is still unchanged.
+
+*A voided row is rebuilt from the log.* Georgia at Alabama's own market was
+listed at 01:06 UTC and first read at 01:19:19, 800 seconds later, while its
+false row still stood. Voiding the row and waiting for the next live poll
+would have locked that game as first seen at merge time, hours late, and the
+two other games whose own markets were already in the log (Indiana at
+Nebraska, read at 2,209 seconds, and LSU at Kentucky, at 2,341) with lags
+overstated by hours. Those lags are the evidence about the venue. So when a
+row is voided, the game's row is recomputed from the logged polls, oldest
+first, from the moment the false row was written up to the poll being
+processed, through the same state machine, stopping at the first terminal
+state as the live lock does. Only this project's own live polls are read; no
+historical endpoint is. A row produced this way carries `rebuiltFromLog`. A
+rebuild that fails leaves the game pending and records why, so a repair
+cannot cost a live poll. This is the rule CLAUDE.md already states: recompute
+every aggregate from ledger rows.
+
+Run against `94e656a`, the lock goes from 17 captured, 18 missed and 23
+pending to 18 captured, 15 missed, 25 pending and 5 voided: Georgia at Alabama
+captured at 800 seconds, two rebuilt as misses at the lag they were seen
+with, two still waiting for their own markets. The opening book goes from 17
+`true_open` games to 18, the same game. So one row does become gradeable that
+was not, which the section above could not yet say.
+
+**The owner's call.** Whether a row rebuilt from the log is audit-grade is a
+judgment about evidence, and merging this entry makes it. The alternative is
+to void without rebuilding, and the lock then records those three games as
+first seen at merge time.
+
+**Verification.** `tests/test_event_day_guard.py`: the rule against the eight
+rows the lock held, the board reader, the opening book over a log that already
+holds a wrong line, the lock repair (five voided, three kept, voiding
+idempotent, a real miss never reopened, a rescheduled game not voided), the
+rebuild (a sighting inside the window, a late one, none, log order, a failed
+rebuild, the command's log path), and the three log readers. 797 tests pass.
+The rebuild was also run against the real status file and log. Not verified
+on a runner.
+
+**Authority effect.** None. No threshold, gate, frozen rule, stake or delivery
+permission changes. The true-open window is untouched.
+
+**Reversal criterion.** Widen `EVENT_DAY_OFFSETS` only on a logged quote whose
+market is provably the game's own and falls outside it. Drop the one-team
+refusal only if the exchange stops listing two weeks at once.
+
+## 2026-10-03 — D44. The loop records closes, and the fallback restarts the loop
+
+**Finding. Product Week 6 will close without a gradeable row.** The frozen
+cohort has 27 recovered opens and 5 signal rows (D34). A close is the last
+price before kickoff and grades only when it is at most 900 seconds old at
+kickoff. From the capture log at `capture-data` `4d124f7` (2026-10-03 23:41
+UTC): 23 of the 27 games had kicked off, none had a price inside 900 seconds
+of its kickoff, and the newest price before kickoff was between 7.2 and 73.9
+hours old. Four games had not started (kickoffs 00:00, 00:00, 01:30 and 03:00
+UTC on 2026-10-04), so the final count is at most 4 and is whatever the log
+shows after that. It showed 0 of 27 at `94e656a`, after the game window
+closed: the nearest any price came to its kickoff was 50 minutes.
+
+**Why.** Two things, either of which was enough.
+
+- From Friday 18:00 UTC the open loop polls the week whose lines are opening,
+  which is next week (D38). Nothing polls the week being played.
+- Its closes were left to `week6-clv-close-grade`, which needs a scheduled
+  start inside the fifteen minutes before each kickoff. Its crons cover 20:00
+  to 06:59 UTC, so a noon or 3:30 pm Eastern kickoff was never coverable. And
+  of the 47 scheduled starts inside the game window up to 23:42 UTC, 4
+  produced a poll, the last of them about two hours late.
+
+**Decision.**
+
+1. *The loop records closes.* Each link also builds the slate of the week
+   being played (`slate --week current`, written to `data/slate_playing.csv`).
+   A game on it joins the loop's poll `CLOSING_WINDOW_SECONDS` before kickoff
+   and leaves at kickoff (`watch --closing-slate`). The window is the 900
+   second close tolerance plus 300 seconds; **the 300 is a PRIOR (Law 6)**,
+   five polls of margin. It is the same single read of the exchange board, so
+   it costs no request, and about twenty log entries a game. A failed build
+   of that slate leaves the last good file and cannot stop the open capture.
+   The prospective lock still reads the opening week alone.
+2. *A team on both slates.* The poll can now hold the same team twice, this
+   week and next. The game day (D43) chooses between a team's fixtures before
+   uniqueness is required, so each of its markets is read as its own game.
+   Two fixtures on the same day are still skipped.
+3. *The fallback restarts the loop.* The loop carries itself (D38), but a
+   link that is cancelled, fails, or loses its queued successor leaves
+   nothing polling until a cron launch arrives, and those arrive hours late.
+   `capture.yml` shares the loop's concurrency group, so it runs only when no
+   loop does. When its own poll succeeded inside the release window it now
+   asks for a loop as its last step. A run whose poll failed asks for
+   nothing, so an outage cannot turn this into a relaunch circle.
+4. *The Week 6 workflows lose their triggers.* `week6-clv-close-grade` and
+   `week6-clv-decision-freeze` keep `workflow_dispatch`, their code, configs
+   and evidence. The cohort's game window closes 2026-10-04 12:00 UTC; after
+   that the grader skips its work and the freeze refuses to rerun, and each
+   completion only sets off the bridge. This entry must not be merged before
+   that time.
+5. *One count.* `watch --close-coverage` reads the log and prints how many
+   started games on a slate have a price inside the tolerance. It is the
+   number the Saturday check reports, and it read 0 of 49 for the week being
+   played at the revision above.
+
+**What this does not do.** It does not change any grader. `grade` still takes
+the last price before kickoff with no age limit; an age limit there changes a
+registered measurement and is the owner's to register. It does not capture
+closes for games that kick off outside the release window (Tuesday 18:00 to
+Friday 18:00 UTC), which the weekend cohorts leave out anyway (D41). It does
+not recover Week 6: a close that was not observed cannot be rebuilt.
+
+**Verification.** `tests/test_close_capture.py`: which games join the poll,
+a team on both slates, the command, a close a grader accepts, and the
+workflow's own text. `tests/test_capture_restart.py` runs the restart step's
+shell against a stand-in `gh`: inside the window, outside it, and a refused
+request. `tests/test_week5_workflows.py` pins the set of workflows that still
+have an automatic trigger, and `tests/test_operations_runbook.py` ties every
+workflow, file, command and decision the runbook names to the repository.
+836 tests pass. Not verified: any of this on a runner.
+
+**Authority effect.** None. No threshold, gate, frozen rule, stake or delivery
+permission changes.
+
+**Reversal criterion.** Drop the closing slate if a registered close source
+replaces the exchange log. Drop the restart step if scheduled launches arrive
+within the fifteen-minute tolerance for a full season. Change the 300 second
+margin only on logged closes that show polls missing inside it.

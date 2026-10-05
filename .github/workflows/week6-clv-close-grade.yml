@@ -1,9 +1,16 @@
 name: Week 6 CLV close capture and grading
 
+# RETIRED 2026-10-04 (D44). Served one closed cohort:
+#   product Week 6 closes (CFB_2026_PRODUCT_WEEK6; game window closed
+#   2026-10-04 12:00 UTC).
+# It needed a scheduled start inside the fifteen minutes before each kickoff
+# and got none on game day, so the cohort closed with no gradeable row. The
+# open loop now records closes itself (D44). Kept for audit and manual
+# re-runs only. Code, configs and evidence are untouched; only the automatic
+# triggers were removed. The canonical operating path is
+# docs/CFB_EDGE_OPERATIONS.md. To revive, restore the `on:` block from the
+# parent of the D44 commit.
 on:
-  schedule:
-    - cron: "*/15 20-23 * 9-11 4,5,6"
-    - cron: "*/15 0-6 * 9-11 5,6,0"
   workflow_dispatch:
 
 permissions:

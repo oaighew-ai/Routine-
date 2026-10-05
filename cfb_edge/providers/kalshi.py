@@ -542,10 +542,22 @@ def board_quotes(
     the same as any other. Skipping those cost the capture every thinly-quoted
     game on the board, which on this book is a large share of it and is
     precisely where the observations are scarcest.
+
+    **A team name is not a game.** Every team plays again next week, and the
+    exchange lists next week's market while this week's is still open. A
+    one-sided ladder names one team, so the slate lookup above finds that
+    team's fixture whichever week the market belongs to. On 3 October 2026
+    that wrote the Vanderbilt at Georgia market down as the opening line of
+    Georgia at Alabama, and the same thing had happened to fourteen games the
+    week before (D43). The event ticker names its game day, so `kickoffs`
+    settles it: a market dated on another day than the fixture is not that
+    fixture's market. A one-sided ladder that cannot be dated is skipped,
+    because a single team name is then all there is; a ladder naming both
+    teams is still taken when there is nothing to check it against.
     """
     from datetime import datetime, timezone
 
-    from ..watch import Quote
+    from ..watch import Quote, event_matches_kickoff
 
     stamp = seen_at or datetime.now(timezone.utc).isoformat()
     kickoffs = kickoffs or {}
@@ -580,26 +592,43 @@ def board_quotes(
         resolved_teams = {resolve(t, known_teams) for t in teams}
         if None in resolved_teams:
             continue
-        if len(resolved_teams) == 1:
+        one_sided = len(resolved_teams) == 1
+        if one_sided:
             # One-sided. The pair is not in the markets, so take it from the
-            # slate: exactly one fixture may contain this resolved team, or the
-            # orientation is a guess again and the game is skipped.
+            # slate: every fixture containing this resolved team is a
+            # candidate, and the game day below has to leave exactly one.
             solo = next(iter(resolved_teams))
             hits = [f for f in schedule if solo in f]
-            fixture = hits[0] if len(hits) == 1 else None
-        else:
+        elif len(resolved_teams) == 2:
             hits = [f for f in schedule if frozenset(f) == frozenset(resolved_teams)]
-            fixture = hits[0] if len(resolved_teams) == 2 and len(hits) == 1 else None
-        if fixture is None:
+        else:
+            hits = []
+        # The game day decides between candidates before uniqueness does. A
+        # slate can hold the same team twice, once for the week being played
+        # and once for the week whose lines are opening, and each of that
+        # team's markets belongs to exactly one of them (D43, D44).
+        dated = []
+        for candidate in hits:
+            kickoff = kickoffs.get(f"{candidate[0]} @ {candidate[1]}")
+            same_day = event_matches_kickoff(event, str(kickoff) if kickoff else None)
+            if same_day is False:
+                # Another week's market for a team that is also on this slate.
+                continue
+            if same_day is None and one_sided:
+                # One team name and no date to check it by: a guess.
+                continue
+            dated.append(candidate)
+        if len(dated) != 1:
+            # None, or more than one: orientation would be a guess again.
             continue
-        away, home = fixture
-        line, used = implied_line_evidence(markets, home=home, away=away)
-        if line is None:
-            continue
+        away, home = dated[0]
         game = f"{away} @ {home}"
         # Contract close_time is an exchange settlement/trading timestamp, not
         # necessarily the football kickoff. Only the schedule may supply kickoff.
         commence = kickoffs.get(game)
+        line, used = implied_line_evidence(markets, home=home, away=away)
+        if line is None:
+            continue
         open_times = [str(e.get("open_time") or "") for e in used]
         venue_open = None
         if used and all(open_times):

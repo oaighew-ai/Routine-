@@ -63,6 +63,7 @@ from .engine.pricing import (
 )
 from .engine.version import ENGINE_VERSION, spec_hash
 from .market import american_to_probability
+from .watch import event_matches_kickoff
 
 CONTRACT = "CFB_EDGE_WEEKLY_CARD_V1"
 CARD_VERSION = "weekly-card-1"
@@ -268,7 +269,11 @@ def map_board(events: Sequence[BoardEvent], slate: Sequence[SlateGame]
 
 
 def kalshi_latest(log_path: str | Path | None) -> dict[str, dict[str, Any]]:
-    """Latest Kalshi-derived home line per game from the append-only log."""
+    """Latest Kalshi-derived home line per game from the append-only log.
+
+    A quote read from another game day's market for the same team is in the
+    log and is skipped here: it was never this game's line (D43).
+    """
     out: dict[str, dict[str, Any]] = {}
     if log_path is None or not Path(log_path).exists():
         return out
@@ -279,6 +284,9 @@ def kalshi_latest(log_path: str | Path | None) -> dict[str, dict[str, Any]]:
             rec = json.loads(line)
             for q in rec.get("quotes") or []:
                 if q.get("book") != "kalshi" or q.get("line") is None:
+                    continue
+                if event_matches_kickoff(str(q.get("event_ticker") or ""),
+                                         str(q.get("commence_time") or "")) is False:
                     continue
                 seen = _instant(q.get("seen_at") or rec.get("polled_at"))
                 prev = out.get(q.get("game"))
