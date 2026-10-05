@@ -1819,8 +1819,29 @@ class TestCronMatchesTheReleaseWindow(unittest.TestCase):
         import re
 
         root = pathlib.Path(__file__).resolve().parent.parent
-        text = (root / ".github/workflows" / "capture.yml").read_text()
+        text = (root / ".github/workflows" / cls.WORKFLOW).read_text()
         return re.findall(r'- cron: "([^"]+)"', text)
+
+    @staticmethod
+    def _cron_hours(field: str) -> list[int]:
+        """The hours one cron field covers.
+
+        A single hour, a range, a comma list, or `*`. The first version of this
+        test only understood a range, because `capture.yml` wrote its schedule
+        as `*/15 18-23 ...`. The open loop writes one hour per entry, so a bare
+        `18` reached `lo, hi = field.split("-")` and raised rather than failing
+        an assertion, which reads as a broken test instead of a broken window.
+        """
+        if field == "*":
+            return list(range(24))
+        hours: list[int] = []
+        for part in field.split(","):
+            if "-" in part:
+                lo, hi = part.split("-")
+                hours.extend(range(int(lo), int(hi) + 1))
+            else:
+                hours.append(int(part))
+        return hours
 
     @staticmethod
     def _cron_dow_to_weekday(field: str) -> int:
@@ -1839,12 +1860,7 @@ class TestCronMatchesTheReleaseWindow(unittest.TestCase):
             allowed = RELEASE_WINDOW_UTC.get(weekday)
             self.assertIsNotNone(
                 allowed, f"{line} polls a day the window excludes")
-            if hours == "*":
-                covered = range(0, 24)
-            else:
-                lo, hi = hours.split("-")
-                covered = range(int(lo), int(hi) + 1)
-            for hour in covered:
+            for hour in self._cron_hours(hours):
                 self.assertIn(
                     hour, allowed, f"{line} polls {hour:02d}:00 outside the window")
 
