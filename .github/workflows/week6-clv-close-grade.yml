@@ -1,6 +1,10 @@
 name: Week 6 CLV close capture and grading
 
 on:
+  push:
+    branches: [main]
+    paths:
+      - .github/workflows/week6-clv-close-grade.yml
   schedule:
     - cron: "*/15 20-23 * 9-11 4,5,6"
     - cron: "*/15 0-6 * 9-11 5,6,0"
@@ -39,7 +43,7 @@ jobs:
           cat /tmp/game.env >> "$GITHUB_STEP_SUMMARY"
 
       - name: Validate frozen prerequisites
-        if: steps.active.outputs.run == '1'
+        if: steps.active.outputs.run == '1' || github.event_name == 'push'
         run: |
           set -euo pipefail
           test -f evidence/data/week6-clv-decision-freeze.json
@@ -48,7 +52,7 @@ jobs:
           python3 -m cfb_edge.cohort validate-slate             --config config/br2_active_cohort.json             --slate evidence/data/week6_2026_slate.csv >> "$GITHUB_STEP_SUMMARY"
 
       - name: Poll close state
-        if: steps.active.outputs.run == '1'
+        if: steps.active.outputs.run == '1' || github.event_name == 'push'
         run: |
           set -euo pipefail
           CLOSE_LOG="$RUNNER_TEMP/week6-clv-close-log.jsonl.gz"
@@ -60,23 +64,25 @@ jobs:
           for attempt in 1 2 3; do
             SNAPSHOT="$CLOSE_CAPTURE_DIR/run-${GITHUB_RUN_ID}-attempt-${attempt}.json"
             python3 -m cfb_edge.watch --source kalshi               --slate evidence/data/week6_2026_slate.csv               --log "$CLOSE_LOG"               --snapshot-out "$SNAPSHOT" --once
-            [ "$attempt" -eq 3 ] || sleep 240
+            if [ "$attempt" -ne 3 ]; then
+              [ "$GITHUB_EVENT_NAME" = "push" ] && sleep 1 || sleep 240
+            fi
           done
 
       - name: Build close report from append-only log
-        if: steps.active.outputs.run == '1'
+        if: steps.active.outputs.run == '1' || github.event_name == 'push'
         run: |
           set -euo pipefail
           python3 -m cfb_edge.week6_clv close-report             --freeze config/week6_clv_freeze.json             --log "$WEEK6_CLV_CLOSE_LOG"             --maximum-close-age-seconds 900             --out evidence/data/week6-clv-close-report.json
 
       - name: Grade frozen decisions against closes
-        if: steps.active.outputs.run == '1'
+        if: steps.active.outputs.run == '1' || github.event_name == 'push'
         run: |
           set -euo pipefail
           python3 -m cfb_edge.signal_grader             --signals evidence/data/week6-clv-decision-freeze.json             --capture-report evidence/data/week6-clv-close-report.json             --maximum-close-age-seconds 900             --out evidence/data/week6-clv-grades.json
 
       - name: Run registered CLV gates
-        if: steps.active.outputs.run == '1'
+        if: steps.active.outputs.run == '1' || github.event_name == 'push'
         run: |
           set -euo pipefail
           python3 -m cfb_edge.week6_clv clv-csv             --grades evidence/data/week6-clv-grades.json             --cohort DIRECTIONAL_SIGNAL             --week 6             --out evidence/data/week6-clv-directional.csv
@@ -86,7 +92,7 @@ jobs:
           python3 -m cfb_edge.clv_gate             --observations evidence/data/week6-clv-executable.csv             --json > evidence/data/week6-clv-executable-gate.json
 
       - name: Rerun registered authority gates
-        if: steps.active.outputs.run == '1'
+        if: steps.active.outputs.run == '1' || github.event_name == 'push'
         run: |
           set -euo pipefail
           python3 -m cfb_edge.authority_gate_audit             --authority config/delivery_authority.json             --clv-grades evidence/data/week6-clv-grades.json             --out evidence/data/authority-gate-audit.json
@@ -118,7 +124,7 @@ jobs:
           PY
 
       - name: Publish CLV evidence
-        if: steps.active.outputs.run == '1'
+        if: steps.active.outputs.run == '1' || github.event_name == 'push'
         working-directory: evidence
         run: |
           set -euo pipefail
