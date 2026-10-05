@@ -27,17 +27,12 @@
 name: capture
 
 on:
-  schedule:
-    # Cron numbers days from Sunday, so 6 is Saturday and 0 is Sunday. That is
-    # not how Python's weekday() numbers them, and RELEASE_WINDOW_UTC is keyed
-    # the Python way: these two lists have to be read in different dialects and
-    # a test pins them against each other.
-    - cron: "*/15 18-23 * 9-11 5"   # Friday evening: the earliest measured opens
-    - cron: "*/15 * * 9-11 6"       # Saturday, all day
-    - cron: "*/15 * * 9-11 0"       # Sunday, all day: most measured opens land here
-    - cron: "*/15 * * 9-11 1"       # Monday
-    - cron: "*/15 0-17 * 9-11 2"    # Tuesday
-  workflow_dispatch:                 # and on demand, to prove it works
+  # Manual fallback only. The continuous open-loop worker owns scheduled
+  # production capture. Scheduling this workflow too put 15-minute jobs behind
+  # a 5.5-hour worker in the same cfb-capture concurrency group; GitHub then
+  # replaced queued runs, creating cancellation noise without adding a single
+  # observation. Keep this path for operator recovery/debug only.
+  workflow_dispatch:
 
 permissions:
   contents: write
