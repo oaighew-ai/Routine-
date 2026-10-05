@@ -1811,10 +1811,10 @@ class TestCronMatchesTheReleaseWindow(unittest.TestCase):
     nothing but a test notices when they drift apart.
     """
 
-    WORKFLOW = "capture.yml"
+    WORKFLOW = "capture-open-loop.yml"
 
-    @staticmethod
-    def _crons():
+    @classmethod
+    def _crons(cls):
         import pathlib
         import re
 
