@@ -116,7 +116,10 @@ class RetiredCohortWorkflowTests(unittest.TestCase):
         self.assertEqual(live, {
             "br2-active-feature-capture.yml",
             "capture-open-loop.yml",
-            "capture.yml",
+            # capture.yml is absent on purpose. 8573ce8 made it dispatch-only
+            # so a scheduled poller could not queue behind the open loop, and
+            # D44 leaves it a fallback that restarts the loop when none runs.
+            # It has no schedule and no main push trigger, so it is not live.
             "cfb-operating-review.yml",
             "early-season-learning.yml",
             "private-site-bridge.yml",

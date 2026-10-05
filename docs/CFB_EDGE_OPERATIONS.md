@@ -43,19 +43,24 @@ byte for byte.
 
 ## 2. What runs, and when
 
-Eight workflows have an automatic trigger. `tests/test_week5_workflows.py`
-pins that set, so adding a ninth is a deliberate act.
+Seven workflows have an automatic trigger. `tests/test_week5_workflows.py`
+pins that set, so adding an eighth is a deliberate act.
 
 | Workflow | Trigger | What it does |
 |---|---|---|
 | `capture-open-loop` | 19 launches from Fri 18:00 to Tue 16:30; hands itself to the next link | Polls the exchange every minute. Records opens for the week whose lines are opening and closes for the week being played |
-| `capture` | Every 15 minutes inside the same window | Three polls when no loop is running, then asks for a loop |
 | `br2-active-feature-capture` | Mon to Fri 13:30; on its own code changing | Point-in-time football features and the sportsbook board the card prices from |
 | `cfb-operating-review` | Five fixed times a week (Mon, Tue, Thu, Fri, Sat); after each `capture` run | Writes `data/ops-health.json`. No picks |
 | `private-site-bridge` | After the feature capture; on its own code changing | Republishes a summary for the private Site |
 | `early-season-learning` | On its own code or the slate builder changing | Rebuilds the in-season CLV measurement |
 | `watchdog` | Daily 13:17; Sun and Mon 01:17 | Opens an issue if the newest run receipt is stale or failed. Never commits |
 | `tests` | Every push to `main`, every pull request | The gates in section 6 |
+
+`capture` is deliberately absent from that table: it has no trigger. Its
+schedule was removed in `8573ce8` so a scheduled poller could not queue behind
+the open loop, and D44 leaves it a dispatch-only fallback that takes three polls
+when no loop is running and then asks for one. The table is the set of
+workflows that fire by themselves, which is what the test above pins.
 
 Everything else under `.github/workflows/` runs only when someone starts it.
 Ten of those served a closed cohort and carry a `RETIRED` header naming the
