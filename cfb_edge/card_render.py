@@ -16,11 +16,7 @@ import json
 from datetime import datetime, timedelta, timezone
 from typing import Any, Iterable, Mapping, Sequence
 
-try:  # pragma: no cover - depends on the host's tz database
-    from zoneinfo import ZoneInfo
-    _ET = ZoneInfo("America/New_York")
-except Exception:  # pragma: no cover
-    _ET = None
+from .eastern import eastern_for as _eastern_for, strf as _strf
 
 STATE_CLASS = {"PASS": "ok", "DEGRADED": "warn", "FAIL": "bad", "NOT_APPLICABLE": "na"}
 STATE_LABEL = {"PASS": "Pass", "DEGRADED": "Degraded", "FAIL": "Fail", "NOT_APPLICABLE": "N/A"}
@@ -55,10 +51,7 @@ def et(value: Any, fmt: str = "%a %b %-d, %-I:%M %p") -> str:
     when = _instant(value)
     if when is None:
         return "—"
-    if _ET is not None:
-        local = when.astimezone(_ET)
-        return local.strftime(fmt) + " ET"
-    return (when - timedelta(hours=4)).strftime(fmt) + " ET"
+    return _strf(when.astimezone(_eastern_for(when)), fmt) + " ET"
 
 
 def signed(x: Any, nd: int = 1) -> str:
@@ -321,10 +314,9 @@ def _masthead(card: Mapping[str, Any]) -> str:
     if first and last:
         a, b = _instant(first), _instant(last)
         if a and b:
-            if _ET is not None:
-                a, b = a.astimezone(_ET), b.astimezone(_ET)
-            span = f"{a.strftime('%b %-d')}–{b.strftime('%-d')}" if a.month == b.month else \
-                   f"{a.strftime('%b %-d')}–{b.strftime('%b %-d')}"
+            a, b = a.astimezone(_eastern_for(a)), b.astimezone(_eastern_for(b))
+            span = f"{_strf(a, '%b %-d')}–{_strf(b, '%-d')}" if a.month == b.month else \
+                   f"{_strf(a, '%b %-d')}–{_strf(b, '%b %-d')}"
     week = lab.get("productWeek")
     provider = lab.get("providerWeek")
     board = None
@@ -472,7 +464,7 @@ def _pass_list(card: Mapping[str, Any]) -> str:
         tags = ["all"]
         kick = _instant(r.get("kickoff"))
         if kick is not None:
-            local = kick.astimezone(_ET) if _ET is not None else kick - timedelta(hours=4)
+            local = kick.astimezone(_eastern_for(kick))
             days_seen.add(local.weekday())
             tags.append(DAY_TAG[local.weekday()])
         codes = [c for c in r["decision"]["reasonCodes"] if c not in GLOBAL_CODES]

@@ -1819,8 +1819,29 @@ class TestCronMatchesTheReleaseWindow(unittest.TestCase):
         import re
 
         root = pathlib.Path(__file__).resolve().parent.parent
-        text = (root / ".github/workflows" / "capture.yml").read_text()
+        text = (root / ".github/workflows" / cls.WORKFLOW).read_text()
         return re.findall(r'- cron: "([^"]+)"', text)
+
+    @staticmethod
+    def _cron_hours(field: str) -> list[int]:
+        """The hours one cron field covers.
+
+        A single hour, a range, a comma list, or `*`. The first version of this
+        test only understood a range, because `capture.yml` wrote its schedule
+        as `*/15 18-23 ...`. The open loop writes one hour per entry, so a bare
+        `18` reached `lo, hi = field.split("-")` and raised rather than failing
+        an assertion, which reads as a broken test instead of a broken window.
+        """
+        if field == "*":
+            return list(range(24))
+        hours: list[int] = []
+        for part in field.split(","):
+            if "-" in part:
+                lo, hi = part.split("-")
+                hours.extend(range(int(lo), int(hi) + 1))
+            else:
+                hours.append(int(part))
+        return hours
 
     @staticmethod
     def _cron_dow_to_weekday(field: str) -> int:
@@ -1839,12 +1860,7 @@ class TestCronMatchesTheReleaseWindow(unittest.TestCase):
             allowed = RELEASE_WINDOW_UTC.get(weekday)
             self.assertIsNotNone(
                 allowed, f"{line} polls a day the window excludes")
-            if hours == "*":
-                covered = range(0, 24)
-            else:
-                lo, hi = hours.split("-")
-                covered = range(int(lo), int(hi) + 1)
-            for hour in covered:
+            for hour in self._cron_hours(hours):
                 self.assertIn(
                     hour, allowed, f"{line} polls {hour:02d}:00 outside the window")
 
@@ -2110,6 +2126,7 @@ class TestRealKalshiPayload(unittest.TestCase):
                   (16.5, 0.48, 0.52), (24.5, 0.26, 0.30)]]
         quotes = board_quotes(
             games=["Kentucky @ Texas A&M"],
+            kickoffs={"Kentucky @ Texas A&M": "2026-09-19T23:00:00Z"},
             opener=lambda url, **kw: json.dumps({"markets": board, "cursor": ""}),
             seen_at="2026-09-14T22:00:00+00:00")
         self.assertEqual(len(quotes), 1)
@@ -2127,6 +2144,7 @@ class TestRealKalshiPayload(unittest.TestCase):
         board[2]["open_time"] = "2026-09-20T22:01:00Z"
         quotes = board_quotes(
             games=["Kentucky @ Texas A&M"],
+            kickoffs={"Kentucky @ Texas A&M": "2026-09-19T23:00:00Z"},
             opener=lambda url, **kw: json.dumps({"markets": board, "cursor": ""}),
             seen_at="2026-09-20T22:10:00+00:00")
         self.assertEqual(len(quotes), 1)
@@ -2404,7 +2422,12 @@ class TestOneSidedLadder(unittest.TestCase):
     where they are scarcest.
     """
 
-    def _board(self, team, strikes, event="26sep19kytam",
+    # A one-sided ladder names one team, so the game day in the ticker and the
+    # schedule's kickoff are what tie it to a fixture (D43). These tests pass
+    # both, as `watch` always does.
+    KYTAM = {"Kentucky @ Texas A&M": "2026-09-19T23:00:00Z"}
+
+    def _board(self, team, strikes, event="KXNCAAFSPREAD-26SEP19KYTAM",
                title="Kentucky at Texas A&M"):
         return [{"event_ticker": event, "ticker": f"{event}-{i}", "title": title,
                  "yes_sub_title": f"{team} wins by more than {s}",
@@ -2421,7 +2444,7 @@ class TestOneSidedLadder(unittest.TestCase):
 
         board = self._board("Texas A&M", [(2.5, 91, 93), (10.5, 67, 71),
                                           (16.5, 48, 52), (24.5, 26, 30)])
-        quotes = board_quotes(games=["Kentucky @ Texas A&M"],
+        quotes = board_quotes(games=["Kentucky @ Texas A&M"], kickoffs=self.KYTAM,
                               opener=self._opener(board),
                               seen_at="2026-09-14T22:00:00+00:00")
         self.assertEqual(len(quotes), 1)
@@ -2433,7 +2456,7 @@ class TestOneSidedLadder(unittest.TestCase):
 
         board = self._board("Kentucky", [(2.5, 91, 93), (10.5, 67, 71),
                                          (16.5, 48, 52), (24.5, 26, 30)])
-        quotes = board_quotes(games=["Kentucky @ Texas A&M"],
+        quotes = board_quotes(games=["Kentucky @ Texas A&M"], kickoffs=self.KYTAM,
                               opener=self._opener(board),
                               seen_at="2026-09-14T22:00:00+00:00")
         self.assertEqual(len(quotes), 1)
@@ -2448,6 +2471,7 @@ class TestOneSidedLadder(unittest.TestCase):
         board = self._board("Texas A&M", [(2.5, 91, 93), (16.5, 48, 52)])
         quotes = board_quotes(
             games=["Kentucky @ Texas A&M", "Texas A&M @ Auburn"],
+            kickoffs={**self.KYTAM, "Texas A&M @ Auburn": "2026-09-19T19:30:00Z"},
             opener=self._opener(board), seen_at="2026-09-14T22:00:00+00:00")
         self.assertEqual(quotes, [])
 
@@ -2456,6 +2480,7 @@ class TestOneSidedLadder(unittest.TestCase):
 
         board = self._board("Texas A&M", [(2.5, 91, 93), (16.5, 48, 52)])
         quotes = board_quotes(games=["Florida @ Auburn"],
+                              kickoffs={"Florida @ Auburn": "2026-09-19T23:00:00Z"},
                               opener=self._opener(board),
                               seen_at="2026-09-14T22:00:00+00:00")
         self.assertEqual(quotes, [])
@@ -2465,8 +2490,9 @@ class TestOneSidedLadder(unittest.TestCase):
 
         board = self._board("Washington St.", [(2.5, 91, 93), (10.5, 67, 71),
                                                 (16.5, 48, 52), (24.5, 26, 30)],
-                            event="26sep26arizwsu")
+                            event="KXNCAAFSPREAD-26SEP26ARIZWSU")
         quotes = board_quotes(games=["Arizona @ Washington State"],
+                              kickoffs={"Arizona @ Washington State": "2026-09-26T19:30:00Z"},
                               opener=self._opener(board),
                               seen_at="2026-09-20T10:10:00+00:00")
         self.assertEqual(len(quotes), 1)
@@ -2477,8 +2503,9 @@ class TestOneSidedLadder(unittest.TestCase):
 
         board = self._board("UMass", [(2.5, 91, 93), (10.5, 67, 71),
                                       (16.5, 48, 52), (24.5, 26, 30)],
-                            event="26sep26masssac")
+                            event="KXNCAAFSPREAD-26SEP26MASSSAC")
         quotes = board_quotes(games=["Massachusetts @ Sacramento State"],
+                              kickoffs={"Massachusetts @ Sacramento State": "2026-09-26T19:30:00Z"},
                               opener=self._opener(board),
                               seen_at="2026-09-20T10:10:00+00:00")
         self.assertEqual(len(quotes), 1)
@@ -2489,8 +2516,9 @@ class TestOneSidedLadder(unittest.TestCase):
 
         board = self._board("Louisiana-Monroe", [(2.5, 91, 93), (10.5, 67, 71),
                                                  (16.5, 48, 52), (24.5, 26, 30)],
-                            event="26sep26fauulm")
+                            event="KXNCAAFSPREAD-26SEP26FAUULM")
         quotes = board_quotes(games=["Florida Atlantic @ UL Monroe"],
+                              kickoffs={"Florida Atlantic @ UL Monroe": "2026-09-26T19:30:00Z"},
                               opener=self._opener(board),
                               seen_at="2026-09-20T10:10:00+00:00")
         self.assertEqual(len(quotes), 1)
@@ -2501,7 +2529,7 @@ class TestOneSidedLadder(unittest.TestCase):
         from cfb_edge.providers.kalshi import board_quotes
 
         board = self._board("Texas A&M", [(2.5, 91, 93), (10.5, 67, 71)])
-        quotes = board_quotes(games=["Kentucky @ Texas A&M"],
+        quotes = board_quotes(games=["Kentucky @ Texas A&M"], kickoffs=self.KYTAM,
                               opener=self._opener(board),
                               seen_at="2026-09-14T22:00:00+00:00")
         self.assertEqual(quotes, [])

@@ -14,10 +14,13 @@ from __future__ import annotations
 import argparse
 import json
 from collections import Counter
-from datetime import datetime, timezone
+from datetime import datetime, timedelta, timezone
 from pathlib import Path
 from typing import Any, Iterable, Mapping
-from zoneinfo import ZoneInfo
+try:  # pragma: no cover - depends on the host's tz database
+    from zoneinfo import ZoneInfo
+except Exception:  # pragma: no cover
+    ZoneInfo = None  # type: ignore[assignment]
 
 from .ledger import CANDIDATE, FORECAST, GRADE, load
 from .ledger.writer import write_json
@@ -25,7 +28,43 @@ from .source_of_truth import _capture_is_fresh, _validation_reasons
 
 CONTRACT = "CFB_EDGE_OPS_HEALTH_V1"
 SCHEMA_VERSION = 1
-LOCAL_TZ = ZoneInfo("America/New_York")
+try:  # pragma: no cover - depends on the host's tz database
+    LOCAL_TZ = ZoneInfo("America/New_York") if ZoneInfo else None
+except Exception:  # pragma: no cover
+    LOCAL_TZ = None
+
+
+def _eastern(utc: datetime):
+    """Eastern time for one UTC instant, with no tz database required.
+
+    `ZoneInfo("America/New_York")` raises on a host with no system tz database,
+    which is every Windows box without the `tzdata` package. This module used to
+    build it at import time, so `import cfb_edge.ops_health` failed outright
+    there and took `python3 -m cfb_edge.ops_health` with it. CI runs on Ubuntu
+    and never saw it.
+
+    Falling back to UTC was not an option. `cadence_stage` keys off the local
+    hour, so a one-hour error silently returns the wrong stage, which is the
+    exact failure the `_STAGE_BY_LOCAL_HOUR` comment says the table exists to
+    prevent. So the fallback implements the rule instead: since 2007 US Eastern
+    enters DST on the second Sunday in March at 02:00 standard (07:00 UTC) and
+    leaves it on the first Sunday in November at 02:00 daylight (06:00 UTC).
+
+    This is a transcription of a rule Congress can change, so it is a fallback
+    and not a replacement. When the tz database is present it is used, because
+    it tracks such changes and this does not.
+    """
+    if LOCAL_TZ is not None:
+        return LOCAL_TZ
+
+    def nth_sunday(month: int, n: int) -> datetime:
+        first = datetime(utc.year, month, 1, tzinfo=timezone.utc)
+        first += timedelta(days=(6 - first.weekday()) % 7)
+        return first + timedelta(days=7 * (n - 1))
+
+    starts = nth_sunday(3, 2) + timedelta(hours=7)
+    ends = nth_sunday(11, 1) + timedelta(hours=6)
+    return timezone(timedelta(hours=-4 if starts <= utc < ends else -5))
 
 # Monday=0. The workflow fires at both the EDT and EST UTC equivalents and this
 # table decides which one is real. That avoids a silent one-hour shift when DST
@@ -48,7 +87,8 @@ def _aware(value: datetime | None) -> datetime:
 
 def cadence_stage(at: datetime | None = None) -> str | None:
     """Return the operating stage for this local hour, or None."""
-    local = _aware(at).astimezone(LOCAL_TZ)
+    utc = _aware(at)
+    local = utc.astimezone(_eastern(utc))
     return _STAGE_BY_LOCAL_HOUR.get((local.weekday(), local.hour))
 
 

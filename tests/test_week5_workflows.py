@@ -64,6 +64,12 @@ RETIRED = [
 ]
 
 
+WEEK6_RETIRED = [
+    "week6-clv-close-grade.yml",
+    "week6-clv-decision-freeze.yml",
+]
+
+
 def _on_block(text: str) -> str:
     lines = text.splitlines()
     start = lines.index("on:")
@@ -87,10 +93,39 @@ class RetiredCohortWorkflowTests(unittest.TestCase):
                 text = (ROOT / ".github/workflows" / name).read_text(encoding="utf-8")
                 self.assertIn("\njobs:\n", text)
 
-    def test_the_live_week6_grader_was_not_retired(self):
-        text = (ROOT / ".github/workflows/week6-clv-close-grade.yml").read_text(encoding="utf-8")
-        self.assertIn("schedule:", _on_block(text))
-        self.assertNotIn("RETIRED", text)
+    def test_the_week6_workflows_retired_when_their_cohort_closed(self):
+        """D41 kept the Week 6 grader live until Week 6 was graded. Its game
+        window closed 2026-10-04 12:00 UTC with no gradeable row, and the loop
+        records closes itself from then on (D44)."""
+        for name in WEEK6_RETIRED:
+            with self.subTest(workflow=name):
+                text = (ROOT / ".github/workflows" / name).read_text(encoding="utf-8")
+                self.assertEqual(_on_block(text), "on:\n  workflow_dispatch:")
+                self.assertIn("RETIRED 2026-10-04 (D44)", text)
+                self.assertIn("\njobs:\n", text)
+
+    def test_nothing_scheduled_still_serves_a_closed_cohort(self):
+        """Every workflow with a schedule or a main push trigger is one the
+        operating path names. A new cohort-specific workflow has to be added
+        here on purpose, with the date it retires."""
+        live = set()
+        for path in sorted((ROOT / ".github/workflows").glob("*.yml")):
+            block = _on_block(path.read_text(encoding="utf-8"))
+            if "schedule:" in block or "branches: [main]" in block:
+                live.add(path.name)
+        self.assertEqual(live, {
+            "br2-active-feature-capture.yml",
+            "capture-open-loop.yml",
+            # capture.yml is absent on purpose. 8573ce8 made it dispatch-only
+            # so a scheduled poller could not queue behind the open loop, and
+            # D44 leaves it a fallback that restarts the loop when none runs.
+            # It has no schedule and no main push trigger, so it is not live.
+            "cfb-operating-review.yml",
+            "early-season-learning.yml",
+            "private-site-bridge.yml",
+            "tests.yml",
+            "watchdog.yml",
+        })
 
 
 if __name__ == "__main__":
