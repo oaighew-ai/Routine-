@@ -17,12 +17,10 @@ from collections import Counter
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
 from typing import Any, Iterable, Mapping
-
-try:
-    from zoneinfo import ZoneInfo, ZoneInfoNotFoundError
-except ImportError:  # pragma: no cover - Python stdlib fallback
+try:  # pragma: no cover - depends on the host's tz database
+    from zoneinfo import ZoneInfo
+except Exception:  # pragma: no cover
     ZoneInfo = None  # type: ignore[assignment]
-    ZoneInfoNotFoundError = None  # type: ignore[assignment]
 
 from .ledger import CANDIDATE, FORECAST, GRADE, load
 from .ledger.writer import write_json
@@ -30,33 +28,43 @@ from .source_of_truth import _capture_is_fresh, _validation_reasons
 
 CONTRACT = "CFB_EDGE_OPS_HEALTH_V1"
 SCHEMA_VERSION = 1
-LOCAL_TZ = None
-if ZoneInfo is not None:
-    try:
-        LOCAL_TZ = ZoneInfo("America/New_York")
-    except ZoneInfoNotFoundError:
-        LOCAL_TZ = None
+try:  # pragma: no cover - depends on the host's tz database
+    LOCAL_TZ = ZoneInfo("America/New_York") if ZoneInfo else None
+except Exception:  # pragma: no cover
+    LOCAL_TZ = None
 
 
-def _nth_sunday(year: int, month: int, occurrence: int, hour: int) -> datetime:
-    first = datetime(year, month, 1, tzinfo=timezone.utc)
-    first_weekday = first.weekday()
-    sunday_offset = (6 - first_weekday) % 7
-    day = 1 + sunday_offset + (occurrence - 1) * 7
-    return datetime(year, month, day, hour, tzinfo=timezone.utc)
+def _eastern(utc: datetime):
+    """Eastern time for one UTC instant, with no tz database required.
 
+    `ZoneInfo("America/New_York")` raises on a host with no system tz database,
+    which is every Windows box without the `tzdata` package. This module used to
+    build it at import time, so `import cfb_edge.ops_health` failed outright
+    there and took `python3 -m cfb_edge.ops_health` with it. CI runs on Ubuntu
+    and never saw it.
 
-def _new_york_offset(value: datetime) -> timedelta:
-    utc_value = value.astimezone(timezone.utc)
-    dst_start = _nth_sunday(utc_value.year, 3, 2, 7)
-    dst_end = _nth_sunday(utc_value.year, 11, 1, 6)
-    is_dst = dst_start <= utc_value < dst_end
-    return timedelta(hours=-4 if is_dst else -5)
+    Falling back to UTC was not an option. `cadence_stage` keys off the local
+    hour, so a one-hour error silently returns the wrong stage, which is the
+    exact failure the `_STAGE_BY_LOCAL_HOUR` comment says the table exists to
+    prevent. So the fallback implements the rule instead: since 2007 US Eastern
+    enters DST on the second Sunday in March at 02:00 standard (07:00 UTC) and
+    leaves it on the first Sunday in November at 02:00 daylight (06:00 UTC).
 
+    This is a transcription of a rule Congress can change, so it is a fallback
+    and not a replacement. When the tz database is present it is used, because
+    it tracks such changes and this does not.
+    """
+    if LOCAL_TZ is not None:
+        return LOCAL_TZ
 
-def _new_york_local(value: datetime) -> datetime:
-    utc_value = _aware(value).astimezone(timezone.utc)
-    return utc_value + _new_york_offset(utc_value)
+    def nth_sunday(month: int, n: int) -> datetime:
+        first = datetime(utc.year, month, 1, tzinfo=timezone.utc)
+        first += timedelta(days=(6 - first.weekday()) % 7)
+        return first + timedelta(days=7 * (n - 1))
+
+    starts = nth_sunday(3, 2) + timedelta(hours=7)
+    ends = nth_sunday(11, 1) + timedelta(hours=6)
+    return timezone(timedelta(hours=-4 if starts <= utc < ends else -5))
 
 # Monday=0. The workflow fires at both the EDT and EST UTC equivalents and this
 # table decides which one is real. That avoids a silent one-hour shift when DST
@@ -79,8 +87,8 @@ def _aware(value: datetime | None) -> datetime:
 
 def cadence_stage(at: datetime | None = None) -> str | None:
     """Return the operating stage for this local hour, or None."""
-    aware = _aware(at)
-    local = aware.astimezone(LOCAL_TZ) if LOCAL_TZ is not None else _new_york_local(aware)
+    utc = _aware(at)
+    local = utc.astimezone(_eastern(utc))
     return _STAGE_BY_LOCAL_HOUR.get((local.weekday(), local.hour))
 
 

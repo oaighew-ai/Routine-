@@ -41,6 +41,7 @@ from .providers.kalshi import (
 from .providers.oddsapi import OddsApiUnreachable, fetch_pull
 from .prospective_open import CONTRACT as PROSPECTIVE_OPEN_CONTRACT
 from .teams import ALIASES, normalize, resolve
+from .watch import event_matches_kickoff
 
 CONTRACT = "CFB_EDGE_ACTIVE_MARKET_STATE_V1"
 OPEN_CONTRACT = "CFB_EDGE_KALSHI_CANDLE_OPEN_V1"
@@ -241,12 +242,20 @@ def _fixture_for_event(
     resolved = {resolve(name, known_teams) for name in raw_teams}
     if None in resolved:
         return None
+    # The ticker names the game day. A market for the same team in another
+    # week is not this fixture's market, and a one-team ladder that cannot be
+    # dated is a guess (D43).
+    event = next((str(m.get("event_ticker") or "") for m in markets
+                  if m.get("event_ticker")), "")
     candidates = []
     for row in identities.values():
         pair = {row["away"], row["home"]}
+        same_day = event_matches_kickoff(event, str(row.get("kickoff") or ""))
+        if same_day is False:
+            continue
         if len(resolved) == 2 and resolved == pair:
             candidates.append(row)
-        elif len(resolved) == 1 and next(iter(resolved)) in pair:
+        elif len(resolved) == 1 and next(iter(resolved)) in pair and same_day:
             candidates.append(row)
     return candidates[0] if len(candidates) == 1 else None
 

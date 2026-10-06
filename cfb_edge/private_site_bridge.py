@@ -74,6 +74,7 @@ def build(
     grades: Mapping[str, Any] | None,
     br2: Mapping[str, Any] | None,
     market_audit: Mapping[str, Any] | None = None,
+    promotion: Mapping[str, Any] | None = None,
     market_information: Mapping[str, Any] | None = None,
     market_relative: Mapping[str, Any] | None = None,
     week6_clv: Mapping[str, Any] | None = None,
@@ -92,6 +93,7 @@ def build(
     open_stage=(power.get("stages") or {}).get("openProvenance") or {}
 
     return {
+        "promotionScorecard": promotion,
         "schemaVersion":1,
         "contract":CONTRACT,
         "generatedAt":now.isoformat(),
@@ -120,19 +122,22 @@ def build(
             "contract":(market_information or {}).get("contract"),
             "generatedAt":(market_information or {}).get("generatedAt"),
             "summary":(market_information or {}).get("summary") or {},
-            "openingPolicy":(market_information or {}).get("policy") or {},
+            "openingPolicy":((market_information or {}).get("policy") or {}),
         },
         "marketRelative":{
             "modelId":(market_relative or {}).get("modelId") or "S06_MR1",
-            "version":(market_relative or {}).get("version") or "pit-market-residual-ridge-1",
+            "version":(market_relative or {}).get("version") or "pit-market-residual-ridge-2",
             "status":(market_relative or {}).get("status") or "NOT_RUN",
             "generatedAt":(market_relative or {}).get("generatedAt"),
             "prospectiveStartAt":(market_relative or {}).get("prospectiveStartAt"),
-            "predictionCount":int((market_relative or {}).get("predictionCount") or 0),
-            "kickoffWeeks":int((market_relative or {}).get("kickoffWeeks") or 0),
+            "predictionCount":(market_relative or {}).get("predictionCount"),
+            "kickoffWeeks":(market_relative or {}).get("kickoffWeeks"),
             "marketMae":(market_relative or {}).get("marketMae"),
             "challengerMae":(market_relative or {}).get("challengerMae"),
             "maeImprovement":(market_relative or {}).get("maeImprovement"),
+            "marketRmse":(market_relative or {}).get("marketRmse"),
+            "challengerRmse":(market_relative or {}).get("challengerRmse"),
+            "rmseImprovement":(market_relative or {}).get("rmseImprovement"),
             "freezeSha256":(market_relative or {}).get("freezeSha256"),
             "datasetSha256":(market_relative or {}).get("datasetSha256"),
             "deliveryEligible":False,
@@ -206,6 +211,7 @@ def main(argv: list[str] | None=None) -> int:
     p.add_argument("--grades")
     p.add_argument("--br2")
     p.add_argument("--market-audit")
+    p.add_argument("--promotion")
     p.add_argument("--market-information")
     p.add_argument("--market-relative")
     p.add_argument("--week6-clv")
@@ -220,6 +226,7 @@ def main(argv: list[str] | None=None) -> int:
         grades=_json(args.grades),
         br2=_json(args.br2),
         market_audit=_json(args.market_audit),
+        promotion=_json(args.promotion),
         market_information=_json(args.market_information),
         market_relative=_json(args.market_relative),
         week6_clv=_json(args.week6_clv),

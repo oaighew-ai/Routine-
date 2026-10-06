@@ -127,7 +127,8 @@ class Week6ClvTests(unittest.TestCase):
             s=build_clv_gate_csv(
                 grades=grades,cohort="DIRECTIONAL_SIGNAL",week=6,out=path
             )
-            rows=list(csv.DictReader(path.open()))
+            with path.open(newline="", encoding="utf-8") as fh:
+                rows=list(csv.DictReader(fh))
         self.assertEqual(s["rows"],3)
         self.assertEqual(s["gradeableRows"],2)
         # Home favorite -3 -> -4 beats close by +1.

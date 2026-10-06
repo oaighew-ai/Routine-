@@ -48,8 +48,9 @@ jobs:
           python3 - <<'PY'
           import json, os, sys
           from datetime import datetime
-          from cfb_edge import shop
+          from cfb_edge import fill, shop
           from cfb_edge.engine import config
+          from cfb_edge.providers import kalshi
           from cfb_edge.providers.oddsapi import fetch_pull, OddsApiUnreachable
 
           books = [b.strip() for b in os.environ["BOOKMAKERS"].split(",") if b.strip()]
@@ -71,16 +72,45 @@ jobs:
           # The pull's own clock, not the runner's, so "has this kicked off"
           # is answered against the moment the prices were read.
           now = datetime.fromisoformat(pull.fetched_at)
+
+          # The fill test (D37). Kalshi moneyline rows get priced at the size
+          # the gate insists on rather than at the quote, by walking the live
+          # ladder. This costs no Odds API credits: Kalshi market data needs no
+          # key and is billed by nobody. A failure here must not take the board
+          # down with it, because a board priced off quotes is what this
+          # workflow printed for weeks and is still worth having; it is only
+          # worth less, and the SUMMARY says which one you got.
+          probe = None
+          try:
+              teams = set()
+              for e in pull.events:
+                  for k in ("home", "away", "home_team", "away_team"):
+                      v = e.get(k)
+                      if v:
+                          teams.add(str(v))
+              listing = kalshi.fetch_markets(kalshi.SERIES["moneyline"])
+              index = fill.moneyline_index(listing, known_teams=teams)
+              books = {t: kalshi.fetch_book(t) for t in set(index.values())}
+              probe = fill.LadderProbe(index, books)
+              print(f"FILL|tickers={len(index)}|ladders={len(books)}"
+                    f"|size={probe.size:.0f}")
+          except (kalshi.KalshiUnreachable, OSError, ValueError) as exc:
+              print(f"FILL_UNAVAILABLE|{type(exc).__name__}: {exc}")
+              print("FILL_UNAVAILABLE|every row below is an untested quote")
+
           rows = shop.shop(pull.__dict__ | {"events": list(pull.events)},
-                           cfg=cfg, markets=markets, age_seconds=0.0, now=now)
+                           cfg=cfg, markets=markets, age_seconds=0.0, now=now,
+                           fill_probe=probe)
 
           # away|home|startsAt|market|side|line|venue|venuePrice|refPrice|
-          # refLine|reference|pBaseline|ev|stakeUnits|decision|reasons
+          # refLine|reference|pBaseline|ev|stakeUnits|decision|reasons|
+          # decidedPrice|vwapCents|ticker
           print("ROWHDR|away|home|startsAt|market|side|line|venue|venuePrice"
                 "|refPrice|refLine|reference|pBaseline|ev|stakeUnits"
-                "|decision|reasons")
+                "|decision|reasons|decidedPrice|vwapCents|ticker")
           for r in rows:
               d = r.decision
+              f = r.fill
               print("|".join(str(x) for x in [
                   "ROW", r.away, r.home, r.commence_time or "", r.market,
                   r.side, r.venue_line, r.venue, r.venue_price,
@@ -88,6 +118,12 @@ jobs:
                   "" if d.p_baseline is None else f"{d.p_baseline:.6f}",
                   f"{d.ev:.6f}", f"{d.stake_units:.2f}", d.decision,
                   "+".join(d.reason_codes),
+                  # The price the gate actually saw, and the ladder behind it.
+                  # Empty vwapCents means no ladder was walked for this row,
+                  # which is an untested quote and not a passed one.
+                  f"{r.decided_price:.0f}",
+                  "" if f is None or f.vwap_cents is None else f"{f.vwap_cents:.2f}",
+                  "" if f is None or f.ticker is None else f.ticker,
               ]))
 
           print()

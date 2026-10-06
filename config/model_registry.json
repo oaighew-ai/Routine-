@@ -74,10 +74,10 @@
       "id": "S06_MR1",
       "role": "POINT_IN_TIME_MARKET_RESIDUAL_CHALLENGER",
       "market": "spread",
-      "version": "pit-market-residual-ridge-1",
+      "version": "pit-market-residual-ridge-2",
       "modelStatus": "FROZEN_UNTRAINED",
       "deliveryEligible": false,
-      "note": "Frozen timestamp-strict market-residual ridge challenger. No probabilities, picks, stakes, or delivery authority."
+      "note": "Freeze V2: timestamp-strict market-residual ridge challenger, FROZEN_UNTRAINED. No probabilities, picks, stakes, or delivery authority."
     },
     {
       "id": "F03",

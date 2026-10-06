@@ -1,26 +1,12 @@
 name: S04 ES2 Week 5 audit shadow
 
+# RETIRED 2026-10-02 (D41). Served one closed cohort:
+#   S04_ES2, product Week 5 (CFB_2026_PRODUCT_WEEK5; closed 2026-09-27).
+# Kept for audit and manual re-runs only. Code, configs and evidence are
+# untouched; only the automatic triggers were removed. The canonical
+# operating path is docs/CFB_EDGE_OPERATIONS.md. To revive, restore the
+# `on:` block from the parent of the D41 commit.
 on:
-  push:
-    branches: [main]
-    paths:
-      - cfb_edge/s04_es2.py
-      - cfb_edge/market_quality.py
-      - cfb_edge/cohort.py
-      - config/s04_es2.json
-      - config/week5_freeze.json
-      - config/week5_cohort.json
-      - cfb_edge/week5_freeze.py
-      - config/s03_m1.json
-      - config/model_registry.json
-      - config/model_implementation_registry.json
-      - .github/workflows/s04-es2-week5.yml
-      - tests/test_s04_es2.py
-      - tests/test_cohort.py
-      - tests/test_week5_workflows.py
-  schedule:
-    - cron: "0 */4 * 9-11 0-3"
-    - cron: "0 */2 * 9-11 4-6"
   workflow_dispatch:
 
 permissions:

@@ -25,7 +25,8 @@ The bridge contains seven UI-ready blocks:
   expected open cohort. Keep this separate from the historical Week 5
   `marketCoverage` audit.
 - `marketRelative`: the frozen S06_MR1 walk-forward status, coverage, error
-  metrics and freeze/dataset hashes. It is evaluation telemetry, never pick
+  metrics (MAE and RMSE) and freeze/dataset hashes. A missing report is
+  `NOT_RUN`, not zero performance. It is evaluation telemetry, never pick
   authority.
 - `br2`: point-in-time feature coverage and raw-source replay status, including per-family row counts, fully populated rows, and the first non-null QB-continuity example.
 - `runway`: the four-stage Evidence Runway for the command center.

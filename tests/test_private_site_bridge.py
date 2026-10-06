@@ -42,10 +42,12 @@ class PrivateSiteBridgeTests(unittest.TestCase):
             br2=None,
             market_relative={
                 "modelId":"S06_MR1",
-                "version":"pit-market-residual-ridge-1",
+                "version":"pit-market-residual-ridge-2",
                 "status":"INSUFFICIENT_WALK_FORWARD_EVIDENCE",
                 "generatedAt":"2026-10-06T04:00:00Z",
-                "prospectiveStartAt":"2026-10-06T03:00:00Z",
+                "prospectiveStartAt":"2026-10-07T00:00:00Z",
+                "marketRmse":12.0,
+                "challengerRmse":11.5,
                 "predictionCount":23,
                 "kickoffWeeks":2,
                 "marketMae":10.0,
@@ -76,6 +78,8 @@ class PrivateSiteBridgeTests(unittest.TestCase):
             "CFB_2026_PROVIDER_WEEK_6",
         )
         self.assertEqual(r["marketRelative"]["predictionCount"],23)
+        self.assertEqual(r["marketRelative"]["marketRmse"],12.0)
+        self.assertEqual(r["marketRelative"]["challengerRmse"],11.5)
         self.assertFalse(r["marketRelative"]["deliveryEligible"])
         self.assertEqual(r["marketRelative"]["promotionEffect"],"NONE")
         self.assertEqual(r["marketRelative"]["stakeUnits"],0)

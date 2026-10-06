@@ -31,13 +31,22 @@ def digest(path):
 
 
 def build(log, slate, now, outcome="success", revision="unknown"):
-    from .watch import classify_open_provenance
+    from .watch import classify_open_provenance, event_matches_kickoff
+
+    def wrong_event(q):
+        # A quote read from another game day's market for a team on this
+        # slate. It is in the log and stays there; it is not this game's
+        # line, so it is neither its first sighting nor its latest (D43).
+        return event_matches_kickoff(
+            str(q.get("event_ticker") or ""), str(q.get("commence_time") or "")
+        ) is False
 
     if now.tzinfo is None:
         raise ValueError("Report time must include timezone")
     log, slate = Path(log), Path(slate)
     latest = None
     first_raw = {}
+    refused = {}
     if log.exists():
         opener = gzip.open if log.suffix == ".gz" else open
         with opener(log, "rt", encoding="utf-8") as stream:
@@ -48,6 +57,10 @@ def build(log, slate, now, outcome="success", revision="unknown"):
                 latest = rec
                 for q in rec.get("quotes", []):
                     if q.get("market") != "spread" or not q.get("game"):
+                        continue
+                    if wrong_event(q):
+                        key = (q["game"], str(q.get("event_ticker")))
+                        refused[key] = refused.get(key, 0) + 1
                         continue
                     prior = first_raw.get(q["game"])
                     if prior is None or str(q.get("seen_at") or "") < str(prior.get("seen_at") or ""):
@@ -60,7 +73,7 @@ def build(log, slate, now, outcome="success", revision="unknown"):
     fresh = bool(outcome == "success" and poll and 0 <= (now-poll).total_seconds() <= 900)
     by_game = {}
     for q in (latest or {}).get("quotes", []):
-        if q.get("market") == "spread":
+        if q.get("market") == "spread" and not wrong_event(q):
             by_game.setdefault(q.get("game"), []).append(q)
     rows = []
     class_counts = {}
@@ -117,6 +130,12 @@ def build(log, slate, now, outcome="success", revision="unknown"):
                 "classificationCounts": class_counts,
                 "auditGradeCount": class_counts.get("true_open", 0),
                 "policy": "Only true_open may enter CLV promotion or stopping evidence."
+            },
+            "wrongEventQuotes": {
+                "ignored": sum(refused.values()),
+                "pairs": [{"game": game, "eventTicker": event, "quotes": count}
+                          for (game, event), count in sorted(refused.items())],
+                "policy": "A market dated on another day than the game is not that game's market (D43)."
             },
             "limitations": ["Separate from S02/S01/F03/S03; not their evidence.",
                             "Derived exchange lines are not executable sportsbook spreads.",

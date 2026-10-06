@@ -507,9 +507,9 @@ def walk_forward(
 
     return {
         "schemaVersion": 1,
-        "contract": "CFB_EDGE_S06_MR1_WALK_FORWARD_V1",
+        "contract": "CFB_EDGE_S06_MR1_WALK_FORWARD_V2",
         "modelId": "S06_MR1",
-        "version": "pit-market-residual-ridge-1",
+        "version": "pit-market-residual-ridge-2",
         "status": status,
         "generatedAt": datetime.now(timezone.utc).isoformat(),
         "prospectiveStartAt": start.isoformat(),
@@ -559,7 +559,7 @@ def run(
     config = json.loads(config_bytes)
     if (
         config.get("modelId") != "S06_MR1"
-        or config.get("freezeId") != "S06_MR1_PIT_FREEZE_V1"
+        or config.get("freezeId") != "S06_MR1_PIT_FREEZE_V2"
         or config.get("status") != "FROZEN_UNTRAINED"
         or config.get("deliveryEligible") is not False
         or config.get("promotionEffect") != "NONE"

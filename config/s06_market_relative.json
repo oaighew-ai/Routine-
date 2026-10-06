@@ -1,10 +1,10 @@
 {
   "schemaVersion": 1,
-  "freezeId": "S06_MR1_PIT_FREEZE_V1",
+  "freezeId": "S06_MR1_PIT_FREEZE_V2",
   "modelId": "S06_MR1",
-  "version": "pit-market-residual-ridge-1",
+  "version": "pit-market-residual-ridge-2",
   "status": "FROZEN_UNTRAINED",
-  "createdAt": "2026-10-05",
+  "createdAt": "2026-10-06",
   "market": "spreads",
   "target": "actualHomeMargin - marketHomeMargin",
   "objective": "Test whether point-in-time football context reduces forward home-margin error versus the recorded market-implied home margin.",
@@ -25,7 +25,7 @@
   "ridgeAlpha": 10.0,
   "ridgeAlphaStatus": "PRIOR_INHERITED_FROM_S04_NOT_TUNED",
   "minimumTrainingRows": 500,
-  "prospectiveStartAt": "2026-10-06T03:00:00Z",
+  "prospectiveStartAt": "2026-10-07T00:00:00Z",
   "reportingMinimumPredictions": 200,
   "reportingMinimumKickoffWeeks": 8,
   "chronology": {

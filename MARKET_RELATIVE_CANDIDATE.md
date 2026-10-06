@@ -11,16 +11,18 @@ only picks authority, and the current authority remains unchanged.
 
 ## Frozen contract
 
-The complete freeze is [config/s06_market_relative.json](./config/s06_market_relative.json).
+The complete active freeze is [config/s06_market_relative.json](./config/s06_market_relative.json).
 It fixes the nine existing BR2 features, identity transforms after
 training-window standardization, ridge regression, and alpha 10.0. Alpha is
 inherited as an explicit PRIOR from the existing S04 specification; it is not
 tuned using walk-forward outcomes. Any change to features, transforms,
 estimator, alpha, or the start time requires a new freeze/version.
 
-The prospective window starts at `2026-10-06T03:00:00Z`. Earlier rows can only
-train the model after their own outcomes settle and after all input timestamps
-and immutable source-manifest hashes pass validation. Only forecasts at or
+Freeze V2 supersedes the earlier unscored V1 window so the cutoff follows the
+integration freeze. The prospective window starts at `2026-10-07T00:00:00Z`.
+Earlier rows can only train the model after their own outcomes settle and after
+all input timestamps and immutable source-manifest hashes pass validation.
+Only forecasts at or
 after the frozen start time count as evaluation predictions.
 
 ## Point-in-time row contract

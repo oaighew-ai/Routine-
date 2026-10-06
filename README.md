@@ -12,9 +12,15 @@ A dependency-free model for college football spreads, with the measurement
 apparatus to tell you whether it works. Standard library only, no API keys.
 
 ```bash
-python3 -m unittest discover -s tests     # 172 tests
+python3 -m unittest discover -s tests     # the whole suite
 python3 -m cfb_edge play --slate data/example_play.csv --book-price -105
 ```
+
+How it runs week to week is in
+[docs/CFB_EDGE_OPERATIONS.md](docs/CFB_EDGE_OPERATIONS.md): one weekly card,
+built by `scripts/build_weekly_card.sh`, from one decision engine, under one
+delivery authority (`DECISIONS.md` D39). The phase is SHADOW. Nothing here
+places a bet.
 
 ## `web/` — the pages
 
@@ -81,6 +87,11 @@ Both closing prices are needed for price CLV, which devigs the two-way close.
 Line CLV needs only the closing number.
 
 ## Capturing opening lines without being there
+
+**Superseded.** Capture now runs in GitHub Actions against the exchange, with
+no key and nothing on anyone's machine (`.github/workflows/capture-open-loop.yml`,
+`DECISIONS.md` D38 and D44). What follows is the earlier local path. Its
+scripts are still in `scripts/`, and it is not part of the operating path.
 
 The edge is 0.44 points of closing line value measured against the *opening*
 number, so the capture has to be running before books post. On Windows:

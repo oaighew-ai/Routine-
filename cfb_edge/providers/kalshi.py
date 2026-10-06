@@ -23,9 +23,15 @@ import re
 import urllib.error
 import urllib.request
 from dataclasses import dataclass
-from typing import Callable, Sequence
+from typing import Any, Callable, Sequence
 
 API_ROOT = "https://api.elections.kalshi.com/trade-api/v2"
+
+# Contract counts have a granularity of 0.01, so a residual smaller than this
+# is float noise from walking the ladder, not size still left to fill. Four
+# orders of magnitude below the smallest real quantity; derived, not a PRIOR.
+# See DECISIONS.md D36.
+_SIZE_TOLERANCE = 1e-6
 
 # The college football series. Spreads and totals carry their own tickers.
 SERIES = {
@@ -68,10 +74,17 @@ def _get(path: str, opener: Opener | None = None) -> dict:
 
 @dataclass(frozen=True)
 class Level:
-    """One price level in cents, with the contracts resting there."""
+    """One price level in cents, with the contracts resting there.
+
+    Both fields are floats because the exchange quotes both fractionally:
+    prices to four decimal dollars on the sub-cent tick grids, and contract
+    counts to 0.01. Rounding either to an integer here throws away real
+    liquidity, and rounding a size down is how a level holding 0.5 contracts
+    reads as empty.
+    """
 
     price: float
-    size: int
+    size: float
 
 
 @dataclass(frozen=True)
@@ -83,7 +96,7 @@ class Book:
     yes_bids: list[Level]
 
     @property
-    def depth(self) -> int:
+    def depth(self) -> float:
         return sum(level.size for level in self.yes_asks)
 
     @property
@@ -100,21 +113,50 @@ class Book:
             return None
         return self.best_ask - self.best_bid
 
-    def vwap(self, contracts: int) -> float | None:
+    def vwap(self, contracts: float) -> float | None:
         """Average price to buy `contracts` YES, walking the book.
 
         Returns None when the book cannot fill the size. Sizing off a midpoint
         instead of a real fill is how a thin market looks tradeable when it is
         not, so this refuses rather than extrapolating.
+
+        Sizes are fractional, so the fill test carries a tolerance. Exact
+        equality against zero would leave a float crumb on the last level and
+        report a book that does fill as one that does not, which fails the
+        safe way but still hides tradeable size.
         """
-        remaining, cost = contracts, 0.0
+        if contracts <= 0:
+            return None
+        remaining, cost = float(contracts), 0.0
         for level in self.yes_asks:
             take = min(remaining, level.size)
             cost += take * level.price
             remaining -= take
-            if remaining == 0:
-                return cost / contracts
+            if remaining <= _SIZE_TOLERANCE:
+                return cost / float(contracts)
         return None
+
+
+def _level(raw: object, *, scale: float, invert: bool) -> Level | None:
+    """One `[price, size]` pair as a Level in cents, or None if unusable.
+
+    A malformed rung is dropped rather than raised on: one bad level in a
+    response should cost that level, not the whole book.
+    """
+    try:
+        price, size = raw[0], raw[1]          # type: ignore[index]
+    except (TypeError, KeyError, IndexError):
+        return None
+    try:
+        cents = float(price) * scale
+        count = float(size)
+    except (TypeError, ValueError):
+        return None
+    if count <= 0:
+        return None
+    if invert:
+        cents = 100.0 - cents
+    return Level(price=cents, size=count)
 
 
 def parse_book(ticker: str, payload: dict) -> Book:
@@ -122,14 +164,38 @@ def parse_book(ticker: str, payload: dict) -> Book:
 
     Levels arrive worst-first, so both sides are re-sorted into the order a
     taker would actually consume them.
+
+    Two wire shapes are accepted. The live one wraps the book in
+    `orderbook_fp` and quotes `[price_dollars, count_fp]` as strings
+    ("0.4200", "13.00"); the older one wrapped it in `orderbook` and quoted
+    integer cents. Reading only the second returned an empty book for every
+    live market while the request itself succeeded, so `vwap` reported that
+    nothing could be filled at any size, and a gate that refuses on thin depth
+    refuses everything. Prices are normalised to cents either way, because
+    that is the unit the rest of this package, `kalshi_fees` included, already
+    works in. Cents are kept as floats: the sub-cent tick grids quote to four
+    decimal dollars, so a rung can legitimately sit at 1.2c.
+
+    Source: docs.kalshi.com/getting_started/orderbook_responses and
+    /getting_started/fixed_point_migration, both read 2026-09-25.
     """
-    book = (payload or {}).get("orderbook") or {}
-    yes_raw = book.get("yes") or []
-    no_raw = book.get("no") or []
+    payload = payload or {}
+    fixed_point = payload.get("orderbook_fp")
+    if isinstance(fixed_point, dict):
+        yes_raw = fixed_point.get("yes_dollars") or []
+        no_raw = fixed_point.get("no_dollars") or []
+        scale = 100.0                      # dollars -> cents
+    else:
+        book = payload.get("orderbook") or {}
+        yes_raw = book.get("yes") or []
+        no_raw = book.get("no") or []
+        scale = 1.0                        # already cents
 
     # A NO bid at q is a YES offer at 100 - q.
-    asks = [Level(100.0 - float(p), int(s)) for p, s in no_raw if s]
-    bids = [Level(float(p), int(s)) for p, s in yes_raw if s]
+    asks = [lv for lv in (_level(r, scale=scale, invert=True) for r in no_raw)
+            if lv is not None]
+    bids = [lv for lv in (_level(r, scale=scale, invert=False) for r in yes_raw)
+            if lv is not None]
 
     asks.sort(key=lambda level: level.price)          # cheapest YES first
     bids.sort(key=lambda level: level.price, reverse=True)  # highest bid first
@@ -207,8 +273,8 @@ def find_markets(
                 "event": m.get("event_ticker"),
                 "title": m.get("title"),
                 "yes": m.get("yes_sub_title"),
-                "yes_bid": m.get("yes_bid"),
-                "yes_ask": m.get("yes_ask"),
+                "yes_bid": _cents(m, "yes_bid"),
+                "yes_ask": _cents(m, "yes_ask"),
                 "close_time": m.get("close_time"),
             })
     return out
@@ -320,6 +386,17 @@ def _team_and_strike(market: dict) -> tuple[str, float] | None:
     return None
 
 
+def _cents(market: dict, base: str) -> float | None:
+    """One side's price in cents for display, whichever way Kalshi spelled it.
+
+    Wraps `_side_price`, which already prefers the `_dollars` spelling, and
+    converts back so the human-facing listing keeps the cents it always
+    printed. Reading `m["yes_ask"]` directly printed None for every row.
+    """
+    price = _side_price(market, base)
+    return None if price is None else round(price * 100.0, 2)
+
+
 def _side_price(market: dict, base: str) -> float | None:
     """One side's price as a probability, whichever way Kalshi spelled it.
 
@@ -429,6 +506,7 @@ def implied_line(curve: dict[float, float]) -> float | None:
 def board_quotes(
     *, games: Sequence[str], opener: Opener | None = None, limit: int = 1000,
     seen_at: str | None = None, kickoffs: dict[str, str] | None = None,
+    diagnostics: list[dict[str, Any]] | None = None,
 ) -> list["object"]:
     """One poll of the whole spread board, as Quotes the capture already eats.
 
@@ -465,10 +543,22 @@ def board_quotes(
     the same as any other. Skipping those cost the capture every thinly-quoted
     game on the board, which on this book is a large share of it and is
     precisely where the observations are scarcest.
+
+    **A team name is not a game.** Every team plays again next week, and the
+    exchange lists next week's market while this week's is still open. A
+    one-sided ladder names one team, so the slate lookup above finds that
+    team's fixture whichever week the market belongs to. On 3 October 2026
+    that wrote the Vanderbilt at Georgia market down as the opening line of
+    Georgia at Alabama, and the same thing had happened to fourteen games the
+    week before (D43). The event ticker names its game day, so `kickoffs`
+    settles it: a market dated on another day than the fixture is not that
+    fixture's market. A one-sided ladder that cannot be dated is skipped,
+    because a single team name is then all there is; a ladder naming both
+    teams is still taken when there is nothing to check it against.
     """
     from datetime import datetime, timezone
 
-    from ..watch import Quote
+    from ..watch import Quote, event_matches_kickoff
 
     stamp = seen_at or datetime.now(timezone.utc).isoformat()
     kickoffs = kickoffs or {}
@@ -482,6 +572,34 @@ def board_quotes(
     # reconciled through the same explicit alias table used everywhere else;
     # unresolved or ambiguous names still fail closed.
     from ..teams import resolve
+
+    def record_diagnostic(
+        event: str,
+        reason: str,
+        markets: Sequence[dict],
+        *,
+        game: str | None = None,
+        rung_counts: dict[str, int] | None = None,
+    ) -> None:
+        if diagnostics is None:
+            return
+        open_times = sorted({
+            str(m.get("open_time") or m.get("openTime"))
+            for m in markets
+            if m.get("open_time") or m.get("openTime")
+        })
+        item: dict[str, Any] = {
+            "eventTicker": event,
+            "reason": reason,
+            "marketCount": len(markets),
+            "openTimes": open_times,
+        }
+        if game is not None:
+            item["game"] = game
+        if rung_counts is not None:
+            item["rungCounts"] = rung_counts
+            item["maximumSpreadProbability"] = MAX_SPREAD
+        diagnostics.append(item)
 
     schedule: set[tuple[str, str]] = set()
     known_teams: set[str] = set()
@@ -499,30 +617,95 @@ def board_quotes(
         if not teams:
             # No title here parsed into a team and a strike, so there is
             # nothing to look up and nothing to price.
+            record_diagnostic(event, "NO_READABLE_RUNGS", markets)
             continue
         resolved_teams = {resolve(t, known_teams) for t in teams}
         if None in resolved_teams:
+            record_diagnostic(event, "UNRESOLVED_TEAMS", markets)
             continue
-        if len(resolved_teams) == 1:
+        one_sided = len(resolved_teams) == 1
+        if one_sided:
             # One-sided. The pair is not in the markets, so take it from the
-            # slate: exactly one fixture may contain this resolved team, or the
-            # orientation is a guess again and the game is skipped.
+            # slate: every fixture containing this resolved team is a
+            # candidate, and the game day below has to leave exactly one.
             solo = next(iter(resolved_teams))
             hits = [f for f in schedule if solo in f]
-            fixture = hits[0] if len(hits) == 1 else None
-        else:
+        elif len(resolved_teams) == 2:
             hits = [f for f in schedule if frozenset(f) == frozenset(resolved_teams)]
-            fixture = hits[0] if len(resolved_teams) == 2 and len(hits) == 1 else None
-        if fixture is None:
+        else:
+            hits = []
+        # The game day decides between candidates before uniqueness does. A
+        # slate can hold the same team twice, once for the week being played
+        # and once for the week whose lines are opening, and each of that
+        # team's markets belongs to exactly one of them (D43, D44).
+        dated = []
+        had_day_mismatch = False
+        for candidate in hits:
+            kickoff = kickoffs.get(f"{candidate[0]} @ {candidate[1]}")
+            same_day = event_matches_kickoff(event, str(kickoff) if kickoff else None)
+            if same_day is False:
+                # Another week's market for a team that is also on this slate.
+                had_day_mismatch = True
+                continue
+            if same_day is None and one_sided:
+                # One team name and no date to check it by: a guess.
+                continue
+            dated.append(candidate)
+        if len(dated) != 1:
+            # None, or more than one: orientation would be a guess again.
+            if not hits:
+                reason = "NO_SLATE_FIXTURE"
+            elif had_day_mismatch and not dated:
+                reason = "EVENT_DAY_MISMATCH"
+            elif not dated:
+                reason = "UNVERIFIABLE_EVENT_DAY"
+            else:
+                reason = "AMBIGUOUS_SLATE_FIXTURE"
+            record_diagnostic(event, reason, markets)
             continue
-        away, home = fixture
-        line, used = implied_line_evidence(markets, home=home, away=away)
-        if line is None:
-            continue
+        away, home = dated[0]
         game = f"{away} @ {home}"
         # Contract close_time is an exchange settlement/trading timestamp, not
         # necessarily the football kickoff. Only the schedule may supply kickoff.
         commence = kickoffs.get(game)
+        line, used = implied_line_evidence(markets, home=home, away=away)
+        if line is None:
+            rung_counts = {
+                "parsed": 0,
+                "noQuotes": 0,
+                "oneSided": 0,
+                "overMaximumSpread": 0,
+                "usable": 0,
+            }
+            for market in markets:
+                if _team_and_strike(market) is None:
+                    continue
+                rung_counts["parsed"] += 1
+                bid = _side_price(market, "yes_bid")
+                ask = _side_price(market, "yes_ask")
+                if bid is None and ask is None:
+                    rung_counts["noQuotes"] += 1
+                elif bid is None or ask is None or bid <= 0 or ask <= 0:
+                    rung_counts["oneSided"] += 1
+                elif ask - bid > MAX_SPREAD:
+                    rung_counts["overMaximumSpread"] += 1
+                else:
+                    rung_counts["usable"] += 1
+
+            if rung_counts["usable"]:
+                reason = "NO_50_CROSSING"
+            elif rung_counts["parsed"] == rung_counts["noQuotes"]:
+                reason = "NO_QUOTES"
+            elif rung_counts["oneSided"] and not rung_counts["overMaximumSpread"]:
+                reason = "ONE_SIDED_ONLY"
+            elif rung_counts["overMaximumSpread"] and not rung_counts["oneSided"]:
+                reason = "SPREAD_OVER_MAXIMUM"
+            else:
+                reason = "NO_ACCEPTABLE_TWO_SIDED_QUOTES"
+            record_diagnostic(
+                event, reason, markets, game=game, rung_counts=rung_counts
+            )
+            continue
         open_times = [str(e.get("open_time") or "") for e in used]
         venue_open = None
         if used and all(open_times):

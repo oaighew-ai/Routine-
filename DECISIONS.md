@@ -1133,6 +1133,7 @@ reanalysis weather.
 A separately frozen BR2 feature contract, multiple independent prospective
 weeks and an untouched chronological holdout remain mandatory before any fit.
 
+
 ## 2026-09-25 — D30. BUILD_PROMPT becomes a mandatory bootstrap manifest
 
 **Decision.** `spec/BUILD_PROMPT.md` must no longer be interpreted in isolation.
@@ -1344,8 +1345,6 @@ label.
 **Authority effect.** None. This is research-only S04_BR2 evidence.
 S02 remains the sole delivery candidate. Frozen Week 5 S04_ES2, staking,
 delivery and promotion rules are unchanged.
-
-
 ## 2026-09-29 — D34. Week 6 recovered opens become a frozen prospective CLV cohort
 
 **Decision.** The 27 audit-grade recovered true-open rows from the active
@@ -1431,46 +1430,726 @@ that proves equal or stronger venue-time, raw-quote, identity and immutable
 lineage guarantees prospectively. Do not restore retrospective recovery for
 new cohorts.
 
+## 2026-09-25 — D36. The Kalshi order book is read from the fixed-point wire shape
 
-## 2026-10-05 — D36. S06_MR1 is a frozen timestamp-strict market-residual challenger
+**Decision.** `parse_book` accepts both `orderbook_fp` (the live shape) and
+`orderbook` (the integer-cent shape it was written against), normalising both
+to cents. `Level.size` and `Book.depth` become floats.
 
-**Decision.** Create S06_MR1 as a separate, untrained challenger. It predicts the
-residual between realized home margin and the contemporaneous market-implied
-home margin from the nine registered BR2 context features. It may be evaluated
-only with a same-time market quote, per-feature as-of timestamps, immutable
-source-manifest hashes, a pre-kickoff forecast time, and a post-kickoff
-settlement time. For each forecast timestamp, only labels settled strictly
-before that cutoff may train the ridge model. Rows sharing the timestamp are
-predicted together.
+**Why this was not caught by a test or an alarm.** Kalshi moved prices and
+contract counts to fixed-point strings and re-wrapped the book under
+`orderbook_fp`. `parse_book` read only `orderbook`, so a successful request
+parsed to an empty book: `best_ask` None, `depth` 0, `vwap` refusing every
+size. That is indistinguishable from a market with nothing resting in it, so
+nothing raised and nothing logged. The suite passed throughout, because its
+only book fixture was hand-written in the old shape. A gate that refuses on
+thin depth (`gate.py`'s DEPTH check) would therefore have refused every
+Kalshi row for a reason that was never true.
 
-The feature list and ridge alpha 10.0 are frozen from the prior S04 contract;
-alpha remains explicitly PRIOR and is not tuned against this candidate's
-walk-forward outcomes. The evaluation begins at the frozen
-`2026-10-06T03:00:00Z` start, after the branch freeze is recorded. Earlier
-eligible rows may train only after their own settlement. Every immutable source
-manifest's timezone-aware `observedAt` must equal its corresponding row source
-timestamp. Reports compare margin MAE/RMSE with the market and carry freeze,
-implementation and dataset hashes.
+The market-level rename (`yes_ask` to `yes_ask_dollars`) was already handled
+by `_side_price`. Two sites still read the removed spellings: `parse_book`,
+and the `find_markets` listing, which printed None for every price.
 
-**Authority.** S06_MR1 is `FROZEN_UNTRAINED`, `deliveryEligible=false`, and has
-no probability, pick, stake or delivery path. Two hundred predictions across
-eight kickoff weeks are reporting minima borrowed from the existing S02
-validation contract, not proof of an edge or sufficient promotion criteria.
-The model first needs a separate probability/price evaluation and independent
-prospective review. A positive margin-MAE comparison alone cannot promote it.
-The private Site bridge may expose the report read-only; it must preserve the
-local `/api/picks` authority.
+**Evidence.** Measured, not inferred, and measured twice. A probe workflow
+(`.github/workflows/kalshi-depth.yml`, no Odds API credits) read the three CFB
+series on two days. The two runs agree on what matters and disagree sharply on
+one number, so both are recorded rather than reconciled.
 
-**Evidence available when frozen.** The Oct 5 S02 validation artifact reports
-172 non-push forecasts across four kickoff weeks, model log loss 0.697992
-versus market 0.693051, model Brier 0.252420 versus market 0.249952, model ECE
-0.104812 versus market 0.062392, and maximum anytime e-value 1.0244 versus 20
-required. The available Week 5 BR2 snapshot is one historical cohort and is not
-a multi-season timestamp-clean training set. No verified timestamped
-multi-season S06 input dataset is present in this checkout. Thus the freeze is
-created, but the model remains untrained until valid rows exist.
+| median size resting at the best ask | 2026-09-24 | 2026-09-25 |
+|---|---|---|
+| <=10c | 105 | 882 |
+| 11-25c | 108 | 305 |
+| 26-45c | 1,000 | 1,864 |
+| 46-55c | 3,000 | 4,020 |
+| >55c | 296 | 400 |
+| priced markets | 4,746 | 4,751 |
+| longshots <=10c | 300 | 330 |
+| empty books in that band | 0/300 | 0/330 |
+| median spread in that band | 2c | 2c |
+| quoting inside 5c | 295/300 | 328/330 |
 
-**Reversal criterion.** Any change to features, transformations, estimator,
-alpha, start time, temporal rules or authority requires a new model version and
-freeze. S06_MR1 is retired if its timestamp-clean data contract cannot be
-populated; its status must never be changed to ready to bypass missing evidence.
+**Stable across both, and the finding that stands:** no empty longshot book,
+a 2c median spread, and about 99% of the band quoting inside 5c. The
+thin-book hypothesis that motivated the earlier longshot suppression is dead.
+Those are real markets.
+
+**Not stable, and a correction to what this session reported first:** the
+median resting size moved by up to a factor of eight in a single day. The
+earlier claim that a $94.29 stake at ~9c (~1,048 contracts) wants roughly ten
+times the top of book was true of the 2026-09-24 snapshot and is not true of
+the 2026-09-25 one, where 1,048 against 882 is about 1.2x and walking one
+rung fills it.
+
+The conclusion that survives is stronger than the one it replaces: the size
+gap is real but varies by nearly an order of magnitude between pulls, so **no
+static size or depth threshold can be derived from a single snapshot** --
+under Law 6 any such constant would be a PRIOR wearing a measurement's
+clothes. Sizing has to walk the live ladder at decision time, which is
+precisely what `Book.vwap` does and what this fix restores.
+
+`liquidity_dollars` reads 0.00 on all 4,746 markets despite real resting
+sizes. It is unusable and must not enter any gate.
+
+**Derivation for `_SIZE_TOLERANCE = 1e-6` (Law 6).** Not a PRIOR. Kalshi
+documents contract granularity as 0.01 contracts, so no genuine unfilled
+residual can be smaller than that; 1e-6 sits four orders of magnitude below
+the smallest real quantity and admits only float error from walking the
+ladder. Source: docs.kalshi.com/getting_started/fixed_point_migration, read
+2026-09-25.
+
+**Sub-cent prices are real.** `price_ranges` tick to $0.0001 on the tapered
+grids, so cents are carried as floats rather than integers. A rung can sit at
+1.2c, and rounding it is a real price error, not a display nicety.
+
+**Reversal criterion.** If Kalshi retires the legacy `orderbook` key, the
+compatibility branch and its test can go. If a third shape appears, the same
+failure mode returns; the guard against that is
+`tests/test_kalshi_book.py::test_the_live_shape_is_not_an_empty_book`, which
+fails loudly rather than reporting an empty board.
+
+## 2026-09-30 — D37. The pick path prices Kalshi moneylines at the fill, not the quote
+
+**Decision.** `shop.py` accepts an injected `fill_probe`. When given, every
+moneyline row on a venue that publishes resting size is priced at the average
+that `gate.DEFAULT_SIZE` contracts would actually pay, by walking the live
+ladder through `Book.vwap` (D36), and rows whose resting size cannot cover the
+order are flagged `NO_FILL` with stake nailed to zero. The probe lives in
+`cfb_edge/fill.py`, is wired into `.github/workflows/shop-board.yml`, and is
+**off by default**.
+
+**Why this was needed.** `shop.py` has warned in prose since it was written
+that "a median is what was quoted, not what you would be filled at, and the gap
+between the two is where this kind of edge usually dies." Nothing measured that
+gap. Only `board.py` reached `parse_book`, `vwap`, `depth` and `gate.py`;
+`shop.py` — the module that produces the picks — reached none of them and took
+its Kalshi price from The Odds API, which publishes no size at all.
+
+**What it actually changes, stated precisely.** Not the decision. No shopped row
+can BET as things stand: `decide` returns PASS with zero stake for any row
+without a registered Stage-A-eligible signal, `shop` passes none, and
+`systems.jsonl` is empty. What changes is the EV written to the record. On a
+live-shaped fixture a Kalshi moneyline quoted at +400 carries **+15.7%** EV
+against the sharp reference; walked at 200 contracts against a ladder holding 10
+at that price, the executable average is 39c and the same row is **−39.9%**.
+That number is what the board ranks by and what the SHADOW ledger grades, so an
+EV inflated by size that is not there produces a candidate that reads as a miss
+later for a reason nobody can reconstruct. The fill test becomes a bet-blocker
+the moment a system is registered; until then it is a truth-in-labelling fix on
+the record, which is what the ledger exists to protect.
+
+**The venue asymmetry, which is the design question this decision settles.**
+Only Kalshi publishes depth, so only Kalshi rows face the test. This does not
+make the soft-book rows safe: a DraftKings row still carries no fill test and
+its price is exactly as unverified as every Kalshi row was before this. The one
+venue whose liquidity can be checked is now held to a stricter standard than the
+venues whose liquidity cannot, so the board will under-select Kalshi relative to
+books that get no scrutiny at all. Reading "fewer Kalshi rows survive" as
+"Kalshi is worse" inverts the finding, which is only that Kalshi is where being
+wrong about size is detectable. The absence of `NO_FILL` on a soft-book row
+carries no information and must never be read as a fill test that passed.
+
+**Moneylines only, and that is not a shortcut.** A Kalshi contract and a book's
+moneyline on the same team are the same bet, which is why `shop.py` already
+notes that moneylines "have no line and are always comparable". Spreads are not:
+`strike_of` floors half-points because 16.5 and 16 settle identically on the
+exchange, while a book quoting −16.5 against −16 is offering a different wager.
+Bridging that needs the margin PMF, and `shop.py` already refuses those
+comparisons as `LINE_MISMATCH` for exactly that reason. Spread and total rows
+are left untested rather than tested badly.
+
+**Off by default, on purpose.** `s04_es1` and `s04_es2` price frozen cohorts
+through `shop()`. D33, D34 and D35 make those cohorts forward-only, so
+re-pricing a settled cohort against a ladder pulled today would rewrite a
+measurement after the fact. The probe is injected by the live board only, and
+`tests/test_fill.py::test_without_a_probe_nothing_changes` holds the default
+path in place.
+
+**The size is a policy input, not a derived one.** Deriving the fill size from
+the stake is circular: the stake depends on the edge, the edge depends on the
+executable price, the executable price depends on the size. `board.py` already
+breaks that loop with an exogenous `--size`, and `fill.py` imports the same
+`gate.DEFAULT_SIZE` so "the size the gate insists it can fill" has one
+definition. **This is a PRIOR (Law 6):** 200 contracts is the number `gate.py`
+has always used and no derivation for it exists in this repository. It is not
+measured and must not be presented as if it were.
+
+**Law 4 and Law 5.** The probe runs before `decide`, not after, so the gate sees
+the executable price and each row is still gated exactly once. Deciding on the
+quote and re-deciding on the fill would gate twice and leave two EVs on the
+record with no rule for which one counts. `venue_price` keeps meaning what the
+venue published, because `s04_es1` and `s04_es2` record it as `currentPrice`;
+the price the gate saw is `ShopRow.decided_price`, which reads off
+`decision.quote.price` so the two cannot drift apart.
+
+**Verification.** 26 tests in `tests/test_fill.py`, kept in a new file so a
+concurrent edit to `test_shop.py` cannot conflict with it. Proven non-vacuous by
+disabling the wiring in `shop.py` and re-running: 6 of the 26 fail, and they are
+exactly the 6 that assert the wiring. `test_a_thin_kalshi_book_is_flagged_
+NO_FILL_with_no_stake` deliberately does not assert `not bets`, because that
+would pass whether or not this code existed and would credit the fill test with
+a refusal it did not make.
+
+**Reversal criterion.** If The Odds API begins publishing resting size, or
+another venue on the board does, the asymmetry argument weakens and
+`FILL_TESTED_VENUES` should grow to match rather than staying Kalshi-only out of
+habit. If a margin-PMF bridge for strikes is ever derived and measured, the
+moneyline-only restriction can be revisited — but not before, since that bridge
+is the model error `shop.py` exists to keep out. If `gate.DEFAULT_SIZE` is ever
+derived from something, this entry's PRIOR tag comes off with it.
+
+## 2026-10-02 — D38. The opening capture: a wider window, a self-carrying loop, and no lost polls
+
+(D36 and D37 are held by open pull request #24; this entry is numbered past
+them so neither has to be renumbered again.)
+
+**Decision.** Three changes to the prospective opening capture (D35). None
+touches the true-open rule: the first valid two-sided quote must still be
+observed within -60/+900 seconds of the venue's own open time, and a missed
+row is still terminal.
+
+**1. The release window opens Friday 18:00 UTC, not Saturday 12:00.**
+`data/prospective-open-status.json` carries the venue's open time for 55 of
+the 56 games of the Oct 1-3 slate:
+
+    Sat 2026-09-26 01:06Z   2      Sun 2026-09-27 10:06Z  19
+    Sat 2026-09-26 16:07Z   1      Sun 2026-09-27 16:06Z   4
+    Sun 2026-09-27 01:06Z   4      Mon 2026-09-28 22:05Z  11
+    Sun 2026-09-27 04:06Z   5
+    Sun 2026-09-27 07:06Z   9
+
+Two opened Friday evening US time, eleven hours before the window, so no poll
+could have graded them. Across both measured cohorts every open sits a few
+minutes past the hour on a three-hour step. The new start is the earliest
+measured open less two of those steps, rounded down to the hour. **Two steps
+of margin is a PRIOR (Law 6).** `slate.opening_week` already names the next
+week by then: in the 2026 schedule every provider week from 2 to 13 has its
+first kickoff at least 25 hours before that Saturday 01:06.
+
+**2. The loop hands itself to the next link.** Scheduled launches here arrive
+hours late: the 13:30 UTC feature capture landed at 18:44, 18:29 and 18:57 on
+three consecutive days, and inside the last release window the gaps between
+polls reached 8.0, 6.6, 5.7 and 5.5 hours. A late launch is a hole exactly as
+wide as the delay. A link that finished its slot now dispatches its successor
+with `workflow_dispatch`, which is not delayed, before it writes its report;
+the shared concurrency group keeps the two from overlapping. Three guards stop
+a broken link from re-launching itself for four days: the loop step finished,
+at least one poll succeeded, and the link ran ten minutes. A cancelled run is
+not resurrected. The crons stay as the backstop and now begin Friday 18:00.
+
+**3. A poll lost to a push race is replayed at its original time.** The loop
+shares `capture-data` with other writers. On a rejected push it reset to the
+remote branch, which discarded the poll it had just recorded, and its closing
+step then polled again. A market that opened in the lost poll was first seen
+a poll later or not at all. Each poll's snapshot is now queued until a push
+carries it and is replayed after a reset (`watch --replay-snapshot`, then
+`prospective_open`) with its own `polled_at`. The live poll and its snapshot
+share one stamp, so a replay of a poll that did land writes nothing.
+
+**What this does not establish.** No cohort has yet produced a `true_open`
+row: 0 of 150 legacy rows and 0 of 55 prospective rows. Every miss so far is
+explained by polling that was absent or began after the open, so the venue's
+side of the rule is untested. If markets routinely post their first two-sided
+quote more than fifteen minutes after they open, continuous polling will
+still grade nothing, and the first weekend this runs is what will show it.
+
+**Verification.** `tests/test_open_loop_recovery.py` runs the workflow's own
+push-recovery shell against local git remotes with a competing writer.
+`tests/test_open_loop_handover.py` runs the hand-over step against a stand-in
+`gh` across all three guards, the closed window and a failed dispatch. Both
+measured cohorts are pinned in `tests/test_model.py`; restoring the Saturday
+noon start fails seven tests. Not verified: the hand-over on a real runner,
+which needs one release window to observe.
+
+**Authority effect.** None. Capture only. No threshold, gate, frozen rule,
+stake or delivery permission changes.
+
+**Reversal criterion.** Move the window again if a cohort opens before Friday
+18:00 UTC. Drop the hand-over if GitHub delivers scheduled launches within the
+fifteen-minute tolerance for a full season. Drop the replay queue only if the
+loop gets exclusive write access to its files.
+
+## 2026-10-02 — D39. One operating path, one card, and promotion as a separate registered act
+
+**Decision.** CFB Edge runs on one path, described in full in
+`docs/CFB_EDGE_OPERATIONS.md`:
+
+- Control plane: `main` (code, configs, registries, this file), changed by
+  pull request only. Evidence plane: `capture-data`, append-only, the only
+  branch automation writes (D3).
+- One decision engine, `cfb_edge.engine.decide`. Nothing else produces a stake.
+- One weekly output, `cfb_edge.weekly_card` (`CFB_EDGE_WEEKLY_CARD_V1`),
+  rendered by `cfb_edge.card_render`. Any surface that shows picks derives from
+  that JSON.
+- One authority, `config/delivery_authority.json` (D17, D19). The card can
+  print BET only when that file allows delivery (D40).
+- One scheduled Claude task, "CFB Edge weekly routine": it builds and
+  publishes the card and checks that capture is landing. It never merges,
+  promotes, stakes, or edits a frozen config.
+
+Surfaces that competed with this are superseded, not deleted, so history
+survives: the LATTICE dashboard and `edge_os_v3_lattice.md` in the claude.ai
+project (seeded sample data), the Week 3 Orders and CFB Edge Picks artifacts,
+and the Ground Truth artifact (its test count and decision range predate D37).
+
+**Production, challenger, promotion are three different things.**
+
+- *Production* is what the authority names and allows. Today that is S02 at
+  `MODEL_REVIEW_REQUIRED` with `allowPaperDelivery: false` and five failed
+  gates, so production delivers nothing and the card's BET count is zero by
+  construction until that file changes.
+- A *challenger* is any registry entry that is not production (S04_ES2 frozen
+  shadow, S04_BR2 data collection, the monitors). It runs from a frozen
+  config, records its prediction before the outcome exists, stakes zero, and
+  cannot change a card disposition; the card shows it under "Shadow signals".
+- *Promotion* moves a challenger into the authority. Every condition below is
+  required; none substitutes for another.
+  1. Registration before the holdout: the fields
+     `CFB_EDGE_PROMOTION_REVIEW_V1` lists (model, feature-contract,
+     training-protocol and execution-policy hashes, holdout start/end/weeks,
+     attempt number), committed here before any holdout outcome exists.
+  2. Evidence from gradeable rows only (`GRADEABLE` in `clv.py`: `true_open`,
+     `fill`). Recovered, `first_seen` and `late` rows never count.
+  3. The registered policy's single final look: net return per unit after all
+     costs (primary), paired Brier improvement of at least 0.001 against the
+     decision market (secondary), calibration error at most 0.05, a 0.01 per
+     unit stress cost, 5,000 bootstrap replicates, familywise alpha 0.05. Its
+     minimum holdout is 26 weeks and 4,710 games. At roughly 55 games a week
+     that is more than one full season, so no challenger can be promoted
+     under the policy as registered before the 2027 regular season ends.
+  4. `CFB_EDGE_CLV_GATE_V1` (D31) reads PASS, or a successor null that was
+     registered before its data (D42).
+  5. The authority's own gates pass for the candidate: 200 non-push
+     forecasts, 8 week clusters, log-loss advantage of at least 0.003, Brier
+     no worse than the market, anytime e-value of at least 20, validation no
+     older than seven days.
+  6. The walk-forward history (`scripts/walkforward_backtest.py`) shows no
+     degradation against the market baseline. Necessary, never sufficient.
+  7. The owner merges a pull request that edits
+     `config/delivery_authority.json`. No automation makes that edit.
+- *Demotion.* Any registered gate that fails on a later re-check reverts the
+  authority file to its previous commit, recorded here.
+
+**Why.** Twenty-five workflows, three scheduled tasks, two pull-request
+check-in loops, a private Site and at least four pick surfaces each made sense
+locally. Together they could not answer "what is this week's card, and why".
+One card from one engine under one authority can.
+
+**Authority effect.** None. S02 remains the sole delivery candidate, the
+private Site remains the registered authority, and the frozen S04_ES2 rules,
+S04_BR2 `DATA_COLLECTION_ONLY` and every threshold are unchanged.
+
+**Reversal criterion.** Split the path only when a component must run where
+this repository cannot, such as the private Site's model, and then only with
+that component writing its output to `capture-data`, so the card still reads
+one evidence plane.
+
+## 2026-10-02 — D40. What the weekly card's dispositions and numbers mean
+
+**Dispositions**, exactly one per game:
+
+- **BET** only when the engine returns BET with a stake (a registered Stage-A
+  signal, gated once, D15), the authority allows paper delivery, the
+  executable quote is no older than `maximumQuoteAgeSeconds` (900 s), and
+  neither critical gate (market capture, information state) reads FAIL.
+  Today the card passes the engine no registered system, because none exists
+  in this repository: `systems.jsonl` is empty and S02 is an external
+  implementation. So the card cannot print BET. If the authority ever allows
+  delivery, the card must show the authority's own picks, mirrored to
+  `capture-data`, and never compute a second set.
+- **LEAN** when a book's price beats the sharp reference's no-vig price at
+  the same number under both multiplicative and power de-vig, and the engine
+  did not flag `DEVIG_SENSITIVE`, but evidence, authority or freshness blocks
+  a bet. Zero stake. A lean is a price observation logged so its closing-line
+  value can be measured, not a prediction.
+- **PASS** otherwise, with reason codes. PASS is a complete answer.
+
+**Confidence** is the engine's posterior probability that the pick covers at
+its executable number, push-adjusted through the fitted margin distribution.
+With no registered evidence the posterior equals the reference's no-vig
+probability (Pinnacle, else the US-book median), because the projection's
+weight is zero: its incremental coefficient over the close is -0.012
+(t = -0.43) across 9,113 walk-forward games. Measured calibration of that
+reference: Pinnacle no-vig closing probabilities over 5,199 games, expected
+calibration error 0.013 and Brier 0.2501 against 0.2500 for a coin flip. It is
+calibrated near 50% and nearly uninformative about who covers, which is what
+an efficient spread market looks like. Spread confidence on this card will
+therefore sit near 50%, and a figure far from 50% points at a data problem
+before an edge. **Limit of that measurement:** the source carries priced
+Pinnacle closes for 2012-2019 only, so the reference's calibration since 2020
+is assumed, not measured here.
+
+**Edge** is expected value per unit at the executable price against the
+reference; the card uses the worse of the two de-vig methods. The minimum
+acceptable price is the worst price at which the engine's
+`max_playable_price` sweep still clears.
+
+**The margin distribution uses one sigma for every game.** The slate's
+`total` column is the constant 52.0 on all 56 rows, a placeholder and not a
+market total, so the card takes sigma at `REFERENCE_TOTAL` instead of
+pretending to a game-specific one. It affects only the push probability and
+the value of a half point, never which side has the edge.
+
+**Gate states** are PASS, DEGRADED, FAIL and NOT APPLICABLE. A missing input
+is FAIL or DEGRADED with a reason, never PASS. A critical FAIL blocks BET.
+
+**Ranking** is `max(conservative EV, 0) x evidence factor x execution factor`,
+with evidence factors 1.0 / 0.85 / 0.5 for PASS / DEGRADED / FAIL per gate
+and execution halving every four hours of quote age. **Both factors are PRIOR
+(Law 6)**: chosen, not derived. The ranking orders the card and has not been
+validated against realized return; the card prints that.
+
+**Traceability.** The card records the SHA-256 of every input, the code and
+evidence revisions, and its own SHA-256 over a canonical serialization; the
+same inputs at the same `--as-of` rebuild it byte for byte
+(`tests/test_weekly_card.py`).
+
+**Authority effect.** None. The card cannot produce a BET the engine and the
+authority would not.
+
+**Reversal criterion.** Replace the confidence definition only with a model
+probability that has completed the promotion path in D39. Replace the PRIOR
+factors only with values fitted to graded card history.
+
+## 2026-10-02 — D41. Orchestration repairs are forward-only
+
+Three defects let the evidence plane lose, bury or stop collecting information
+without anyone deciding it should. (The capture repairs are D38.)
+
+**1. A cohort names the games it leaves out.** `cohort.build_slate` filtered
+the provider week to the game window without recording what it removed. The
+Week 6 contract's window opens Friday 2026-10-02 23:00 UTC and so dropped the
+two Thursday games (Western Kentucky at New Mexico State, North Texas at
+Tulsa). A contract now carries `coverage.excludedGames`, each with a reason,
+and every build reports any game of its own week (inside the capture window,
+outside the game window) that the contract does not name. The report is loud
+and not fatal: a kickoff that moves after registration must not cost the other
+fifty games their capture. Games outside the capture window are provider
+mislabels and are still dropped. The Week 5 and Week 6 contracts keep their
+frozen windows and are reported the same way.
+
+**2. The next cohort is derived and registered ahead, not typed each week.**
+`config/br2_active_cohort.json` was edited by hand for each new week, and its
+prospective window closes 2026-10-02 23:00 UTC. With nothing written for the
+following week the feature capture, and with it the only sportsbook board the
+card reads, would have stopped on Monday. `cohort propose` now derives a
+weekend contract from the provider schedule by the rule the Week 6 contract
+was written to (games from Friday 23:00 UTC to Sunday 12:00 UTC; capture from
+the previous Sunday 00:00 UTC; prospective until the game window opens), and
+that rule reproduces the registered Week 6 windows exactly. Contracts for
+product weeks 7 to 14 (provider weeks 6 to 13) are registered under
+`config/cohorts/`, each naming the midweek games it leaves out. The feature
+capture resolves its cohort by date with `cohort active`: the one contract
+whose prospective window is open, the Week 6 file when none is, and a failed
+run when two are. No weekly configuration change remains.
+
+A registered contract is not rewritten. Thanksgiving week (product week 14)
+leaves out 13 games, most of them on the Friday, because the weekend rule
+freezes features on Friday evening; that is the rule's cost and it is
+recorded in the contract, not hidden. Changing it needs a new contract before
+that week's window opens.
+
+**3. Closed-cohort workflows lose their automatic triggers.** Eight workflows
+served cohorts whose windows have closed and kept firing on schedule or on
+`workflow_run` cascades: `s04-es1-live`, `s04-es2-week5`,
+`week5-close-capture`, `week5-signal-grade`, `week5-capture-health`,
+`week5-late-open-capture`, `br2-feature-capture` (superseded by
+`br2-active-feature-capture`) and `powerup-health` (Week 5 readiness; the
+card's system health supersedes it). Each run skipped its work, but a
+successful completion still set off the readiness and bridge workflows.
+Measured on `capture-data` over the seven days to 2026-10-02: 154 bridge
+commits, 142 readiness commits and 61 signal-grade commits, each changing only
+a `generatedAt` stamp, against 9 feature snapshots and 57 capture commits
+out of 579 in all.
+Every one of those 357 commits was also a chance for the capture loop's push
+to be rejected (D38). Each retired workflow keeps `workflow_dispatch`, its
+code, configs and evidence, and a header naming this entry.
+`week6-clv-close-grade` stays live until Week 6 is graded.
+
+Not changed: `private-site-bridge` still republishes after each remaining
+upstream run, because the private Site is its consumer and this repository
+cannot see whether the Site reads the stamp for freshness. `s04_es2.py`
+reports 102 `mappingFailures` for Week 6; those are board rows for games that
+were never candidates, not failed joins. The experiment's frozen Week 6
+decisions are being graded, so the mislabel is recorded here and the module is
+left alone until that cohort closes.
+
+Not built: nothing yet applies the frozen S04_ES2 rule to the prospective
+opens of product week 7 onward. The decision freeze and close grading exist
+for Week 6 only (D34), and D34 requires a separately registered cohort before
+the protocol is reused. Until the owner registers one, true opens captured
+from this weekend on are evidence about the capture, not about the strategy.
+
+**Authority effect.** None. No frozen rule, threshold or decision changed;
+the Week 5 and Week 6 cohort contracts are untouched.
+
+**Reversal criterion.** Restore any retired trigger from the parent of this
+commit if a closed cohort must be re-captured. Replace the weekend rule only
+by registering new contracts before their windows open.
+
+## 2026-10-02 — D42. Finding: the CLV breakeven depends on the strike (no rule change)
+
+D31 sets one null, 0.675 points: the Kalshi fee at P = 0.5 converted to points
+with the at-the-money slope of the margin distribution. The slope is not
+constant. Where probability mass piles up on key margins a point is worth
+more probability, so fewer points cover the same fee. Recomputed from the
+fitted margin distribution and `kalshi_fees`: about 0.26 points at a strike
+on 3 or 7, 0.38 at 14, 0.74 at pick'em, 1.72 at an off-key 9
+(`docs/research/walkforward_2026.json`, `economics`).
+
+Against those numbers the registered rule (week 3 or later, gap of at least
+4) measured +0.339 points of CLV over 676 games in 2023-2025 with consistent
+opens (95% interval +0.14 to +0.54, 39 week clusters). The interval straddles
+the key-number breakeven and sits wholly below the pick'em one. By season:
+2023 +0.681, 2024 +0.123, 2025 +0.141, so the pooled figure leans on one year.
+The 2026 in-season measurement is +0.052 (t = 0.32, 155 games). These are
+sportsbook closes; that they transfer to exchange strikes is untested.
+
+**What this does not do.** It does not change D31's null, the CLV gate, or
+any threshold. Replacing a null after looking at the data it would judge is
+the error this file exists to prevent. The owner may register a strike-aware
+null for a future cohort before that cohort's data exists; until then D31
+stands.
+
+**Reversal criterion.** Superseded by a registered strike-aware null, or
+withdrawn if a recomputation with a better-fitted margin distribution moves
+the key-number breakeven above 0.54.
+
+## 2026-10-03 — D43. A market belongs to a game only if it is dated on that game's day
+
+**Decision.** An exchange event is attributed to a slate fixture only when the
+game day in its ticker is the kickoff's UTC date or the day before
+(`watch.event_matches_kickoff`; `KXNCAAFSPREAD-26OCT03VANUGA` is 3 October).
+A ladder that names one team and cannot be dated is skipped. A ladder that
+names both teams is still taken when there is nothing to check it against.
+
+**What went wrong.** The capture reads a spread ladder, finds which teams it
+is written on, and looks the fixture up in the slate. A favourite's ladder is
+often quoted on one side only, so it names one team, and the lookup took the
+one slate fixture containing that team. Every team plays again next week, and
+the exchange lists next week's markets while this week's are still open. So
+when the loop moved to the following week's slate it read this week's market
+as next week's game.
+
+On 2026-10-03 at 15:17 UTC that wrote five lines into the capture log and at
+15:50 locked all five games as missed opens:
+
+    Georgia @ Alabama        from 26OCT03VANUGA   (Vanderbilt at Georgia)
+    Indiana @ Nebraska       from 26OCT03INDRUTG  (Indiana at Rutgers)
+    LSU @ Kentucky           from 26OCT03MCNSLSU  (McNeese at LSU)
+    Stanford @ Notre Dame    from 26OCT03NDUNC    (Notre Dame at North Carolina)
+    UAB @ Memphis            from 26OCT03SAMUAB   (Samford at UAB)
+
+A missed row is terminal (D35), so none of those games could have captured
+its own market when it opened. The same defect a week earlier (first poll
+2026-09-26 15:11 UTC) matched 14 games on the 1-3 October slate to a
+26 September market. For 13 of them that line took the first-seen slot, and
+first seen is never overwritten; the fourteenth already had its own.
+
+**Evidence** (`capture-data` at `1a228ff`, 960 polls). Of 30,365 Kalshi spread
+quotes in the log, 30,009 carry an event ticker, all of one shape. For 28,329
+the kickoff's UTC date is the ticker's day or the next one. The other 1,680
+are 23 pairs of a game and a market 6, 7 or 8 days apart: 20 are a market
+from the week before its fixture (the 5 above and 15 on 26 September) and 3
+are a market from the week after. There is nothing in between. The 356 quotes
+with no ticker predate the field.
+
+**What changes.**
+
+- `providers.kalshi.board_quotes` and `active_market_state._fixture_for_event`
+  refuse a market dated on another day than the fixture.
+- `OpeningBook` builds no open, latest or close from such a quote, and counts
+  them. The raw log is append-only and keeps every line it has.
+- `week6_clv.build_close_report`, `capture_report.build` and
+  `weekly_card.kalshi_latest` read the log directly and skip them the same way.
+- `prospective_open.update` refuses them, and voids a row whose ticker names a
+  different day than the kickoff the row was locked with. The row moves to
+  `voidedRows` whole, with `voidReason`, and the game returns to PENDING. It
+  is judged by its own recorded kickoff, so a later reschedule cannot void a
+  lock that was right when it was made, and a row whose ticker agrees with its
+  kickoff is never reopened.
+
+**What this does to derived history.** Run against the evidence above:
+
+- The lock for provider week 6 goes from 9 missed and 49 pending to 4 missed,
+  54 pending and 5 voided. The four that remain are misses on their own
+  markets.
+- Games with a recorded Kalshi open go from 159 to 154. Thirteen games change
+  from another market's line to their own first sighting; five lose a line
+  that was never theirs and have none yet. Every changed row classifies as
+  `first_seen`. The count of `true_open` rows stays 0, so nothing becomes
+  gradeable that was not.
+- No frozen decision changes. The 27 frozen Week 6 opens were recovered from
+  each game's own market (venue open 26 to 28 September). Of the 14 affected
+  games, 6 are in that cohort with no captured open, 6 have a recovered open
+  from the right market, and 2 are outside it.
+
+**What this does not establish.** Whether the exchange posts a two-sided
+quote inside 900 seconds of `open_time`. The two markets first seen on
+2026-10-03 after continuous polling began suggest it may not: Indiana at
+Nebraska opened 16:06:00 and yielded no line through 16:21:15 (915 s), and
+New Mexico State at FIU opened 2026-10-02 22:06 and first yielded a line in
+the log at 2026-10-03 20:27. Two rows are not a finding. D35's window is
+unchanged.
+
+**Addendum, 2026-10-04, before merge.** Two things changed between writing
+this entry and merging it (`capture-data` at `94e656a`, 1,195 one-minute polls
+since 2026-10-03 15:50 UTC with one gap, of 21 minutes, on the old code).
+
+*The window can be met, and not by every market.* Overnight the lock captured
+17 true opens with lags of 211 to 800 seconds, the first this project has
+recorded. Eight other markets listed in the same hours yielded no readable
+line until 1.6 to 5 hours after their listed open, with polls a minute apart
+throughout. (A ninth, listed twelve hours before polling began, first yielded
+one 24 hours after.) The log holds only lines the reader could read, so it
+cannot say whether those markets had no quotes or had quotes the reader
+refuses: a ladder that does not straddle 50%, or a bid and ask further apart
+than `MAX_SPREAD`. D35's window is still unchanged.
+
+*A voided row is rebuilt from the log.* Georgia at Alabama's own market was
+listed at 01:06 UTC and first read at 01:19:19, 800 seconds later, while its
+false row still stood. Voiding the row and waiting for the next live poll
+would have locked that game as first seen at merge time, hours late, and the
+two other games whose own markets were already in the log (Indiana at
+Nebraska, read at 2,209 seconds, and LSU at Kentucky, at 2,341) with lags
+overstated by hours. Those lags are the evidence about the venue. So when a
+row is voided, the game's row is recomputed from the logged polls, oldest
+first, from the moment the false row was written up to the poll being
+processed, through the same state machine, stopping at the first terminal
+state as the live lock does. Only this project's own live polls are read; no
+historical endpoint is. A row produced this way carries `rebuiltFromLog`. A
+rebuild that fails leaves the game pending and records why, so a repair
+cannot cost a live poll. This is the rule CLAUDE.md already states: recompute
+every aggregate from ledger rows.
+
+Run against `94e656a`, the lock goes from 17 captured, 18 missed and 23
+pending to 18 captured, 15 missed, 25 pending and 5 voided: Georgia at Alabama
+captured at 800 seconds, two rebuilt as misses at the lag they were seen
+with, two still waiting for their own markets. The opening book goes from 17
+`true_open` games to 18, the same game. So one row does become gradeable that
+was not, which the section above could not yet say.
+
+**The owner's call.** Whether a row rebuilt from the log is audit-grade is a
+judgment about evidence, and merging this entry makes it. The alternative is
+to void without rebuilding, and the lock then records those three games as
+first seen at merge time.
+
+**Verification.** `tests/test_event_day_guard.py`: the rule against the eight
+rows the lock held, the board reader, the opening book over a log that already
+holds a wrong line, the lock repair (five voided, three kept, voiding
+idempotent, a real miss never reopened, a rescheduled game not voided), the
+rebuild (a sighting inside the window, a late one, none, log order, a failed
+rebuild, the command's log path), and the three log readers. 797 tests pass.
+The rebuild was also run against the real status file and log. Not verified
+on a runner.
+
+**Authority effect.** None. No threshold, gate, frozen rule, stake or delivery
+permission changes. The true-open window is untouched.
+
+**Reversal criterion.** Widen `EVENT_DAY_OFFSETS` only on a logged quote whose
+market is provably the game's own and falls outside it. Drop the one-team
+refusal only if the exchange stops listing two weeks at once.
+
+## 2026-10-03 — D44. The loop records closes, and the fallback restarts the loop
+
+**Finding. Product Week 6 will close without a gradeable row.** The frozen
+cohort has 27 recovered opens and 5 signal rows (D34). A close is the last
+price before kickoff and grades only when it is at most 900 seconds old at
+kickoff. From the capture log at `capture-data` `4d124f7` (2026-10-03 23:41
+UTC): 23 of the 27 games had kicked off, none had a price inside 900 seconds
+of its kickoff, and the newest price before kickoff was between 7.2 and 73.9
+hours old. Four games had not started (kickoffs 00:00, 00:00, 01:30 and 03:00
+UTC on 2026-10-04), so the final count is at most 4 and is whatever the log
+shows after that. It showed 0 of 27 at `94e656a`, after the game window
+closed: the nearest any price came to its kickoff was 50 minutes.
+
+**Why.** Two things, either of which was enough.
+
+- From Friday 18:00 UTC the open loop polls the week whose lines are opening,
+  which is next week (D38). Nothing polls the week being played.
+- Its closes were left to `week6-clv-close-grade`, which needs a scheduled
+  start inside the fifteen minutes before each kickoff. Its crons cover 20:00
+  to 06:59 UTC, so a noon or 3:30 pm Eastern kickoff was never coverable. And
+  of the 47 scheduled starts inside the game window up to 23:42 UTC, 4
+  produced a poll, the last of them about two hours late.
+
+**Decision.**
+
+1. *The loop records closes.* Each link also builds the slate of the week
+   being played (`slate --week current`, written to `data/slate_playing.csv`).
+   A game on it joins the loop's poll `CLOSING_WINDOW_SECONDS` before kickoff
+   and leaves at kickoff (`watch --closing-slate`). The window is the 900
+   second close tolerance plus 300 seconds; **the 300 is a PRIOR (Law 6)**,
+   five polls of margin. It is the same single read of the exchange board, so
+   it costs no request, and about twenty log entries a game. A failed build
+   of that slate leaves the last good file and cannot stop the open capture.
+   The prospective lock still reads the opening week alone.
+2. *A team on both slates.* The poll can now hold the same team twice, this
+   week and next. The game day (D43) chooses between a team's fixtures before
+   uniqueness is required, so each of its markets is read as its own game.
+   Two fixtures on the same day are still skipped.
+3. *The fallback restarts the loop.* The loop carries itself (D38), but a
+   link that is cancelled, fails, or loses its queued successor leaves
+   nothing polling until a cron launch arrives, and those arrive hours late.
+   `capture.yml` shares the loop's concurrency group, so it runs only when no
+   loop does. When its own poll succeeded inside the release window it now
+   asks for a loop as its last step. A run whose poll failed asks for
+   nothing, so an outage cannot turn this into a relaunch circle.
+4. *The Week 6 workflows lose their triggers.* `week6-clv-close-grade` and
+   `week6-clv-decision-freeze` keep `workflow_dispatch`, their code, configs
+   and evidence. The cohort's game window closes 2026-10-04 12:00 UTC; after
+   that the grader skips its work and the freeze refuses to rerun, and each
+   completion only sets off the bridge. This entry must not be merged before
+   that time.
+5. *One count.* `watch --close-coverage` reads the log and prints how many
+   started games on a slate have a price inside the tolerance. It is the
+   number the Saturday check reports, and it read 0 of 49 for the week being
+   played at the revision above.
+
+**What this does not do.** It does not change any grader. `grade` still takes
+the last price before kickoff with no age limit; an age limit there changes a
+registered measurement and is the owner's to register. It does not capture
+closes for games that kick off outside the release window (Tuesday 18:00 to
+Friday 18:00 UTC), which the weekend cohorts leave out anyway (D41). It does
+not recover Week 6: a close that was not observed cannot be rebuilt.
+
+**Verification.** `tests/test_close_capture.py`: which games join the poll,
+a team on both slates, the command, a close a grader accepts, and the
+workflow's own text. `tests/test_capture_restart.py` runs the restart step's
+shell against a stand-in `gh`: inside the window, outside it, and a refused
+request. `tests/test_week5_workflows.py` pins the set of workflows that still
+have an automatic trigger, and `tests/test_operations_runbook.py` ties every
+workflow, file, command and decision the runbook names to the repository.
+836 tests pass. Not verified: any of this on a runner.
+
+**Authority effect.** None. No threshold, gate, frozen rule, stake or delivery
+permission changes.
+
+**Reversal criterion.** Drop the closing slate if a registered close source
+replaces the exchange log. Drop the restart step if scheduled launches arrive
+within the fifteen-minute tolerance for a full season. Change the 300 second
+margin only on logged closes that show polls missing inside it.
+
+## 2026-10-06 — D45. S06_MR1 Freeze V2 starts after integration
+
+**Decision.** Preserve S06_MR1 as an untrained, research-only residual
+challenger. Freeze V2 retains the nine BR2 features, ridge alpha 10.0 as an
+untuned prior, and the strict per-row archived-source timestamp/hash contract.
+Its prospective evaluation starts at `2026-10-07T00:00:00Z`; the earlier V1
+window is retired before it produced eligible forecasts, so no observations
+are discarded from a scored cohort.
+
+**Evidence status.** No admissible S06 training/evaluation CSV exists. The
+latest Week 6 snapshot contains only 53 rows with all nine required features,
+below the frozen 500-row prior-training floor, and does not provide the
+required per-row market and settled-result manifests. The model therefore
+remains `FROZEN_UNTRAINED`; no retrospective backfill or synthetic labels are
+used.
+
+**Authority.** None. Delivery remains disabled, promotion effect is `NONE`,
+and stake is zero. The bridge may expose S06 telemetry only as read-only
+evidence. Changing its data contract, estimator, alpha, or chronology requires
+a separately versioned freeze.
+
+**Site deployment.** The repository integration does not itself deploy or
+modify the owner-only ChatGPT Site. Preserve the existing Site and `/api/picks`
+authority; publishing UI changes requires the authenticated Site editor.
