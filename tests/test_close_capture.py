@@ -124,22 +124,93 @@ class ATeamOnBothSlates(unittest.TestCase):
 
 
 class WhyAListedMarketHadNoLine(unittest.TestCase):
+    """Every listed event that yields no quote says which check stopped it."""
+
     GAME = "Indiana @ Nebraska"
     EVENT = "KXNCAAFSPREAD-26OCT10INDNEB"
+    KICKOFF = "2026-10-10T04:00:00.000Z"
 
-    def poll(self, markets):
+    def board(self, markets, *, games=None, kickoffs=None):
         diagnostics = []
         payload = json.dumps({"markets": markets}).encode()
         quotes = board_quotes(
-            games=[self.GAME],
-            kickoffs={self.GAME: "2026-10-10T04:00:00.000Z"},
+            games=games or [self.GAME],
+            kickoffs={self.GAME: self.KICKOFF} if kickoffs is None else kickoffs,
             opener=lambda _: payload,
             seen_at="2026-10-03T19:50:00+00:00",
             diagnostics=diagnostics,
         )
+        return quotes, diagnostics
+
+    def poll(self, markets, **slate):
+        quotes, diagnostics = self.board(markets, **slate)
         self.assertEqual(quotes, [])
         self.assertEqual(len(diagnostics), 1)
         return diagnostics[0]
+
+    def assert_unmatched(self, diagnostic, reason):
+        """Stopped before pricing: no game was chosen, so none is named."""
+        self.assertEqual(diagnostic["reason"], reason)
+        self.assertNotIn("game", diagnostic)
+        self.assertNotIn("rungCounts", diagnostic)
+
+    def test_titles_without_a_team_and_strike_are_distinguished(self):
+        markets = [dict(event_ticker=self.EVENT, ticker=f"{self.EVENT}-X",
+                        yes_sub_title="Indiana at Nebraska", yes_bid=50, yes_ask=52)]
+        self.assert_unmatched(self.poll(markets), "NO_READABLE_RUNGS")
+
+    def test_a_team_the_slate_cannot_name_is_distinguished(self):
+        self.assert_unmatched(self.poll(ladder(self.EVENT, "Notre Dame")),
+                              "UNRESOLVED_TEAMS")
+
+    def test_two_teams_that_do_not_meet_on_the_slate_are_distinguished(self):
+        event = "KXNCAAFSPREAD-26OCT10IOWNEB"
+        diagnostic = self.poll(
+            ladder(event, "Nebraska") + ladder(event, "Iowa"),
+            games=[self.GAME, "Maryland @ Iowa"])
+        self.assert_unmatched(diagnostic, "NO_SLATE_FIXTURE")
+
+    def test_a_market_dated_on_another_day_is_distinguished(self):
+        # This week's Nebraska market against next week's Nebraska fixture (D43).
+        diagnostic = self.poll(ladder("KXNCAAFSPREAD-26OCT03MDNEB", "Nebraska"))
+        self.assert_unmatched(diagnostic, "EVENT_DAY_MISMATCH")
+
+    def test_one_team_and_no_kickoff_to_date_it_by_is_distinguished(self):
+        diagnostic = self.poll(ladder(self.EVENT, "Nebraska"), kickoffs={})
+        self.assert_unmatched(diagnostic, "UNVERIFIABLE_EVENT_DAY")
+
+    def test_two_fixtures_on_the_market_day_are_distinguished(self):
+        diagnostic = self.poll(
+            ladder("KXNCAAFSPREAD-26OCT03MDNEB", "Nebraska"),
+            games=["Maryland @ Nebraska", "Nebraska @ Iowa"],
+            kickoffs={"Maryland @ Nebraska": "2026-10-03T20:00:00.000Z",
+                      "Nebraska @ Iowa": "2026-10-03T23:30:00.000Z"})
+        self.assert_unmatched(diagnostic, "AMBIGUOUS_SLATE_FIXTURE")
+
+    def test_a_mix_of_one_sided_and_wide_rungs_is_distinguished(self):
+        markets = ladder(self.EVENT, "Nebraska")
+        markets[0]["yes_ask"] = None
+        markets[1]["yes_bid"], markets[1]["yes_ask"] = 20, 50
+        diagnostic = self.poll(markets)
+        self.assertEqual(diagnostic["reason"], "NO_ACCEPTABLE_TWO_SIDED_QUOTES")
+        self.assertEqual(diagnostic["game"], self.GAME)
+        self.assertEqual(diagnostic["rungCounts"], {
+            "parsed": 2, "noQuotes": 0, "oneSided": 1,
+            "overMaximumSpread": 1, "usable": 0,
+        })
+
+    def test_a_priced_game_leaves_no_diagnostic(self):
+        unpriced = ladder("KXNCAAFSPREAD-26OCT10MDIOWA", "Iowa")
+        for market in unpriced:
+            market["yes_bid"] = market["yes_ask"] = None
+        quotes, diagnostics = self.board(
+            ladder(self.EVENT, "Nebraska") + unpriced,
+            games=[self.GAME, "Maryland @ Iowa"],
+            kickoffs={self.GAME: self.KICKOFF,
+                      "Maryland @ Iowa": "2026-10-10T19:30:00.000Z"})
+        self.assertEqual([q.game for q in quotes], [self.GAME])
+        self.assertEqual([(d["eventTicker"], d["reason"]) for d in diagnostics],
+                         [("KXNCAAFSPREAD-26OCT10MDIOWA", "NO_QUOTES")])
 
     def test_no_quotes_is_distinguished(self):
         markets = ladder(self.EVENT, "Nebraska")
