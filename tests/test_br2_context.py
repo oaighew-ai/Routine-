@@ -6,6 +6,9 @@ from datetime import datetime, timezone
 from cfb_edge.br2_context import build_context, haversine_miles
 
 
+def manifest():
+    return [{"kind": k, "retrievedAt": "2026-09-22T00:00:00Z", "path": "raw/fixture.json", "sha256": "a"*64} for k in ("wepa", "advanced_stats", "teams", "venues", "week_games")]
+
 class Br2ContextTests(unittest.TestCase):
     def test_haversine_zero_and_known_distance(self):
         self.assertAlmostEqual(haversine_miles(33.749, -84.388, 33.749, -84.388), 0.0, places=6)
@@ -16,7 +19,7 @@ class Br2ContextTests(unittest.TestCase):
 
     def test_epa_line_and_travel_are_explicit_differences(self):
         slate=[{"game":"A @ H","kickoff":"2026-09-26T16:00:00Z"}]
-        games=[{"awayTeam":"A","homeTeam":"H","venueId":10,"neutralSite":False}]
+        games=[{"id":1,"startDate":"2026-09-26T16:00:00Z","awayTeam":"A","homeTeam":"H","venueId":10,"neutralSite":False}]
         teams=[
             {"school":"H","location":{"latitude":40.0,"longitude":-80.0}},
             {"school":"A","location":{"latitude":41.0,"longitude":-81.0}},
@@ -30,9 +33,9 @@ class Br2ContextTests(unittest.TestCase):
             {"team":"H","offense":{"lineYards":3.2},"defense":{"lineYards":2.6}},
             {"team":"A","offense":{"lineYards":2.8},"defense":{"lineYards":3.0}},
         ]
-        weather={"rows":[{"game":"A @ H","auditGrade":True,"windMph":12.0}]}
+        weather={"rows":[{"game":"A @ H","auditGrade":True,"windMph":12.0,"retrievedAt":"2026-09-22T00:00:00Z","kickoff":"2026-09-26T16:00:00Z"}]}
         r=build_context(
-            slate=slate,week_games=games,teams=teams,venues=venues,
+            slate=slate,week_games=games,source_manifest=manifest(),teams=teams,venues=venues,
             wepa=wepa,advanced=advanced,weather=weather,qb_evidence=None,
             as_of=datetime(2026,9,23,tzinfo=timezone.utc),
         )
@@ -46,14 +49,14 @@ class Br2ContextTests(unittest.TestCase):
 
     def test_neutral_site_travel_uses_both_program_origins(self):
         slate=[{"game":"A @ H","kickoff":"2026-09-26T16:00:00Z"}]
-        games=[{"awayTeam":"A","homeTeam":"H","venueId":99,"neutralSite":True}]
+        games=[{"id":1,"startDate":"2026-09-26T16:00:00Z","awayTeam":"A","homeTeam":"H","venueId":99,"neutralSite":True}]
         teams=[
             {"school":"H","location":{"latitude":40.0,"longitude":-80.0}},
             {"school":"A","location":{"latitude":35.0,"longitude":-90.0}},
         ]
         venues=[{"id":99,"name":"Neutral","latitude":38.0,"longitude":-85.0,"dome":False}]
         r=build_context(
-            slate=slate,week_games=games,teams=teams,venues=venues,
+            slate=slate,week_games=games,source_manifest=manifest(),teams=teams,venues=venues,
             wepa=[],advanced=[],weather=None,qb_evidence=None,
             as_of=datetime(2026,9,23,tzinfo=timezone.utc),
         )
@@ -65,7 +68,7 @@ class Br2ContextTests(unittest.TestCase):
     def test_post_kickoff_context_is_never_audited(self):
         r=build_context(
             slate=[{"game":"A @ H","kickoff":"2026-09-26T16:00:00Z"}],
-            week_games=[{"awayTeam":"A","homeTeam":"H","venueId":10}],
+            week_games=[{"id":1,"startDate":"2026-09-26T16:00:00Z","awayTeam":"A","homeTeam":"H","venueId":10}],
             teams=[
                 {"school":"H","location":{"latitude":40.0,"longitude":-80.0}},
                 {"school":"A","location":{"latitude":41.0,"longitude":-81.0}},

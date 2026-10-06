@@ -100,11 +100,11 @@
     },
     {
       "modelId": "S04_BR2",
-      "location": "cfb_edge/feature_warehouse.py + cfb_edge/br2_context.py + cfb_edge/br2_weather.py + cfb_edge/br2_web_evidence.py + .github/workflows/br2-feature-capture.yml",
+      "location": "cfb_edge/feature_warehouse.py + cfb_edge/br2_context.py + cfb_edge/br2_weather.py + cfb_edge/br2_web_evidence.py + cfb_edge/qb_usage_continuity.py + cfb_edge/opponent_adjusted_epa.py + .github/workflows/br2-active-feature-capture.yml",
       "reproducibleInRepo": true,
       "status": "DATA_COLLECTION_ONLY",
       "deliveryContract": null,
-      "note": "Deterministic CFBD/Open-Meteo context is archived and replayable. Exa/Firecrawl/browser sources are discovery/candidate evidence only until the QB validator admits both sides."
+      "note": "Prospective BR2 collection now includes deterministic QB usage continuity and a separately versioned cfbfastR opponent-adjusted EPA fallback. Week 5 historical artifacts are immutable; S02/S04_ES2 unchanged."
     }
   ]
 }

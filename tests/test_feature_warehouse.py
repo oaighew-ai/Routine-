@@ -19,7 +19,7 @@ class FeatureWarehouseTests(unittest.TestCase):
             source_manifest=[{"kind":"plays","path":"raw/abc.json.gz","sha256":"abc"}],
         )
         f = r["rows"][0]["features"]
-        self.assertAlmostEqual(f["ppaDiff"], 0.3)
+        self.assertIsNone(f["ppaDiff"])  # No completed-game proof, identity, or timestamps.
         self.assertIsNone(f["epaDiff"])
         self.assertIsNone(f["qbContinuityDiff"])
         self.assertFalse(r["summary"]["modelingEligible"])

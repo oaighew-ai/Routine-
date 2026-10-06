@@ -1,0 +1,22 @@
+{
+  "schemaVersion": 1,
+  "contract": "CFB_EDGE_PROSPECTIVE_OPEN_POLICY_V1",
+  "mode": "PROSPECTIVE_ONLY",
+  "effectiveProductWeek": 7,
+  "pollIntervalTargetSeconds": 60,
+  "trueOpenMaximumLagSeconds": 900,
+  "clockSkewSeconds": -60,
+  "prospectiveStatusPath": "data/prospective-open-status.json",
+  "historicalRecoveryAllowedBeforeEffectiveWeek": true,
+  "historicalRecoveryAllowedAtOrAfterEffectiveWeek": false,
+  "terminalStates": [
+    "CAPTURED_TRUE_OPEN",
+    "MISSED_TRUE_OPEN_WINDOW"
+  ],
+  "invariants": [
+    "A terminal prospective row is never upgraded by a later poll.",
+    "No historical candlestick endpoint may create or repair an opening row at or after effectiveProductWeek.",
+    "The first valid two-sided state must carry exact event ticker, at least two contract tickers, quote inputs, venue open time, live poll time and code revision.",
+    "S02 authority, staking and delivery are unchanged."
+  ]
+}

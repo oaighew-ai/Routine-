@@ -19,6 +19,8 @@ from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any, Mapping, Sequence
 
+from .point_in_time import instant, known_at, source_time, resolve_game, unique_index
+
 CONTRACT = "CFB_EDGE_BR2_CONTEXT_V1"
 EARTH_RADIUS_MILES = 3958.7613
 
@@ -90,7 +92,7 @@ def _index_venues(venues: Sequence[Mapping[str, Any]]) -> dict[str, dict[str, An
             "latitude": lat,
             "longitude": lon,
             "timezone": row.get("timezone"),
-            "dome": bool(row.get("dome")),
+            "dome": row.get("dome") is True,
             "elevation": row.get("elevation"),
         }
         if row.get("id") is not None:
@@ -181,24 +183,12 @@ def _line_aux(row: Mapping[str, Any] | None) -> dict[str, Any] | None:
     }
 
 
-def _weather_index(payload: Mapping[str, Any] | None) -> dict[str, Mapping[str, Any]]:
-    if not payload:
-        return {}
-    return {
-        _norm(r.get("game")): r
-        for r in payload.get("rows") or []
-        if str(r.get("game") or "").strip()
-    }
+def _weather_index(payload):
+    return unique_index((payload or {}).get("rows") or [], lambda r: _norm(r.get("game")))
 
 
-def _qb_index(payload: Mapping[str, Any] | None) -> dict[str, Mapping[str, Any]]:
-    if not payload:
-        return {}
-    return {
-        _norm(r.get("game")): r
-        for r in payload.get("rows") or []
-        if str(r.get("game") or "").strip()
-    }
+def _qb_index(payload):
+    return unique_index((payload or {}).get("rows") or [], lambda r: _norm(r.get("game")))
 
 
 def build_context(
@@ -213,11 +203,21 @@ def build_context(
     qb_evidence: Mapping[str, Any] | None,
     as_of: datetime,
     source_revision: str | None = None,
+    source_manifest: Sequence[Mapping[str, Any]] = (),
 ) -> dict[str, Any]:
     games = _index_games(week_games)
     team_locs = _index_team_locations(teams)
     venue_idx = _index_venues(venues)
     wepa_idx = _wepa_index(wepa)
+    epa_meta = next(
+        (r.get("_meta") for r in wepa if isinstance(r.get("_meta"), Mapping)),
+        {},
+    ) or {}
+    epa_source_kind = (
+        "wepa" if any(r.get("kind") == "wepa" for r in source_manifest)
+        else "oa_epa_internal" if any(r.get("kind") == "oa_epa_internal" for r in source_manifest)
+        else None
+    )
     adv_idx = _advanced_index(advanced)
     weather_idx = _weather_index(weather)
     qb_idx = _qb_index(qb_evidence)
@@ -229,7 +229,8 @@ def build_context(
             continue
         away, home = (x.strip() for x in game.split("@", 1))
         kickoff = _time(raw.get("kickoff"))
-        source_game = games.get(_norm(game))
+        identity = resolve_game(raw, week_games)
+        source_game = next((g for g in week_games if identity and str(g.get("id")) == identity["providerIds"]["cfbd"]), None)
         audit: dict[str, Any] = {}
         pregame_eligible = kickoff is not None and as_of < kickoff
         features = {
@@ -255,7 +256,14 @@ def build_context(
             if he is not None and ae is not None:
                 features["epaDiff"] = he - ae
                 audit["epaDiff"] = True
-                evidence["epa"] = {"homeNet": he, "awayNet": ae}
+                evidence["epa"] = {
+                    "homeNet": he,
+                    "awayNet": ae,
+                    "sourceKind": epa_source_kind,
+                    "contract": epa_meta.get("contract") or ("CFBD_WEPA" if epa_source_kind == "wepa" else None),
+                    "provider": epa_meta.get("provider") or ("collegefootballdata" if epa_source_kind == "wepa" else None),
+                    "throughWeek": epa_meta.get("throughWeek"),
+                }
             else:
                 audit["epaDiff"] = False
 
@@ -318,8 +326,36 @@ def build_context(
             else:
                 audit["qbContinuityDiff"] = False
 
+        feature_as_of = {}
+        required = {"linePlayDiff": ("advanced_stats",),
+                    "travelMilesDiff": ("teams", "venues", "week_games")}
+        feature_as_of["epaDiff"] = (
+            source_time(source_manifest, (epa_source_kind,), as_of.isoformat(), raw.get("kickoff"))
+            if epa_source_kind else None
+        )
+        for feature, kinds in required.items():
+            feature_as_of[feature] = source_time(source_manifest, kinds, as_of.isoformat(), raw.get("kickoff"))
+        wr = weather_idx.get(_norm(game)) or {}
+        feature_as_of["windMph"] = wr.get("retrievedAt") if known_at(wr.get("retrievedAt"), as_of.isoformat(), raw.get("kickoff")) and instant(wr.get("kickoff")) == kickoff else None
+        qr = qb_idx.get(_norm(game)) or {}
+        qb_time = qr.get("featureAsOf")
+        feature_as_of["qbContinuityDiff"] = (
+            qb_time
+            if known_at(qb_time, as_of.isoformat(), raw.get("kickoff"))
+            and instant(qr.get("kickoff")) == kickoff
+            else None
+        )
+        for feature in features:
+            if not identity or not feature_as_of.get(feature):
+                features[feature] = None
+                audit[feature] = False
         payload = {
             "game": game,
+            "canonicalGameId": identity["canonicalGameId"] if identity else None,
+            "providerIds": identity["providerIds"] if identity else {},
+            "decisionTime": as_of.isoformat(),
+            "featureAsOf": feature_as_of,
+            "identityStatus": "VERIFIED" if identity else "UNRESOLVED",
             "away": away,
             "home": home,
             "kickoff": None if kickoff is None else kickoff.isoformat(),
@@ -381,6 +417,7 @@ def main(argv: list[str] | None = None) -> int:
     p.add_argument("--venues", required=True)
     p.add_argument("--wepa", required=True)
     p.add_argument("--advanced", required=True)
+    p.add_argument("--source-manifest", required=True)
     p.add_argument("--weather")
     p.add_argument("--qb-evidence")
     p.add_argument("--as-of")
@@ -401,6 +438,7 @@ def main(argv: list[str] | None = None) -> int:
         qb_evidence=_json(args.qb_evidence),
         as_of=as_of,
         source_revision=args.revision,
+        source_manifest=_load_list(args.source_manifest),
     )
     out=Path(args.out); out.parent.mkdir(parents=True,exist_ok=True)
     out.write_text(json.dumps(report,indent=2,sort_keys=True)+"\n",encoding="utf-8")

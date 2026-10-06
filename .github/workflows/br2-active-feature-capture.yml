@@ -1,0 +1,557 @@
+name: BR2 active point-in-time feature capture
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - cfb_edge/feature_warehouse.py
+      - cfb_edge/br2_context.py
+      - cfb_edge/br2_weather.py
+      - cfb_edge/active_market_state.py
+      - cfb_edge/information_state.py
+      - cfb_edge/br2_web_evidence.py
+      - cfb_edge/qb_usage_continuity.py
+      - cfb_edge/opponent_adjusted_epa.py
+      - cfb_edge/cohort.py
+      - config/s04_br2.json
+      - config/br2_active_cohort.json
+      - config/br2_source_registry.json
+      - config/br2_official_source_registry.json
+      - tests/test_active_market_state.py
+      - .github/workflows/br2-active-feature-capture.yml
+  schedule:
+    - cron: "30 13 * 9-11 1,2,3,4,5"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: cfb-br2-active-feature-capture
+  cancel-in-progress: true
+
+jobs:
+  snapshot:
+    runs-on: ubuntu-latest
+    env:
+      BR2_COHORT_CONFIG: config/br2_active_cohort.json
+
+    steps:
+      - name: Code
+        uses: actions/checkout@v4
+
+      - name: Evidence branch
+        uses: actions/checkout@v4
+        with:
+          ref: capture-data
+          path: capture-data
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+
+      - name: Resolve active prospective window
+        id: prospective
+        run: |
+          set -euo pipefail
+          python3 -m cfb_edge.cohort status \
+            --config "$BR2_COHORT_CONFIG" \
+            --mode prospective > /tmp/br2-window.env
+          cat /tmp/br2-window.env >> "$GITHUB_OUTPUT"
+          cat /tmp/br2-window.env >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Build active slate
+        if: steps.prospective.outputs.run == '1'
+        run: |
+          set -euo pipefail
+          mkdir -p .tmp/br2
+          python3 -m cfb_edge.cohort build-slate \
+            --config "$BR2_COHORT_CONFIG" \
+            --out .tmp/br2/slate.csv
+          python3 -m cfb_edge.cohort validate-slate \
+            --config "$BR2_COHORT_CONFIG" \
+            --slate .tmp/br2/slate.csv >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Freeze CFBD football and QB participation sources
+        if: steps.prospective.outputs.run == '1'
+        env:
+          CFBD_API_KEY: ${{ secrets.CFBD_API_KEY }}
+          CFBD_TARGET_WEEK: ${{ steps.prospective.outputs.cfbd_week }}
+          COHORT_ID: ${{ steps.prospective.outputs.cohort_id }}
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          import json, os, pathlib, urllib.error, urllib.request
+          from datetime import datetime, timezone
+          from cfb_edge.http_json import fetch_json
+
+          root=pathlib.Path(".tmp/br2")
+          key=os.environ.get("CFBD_API_KEY","").strip()
+          target_week=int(os.environ["CFBD_TARGET_WEEK"])
+          if not key:
+              raise SystemExit("CFBD_API_KEY is required")
+          headers={
+              "Authorization":f"Bearer {key}",
+              "Accept":"application/json",
+              "User-Agent":"cfb-edge/1.0",
+          }
+          meta=[]; health=[]
+
+          def pull(endpoint,out,kind,*,week=None,required=False):
+              target=root/out
+              req=urllib.request.Request(
+                  "https://api.collegefootballdata.com"+endpoint,headers=headers
+              )
+              try:
+                  payload=fetch_json(req, expected_type=list)
+                  received=datetime.now(timezone.utc).isoformat()
+                  target.write_text(
+                      json.dumps(payload,sort_keys=True,separators=(",",":")),
+                      encoding="utf-8",
+                  )
+                  meta.append({
+                      "kind":kind,"season":2026,"week":week,
+                      "endpoint":endpoint,"downloadPath":str(target),
+                      "retrievedAt":received,
+                  })
+                  health.append({
+                      "kind":kind,"endpoint":endpoint,"ok":True,
+                      "rows":len(payload),
+                  })
+              except Exception as exc:
+                  failure={
+                      "kind":kind,"endpoint":endpoint,"ok":False,
+                      "errorType":type(exc).__name__,
+                  }
+                  if isinstance(exc,urllib.error.HTTPError):
+                      failure["httpStatus"]=exc.code
+                      if kind=="wepa" and exc.code in (401,403):
+                          failure["availability"]="AUTHORIZATION_OR_ENTITLEMENT_BLOCKED"
+                          failure["nextAction"]="Internal cfbfastR EPA fallback may run; CFBD WEPA remains preferred."
+                  health.append(failure)
+                  if required:
+                      raise
+                  target.write_text("[]",encoding="utf-8")
+
+          for week in range(1,target_week):
+              pull(
+                  f"/plays?year=2026&week={week}&seasonType=regular",
+                  f"plays-w{week}.json","plays",week=week,required=True,
+              )
+              pull(
+                  f"/games?year=2026&week={week}&seasonType=regular",
+                  f"games-w{week}.json","games",week=week,required=True,
+              )
+              pull(
+                  f"/games/players?year=2026&week={week}&seasonType=regular&category=passing",
+                  f"players-w{week}.json","player_box",week=week,required=True,
+              )
+
+          pull(
+              f"/games?year=2026&week={target_week}&seasonType=regular",
+              "games-target.json","week_games",week=target_week,required=True,
+          )
+          pull("/teams?year=2026","teams.json","teams")
+          pull("/venues","venues.json","venues")
+          pull("/wepa/team/season?year=2026","wepa.json","wepa")
+          prior_week=target_week-1
+          pull(
+              f"/stats/season/advanced?year=2026&startWeek=1&endWeek={prior_week}",
+              "advanced-through-prior.json","advanced_stats",week=prior_week,
+          )
+          (root/"source-meta.json").write_text(
+              json.dumps(meta,indent=2,sort_keys=True)+"\n",encoding="utf-8"
+          )
+          (root/"source-health.json").write_text(
+              json.dumps({
+                  "schemaVersion":2,
+                  "contract":"CFB_EDGE_BR2_SOURCE_HEALTH_V1",
+                  "cohortId":os.environ["COHORT_ID"],
+                  "providerWeek":target_week,
+                  "sources":health,
+              },indent=2,sort_keys=True)+"\n",encoding="utf-8"
+          )
+          PY
+
+      - name: Archive CFBD sources by content hash
+        if: steps.prospective.outputs.run == '1'
+        run: |
+          set -euo pipefail
+          ASOF="$(date -u '+%Y-%m-%dT%H:%M:%SZ')"
+          export ASOF
+          mkdir -p capture-data/data/features/br2/raw
+          python3 - <<'PY'
+          import gzip, hashlib, json, os
+          from pathlib import Path
+          root=Path(".tmp/br2")
+          archive=Path("capture-data/data/features/br2/raw")
+          meta=json.loads((root/"source-meta.json").read_text())
+          manifest=[]
+          for item in meta:
+              source=Path(item["downloadPath"])
+              raw=source.read_bytes()
+              sha=hashlib.sha256(raw).hexdigest()
+              target=archive/f"{sha}.json.gz"
+              if not target.exists():
+                  with target.open("wb") as fh:
+                      with gzip.GzipFile(filename="",mode="wb",fileobj=fh,mtime=0) as z:
+                          z.write(raw)
+              manifest.append({
+                  "kind":item["kind"],
+                  "season":item.get("season"),
+                  "week":item.get("week"),
+                  "source":"collegefootballdata",
+                  "endpoint":item["endpoint"],
+                  "retrievedAt":item["retrievedAt"],
+                  "sha256":sha,
+                  "bytes":len(raw),
+                  "path":str(target.relative_to("capture-data")),
+              })
+
+          cohort_path=Path(os.environ.get("BR2_COHORT_CONFIG","config/br2_active_cohort.json"))
+          cohort_raw=cohort_path.read_bytes()
+          manifest.append({
+              "kind":"cohort_contract",
+              "source":"github_main",
+              "retrievedAt":os.environ["ASOF"],
+              "sha256":hashlib.sha256(cohort_raw).hexdigest(),
+              "bytes":len(cohort_raw),
+              "path":str(cohort_path),
+          })
+          (root/"source-manifest.json").write_text(
+              json.dumps(manifest,indent=2,sort_keys=True)+"\n",encoding="utf-8"
+          )
+          PY
+
+      - name: Build opponent-adjusted EPA fallback when CFBD WEPA is unavailable
+        if: steps.prospective.outputs.run == '1'
+        env:
+          CFBD_TARGET_WEEK: ${{ steps.prospective.outputs.cfbd_week }}
+        run: |
+          set -euo pipefail
+          HAS_WEPA="$(python3 - <<'PY'
+          import json
+          print(1 if json.load(open(".tmp/br2/wepa.json")) else 0)
+          PY
+          )"
+          if [ "$HAS_WEPA" = "1" ]; then
+            echo "CFBD WEPA available; fallback not used." >> "$GITHUB_STEP_SUMMARY"
+            exit 0
+          fi
+
+          URL="https://github.com/sportsdataverse/sportsdataverse-data/releases/download/cfbfastR_cfb_pbp/play_by_play_2026.csv"
+          RETRIEVED="$(date -u '+%Y-%m-%dT%H:%M:%SZ')"
+          export URL RETRIEVED
+          if ! python3 - <<'PY'
+          import hashlib, os, urllib.request
+          url=os.environ["URL"]
+          req=urllib.request.Request(url,headers={"User-Agent":"cfb-edge/1.0"})
+          h=hashlib.sha256()
+          with urllib.request.urlopen(req,timeout=300) as resp, open(".tmp/br2/cfbfastR-2026.csv","wb") as out:
+              while True:
+                  chunk=resp.read(1024*1024)
+                  if not chunk:
+                      break
+                  h.update(chunk); out.write(chunk)
+          open(".tmp/br2/cfbfastR-source-sha.txt","w").write(h.hexdigest())
+          PY
+          then
+            python3 - <<'PY'
+          import json
+          from pathlib import Path
+          p=Path(".tmp/br2/source-health.json")
+          h=json.loads(p.read_text())
+          h["sources"].append({
+              "kind":"oa_epa_internal","ok":False,
+              "errorType":"CFBFASTR_DOWNLOAD_FAILED",
+              "fallbackFor":"wepa"
+          })
+          p.write_text(json.dumps(h,indent=2,sort_keys=True)+"\n")
+          PY
+            echo "cfbfastR EPA fallback download failed; EPA remains null." >> "$GITHUB_STEP_SUMMARY"
+            exit 0
+          fi
+
+          PRIOR_WEEK=$((CFBD_TARGET_WEEK-1))
+          SHA="$(cat .tmp/br2/cfbfastR-source-sha.txt)"
+          mkdir -p capture-data/data/features/br2/epa/raw
+          if ! python3 -m cfb_edge.opponent_adjusted_epa \
+            --csv .tmp/br2/cfbfastR-2026.csv \
+            --season 2026 \
+            --through-week "$PRIOR_WEEK" \
+            --archive-used-dir capture-data/data/features/br2/epa/raw \
+            --source-url "$URL" \
+            --source-sha256 "$SHA" \
+            --retrieved-at "$RETRIEVED" \
+            --out .tmp/br2/oa-epa.json \
+            --meta-out .tmp/br2/oa-epa-meta.json
+          then
+            python3 - <<'PY'
+          import json
+          from pathlib import Path
+          p=Path(".tmp/br2/source-health.json")
+          h=json.loads(p.read_text())
+          h["sources"].append({
+              "kind":"oa_epa_internal","ok":False,
+              "errorType":"OA_EPA_BUILD_FAILED",
+              "fallbackFor":"wepa"
+          })
+          p.write_text(json.dumps(h,indent=2,sort_keys=True)+"\n")
+          PY
+            echo "cfbfastR EPA fallback build failed; EPA remains null." >> "$GITHUB_STEP_SUMMARY"
+            exit 0
+          fi
+
+          cp .tmp/br2/oa-epa.json .tmp/br2/wepa.json
+          python3 - <<'PY'
+          import json
+          from pathlib import Path
+          meta=json.loads(Path(".tmp/br2/oa-epa-meta.json").read_text())
+          manifest=json.loads(Path(".tmp/br2/source-manifest.json").read_text())
+          path=str(meta["archive"]["path"])
+          if path.startswith("capture-data/"):
+              path=path[len("capture-data/"):]
+          manifest.append({
+              "kind":"oa_epa_internal",
+              "source":"sportsdataverse/cfbfastR",
+              "endpoint":meta["source"]["url"],
+              "retrievedAt":meta["generatedAt"],
+              "sha256":meta["archive"]["sha256"],
+              "bytes":meta["archive"]["bytes"],
+              "path":path,
+              "sourceAssetSha256":meta["source"]["sourceSha256"],
+              "contract":meta["contract"],
+              "throughWeek":meta["throughWeek"],
+          })
+          Path(".tmp/br2/source-manifest.json").write_text(
+              json.dumps(manifest,indent=2,sort_keys=True)+"\n"
+          )
+          hpath=Path(".tmp/br2/source-health.json")
+          health=json.loads(hpath.read_text())
+          health["sources"].append({
+              "kind":"oa_epa_internal","ok":True,
+              "rows":meta["teams"],"eligiblePlays":meta["eligiblePlays"],
+              "contract":meta["contract"],"throughWeek":meta["throughWeek"],
+              "fallbackFor":"wepa"
+          })
+          hpath.write_text(json.dumps(health,indent=2,sort_keys=True)+"\n")
+          PY
+          echo "cfbfastR opponent-adjusted EPA fallback populated." >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Capture point-in-time weather
+        if: steps.prospective.outputs.run == '1'
+        run: |
+          set -euo pipefail
+          mkdir -p capture-data/data/features/br2/weather/raw
+          python3 -m cfb_edge.br2_weather \
+            --slate .tmp/br2/slate.csv \
+            --games .tmp/br2/games-target.json \
+            --venues .tmp/br2/venues.json \
+            --raw-dir capture-data/data/features/br2/weather/raw \
+            --out .tmp/br2/weather.json
+          python3 - <<'PY'
+          import json
+          from pathlib import Path
+          manifest=json.loads(Path(".tmp/br2/source-manifest.json").read_text())
+          weather=json.loads(Path(".tmp/br2/weather.json").read_text())
+          for item in weather.get("sourceManifest") or []:
+              row=dict(item)
+              path=str(row.get("path") or "")
+              if path.startswith("capture-data/"):
+                  row["path"]=path[len("capture-data/"):]
+              manifest.append(row)
+          Path(".tmp/br2/source-manifest.json").write_text(
+              json.dumps(manifest,indent=2,sort_keys=True)+"\n"
+          )
+          PY
+
+      - name: Capture validated active market state
+        if: steps.prospective.outputs.run == '1'
+        env:
+          ODDS_API_KEY: ${{ secrets.ODDS_API_KEY }}
+          CFBD_TARGET_WEEK: ${{ steps.prospective.outputs.cfbd_week }}
+        run: |
+          set -euo pipefail
+          mkdir -p capture-data/data/features/br2/market/raw
+
+          MARKET_ARGS=(
+            --slate .tmp/br2/slate.csv
+            --week-games .tmp/br2/games-target.json
+            --teams .tmp/br2/teams.json
+            --raw-dir capture-data/data/features/br2/market/raw
+            --quotes-out .tmp/br2/information-quotes.json
+            --status-out .tmp/br2/market-information-status.json
+            --manifest-out .tmp/br2/market-source-manifest.json
+          )
+
+          # Provider Week 5 is already frozen with venue-candle recovery. From
+          # Week 6 forward, only the live prospective lock may supply an open.
+          if [ "$CFBD_TARGET_WEEK" -ge 6 ]; then
+            EXPECTED_OPEN_COHORT="CFB_$(date -u +%Y)_PROVIDER_WEEK_${CFBD_TARGET_WEEK}"
+            MARKET_ARGS+=(
+              --prospective-only
+              --expected-open-cohort-id "$EXPECTED_OPEN_COHORT"
+            )
+            if [ -f capture-data/data/prospective-open-status.json ]; then
+              MARKET_ARGS+=(
+                --prospective-open-status capture-data/data/prospective-open-status.json
+              )
+            fi
+          fi
+
+          python3 -m cfb_edge.active_market_state "${MARKET_ARGS[@]}"
+
+          python3 - <<'PY'
+          import json
+          from pathlib import Path
+          source=Path(".tmp/br2/source-manifest.json")
+          market=Path(".tmp/br2/market-source-manifest.json")
+          rows=json.loads(source.read_text())
+          rows.extend(json.loads(market.read_text()))
+          source.write_text(json.dumps(rows,indent=2,sort_keys=True)+"\n")
+          PY
+      - name: Freeze shared BR2 decision time
+        if: steps.prospective.outputs.run == '1'
+        id: decision
+        run: |
+          set -euo pipefail
+          DECISION_TIME="$(python3 -c 'import json; print(json.load(open(".tmp/br2/market-information-status.json"))["generatedAt"])')"
+          echo "decision_time=$DECISION_TIME" >> "$GITHUB_OUTPUT"
+          echo "- shared decision time: **$DECISION_TIME**" >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Validate optional official QB starter evidence
+        if: steps.prospective.outputs.run == '1'
+        run: |
+          set -euo pipefail
+          INBOX="capture-data/data/features/br2/qb/packets.json"
+          if [ -f "$INBOX" ]; then
+            cp "$INBOX" .tmp/br2/qb-packets.json
+          else
+            printf '[]\n' > .tmp/br2/qb-packets.json
+          fi
+          python3 -m cfb_edge.br2_web_evidence \
+            --packets .tmp/br2/qb-packets.json \
+            --official-source-registry config/br2_official_source_registry.json \
+            --evidence-root capture-data \
+            --out .tmp/br2/qb-official.json
+
+      - name: Build deterministic QB usage continuity
+        if: steps.prospective.outputs.run == '1'
+        env:
+          DECISION_TIME: ${{ steps.decision.outputs.decision_time }}
+        run: |
+          set -euo pipefail
+          ASOF="$DECISION_TIME"
+          ARGS=()
+          for f in .tmp/br2/games-w*.json; do ARGS+=(--games-json "$f"); done
+          for f in .tmp/br2/players-w*.json; do ARGS+=(--player-box-json "$f"); done
+          python3 -m cfb_edge.qb_usage_continuity \
+            --slate .tmp/br2/slate.csv \
+            "${ARGS[@]}" \
+            --source-manifest .tmp/br2/source-manifest.json \
+            --official-evidence .tmp/br2/qb-official.json \
+            --as-of "$ASOF" \
+            --out .tmp/br2/qb-evidence.json
+
+      - name: Build audited BR2 context
+        if: steps.prospective.outputs.run == '1'
+        env:
+          DECISION_TIME: ${{ steps.decision.outputs.decision_time }}
+        run: |
+          set -euo pipefail
+          ASOF="$DECISION_TIME"
+          python3 -m cfb_edge.br2_context \
+            --slate .tmp/br2/slate.csv \
+            --week-games .tmp/br2/games-target.json \
+            --teams .tmp/br2/teams.json \
+            --venues .tmp/br2/venues.json \
+            --wepa .tmp/br2/wepa.json \
+            --advanced .tmp/br2/advanced-through-prior.json \
+            --source-manifest .tmp/br2/source-manifest.json \
+            --weather .tmp/br2/weather.json \
+            --qb-evidence .tmp/br2/qb-evidence.json \
+            --as-of "$ASOF" \
+            --revision "$GITHUB_SHA" \
+            --out .tmp/br2/context.json
+
+      - name: Build immutable feature snapshot
+        if: steps.prospective.outputs.run == '1'
+        env:
+          PRODUCT_WEEK: ${{ steps.prospective.outputs.product_week }}
+          COHORT_ID: ${{ steps.prospective.outputs.cohort_id }}
+        run: |
+          set -euo pipefail
+          ASOF="$(python3 -c 'import json; print(json.load(open(".tmp/br2/context.json"))["generatedAt"])')"
+          STAMP="$(date -u '+%Y%m%dT%H%M%SZ')"
+          OUTDIR="capture-data/data/features/br2/2026/week${PRODUCT_WEEK}"
+          mkdir -p "$OUTDIR" capture-data/data/features/br2/qb
+          ARGS=()
+          for f in .tmp/br2/plays-w*.json; do ARGS+=(--plays-json "$f"); done
+          for f in .tmp/br2/games-w*.json; do ARGS+=(--games-json "$f"); done
+          python3 -m cfb_edge.feature_warehouse \
+            --slate .tmp/br2/slate.csv \
+            "${ARGS[@]}" \
+            --context-json .tmp/br2/context.json \
+            --source-manifest .tmp/br2/source-manifest.json \
+            --information-quotes .tmp/br2/information-quotes.json \
+            --as-of "$ASOF" \
+            --revision "$GITHUB_SHA" \
+            --out "$OUTDIR/$STAMP.json"
+
+          cp "$OUTDIR/$STAMP.json" capture-data/data/br2-feature-status.json
+          cp .tmp/br2/context.json capture-data/data/br2-context-status.json
+          cp .tmp/br2/weather.json capture-data/data/br2-weather-status.json
+          cp .tmp/br2/qb-evidence.json capture-data/data/features/br2/qb/evidence-latest.json
+          cp .tmp/br2/market-information-status.json capture-data/data/br2-market-information-status.json
+          cp .tmp/br2/information-quotes.json capture-data/data/features/br2/market/information-quotes-latest.json
+          cp .tmp/br2/source-health.json capture-data/data/br2-source-health.json
+
+          python3 - <<'PY' >> "$GITHUB_STEP_SUMMARY"
+          import json, os
+          from pathlib import Path
+          r=json.loads(Path("capture-data/data/br2-feature-status.json").read_text())
+          c=json.loads(Path("capture-data/data/br2-context-status.json").read_text())
+          print(f"## S04_BR2 active PIT warehouse — {os.environ['COHORT_ID']}")
+          print(f"- games: **{r['summary']['games']}**")
+          print("- modeling eligible: **NO**")
+          for k,v in r["summary"]["featureCoverageRows"].items():
+              print(f"- {k}: **{v}/{r['summary']['games']}**")
+          m=json.loads(Path("capture-data/data/br2-market-information-status.json").read_text())
+          print("### Context audit coverage")
+          for k,v in c["summary"]["auditGradeCoverageRows"].items():
+              print(f"- {k}: **{v}/{c['summary']['games']}**")
+          print("### Market information state")
+          ms=m["summary"]
+          print(f"- recovered audit-grade opens: **{ms['auditGradeRecoveredOpenRows']}/{ms['canonicalRows']}**")
+          print(f"- fresh market rows: **{ms['freshMarketRows']}/{ms['canonicalRows']}**")
+          print(f"- open-to-decision rows: **{ms['openToDecisionRows']}/{ms['canonicalRows']}**")
+          print(f"- validated information rows: **{ms['validatedInformationRows']}/{ms['canonicalRows']}**")
+          print(f"- >=3 fresh sportsbook rows: **{ms['threePlusFreshBookRows']}/{ms['canonicalRows']}**")
+          print(f"- mean fresh sportsbook count: **{ms['meanFreshSportsbookCount']:.2f}**")
+          PY
+
+      - name: Publish append-only evidence
+        if: steps.prospective.outputs.run == '1'
+        working-directory: capture-data
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add \
+            data/features/br2 \
+            data/br2-feature-status.json \
+            data/br2-context-status.json \
+            data/br2-weather-status.json \
+            data/br2-market-information-status.json \
+            data/br2-source-health.json
+          git diff --cached --quiet && exit 0
+          git commit -q -m "BR2 active PIT snapshot $(date -u '+%Y-%m-%d %H:%M UTC')"
+          for attempt in 1 2 3; do
+            git fetch origin capture-data
+            if git rebase origin/capture-data && git push origin HEAD:capture-data; then
+              exit 0
+            fi
+            git rebase --abort || true
+            sleep $((attempt * 2))
+          done
+          exit 1

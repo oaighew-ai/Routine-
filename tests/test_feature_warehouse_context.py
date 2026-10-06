@@ -4,6 +4,7 @@ import unittest
 from datetime import datetime, timezone
 
 from cfb_edge.feature_warehouse import build_snapshot
+from cfb_edge.point_in_time import digest
 
 
 class FeatureWarehouseContextTests(unittest.TestCase):
@@ -23,6 +24,9 @@ class FeatureWarehouseContextTests(unittest.TestCase):
                 },
             }]
         }
+        row=context["rows"][0]
+        row.update(canonicalGameId="cfbd:1",decisionTime="2026-09-23T00:00:00+00:00",kickoff="2026-09-26T16:00:00Z",featureAsOf={k:"2026-09-22T00:00:00Z" for k in row["features"]})
+        row.pop("rowSha256",None);row["rowSha256"]=digest(row)
         r=build_snapshot(
             slate=[{"game":"A @ H","kickoff":"2026-09-26T16:00:00Z"}],
             plays=[],prior_games=[],

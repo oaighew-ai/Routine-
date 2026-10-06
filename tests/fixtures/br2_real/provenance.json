@@ -1,0 +1,50 @@
+{
+  "sourceCommit": "cd0394e921a50815d26a07e181f8bf5a08d6662f",
+  "sources": [
+    {
+      "bytes": 211506,
+      "endpoint": "/games?year=2026&week=4&seasonType=regular",
+      "kind": "week_games",
+      "path": "data/features/br2/raw/e72a9282e1b7a75e7b8a87c1ff70eaee19d52dda4ed646eefa554fb0f332122e.json.gz",
+      "retrievedAt": "2026-09-23T07:57:07Z",
+      "season": 2026,
+      "sha256": "e72a9282e1b7a75e7b8a87c1ff70eaee19d52dda4ed646eefa554fb0f332122e",
+      "source": "collegefootballdata",
+      "week": 4
+    },
+    {
+      "bytes": 959958,
+      "endpoint": "/teams?year=2026",
+      "kind": "teams",
+      "path": "data/features/br2/raw/eebfbe7b562e8efd92c362e35577ab03e6ff4e28bf87f2562082bea0b50ae67f.json.gz",
+      "retrievedAt": "2026-09-23T07:57:07Z",
+      "season": 2026,
+      "sha256": "eebfbe7b562e8efd92c362e35577ab03e6ff4e28bf87f2562082bea0b50ae67f",
+      "source": "collegefootballdata",
+      "week": null
+    },
+    {
+      "bytes": 221258,
+      "endpoint": "/venues",
+      "kind": "venues",
+      "path": "data/features/br2/raw/67a3cdfad57a2d8b528a731637bb37cf7bef3ea4111af227abef4ce2a487b12f.json.gz",
+      "retrievedAt": "2026-09-23T07:57:07Z",
+      "season": 2026,
+      "sha256": "67a3cdfad57a2d8b528a731637bb37cf7bef3ea4111af227abef4ce2a487b12f",
+      "source": "collegefootballdata",
+      "week": null
+    },
+    {
+      "bytes": 337442,
+      "endpoint": "/stats/season/advanced?year=2026&startWeek=1&endWeek=3",
+      "kind": "advanced_stats",
+      "path": "data/features/br2/raw/726581a28766632810787dc93fa980c7c069217056ea363f58c8f9696dac1f95.json.gz",
+      "retrievedAt": "2026-09-23T07:57:07Z",
+      "season": 2026,
+      "sha256": "726581a28766632810787dc93fa980c7c069217056ea363f58c8f9696dac1f95",
+      "source": "collegefootballdata",
+      "week": 3
+    }
+  ],
+  "note": "Exact record subsets of hashed CFBD archives; full original payload hashes retained in sources."
+}

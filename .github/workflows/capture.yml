@@ -28,7 +28,12 @@ name: capture
 
 on:
   schedule:
-    - cron: "*/15 20-23 * 9-11 0"   # Sunday: start two hours before nominal release
+    # Cron numbers days from Sunday, so 6 is Saturday and 0 is Sunday. That is
+    # not how Python's weekday() numbers them, and RELEASE_WINDOW_UTC is keyed
+    # the Python way: these two lists have to be read in different dialects and
+    # a test pins them against each other.
+    - cron: "*/15 12-23 * 9-11 6"   # Saturday from noon: the next board opens here
+    - cron: "*/15 * * 9-11 0"       # Sunday, all day: most measured opens land here
     - cron: "*/15 * * 9-11 1"       # Monday
     - cron: "*/15 0-17 * 9-11 2"    # Tuesday
   workflow_dispatch:                 # and on demand, to prove it works

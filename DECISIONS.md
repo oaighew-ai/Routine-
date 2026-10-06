@@ -1133,7 +1133,306 @@ reanalysis weather.
 A separately frozen BR2 feature contract, multiple independent prospective
 weeks and an untouched chronological holdout remain mandatory before any fit.
 
-## 2026-10-05 — D30. S06_MR1 is a frozen timestamp-strict market-residual challenger
+## 2026-09-25 — D30. BUILD_PROMPT becomes a mandatory bootstrap manifest
+
+**Decision.** `spec/BUILD_PROMPT.md` must no longer be interpreted in isolation.
+Any model or agent working on CFB Edge must first ingest the current operating
+architecture, BR2 point-in-time contract, BR2 hardening review, binding decisions,
+model/implementation registries, delivery authority, active experiment/feature
+contracts, and the current evidence-plane contracts on `capture-data`.
+
+The bootstrap must emit an ingestion receipt with the main/evidence revisions,
+relevant model statuses, delivery authority, active freeze ID, BR2 coverage,
+opening-provenance state, grading state, missing/stale artifacts, and any
+material conflict. A material conflict blocks write actions until resolved.
+
+Precedence is now explicit: immutable factual evidence; active freeze manifests;
+delivery authority; registries; `DECISIONS.md`; current operating/BR2
+architecture; the historical build prompt; then reconstructed legacy specs.
+
+**Why.** CFB Edge now spans a control plane, evidence plane, private delivery
+authority, frozen prospective experiments, and collection-only challengers. A
+future builder reading only the original build prompt can be internally
+consistent while still violating the current system. The bootstrap turns the
+repository into one deterministic handoff path.
+
+**Authority effect.** None. This changes initialization and governance only.
+S02 delivery permission, S04_ES2 frozen rules, S04_BR2 `DATA_COLLECTION_ONLY`,
+stake, and delivery authority are unchanged.
+
+**Reversal criterion.** Replace this bootstrap only with a single versioned
+machine-readable manifest that covers the same control-plane, evidence-plane and
+precedence requirements and is enforced by CI.
+## 2026-09-29 — D31. The delivery gates test a claim the strategy never made
+
+`config/delivery_authority.json` gates delivery on `LOG_LOSS_ADVANTAGE`,
+`BRIER_NO_WORSE` and an `ANYTIME_E_VALUE` over those. All three ask whether
+the model forecasts outcomes better than the market. Measured over 48
+forecasts it does not: log-loss advantage -0.0055 where +0.003 is required,
+Brier worse by 0.0028, e-value 1.024 against a required 20.
+
+That is a true finding about the model and it is not the strategy's claim.
+What has ever measured positive here is +0.44 points of closing line value
+against the **opening** number, which asserts that the market is slow rather
+than that the model is accurate. A model can be worse than the close at
+predicting football and still take value from a stale opening line. The two
+propositions are independent, and the authority tests only the first.
+
+Consequence: the authority as configured cannot green-light this strategy
+even if the strategy works. The e-value compounds against us while the model
+is the worse forecaster, so more data moves it away from the gate rather than
+toward it — 1.024 today, 0.340 after 200 forecasts, 0.065 after 500.
+
+`cfb_edge/clv_gate.py` adds a second, independent gate on the CLV claim. It
+does not replace the accuracy gates and it cannot relax them; both must be
+read, and delivery still requires the authority.
+
+### The null is the fee-adjusted breakeven, not zero
+
+Beating zero CLV does not earn anything, so a gate against zero would pass a
+losing strategy. Derivation, all inputs measured in this repository:
+
+    Kalshi fee            0.07 * P * (1 - P) per contract
+    worst case at P=0.5   0.07 * 0.25            = 0.0175
+    margin residual sd    CLOSING_LINE_RESIDUAL_SD = 15.39 (6,398 games)
+    slope at the money    phi(0) / 15.39         = 0.02592 probability/point
+    points per unit prob  15.39 / phi(0)         = 38.58
+    breakeven             0.0175 * 38.58         = 0.675 points
+
+**The breakeven is 0.675 points and the strategy's headline claim is +0.44.**
+Two independent routes agree: the -110 sportsbook figure this project has
+quoted since the start is 0.67. So the best number this project has ever
+measured does not clear the fee at the strike where the contracts trade, and
+the three weeks that were measurable gave +0.052 at t = 0.32.
+
+P = 0.5 is not a pessimistic choice. It is where a spread contract sits, and
+it is where the fee peaks.
+
+### The test
+
+A uniform mixture over positive tilts:
+
+    E_n = mean_k exp( lambda_k * S_n - lambda_k^2 * sigma^2 * n / 2 )
+
+with S_n the running sum of (clv - null). Each term is an e-process when the
+true mean is at or below the null, and a convex mixture of e-processes is an
+e-process, so the whole is valid by construction with no special functions.
+Every tilt is positive, so it accumulates only on evidence above the null and
+cannot be triggered by a losing run — the failure mode a two-sided mixture
+would have.
+
+Threshold 20.0 (alpha = 0.05), chosen to match `minimumAnytimeEValue` so the
+two gates are directly comparable. `tests/test_clv_gate.py` verifies Ville's
+bound by simulating 600 null paths rather than asserting the algebra.
+
+### Minimum sample: derived
+
+Evidence accrues at `d^2 / (2 sigma^2)` nats per observation at the tilt best
+suited to a true excess `d`, and the threshold is `ln(20) = 3.0` nats:
+
+    sigma = 2.00 (measured over the 155 games of early-season-learning.json;
+                  the paper log's nine entries gave 0.61, so 2.00 is the
+                  conservative of the two)
+    d = 0.50      ->  96 observations
+    d = 0.33      -> 220
+    d = 0.25      -> 384
+
+`evaluate` uses `max(configured sigma, observed sd)`, because understating
+sigma inflates the e-value and this gate must never fail toward passing.
+
+`MINIMUM_WEEK_CLUSTERS = 4` is tagged **PRIOR (Law 6)**. It is not a power
+calculation. Week 3 of 2026 measured +0.539 at t = 2.26 and week 1 measured
+-0.510 at t = -1.91, so a gate satisfied by one favourable week would have
+passed on week three alone. Four is the smallest number that forbids it.
+
+### Failure behavior
+
+Fails closed. The default verdict is `INSUFFICIENT`; `PASS` requires the
+e-value to cross with the sample minimums met. Only `true_open` and `fill`
+rows enter, via `GRADEABLE` in `clv.py`, so the gate cannot be widened here
+by accident. A gradeable row with no closing line is counted as unsettled
+rather than dropped.
+
+A large, settled sample whose mean sits below the null reads `FAIL`, not
+`INSUFFICIENT`. "Insufficient" invites another season; below breakeven with
+the sample in hand is an answer.
+
+### Promotion effect
+
+None. This gate grants nothing. It can only withhold, report, or say that the
+CLV claim has been tested. Against the capture as it stands — 150 rows, 114
+`first_seen` and 36 `late` — it reads `INSUFFICIENT` with 0 gradeable
+observations, which is the honest state.
+
+
+## 2026-09-28 — D32. QB and opponent-adjusted EPA coverage repairs are forward-only
+
+**Decision.** Preserve the completed Product Week 5 BR2 artifacts exactly as
+measured: `qbContinuityDiff` coverage 1/57 and `epaDiff` coverage 0/57.
+Do not backfill those rows after game outcomes.
+
+For later prospective cohorts, replace the operational dependency on paired
+historical depth-chart PDFs with `CFB_EDGE_BR2_QB_CONTINUITY_V4`. The base
+team continuity is the current incumbent quarterback's share of team passing
+attempts across the last three completed games. The default incumbent is the
+passing-attempt leader in the most recent completed game. A validated official
+pregame starter may override only when that player maps to captured historical
+participation. Missing player-box history remains null.
+
+CFBD WEPA remains the preferred `epaDiff` source. If it is unavailable before
+the decision timestamp, `CFB_EDGE_OA_EPA_V1` may populate the same conceptual
+opponent-adjusted EPA family for later prospective cohorts. The fallback uses
+cfbfastR play-level EPA from completed prior weeks only and a frozen two-way
+alternating ridge adjustment with 50 equivalent plays and 50 iterations. It
+must preserve the source-asset hash, retrieval time, through-week cutoff and a
+content-addressed archive of the exact rows used.
+
+**Why.** The Week 5 missingness was primarily source availability and
+operational coverage. Requiring two archived official depth charts per team
+does not measure QB continuity better than actual prior participation, and a
+CFBD entitlement failure should not make genuine play-level EPA unavailable
+when a separately versioned, replayable opponent-adjustment can be computed.
+
+**Failure behavior.** Ambiguous or future-known QB evidence fails closed.
+Missing player participation stays null. Failed cfbfastR download/schema/replay
+leaves EPA null. PPA is never relabeled EPA.
+
+**Authority effect.** None. S02, S04_ES2, staking and delivery are unchanged.
+S04_BR2 remains `DATA_COLLECTION_ONLY`.
+
+**Reversal criterion.** Replace either adapter only with a preregistered source
+or feature contract that preserves the same or stronger point-in-time,
+identity, raw-lineage and replay guarantees.
+
+
+## 2026-09-28 — D33. Active market provenance is venue-replayable and forward-only
+
+**Decision.** Keep the append-only live opening log authoritative for what the
+poller actually observed. Never relabel a late `first_seen` row as
+`true_open`. For the later BR2 active cohort only, add
+`CFB_EDGE_KALSHI_CANDLE_OPEN_V1`: recover opening evidence from Kalshi's own
+one-minute historical YES bid/ask candles for the exact listed spread
+contracts.
+
+A recovered opening is audit-grade only when the exact event resolves to one
+canonical CFBD fixture, the two or more contract rungs used to derive the
+50-percent crossing are preserved, and the first valid two-sided implied line
+occurs between 60 seconds before and 900 seconds after the latest
+exchange-reported `open_time` among those selected rungs. The existing
+15-minute true-open tolerance is unchanged.
+
+At the active BR2 decision snapshot, capture a fresh spreads-only sportsbook
+board for Pinnacle, DraftKings, FanDuel, BetMGM and BetRivers and a current
+Kalshi-derived line. Preserve provider update time, retrieval time, canonical
+game identity and content hashes. A derived exchange line is market evidence
+but never counts as sportsbook depth. Sparse snapshots may prove that movement
+occurred, but may not invent an exact movement timestamp.
+
+**Why.** The Oct. 2-3 cohort has exact Kalshi event and contract provenance, but
+the live poller first saw many games after the 900-second window. The venue's
+own timestamped bid/ask archive can independently prove what was knowable at
+open without rewriting the live log. Separately, BR2 already had an
+information-state engine but the active workflow passed it no market quotes,
+forcing every row to report missing fresh-market evidence.
+
+**Failure behavior.** Missing or ambiguous event identity, absent two-sided
+candles, a first valid line outside the frozen tolerance, stale sportsbook
+quotes, source-hash failure, or provider failure remains missing. No fallback
+may widen time tolerances, synthesize a bookmaker price, or use a later closing
+label.
+
+**Authority effect.** None. This is research-only S04_BR2 evidence.
+S02 remains the sole delivery candidate. Frozen Week 5 S04_ES2, staking,
+delivery and promotion rules are unchanged.
+
+
+## 2026-09-29 — D34. Week 6 recovered opens become a frozen prospective CLV cohort
+
+**Decision.** The 27 audit-grade recovered true-open rows from the active
+Oct. 2-3 cohort are frozen before any kickoff in
+`config/week6_clv_freeze.json`. Cohort membership and opening lines are
+immutable after registration.
+
+The unchanged S04_ES2 + S03_M1 rule is run once against those 27 rows before
+kickoff. The resulting directional and executable-shadow decisions are written
+to an immutable decision-freeze artifact and may not be recomputed after later
+market movement or outcomes are visible.
+
+Close evidence comes only from the append-only live Kalshi capture log. The
+close is the final captured derived home line at or before kickoff and must be
+no more than 900 seconds old. `cfb_edge.signal_grader` then grades only the
+already-frozen directional/executable rows.
+
+The existing `CFB_EDGE_CLV_GATE_V1` remains the statistical authority for the
+market-timing claim. Week 6 signal rows are exported in side-adjusted
+coordinates before entering that gate. The fee-adjusted breakeven, e-value
+threshold, minimum-observation requirement and minimum-week-cluster requirement
+are unchanged.
+
+The S02 delivery authority is rerun independently using the same
+source-of-truth validation logic used by the authoritative card. CLV evidence is
+reported beside S02 authority but cannot substitute for log-loss, Brier,
+calibration, sample-size, freshness or replay gates.
+
+**Why.** A venue-proven opening has value only if the strategy direction is
+frozen before the close is known. Freezing the eligible open cohort but
+selecting a side after observing market movement would create hindsight. This
+two-stage design converts recovered pre-outcome opening evidence into genuinely
+prospective CLV evidence without weakening any gate.
+
+**Failure behavior.** A row with no pre-kickoff decision, no fresh captured
+close, stale close, non-`true_open` provenance, or invalid side remains
+ungradeable. A provisional market state is never promoted to a close.
+
+**Authority effect.** None. S02 remains blocked unless its registered authority
+itself passes. S04_ES2 remains shadow-only. S04_BR2 remains
+`DATA_COLLECTION_ONLY`. Stake and delivery remain zero.
+
+**Reversal criterion.** Change this protocol only through a separately
+preregistered cohort and before that cohort's decisions or closing lines are
+observable.
+
+
+## 2026-09-29 — D35. Prospective live opens replace historical recovery from provider Week 6
+
+**Decision.** The already-open provider Week 5 / Oct. 2-3 cohort keeps its
+frozen Kalshi candle-recovery evidence exactly as registered. Beginning with
+provider Week 6, BR2 market state may accept an opening line only from
+`CFB_EDGE_PROSPECTIVE_OPEN_V1`.
+
+The capture loop polls the live Kalshi spread board at a one-minute target
+interval across the measured Saturday-through-Tuesday release band. The first
+valid two-sided implied line for a canonical game is immediately locked with
+event ticker, selected market tickers, quote inputs, provider `open_time`,
+poll time, code revision and content-addressed evidence hash.
+
+A live row is audit-grade only when its observation is within the existing
+-60/+900 second true-open window. If the first valid live observation is later
+than that, the row becomes terminal `MISSED_TRUE_OPEN_WINDOW`. It may not be
+upgraded later from candlesticks, screenshots, sportsbook history or another
+retrospective source.
+
+The BR2 active market workflow must use `--prospective-only` from provider
+Week 6 forward. A missing prospective status file, cohort mismatch or missing
+game row remains missing rather than triggering historical recovery.
+
+**Why.** Candle recovery was necessary to salvage the already-open Week 5
+research cohort, but it is not the desired operating model. The stronger
+evidence is what the system actually observed while the market was opening.
+Making prospective capture authoritative removes the largest remaining
+look-back path and turns a missed opening into an explicit measurable capture
+failure rather than a later reconstruction problem.
+
+**Authority effect.** None. S02, S04_ES2, staking, delivery and promotion
+authority are unchanged. S04_BR2 remains `DATA_COLLECTION_ONLY`.
+
+**Reversal criterion.** Replace the live prospective source only with a source
+that proves equal or stronger venue-time, raw-quote, identity and immutable
+lineage guarantees prospectively. Do not restore retrospective recovery for
+new cohorts.
+
+
+## 2026-10-05 — D36. S06_MR1 is a frozen timestamp-strict market-residual challenger
 
 **Decision.** Create S06_MR1 as a separate, untrained challenger. It predicts the
 residual between realized home margin and the contemporaneous market-implied
