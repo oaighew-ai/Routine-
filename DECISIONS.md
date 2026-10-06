@@ -2153,3 +2153,18 @@ a separately versioned freeze.
 **Site deployment.** The repository integration does not itself deploy or
 modify the owner-only ChatGPT Site. Preserve the existing Site and `/api/picks`
 authority; publishing UI changes requires the authenticated Site editor.
+
+## 2026-10-06 — D46. Saturday Savant is a separate prospective shadow feed
+
+Capture only the publisher's public `/games` and `/game/<id>` pages, observing
+its robots.txt crawl delay and preserving the exact response bytes by SHA-256.
+Record each forecast with a timezone-aware observed-at timestamp and kickoff;
+exclude a forecast observed at or after kickoff. Do not use its disallowed
+query/API routes.
+
+Saturday Savant's win probabilities and approximate margins remain attributed
+external forecasts. They are not CFB Edge probabilities, spread-cover
+forecasts, market prices, or evidence of market edge. Collect settled results
+and independently sourced, same-time executable prices before any relative
+performance claim. The feed has no pick, promotion, stake, or delivery
+authority; S02 and all existing gates remain unchanged.

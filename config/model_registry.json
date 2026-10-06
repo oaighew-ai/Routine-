@@ -80,6 +80,15 @@
       "note": "Freeze V2: timestamp-strict market-residual ridge challenger, FROZEN_UNTRAINED. No probabilities, picks, stakes, or delivery authority."
     },
     {
+      "id": "SATURDAY_SAVANT",
+      "role": "EXTERNAL_WIN_PROBABILITY_SHADOW_FEED",
+      "market": "moneyline",
+      "version": "savant-forecast-public-site",
+      "modelStatus": "PROSPECTIVE_CAPTURE_ONLY",
+      "deliveryEligible": false,
+      "note": "Attributed external forecasts archived prospectively for later scoring. Not a CFB Edge model; win probabilities are not spread-cover probabilities. No picks, promotion, stakes, or delivery authority."
+    },
+    {
       "id": "F03",
       "role": "REJECTED_MONEYLINE_EXPERIMENT",
       "market": "moneyline",
