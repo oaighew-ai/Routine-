@@ -1,10 +1,10 @@
 {
   "schemaVersion": 1,
   "cohort": "ROUTINE_KALSHI_CAPTURE",
-  "generatedAt": "2026-10-06T18:01:05.499819+00:00",
+  "generatedAt": "2026-10-06T21:09:11.566660+00:00",
   "pollAt": "2026-10-06T17:59:45.154852+00:00",
   "captureOutcome": "success",
-  "freshAtGeneration": true,
+  "freshAtGeneration": false,
   "codeRevision": "e56d5e4847d1bb90f06e98d8c9c9bfb3be2aa6b2",
   "logSha256": "9199a248b5fabb60e3a6396109ac60670a5018aa6c1e50122536b2426d31307f",
   "slateSha256": "ac4604f7c2936c7ae42cb15b3f9ef7811676316eef0c2353f3273331fdaa3574",
@@ -34,7 +34,9 @@
       ],
       "exclusions": [
         "DECISION_EVIDENCE_UNVERIFIED",
-        "EXECUTABLE_CONTRACT_UNVERIFIED"
+        "EXECUTABLE_CONTRACT_UNVERIFIED",
+        "POLL_STALE_OR_INVALID",
+        "QUOTE_STALE_OR_INVALID"
       ]
     },
     {
@@ -60,7 +62,9 @@
       ],
       "exclusions": [
         "DECISION_EVIDENCE_UNVERIFIED",
-        "EXECUTABLE_CONTRACT_UNVERIFIED"
+        "EXECUTABLE_CONTRACT_UNVERIFIED",
+        "POLL_STALE_OR_INVALID",
+        "QUOTE_STALE_OR_INVALID"
       ]
     },
     {
@@ -87,7 +91,9 @@
       "exclusions": [
         "DECISION_EVIDENCE_UNVERIFIED",
         "EXECUTABLE_CONTRACT_UNVERIFIED",
-        "OPEN_NOT_AUDIT_GRADE_TRUE_OPEN"
+        "OPEN_NOT_AUDIT_GRADE_TRUE_OPEN",
+        "POLL_STALE_OR_INVALID",
+        "QUOTE_STALE_OR_INVALID"
       ]
     },
     {
@@ -114,7 +120,9 @@
       "exclusions": [
         "DECISION_EVIDENCE_UNVERIFIED",
         "EXECUTABLE_CONTRACT_UNVERIFIED",
-        "OPEN_NOT_AUDIT_GRADE_TRUE_OPEN"
+        "OPEN_NOT_AUDIT_GRADE_TRUE_OPEN",
+        "POLL_STALE_OR_INVALID",
+        "QUOTE_STALE_OR_INVALID"
       ]
     },
     {
@@ -140,7 +148,9 @@
       ],
       "exclusions": [
         "DECISION_EVIDENCE_UNVERIFIED",
-        "EXECUTABLE_CONTRACT_UNVERIFIED"
+        "EXECUTABLE_CONTRACT_UNVERIFIED",
+        "POLL_STALE_OR_INVALID",
+        "QUOTE_STALE_OR_INVALID"
       ]
     },
     {
@@ -166,7 +176,9 @@
       ],
       "exclusions": [
         "DECISION_EVIDENCE_UNVERIFIED",
-        "EXECUTABLE_CONTRACT_UNVERIFIED"
+        "EXECUTABLE_CONTRACT_UNVERIFIED",
+        "POLL_STALE_OR_INVALID",
+        "QUOTE_STALE_OR_INVALID"
       ]
     },
     {
@@ -193,7 +205,9 @@
       "exclusions": [
         "DECISION_EVIDENCE_UNVERIFIED",
         "EXECUTABLE_CONTRACT_UNVERIFIED",
-        "OPEN_NOT_AUDIT_GRADE_TRUE_OPEN"
+        "OPEN_NOT_AUDIT_GRADE_TRUE_OPEN",
+        "POLL_STALE_OR_INVALID",
+        "QUOTE_STALE_OR_INVALID"
       ]
     },
     {
@@ -219,7 +233,9 @@
       ],
       "exclusions": [
         "DECISION_EVIDENCE_UNVERIFIED",
-        "EXECUTABLE_CONTRACT_UNVERIFIED"
+        "EXECUTABLE_CONTRACT_UNVERIFIED",
+        "POLL_STALE_OR_INVALID",
+        "QUOTE_STALE_OR_INVALID"
       ]
     },
     {
@@ -245,7 +261,9 @@
       ],
       "exclusions": [
         "DECISION_EVIDENCE_UNVERIFIED",
-        "EXECUTABLE_CONTRACT_UNVERIFIED"
+        "EXECUTABLE_CONTRACT_UNVERIFIED",
+        "POLL_STALE_OR_INVALID",
+        "QUOTE_STALE_OR_INVALID"
       ]
     },
     {
@@ -271,7 +289,9 @@
       ],
       "exclusions": [
         "DECISION_EVIDENCE_UNVERIFIED",
-        "EXECUTABLE_CONTRACT_UNVERIFIED"
+        "EXECUTABLE_CONTRACT_UNVERIFIED",
+        "POLL_STALE_OR_INVALID",
+        "QUOTE_STALE_OR_INVALID"
       ]
     },
     {
@@ -298,7 +318,9 @@
       "exclusions": [
         "DECISION_EVIDENCE_UNVERIFIED",
         "EXECUTABLE_CONTRACT_UNVERIFIED",
-        "OPEN_NOT_AUDIT_GRADE_TRUE_OPEN"
+        "OPEN_NOT_AUDIT_GRADE_TRUE_OPEN",
+        "POLL_STALE_OR_INVALID",
+        "QUOTE_STALE_OR_INVALID"
       ]
     },
     {
@@ -324,7 +346,9 @@
       ],
       "exclusions": [
         "DECISION_EVIDENCE_UNVERIFIED",
-        "EXECUTABLE_CONTRACT_UNVERIFIED"
+        "EXECUTABLE_CONTRACT_UNVERIFIED",
+        "POLL_STALE_OR_INVALID",
+        "QUOTE_STALE_OR_INVALID"
       ]
     },
     {
@@ -351,7 +375,9 @@
       "exclusions": [
         "DECISION_EVIDENCE_UNVERIFIED",
         "EXECUTABLE_CONTRACT_UNVERIFIED",
-        "OPEN_NOT_AUDIT_GRADE_TRUE_OPEN"
+        "OPEN_NOT_AUDIT_GRADE_TRUE_OPEN",
+        "POLL_STALE_OR_INVALID",
+        "QUOTE_STALE_OR_INVALID"
       ]
     },
     {
@@ -378,7 +404,9 @@
       "exclusions": [
         "DECISION_EVIDENCE_UNVERIFIED",
         "EXECUTABLE_CONTRACT_UNVERIFIED",
-        "OPEN_NOT_AUDIT_GRADE_TRUE_OPEN"
+        "OPEN_NOT_AUDIT_GRADE_TRUE_OPEN",
+        "POLL_STALE_OR_INVALID",
+        "QUOTE_STALE_OR_INVALID"
       ]
     },
     {
@@ -405,7 +433,9 @@
       "exclusions": [
         "DECISION_EVIDENCE_UNVERIFIED",
         "EXECUTABLE_CONTRACT_UNVERIFIED",
-        "OPEN_NOT_AUDIT_GRADE_TRUE_OPEN"
+        "OPEN_NOT_AUDIT_GRADE_TRUE_OPEN",
+        "POLL_STALE_OR_INVALID",
+        "QUOTE_STALE_OR_INVALID"
       ]
     },
     {
@@ -432,7 +462,9 @@
       "exclusions": [
         "DECISION_EVIDENCE_UNVERIFIED",
         "EXECUTABLE_CONTRACT_UNVERIFIED",
-        "OPEN_NOT_AUDIT_GRADE_TRUE_OPEN"
+        "OPEN_NOT_AUDIT_GRADE_TRUE_OPEN",
+        "POLL_STALE_OR_INVALID",
+        "QUOTE_STALE_OR_INVALID"
       ]
     },
     {
@@ -459,7 +491,9 @@
       "exclusions": [
         "DECISION_EVIDENCE_UNVERIFIED",
         "EXECUTABLE_CONTRACT_UNVERIFIED",
-        "OPEN_NOT_AUDIT_GRADE_TRUE_OPEN"
+        "OPEN_NOT_AUDIT_GRADE_TRUE_OPEN",
+        "POLL_STALE_OR_INVALID",
+        "QUOTE_STALE_OR_INVALID"
       ]
     },
     {
@@ -486,7 +520,9 @@
       "exclusions": [
         "DECISION_EVIDENCE_UNVERIFIED",
         "EXECUTABLE_CONTRACT_UNVERIFIED",
-        "OPEN_NOT_AUDIT_GRADE_TRUE_OPEN"
+        "OPEN_NOT_AUDIT_GRADE_TRUE_OPEN",
+        "POLL_STALE_OR_INVALID",
+        "QUOTE_STALE_OR_INVALID"
       ]
     },
     {
@@ -513,7 +549,9 @@
       "exclusions": [
         "DECISION_EVIDENCE_UNVERIFIED",
         "EXECUTABLE_CONTRACT_UNVERIFIED",
-        "OPEN_NOT_AUDIT_GRADE_TRUE_OPEN"
+        "OPEN_NOT_AUDIT_GRADE_TRUE_OPEN",
+        "POLL_STALE_OR_INVALID",
+        "QUOTE_STALE_OR_INVALID"
       ]
     },
     {
@@ -539,7 +577,9 @@
       ],
       "exclusions": [
         "DECISION_EVIDENCE_UNVERIFIED",
-        "EXECUTABLE_CONTRACT_UNVERIFIED"
+        "EXECUTABLE_CONTRACT_UNVERIFIED",
+        "POLL_STALE_OR_INVALID",
+        "QUOTE_STALE_OR_INVALID"
       ]
     },
     {
@@ -565,7 +605,9 @@
       ],
       "exclusions": [
         "DECISION_EVIDENCE_UNVERIFIED",
-        "EXECUTABLE_CONTRACT_UNVERIFIED"
+        "EXECUTABLE_CONTRACT_UNVERIFIED",
+        "POLL_STALE_OR_INVALID",
+        "QUOTE_STALE_OR_INVALID"
       ]
     },
     {
@@ -592,7 +634,9 @@
       "exclusions": [
         "DECISION_EVIDENCE_UNVERIFIED",
         "EXECUTABLE_CONTRACT_UNVERIFIED",
-        "OPEN_NOT_AUDIT_GRADE_TRUE_OPEN"
+        "OPEN_NOT_AUDIT_GRADE_TRUE_OPEN",
+        "POLL_STALE_OR_INVALID",
+        "QUOTE_STALE_OR_INVALID"
       ]
     },
     {
@@ -619,7 +663,9 @@
       "exclusions": [
         "DECISION_EVIDENCE_UNVERIFIED",
         "EXECUTABLE_CONTRACT_UNVERIFIED",
-        "OPEN_NOT_AUDIT_GRADE_TRUE_OPEN"
+        "OPEN_NOT_AUDIT_GRADE_TRUE_OPEN",
+        "POLL_STALE_OR_INVALID",
+        "QUOTE_STALE_OR_INVALID"
       ]
     },
     {
@@ -646,7 +692,9 @@
       "exclusions": [
         "DECISION_EVIDENCE_UNVERIFIED",
         "EXECUTABLE_CONTRACT_UNVERIFIED",
-        "OPEN_NOT_AUDIT_GRADE_TRUE_OPEN"
+        "OPEN_NOT_AUDIT_GRADE_TRUE_OPEN",
+        "POLL_STALE_OR_INVALID",
+        "QUOTE_STALE_OR_INVALID"
       ]
     },
     {
@@ -673,7 +721,9 @@
       "exclusions": [
         "DECISION_EVIDENCE_UNVERIFIED",
         "EXECUTABLE_CONTRACT_UNVERIFIED",
-        "OPEN_NOT_AUDIT_GRADE_TRUE_OPEN"
+        "OPEN_NOT_AUDIT_GRADE_TRUE_OPEN",
+        "POLL_STALE_OR_INVALID",
+        "QUOTE_STALE_OR_INVALID"
       ]
     },
     {
@@ -700,7 +750,9 @@
       "exclusions": [
         "DECISION_EVIDENCE_UNVERIFIED",
         "EXECUTABLE_CONTRACT_UNVERIFIED",
-        "OPEN_NOT_AUDIT_GRADE_TRUE_OPEN"
+        "OPEN_NOT_AUDIT_GRADE_TRUE_OPEN",
+        "POLL_STALE_OR_INVALID",
+        "QUOTE_STALE_OR_INVALID"
       ]
     },
     {
@@ -726,7 +778,9 @@
       ],
       "exclusions": [
         "DECISION_EVIDENCE_UNVERIFIED",
-        "EXECUTABLE_CONTRACT_UNVERIFIED"
+        "EXECUTABLE_CONTRACT_UNVERIFIED",
+        "POLL_STALE_OR_INVALID",
+        "QUOTE_STALE_OR_INVALID"
       ]
     },
     {
@@ -752,7 +806,9 @@
       ],
       "exclusions": [
         "DECISION_EVIDENCE_UNVERIFIED",
-        "EXECUTABLE_CONTRACT_UNVERIFIED"
+        "EXECUTABLE_CONTRACT_UNVERIFIED",
+        "POLL_STALE_OR_INVALID",
+        "QUOTE_STALE_OR_INVALID"
       ]
     },
     {
@@ -779,7 +835,9 @@
       "exclusions": [
         "DECISION_EVIDENCE_UNVERIFIED",
         "EXECUTABLE_CONTRACT_UNVERIFIED",
-        "OPEN_NOT_AUDIT_GRADE_TRUE_OPEN"
+        "OPEN_NOT_AUDIT_GRADE_TRUE_OPEN",
+        "POLL_STALE_OR_INVALID",
+        "QUOTE_STALE_OR_INVALID"
       ]
     },
     {
@@ -806,7 +864,9 @@
       "exclusions": [
         "DECISION_EVIDENCE_UNVERIFIED",
         "EXECUTABLE_CONTRACT_UNVERIFIED",
-        "OPEN_NOT_AUDIT_GRADE_TRUE_OPEN"
+        "OPEN_NOT_AUDIT_GRADE_TRUE_OPEN",
+        "POLL_STALE_OR_INVALID",
+        "QUOTE_STALE_OR_INVALID"
       ]
     },
     {
@@ -832,7 +892,9 @@
       ],
       "exclusions": [
         "DECISION_EVIDENCE_UNVERIFIED",
-        "EXECUTABLE_CONTRACT_UNVERIFIED"
+        "EXECUTABLE_CONTRACT_UNVERIFIED",
+        "POLL_STALE_OR_INVALID",
+        "QUOTE_STALE_OR_INVALID"
       ]
     },
     {
@@ -859,7 +921,9 @@
       "exclusions": [
         "DECISION_EVIDENCE_UNVERIFIED",
         "EXECUTABLE_CONTRACT_UNVERIFIED",
-        "OPEN_NOT_AUDIT_GRADE_TRUE_OPEN"
+        "OPEN_NOT_AUDIT_GRADE_TRUE_OPEN",
+        "POLL_STALE_OR_INVALID",
+        "QUOTE_STALE_OR_INVALID"
       ]
     },
     {
@@ -885,7 +949,9 @@
       ],
       "exclusions": [
         "DECISION_EVIDENCE_UNVERIFIED",
-        "EXECUTABLE_CONTRACT_UNVERIFIED"
+        "EXECUTABLE_CONTRACT_UNVERIFIED",
+        "POLL_STALE_OR_INVALID",
+        "QUOTE_STALE_OR_INVALID"
       ]
     },
     {
@@ -911,7 +977,9 @@
       ],
       "exclusions": [
         "DECISION_EVIDENCE_UNVERIFIED",
-        "EXECUTABLE_CONTRACT_UNVERIFIED"
+        "EXECUTABLE_CONTRACT_UNVERIFIED",
+        "POLL_STALE_OR_INVALID",
+        "QUOTE_STALE_OR_INVALID"
       ]
     },
     {
@@ -938,7 +1006,9 @@
       "exclusions": [
         "DECISION_EVIDENCE_UNVERIFIED",
         "EXECUTABLE_CONTRACT_UNVERIFIED",
-        "OPEN_NOT_AUDIT_GRADE_TRUE_OPEN"
+        "OPEN_NOT_AUDIT_GRADE_TRUE_OPEN",
+        "POLL_STALE_OR_INVALID",
+        "QUOTE_STALE_OR_INVALID"
       ]
     },
     {
@@ -965,7 +1035,9 @@
       "exclusions": [
         "DECISION_EVIDENCE_UNVERIFIED",
         "EXECUTABLE_CONTRACT_UNVERIFIED",
-        "OPEN_NOT_AUDIT_GRADE_TRUE_OPEN"
+        "OPEN_NOT_AUDIT_GRADE_TRUE_OPEN",
+        "POLL_STALE_OR_INVALID",
+        "QUOTE_STALE_OR_INVALID"
       ]
     },
     {
@@ -991,7 +1063,9 @@
       ],
       "exclusions": [
         "DECISION_EVIDENCE_UNVERIFIED",
-        "EXECUTABLE_CONTRACT_UNVERIFIED"
+        "EXECUTABLE_CONTRACT_UNVERIFIED",
+        "POLL_STALE_OR_INVALID",
+        "QUOTE_STALE_OR_INVALID"
       ]
     },
     {
@@ -1018,7 +1092,9 @@
       "exclusions": [
         "DECISION_EVIDENCE_UNVERIFIED",
         "EXECUTABLE_CONTRACT_UNVERIFIED",
-        "OPEN_NOT_AUDIT_GRADE_TRUE_OPEN"
+        "OPEN_NOT_AUDIT_GRADE_TRUE_OPEN",
+        "POLL_STALE_OR_INVALID",
+        "QUOTE_STALE_OR_INVALID"
       ]
     },
     {
@@ -1045,7 +1121,9 @@
       "exclusions": [
         "DECISION_EVIDENCE_UNVERIFIED",
         "EXECUTABLE_CONTRACT_UNVERIFIED",
-        "OPEN_NOT_AUDIT_GRADE_TRUE_OPEN"
+        "OPEN_NOT_AUDIT_GRADE_TRUE_OPEN",
+        "POLL_STALE_OR_INVALID",
+        "QUOTE_STALE_OR_INVALID"
       ]
     },
     {
@@ -1071,7 +1149,9 @@
       ],
       "exclusions": [
         "DECISION_EVIDENCE_UNVERIFIED",
-        "EXECUTABLE_CONTRACT_UNVERIFIED"
+        "EXECUTABLE_CONTRACT_UNVERIFIED",
+        "POLL_STALE_OR_INVALID",
+        "QUOTE_STALE_OR_INVALID"
       ]
     },
     {
@@ -1097,7 +1177,9 @@
       ],
       "exclusions": [
         "DECISION_EVIDENCE_UNVERIFIED",
-        "EXECUTABLE_CONTRACT_UNVERIFIED"
+        "EXECUTABLE_CONTRACT_UNVERIFIED",
+        "POLL_STALE_OR_INVALID",
+        "QUOTE_STALE_OR_INVALID"
       ]
     },
     {
@@ -1124,7 +1206,9 @@
       "exclusions": [
         "DECISION_EVIDENCE_UNVERIFIED",
         "EXECUTABLE_CONTRACT_UNVERIFIED",
-        "OPEN_NOT_AUDIT_GRADE_TRUE_OPEN"
+        "OPEN_NOT_AUDIT_GRADE_TRUE_OPEN",
+        "POLL_STALE_OR_INVALID",
+        "QUOTE_STALE_OR_INVALID"
       ]
     },
     {
@@ -1151,7 +1235,9 @@
       "exclusions": [
         "DECISION_EVIDENCE_UNVERIFIED",
         "EXECUTABLE_CONTRACT_UNVERIFIED",
-        "OPEN_NOT_AUDIT_GRADE_TRUE_OPEN"
+        "OPEN_NOT_AUDIT_GRADE_TRUE_OPEN",
+        "POLL_STALE_OR_INVALID",
+        "QUOTE_STALE_OR_INVALID"
       ]
     },
     {
@@ -1177,7 +1263,9 @@
       ],
       "exclusions": [
         "DECISION_EVIDENCE_UNVERIFIED",
-        "EXECUTABLE_CONTRACT_UNVERIFIED"
+        "EXECUTABLE_CONTRACT_UNVERIFIED",
+        "POLL_STALE_OR_INVALID",
+        "QUOTE_STALE_OR_INVALID"
       ]
     },
     {
@@ -1203,7 +1291,9 @@
       ],
       "exclusions": [
         "DECISION_EVIDENCE_UNVERIFIED",
-        "EXECUTABLE_CONTRACT_UNVERIFIED"
+        "EXECUTABLE_CONTRACT_UNVERIFIED",
+        "POLL_STALE_OR_INVALID",
+        "QUOTE_STALE_OR_INVALID"
       ]
     },
     {
@@ -1229,7 +1319,9 @@
       ],
       "exclusions": [
         "DECISION_EVIDENCE_UNVERIFIED",
-        "EXECUTABLE_CONTRACT_UNVERIFIED"
+        "EXECUTABLE_CONTRACT_UNVERIFIED",
+        "POLL_STALE_OR_INVALID",
+        "QUOTE_STALE_OR_INVALID"
       ]
     },
     {
@@ -1255,7 +1347,9 @@
       ],
       "exclusions": [
         "DECISION_EVIDENCE_UNVERIFIED",
-        "EXECUTABLE_CONTRACT_UNVERIFIED"
+        "EXECUTABLE_CONTRACT_UNVERIFIED",
+        "POLL_STALE_OR_INVALID",
+        "QUOTE_STALE_OR_INVALID"
       ]
     },
     {
@@ -1281,7 +1375,9 @@
       ],
       "exclusions": [
         "DECISION_EVIDENCE_UNVERIFIED",
-        "EXECUTABLE_CONTRACT_UNVERIFIED"
+        "EXECUTABLE_CONTRACT_UNVERIFIED",
+        "POLL_STALE_OR_INVALID",
+        "QUOTE_STALE_OR_INVALID"
       ]
     },
     {
@@ -1307,7 +1403,9 @@
       ],
       "exclusions": [
         "DECISION_EVIDENCE_UNVERIFIED",
-        "EXECUTABLE_CONTRACT_UNVERIFIED"
+        "EXECUTABLE_CONTRACT_UNVERIFIED",
+        "POLL_STALE_OR_INVALID",
+        "QUOTE_STALE_OR_INVALID"
       ]
     },
     {
@@ -1333,7 +1431,9 @@
       ],
       "exclusions": [
         "DECISION_EVIDENCE_UNVERIFIED",
-        "EXECUTABLE_CONTRACT_UNVERIFIED"
+        "EXECUTABLE_CONTRACT_UNVERIFIED",
+        "POLL_STALE_OR_INVALID",
+        "QUOTE_STALE_OR_INVALID"
       ]
     },
     {
@@ -1360,7 +1460,9 @@
       "exclusions": [
         "DECISION_EVIDENCE_UNVERIFIED",
         "EXECUTABLE_CONTRACT_UNVERIFIED",
-        "OPEN_NOT_AUDIT_GRADE_TRUE_OPEN"
+        "OPEN_NOT_AUDIT_GRADE_TRUE_OPEN",
+        "POLL_STALE_OR_INVALID",
+        "QUOTE_STALE_OR_INVALID"
       ]
     },
     {
@@ -1386,7 +1488,9 @@
       ],
       "exclusions": [
         "DECISION_EVIDENCE_UNVERIFIED",
-        "EXECUTABLE_CONTRACT_UNVERIFIED"
+        "EXECUTABLE_CONTRACT_UNVERIFIED",
+        "POLL_STALE_OR_INVALID",
+        "QUOTE_STALE_OR_INVALID"
       ]
     },
     {
@@ -1413,7 +1517,9 @@
       "exclusions": [
         "DECISION_EVIDENCE_UNVERIFIED",
         "EXECUTABLE_CONTRACT_UNVERIFIED",
-        "OPEN_NOT_AUDIT_GRADE_TRUE_OPEN"
+        "OPEN_NOT_AUDIT_GRADE_TRUE_OPEN",
+        "POLL_STALE_OR_INVALID",
+        "QUOTE_STALE_OR_INVALID"
       ]
     },
     {
@@ -1440,7 +1546,9 @@
       "exclusions": [
         "DECISION_EVIDENCE_UNVERIFIED",
         "EXECUTABLE_CONTRACT_UNVERIFIED",
-        "OPEN_NOT_AUDIT_GRADE_TRUE_OPEN"
+        "OPEN_NOT_AUDIT_GRADE_TRUE_OPEN",
+        "POLL_STALE_OR_INVALID",
+        "QUOTE_STALE_OR_INVALID"
       ]
     },
     {
@@ -1466,7 +1574,9 @@
       ],
       "exclusions": [
         "DECISION_EVIDENCE_UNVERIFIED",
-        "EXECUTABLE_CONTRACT_UNVERIFIED"
+        "EXECUTABLE_CONTRACT_UNVERIFIED",
+        "POLL_STALE_OR_INVALID",
+        "QUOTE_STALE_OR_INVALID"
       ]
     },
     {
@@ -1493,7 +1603,9 @@
       "exclusions": [
         "DECISION_EVIDENCE_UNVERIFIED",
         "EXECUTABLE_CONTRACT_UNVERIFIED",
-        "OPEN_NOT_AUDIT_GRADE_TRUE_OPEN"
+        "OPEN_NOT_AUDIT_GRADE_TRUE_OPEN",
+        "POLL_STALE_OR_INVALID",
+        "QUOTE_STALE_OR_INVALID"
       ]
     },
     {
@@ -1520,7 +1632,9 @@
       "exclusions": [
         "DECISION_EVIDENCE_UNVERIFIED",
         "EXECUTABLE_CONTRACT_UNVERIFIED",
-        "OPEN_NOT_AUDIT_GRADE_TRUE_OPEN"
+        "OPEN_NOT_AUDIT_GRADE_TRUE_OPEN",
+        "POLL_STALE_OR_INVALID",
+        "QUOTE_STALE_OR_INVALID"
       ]
     },
     {
@@ -1547,7 +1661,9 @@
       "exclusions": [
         "DECISION_EVIDENCE_UNVERIFIED",
         "EXECUTABLE_CONTRACT_UNVERIFIED",
-        "OPEN_NOT_AUDIT_GRADE_TRUE_OPEN"
+        "OPEN_NOT_AUDIT_GRADE_TRUE_OPEN",
+        "POLL_STALE_OR_INVALID",
+        "QUOTE_STALE_OR_INVALID"
       ]
     }
   ],
