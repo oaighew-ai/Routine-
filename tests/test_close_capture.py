@@ -123,6 +123,61 @@ class ATeamOnBothSlates(unittest.TestCase):
         self.assertEqual(quotes, [])
 
 
+class WhyAListedMarketHadNoLine(unittest.TestCase):
+    GAME = "Indiana @ Nebraska"
+    EVENT = "KXNCAAFSPREAD-26OCT10INDNEB"
+
+    def poll(self, markets):
+        diagnostics = []
+        payload = json.dumps({"markets": markets}).encode()
+        quotes = board_quotes(
+            games=[self.GAME],
+            kickoffs={self.GAME: "2026-10-10T04:00:00.000Z"},
+            opener=lambda _: payload,
+            seen_at="2026-10-03T19:50:00+00:00",
+            diagnostics=diagnostics,
+        )
+        self.assertEqual(quotes, [])
+        self.assertEqual(len(diagnostics), 1)
+        return diagnostics[0]
+
+    def test_no_quotes_is_distinguished(self):
+        markets = ladder(self.EVENT, "Nebraska")
+        for market in markets:
+            market["yes_bid"] = None
+            market["yes_ask"] = None
+        diagnostic = self.poll(markets)
+        self.assertEqual(diagnostic["reason"], "NO_QUOTES")
+        self.assertEqual(diagnostic["rungCounts"]["noQuotes"], 2)
+
+    def test_one_sided_quotes_are_distinguished(self):
+        markets = ladder(self.EVENT, "Nebraska")
+        for market in markets:
+            market["yes_ask"] = None
+        diagnostic = self.poll(markets)
+        self.assertEqual(diagnostic["reason"], "ONE_SIDED_ONLY")
+        self.assertEqual(diagnostic["rungCounts"]["oneSided"], 2)
+
+    def test_spreads_over_the_existing_limit_are_distinguished(self):
+        markets = ladder(self.EVENT, "Nebraska")
+        for market in markets:
+            market["yes_bid"] = 20
+            market["yes_ask"] = 50
+        diagnostic = self.poll(markets)
+        self.assertEqual(diagnostic["reason"], "SPREAD_OVER_MAXIMUM")
+        self.assertEqual(diagnostic["rungCounts"]["overMaximumSpread"], 2)
+
+    def test_valid_quotes_that_do_not_cross_half_are_distinguished(self):
+        markets = ladder(self.EVENT, "Nebraska")
+        for market in markets:
+            market["yes_bid"] = 65
+            market["yes_ask"] = 67
+        diagnostic = self.poll(markets)
+        self.assertEqual(diagnostic["reason"], "NO_50_CROSSING")
+        self.assertEqual(diagnostic["rungCounts"]["usable"], 2)
+        self.assertEqual(diagnostic["maximumSpreadProbability"], kalshi.MAX_SPREAD)
+
+
 class TheCommand(unittest.TestCase):
     def run_once(self, closing_rows):
         asked = {}

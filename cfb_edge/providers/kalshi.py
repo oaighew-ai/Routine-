@@ -23,7 +23,7 @@ import re
 import urllib.error
 import urllib.request
 from dataclasses import dataclass
-from typing import Callable, Sequence
+from typing import Any, Callable, Sequence
 
 API_ROOT = "https://api.elections.kalshi.com/trade-api/v2"
 
@@ -506,6 +506,7 @@ def implied_line(curve: dict[float, float]) -> float | None:
 def board_quotes(
     *, games: Sequence[str], opener: Opener | None = None, limit: int = 1000,
     seen_at: str | None = None, kickoffs: dict[str, str] | None = None,
+    diagnostics: list[dict[str, Any]] | None = None,
 ) -> list["object"]:
     """One poll of the whole spread board, as Quotes the capture already eats.
 
@@ -572,6 +573,34 @@ def board_quotes(
     # unresolved or ambiguous names still fail closed.
     from ..teams import resolve
 
+    def record_diagnostic(
+        event: str,
+        reason: str,
+        markets: Sequence[dict],
+        *,
+        game: str | None = None,
+        rung_counts: dict[str, int] | None = None,
+    ) -> None:
+        if diagnostics is None:
+            return
+        open_times = sorted({
+            str(m.get("open_time") or m.get("openTime"))
+            for m in markets
+            if m.get("open_time") or m.get("openTime")
+        })
+        item: dict[str, Any] = {
+            "eventTicker": event,
+            "reason": reason,
+            "marketCount": len(markets),
+            "openTimes": open_times,
+        }
+        if game is not None:
+            item["game"] = game
+        if rung_counts is not None:
+            item["rungCounts"] = rung_counts
+            item["maximumSpreadProbability"] = MAX_SPREAD
+        diagnostics.append(item)
+
     schedule: set[tuple[str, str]] = set()
     known_teams: set[str] = set()
     for g in games:
@@ -588,9 +617,11 @@ def board_quotes(
         if not teams:
             # No title here parsed into a team and a strike, so there is
             # nothing to look up and nothing to price.
+            record_diagnostic(event, "NO_READABLE_RUNGS", markets)
             continue
         resolved_teams = {resolve(t, known_teams) for t in teams}
         if None in resolved_teams:
+            record_diagnostic(event, "UNRESOLVED_TEAMS", markets)
             continue
         one_sided = len(resolved_teams) == 1
         if one_sided:
@@ -608,11 +639,13 @@ def board_quotes(
         # and once for the week whose lines are opening, and each of that
         # team's markets belongs to exactly one of them (D43, D44).
         dated = []
+        had_day_mismatch = False
         for candidate in hits:
             kickoff = kickoffs.get(f"{candidate[0]} @ {candidate[1]}")
             same_day = event_matches_kickoff(event, str(kickoff) if kickoff else None)
             if same_day is False:
                 # Another week's market for a team that is also on this slate.
+                had_day_mismatch = True
                 continue
             if same_day is None and one_sided:
                 # One team name and no date to check it by: a guess.
@@ -620,6 +653,15 @@ def board_quotes(
             dated.append(candidate)
         if len(dated) != 1:
             # None, or more than one: orientation would be a guess again.
+            if not hits:
+                reason = "NO_SLATE_FIXTURE"
+            elif had_day_mismatch and not dated:
+                reason = "EVENT_DAY_MISMATCH"
+            elif not dated:
+                reason = "UNVERIFIABLE_EVENT_DAY"
+            else:
+                reason = "AMBIGUOUS_SLATE_FIXTURE"
+            record_diagnostic(event, reason, markets)
             continue
         away, home = dated[0]
         game = f"{away} @ {home}"
@@ -628,6 +670,41 @@ def board_quotes(
         commence = kickoffs.get(game)
         line, used = implied_line_evidence(markets, home=home, away=away)
         if line is None:
+            rung_counts = {
+                "parsed": 0,
+                "noQuotes": 0,
+                "oneSided": 0,
+                "overMaximumSpread": 0,
+                "usable": 0,
+            }
+            for market in markets:
+                if _team_and_strike(market) is None:
+                    continue
+                rung_counts["parsed"] += 1
+                bid = _side_price(market, "yes_bid")
+                ask = _side_price(market, "yes_ask")
+                if bid is None and ask is None:
+                    rung_counts["noQuotes"] += 1
+                elif bid is None or ask is None or bid <= 0 or ask <= 0:
+                    rung_counts["oneSided"] += 1
+                elif ask - bid > MAX_SPREAD:
+                    rung_counts["overMaximumSpread"] += 1
+                else:
+                    rung_counts["usable"] += 1
+
+            if rung_counts["usable"]:
+                reason = "NO_50_CROSSING"
+            elif rung_counts["parsed"] == rung_counts["noQuotes"]:
+                reason = "NO_QUOTES"
+            elif rung_counts["oneSided"] and not rung_counts["overMaximumSpread"]:
+                reason = "ONE_SIDED_ONLY"
+            elif rung_counts["overMaximumSpread"] and not rung_counts["oneSided"]:
+                reason = "SPREAD_OVER_MAXIMUM"
+            else:
+                reason = "NO_ACCEPTABLE_TWO_SIDED_QUOTES"
+            record_diagnostic(
+                event, reason, markets, game=game, rung_counts=rung_counts
+            )
             continue
         open_times = [str(e.get("open_time") or "") for e in used]
         venue_open = None

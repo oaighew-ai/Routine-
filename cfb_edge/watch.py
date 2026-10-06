@@ -321,6 +321,14 @@ class Quote:
         return seen < start
 
 
+@dataclass(frozen=True)
+class PollResult:
+    """Quotes plus compact explanations for listed markets that had no line."""
+
+    quotes: list[Quote]
+    market_diagnostics: list[dict[str, Any]] = field(default_factory=list)
+
+
 @dataclass
 class OpeningBook:
     """First-seen prices, which is what an opening line actually is."""
@@ -375,7 +383,13 @@ class OpeningBook:
                     book._observe(quote)
         return book
 
-    def record(self, quotes: Iterable[Quote], *, polled_at: str | None = None) -> list[Quote]:
+    def record(
+        self,
+        quotes: Iterable[Quote],
+        *,
+        polled_at: str | None = None,
+        market_diagnostics: Iterable[Mapping[str, Any]] = (),
+    ) -> list[Quote]:
         """Append a poll to the log and return the quotes that were new.
 
         The return value is the point of the whole exercise: those are markets
@@ -387,6 +401,7 @@ class OpeningBook:
         observed rather than the moment it was written.
         """
         quotes = list(quotes)
+        market_diagnostics = [dict(item) for item in market_diagnostics]
         stamp = polled_at or datetime.now(timezone.utc).isoformat()
         fresh = [q for q in quotes if q.key not in self.opens and not q.wrong_event]
         for q in quotes:
@@ -395,10 +410,13 @@ class OpeningBook:
         self.path.parent.mkdir(parents=True, exist_ok=True)
         opener = gzip.open if self.path.suffix == ".gz" else open
         with opener(self.path, "at", encoding="utf-8") as fh:
-            fh.write(json.dumps({
+            record = {
                 "polled_at": stamp,
                 "quotes": [q.__dict__ for q in quotes],
-            }) + "\n")
+            }
+            if market_diagnostics:
+                record["marketDiagnostics"] = market_diagnostics
+            fh.write(json.dumps(record) + "\n")
         self.polls.add(stamp)
         return fresh
 
@@ -429,7 +447,14 @@ class OpeningBook:
                 quotes.append(Quote(**data))
             except TypeError:
                 continue
-        return self.record(quotes, polled_at=stamp), True
+        diagnostics = snapshot.get("marketDiagnostics", [])
+        if not isinstance(diagnostics, list) or any(
+            not isinstance(item, Mapping) for item in diagnostics
+        ):
+            raise ValueError("snapshot marketDiagnostics must be a list of objects")
+        return self.record(
+            quotes, polled_at=stamp, market_diagnostics=diagnostics
+        ), True
 
     def _observe(self, quote: Quote) -> None:
         """Fold one quote into the derived views, in a single pass."""
@@ -550,12 +575,17 @@ class OpeningBook:
 
 # A fetcher takes nothing and returns quotes. Injectable so the loop can be
 # tested without a network, and so a new provider is one function.
-Fetcher = Callable[[], list[Quote]]
+Fetcher = Callable[[], list[Quote] | PollResult]
 
 
 def run_once(book: OpeningBook, fetch: Fetcher) -> list[Quote]:
     """One poll. Returns the newly-opened markets."""
-    return book.record(fetch())
+    result = fetch()
+    if isinstance(result, PollResult):
+        return book.record(
+            result.quotes, market_diagnostics=result.market_diagnostics
+        )
+    return book.record(result)
 
 
 def watch(
@@ -839,7 +869,7 @@ def main(argv: list[str] | None = None) -> int:
                       "thing that does.")
                 return 2
 
-            def fetch() -> list[Quote]:
+            def fetch() -> PollResult:
                 # The slate names the home team; a Kalshi market does not.
                 games = _slate_games(args.slate)
                 kickoffs = _slate_kickoffs(args.slate)
@@ -859,7 +889,11 @@ def main(argv: list[str] | None = None) -> int:
                     if added:
                         print(f"closing: {len(added)} game(s) within "
                               f"{args.closing_window // 60} min of kickoff")
-                return board_quotes(games=games, kickoffs=kickoffs)
+                diagnostics: list[dict[str, Any]] = []
+                quotes = board_quotes(
+                    games=games, kickoffs=kickoffs, diagnostics=diagnostics
+                )
+                return PollResult(quotes, diagnostics)
 
             unreachable: tuple[type[Exception], ...] = (KalshiUnreachable,)
         else:
@@ -872,12 +906,20 @@ def main(argv: list[str] | None = None) -> int:
             if args.once:
                 # A diagnostic has no next poll to recover on.
                 try:
-                    quotes = fetch()
+                    result = fetch()
+                    if isinstance(result, PollResult):
+                        quotes = result.quotes
+                        diagnostics = result.market_diagnostics
+                    else:
+                        quotes = result
+                        diagnostics = []
                     # One stamp for the log line and the snapshot. A replay
                     # recognises a poll by this value, so if they differed a
                     # poll whose push did land would be written a second time.
                     stamp = datetime.now(timezone.utc).isoformat()
-                    fresh = book.record(quotes, polled_at=stamp)
+                    fresh = book.record(
+                        quotes, polled_at=stamp, market_diagnostics=diagnostics
+                    )
                     if args.snapshot_out:
                         snapshot = {
                             "schemaVersion": 1,
@@ -885,6 +927,8 @@ def main(argv: list[str] | None = None) -> int:
                             "polled_at": stamp,
                             "quotes": [q.__dict__ for q in quotes],
                         }
+                        if diagnostics:
+                            snapshot["marketDiagnostics"] = diagnostics
                         target = Path(args.snapshot_out)
                         target.parent.mkdir(parents=True, exist_ok=True)
                         target.write_text(

@@ -125,6 +125,12 @@ Saturday:
    and report the line it prints. If `data/slate_playing.csv` is absent, say
    so. Do not read the log into the conversation.
 
+For a listed Kalshi event that produces no line, the poll log may also contain
+a compact `marketDiagnostics` entry with the event ticker, reason, applicable
+rung quality counts and venue open times. These entries survive snapshot
+replay and do not change the quote or opening-lock rules. An event absent from
+the provider response cannot be diagnosed from that poll.
+
 Report in ten lines or fewer, conclusions first: what ran, what did not, the
 counts, and anything that needs the owner, naming the decision. Quote only
 numbers read in that run.

@@ -126,6 +126,51 @@ class TestALivePollAndItsSnapshotShareOneStamp(unittest.TestCase):
             with gzip.open(log, "rt") as fh:
                 self.assertEqual(sum(1 for line in fh if line.strip()), 1)
 
+    def test_market_diagnostics_survive_capture_and_snapshot_replay(self):
+        from unittest import mock
+
+        from cfb_edge.providers import kalshi
+
+        quote = watch.Quote(**snapshot()["quotes"][0])
+        diagnostic = {
+            "eventTicker": quote.event_ticker,
+            "game": quote.game,
+            "reason": "NO_50_CROSSING",
+            "marketCount": 2,
+            "openTimes": ["2026-10-03T16:06:00Z"],
+        }
+
+        def fake_board(*, diagnostics, **_):
+            diagnostics.append(diagnostic)
+            return [quote]
+
+        with tempfile.TemporaryDirectory() as d:
+            d = Path(d)
+            slate = d / "slate.csv"
+            slate.write_text("game,projected_margin,side,posted_line,total,kickoff\n"
+                             "Away @ Home,-3.0,,,52.0,2026-10-10T16:00:00Z\n")
+            source_log, snap = d / "source.jsonl.gz", d / "poll.json"
+            with mock.patch.object(kalshi, "board_quotes", side_effect=fake_board):
+                rc = watch.main([
+                    "--source", "kalshi", "--slate", str(slate),
+                    "--log", str(source_log), "--snapshot-out", str(snap), "--once",
+                ])
+            self.assertEqual(rc, 0)
+
+            with gzip.open(source_log, "rt") as fh:
+                logged = json.loads(fh.readline())
+            saved = json.loads(snap.read_text())
+            self.assertEqual(logged["marketDiagnostics"], [diagnostic])
+            self.assertEqual(saved["marketDiagnostics"], [diagnostic])
+
+            replay_log = d / "replayed.jsonl.gz"
+            replayed, wrote = watch.OpeningBook.load(replay_log).replay(saved)
+            self.assertTrue(wrote)
+            self.assertEqual(len(replayed), 1)
+            with gzip.open(replay_log, "rt") as fh:
+                replayed_record = json.loads(fh.readline())
+            self.assertEqual(replayed_record["marketDiagnostics"], [diagnostic])
+
 
 class TestTheLoopReplaysInsteadOfDiscarding(unittest.TestCase):
     """The workflow must keep unpushed polls and replay them after a reset."""
