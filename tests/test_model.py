@@ -283,6 +283,19 @@ class TestRatings(unittest.TestCase):
         self.assertEqual(model.rating("Some FCS School"), 0.0)
 
 
+class TestSlateWeekSelection(unittest.TestCase):
+    def test_current_week_uses_utc_when_today_has_a_timezone(self):
+        from cfb_edge.slate import current_week
+
+        rows = [
+            {"season_type": "regular", "week": "3", "start_date": "2026-09-20"},
+            {"season_type": "regular", "week": "4", "start_date": "2026-09-27"},
+        ]
+        as_of = "2026-09-20T20:00:00-04:00"
+        self.assertEqual(current_week(2026, today=as_of, rows=rows), 4)
+        self.assertEqual(current_week(2026, as_of=as_of, rows=rows), 4)
+
+
 class TestEdge(unittest.TestCase):
     def _seasoned_model(self, gap=20.0):
         """A model with enough games that the blend weight is meaningful."""
