@@ -14,10 +14,15 @@ from __future__ import annotations
 import argparse
 import json
 from collections import Counter
-from datetime import datetime, timezone
+from datetime import datetime, timedelta, timezone
 from pathlib import Path
 from typing import Any, Iterable, Mapping
-from zoneinfo import ZoneInfo
+
+try:
+    from zoneinfo import ZoneInfo, ZoneInfoNotFoundError
+except ImportError:  # pragma: no cover - Python stdlib fallback
+    ZoneInfo = None  # type: ignore[assignment]
+    ZoneInfoNotFoundError = None  # type: ignore[assignment]
 
 from .ledger import CANDIDATE, FORECAST, GRADE, load
 from .ledger.writer import write_json
@@ -25,7 +30,33 @@ from .source_of_truth import _capture_is_fresh, _validation_reasons
 
 CONTRACT = "CFB_EDGE_OPS_HEALTH_V1"
 SCHEMA_VERSION = 1
-LOCAL_TZ = ZoneInfo("America/New_York")
+LOCAL_TZ = None
+if ZoneInfo is not None:
+    try:
+        LOCAL_TZ = ZoneInfo("America/New_York")
+    except ZoneInfoNotFoundError:
+        LOCAL_TZ = None
+
+
+def _nth_sunday(year: int, month: int, occurrence: int, hour: int) -> datetime:
+    first = datetime(year, month, 1, tzinfo=timezone.utc)
+    first_weekday = first.weekday()
+    sunday_offset = (6 - first_weekday) % 7
+    day = 1 + sunday_offset + (occurrence - 1) * 7
+    return datetime(year, month, day, hour, tzinfo=timezone.utc)
+
+
+def _new_york_offset(value: datetime) -> timedelta:
+    utc_value = value.astimezone(timezone.utc)
+    dst_start = _nth_sunday(utc_value.year, 3, 2, 7)
+    dst_end = _nth_sunday(utc_value.year, 11, 1, 6)
+    is_dst = dst_start <= utc_value < dst_end
+    return timedelta(hours=-4 if is_dst else -5)
+
+
+def _new_york_local(value: datetime) -> datetime:
+    utc_value = _aware(value).astimezone(timezone.utc)
+    return utc_value + _new_york_offset(utc_value)
 
 # Monday=0. The workflow fires at both the EDT and EST UTC equivalents and this
 # table decides which one is real. That avoids a silent one-hour shift when DST
@@ -48,7 +79,8 @@ def _aware(value: datetime | None) -> datetime:
 
 def cadence_stage(at: datetime | None = None) -> str | None:
     """Return the operating stage for this local hour, or None."""
-    local = _aware(at).astimezone(LOCAL_TZ)
+    aware = _aware(at)
+    local = aware.astimezone(LOCAL_TZ) if LOCAL_TZ is not None else _new_york_local(aware)
     return _STAGE_BY_LOCAL_HOUR.get((local.weekday(), local.hour))
 
 

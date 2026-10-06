@@ -73,6 +73,9 @@ def build(
     es2: Mapping[str, Any] | None,
     grades: Mapping[str, Any] | None,
     br2: Mapping[str, Any] | None,
+    market_audit: Mapping[str, Any] | None = None,
+    market_information: Mapping[str, Any] | None = None,
+    market_relative: Mapping[str, Any] | None = None,
     generated_at: datetime | None = None,
 ) -> dict[str, Any]:
     now=generated_at or datetime.now(timezone.utc)
@@ -90,6 +93,48 @@ def build(
         "schemaVersion":1,
         "contract":CONTRACT,
         "generatedAt":now.isoformat(),
+        "sourceTimes":{
+            "captureHealth":(capture_health or {}).get("generatedAt"),
+            "marketAudit":(market_audit or {}).get("generatedAt"),
+            "activeMarket":(market_information or {}).get("generatedAt"),
+            "marketRelative":(market_relative or {}).get("generatedAt"),
+            "es2":(es2 or {}).get("generatedAt"),
+            "grades":(grades or {}).get("generatedAt"),
+            "br2":(br2 or {}).get("generatedAt"),
+            "authority":(authority or {}).get("asOf"),
+        },
+        "marketCoverage":{
+            "status":(market_audit or {}).get("status") or "UNAVAILABLE",
+            "summary":(market_audit or {}).get("summary") or {},
+            "rows":[{
+                key:row.get(key) for key in
+                ("game","status","eventTicker","matchedEventCount")
+            } for row in (market_audit or {}).get("rows") or []],
+        },
+        "activeMarket":{
+            "status":(market_information or {}).get("status") or "UNAVAILABLE",
+            "contract":(market_information or {}).get("contract"),
+            "generatedAt":(market_information or {}).get("generatedAt"),
+            "summary":(market_information or {}).get("summary") or {},
+            "openingPolicy":(market_information or {}).get("policy") or {},
+        },
+        "marketRelative":{
+            "modelId":(market_relative or {}).get("modelId") or "S06_MR1",
+            "version":(market_relative or {}).get("version") or "pit-market-residual-ridge-1",
+            "status":(market_relative or {}).get("status") or "NOT_RUN",
+            "generatedAt":(market_relative or {}).get("generatedAt"),
+            "prospectiveStartAt":(market_relative or {}).get("prospectiveStartAt"),
+            "predictionCount":int((market_relative or {}).get("predictionCount") or 0),
+            "kickoffWeeks":int((market_relative or {}).get("kickoffWeeks") or 0),
+            "marketMae":(market_relative or {}).get("marketMae"),
+            "challengerMae":(market_relative or {}).get("challengerMae"),
+            "maeImprovement":(market_relative or {}).get("maeImprovement"),
+            "freezeSha256":(market_relative or {}).get("freezeSha256"),
+            "datasetSha256":(market_relative or {}).get("datasetSha256"),
+            "deliveryEligible":False,
+            "promotionEffect":"NONE",
+            "stakeUnits":0,
+        },
         "authority":{
             "picksSource":"PRIVATE_SITE_LOCAL",
             "picksUrl":AUTHORITATIVE_PICKS_URL,
@@ -115,6 +160,7 @@ def build(
                 or "PENDING"
             ),
             "slateRows":int(cs.get("slateRows") or 0),
+            "observedRows":cs.get("observedRows"),
             "auditGradeOpenRows":int(cs.get("provenanceCompleteTrueOpenRows") or 0),
             "qualifiedExecutableShadowRows":int((es2 or {}).get("qualifiedCount") or 0),
             "gradedExecutableShadowRows":int(exec_grade.get("gradeableRows") or 0),
@@ -144,6 +190,9 @@ def main(argv: list[str] | None=None) -> int:
     p.add_argument("--es2")
     p.add_argument("--grades")
     p.add_argument("--br2")
+    p.add_argument("--market-audit")
+    p.add_argument("--market-information")
+    p.add_argument("--market-relative")
     p.add_argument("--out", required=True)
     args=p.parse_args(argv)
     report=build(
@@ -153,6 +202,9 @@ def main(argv: list[str] | None=None) -> int:
         es2=_json(args.es2),
         grades=_json(args.grades),
         br2=_json(args.br2),
+        market_audit=_json(args.market_audit),
+        market_information=_json(args.market_information),
+        market_relative=_json(args.market_relative),
     )
     out=Path(args.out)
     out.parent.mkdir(parents=True,exist_ok=True)

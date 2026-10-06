@@ -1132,3 +1132,44 @@ reanalysis weather.
 **Promotion effect.** None. These inputs cannot influence S02 or S04_ES2.
 A separately frozen BR2 feature contract, multiple independent prospective
 weeks and an untouched chronological holdout remain mandatory before any fit.
+
+## 2026-10-05 — D30. S06_MR1 is a frozen timestamp-strict market-residual challenger
+
+**Decision.** Create S06_MR1 as a separate, untrained challenger. It predicts the
+residual between realized home margin and the contemporaneous market-implied
+home margin from the nine registered BR2 context features. It may be evaluated
+only with a same-time market quote, per-feature as-of timestamps, immutable
+source-manifest hashes, a pre-kickoff forecast time, and a post-kickoff
+settlement time. For each forecast timestamp, only labels settled strictly
+before that cutoff may train the ridge model. Rows sharing the timestamp are
+predicted together.
+
+The feature list and ridge alpha 10.0 are frozen from the prior S04 contract;
+alpha remains explicitly PRIOR and is not tuned against this candidate's
+walk-forward outcomes. The evaluation begins at the frozen
+`2026-10-06T00:40:44Z` start. Earlier eligible rows may train only after their
+own settlement. Reports compare margin MAE/RMSE with the market and carry freeze,
+implementation and dataset hashes.
+
+**Authority.** S06_MR1 is `FROZEN_UNTRAINED`, `deliveryEligible=false`, and has
+no probability, pick, stake or delivery path. Two hundred predictions across
+eight kickoff weeks are reporting minima borrowed from the existing S02
+validation contract, not proof of an edge or sufficient promotion criteria.
+The model first needs a separate probability/price evaluation and independent
+prospective review. A positive margin-MAE comparison alone cannot promote it.
+The private Site bridge may expose the report read-only; it must preserve the
+local `/api/picks` authority.
+
+**Evidence available when frozen.** The Oct 5 S02 validation artifact reports
+172 non-push forecasts across four kickoff weeks, model log loss 0.697992
+versus market 0.693051, model Brier 0.252420 versus market 0.249952, model ECE
+0.104812 versus market 0.062392, and maximum anytime e-value 1.0244 versus 20
+required. The available Week 5 BR2 snapshot is one historical cohort and is not
+a multi-season timestamp-clean training set. No verified timestamped
+multi-season S06 input dataset is present in this checkout. Thus the freeze is
+created, but the model remains untrained until valid rows exist.
+
+**Reversal criterion.** Any change to features, transformations, estimator,
+alpha, start time, temporal rules or authority requires a new model version and
+freeze. S06_MR1 is retired if its timestamp-clean data contract cannot be
+populated; its status must never be changed to ready to bypass missing evidence.
