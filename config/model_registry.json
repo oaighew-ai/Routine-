@@ -71,6 +71,15 @@
       "note": "Information-flow signals remain context until independently validated."
     },
     {
+      "id": "S06_MR1",
+      "role": "POINT_IN_TIME_MARKET_RESIDUAL_CHALLENGER",
+      "market": "spread",
+      "version": "pit-market-residual-ridge-2",
+      "modelStatus": "FROZEN_UNTRAINED",
+      "deliveryEligible": false,
+      "note": "Freeze V2: timestamp-strict market-residual ridge challenger, FROZEN_UNTRAINED. No probabilities, picks, stakes, or delivery authority."
+    },
+    {
       "id": "F03",
       "role": "REJECTED_MONEYLINE_EXPERIMENT",
       "market": "moneyline",

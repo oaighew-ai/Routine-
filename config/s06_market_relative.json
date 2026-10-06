@@ -1,0 +1,82 @@
+{
+  "schemaVersion": 1,
+  "freezeId": "S06_MR1_PIT_FREEZE_V2",
+  "modelId": "S06_MR1",
+  "version": "pit-market-residual-ridge-2",
+  "status": "FROZEN_UNTRAINED",
+  "createdAt": "2026-10-06",
+  "market": "spreads",
+  "target": "actualHomeMargin - marketHomeMargin",
+  "objective": "Test whether point-in-time football context reduces forward home-margin error versus the recorded market-implied home margin.",
+  "baseline": "marketHomeMargin",
+  "features": [
+    "epaDiff",
+    "successRateDiff",
+    "explosivenessDiff",
+    "qbContinuityDiff",
+    "linePlayDiff",
+    "paceDiff",
+    "restDaysDiff",
+    "travelMilesDiff",
+    "windMph"
+  ],
+  "featureTransform": "identity after training-window standardization",
+  "estimator": "ridge regression with unpenalized intercept",
+  "ridgeAlpha": 10.0,
+  "ridgeAlphaStatus": "PRIOR_INHERITED_FROM_S04_NOT_TUNED",
+  "minimumTrainingRows": 500,
+  "prospectiveStartAt": "2026-10-07T00:00:00Z",
+  "reportingMinimumPredictions": 200,
+  "reportingMinimumKickoffWeeks": 8,
+  "chronology": {
+    "trainingEligibility": "settledAt < forecastAt",
+    "featureEligibility": "each feature as-of timestamp <= forecastAt",
+    "marketEligibility": "marketAsOf <= forecastAt",
+    "forecastEligibility": "prospective forecastAt >= prospectiveStartAt and forecastAt < kickoffAt",
+    "labelEligibility": "settledAt >= kickoffAt",
+    "grouping": "rows with the same forecastAt are predicted together and are never in one another's training data"
+  },
+  "requiredRowColumns": [
+    "gameId",
+    "season",
+    "week",
+    "marketHomeMargin",
+    "actualHomeMargin",
+    "marketAsOf",
+    "marketSourcePath",
+    "marketManifestPath",
+    "marketManifestSha256",
+    "marketSourceSha256",
+    "forecastAt",
+    "kickoffAt",
+    "settledAt",
+    "resultSourcePath",
+    "resultManifestPath",
+    "resultManifestSha256",
+    "resultSourceSha256"
+  ],
+  "sourceRule": "Every feature requires its value, <feature>AsOf, <feature>SourcePath, <feature>SourceSha256, <feature>ManifestPath, and <feature>ManifestSha256. Every manifest has a timezone-aware observedAt equal to the row source timestamp, is verified against its SHA-256, and every manifest-listed archived source file is re-hashed from the evidence archive.",
+  "evaluation": {
+    "primaryMetrics": [
+      "marketMae",
+      "challengerMae",
+      "maeImprovement",
+      "marketRmse",
+      "challengerRmse",
+      "rmseImprovement"
+    ],
+    "probabilityCalibration": "NOT_ESTABLISHED",
+    "realizedRoi": "NOT_MEASURED",
+    "clv": "NOT_MEASURED"
+  },
+  "deliveryEligible": false,
+  "promotionEffect": "NONE",
+  "stakeUnits": 0,
+  "notes": [
+    "The reporting minima are inherited from the current S02 validation contract; satisfying them is not a promotion or delivery gate.",
+    "The inherited ridge alpha is a PRIOR, not an empirically optimized value. It is frozen to prevent tuning on the walk-forward outcomes.",
+    "Only rows after prospectiveStartAt count as evaluation predictions. Earlier rows may train only after their outcomes settle and only if every input timestamp and source-manifest hash passes validation.",
+    "This margin challenger does not produce cover probabilities, executable prices, picks, stakes, or a delivery card.",
+    "No feature-age cutoff is invented. Every feature timestamp is retained; a separately justified freshness rule requires a new freeze."
+  ]
+}

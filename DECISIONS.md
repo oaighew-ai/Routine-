@@ -2128,3 +2128,28 @@ permission changes.
 replaces the exchange log. Drop the restart step if scheduled launches arrive
 within the fifteen-minute tolerance for a full season. Change the 300 second
 margin only on logged closes that show polls missing inside it.
+
+## 2026-10-06 — D45. S06_MR1 Freeze V2 starts after integration
+
+**Decision.** Preserve S06_MR1 as an untrained, research-only residual
+challenger. Freeze V2 retains the nine BR2 features, ridge alpha 10.0 as an
+untuned prior, and the strict per-row archived-source timestamp/hash contract.
+Its prospective evaluation starts at `2026-10-07T00:00:00Z`; the earlier V1
+window is retired before it produced eligible forecasts, so no observations
+are discarded from a scored cohort.
+
+**Evidence status.** No admissible S06 training/evaluation CSV exists. The
+latest Week 6 snapshot contains only 53 rows with all nine required features,
+below the frozen 500-row prior-training floor, and does not provide the
+required per-row market and settled-result manifests. The model therefore
+remains `FROZEN_UNTRAINED`; no retrospective backfill or synthetic labels are
+used.
+
+**Authority.** None. Delivery remains disabled, promotion effect is `NONE`,
+and stake is zero. The bridge may expose S06 telemetry only as read-only
+evidence. Changing its data contract, estimator, alpha, or chronology requires
+a separately versioned freeze.
+
+**Site deployment.** The repository integration does not itself deploy or
+modify the owner-only ChatGPT Site. Preserve the existing Site and `/api/picks`
+authority; publishing UI changes requires the authenticated Site editor.

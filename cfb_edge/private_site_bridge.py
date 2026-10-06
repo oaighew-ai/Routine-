@@ -76,6 +76,7 @@ def build(
     market_audit: Mapping[str, Any] | None = None,
     promotion: Mapping[str, Any] | None = None,
     market_information: Mapping[str, Any] | None = None,
+    market_relative: Mapping[str, Any] | None = None,
     week6_clv: Mapping[str, Any] | None = None,
     authority_audit: Mapping[str, Any] | None = None,
     generated_at: datetime | None = None,
@@ -100,6 +101,7 @@ def build(
             "captureHealth":(capture_health or {}).get("generatedAt"),
             "marketAudit":(market_audit or {}).get("generatedAt"),
             "activeMarket":(market_information or {}).get("generatedAt"),
+            "marketRelative":(market_relative or {}).get("generatedAt"),
             "es2":(es2 or {}).get("generatedAt"),
             "grades":(grades or {}).get("generatedAt"),
             "br2":(br2 or {}).get("generatedAt"),
@@ -121,6 +123,26 @@ def build(
             "generatedAt":(market_information or {}).get("generatedAt"),
             "summary":(market_information or {}).get("summary") or {},
             "openingPolicy":((market_information or {}).get("policy") or {}),
+        },
+        "marketRelative":{
+            "modelId":(market_relative or {}).get("modelId") or "S06_MR1",
+            "version":(market_relative or {}).get("version") or "pit-market-residual-ridge-2",
+            "status":(market_relative or {}).get("status") or "NOT_RUN",
+            "generatedAt":(market_relative or {}).get("generatedAt"),
+            "prospectiveStartAt":(market_relative or {}).get("prospectiveStartAt"),
+            "predictionCount":(market_relative or {}).get("predictionCount"),
+            "kickoffWeeks":(market_relative or {}).get("kickoffWeeks"),
+            "marketMae":(market_relative or {}).get("marketMae"),
+            "challengerMae":(market_relative or {}).get("challengerMae"),
+            "maeImprovement":(market_relative or {}).get("maeImprovement"),
+            "marketRmse":(market_relative or {}).get("marketRmse"),
+            "challengerRmse":(market_relative or {}).get("challengerRmse"),
+            "rmseImprovement":(market_relative or {}).get("rmseImprovement"),
+            "freezeSha256":(market_relative or {}).get("freezeSha256"),
+            "datasetSha256":(market_relative or {}).get("datasetSha256"),
+            "deliveryEligible":False,
+            "promotionEffect":"NONE",
+            "stakeUnits":0,
         },
         "week6Clv":{
             "status":(week6_clv or {}).get("status") or "PENDING",
@@ -191,6 +213,7 @@ def main(argv: list[str] | None=None) -> int:
     p.add_argument("--market-audit")
     p.add_argument("--promotion")
     p.add_argument("--market-information")
+    p.add_argument("--market-relative")
     p.add_argument("--week6-clv")
     p.add_argument("--authority-audit")
     p.add_argument("--out", required=True)
@@ -205,6 +228,7 @@ def main(argv: list[str] | None=None) -> int:
         market_audit=_json(args.market_audit),
         promotion=_json(args.promotion),
         market_information=_json(args.market_information),
+        market_relative=_json(args.market_relative),
         week6_clv=_json(args.week6_clv),
         authority_audit=_json(args.authority_audit),
     )

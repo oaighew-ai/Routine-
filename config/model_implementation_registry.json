@@ -67,6 +67,14 @@
       "note": "Information-flow monitor. Context only."
     },
     {
+      "modelId": "S06_MR1",
+      "location": "cfb_edge/market_relative.py + config/s06_market_relative.json",
+      "reproducibleInRepo": true,
+      "status": "FROZEN_UNTRAINED",
+      "deliveryContract": null,
+      "note": "Frozen point-in-time market-residual ridge evaluation. The runner enforces temporal eligibility and emits hashed read-only evaluation evidence; it cannot produce picks."
+    },
+    {
       "modelId": "F03",
       "location": null,
       "reproducibleInRepo": false,

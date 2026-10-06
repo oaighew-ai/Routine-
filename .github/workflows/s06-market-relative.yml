@@ -1,0 +1,64 @@
+name: S06 market-relative walk-forward
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [capture-data]
+    paths:
+      - data/s06-market-relative-rows.csv
+
+permissions:
+  contents: write
+
+concurrency:
+  group: cfb-s06-market-relative
+  cancel-in-progress: true
+
+jobs:
+  evaluate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Code
+        uses: actions/checkout@v4
+        with:
+          ref: main
+
+      - name: Evidence
+        uses: actions/checkout@v4
+        with:
+          ref: capture-data
+          path: evidence
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+
+      - name: Require immutable timestamped input rows
+        run: test -s evidence/data/s06-market-relative-rows.csv
+
+      - name: Run frozen walk-forward
+        run: |
+          python -m cfb_edge.market_relative \
+            --data evidence/data/s06-market-relative-rows.csv \
+            --config config/s06_market_relative.json \
+            --archive-root evidence \
+            --out evidence/data/s06-market-relative-walk-forward.json
+
+      - name: Publish read-only evidence report
+        working-directory: evidence
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/s06-market-relative-walk-forward.json
+          git diff --cached --quiet && exit 0
+          git commit -q -m "S06 market-relative walk-forward report"
+          for attempt in 1 2 3; do
+            git fetch origin capture-data
+            if git rebase origin/capture-data && git push origin HEAD:capture-data; then
+              exit 0
+            fi
+            git rebase --abort || true
+            sleep $((attempt * 2))
+          done
+          exit 1
