@@ -20,7 +20,7 @@
   "capture": {
     "current": true,
     "outcome": "success",
-    "pollAt": "2026-10-06T09:47:56.392000+00:00"
+    "pollAt": "2026-10-06T15:17:49.485453+00:00"
   },
   "cardHash": "4f45bfb0e7d7406b230040e4eec702b18073ba06d492dddfd1cc09d30468e0a3",
   "changedSincePreviousCard": false,
@@ -28,10 +28,10 @@
   "fileHashes": {
     "authority": "6ed5f323dfa2cdcb6f2fa89d2b9c7ebfb08319a798bf64b95638a02f22551bd9",
     "candidates": null,
-    "captureReport": "e21d65fa404236023d51344a5cc76ff042b88bea312b1da46068175929756d32",
-    "registry": "ecb55e19ee473e4a47ac97c4a470272f815479076c7b0663f298514d72bd2c17"
+    "captureReport": "f4d64257c06659420c1b1d178fc6a6dacfc6e7436f5136a5151268b4f7cfb163",
+    "registry": "ac166988b2d0074cc323e03709534212276b876ab4cf435bb8b1df34ffc1f876"
   },
-  "generatedAt": "2026-10-06T09:48:02.794640+00:00",
+  "generatedAt": "2026-10-06T15:17:54.240345+00:00",
   "limitations": [
     "Research and paper display only; no wager is placed by this system.",
     "Injuries, rosters, weather, executable fills, CLV and betting edge remain unverified unless explicitly present in the authority export.",
@@ -127,6 +127,15 @@
       },
       {
         "deliveryEligible": false,
+        "id": "SATURDAY_SAVANT",
+        "market": "moneyline",
+        "modelStatus": "PROSPECTIVE_CAPTURE_ONLY",
+        "note": "Attributed external forecasts archived prospectively for later scoring. Not a CFB Edge model; win probabilities are not spread-cover probabilities. No picks, promotion, stakes, or delivery authority.",
+        "role": "EXTERNAL_WIN_PROBABILITY_SHADOW_FEED",
+        "version": "savant-forecast-public-site"
+      },
+      {
+        "deliveryEligible": false,
         "id": "F03",
         "market": "moneyline",
         "note": "Separate cohort. Never pooled with spread evidence or used for delivery.",
@@ -162,7 +171,7 @@
     "schemaVersion": 2
   },
   "schemaVersion": 1,
-  "sourceRevision": "91600c8aaffe5a8bcc925d32794ceadbe85f6ca8",
+  "sourceRevision": "e56d5e4847d1bb90f06e98d8c9c9bfb3be2aa6b2",
   "status": "NO_BET",
   "validation": {
     "asOf": "2026-09-18T18:02:10.143Z",
