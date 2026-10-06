@@ -7,725 +7,837 @@
     "MOVEMENT_SLOPE_NOT_POSITIVE"
   ],
   "learningContract": "CFB_EDGE_EARLY_SEASON_LEARNING_V1",
-  "learningRevision": "53857723eb16d7af117a010e1fa2b94fd5d51ff0",
+  "learningRevision": "fc36cb4eae52f5d227018b2bd3152c8f8758b80d",
   "rows": [
     {
+      "adjustedFairHomeLine": 11.5,
       "exclusions": [
-        "OPEN_NOT_AUDIT_GRADE_TRUE_OPEN"
+        "EARLY_SEASON_HOLDOUT_NOT_QUALIFIED"
       ],
-      "firstSeen": "2026-09-21T01:04:50.274619+00:00",
-      "game": "Air Force @ Nevada",
-      "kickoff": "2026-09-27T02:30:00.000Z",
-      "openingHomeLine": 3.8,
-      "projectedHomeMargin": 5.13,
-      "source": "capture",
+      "firstSeen": "2026-10-04T19:18:43.565019+00:00",
+      "game": "Air Force @ Northern Illinois",
+      "kickoff": "2026-10-10T23:30:00.000Z",
+      "learnedExpectedDirectionalClv": 0.0,
+      "openingHomeLine": 11.5,
+      "projectedHomeMargin": -10.49,
+      "projectionGapVsOpen": 1.0099999999999998,
+      "shadowScore": 0.0,
+      "side": "Northern Illinois",
+      "source": "true_open",
       "status": "PASS"
     },
     {
+      "adjustedFairHomeLine": 3.1,
       "exclusions": [
-        "NO_CAPTURED_OPEN",
-        "OPEN_LINE_MISSING"
+        "EARLY_SEASON_HOLDOUT_NOT_QUALIFIED"
       ],
-      "firstSeen": null,
-      "game": "App State @ NC State",
-      "kickoff": "2026-09-26T23:30:00.000Z",
-      "openingHomeLine": null,
-      "projectedHomeMargin": 4.09,
-      "source": null,
-      "status": "PASS"
-    },
-    {
-      "exclusions": [
-        "NO_CAPTURED_OPEN",
-        "OPEN_LINE_MISSING"
-      ],
-      "firstSeen": null,
-      "game": "Arizona @ Washington State",
-      "kickoff": "2026-09-26T23:30:00.000Z",
-      "openingHomeLine": null,
-      "projectedHomeMargin": -7.15,
-      "source": null,
-      "status": "PASS"
-    },
-    {
-      "exclusions": [
-        "OPEN_NOT_AUDIT_GRADE_TRUE_OPEN"
-      ],
-      "firstSeen": "2026-09-21T01:04:50.274619+00:00",
-      "game": "Army @ Temple",
-      "kickoff": "2026-09-25T20:00:00.000Z",
-      "openingHomeLine": 3.0,
-      "projectedHomeMargin": -1.46,
-      "source": "capture",
-      "status": "PASS"
-    },
-    {
-      "exclusions": [
-        "NO_CAPTURED_OPEN",
-        "OPEN_LINE_MISSING"
-      ],
-      "firstSeen": null,
-      "game": "Ball State @ Kent State",
-      "kickoff": "2026-09-26T16:00:00.000Z",
-      "openingHomeLine": null,
-      "projectedHomeMargin": 4.98,
-      "source": null,
-      "status": "PASS"
-    },
-    {
-      "exclusions": [
-        "NO_CAPTURED_OPEN",
-        "OPEN_LINE_MISSING"
-      ],
-      "firstSeen": null,
-      "game": "Boise State @ Western Michigan",
-      "kickoff": "2026-09-26T19:30:00.000Z",
-      "openingHomeLine": null,
-      "projectedHomeMargin": 0.83,
-      "source": null,
-      "status": "PASS"
-    },
-    {
-      "exclusions": [
-        "NO_CAPTURED_OPEN",
-        "OPEN_LINE_MISSING"
-      ],
-      "firstSeen": null,
-      "game": "Central Michigan @ Miami",
-      "kickoff": "2026-09-26T22:30:00.000Z",
-      "openingHomeLine": null,
-      "projectedHomeMargin": 27.07,
-      "source": null,
+      "firstSeen": "2026-10-04T10:16:37.965643+00:00",
+      "game": "Arizona @ West Virginia",
+      "kickoff": "2026-10-10T16:00:00.000Z",
+      "learnedExpectedDirectionalClv": 0.0,
+      "openingHomeLine": 3.1,
+      "projectedHomeMargin": -10.75,
+      "projectionGapVsOpen": -7.65,
+      "shadowScore": 0.0,
+      "side": "Arizona",
+      "source": "true_open",
       "status": "PASS"
     },
     {
       "exclusions": [
         "OPEN_NOT_AUDIT_GRADE_TRUE_OPEN"
       ],
-      "firstSeen": "2026-09-21T01:04:50.274619+00:00",
-      "game": "Clemson @ California",
-      "kickoff": "2026-09-26T02:30:00.000Z",
-      "openingHomeLine": -0.3,
-      "projectedHomeMargin": -3.16,
-      "source": "capture",
+      "firstSeen": "2026-10-04T12:14:42.986918+00:00",
+      "game": "Ball State @ Northwestern",
+      "kickoff": "2026-10-10T16:30:00.000Z",
+      "openingHomeLine": -34.5,
+      "projectedHomeMargin": 31.75,
+      "source": "first_seen",
       "status": "PASS"
     },
     {
       "exclusions": [
         "OPEN_NOT_AUDIT_GRADE_TRUE_OPEN"
       ],
-      "firstSeen": "2026-09-21T01:04:50.274619+00:00",
-      "game": "Colorado @ Baylor",
-      "kickoff": "2026-09-26T16:00:00.000Z",
-      "openingHomeLine": -9.9,
-      "projectedHomeMargin": 11.71,
-      "source": "capture",
+      "firstSeen": "2026-10-04T20:05:25.789569+00:00",
+      "game": "Boise State @ Fresno State",
+      "kickoff": "2026-10-11T02:30:00.000Z",
+      "openingHomeLine": 7.2,
+      "projectedHomeMargin": -4.86,
+      "source": "first_seen",
       "status": "PASS"
     },
     {
+      "adjustedFairHomeLine": -19.5,
       "exclusions": [
-        "NO_CAPTURED_OPEN",
-        "OPEN_LINE_MISSING"
+        "EARLY_SEASON_HOLDOUT_NOT_QUALIFIED"
       ],
-      "firstSeen": null,
-      "game": "Colorado State @ UTSA",
-      "kickoff": "2026-09-26T16:00:00.000Z",
-      "openingHomeLine": null,
-      "projectedHomeMargin": 8.52,
-      "source": null,
+      "firstSeen": "2026-10-04T16:10:16.713036+00:00",
+      "game": "Buffalo @ Toledo",
+      "kickoff": "2026-10-10T19:30:00.000Z",
+      "learnedExpectedDirectionalClv": 0.0,
+      "openingHomeLine": -19.5,
+      "projectedHomeMargin": 19.02,
+      "projectionGapVsOpen": -0.4800000000000004,
+      "shadowScore": 0.0,
+      "side": "Buffalo",
+      "source": "true_open",
+      "status": "PASS"
+    },
+    {
+      "adjustedFairHomeLine": -3.5,
+      "exclusions": [
+        "EARLY_SEASON_HOLDOUT_NOT_QUALIFIED"
+      ],
+      "firstSeen": "2026-10-04T16:10:16.713036+00:00",
+      "game": "Central Michigan @ Ohio",
+      "kickoff": "2026-10-10T19:30:00.000Z",
+      "learnedExpectedDirectionalClv": 0.0,
+      "openingHomeLine": -3.5,
+      "projectedHomeMargin": 2.99,
+      "projectionGapVsOpen": -0.5099999999999998,
+      "shadowScore": 0.0,
+      "side": "Central Michigan",
+      "source": "true_open",
       "status": "PASS"
     },
     {
       "exclusions": [
         "OPEN_NOT_AUDIT_GRADE_TRUE_OPEN"
       ],
-      "firstSeen": "2026-09-21T01:04:50.274619+00:00",
-      "game": "Delaware @ Virginia",
-      "kickoff": "2026-09-26T22:00:00.000Z",
-      "openingHomeLine": -20.3,
-      "projectedHomeMargin": 11.88,
-      "source": "capture",
+      "firstSeen": "2026-10-04T20:22:54.332255+00:00",
+      "game": "Charlotte @ North Texas",
+      "kickoff": "2026-10-10T19:30:00.000Z",
+      "openingHomeLine": -26.9,
+      "projectedHomeMargin": 29.08,
+      "source": "first_seen",
       "status": "PASS"
     },
     {
+      "adjustedFairHomeLine": -2.5,
       "exclusions": [
-        "NO_CAPTURED_OPEN",
-        "OPEN_LINE_MISSING"
+        "EARLY_SEASON_HOLDOUT_NOT_QUALIFIED"
       ],
-      "firstSeen": null,
-      "game": "Florida Atlantic @ UL Monroe",
-      "kickoff": "2026-09-27T00:00:00.000Z",
-      "openingHomeLine": null,
-      "projectedHomeMargin": -2.74,
-      "source": null,
+      "firstSeen": "2026-10-04T16:10:16.713036+00:00",
+      "game": "Coastal Carolina @ Marshall",
+      "kickoff": "2026-10-10T23:00:00.000Z",
+      "learnedExpectedDirectionalClv": 0.0,
+      "openingHomeLine": -2.5,
+      "projectedHomeMargin": 6.48,
+      "projectionGapVsOpen": 3.9800000000000004,
+      "shadowScore": 0.0,
+      "side": "Marshall",
+      "source": "true_open",
+      "status": "PASS"
+    },
+    {
+      "adjustedFairHomeLine": 6.0,
+      "exclusions": [
+        "EARLY_SEASON_HOLDOUT_NOT_QUALIFIED"
+      ],
+      "firstSeen": "2026-10-04T07:09:30.952165+00:00",
+      "game": "Duke @ Georgia Tech",
+      "kickoff": "2026-10-10T19:30:00.000Z",
+      "learnedExpectedDirectionalClv": 0.0,
+      "openingHomeLine": 6.0,
+      "projectedHomeMargin": -11.91,
+      "projectionGapVsOpen": -5.91,
+      "shadowScore": 0.0,
+      "side": "Duke",
+      "source": "true_open",
+      "status": "PASS"
+    },
+    {
+      "adjustedFairHomeLine": 6.0,
+      "exclusions": [
+        "EARLY_SEASON_HOLDOUT_NOT_QUALIFIED"
+      ],
+      "firstSeen": "2026-10-04T16:10:16.713036+00:00",
+      "game": "Eastern Michigan @ Akron",
+      "kickoff": "2026-10-10T19:30:00.000Z",
+      "learnedExpectedDirectionalClv": 0.0,
+      "openingHomeLine": 6.0,
+      "projectedHomeMargin": -8.44,
+      "projectionGapVsOpen": -2.4399999999999995,
+      "shadowScore": 0.0,
+      "side": "Eastern Michigan",
+      "source": "true_open",
       "status": "PASS"
     },
     {
       "exclusions": [
         "OPEN_NOT_AUDIT_GRADE_TRUE_OPEN"
       ],
-      "firstSeen": "2026-09-21T01:04:50.274619+00:00",
-      "game": "Georgia Tech @ Stanford",
-      "kickoff": "2026-09-27T02:30:00.000Z",
+      "firstSeen": "2026-10-04T05:45:03.789165+00:00",
+      "game": "Florida State @ Louisville",
+      "kickoff": "2026-10-09T23:00:00.000Z",
+      "openingHomeLine": -7.8,
+      "projectedHomeMargin": -1.24,
+      "source": "first_seen",
+      "status": "PASS"
+    },
+    {
+      "adjustedFairHomeLine": 1.2,
+      "exclusions": [
+        "EARLY_SEASON_HOLDOUT_NOT_QUALIFIED"
+      ],
+      "firstSeen": "2026-10-04T01:19:19.518999+00:00",
+      "game": "Georgia @ Alabama",
+      "kickoff": "2026-10-10T23:30:00.000Z",
+      "learnedExpectedDirectionalClv": 0.0,
+      "openingHomeLine": 1.2,
+      "projectedHomeMargin": 6.31,
+      "projectionGapVsOpen": 7.51,
+      "shadowScore": 0.0,
+      "side": "Alabama",
+      "source": "true_open",
+      "status": "PASS"
+    },
+    {
+      "exclusions": [
+        "OPEN_NOT_AUDIT_GRADE_TRUE_OPEN"
+      ],
+      "firstSeen": "2026-10-04T12:39:21.987338+00:00",
+      "game": "Hawai'i @ Arizona State",
+      "kickoff": "2026-10-11T01:30:00.000Z",
+      "openingHomeLine": -19.4,
+      "projectedHomeMargin": 6.51,
+      "source": "first_seen",
+      "status": "PASS"
+    },
+    {
+      "exclusions": [
+        "OPEN_NOT_AUDIT_GRADE_TRUE_OPEN"
+      ],
+      "firstSeen": "2026-10-04T19:18:43.565019+00:00",
+      "game": "Houston @ Kansas State",
+      "kickoff": "2026-10-10T19:30:00.000Z",
+      "openingHomeLine": -1.5,
+      "projectedHomeMargin": -0.1,
+      "source": "first_seen",
+      "status": "PASS"
+    },
+    {
+      "exclusions": [
+        "OPEN_NOT_AUDIT_GRADE_TRUE_OPEN"
+      ],
+      "firstSeen": "2026-10-04T12:06:28.371629+00:00",
+      "game": "Illinois @ Michigan State",
+      "kickoff": "2026-10-10T19:30:00.000Z",
       "openingHomeLine": 3.3,
-      "projectedHomeMargin": -2.08,
-      "source": "capture",
+      "projectedHomeMargin": 1.83,
+      "source": "first_seen",
       "status": "PASS"
     },
     {
       "exclusions": [
         "OPEN_NOT_AUDIT_GRADE_TRUE_OPEN"
       ],
-      "firstSeen": "2026-09-21T01:04:50.274619+00:00",
-      "game": "Hawai'i @ Wyoming",
-      "kickoff": "2026-09-26T19:00:00.000Z",
-      "openingHomeLine": 3.2,
-      "projectedHomeMargin": -2.34,
-      "source": "capture",
+      "firstSeen": "2026-10-03T16:42:48.952828+00:00",
+      "game": "Indiana @ Nebraska",
+      "kickoff": "2026-10-10T16:00:00.000Z",
+      "openingHomeLine": 9.5,
+      "projectedHomeMargin": -4.5,
+      "source": "first_seen",
       "status": "PASS"
     },
     {
       "exclusions": [
         "OPEN_NOT_AUDIT_GRADE_TRUE_OPEN"
       ],
-      "firstSeen": "2026-09-21T01:04:50.274619+00:00",
-      "game": "Houston @ Georgia Southern",
-      "kickoff": "2026-09-26T20:00:00.000Z",
-      "openingHomeLine": 17.7,
-      "projectedHomeMargin": -8.07,
-      "source": "capture",
-      "status": "PASS"
-    },
-    {
-      "exclusions": [
-        "NO_CAPTURED_OPEN",
-        "OPEN_LINE_MISSING"
-      ],
-      "firstSeen": null,
-      "game": "Illinois @ Ohio State",
-      "kickoff": "2026-09-26T16:00:00.000Z",
-      "openingHomeLine": null,
-      "projectedHomeMargin": 14.63,
-      "source": null,
+      "firstSeen": "2026-10-03T15:17:15.050741+00:00",
+      "game": "Iowa @ Washington",
+      "kickoff": "2026-10-10T01:00:00.000Z",
+      "openingHomeLine": -0.8,
+      "projectedHomeMargin": 0.21,
+      "source": "first_seen",
       "status": "PASS"
     },
     {
       "exclusions": [
         "OPEN_NOT_AUDIT_GRADE_TRUE_OPEN"
       ],
-      "firstSeen": "2026-09-21T01:04:50.274619+00:00",
-      "game": "Iowa @ Michigan",
-      "kickoff": "2026-09-26T19:30:00.000Z",
-      "openingHomeLine": -3.8,
-      "projectedHomeMargin": 1.08,
-      "source": "capture",
+      "firstSeen": "2026-10-04T04:35:50.657652+00:00",
+      "game": "Iowa State @ BYU",
+      "kickoff": "2026-10-10T02:15:00.000Z",
+      "openingHomeLine": -14.5,
+      "projectedHomeMargin": 11.45,
+      "source": "first_seen",
       "status": "PASS"
     },
     {
       "exclusions": [
         "OPEN_NOT_AUDIT_GRADE_TRUE_OPEN"
       ],
-      "firstSeen": "2026-09-21T01:04:50.274619+00:00",
-      "game": "James Madison @ Old Dominion",
-      "kickoff": "2026-09-26T22:00:00.000Z",
-      "openingHomeLine": 4.5,
-      "projectedHomeMargin": -9.64,
-      "source": "capture",
+      "firstSeen": "2026-10-03T15:17:15.050741+00:00",
+      "game": "Jacksonville State @ Kennesaw State",
+      "kickoff": "2026-10-07T23:00:00.000Z",
+      "openingHomeLine": 2.9,
+      "projectedHomeMargin": 0.19,
+      "source": "first_seen",
       "status": "PASS"
     },
     {
+      "adjustedFairHomeLine": 9.8,
       "exclusions": [
-        "NO_CAPTURED_OPEN",
-        "OPEN_LINE_MISSING"
+        "EARLY_SEASON_HOLDOUT_NOT_QUALIFIED"
       ],
-      "firstSeen": null,
-      "game": "Kansas State @ Cincinnati",
-      "kickoff": "2026-09-26T23:00:00.000Z",
-      "openingHomeLine": null,
-      "projectedHomeMargin": -4.12,
-      "source": null,
+      "firstSeen": "2026-10-04T16:10:16.713036+00:00",
+      "game": "James Madison @ Georgia Southern",
+      "kickoff": "2026-10-10T23:30:00.000Z",
+      "learnedExpectedDirectionalClv": 0.0,
+      "openingHomeLine": 9.8,
+      "projectedHomeMargin": -18.82,
+      "projectionGapVsOpen": -9.02,
+      "shadowScore": 0.0,
+      "side": "James Madison",
+      "source": "true_open",
       "status": "PASS"
     },
     {
+      "adjustedFairHomeLine": -14.3,
       "exclusions": [
-        "NO_CAPTURED_OPEN",
-        "OPEN_LINE_MISSING"
+        "EARLY_SEASON_HOLDOUT_NOT_QUALIFIED"
       ],
-      "firstSeen": null,
-      "game": "Kennesaw State @ Arkansas State",
-      "kickoff": "2026-09-26T23:00:00.000Z",
-      "openingHomeLine": null,
-      "projectedHomeMargin": 2.19,
-      "source": null,
-      "status": "PASS"
-    },
-    {
-      "exclusions": [
-        "OPEN_NOT_AUDIT_GRADE_TRUE_OPEN"
-      ],
-      "firstSeen": "2026-09-21T01:04:50.274619+00:00",
-      "game": "Liberty @ Coastal Carolina",
-      "kickoff": "2026-09-24T23:30:00.000Z",
-      "openingHomeLine": 2.6,
-      "projectedHomeMargin": -4.78,
-      "source": "capture",
-      "status": "PASS"
-    },
-    {
-      "exclusions": [
-        "OPEN_NOT_AUDIT_GRADE_TRUE_OPEN"
-      ],
-      "firstSeen": "2026-09-21T01:04:50.274619+00:00",
-      "game": "Louisiana @ Charlotte",
-      "kickoff": "2026-09-26T22:30:00.000Z",
-      "openingHomeLine": 10.2,
-      "projectedHomeMargin": -5.05,
-      "source": "capture",
-      "status": "PASS"
-    },
-    {
-      "exclusions": [
-        "NO_CAPTURED_OPEN",
-        "OPEN_LINE_MISSING"
-      ],
-      "firstSeen": null,
-      "game": "Massachusetts @ Sacramento State",
-      "kickoff": "2026-09-27T01:00:00.000Z",
-      "openingHomeLine": null,
-      "projectedHomeMargin": -1.45,
-      "source": null,
-      "status": "PASS"
-    },
-    {
-      "exclusions": [
-        "NO_CAPTURED_OPEN",
-        "OPEN_LINE_MISSING"
-      ],
-      "firstSeen": null,
-      "game": "Middle Tennessee @ Jacksonville State",
-      "kickoff": "2026-09-26T23:00:00.000Z",
-      "openingHomeLine": null,
-      "projectedHomeMargin": 0.77,
-      "source": null,
+      "firstSeen": "2026-10-04T10:16:37.965643+00:00",
+      "game": "Kansas @ Utah",
+      "kickoff": "2026-10-11T02:15:00.000Z",
+      "learnedExpectedDirectionalClv": 0.0,
+      "openingHomeLine": -14.3,
+      "projectedHomeMargin": 24.14,
+      "projectionGapVsOpen": 9.84,
+      "shadowScore": 0.0,
+      "side": "Utah",
+      "source": "true_open",
       "status": "PASS"
     },
     {
       "exclusions": [
         "OPEN_NOT_AUDIT_GRADE_TRUE_OPEN"
       ],
-      "firstSeen": "2026-09-21T01:04:50.274619+00:00",
-      "game": "Minnesota @ Washington",
-      "kickoff": "2026-09-27T03:00:00.000Z",
-      "openingHomeLine": -8.0,
-      "projectedHomeMargin": 11.4,
-      "source": "capture",
-      "status": "PASS"
-    },
-    {
-      "exclusions": [
-        "NO_CAPTURED_OPEN",
-        "OPEN_LINE_MISSING"
-      ],
-      "firstSeen": null,
-      "game": "Missouri @ Mississippi State",
-      "kickoff": "2026-09-26T23:45:00.000Z",
-      "openingHomeLine": null,
-      "projectedHomeMargin": 6.87,
-      "source": null,
+      "firstSeen": "2026-10-04T19:47:55.219392+00:00",
+      "game": "Kent State @ Western Michigan",
+      "kickoff": "2026-10-10T19:30:00.000Z",
+      "openingHomeLine": -13.9,
+      "projectedHomeMargin": 13.02,
+      "source": "first_seen",
       "status": "PASS"
     },
     {
       "exclusions": [
         "OPEN_NOT_AUDIT_GRADE_TRUE_OPEN"
       ],
-      "firstSeen": "2026-09-21T01:04:50.274619+00:00",
-      "game": "Missouri State @ SMU",
-      "kickoff": "2026-09-27T01:00:00.000Z",
-      "openingHomeLine": -34.3,
-      "projectedHomeMargin": 17.77,
-      "source": "capture",
+      "firstSeen": "2026-10-04T04:45:00.635260+00:00",
+      "game": "LSU @ Kentucky",
+      "kickoff": "2026-10-10T23:00:00.000Z",
+      "openingHomeLine": 9.5,
+      "projectedHomeMargin": -7.55,
+      "source": "first_seen",
       "status": "PASS"
     },
     {
       "exclusions": [
         "OPEN_NOT_AUDIT_GRADE_TRUE_OPEN"
       ],
-      "firstSeen": "2026-09-21T01:04:50.274619+00:00",
-      "game": "Navy @ UAB",
-      "kickoff": "2026-09-25T23:00:00.000Z",
-      "openingHomeLine": 7.0,
-      "projectedHomeMargin": -5.27,
-      "source": "capture",
-      "status": "PASS"
-    },
-    {
-      "exclusions": [
-        "NO_CAPTURED_OPEN",
-        "OPEN_LINE_MISSING"
-      ],
-      "firstSeen": null,
-      "game": "Nebraska @ Michigan State",
-      "kickoff": "2026-09-26T21:00:00.000Z",
-      "openingHomeLine": null,
-      "projectedHomeMargin": -2.08,
-      "source": null,
-      "status": "PASS"
-    },
-    {
-      "exclusions": [
-        "NO_CAPTURED_OPEN",
-        "OPEN_LINE_MISSING"
-      ],
-      "firstSeen": null,
-      "game": "New Mexico @ New Mexico State",
-      "kickoff": "2026-09-26T19:30:00.000Z",
-      "openingHomeLine": null,
-      "projectedHomeMargin": -12.65,
-      "source": null,
-      "status": "PASS"
-    },
-    {
-      "exclusions": [
-        "NO_CAPTURED_OPEN",
-        "OPEN_LINE_MISSING"
-      ],
-      "firstSeen": null,
-      "game": "Northern Illinois @ Georgia State",
-      "kickoff": "2026-09-26T18:00:00.000Z",
-      "openingHomeLine": null,
-      "projectedHomeMargin": 11.04,
-      "source": null,
+      "firstSeen": "2026-10-04T19:23:11.532633+00:00",
+      "game": "Louisiana @ Louisiana Tech",
+      "kickoff": "2026-10-10T23:30:00.000Z",
+      "openingHomeLine": -2.6,
+      "projectedHomeMargin": 0.22,
+      "source": "first_seen",
       "status": "PASS"
     },
     {
       "exclusions": [
         "OPEN_NOT_AUDIT_GRADE_TRUE_OPEN"
       ],
-      "firstSeen": "2026-09-21T01:04:50.274619+00:00",
-      "game": "Northwestern @ Indiana",
-      "kickoff": "2026-09-26T00:00:00.000Z",
-      "openingHomeLine": -21.4,
-      "projectedHomeMargin": 16.85,
-      "source": "capture",
-      "status": "PASS"
-    },
-    {
-      "exclusions": [
-        "OPEN_NOT_AUDIT_GRADE_TRUE_OPEN"
-      ],
-      "firstSeen": "2026-09-21T01:04:50.274619+00:00",
-      "game": "Notre Dame @ Purdue",
-      "kickoff": "2026-09-26T18:00:00.000Z",
-      "openingHomeLine": 26.6,
-      "projectedHomeMargin": -21.64,
-      "source": "capture",
-      "status": "PASS"
-    },
-    {
-      "exclusions": [
-        "OPEN_NOT_AUDIT_GRADE_TRUE_OPEN"
-      ],
-      "firstSeen": "2026-09-21T01:04:50.274619+00:00",
-      "game": "Oklahoma @ Georgia",
-      "kickoff": "2026-09-26T19:30:00.000Z",
-      "openingHomeLine": -14.1,
-      "projectedHomeMargin": 11.16,
-      "source": "capture",
-      "status": "PASS"
-    },
-    {
-      "exclusions": [
-        "NO_CAPTURED_OPEN",
-        "OPEN_LINE_MISSING"
-      ],
-      "firstSeen": null,
-      "game": "Oklahoma State @ West Virginia",
-      "kickoff": "2026-09-26T23:00:00.000Z",
-      "openingHomeLine": null,
-      "projectedHomeMargin": 10.8,
-      "source": null,
-      "status": "PASS"
-    },
-    {
-      "exclusions": [
-        "OPEN_NOT_AUDIT_GRADE_TRUE_OPEN"
-      ],
-      "firstSeen": "2026-09-21T01:04:50.274619+00:00",
-      "game": "Ole Miss @ Florida",
-      "kickoff": "2026-09-26T19:30:00.000Z",
-      "openingHomeLine": -3.0,
-      "projectedHomeMargin": -1.26,
-      "source": "capture",
-      "status": "PASS"
-    },
-    {
-      "exclusions": [
-        "OPEN_NOT_AUDIT_GRADE_TRUE_OPEN"
-      ],
-      "firstSeen": "2026-09-21T01:04:50.274619+00:00",
-      "game": "Oregon @ USC",
-      "kickoff": "2026-09-26T23:30:00.000Z",
-      "openingHomeLine": 2.8,
-      "projectedHomeMargin": 9.45,
-      "source": "capture",
-      "status": "PASS"
-    },
-    {
-      "exclusions": [
-        "NO_CAPTURED_OPEN",
-        "OPEN_LINE_MISSING"
-      ],
-      "firstSeen": null,
-      "game": "Oregon State @ UTEP",
-      "kickoff": "2026-09-27T01:00:00.000Z",
-      "openingHomeLine": null,
-      "projectedHomeMargin": -3.18,
-      "source": null,
-      "status": "PASS"
-    },
-    {
-      "exclusions": [
-        "NO_CAPTURED_OPEN",
-        "OPEN_LINE_MISSING"
-      ],
-      "firstSeen": null,
-      "game": "Rice @ Fresno State",
-      "kickoff": "2026-09-27T02:00:00.000Z",
-      "openingHomeLine": null,
-      "projectedHomeMargin": 16.31,
-      "source": null,
-      "status": "PASS"
-    },
-    {
-      "exclusions": [
-        "OPEN_NOT_AUDIT_GRADE_TRUE_OPEN"
-      ],
-      "firstSeen": "2026-09-21T01:04:50.274619+00:00",
-      "game": "Sam Houston @ Texas Tech",
-      "kickoff": "2026-09-26T16:00:00.000Z",
+      "firstSeen": "2026-10-04T21:26:39.558239+00:00",
+      "game": "Maryland @ Ohio State",
+      "kickoff": "2026-10-10T20:15:00.000Z",
       "openingHomeLine": -35.0,
-      "projectedHomeMargin": 23.32,
-      "source": "capture",
-      "status": "PASS"
-    },
-    {
-      "exclusions": [
-        "NO_CAPTURED_OPEN",
-        "OPEN_LINE_MISSING"
-      ],
-      "firstSeen": null,
-      "game": "San Diego State @ Toledo",
-      "kickoff": "2026-09-26T16:00:00.000Z",
-      "openingHomeLine": null,
-      "projectedHomeMargin": 6.61,
-      "source": null,
+      "projectedHomeMargin": 29.03,
+      "source": "first_seen",
       "status": "PASS"
     },
     {
       "exclusions": [
         "OPEN_NOT_AUDIT_GRADE_TRUE_OPEN"
       ],
-      "firstSeen": "2026-09-21T01:04:50.274619+00:00",
-      "game": "South Alabama @ Kentucky",
-      "kickoff": "2026-09-26T16:45:00.000Z",
-      "openingHomeLine": -20.6,
-      "projectedHomeMargin": 6.38,
-      "source": "capture",
+      "firstSeen": "2026-10-04T19:29:21.894498+00:00",
+      "game": "Miami (OH) @ Massachusetts",
+      "kickoff": "2026-10-10T18:00:00.000Z",
+      "openingHomeLine": 2.7,
+      "projectedHomeMargin": 2.45,
+      "source": "first_seen",
+      "status": "PASS"
+    },
+    {
+      "adjustedFairHomeLine": 4.5,
+      "exclusions": [
+        "EARLY_SEASON_HOLDOUT_NOT_QUALIFIED"
+      ],
+      "firstSeen": "2026-10-04T07:09:30.952165+00:00",
+      "game": "Minnesota @ Purdue",
+      "kickoff": "2026-10-11T00:00:00.000Z",
+      "learnedExpectedDirectionalClv": 0.0,
+      "openingHomeLine": 4.5,
+      "projectedHomeMargin": -0.43,
+      "projectionGapVsOpen": 4.07,
+      "shadowScore": 0.0,
+      "side": "Purdue",
+      "source": "true_open",
+      "status": "PASS"
+    },
+    {
+      "adjustedFairHomeLine": 1.1,
+      "exclusions": [
+        "EARLY_SEASON_HOLDOUT_NOT_QUALIFIED"
+      ],
+      "firstSeen": "2026-10-04T10:17:41.166847+00:00",
+      "game": "Missouri State @ Western Kentucky",
+      "kickoff": "2026-10-08T23:00:00.000Z",
+      "learnedExpectedDirectionalClv": 0.0,
+      "openingHomeLine": 1.1,
+      "projectedHomeMargin": -0.8,
+      "projectionGapVsOpen": 0.30000000000000004,
+      "shadowScore": 0.0,
+      "side": "Western Kentucky",
+      "source": "true_open",
       "status": "PASS"
     },
     {
       "exclusions": [
         "OPEN_NOT_AUDIT_GRADE_TRUE_OPEN"
       ],
-      "firstSeen": "2026-09-21T01:04:50.274619+00:00",
-      "game": "South Carolina @ Alabama",
-      "kickoff": "2026-09-26T23:00:00.000Z",
-      "openingHomeLine": -13.0,
-      "projectedHomeMargin": 17.35,
-      "source": "capture",
+      "firstSeen": "2026-10-04T19:23:11.532633+00:00",
+      "game": "Nevada @ UTEP",
+      "kickoff": "2026-10-10T23:00:00.000Z",
+      "openingHomeLine": 9.8,
+      "projectedHomeMargin": -13.44,
+      "source": "first_seen",
       "status": "PASS"
     },
     {
       "exclusions": [
         "OPEN_NOT_AUDIT_GRADE_TRUE_OPEN"
       ],
-      "firstSeen": "2026-09-21T01:04:50.274619+00:00",
-      "game": "South Florida @ Bowling Green",
-      "kickoff": "2026-09-26T21:00:00.000Z",
-      "openingHomeLine": 17.7,
-      "projectedHomeMargin": -17.72,
-      "source": "capture",
+      "firstSeen": "2026-10-03T20:27:44.621602+00:00",
+      "game": "New Mexico State @ Florida International",
+      "kickoff": "2026-10-07T23:30:00.000Z",
+      "openingHomeLine": -4.4,
+      "projectedHomeMargin": 9.31,
+      "source": "first_seen",
+      "status": "PASS"
+    },
+    {
+      "adjustedFairHomeLine": -3.4,
+      "exclusions": [
+        "EARLY_SEASON_HOLDOUT_NOT_QUALIFIED"
+      ],
+      "firstSeen": "2026-10-04T10:16:37.965643+00:00",
+      "game": "North Carolina @ Pittsburgh",
+      "kickoff": "2026-10-10T16:00:00.000Z",
+      "learnedExpectedDirectionalClv": 0.0,
+      "openingHomeLine": -3.4,
+      "projectedHomeMargin": 14.0,
+      "projectionGapVsOpen": 10.6,
+      "shadowScore": 0.0,
+      "side": "Pittsburgh",
+      "source": "true_open",
       "status": "PASS"
     },
     {
       "exclusions": [
         "OPEN_NOT_AUDIT_GRADE_TRUE_OPEN"
       ],
-      "firstSeen": "2026-09-21T01:04:50.274619+00:00",
-      "game": "Southern Miss @ Tulane",
-      "kickoff": "2026-09-26T23:00:00.000Z",
-      "openingHomeLine": -17.5,
-      "projectedHomeMargin": 18.18,
-      "source": "capture",
-      "status": "PASS"
-    },
-    {
-      "exclusions": [
-        "OPEN_NOT_AUDIT_GRADE_TRUE_OPEN"
-      ],
-      "firstSeen": "2026-09-21T01:04:50.274619+00:00",
-      "game": "TCU @ UCF",
-      "kickoff": "2026-09-26T19:30:00.000Z",
-      "openingHomeLine": 3.0,
-      "projectedHomeMargin": 0.43,
-      "source": "capture",
-      "status": "PASS"
-    },
-    {
-      "exclusions": [
-        "OPEN_NOT_AUDIT_GRADE_TRUE_OPEN"
-      ],
-      "firstSeen": "2026-09-21T01:04:50.274619+00:00",
-      "game": "Texas @ Tennessee",
-      "kickoff": "2026-09-26T16:00:00.000Z",
+      "firstSeen": "2026-10-04T19:59:14.873942+00:00",
+      "game": "North Dakota State @ UNLV",
+      "kickoff": "2026-10-10T23:00:00.000Z",
       "openingHomeLine": 3.5,
-      "projectedHomeMargin": 1.13,
-      "source": "capture",
+      "projectedHomeMargin": -6.69,
+      "source": "first_seen",
+      "status": "PASS"
+    },
+    {
+      "adjustedFairHomeLine": -9.5,
+      "exclusions": [
+        "EARLY_SEASON_HOLDOUT_NOT_QUALIFIED"
+      ],
+      "firstSeen": "2026-10-04T16:10:16.713036+00:00",
+      "game": "Old Dominion @ App State",
+      "kickoff": "2026-10-10T17:00:00.000Z",
+      "learnedExpectedDirectionalClv": 0.0,
+      "openingHomeLine": -9.5,
+      "projectedHomeMargin": 7.71,
+      "projectionGapVsOpen": -1.79,
+      "shadowScore": 0.0,
+      "side": "Old Dominion",
+      "source": "true_open",
+      "status": "PASS"
+    },
+    {
+      "adjustedFairHomeLine": 11.5,
+      "exclusions": [
+        "EARLY_SEASON_HOLDOUT_NOT_QUALIFIED"
+      ],
+      "firstSeen": "2026-10-04T07:09:30.952165+00:00",
+      "game": "Ole Miss @ Vanderbilt",
+      "kickoff": "2026-10-10T19:30:00.000Z",
+      "learnedExpectedDirectionalClv": 0.0,
+      "openingHomeLine": 11.5,
+      "projectedHomeMargin": -1.06,
+      "projectionGapVsOpen": 10.44,
+      "shadowScore": 0.0,
+      "side": "Vanderbilt",
+      "source": "true_open",
       "status": "PASS"
     },
     {
       "exclusions": [
         "OPEN_NOT_AUDIT_GRADE_TRUE_OPEN"
       ],
-      "firstSeen": "2026-09-21T01:04:50.274619+00:00",
-      "game": "Texas A&M @ LSU",
-      "kickoff": "2026-09-26T23:30:00.000Z",
-      "openingHomeLine": -9.7,
-      "projectedHomeMargin": 4.2,
-      "source": "capture",
-      "status": "PASS"
-    },
-    {
-      "exclusions": [
-        "NO_CAPTURED_OPEN",
-        "OPEN_LINE_MISSING"
-      ],
-      "firstSeen": null,
-      "game": "Troy @ Utah State",
-      "kickoff": "2026-09-26T23:30:00.000Z",
-      "openingHomeLine": null,
-      "projectedHomeMargin": 3.84,
-      "source": null,
+      "firstSeen": "2026-10-04T19:23:11.532633+00:00",
+      "game": "Rice @ East Carolina",
+      "kickoff": "2026-10-10T20:00:00.000Z",
+      "openingHomeLine": -9.9,
+      "projectedHomeMargin": 11.27,
+      "source": "first_seen",
       "status": "PASS"
     },
     {
       "exclusions": [
         "OPEN_NOT_AUDIT_GRADE_TRUE_OPEN"
       ],
-      "firstSeen": "2026-09-21T01:04:50.274619+00:00",
-      "game": "Tulsa @ Arkansas",
-      "kickoff": "2026-09-27T00:00:00.000Z",
-      "openingHomeLine": -6.7,
-      "projectedHomeMargin": -3.7,
-      "source": "capture",
+      "firstSeen": "2026-10-04T16:28:49.388816+00:00",
+      "game": "Sacramento State @ Bowling Green",
+      "kickoff": "2026-10-10T16:00:00.000Z",
+      "openingHomeLine": -6.8,
+      "projectedHomeMargin": 9.08,
+      "source": "first_seen",
+      "status": "PASS"
+    },
+    {
+      "adjustedFairHomeLine": -14.0,
+      "exclusions": [
+        "EARLY_SEASON_HOLDOUT_NOT_QUALIFIED"
+      ],
+      "firstSeen": "2026-10-04T07:09:30.952165+00:00",
+      "game": "Sam Houston @ Liberty",
+      "kickoff": "2026-10-08T23:00:00.000Z",
+      "learnedExpectedDirectionalClv": 0.0,
+      "openingHomeLine": -14.0,
+      "projectedHomeMargin": 22.33,
+      "projectionGapVsOpen": 8.329999999999998,
+      "shadowScore": 0.0,
+      "side": "Liberty",
+      "source": "true_open",
       "status": "PASS"
     },
     {
       "exclusions": [
         "OPEN_NOT_AUDIT_GRADE_TRUE_OPEN"
       ],
-      "firstSeen": "2026-09-21T01:04:50.274619+00:00",
-      "game": "UCLA @ Maryland",
-      "kickoff": "2026-09-26T17:30:00.000Z",
-      "openingHomeLine": 1.6,
-      "projectedHomeMargin": -0.82,
-      "source": "capture",
+      "firstSeen": "2026-10-04T12:07:31.625524+00:00",
+      "game": "San Diego State @ Oregon State",
+      "kickoff": "2026-10-10T22:00:00.000Z",
+      "openingHomeLine": -14.5,
+      "projectedHomeMargin": 10.4,
+      "source": "first_seen",
       "status": "PASS"
     },
     {
       "exclusions": [
         "OPEN_NOT_AUDIT_GRADE_TRUE_OPEN"
       ],
-      "firstSeen": "2026-09-21T01:04:50.274619+00:00",
-      "game": "UConn @ Miami (OH)",
-      "kickoff": "2026-09-26T19:30:00.000Z",
-      "openingHomeLine": -4.1,
-      "projectedHomeMargin": -1.16,
-      "source": "capture",
+      "firstSeen": "2026-10-04T12:07:31.625524+00:00",
+      "game": "South Alabama @ Arkansas State",
+      "kickoff": "2026-10-08T23:30:00.000Z",
+      "openingHomeLine": -1.5,
+      "projectedHomeMargin": 0.81,
+      "source": "first_seen",
+      "status": "PASS"
+    },
+    {
+      "adjustedFairHomeLine": -13.5,
+      "exclusions": [
+        "EARLY_SEASON_HOLDOUT_NOT_QUALIFIED"
+      ],
+      "firstSeen": "2026-10-04T07:13:36.088519+00:00",
+      "game": "South Carolina @ Florida",
+      "kickoff": "2026-10-10T16:45:00.000Z",
+      "learnedExpectedDirectionalClv": 0.0,
+      "openingHomeLine": -13.5,
+      "projectedHomeMargin": 10.6,
+      "projectionGapVsOpen": -2.9000000000000004,
+      "shadowScore": 0.0,
+      "side": "South Carolina",
+      "source": "true_open",
+      "status": "PASS"
+    },
+    {
+      "adjustedFairHomeLine": -7.0,
+      "exclusions": [
+        "EARLY_SEASON_HOLDOUT_NOT_QUALIFIED"
+      ],
+      "firstSeen": "2026-10-04T10:12:29.265529+00:00",
+      "game": "South Florida @ UTSA",
+      "kickoff": "2026-10-08T23:30:00.000Z",
+      "learnedExpectedDirectionalClv": 0.0,
+      "openingHomeLine": -7.0,
+      "projectedHomeMargin": -0.87,
+      "projectionGapVsOpen": -7.87,
+      "shadowScore": 0.0,
+      "side": "South Florida",
+      "source": "true_open",
       "status": "PASS"
     },
     {
       "exclusions": [
         "OPEN_NOT_AUDIT_GRADE_TRUE_OPEN"
       ],
-      "firstSeen": "2026-09-21T01:04:50.274619+00:00",
-      "game": "UNLV @ Akron",
-      "kickoff": "2026-09-26T16:00:00.000Z",
-      "openingHomeLine": 13.5,
-      "projectedHomeMargin": -9.38,
-      "source": "capture",
-      "status": "PASS"
-    },
-    {
-      "exclusions": [
-        "NO_CAPTURED_OPEN",
-        "OPEN_LINE_MISSING"
-      ],
-      "firstSeen": null,
-      "game": "Utah @ Iowa State",
-      "kickoff": "2026-09-26T19:30:00.000Z",
-      "openingHomeLine": null,
-      "projectedHomeMargin": -6.55,
-      "source": null,
+      "firstSeen": "2026-10-03T15:17:15.050741+00:00",
+      "game": "Southern Miss @ Troy",
+      "kickoff": "2026-10-07T00:00:00.000Z",
+      "openingHomeLine": -9.9,
+      "projectedHomeMargin": 12.28,
+      "source": "first_seen",
       "status": "PASS"
     },
     {
       "exclusions": [
         "OPEN_NOT_AUDIT_GRADE_TRUE_OPEN"
       ],
-      "firstSeen": "2026-09-21T01:04:50.274619+00:00",
-      "game": "Vanderbilt @ Auburn",
-      "kickoff": "2026-09-26T20:15:00.000Z",
-      "openingHomeLine": -8.9,
-      "projectedHomeMargin": 1.82,
-      "source": "capture",
+      "firstSeen": "2026-10-04T21:25:38.086530+00:00",
+      "game": "Stanford @ Notre Dame",
+      "kickoff": "2026-10-10T19:30:00.000Z",
+      "openingHomeLine": -36.8,
+      "projectedHomeMargin": 36.84,
+      "source": "first_seen",
+      "status": "PASS"
+    },
+    {
+      "adjustedFairHomeLine": -7.4,
+      "exclusions": [
+        "EARLY_SEASON_HOLDOUT_NOT_QUALIFIED"
+      ],
+      "firstSeen": "2026-10-04T10:16:37.965643+00:00",
+      "game": "Syracuse @ Virginia",
+      "kickoff": "2026-10-10T23:30:00.000Z",
+      "learnedExpectedDirectionalClv": 0.0,
+      "openingHomeLine": -7.4,
+      "projectedHomeMargin": 14.11,
+      "projectionGapVsOpen": 6.709999999999999,
+      "shadowScore": 0.0,
+      "side": "Virginia",
+      "source": "true_open",
+      "status": "PASS"
+    },
+    {
+      "adjustedFairHomeLine": 14.5,
+      "exclusions": [
+        "EARLY_SEASON_HOLDOUT_NOT_QUALIFIED"
+      ],
+      "firstSeen": "2026-10-04T07:09:30.952165+00:00",
+      "game": "Tennessee @ Arkansas",
+      "kickoff": "2026-10-10T20:15:00.000Z",
+      "learnedExpectedDirectionalClv": 0.0,
+      "openingHomeLine": 14.5,
+      "projectedHomeMargin": -13.66,
+      "projectionGapVsOpen": 0.8399999999999999,
+      "shadowScore": 0.0,
+      "side": "Arkansas",
+      "source": "true_open",
+      "status": "PASS"
+    },
+    {
+      "adjustedFairHomeLine": 9.5,
+      "exclusions": [
+        "EARLY_SEASON_HOLDOUT_NOT_QUALIFIED"
+      ],
+      "firstSeen": "2026-10-04T01:19:19.518999+00:00",
+      "game": "Texas @ Oklahoma",
+      "kickoff": "2026-10-10T19:30:00.000Z",
+      "learnedExpectedDirectionalClv": 0.0,
+      "openingHomeLine": 9.5,
+      "projectedHomeMargin": -11.29,
+      "projectionGapVsOpen": -1.7899999999999991,
+      "shadowScore": 0.0,
+      "side": "Texas",
+      "source": "true_open",
+      "status": "PASS"
+    },
+    {
+      "adjustedFairHomeLine": -2.9,
+      "exclusions": [
+        "EARLY_SEASON_HOLDOUT_NOT_QUALIFIED"
+      ],
+      "firstSeen": "2026-10-04T07:13:36.088519+00:00",
+      "game": "Texas A&M @ Missouri",
+      "kickoff": "2026-10-10T16:00:00.000Z",
+      "learnedExpectedDirectionalClv": 0.0,
+      "openingHomeLine": -2.9,
+      "projectedHomeMargin": 6.25,
+      "projectionGapVsOpen": 3.35,
+      "shadowScore": 0.0,
+      "side": "Missouri",
+      "source": "true_open",
+      "status": "PASS"
+    },
+    {
+      "adjustedFairHomeLine": -5.5,
+      "exclusions": [
+        "EARLY_SEASON_HOLDOUT_NOT_QUALIFIED"
+      ],
+      "firstSeen": "2026-10-04T16:10:16.713036+00:00",
+      "game": "Tulane @ Army",
+      "kickoff": "2026-10-10T16:00:00.000Z",
+      "learnedExpectedDirectionalClv": 0.0,
+      "openingHomeLine": -5.5,
+      "projectedHomeMargin": 6.1,
+      "projectionGapVsOpen": 0.5999999999999996,
+      "shadowScore": 0.0,
+      "side": "Army",
+      "source": "true_open",
+      "status": "PASS"
+    },
+    {
+      "adjustedFairHomeLine": -3.3,
+      "exclusions": [
+        "EARLY_SEASON_HOLDOUT_NOT_QUALIFIED"
+      ],
+      "firstSeen": "2026-10-04T10:16:37.965643+00:00",
+      "game": "Tulsa @ Navy",
+      "kickoff": "2026-10-10T19:30:00.000Z",
+      "learnedExpectedDirectionalClv": 0.0,
+      "openingHomeLine": -3.3,
+      "projectedHomeMargin": 7.31,
+      "projectionGapVsOpen": 4.01,
+      "shadowScore": 0.0,
+      "side": "Navy",
+      "source": "true_open",
+      "status": "PASS"
+    },
+    {
+      "adjustedFairHomeLine": -16.5,
+      "exclusions": [
+        "EARLY_SEASON_HOLDOUT_NOT_QUALIFIED"
+      ],
+      "firstSeen": "2026-10-04T16:10:16.713036+00:00",
+      "game": "UAB @ Memphis",
+      "kickoff": "2026-10-10T23:00:00.000Z",
+      "learnedExpectedDirectionalClv": 0.0,
+      "openingHomeLine": -16.5,
+      "projectedHomeMargin": 19.64,
+      "projectionGapVsOpen": 3.1400000000000006,
+      "shadowScore": 0.0,
+      "side": "Memphis",
+      "source": "true_open",
       "status": "PASS"
     },
     {
       "exclusions": [
         "OPEN_NOT_AUDIT_GRADE_TRUE_OPEN"
       ],
-      "firstSeen": "2026-09-21T01:04:50.274619+00:00",
-      "game": "Virginia Tech @ Boston College",
-      "kickoff": "2026-09-26T16:00:00.000Z",
-      "openingHomeLine": 13.9,
-      "projectedHomeMargin": -9.32,
-      "source": "capture",
+      "firstSeen": "2026-10-04T12:07:31.625524+00:00",
+      "game": "UCF @ Oklahoma State",
+      "kickoff": "2026-10-10T16:00:00.000Z",
+      "openingHomeLine": -9.5,
+      "projectedHomeMargin": -0.89,
+      "source": "first_seen",
+      "status": "PASS"
+    },
+    {
+      "adjustedFairHomeLine": -12.5,
+      "exclusions": [
+        "EARLY_SEASON_HOLDOUT_NOT_QUALIFIED"
+      ],
+      "firstSeen": "2026-10-04T01:19:19.518999+00:00",
+      "game": "UCLA @ Oregon",
+      "kickoff": "2026-10-10T19:30:00.000Z",
+      "learnedExpectedDirectionalClv": 0.0,
+      "openingHomeLine": -12.5,
+      "projectedHomeMargin": 5.0,
+      "projectionGapVsOpen": -7.5,
+      "shadowScore": 0.0,
+      "side": "UCLA",
+      "source": "true_open",
       "status": "PASS"
     },
     {
       "exclusions": [
         "OPEN_NOT_AUDIT_GRADE_TRUE_OPEN"
       ],
-      "firstSeen": "2026-09-21T01:04:50.274619+00:00",
-      "game": "Wake Forest @ Louisville",
-      "kickoff": "2026-09-26T16:00:00.000Z",
-      "openingHomeLine": -12.0,
-      "projectedHomeMargin": 7.48,
-      "source": "capture",
+      "firstSeen": "2026-10-04T19:31:26.730743+00:00",
+      "game": "UConn @ Temple",
+      "kickoff": "2026-10-10T19:45:00.000Z",
+      "openingHomeLine": -3.9,
+      "projectedHomeMargin": 5.01,
+      "source": "first_seen",
       "status": "PASS"
     },
     {
       "exclusions": [
-        "NO_CAPTURED_OPEN",
-        "OPEN_LINE_MISSING"
+        "OPEN_NOT_AUDIT_GRADE_TRUE_OPEN"
       ],
-      "firstSeen": null,
-      "game": "Wisconsin @ Penn State",
-      "kickoff": "2026-09-26T21:00:00.000Z",
-      "openingHomeLine": null,
-      "projectedHomeMargin": 19.69,
-      "source": null,
+      "firstSeen": "2026-10-04T05:44:01.462860+00:00",
+      "game": "USC @ Penn State",
+      "kickoff": "2026-10-10T23:30:00.000Z",
+      "openingHomeLine": 2.6,
+      "projectedHomeMargin": 3.16,
+      "source": "first_seen",
+      "status": "PASS"
+    },
+    {
+      "adjustedFairHomeLine": 12.1,
+      "exclusions": [
+        "EARLY_SEASON_HOLDOUT_NOT_QUALIFIED"
+      ],
+      "firstSeen": "2026-10-04T10:13:32.388660+00:00",
+      "game": "Virginia Tech @ California",
+      "kickoff": "2026-10-10T19:30:00.000Z",
+      "learnedExpectedDirectionalClv": 0.0,
+      "openingHomeLine": 12.1,
+      "projectedHomeMargin": -7.57,
+      "projectionGapVsOpen": 4.529999999999999,
+      "shadowScore": 0.0,
+      "side": "California",
+      "source": "true_open",
+      "status": "PASS"
+    },
+    {
+      "exclusions": [
+        "OPEN_NOT_AUDIT_GRADE_TRUE_OPEN"
+      ],
+      "firstSeen": "2026-10-04T11:44:53.606124+00:00",
+      "game": "Wake Forest @ NC State",
+      "kickoff": "2026-10-10T16:00:00.000Z",
+      "openingHomeLine": 2.8,
+      "projectedHomeMargin": -4.77,
+      "source": "first_seen",
+      "status": "PASS"
+    },
+    {
+      "exclusions": [
+        "OPEN_NOT_AUDIT_GRADE_TRUE_OPEN"
+      ],
+      "firstSeen": "2026-10-04T13:00:56.979084+00:00",
+      "game": "Washington State @ Utah State",
+      "kickoff": "2026-10-10T01:00:00.000Z",
+      "openingHomeLine": -3.4,
+      "projectedHomeMargin": 9.05,
+      "source": "first_seen",
+      "status": "PASS"
+    },
+    {
+      "exclusions": [
+        "OPEN_NOT_AUDIT_GRADE_TRUE_OPEN"
+      ],
+      "firstSeen": "2026-10-04T16:22:38.843534+00:00",
+      "game": "Wyoming @ San Jos\u00e9 State",
+      "kickoff": "2026-10-10T01:00:00.000Z",
+      "openingHomeLine": -6.4,
+      "projectedHomeMargin": 8.49,
+      "source": "first_seen",
       "status": "PASS"
     }
   ],
