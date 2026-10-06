@@ -86,9 +86,37 @@ def _fbs_results(rows: list[dict], *, upto_week: int | None = None) -> list[Game
     return out
 
 
+def _day_for(value: str | _dt.date | _dt.datetime | None) -> str:
+    """A UTC calendar date for a date-like value, even if it carries a zone.
+
+    The schedule rows are keyed by the UTC date they landed on, while a local
+    machine may still be on the previous calendar day. Those two are not the
+    same thing in the last hours of Sunday, so resolve any timestamp to UTC
+    before we compare it to the schedule.
+    """
+    if value is None:
+        return _dt.datetime.now(_dt.timezone.utc).date().isoformat()
+    if isinstance(value, _dt.datetime):
+        when = value if value.tzinfo else value.replace(tzinfo=_dt.timezone.utc)
+        return when.astimezone(_dt.timezone.utc).date().isoformat()
+    if isinstance(value, _dt.date):
+        return value.isoformat()
+
+    text = str(value).strip()
+    if not text:
+        return _dt.datetime.now(_dt.timezone.utc).date().isoformat()
+    when = _instant(text)
+    if when is not None:
+        return when.astimezone(_dt.timezone.utc).date().isoformat()
+    if len(text) >= 10 and text[:10].count("-") == 2:
+        return text[:10]
+    raise ValueError(f"cannot read {value!r} as a date or a timestamp")
+
+
 def current_week(
-    season: int, *, today: str | None = None, opener: Opener | None = None,
-    rows: list[dict] | None = None,
+    season: int, *, today: str | _dt.date | _dt.datetime | None = None,
+    as_of: str | _dt.date | _dt.datetime | None = None,
+    opener: Opener | None = None, rows: list[dict] | None = None,
 ) -> int | None:
     """The week a capture started today should be recording, or None.
 
@@ -101,8 +129,12 @@ def current_week(
     lines for it are posting now or have already posted. A season that is over
     returns None rather than the last week, because there is nothing left to
     capture and reporting week 15 forever would look like it was working.
+
+    `as_of` is the canonical override. It is resolved in UTC, which keeps the
+    card on the correct week even when the runner is behind UTC and the local
+    day still says Sunday.
     """
-    day = today or _dt.date.today().isoformat()
+    day = _day_for(as_of if as_of is not None else today)
     rows = rows if rows is not None else fetch_season(season, opener=opener)
     last_day: dict[int, str] = {}
     for r in rows:
@@ -143,8 +175,9 @@ def _instant(stamp: str) -> _dt.datetime | None:
 
 
 def opening_week(
-    season: int, *, now: str | None = None, opener: Opener | None = None,
-    rows: list[dict] | None = None,
+    season: int, *, now: str | _dt.date | _dt.datetime | None = None,
+    as_of: str | _dt.date | _dt.datetime | None = None,
+    opener: Opener | None = None, rows: list[dict] | None = None,
 ) -> int | None:
     """The week whose lines can still be captured at their open, or None.
 
@@ -166,7 +199,9 @@ def opening_week(
     of a Tuesday night game capturable through the Tuesday morning that the
     window closes.
     """
-    moment = _instant(now) if now else _dt.datetime.now(_dt.timezone.utc)
+    if as_of is not None and now is None:
+        now = as_of
+    moment = _instant(str(now)) if now is not None else _dt.datetime.now(_dt.timezone.utc)
     if moment is None:
         raise ValueError(f"cannot read {now!r} as a date or a timestamp")
     rows = rows if rows is not None else fetch_season(season, opener=opener)
