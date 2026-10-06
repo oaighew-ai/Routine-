@@ -1,0 +1,60 @@
+name: Saturday Savant prospective shadow capture
+
+on:
+  schedule:
+    - cron: "0 14 * 9-12 1"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: cfb-saturday-savant-shadow
+  cancel-in-progress: false
+
+jobs:
+  capture:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Code
+        uses: actions/checkout@v4
+
+      - name: Evidence branch
+        uses: actions/checkout@v4
+        with:
+          ref: capture-data
+          path: evidence
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+
+      - name: Capture current prospective forecasts
+        run: |
+          set -euo pipefail
+          mkdir -p evidence/data/saturday-savant
+          DATE="$(date -u +%Y-%m-%dT%H-%M-%SZ)"
+          python3 -m cfb_edge.saturday_savant \
+            --archive-root evidence \
+            --out "evidence/data/saturday-savant/forecasts-${DATE}.json" \
+            | tee -a "$GITHUB_STEP_SUMMARY"
+
+      - name: Publish append-only forecast evidence
+        working-directory: evidence
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/saturday-savant
+          git diff --cached --quiet && exit 0
+          git commit -q -m "Capture Saturday Savant prospective forecasts"
+          for attempt in 1 2 3; do
+            git fetch origin capture-data
+            if git rebase origin/capture-data && git push origin HEAD:capture-data; then
+              exit 0
+            fi
+            git rebase --abort || true
+            sleep $((attempt * 2))
+          done
+          exit 1

@@ -75,6 +75,14 @@
       "note": "Frozen point-in-time market-residual ridge evaluation. The runner enforces temporal eligibility and emits hashed read-only evaluation evidence; it cannot produce picks."
     },
     {
+      "modelId": "SATURDAY_SAVANT",
+      "location": "cfb_edge/saturday_savant.py + docs/SATURDAY_SAVANT_SHADOW.md",
+      "reproducibleInRepo": true,
+      "status": "PROSPECTIVE_CAPTURE_ONLY",
+      "deliveryContract": null,
+      "note": "Paced capture of the publisher's public forecast pages with content-addressed source archives. External shadow feed only; no picks, promotion, stakes, or delivery path."
+    },
+    {
       "modelId": "F03",
       "location": null,
       "reproducibleInRepo": false,
