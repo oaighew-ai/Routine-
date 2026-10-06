@@ -42,6 +42,7 @@ on:
       - .github/workflows/capture-open-loop.yml
       - cfb_edge/prospective_open.py
       - cfb_edge/watch.py
+      - cfb_edge/providers/kalshi.py
   schedule:
     # Cron numbers days from Sunday: 5 is Friday, 6 is Saturday, 0 is Sunday.
     # Each launch begins no later than the previous one ends. A test pins the
