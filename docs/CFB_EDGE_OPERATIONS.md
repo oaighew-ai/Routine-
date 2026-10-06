@@ -43,8 +43,8 @@ byte for byte.
 
 ## 2. What runs, and when
 
-Seven workflows have an automatic trigger. `tests/test_week5_workflows.py`
-pins that set, so adding an eighth is a deliberate act.
+Eight workflows have an automatic trigger. `tests/test_week5_workflows.py`
+pins that set, so additions are deliberate.
 
 | Workflow | Trigger | What it does |
 |---|---|---|
@@ -53,6 +53,7 @@ pins that set, so adding an eighth is a deliberate act.
 | `cfb-operating-review` | Five fixed times a week (Mon, Tue, Thu, Fri, Sat); after each `capture` run | Writes `data/ops-health.json`. No picks |
 | `private-site-bridge` | After the feature capture; on its own code changing | Republishes a summary for the private Site |
 | `early-season-learning` | On its own code or the slate builder changing | Rebuilds the in-season CLV measurement |
+| `saturday-savant-shadow` | Monday 14:00 UTC, September–December; manual dispatch | Archives attributed pre-kickoff win-probability forecasts. Shadow only; no picks |
 | `watchdog` | Daily 13:17; Sun and Mon 01:17 | Opens an issue if the newest run receipt is stale or failed. Never commits |
 | `tests` | Every push to `main`, every pull request | The gates in section 6 |
 
@@ -61,6 +62,10 @@ schedule was removed in `8573ce8` so a scheduled poller could not queue behind
 the open loop, and D44 leaves it a dispatch-only fallback that takes three polls
 when no loop is running and then asks for one. The table is the set of
 workflows that fire by themselves, which is what the test above pins.
+
+`saturday-savant-shadow` is a separate external forecast collector, not a
+replacement for S02 or an input to the weekly card. See
+[`SATURDAY_SAVANT_SHADOW.md`](./SATURDAY_SAVANT_SHADOW.md).
 
 Everything else under `.github/workflows/` runs only when someone starts it.
 Ten of those served a closed cohort and carry a `RETIRED` header naming the
