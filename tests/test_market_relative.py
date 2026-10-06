@@ -76,7 +76,9 @@ def rows():
     return historical
 
 
-def write_manifest(root: Path, name: str, content: bytes) -> tuple[str, str, str]:
+def write_manifest(
+    root: Path, name: str, content: bytes, observed_at: datetime
+) -> tuple[str, str, str]:
     raw_path = root / "raw" / f"{name}.json"
     raw_path.parent.mkdir(parents=True, exist_ok=True)
     raw_path.write_bytes(content)
@@ -85,6 +87,7 @@ def write_manifest(root: Path, name: str, content: bytes) -> tuple[str, str, str
     manifest_path.parent.mkdir(parents=True, exist_ok=True)
     manifest_path.write_text(json.dumps({
         "schemaVersion": 1,
+        "observedAt": observed_at.isoformat(),
         "files": [{"path": f"raw/{name}.json", "sha256": source_hash}],
     }), encoding="utf-8")
     return (
@@ -95,10 +98,14 @@ def write_manifest(root: Path, name: str, content: bytes) -> tuple[str, str, str
 
 
 def csv_row(root: Path, *, game_id: str = "game-1") -> dict[str, str]:
-    market = write_manifest(root, "market", b'{"market":true}')
-    feature_a = write_manifest(root, "feature-a", b'{"epa":0.2}')
-    feature_b = write_manifest(root, "feature-b", b'{"success":0.1}')
-    result = write_manifest(root, "result", b'{"final":true}')
+    market_at = START - timedelta(minutes=1)
+    feature_a_at = START - timedelta(days=1)
+    feature_b_at = START
+    result_at = START + timedelta(days=1)
+    market = write_manifest(root, "market", b'{"market":true}', market_at)
+    feature_a = write_manifest(root, "feature-a", b'{"epa":0.2}', feature_a_at)
+    feature_b = write_manifest(root, "feature-b", b'{"success":0.1}', feature_b_at)
+    result = write_manifest(root, "result", b'{"final":true}', result_at)
     forecast = START.isoformat()
     return {
         "gameId": game_id,
@@ -106,26 +113,26 @@ def csv_row(root: Path, *, game_id: str = "game-1") -> dict[str, str]:
         "week": "1",
         "marketHomeMargin": "3.5",
         "actualHomeMargin": "7",
-        "marketAsOf": (START - timedelta(minutes=1)).isoformat(),
+        "marketAsOf": market_at.isoformat(),
         "marketSourcePath": market[0],
         "marketManifestPath": market[1],
         "marketManifestSha256": market[2],
         "marketSourceSha256": hashlib.sha256(b'{"market":true}').hexdigest(),
         "forecastAt": forecast,
         "kickoffAt": (START + timedelta(hours=2)).isoformat(),
-        "settledAt": (START + timedelta(days=1)).isoformat(),
+        "settledAt": result_at.isoformat(),
         "resultSourcePath": result[0],
         "resultManifestPath": result[1],
         "resultManifestSha256": result[2],
         "resultSourceSha256": hashlib.sha256(b'{"final":true}').hexdigest(),
         "epaDiff": "0.2",
-        "epaDiffAsOf": (START - timedelta(days=1)).isoformat(),
+        "epaDiffAsOf": feature_a_at.isoformat(),
         "epaDiffSourcePath": feature_a[0],
         "epaDiffManifestPath": feature_a[1],
         "epaDiffManifestSha256": feature_a[2],
         "epaDiffSourceSha256": hashlib.sha256(b'{"epa":0.2}').hexdigest(),
         "successRateDiff": "0.1",
-        "successRateDiffAsOf": START.isoformat(),
+        "successRateDiffAsOf": feature_b_at.isoformat(),
         "successRateDiffSourcePath": feature_b[0],
         "successRateDiffManifestPath": feature_b[1],
         "successRateDiffManifestSha256": feature_b[2],
@@ -230,6 +237,40 @@ class MarketRelativeTests(unittest.TestCase):
             self.assertEqual(loaded[0].market_source_path, "raw/market.json")
             (root / "raw" / "feature-a.json").write_bytes(b'{"epa":999}')
             with self.assertRaisesRegex(ValueError, "SHA-256 does not match"):
+                load_csv(path, FEATURES, archive_root=root)
+
+    def test_csv_requires_manifest_timestamp_to_match_source_timestamp(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            row = csv_row(root)
+            manifest_path = root / row["epaDiffManifestPath"]
+            manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
+            manifest["observedAt"] = (START - timedelta(days=2)).isoformat()
+            manifest_path.write_text(json.dumps(manifest), encoding="utf-8")
+            row["epaDiffManifestSha256"] = hashlib.sha256(
+                manifest_path.read_bytes()
+            ).hexdigest()
+            path = root / "rows.csv"
+            with path.open("w", newline="", encoding="utf-8") as handle:
+                writer = csv.DictWriter(handle, fieldnames=list(row))
+                writer.writeheader()
+                writer.writerow(row)
+            with self.assertRaisesRegex(ValueError, "observedAt does not match"):
+                load_csv(path, FEATURES, archive_root=root)
+
+    def test_manifest_cache_cannot_skip_timestamp_check_for_another_row(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            first = csv_row(root, game_id="first")
+            second = dict(first, gameId="second")
+            second["epaDiffAsOf"] = (START - timedelta(days=2)).isoformat()
+            path = root / "rows.csv"
+            with path.open("w", newline="", encoding="utf-8") as handle:
+                writer = csv.DictWriter(handle, fieldnames=list(first))
+                writer.writeheader()
+                writer.writerow(first)
+                writer.writerow(second)
+            with self.assertRaisesRegex(ValueError, "observedAt does not match"):
                 load_csv(path, FEATURES, archive_root=root)
 
     def test_csv_rejects_future_feature_timestamp(self):

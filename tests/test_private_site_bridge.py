@@ -44,8 +44,8 @@ class PrivateSiteBridgeTests(unittest.TestCase):
                 "modelId":"S06_MR1",
                 "version":"pit-market-residual-ridge-1",
                 "status":"INSUFFICIENT_WALK_FORWARD_EVIDENCE",
-                "generatedAt":"2026-10-06T01:00:00Z",
-                "prospectiveStartAt":"2026-10-06T00:40:44Z",
+                "generatedAt":"2026-10-06T04:00:00Z",
+                "prospectiveStartAt":"2026-10-06T03:00:00Z",
                 "predictionCount":23,
                 "kickoffWeeks":2,
                 "marketMae":10.0,
@@ -68,7 +68,7 @@ class PrivateSiteBridgeTests(unittest.TestCase):
             },
             generated_at=datetime(2026,10,6,1,tzinfo=timezone.utc),
         )
-        self.assertEqual(r["sourceTimes"]["marketRelative"],"2026-10-06T01:00:00Z")
+        self.assertEqual(r["sourceTimes"]["marketRelative"],"2026-10-06T04:00:00Z")
         self.assertEqual(r["sourceTimes"]["activeMarket"],"2026-10-06T00:59:00Z")
         self.assertEqual(r["activeMarket"]["summary"]["freshMarketRows"],50)
         self.assertEqual(

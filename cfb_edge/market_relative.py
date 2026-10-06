@@ -104,11 +104,16 @@ def _verify_manifest(
     root: Path,
     relative: str,
     expected_sha256: str,
+    expected_observed_at: datetime,
     field: str,
-    cache: dict[tuple[str, str], set[tuple[str, str]]],
+    cache: dict[tuple[str, str, str], set[tuple[str, str]]],
 ) -> set[tuple[str, str]]:
     manifest_path = _archive_file(root, relative, f"{field}Path")
-    manifest_key = (str(manifest_path), expected_sha256)
+    manifest_key = (
+        str(manifest_path),
+        expected_sha256,
+        expected_observed_at.isoformat(),
+    )
     if manifest_key in cache:
         return cache[manifest_key]
     actual_hash = hashlib.sha256(manifest_path.read_bytes()).hexdigest()
@@ -121,6 +126,9 @@ def _verify_manifest(
     entries = manifest.get("files") if isinstance(manifest, dict) else None
     if not isinstance(manifest, dict) or manifest.get("schemaVersion") != 1:
         raise ValueError(f"{field} has an unsupported manifest schema")
+    observed_at = _time(manifest.get("observedAt"), f"{field}.observedAt")
+    if observed_at != expected_observed_at:
+        raise ValueError(f"{field}.observedAt does not match the row source timestamp")
     if not isinstance(entries, list) or not entries:
         raise ValueError(f"{field} must list at least one archived source file")
 
@@ -185,7 +193,7 @@ def load_csv(
 
     rows: list[TimestampedObservation] = []
     game_ids: set[str] = set()
-    manifest_cache: dict[tuple[str, str], set[tuple[str, str]]] = {}
+    manifest_cache: dict[tuple[str, str, str], set[tuple[str, str]]] = {}
     root = Path(archive_root)
     with open(path, newline="", encoding="utf-8") as handle:
         reader = csv.DictReader(handle)
@@ -282,6 +290,7 @@ def load_csv(
                     root,
                     raw["marketManifestPath"],
                     market_manifest_hash,
+                    market_as_of,
                     "marketManifest",
                     manifest_cache,
                 )
@@ -290,8 +299,9 @@ def load_csv(
                     market_hash,
                 ) not in market_manifest_files:
                     raise ValueError("market source file/hash is absent from its manifest")
-                for feature, source_path, source_hash in zip(
-                    features, feature_source_paths, feature_source_hashes
+                for feature, source_path, source_hash, source_as_of in zip(
+                    features, feature_source_paths, feature_source_hashes,
+                    feature_as_of,
                 ):
                     feature_manifest_files = _verify_manifest(
                         root,
@@ -300,6 +310,7 @@ def load_csv(
                             raw[f"{feature}ManifestSha256"],
                             f"{feature}ManifestSha256",
                         ),
+                        source_as_of,
                         f"{feature}Manifest",
                         manifest_cache,
                     )
@@ -314,6 +325,7 @@ def load_csv(
                     root,
                     raw["resultManifestPath"],
                     result_manifest_hash,
+                    settled_at,
                     "resultManifest",
                     manifest_cache,
                 )

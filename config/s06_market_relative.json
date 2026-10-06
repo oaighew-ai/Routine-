@@ -25,7 +25,7 @@
   "ridgeAlpha": 10.0,
   "ridgeAlphaStatus": "PRIOR_INHERITED_FROM_S04_NOT_TUNED",
   "minimumTrainingRows": 500,
-  "prospectiveStartAt": "2026-10-06T00:40:44Z",
+  "prospectiveStartAt": "2026-10-06T03:00:00Z",
   "reportingMinimumPredictions": 200,
   "reportingMinimumKickoffWeeks": 8,
   "chronology": {
@@ -55,7 +55,7 @@
     "resultManifestSha256",
     "resultSourceSha256"
   ],
-  "sourceRule": "Every feature requires its value, <feature>AsOf, <feature>SourcePath, <feature>SourceSha256, <feature>ManifestPath, and <feature>ManifestSha256. Every manifest is verified against its SHA-256 and every manifest-listed archived source file is re-hashed from the evidence archive.",
+  "sourceRule": "Every feature requires its value, <feature>AsOf, <feature>SourcePath, <feature>SourceSha256, <feature>ManifestPath, and <feature>ManifestSha256. Every manifest has a timezone-aware observedAt equal to the row source timestamp, is verified against its SHA-256, and every manifest-listed archived source file is re-hashed from the evidence archive.",
   "evaluation": {
     "primaryMetrics": [
       "marketMae",

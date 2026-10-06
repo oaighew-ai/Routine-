@@ -1446,8 +1446,10 @@ predicted together.
 The feature list and ridge alpha 10.0 are frozen from the prior S04 contract;
 alpha remains explicitly PRIOR and is not tuned against this candidate's
 walk-forward outcomes. The evaluation begins at the frozen
-`2026-10-06T00:40:44Z` start. Earlier eligible rows may train only after their
-own settlement. Reports compare margin MAE/RMSE with the market and carry freeze,
+`2026-10-06T03:00:00Z` start, after the branch freeze is recorded. Earlier
+eligible rows may train only after their own settlement. Every immutable source
+manifest's timezone-aware `observedAt` must equal its corresponding row source
+timestamp. Reports compare margin MAE/RMSE with the market and carry freeze,
 implementation and dataset hashes.
 
 **Authority.** S06_MR1 is `FROZEN_UNTRAINED`, `deliveryEligible=false`, and has

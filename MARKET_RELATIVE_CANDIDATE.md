@@ -18,7 +18,7 @@ inherited as an explicit PRIOR from the existing S04 specification; it is not
 tuned using walk-forward outcomes. Any change to features, transforms,
 estimator, alpha, or the start time requires a new freeze/version.
 
-The prospective window starts at `2026-10-06T00:40:44Z`. Earlier rows can only
+The prospective window starts at `2026-10-06T03:00:00Z`. Earlier rows can only
 train the model after their own outcomes settle and after all input timestamps
 and immutable source-manifest hashes pass validation. Only forecasts at or
 after the frozen start time count as evaluation predictions.
@@ -33,9 +33,10 @@ The CSV needs one row per game and these base columns:
 Each feature listed in the freeze additionally requires its value,
 `<feature>AsOf`, `<feature>SourcePath`, `<feature>SourceSha256`,
 `<feature>ManifestPath`, and `<feature>ManifestSha256`. Manifests are version-1
-JSON with a non-empty `files` list of archive-relative paths and SHA-256
-digests. The runner verifies each manifest's hash and re-hashes every listed
-file inside the evidence archive; all source paths must be listed by the
+JSON with a timezone-aware `observedAt` equal to the row source timestamp and a
+non-empty `files` list of archive-relative paths and SHA-256 digests. The runner
+verifies each manifest's hash and re-hashes every listed file inside the
+evidence archive; all source paths must be listed by the
 corresponding manifest. All timestamps must include a timezone; feature and
 market timestamps must be no later than `forecastAt`, `forecastAt` must precede
 kickoff, and the result settlement time cannot precede kickoff. Rows with
