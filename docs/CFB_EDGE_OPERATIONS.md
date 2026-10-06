@@ -217,6 +217,7 @@ every listing measured so far fell a few minutes past one of those hours
 | Symptom | Check | Do |
 |---|---|---|
 | No `capture open loop` commit for 20 minutes inside the window | Actions, `capture open loop` | Start it on `main`. One run is enough; it carries itself |
+| A scheduled `capture open loop` run shows cancelled after hours pending | Actions: is another run of it in progress, and is the newest `capture open loop` commit under 20 minutes old | Nothing, if both. One run holds the `cfb-capture` group and a newer queued start replaces an older pending one; on 2026-10-06 two scheduled starts were cancelled this way while a running loop kept polling |
 | Loop running, zero captured | `status.json` for the cohort: are rows pending or missed | Pending is normal before markets are listed. Missed rows carry the venue open time and the lag |
 | A game locked against another game's market | `voidedRows` in the cohort's `status.json` | Nothing. The lock voids the row and rebuilds the game's row from the logged polls (D43) |
 | Card build exits non-zero | The script's last lines | Exit 3: no week left. Otherwise the slate or an input is missing; publish nothing |
@@ -245,12 +246,15 @@ Dated facts. Each line says what is known and what is not.
    seconds. None were captured in Weeks 5 and 6. In the same hours, eight
    markets yielded no readable line until 1.6 to 5 hours after their listed
    open, with polls a minute apart (D43). One night is not a rate.
-2. **The log cannot say why a listed market had no line.** It records only
-   lines the reader could read. A market that missed the window may have
-   had no quotes, or quotes the reader refuses (a ladder that does not
-   straddle 50%, or a bid and ask further apart than `MAX_SPREAD`). Logging
-   the reason would settle which, and it decides whether the 900 second
-   window or the reader is what to look at.
+2. **Why a listed market had no line is logged from 2026-10-06, but not yet
+   read.** Since #88, a poll records a `marketDiagnostics` entry for each
+   listed event that yielded no line: no quotes, quotes on one side only, a
+   bid and ask further apart than `MAX_SPREAD`, a ladder that does not
+   straddle 50%, or a failure to match the event to a slate fixture (section
+   3). The loop running when #88 merged was started from older code, so the
+   first entries come from the next run. No missed window has been explained
+   from them yet. They decide whether the 900 second window or the reader is
+   what to look at.
 3. **Markets listed outside the release window cannot be true opens.** Two
    of product Week 7's markets were listed on a Wednesday and a Thursday,
    when nothing polls. Both are midweek games, which are listed about a
