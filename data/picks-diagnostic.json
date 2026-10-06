@@ -20,7 +20,7 @@
   "capture": {
     "current": true,
     "outcome": "success",
-    "pollAt": "2026-10-06T04:17:29.683557+00:00"
+    "pollAt": "2026-10-06T09:47:56.392000+00:00"
   },
   "cardHash": "4f45bfb0e7d7406b230040e4eec702b18073ba06d492dddfd1cc09d30468e0a3",
   "changedSincePreviousCard": false,
@@ -28,10 +28,10 @@
   "fileHashes": {
     "authority": "6ed5f323dfa2cdcb6f2fa89d2b9c7ebfb08319a798bf64b95638a02f22551bd9",
     "candidates": null,
-    "captureReport": "8f8d4a6b86c344a4e935e4101e46f050f222db07f0765c5fea5ebbf3c0f5c173",
-    "registry": "489f0fb06e0bed970c1a66608e99105e6def51231fadd16e277133a1f1f6d344"
+    "captureReport": "e21d65fa404236023d51344a5cc76ff042b88bea312b1da46068175929756d32",
+    "registry": "ecb55e19ee473e4a47ac97c4a470272f815479076c7b0663f298514d72bd2c17"
   },
-  "generatedAt": "2026-10-06T04:17:33.718722+00:00",
+  "generatedAt": "2026-10-06T09:48:02.794640+00:00",
   "limitations": [
     "Research and paper display only; no wager is placed by this system.",
     "Injuries, rosters, weather, executable fills, CLV and betting edge remain unverified unless explicitly present in the authority export.",
@@ -118,6 +118,15 @@
       },
       {
         "deliveryEligible": false,
+        "id": "S06_MR1",
+        "market": "spread",
+        "modelStatus": "FROZEN_UNTRAINED",
+        "note": "Freeze V2: timestamp-strict market-residual ridge challenger, FROZEN_UNTRAINED. No probabilities, picks, stakes, or delivery authority.",
+        "role": "POINT_IN_TIME_MARKET_RESIDUAL_CHALLENGER",
+        "version": "pit-market-residual-ridge-2"
+      },
+      {
+        "deliveryEligible": false,
         "id": "F03",
         "market": "moneyline",
         "note": "Separate cohort. Never pooled with spread evidence or used for delivery.",
@@ -153,7 +162,7 @@
     "schemaVersion": 2
   },
   "schemaVersion": 1,
-  "sourceRevision": "7a0158d6835f9c03b39d379092b3e424bd9b85a0",
+  "sourceRevision": "91600c8aaffe5a8bcc925d32794ceadbe85f6ca8",
   "status": "NO_BET",
   "validation": {
     "asOf": "2026-09-18T18:02:10.143Z",
