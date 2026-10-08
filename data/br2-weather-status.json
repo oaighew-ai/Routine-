@@ -1,6 +1,6 @@
 {
   "contract": "CFB_EDGE_BR2_WEATHER_V2",
-  "generatedAt": "2026-10-07T19:25:04.223935+00:00",
+  "generatedAt": "2026-10-08T19:20:40.576154+00:00",
   "historicalReplayPolicy": "Use archived forecast runs for backtests; realized weather is not a PIT substitute.",
   "provider": "open-meteo",
   "rows": [
@@ -8,21 +8,21 @@
       "auditGrade": true,
       "exclusions": [],
       "forecast": {
-        "precipProbabilityPct": 0.0,
+        "precipProbabilityPct": 1.0,
         "precipitationIn": 0.0,
-        "temperatureF": 78.4,
+        "temperatureF": 77.9,
         "validTime": "2026-10-09T23:00:00+00:00",
-        "windGustMph": 3.6,
+        "windGustMph": 7.6,
         "windMph": 4.7
       },
       "game": "Florida State @ Louisville",
       "kickoff": "2026-10-09T23:00:00+00:00",
-      "retrievedAt": "2026-10-07T19:25:04.223935+00:00",
+      "retrievedAt": "2026-10-08T19:20:40.576154+00:00",
       "source": {
         "batchLocations": 20,
         "locationIndex": 0,
         "provider": "open-meteo",
-        "sha256": "96719d8c2cb441272fa827bcd7b2dd4c3818c43080eedcb0d895244bf92deacd",
+        "sha256": "b1c834c65bcf96cd87f35cd866d6893677f61d744e99578813786c77658fca6c",
         "url": "https://api.open-meteo.com/v1/forecast?latitude=38.205762%2C41.933959%2C39.650274%2C42.065556%2C41.657478%2C39.321279%2C33.203899%2C38.424704%2C33.772445%2C41.072553%2C33.208275%2C39.202010%2C42.728147%2C40.820682%2C47.650323%2C40.257535%2C32.412247%2C42.286006%2C38.022090%2C32.532149&longitude=-85.758814%2C-88.777836%2C-79.955187%2C-87.692500%2C-83.613565%2C-82.103431%2C-97.159245%2C-82.421441%2C-84.392805%2C-81.508341%2C-87.550384%2C-96.593840%2C-84.484853%2C-96.705594%2C-122.301575%2C-111.654525%2C-81.784930%2C-85.600757%2C-84.505341%2C-92.656002&hourly=temperature_2m%2Cprecipitation_probability%2Cprecipitation%2Cwind_speed_10m%2Cwind_gusts_10m&temperature_unit=fahrenheit&wind_speed_unit=mph&precipitation_unit=inch&timezone=UTC&forecast_days=16"
       },
       "venue": {
@@ -42,19 +42,19 @@
       "forecast": {
         "precipProbabilityPct": 0.0,
         "precipitationIn": 0.0,
-        "temperatureF": 68.0,
+        "temperatureF": 67.5,
         "validTime": "2026-10-10T23:00:00+00:00",
-        "windGustMph": 29.5,
-        "windMph": 9.8
+        "windGustMph": 24.4,
+        "windMph": 8.7
       },
       "game": "Air Force @ Northern Illinois",
       "kickoff": "2026-10-10T23:30:00+00:00",
-      "retrievedAt": "2026-10-07T19:25:04.223935+00:00",
+      "retrievedAt": "2026-10-08T19:20:40.576154+00:00",
       "source": {
         "batchLocations": 20,
         "locationIndex": 1,
         "provider": "open-meteo",
-        "sha256": "96719d8c2cb441272fa827bcd7b2dd4c3818c43080eedcb0d895244bf92deacd",
+        "sha256": "b1c834c65bcf96cd87f35cd866d6893677f61d744e99578813786c77658fca6c",
         "url": "https://api.open-meteo.com/v1/forecast?latitude=38.205762%2C41.933959%2C39.650274%2C42.065556%2C41.657478%2C39.321279%2C33.203899%2C38.424704%2C33.772445%2C41.072553%2C33.208275%2C39.202010%2C42.728147%2C40.820682%2C47.650323%2C40.257535%2C32.412247%2C42.286006%2C38.022090%2C32.532149&longitude=-85.758814%2C-88.777836%2C-79.955187%2C-87.692500%2C-83.613565%2C-82.103431%2C-97.159245%2C-82.421441%2C-84.392805%2C-81.508341%2C-87.550384%2C-96.593840%2C-84.484853%2C-96.705594%2C-122.301575%2C-111.654525%2C-81.784930%2C-85.600757%2C-84.505341%2C-92.656002&hourly=temperature_2m%2Cprecipitation_probability%2Cprecipitation%2Cwind_speed_10m%2Cwind_gusts_10m&temperature_unit=fahrenheit&wind_speed_unit=mph&precipitation_unit=inch&timezone=UTC&forecast_days=16"
       },
       "venue": {
@@ -66,7 +66,7 @@
         "venueName": "Huskie Stadium"
       },
       "weatherSuppressedByDome": false,
-      "windMph": 9.8
+      "windMph": 8.7
     },
     {
       "auditGrade": true,
@@ -74,19 +74,19 @@
       "forecast": {
         "precipProbabilityPct": 0.0,
         "precipitationIn": 0.0,
-        "temperatureF": 69.6,
+        "temperatureF": 69.3,
         "validTime": "2026-10-10T16:00:00+00:00",
-        "windGustMph": 7.6,
-        "windMph": 4.6
+        "windGustMph": 6.3,
+        "windMph": 4.7
       },
       "game": "Arizona @ West Virginia",
       "kickoff": "2026-10-10T16:00:00+00:00",
-      "retrievedAt": "2026-10-07T19:25:04.223935+00:00",
+      "retrievedAt": "2026-10-08T19:20:40.576154+00:00",
       "source": {
         "batchLocations": 20,
         "locationIndex": 2,
         "provider": "open-meteo",
-        "sha256": "96719d8c2cb441272fa827bcd7b2dd4c3818c43080eedcb0d895244bf92deacd",
+        "sha256": "b1c834c65bcf96cd87f35cd866d6893677f61d744e99578813786c77658fca6c",
         "url": "https://api.open-meteo.com/v1/forecast?latitude=38.205762%2C41.933959%2C39.650274%2C42.065556%2C41.657478%2C39.321279%2C33.203899%2C38.424704%2C33.772445%2C41.072553%2C33.208275%2C39.202010%2C42.728147%2C40.820682%2C47.650323%2C40.257535%2C32.412247%2C42.286006%2C38.022090%2C32.532149&longitude=-85.758814%2C-88.777836%2C-79.955187%2C-87.692500%2C-83.613565%2C-82.103431%2C-97.159245%2C-82.421441%2C-84.392805%2C-81.508341%2C-87.550384%2C-96.593840%2C-84.484853%2C-96.705594%2C-122.301575%2C-111.654525%2C-81.784930%2C-85.600757%2C-84.505341%2C-92.656002&hourly=temperature_2m%2Cprecipitation_probability%2Cprecipitation%2Cwind_speed_10m%2Cwind_gusts_10m&temperature_unit=fahrenheit&wind_speed_unit=mph&precipitation_unit=inch&timezone=UTC&forecast_days=16"
       },
       "venue": {
@@ -98,7 +98,7 @@
         "venueName": "Milan Puskar Stadium"
       },
       "weatherSuppressedByDome": false,
-      "windMph": 4.6
+      "windMph": 4.7
     },
     {
       "auditGrade": true,
@@ -106,19 +106,19 @@
       "forecast": {
         "precipProbabilityPct": 0.0,
         "precipitationIn": 0.0,
-        "temperatureF": 73.6,
+        "temperatureF": 73.5,
         "validTime": "2026-10-10T16:00:00+00:00",
-        "windGustMph": 18.8,
-        "windMph": 11.9
+        "windGustMph": 17.4,
+        "windMph": 11.3
       },
       "game": "Ball State @ Northwestern",
       "kickoff": "2026-10-10T16:30:00+00:00",
-      "retrievedAt": "2026-10-07T19:25:04.223935+00:00",
+      "retrievedAt": "2026-10-08T19:20:40.576154+00:00",
       "source": {
         "batchLocations": 20,
         "locationIndex": 3,
         "provider": "open-meteo",
-        "sha256": "96719d8c2cb441272fa827bcd7b2dd4c3818c43080eedcb0d895244bf92deacd",
+        "sha256": "b1c834c65bcf96cd87f35cd866d6893677f61d744e99578813786c77658fca6c",
         "url": "https://api.open-meteo.com/v1/forecast?latitude=38.205762%2C41.933959%2C39.650274%2C42.065556%2C41.657478%2C39.321279%2C33.203899%2C38.424704%2C33.772445%2C41.072553%2C33.208275%2C39.202010%2C42.728147%2C40.820682%2C47.650323%2C40.257535%2C32.412247%2C42.286006%2C38.022090%2C32.532149&longitude=-85.758814%2C-88.777836%2C-79.955187%2C-87.692500%2C-83.613565%2C-82.103431%2C-97.159245%2C-82.421441%2C-84.392805%2C-81.508341%2C-87.550384%2C-96.593840%2C-84.484853%2C-96.705594%2C-122.301575%2C-111.654525%2C-81.784930%2C-85.600757%2C-84.505341%2C-92.656002&hourly=temperature_2m%2Cprecipitation_probability%2Cprecipitation%2Cwind_speed_10m%2Cwind_gusts_10m&temperature_unit=fahrenheit&wind_speed_unit=mph&precipitation_unit=inch&timezone=UTC&forecast_days=16"
       },
       "venue": {
@@ -130,27 +130,27 @@
         "venueName": "Ryan Field"
       },
       "weatherSuppressedByDome": false,
-      "windMph": 11.9
+      "windMph": 11.3
     },
     {
       "auditGrade": true,
       "exclusions": [],
       "forecast": {
-        "precipProbabilityPct": 1.0,
+        "precipProbabilityPct": 0.0,
         "precipitationIn": 0.0,
-        "temperatureF": 75.6,
+        "temperatureF": 76.5,
         "validTime": "2026-10-10T19:00:00+00:00",
-        "windGustMph": 18.8,
-        "windMph": 10.5
+        "windGustMph": 15.4,
+        "windMph": 9.7
       },
       "game": "Buffalo @ Toledo",
       "kickoff": "2026-10-10T19:30:00+00:00",
-      "retrievedAt": "2026-10-07T19:25:04.223935+00:00",
+      "retrievedAt": "2026-10-08T19:20:40.576154+00:00",
       "source": {
         "batchLocations": 20,
         "locationIndex": 4,
         "provider": "open-meteo",
-        "sha256": "96719d8c2cb441272fa827bcd7b2dd4c3818c43080eedcb0d895244bf92deacd",
+        "sha256": "b1c834c65bcf96cd87f35cd866d6893677f61d744e99578813786c77658fca6c",
         "url": "https://api.open-meteo.com/v1/forecast?latitude=38.205762%2C41.933959%2C39.650274%2C42.065556%2C41.657478%2C39.321279%2C33.203899%2C38.424704%2C33.772445%2C41.072553%2C33.208275%2C39.202010%2C42.728147%2C40.820682%2C47.650323%2C40.257535%2C32.412247%2C42.286006%2C38.022090%2C32.532149&longitude=-85.758814%2C-88.777836%2C-79.955187%2C-87.692500%2C-83.613565%2C-82.103431%2C-97.159245%2C-82.421441%2C-84.392805%2C-81.508341%2C-87.550384%2C-96.593840%2C-84.484853%2C-96.705594%2C-122.301575%2C-111.654525%2C-81.784930%2C-85.600757%2C-84.505341%2C-92.656002&hourly=temperature_2m%2Cprecipitation_probability%2Cprecipitation%2Cwind_speed_10m%2Cwind_gusts_10m&temperature_unit=fahrenheit&wind_speed_unit=mph&precipitation_unit=inch&timezone=UTC&forecast_days=16"
       },
       "venue": {
@@ -162,27 +162,27 @@
         "venueName": "Glass Bowl"
       },
       "weatherSuppressedByDome": false,
-      "windMph": 10.5
+      "windMph": 9.7
     },
     {
       "auditGrade": true,
       "exclusions": [],
       "forecast": {
-        "precipProbabilityPct": 10.0,
+        "precipProbabilityPct": 3.0,
         "precipitationIn": 0.0,
-        "temperatureF": 71.3,
+        "temperatureF": 71.5,
         "validTime": "2026-10-10T19:00:00+00:00",
-        "windGustMph": 25.9,
+        "windGustMph": 18.6,
         "windMph": 7.8
       },
       "game": "Central Michigan @ Ohio",
       "kickoff": "2026-10-10T19:30:00+00:00",
-      "retrievedAt": "2026-10-07T19:25:04.223935+00:00",
+      "retrievedAt": "2026-10-08T19:20:40.576154+00:00",
       "source": {
         "batchLocations": 20,
         "locationIndex": 5,
         "provider": "open-meteo",
-        "sha256": "96719d8c2cb441272fa827bcd7b2dd4c3818c43080eedcb0d895244bf92deacd",
+        "sha256": "b1c834c65bcf96cd87f35cd866d6893677f61d744e99578813786c77658fca6c",
         "url": "https://api.open-meteo.com/v1/forecast?latitude=38.205762%2C41.933959%2C39.650274%2C42.065556%2C41.657478%2C39.321279%2C33.203899%2C38.424704%2C33.772445%2C41.072553%2C33.208275%2C39.202010%2C42.728147%2C40.820682%2C47.650323%2C40.257535%2C32.412247%2C42.286006%2C38.022090%2C32.532149&longitude=-85.758814%2C-88.777836%2C-79.955187%2C-87.692500%2C-83.613565%2C-82.103431%2C-97.159245%2C-82.421441%2C-84.392805%2C-81.508341%2C-87.550384%2C-96.593840%2C-84.484853%2C-96.705594%2C-122.301575%2C-111.654525%2C-81.784930%2C-85.600757%2C-84.505341%2C-92.656002&hourly=temperature_2m%2Cprecipitation_probability%2Cprecipitation%2Cwind_speed_10m%2Cwind_gusts_10m&temperature_unit=fahrenheit&wind_speed_unit=mph&precipitation_unit=inch&timezone=UTC&forecast_days=16"
       },
       "venue": {
@@ -202,19 +202,19 @@
       "forecast": {
         "precipProbabilityPct": 0.0,
         "precipitationIn": 0.0,
-        "temperatureF": 85.9,
+        "temperatureF": 86.4,
         "validTime": "2026-10-10T19:00:00+00:00",
-        "windGustMph": 8.1,
-        "windMph": 4.7
+        "windGustMph": 7.4,
+        "windMph": 3.7
       },
       "game": "Charlotte @ North Texas",
       "kickoff": "2026-10-10T19:30:00+00:00",
-      "retrievedAt": "2026-10-07T19:25:04.223935+00:00",
+      "retrievedAt": "2026-10-08T19:20:40.576154+00:00",
       "source": {
         "batchLocations": 20,
         "locationIndex": 6,
         "provider": "open-meteo",
-        "sha256": "96719d8c2cb441272fa827bcd7b2dd4c3818c43080eedcb0d895244bf92deacd",
+        "sha256": "b1c834c65bcf96cd87f35cd866d6893677f61d744e99578813786c77658fca6c",
         "url": "https://api.open-meteo.com/v1/forecast?latitude=38.205762%2C41.933959%2C39.650274%2C42.065556%2C41.657478%2C39.321279%2C33.203899%2C38.424704%2C33.772445%2C41.072553%2C33.208275%2C39.202010%2C42.728147%2C40.820682%2C47.650323%2C40.257535%2C32.412247%2C42.286006%2C38.022090%2C32.532149&longitude=-85.758814%2C-88.777836%2C-79.955187%2C-87.692500%2C-83.613565%2C-82.103431%2C-97.159245%2C-82.421441%2C-84.392805%2C-81.508341%2C-87.550384%2C-96.593840%2C-84.484853%2C-96.705594%2C-122.301575%2C-111.654525%2C-81.784930%2C-85.600757%2C-84.505341%2C-92.656002&hourly=temperature_2m%2Cprecipitation_probability%2Cprecipitation%2Cwind_speed_10m%2Cwind_gusts_10m&temperature_unit=fahrenheit&wind_speed_unit=mph&precipitation_unit=inch&timezone=UTC&forecast_days=16"
       },
       "venue": {
@@ -226,27 +226,27 @@
         "venueName": "DATCU Stadium"
       },
       "weatherSuppressedByDome": false,
-      "windMph": 4.7
+      "windMph": 3.7
     },
     {
       "auditGrade": true,
       "exclusions": [],
       "forecast": {
-        "precipProbabilityPct": 16.0,
-        "precipitationIn": 0.252,
-        "temperatureF": 54.6,
+        "precipProbabilityPct": 18.0,
+        "precipitationIn": 0.0,
+        "temperatureF": 59.1,
         "validTime": "2026-10-10T23:00:00+00:00",
-        "windGustMph": 40.0,
-        "windMph": 10.6
+        "windGustMph": 26.2,
+        "windMph": 9.4
       },
       "game": "Coastal Carolina @ Marshall",
       "kickoff": "2026-10-10T23:00:00+00:00",
-      "retrievedAt": "2026-10-07T19:25:04.223935+00:00",
+      "retrievedAt": "2026-10-08T19:20:40.576154+00:00",
       "source": {
         "batchLocations": 20,
         "locationIndex": 7,
         "provider": "open-meteo",
-        "sha256": "96719d8c2cb441272fa827bcd7b2dd4c3818c43080eedcb0d895244bf92deacd",
+        "sha256": "b1c834c65bcf96cd87f35cd866d6893677f61d744e99578813786c77658fca6c",
         "url": "https://api.open-meteo.com/v1/forecast?latitude=38.205762%2C41.933959%2C39.650274%2C42.065556%2C41.657478%2C39.321279%2C33.203899%2C38.424704%2C33.772445%2C41.072553%2C33.208275%2C39.202010%2C42.728147%2C40.820682%2C47.650323%2C40.257535%2C32.412247%2C42.286006%2C38.022090%2C32.532149&longitude=-85.758814%2C-88.777836%2C-79.955187%2C-87.692500%2C-83.613565%2C-82.103431%2C-97.159245%2C-82.421441%2C-84.392805%2C-81.508341%2C-87.550384%2C-96.593840%2C-84.484853%2C-96.705594%2C-122.301575%2C-111.654525%2C-81.784930%2C-85.600757%2C-84.505341%2C-92.656002&hourly=temperature_2m%2Cprecipitation_probability%2Cprecipitation%2Cwind_speed_10m%2Cwind_gusts_10m&temperature_unit=fahrenheit&wind_speed_unit=mph&precipitation_unit=inch&timezone=UTC&forecast_days=16"
       },
       "venue": {
@@ -258,27 +258,27 @@
         "venueName": "Joan C. Edwards Stadium"
       },
       "weatherSuppressedByDome": false,
-      "windMph": 10.6
+      "windMph": 9.4
     },
     {
       "auditGrade": true,
       "exclusions": [],
       "forecast": {
-        "precipProbabilityPct": 87.0,
-        "precipitationIn": 0.083,
-        "temperatureF": 58.6,
+        "precipProbabilityPct": 95.0,
+        "precipitationIn": 0.012,
+        "temperatureF": 57.3,
         "validTime": "2026-10-10T19:00:00+00:00",
-        "windGustMph": 39.4,
-        "windMph": 16.7
+        "windGustMph": 45.6,
+        "windMph": 17.4
       },
       "game": "Duke @ Georgia Tech",
       "kickoff": "2026-10-10T19:30:00+00:00",
-      "retrievedAt": "2026-10-07T19:25:04.223935+00:00",
+      "retrievedAt": "2026-10-08T19:20:40.576154+00:00",
       "source": {
         "batchLocations": 20,
         "locationIndex": 8,
         "provider": "open-meteo",
-        "sha256": "96719d8c2cb441272fa827bcd7b2dd4c3818c43080eedcb0d895244bf92deacd",
+        "sha256": "b1c834c65bcf96cd87f35cd866d6893677f61d744e99578813786c77658fca6c",
         "url": "https://api.open-meteo.com/v1/forecast?latitude=38.205762%2C41.933959%2C39.650274%2C42.065556%2C41.657478%2C39.321279%2C33.203899%2C38.424704%2C33.772445%2C41.072553%2C33.208275%2C39.202010%2C42.728147%2C40.820682%2C47.650323%2C40.257535%2C32.412247%2C42.286006%2C38.022090%2C32.532149&longitude=-85.758814%2C-88.777836%2C-79.955187%2C-87.692500%2C-83.613565%2C-82.103431%2C-97.159245%2C-82.421441%2C-84.392805%2C-81.508341%2C-87.550384%2C-96.593840%2C-84.484853%2C-96.705594%2C-122.301575%2C-111.654525%2C-81.784930%2C-85.600757%2C-84.505341%2C-92.656002&hourly=temperature_2m%2Cprecipitation_probability%2Cprecipitation%2Cwind_speed_10m%2Cwind_gusts_10m&temperature_unit=fahrenheit&wind_speed_unit=mph&precipitation_unit=inch&timezone=UTC&forecast_days=16"
       },
       "venue": {
@@ -290,7 +290,7 @@
         "venueName": "Bobby Dodd Stadium"
       },
       "weatherSuppressedByDome": false,
-      "windMph": 16.7
+      "windMph": 17.4
     },
     {
       "auditGrade": true,
@@ -298,19 +298,19 @@
       "forecast": {
         "precipProbabilityPct": 0.0,
         "precipitationIn": 0.0,
-        "temperatureF": 73.1,
+        "temperatureF": 74.0,
         "validTime": "2026-10-10T19:00:00+00:00",
-        "windGustMph": 20.4,
-        "windMph": 11.2
+        "windGustMph": 14.3,
+        "windMph": 9.0
       },
       "game": "Eastern Michigan @ Akron",
       "kickoff": "2026-10-10T19:30:00+00:00",
-      "retrievedAt": "2026-10-07T19:25:04.223935+00:00",
+      "retrievedAt": "2026-10-08T19:20:40.576154+00:00",
       "source": {
         "batchLocations": 20,
         "locationIndex": 9,
         "provider": "open-meteo",
-        "sha256": "96719d8c2cb441272fa827bcd7b2dd4c3818c43080eedcb0d895244bf92deacd",
+        "sha256": "b1c834c65bcf96cd87f35cd866d6893677f61d744e99578813786c77658fca6c",
         "url": "https://api.open-meteo.com/v1/forecast?latitude=38.205762%2C41.933959%2C39.650274%2C42.065556%2C41.657478%2C39.321279%2C33.203899%2C38.424704%2C33.772445%2C41.072553%2C33.208275%2C39.202010%2C42.728147%2C40.820682%2C47.650323%2C40.257535%2C32.412247%2C42.286006%2C38.022090%2C32.532149&longitude=-85.758814%2C-88.777836%2C-79.955187%2C-87.692500%2C-83.613565%2C-82.103431%2C-97.159245%2C-82.421441%2C-84.392805%2C-81.508341%2C-87.550384%2C-96.593840%2C-84.484853%2C-96.705594%2C-122.301575%2C-111.654525%2C-81.784930%2C-85.600757%2C-84.505341%2C-92.656002&hourly=temperature_2m%2Cprecipitation_probability%2Cprecipitation%2Cwind_speed_10m%2Cwind_gusts_10m&temperature_unit=fahrenheit&wind_speed_unit=mph&precipitation_unit=inch&timezone=UTC&forecast_days=16"
       },
       "venue": {
@@ -322,27 +322,27 @@
         "venueName": "InfoCision Stadium"
       },
       "weatherSuppressedByDome": false,
-      "windMph": 11.2
+      "windMph": 9.0
     },
     {
       "auditGrade": true,
       "exclusions": [],
       "forecast": {
-        "precipProbabilityPct": 84.0,
+        "precipProbabilityPct": 73.0,
         "precipitationIn": 0.004,
-        "temperatureF": 69.0,
+        "temperatureF": 66.1,
         "validTime": "2026-10-10T23:00:00+00:00",
-        "windGustMph": 4.7,
-        "windMph": 3.9
+        "windGustMph": 15.9,
+        "windMph": 5.9
       },
       "game": "Georgia @ Alabama",
       "kickoff": "2026-10-10T23:30:00+00:00",
-      "retrievedAt": "2026-10-07T19:25:04.223935+00:00",
+      "retrievedAt": "2026-10-08T19:20:40.576154+00:00",
       "source": {
         "batchLocations": 20,
         "locationIndex": 10,
         "provider": "open-meteo",
-        "sha256": "96719d8c2cb441272fa827bcd7b2dd4c3818c43080eedcb0d895244bf92deacd",
+        "sha256": "b1c834c65bcf96cd87f35cd866d6893677f61d744e99578813786c77658fca6c",
         "url": "https://api.open-meteo.com/v1/forecast?latitude=38.205762%2C41.933959%2C39.650274%2C42.065556%2C41.657478%2C39.321279%2C33.203899%2C38.424704%2C33.772445%2C41.072553%2C33.208275%2C39.202010%2C42.728147%2C40.820682%2C47.650323%2C40.257535%2C32.412247%2C42.286006%2C38.022090%2C32.532149&longitude=-85.758814%2C-88.777836%2C-79.955187%2C-87.692500%2C-83.613565%2C-82.103431%2C-97.159245%2C-82.421441%2C-84.392805%2C-81.508341%2C-87.550384%2C-96.593840%2C-84.484853%2C-96.705594%2C-122.301575%2C-111.654525%2C-81.784930%2C-85.600757%2C-84.505341%2C-92.656002&hourly=temperature_2m%2Cprecipitation_probability%2Cprecipitation%2Cwind_speed_10m%2Cwind_gusts_10m&temperature_unit=fahrenheit&wind_speed_unit=mph&precipitation_unit=inch&timezone=UTC&forecast_days=16"
       },
       "venue": {
@@ -354,7 +354,7 @@
         "venueName": "Bryant-Denny Stadium"
       },
       "weatherSuppressedByDome": false,
-      "windMph": 3.9
+      "windMph": 5.9
     },
     {
       "auditGrade": true,
@@ -362,19 +362,19 @@
       "forecast": {
         "precipProbabilityPct": 0.0,
         "precipitationIn": 0.0,
-        "temperatureF": 84.9,
+        "temperatureF": 84.0,
         "validTime": "2026-10-10T19:00:00+00:00",
-        "windGustMph": 25.3,
-        "windMph": 20.1
+        "windGustMph": 24.6,
+        "windMph": 19.2
       },
       "game": "Houston @ Kansas State",
       "kickoff": "2026-10-10T19:30:00+00:00",
-      "retrievedAt": "2026-10-07T19:25:04.223935+00:00",
+      "retrievedAt": "2026-10-08T19:20:40.576154+00:00",
       "source": {
         "batchLocations": 20,
         "locationIndex": 11,
         "provider": "open-meteo",
-        "sha256": "96719d8c2cb441272fa827bcd7b2dd4c3818c43080eedcb0d895244bf92deacd",
+        "sha256": "b1c834c65bcf96cd87f35cd866d6893677f61d744e99578813786c77658fca6c",
         "url": "https://api.open-meteo.com/v1/forecast?latitude=38.205762%2C41.933959%2C39.650274%2C42.065556%2C41.657478%2C39.321279%2C33.203899%2C38.424704%2C33.772445%2C41.072553%2C33.208275%2C39.202010%2C42.728147%2C40.820682%2C47.650323%2C40.257535%2C32.412247%2C42.286006%2C38.022090%2C32.532149&longitude=-85.758814%2C-88.777836%2C-79.955187%2C-87.692500%2C-83.613565%2C-82.103431%2C-97.159245%2C-82.421441%2C-84.392805%2C-81.508341%2C-87.550384%2C-96.593840%2C-84.484853%2C-96.705594%2C-122.301575%2C-111.654525%2C-81.784930%2C-85.600757%2C-84.505341%2C-92.656002&hourly=temperature_2m%2Cprecipitation_probability%2Cprecipitation%2Cwind_speed_10m%2Cwind_gusts_10m&temperature_unit=fahrenheit&wind_speed_unit=mph&precipitation_unit=inch&timezone=UTC&forecast_days=16"
       },
       "venue": {
@@ -386,7 +386,7 @@
         "venueName": "Bill Snyder Family Stadium"
       },
       "weatherSuppressedByDome": false,
-      "windMph": 20.1
+      "windMph": 19.2
     },
     {
       "auditGrade": true,
@@ -394,19 +394,19 @@
       "forecast": {
         "precipProbabilityPct": 0.0,
         "precipitationIn": 0.0,
-        "temperatureF": 78.1,
+        "temperatureF": 74.9,
         "validTime": "2026-10-10T19:00:00+00:00",
-        "windGustMph": 20.8,
+        "windGustMph": 21.3,
         "windMph": 14.8
       },
       "game": "Illinois @ Michigan State",
       "kickoff": "2026-10-10T19:30:00+00:00",
-      "retrievedAt": "2026-10-07T19:25:04.223935+00:00",
+      "retrievedAt": "2026-10-08T19:20:40.576154+00:00",
       "source": {
         "batchLocations": 20,
         "locationIndex": 12,
         "provider": "open-meteo",
-        "sha256": "96719d8c2cb441272fa827bcd7b2dd4c3818c43080eedcb0d895244bf92deacd",
+        "sha256": "b1c834c65bcf96cd87f35cd866d6893677f61d744e99578813786c77658fca6c",
         "url": "https://api.open-meteo.com/v1/forecast?latitude=38.205762%2C41.933959%2C39.650274%2C42.065556%2C41.657478%2C39.321279%2C33.203899%2C38.424704%2C33.772445%2C41.072553%2C33.208275%2C39.202010%2C42.728147%2C40.820682%2C47.650323%2C40.257535%2C32.412247%2C42.286006%2C38.022090%2C32.532149&longitude=-85.758814%2C-88.777836%2C-79.955187%2C-87.692500%2C-83.613565%2C-82.103431%2C-97.159245%2C-82.421441%2C-84.392805%2C-81.508341%2C-87.550384%2C-96.593840%2C-84.484853%2C-96.705594%2C-122.301575%2C-111.654525%2C-81.784930%2C-85.600757%2C-84.505341%2C-92.656002&hourly=temperature_2m%2Cprecipitation_probability%2Cprecipitation%2Cwind_speed_10m%2Cwind_gusts_10m&temperature_unit=fahrenheit&wind_speed_unit=mph&precipitation_unit=inch&timezone=UTC&forecast_days=16"
       },
       "venue": {
@@ -426,19 +426,19 @@
       "forecast": {
         "precipProbabilityPct": 0.0,
         "precipitationIn": 0.0,
-        "temperatureF": 76.9,
+        "temperatureF": 77.6,
         "validTime": "2026-10-10T16:00:00+00:00",
-        "windGustMph": 37.1,
-        "windMph": 18.6
+        "windGustMph": 36.9,
+        "windMph": 18.5
       },
       "game": "Indiana @ Nebraska",
       "kickoff": "2026-10-10T16:00:00+00:00",
-      "retrievedAt": "2026-10-07T19:25:04.223935+00:00",
+      "retrievedAt": "2026-10-08T19:20:40.576154+00:00",
       "source": {
         "batchLocations": 20,
         "locationIndex": 13,
         "provider": "open-meteo",
-        "sha256": "96719d8c2cb441272fa827bcd7b2dd4c3818c43080eedcb0d895244bf92deacd",
+        "sha256": "b1c834c65bcf96cd87f35cd866d6893677f61d744e99578813786c77658fca6c",
         "url": "https://api.open-meteo.com/v1/forecast?latitude=38.205762%2C41.933959%2C39.650274%2C42.065556%2C41.657478%2C39.321279%2C33.203899%2C38.424704%2C33.772445%2C41.072553%2C33.208275%2C39.202010%2C42.728147%2C40.820682%2C47.650323%2C40.257535%2C32.412247%2C42.286006%2C38.022090%2C32.532149&longitude=-85.758814%2C-88.777836%2C-79.955187%2C-87.692500%2C-83.613565%2C-82.103431%2C-97.159245%2C-82.421441%2C-84.392805%2C-81.508341%2C-87.550384%2C-96.593840%2C-84.484853%2C-96.705594%2C-122.301575%2C-111.654525%2C-81.784930%2C-85.600757%2C-84.505341%2C-92.656002&hourly=temperature_2m%2Cprecipitation_probability%2Cprecipitation%2Cwind_speed_10m%2Cwind_gusts_10m&temperature_unit=fahrenheit&wind_speed_unit=mph&precipitation_unit=inch&timezone=UTC&forecast_days=16"
       },
       "venue": {
@@ -450,27 +450,27 @@
         "venueName": "Memorial Stadium (Lincoln, NE)"
       },
       "weatherSuppressedByDome": false,
-      "windMph": 18.6
+      "windMph": 18.5
     },
     {
       "auditGrade": true,
       "exclusions": [],
       "forecast": {
-        "precipProbabilityPct": 32.0,
+        "precipProbabilityPct": 8.0,
         "precipitationIn": 0.0,
-        "temperatureF": 53.1,
+        "temperatureF": 55.2,
         "validTime": "2026-10-10T01:00:00+00:00",
-        "windGustMph": 2.5,
-        "windMph": 2.8
+        "windGustMph": 12.3,
+        "windMph": 3.5
       },
       "game": "Iowa @ Washington",
       "kickoff": "2026-10-10T01:00:00+00:00",
-      "retrievedAt": "2026-10-07T19:25:04.223935+00:00",
+      "retrievedAt": "2026-10-08T19:20:40.576154+00:00",
       "source": {
         "batchLocations": 20,
         "locationIndex": 14,
         "provider": "open-meteo",
-        "sha256": "96719d8c2cb441272fa827bcd7b2dd4c3818c43080eedcb0d895244bf92deacd",
+        "sha256": "b1c834c65bcf96cd87f35cd866d6893677f61d744e99578813786c77658fca6c",
         "url": "https://api.open-meteo.com/v1/forecast?latitude=38.205762%2C41.933959%2C39.650274%2C42.065556%2C41.657478%2C39.321279%2C33.203899%2C38.424704%2C33.772445%2C41.072553%2C33.208275%2C39.202010%2C42.728147%2C40.820682%2C47.650323%2C40.257535%2C32.412247%2C42.286006%2C38.022090%2C32.532149&longitude=-85.758814%2C-88.777836%2C-79.955187%2C-87.692500%2C-83.613565%2C-82.103431%2C-97.159245%2C-82.421441%2C-84.392805%2C-81.508341%2C-87.550384%2C-96.593840%2C-84.484853%2C-96.705594%2C-122.301575%2C-111.654525%2C-81.784930%2C-85.600757%2C-84.505341%2C-92.656002&hourly=temperature_2m%2Cprecipitation_probability%2Cprecipitation%2Cwind_speed_10m%2Cwind_gusts_10m&temperature_unit=fahrenheit&wind_speed_unit=mph&precipitation_unit=inch&timezone=UTC&forecast_days=16"
       },
       "venue": {
@@ -482,27 +482,27 @@
         "venueName": "Husky Stadium"
       },
       "weatherSuppressedByDome": false,
-      "windMph": 2.8
+      "windMph": 3.5
     },
     {
       "auditGrade": true,
       "exclusions": [],
       "forecast": {
-        "precipProbabilityPct": 7.0,
+        "precipProbabilityPct": 2.0,
         "precipitationIn": 0.0,
-        "temperatureF": 75.9,
+        "temperatureF": 72.2,
         "validTime": "2026-10-10T02:00:00+00:00",
-        "windGustMph": 13.4,
-        "windMph": 4.5
+        "windGustMph": 12.5,
+        "windMph": 7.4
       },
       "game": "Iowa State @ BYU",
       "kickoff": "2026-10-10T02:15:00+00:00",
-      "retrievedAt": "2026-10-07T19:25:04.223935+00:00",
+      "retrievedAt": "2026-10-08T19:20:40.576154+00:00",
       "source": {
         "batchLocations": 20,
         "locationIndex": 15,
         "provider": "open-meteo",
-        "sha256": "96719d8c2cb441272fa827bcd7b2dd4c3818c43080eedcb0d895244bf92deacd",
+        "sha256": "b1c834c65bcf96cd87f35cd866d6893677f61d744e99578813786c77658fca6c",
         "url": "https://api.open-meteo.com/v1/forecast?latitude=38.205762%2C41.933959%2C39.650274%2C42.065556%2C41.657478%2C39.321279%2C33.203899%2C38.424704%2C33.772445%2C41.072553%2C33.208275%2C39.202010%2C42.728147%2C40.820682%2C47.650323%2C40.257535%2C32.412247%2C42.286006%2C38.022090%2C32.532149&longitude=-85.758814%2C-88.777836%2C-79.955187%2C-87.692500%2C-83.613565%2C-82.103431%2C-97.159245%2C-82.421441%2C-84.392805%2C-81.508341%2C-87.550384%2C-96.593840%2C-84.484853%2C-96.705594%2C-122.301575%2C-111.654525%2C-81.784930%2C-85.600757%2C-84.505341%2C-92.656002&hourly=temperature_2m%2Cprecipitation_probability%2Cprecipitation%2Cwind_speed_10m%2Cwind_gusts_10m&temperature_unit=fahrenheit&wind_speed_unit=mph&precipitation_unit=inch&timezone=UTC&forecast_days=16"
       },
       "venue": {
@@ -514,27 +514,27 @@
         "venueName": "LaVell Edwards Stadium"
       },
       "weatherSuppressedByDome": false,
-      "windMph": 4.5
+      "windMph": 7.4
     },
     {
       "auditGrade": true,
       "exclusions": [],
       "forecast": {
-        "precipProbabilityPct": 84.0,
-        "precipitationIn": 0.0,
-        "temperatureF": 74.7,
+        "precipProbabilityPct": 79.0,
+        "precipitationIn": 0.024,
+        "temperatureF": 74.2,
         "validTime": "2026-10-10T23:00:00+00:00",
-        "windGustMph": 24.8,
-        "windMph": 10.6
+        "windGustMph": 20.6,
+        "windMph": 4.3
       },
       "game": "James Madison @ Georgia Southern",
       "kickoff": "2026-10-10T23:30:00+00:00",
-      "retrievedAt": "2026-10-07T19:25:04.223935+00:00",
+      "retrievedAt": "2026-10-08T19:20:40.576154+00:00",
       "source": {
         "batchLocations": 20,
         "locationIndex": 16,
         "provider": "open-meteo",
-        "sha256": "96719d8c2cb441272fa827bcd7b2dd4c3818c43080eedcb0d895244bf92deacd",
+        "sha256": "b1c834c65bcf96cd87f35cd866d6893677f61d744e99578813786c77658fca6c",
         "url": "https://api.open-meteo.com/v1/forecast?latitude=38.205762%2C41.933959%2C39.650274%2C42.065556%2C41.657478%2C39.321279%2C33.203899%2C38.424704%2C33.772445%2C41.072553%2C33.208275%2C39.202010%2C42.728147%2C40.820682%2C47.650323%2C40.257535%2C32.412247%2C42.286006%2C38.022090%2C32.532149&longitude=-85.758814%2C-88.777836%2C-79.955187%2C-87.692500%2C-83.613565%2C-82.103431%2C-97.159245%2C-82.421441%2C-84.392805%2C-81.508341%2C-87.550384%2C-96.593840%2C-84.484853%2C-96.705594%2C-122.301575%2C-111.654525%2C-81.784930%2C-85.600757%2C-84.505341%2C-92.656002&hourly=temperature_2m%2Cprecipitation_probability%2Cprecipitation%2Cwind_speed_10m%2Cwind_gusts_10m&temperature_unit=fahrenheit&wind_speed_unit=mph&precipitation_unit=inch&timezone=UTC&forecast_days=16"
       },
       "venue": {
@@ -546,7 +546,7 @@
         "venueName": "Allen E. Paulson Stadium"
       },
       "weatherSuppressedByDome": false,
-      "windMph": 10.6
+      "windMph": 4.3
     },
     {
       "auditGrade": true,
@@ -554,19 +554,19 @@
       "forecast": {
         "precipProbabilityPct": 0.0,
         "precipitationIn": 0.0,
-        "temperatureF": 78.1,
+        "temperatureF": 75.2,
         "validTime": "2026-10-10T19:00:00+00:00",
-        "windGustMph": 21.5,
-        "windMph": 15.4
+        "windGustMph": 23.9,
+        "windMph": 15.0
       },
       "game": "Kent State @ Western Michigan",
       "kickoff": "2026-10-10T19:30:00+00:00",
-      "retrievedAt": "2026-10-07T19:25:04.223935+00:00",
+      "retrievedAt": "2026-10-08T19:20:40.576154+00:00",
       "source": {
         "batchLocations": 20,
         "locationIndex": 17,
         "provider": "open-meteo",
-        "sha256": "96719d8c2cb441272fa827bcd7b2dd4c3818c43080eedcb0d895244bf92deacd",
+        "sha256": "b1c834c65bcf96cd87f35cd866d6893677f61d744e99578813786c77658fca6c",
         "url": "https://api.open-meteo.com/v1/forecast?latitude=38.205762%2C41.933959%2C39.650274%2C42.065556%2C41.657478%2C39.321279%2C33.203899%2C38.424704%2C33.772445%2C41.072553%2C33.208275%2C39.202010%2C42.728147%2C40.820682%2C47.650323%2C40.257535%2C32.412247%2C42.286006%2C38.022090%2C32.532149&longitude=-85.758814%2C-88.777836%2C-79.955187%2C-87.692500%2C-83.613565%2C-82.103431%2C-97.159245%2C-82.421441%2C-84.392805%2C-81.508341%2C-87.550384%2C-96.593840%2C-84.484853%2C-96.705594%2C-122.301575%2C-111.654525%2C-81.784930%2C-85.600757%2C-84.505341%2C-92.656002&hourly=temperature_2m%2Cprecipitation_probability%2Cprecipitation%2Cwind_speed_10m%2Cwind_gusts_10m&temperature_unit=fahrenheit&wind_speed_unit=mph&precipitation_unit=inch&timezone=UTC&forecast_days=16"
       },
       "venue": {
@@ -578,27 +578,27 @@
         "venueName": "Waldo Stadium"
       },
       "weatherSuppressedByDome": false,
-      "windMph": 15.4
+      "windMph": 15.0
     },
     {
       "auditGrade": true,
       "exclusions": [],
       "forecast": {
-        "precipProbabilityPct": 36.0,
-        "precipitationIn": 0.059,
-        "temperatureF": 55.4,
+        "precipProbabilityPct": 47.0,
+        "precipitationIn": 0.0,
+        "temperatureF": 60.7,
         "validTime": "2026-10-10T23:00:00+00:00",
-        "windGustMph": 40.0,
-        "windMph": 18.8
+        "windGustMph": 38.5,
+        "windMph": 20.6
       },
       "game": "LSU @ Kentucky",
       "kickoff": "2026-10-10T23:00:00+00:00",
-      "retrievedAt": "2026-10-07T19:25:04.223935+00:00",
+      "retrievedAt": "2026-10-08T19:20:40.576154+00:00",
       "source": {
         "batchLocations": 20,
         "locationIndex": 18,
         "provider": "open-meteo",
-        "sha256": "96719d8c2cb441272fa827bcd7b2dd4c3818c43080eedcb0d895244bf92deacd",
+        "sha256": "b1c834c65bcf96cd87f35cd866d6893677f61d744e99578813786c77658fca6c",
         "url": "https://api.open-meteo.com/v1/forecast?latitude=38.205762%2C41.933959%2C39.650274%2C42.065556%2C41.657478%2C39.321279%2C33.203899%2C38.424704%2C33.772445%2C41.072553%2C33.208275%2C39.202010%2C42.728147%2C40.820682%2C47.650323%2C40.257535%2C32.412247%2C42.286006%2C38.022090%2C32.532149&longitude=-85.758814%2C-88.777836%2C-79.955187%2C-87.692500%2C-83.613565%2C-82.103431%2C-97.159245%2C-82.421441%2C-84.392805%2C-81.508341%2C-87.550384%2C-96.593840%2C-84.484853%2C-96.705594%2C-122.301575%2C-111.654525%2C-81.784930%2C-85.600757%2C-84.505341%2C-92.656002&hourly=temperature_2m%2Cprecipitation_probability%2Cprecipitation%2Cwind_speed_10m%2Cwind_gusts_10m&temperature_unit=fahrenheit&wind_speed_unit=mph&precipitation_unit=inch&timezone=UTC&forecast_days=16"
       },
       "venue": {
@@ -610,27 +610,27 @@
         "venueName": "Kroger Field"
       },
       "weatherSuppressedByDome": false,
-      "windMph": 18.8
+      "windMph": 20.6
     },
     {
       "auditGrade": true,
       "exclusions": [],
       "forecast": {
-        "precipProbabilityPct": 50.0,
+        "precipProbabilityPct": 22.0,
         "precipitationIn": 0.0,
-        "temperatureF": 76.1,
+        "temperatureF": 79.9,
         "validTime": "2026-10-10T23:00:00+00:00",
-        "windGustMph": 12.1,
-        "windMph": 8.0
+        "windGustMph": 13.9,
+        "windMph": 3.4
       },
       "game": "Louisiana @ Louisiana Tech",
       "kickoff": "2026-10-10T23:30:00+00:00",
-      "retrievedAt": "2026-10-07T19:25:04.223935+00:00",
+      "retrievedAt": "2026-10-08T19:20:40.576154+00:00",
       "source": {
         "batchLocations": 20,
         "locationIndex": 19,
         "provider": "open-meteo",
-        "sha256": "96719d8c2cb441272fa827bcd7b2dd4c3818c43080eedcb0d895244bf92deacd",
+        "sha256": "b1c834c65bcf96cd87f35cd866d6893677f61d744e99578813786c77658fca6c",
         "url": "https://api.open-meteo.com/v1/forecast?latitude=38.205762%2C41.933959%2C39.650274%2C42.065556%2C41.657478%2C39.321279%2C33.203899%2C38.424704%2C33.772445%2C41.072553%2C33.208275%2C39.202010%2C42.728147%2C40.820682%2C47.650323%2C40.257535%2C32.412247%2C42.286006%2C38.022090%2C32.532149&longitude=-85.758814%2C-88.777836%2C-79.955187%2C-87.692500%2C-83.613565%2C-82.103431%2C-97.159245%2C-82.421441%2C-84.392805%2C-81.508341%2C-87.550384%2C-96.593840%2C-84.484853%2C-96.705594%2C-122.301575%2C-111.654525%2C-81.784930%2C-85.600757%2C-84.505341%2C-92.656002&hourly=temperature_2m%2Cprecipitation_probability%2Cprecipitation%2Cwind_speed_10m%2Cwind_gusts_10m&temperature_unit=fahrenheit&wind_speed_unit=mph&precipitation_unit=inch&timezone=UTC&forecast_days=16"
       },
       "venue": {
@@ -642,27 +642,27 @@
         "venueName": "Joe Aillet Stadium"
       },
       "weatherSuppressedByDome": false,
-      "windMph": 8.0
+      "windMph": 3.4
     },
     {
       "auditGrade": true,
       "exclusions": [],
       "forecast": {
-        "precipProbabilityPct": 4.0,
+        "precipProbabilityPct": 1.0,
         "precipitationIn": 0.0,
         "temperatureF": 72.7,
         "validTime": "2026-10-10T20:00:00+00:00",
-        "windGustMph": 20.8,
-        "windMph": 9.4
+        "windGustMph": 17.2,
+        "windMph": 7.7
       },
       "game": "Maryland @ Ohio State",
       "kickoff": "2026-10-10T20:15:00+00:00",
-      "retrievedAt": "2026-10-07T19:25:04.223935+00:00",
+      "retrievedAt": "2026-10-08T19:20:40.576154+00:00",
       "source": {
         "batchLocations": 20,
         "locationIndex": 0,
         "provider": "open-meteo",
-        "sha256": "33de035a779e4e486abf72609c17bc47a3f14506c8547af8cb763d2aedc318c3",
+        "sha256": "861cc1f17e1363c59673f5760678ad14609b8d9f4a1c44b94924d4e67a5689d4",
         "url": "https://api.open-meteo.com/v1/forecast?latitude=40.001645%2C42.377324%2C31.773335%2C40.446765%2C36.211427%2C36.144045%2C35.596849%2C41.378011%2C44.559456%2C29.649936%2C41.698378%2C38.031180%2C36.068066%2C32.779722%2C38.935849%2C41.387492%2C38.984699%2C35.120943%2C36.125673%2C44.058271&longitude=-83.019727%2C-72.536059%2C-106.507957%2C-80.015760%2C-81.685428%2C-86.808894%2C-77.364564%2C-83.622500%2C-123.281434%2C-82.348579%2C-86.233942%2C-78.513790%2C-94.178953%2C-96.759722%2C-92.333201%2C-73.964089%2C-76.507633%2C-89.977147%2C-97.066513%2C-123.068488&hourly=temperature_2m%2Cprecipitation_probability%2Cprecipitation%2Cwind_speed_10m%2Cwind_gusts_10m&temperature_unit=fahrenheit&wind_speed_unit=mph&precipitation_unit=inch&timezone=UTC&forecast_days=16"
       },
       "venue": {
@@ -674,7 +674,7 @@
         "venueName": "Ohio Stadium"
       },
       "weatherSuppressedByDome": false,
-      "windMph": 9.4
+      "windMph": 7.7
     },
     {
       "auditGrade": true,
@@ -682,19 +682,19 @@
       "forecast": {
         "precipProbabilityPct": 0.0,
         "precipitationIn": 0.0,
-        "temperatureF": 66.7,
+        "temperatureF": 64.6,
         "validTime": "2026-10-10T18:00:00+00:00",
         "windGustMph": 8.9,
-        "windMph": 2.9
+        "windMph": 2.3
       },
       "game": "Miami (OH) @ Massachusetts",
       "kickoff": "2026-10-10T18:00:00+00:00",
-      "retrievedAt": "2026-10-07T19:25:04.223935+00:00",
+      "retrievedAt": "2026-10-08T19:20:40.576154+00:00",
       "source": {
         "batchLocations": 20,
         "locationIndex": 1,
         "provider": "open-meteo",
-        "sha256": "33de035a779e4e486abf72609c17bc47a3f14506c8547af8cb763d2aedc318c3",
+        "sha256": "861cc1f17e1363c59673f5760678ad14609b8d9f4a1c44b94924d4e67a5689d4",
         "url": "https://api.open-meteo.com/v1/forecast?latitude=40.001645%2C42.377324%2C31.773335%2C40.446765%2C36.211427%2C36.144045%2C35.596849%2C41.378011%2C44.559456%2C29.649936%2C41.698378%2C38.031180%2C36.068066%2C32.779722%2C38.935849%2C41.387492%2C38.984699%2C35.120943%2C36.125673%2C44.058271&longitude=-83.019727%2C-72.536059%2C-106.507957%2C-80.015760%2C-81.685428%2C-86.808894%2C-77.364564%2C-83.622500%2C-123.281434%2C-82.348579%2C-86.233942%2C-78.513790%2C-94.178953%2C-96.759722%2C-92.333201%2C-73.964089%2C-76.507633%2C-89.977147%2C-97.066513%2C-123.068488&hourly=temperature_2m%2Cprecipitation_probability%2Cprecipitation%2Cwind_speed_10m%2Cwind_gusts_10m&temperature_unit=fahrenheit&wind_speed_unit=mph&precipitation_unit=inch&timezone=UTC&forecast_days=16"
       },
       "venue": {
@@ -706,27 +706,27 @@
         "venueName": "Warren McGuirk Alumni Stadium"
       },
       "weatherSuppressedByDome": false,
-      "windMph": 2.9
+      "windMph": 2.3
     },
     {
       "auditGrade": true,
       "exclusions": [],
       "forecast": {
-        "precipProbabilityPct": 1.0,
+        "precipProbabilityPct": 0.0,
         "precipitationIn": 0.0,
-        "temperatureF": 85.7,
+        "temperatureF": 85.4,
         "validTime": "2026-10-10T23:00:00+00:00",
-        "windGustMph": 13.0,
-        "windMph": 7.9
+        "windGustMph": 13.9,
+        "windMph": 18.1
       },
       "game": "Nevada @ UTEP",
       "kickoff": "2026-10-10T23:00:00+00:00",
-      "retrievedAt": "2026-10-07T19:25:04.223935+00:00",
+      "retrievedAt": "2026-10-08T19:20:40.576154+00:00",
       "source": {
         "batchLocations": 20,
         "locationIndex": 2,
         "provider": "open-meteo",
-        "sha256": "33de035a779e4e486abf72609c17bc47a3f14506c8547af8cb763d2aedc318c3",
+        "sha256": "861cc1f17e1363c59673f5760678ad14609b8d9f4a1c44b94924d4e67a5689d4",
         "url": "https://api.open-meteo.com/v1/forecast?latitude=40.001645%2C42.377324%2C31.773335%2C40.446765%2C36.211427%2C36.144045%2C35.596849%2C41.378011%2C44.559456%2C29.649936%2C41.698378%2C38.031180%2C36.068066%2C32.779722%2C38.935849%2C41.387492%2C38.984699%2C35.120943%2C36.125673%2C44.058271&longitude=-83.019727%2C-72.536059%2C-106.507957%2C-80.015760%2C-81.685428%2C-86.808894%2C-77.364564%2C-83.622500%2C-123.281434%2C-82.348579%2C-86.233942%2C-78.513790%2C-94.178953%2C-96.759722%2C-92.333201%2C-73.964089%2C-76.507633%2C-89.977147%2C-97.066513%2C-123.068488&hourly=temperature_2m%2Cprecipitation_probability%2Cprecipitation%2Cwind_speed_10m%2Cwind_gusts_10m&temperature_unit=fahrenheit&wind_speed_unit=mph&precipitation_unit=inch&timezone=UTC&forecast_days=16"
       },
       "venue": {
@@ -738,7 +738,7 @@
         "venueName": "Sun Bowl"
       },
       "weatherSuppressedByDome": false,
-      "windMph": 7.9
+      "windMph": 18.1
     },
     {
       "auditGrade": true,
@@ -746,19 +746,19 @@
       "forecast": {
         "precipProbabilityPct": 0.0,
         "precipitationIn": 0.0,
-        "temperatureF": 66.2,
+        "temperatureF": 68.7,
         "validTime": "2026-10-10T16:00:00+00:00",
-        "windGustMph": 7.6,
-        "windMph": 5.7
+        "windGustMph": 7.8,
+        "windMph": 6.4
       },
       "game": "North Carolina @ Pittsburgh",
       "kickoff": "2026-10-10T16:00:00+00:00",
-      "retrievedAt": "2026-10-07T19:25:04.223935+00:00",
+      "retrievedAt": "2026-10-08T19:20:40.576154+00:00",
       "source": {
         "batchLocations": 20,
         "locationIndex": 3,
         "provider": "open-meteo",
-        "sha256": "33de035a779e4e486abf72609c17bc47a3f14506c8547af8cb763d2aedc318c3",
+        "sha256": "861cc1f17e1363c59673f5760678ad14609b8d9f4a1c44b94924d4e67a5689d4",
         "url": "https://api.open-meteo.com/v1/forecast?latitude=40.001645%2C42.377324%2C31.773335%2C40.446765%2C36.211427%2C36.144045%2C35.596849%2C41.378011%2C44.559456%2C29.649936%2C41.698378%2C38.031180%2C36.068066%2C32.779722%2C38.935849%2C41.387492%2C38.984699%2C35.120943%2C36.125673%2C44.058271&longitude=-83.019727%2C-72.536059%2C-106.507957%2C-80.015760%2C-81.685428%2C-86.808894%2C-77.364564%2C-83.622500%2C-123.281434%2C-82.348579%2C-86.233942%2C-78.513790%2C-94.178953%2C-96.759722%2C-92.333201%2C-73.964089%2C-76.507633%2C-89.977147%2C-97.066513%2C-123.068488&hourly=temperature_2m%2Cprecipitation_probability%2Cprecipitation%2Cwind_speed_10m%2Cwind_gusts_10m&temperature_unit=fahrenheit&wind_speed_unit=mph&precipitation_unit=inch&timezone=UTC&forecast_days=16"
       },
       "venue": {
@@ -770,7 +770,7 @@
         "venueName": "Acrisure Stadium"
       },
       "weatherSuppressedByDome": false,
-      "windMph": 5.7
+      "windMph": 6.4
     },
     {
       "auditGrade": true,
@@ -778,7 +778,7 @@
       "forecast": null,
       "game": "North Dakota State @ UNLV",
       "kickoff": "2026-10-10T23:00:00+00:00",
-      "retrievedAt": "2026-10-07T19:25:04.223935+00:00",
+      "retrievedAt": "2026-10-08T19:20:40.576154+00:00",
       "venue": {
         "dome": true,
         "latitude": 36.09075,
@@ -794,21 +794,21 @@
       "auditGrade": true,
       "exclusions": [],
       "forecast": {
-        "precipProbabilityPct": 29.0,
-        "precipitationIn": 0.031,
-        "temperatureF": 48.2,
+        "precipProbabilityPct": 50.0,
+        "precipitationIn": 0.091,
+        "temperatureF": 47.6,
         "validTime": "2026-10-10T17:00:00+00:00",
-        "windGustMph": 38.5,
-        "windMph": 9.4
+        "windGustMph": 37.6,
+        "windMph": 7.5
       },
       "game": "Old Dominion @ App State",
       "kickoff": "2026-10-10T17:00:00+00:00",
-      "retrievedAt": "2026-10-07T19:25:04.223935+00:00",
+      "retrievedAt": "2026-10-08T19:20:40.576154+00:00",
       "source": {
         "batchLocations": 20,
         "locationIndex": 4,
         "provider": "open-meteo",
-        "sha256": "33de035a779e4e486abf72609c17bc47a3f14506c8547af8cb763d2aedc318c3",
+        "sha256": "861cc1f17e1363c59673f5760678ad14609b8d9f4a1c44b94924d4e67a5689d4",
         "url": "https://api.open-meteo.com/v1/forecast?latitude=40.001645%2C42.377324%2C31.773335%2C40.446765%2C36.211427%2C36.144045%2C35.596849%2C41.378011%2C44.559456%2C29.649936%2C41.698378%2C38.031180%2C36.068066%2C32.779722%2C38.935849%2C41.387492%2C38.984699%2C35.120943%2C36.125673%2C44.058271&longitude=-83.019727%2C-72.536059%2C-106.507957%2C-80.015760%2C-81.685428%2C-86.808894%2C-77.364564%2C-83.622500%2C-123.281434%2C-82.348579%2C-86.233942%2C-78.513790%2C-94.178953%2C-96.759722%2C-92.333201%2C-73.964089%2C-76.507633%2C-89.977147%2C-97.066513%2C-123.068488&hourly=temperature_2m%2Cprecipitation_probability%2Cprecipitation%2Cwind_speed_10m%2Cwind_gusts_10m&temperature_unit=fahrenheit&wind_speed_unit=mph&precipitation_unit=inch&timezone=UTC&forecast_days=16"
       },
       "venue": {
@@ -820,27 +820,27 @@
         "venueName": "Kidd Brewer Stadium"
       },
       "weatherSuppressedByDome": false,
-      "windMph": 9.4
+      "windMph": 7.5
     },
     {
       "auditGrade": true,
       "exclusions": [],
       "forecast": {
-        "precipProbabilityPct": 67.0,
-        "precipitationIn": 0.035,
-        "temperatureF": 61.1,
+        "precipProbabilityPct": 87.0,
+        "precipitationIn": 0.051,
+        "temperatureF": 63.5,
         "validTime": "2026-10-10T19:00:00+00:00",
-        "windGustMph": 40.3,
-        "windMph": 11.2
+        "windGustMph": 29.1,
+        "windMph": 11.9
       },
       "game": "Ole Miss @ Vanderbilt",
       "kickoff": "2026-10-10T19:30:00+00:00",
-      "retrievedAt": "2026-10-07T19:25:04.223935+00:00",
+      "retrievedAt": "2026-10-08T19:20:40.576154+00:00",
       "source": {
         "batchLocations": 20,
         "locationIndex": 5,
         "provider": "open-meteo",
-        "sha256": "33de035a779e4e486abf72609c17bc47a3f14506c8547af8cb763d2aedc318c3",
+        "sha256": "861cc1f17e1363c59673f5760678ad14609b8d9f4a1c44b94924d4e67a5689d4",
         "url": "https://api.open-meteo.com/v1/forecast?latitude=40.001645%2C42.377324%2C31.773335%2C40.446765%2C36.211427%2C36.144045%2C35.596849%2C41.378011%2C44.559456%2C29.649936%2C41.698378%2C38.031180%2C36.068066%2C32.779722%2C38.935849%2C41.387492%2C38.984699%2C35.120943%2C36.125673%2C44.058271&longitude=-83.019727%2C-72.536059%2C-106.507957%2C-80.015760%2C-81.685428%2C-86.808894%2C-77.364564%2C-83.622500%2C-123.281434%2C-82.348579%2C-86.233942%2C-78.513790%2C-94.178953%2C-96.759722%2C-92.333201%2C-73.964089%2C-76.507633%2C-89.977147%2C-97.066513%2C-123.068488&hourly=temperature_2m%2Cprecipitation_probability%2Cprecipitation%2Cwind_speed_10m%2Cwind_gusts_10m&temperature_unit=fahrenheit&wind_speed_unit=mph&precipitation_unit=inch&timezone=UTC&forecast_days=16"
       },
       "venue": {
@@ -852,27 +852,27 @@
         "venueName": "FirstBank Stadium"
       },
       "weatherSuppressedByDome": false,
-      "windMph": 11.2
+      "windMph": 11.9
     },
     {
       "auditGrade": true,
       "exclusions": [],
       "forecast": {
-        "precipProbabilityPct": 8.0,
-        "precipitationIn": 0.0,
-        "temperatureF": 68.9,
+        "precipProbabilityPct": 12.0,
+        "precipitationIn": 0.043,
+        "temperatureF": 64.8,
         "validTime": "2026-10-10T20:00:00+00:00",
-        "windGustMph": 23.9,
-        "windMph": 12.0
+        "windGustMph": 28.6,
+        "windMph": 10.3
       },
       "game": "Rice @ East Carolina",
       "kickoff": "2026-10-10T20:00:00+00:00",
-      "retrievedAt": "2026-10-07T19:25:04.223935+00:00",
+      "retrievedAt": "2026-10-08T19:20:40.576154+00:00",
       "source": {
         "batchLocations": 20,
         "locationIndex": 6,
         "provider": "open-meteo",
-        "sha256": "33de035a779e4e486abf72609c17bc47a3f14506c8547af8cb763d2aedc318c3",
+        "sha256": "861cc1f17e1363c59673f5760678ad14609b8d9f4a1c44b94924d4e67a5689d4",
         "url": "https://api.open-meteo.com/v1/forecast?latitude=40.001645%2C42.377324%2C31.773335%2C40.446765%2C36.211427%2C36.144045%2C35.596849%2C41.378011%2C44.559456%2C29.649936%2C41.698378%2C38.031180%2C36.068066%2C32.779722%2C38.935849%2C41.387492%2C38.984699%2C35.120943%2C36.125673%2C44.058271&longitude=-83.019727%2C-72.536059%2C-106.507957%2C-80.015760%2C-81.685428%2C-86.808894%2C-77.364564%2C-83.622500%2C-123.281434%2C-82.348579%2C-86.233942%2C-78.513790%2C-94.178953%2C-96.759722%2C-92.333201%2C-73.964089%2C-76.507633%2C-89.977147%2C-97.066513%2C-123.068488&hourly=temperature_2m%2Cprecipitation_probability%2Cprecipitation%2Cwind_speed_10m%2Cwind_gusts_10m&temperature_unit=fahrenheit&wind_speed_unit=mph&precipitation_unit=inch&timezone=UTC&forecast_days=16"
       },
       "venue": {
@@ -884,7 +884,7 @@
         "venueName": "Dowdy-Ficklen Stadium"
       },
       "weatherSuppressedByDome": false,
-      "windMph": 12.0
+      "windMph": 10.3
     },
     {
       "auditGrade": true,
@@ -892,19 +892,19 @@
       "forecast": {
         "precipProbabilityPct": 0.0,
         "precipitationIn": 0.0,
-        "temperatureF": 70.8,
+        "temperatureF": 71.8,
         "validTime": "2026-10-10T16:00:00+00:00",
         "windGustMph": 15.0,
-        "windMph": 10.3
+        "windMph": 11.3
       },
       "game": "Sacramento State @ Bowling Green",
       "kickoff": "2026-10-10T16:00:00+00:00",
-      "retrievedAt": "2026-10-07T19:25:04.223935+00:00",
+      "retrievedAt": "2026-10-08T19:20:40.576154+00:00",
       "source": {
         "batchLocations": 20,
         "locationIndex": 7,
         "provider": "open-meteo",
-        "sha256": "33de035a779e4e486abf72609c17bc47a3f14506c8547af8cb763d2aedc318c3",
+        "sha256": "861cc1f17e1363c59673f5760678ad14609b8d9f4a1c44b94924d4e67a5689d4",
         "url": "https://api.open-meteo.com/v1/forecast?latitude=40.001645%2C42.377324%2C31.773335%2C40.446765%2C36.211427%2C36.144045%2C35.596849%2C41.378011%2C44.559456%2C29.649936%2C41.698378%2C38.031180%2C36.068066%2C32.779722%2C38.935849%2C41.387492%2C38.984699%2C35.120943%2C36.125673%2C44.058271&longitude=-83.019727%2C-72.536059%2C-106.507957%2C-80.015760%2C-81.685428%2C-86.808894%2C-77.364564%2C-83.622500%2C-123.281434%2C-82.348579%2C-86.233942%2C-78.513790%2C-94.178953%2C-96.759722%2C-92.333201%2C-73.964089%2C-76.507633%2C-89.977147%2C-97.066513%2C-123.068488&hourly=temperature_2m%2Cprecipitation_probability%2Cprecipitation%2Cwind_speed_10m%2Cwind_gusts_10m&temperature_unit=fahrenheit&wind_speed_unit=mph&precipitation_unit=inch&timezone=UTC&forecast_days=16"
       },
       "venue": {
@@ -916,27 +916,27 @@
         "venueName": "Doyt L. Perry Stadium"
       },
       "weatherSuppressedByDome": false,
-      "windMph": 10.3
+      "windMph": 11.3
     },
     {
       "auditGrade": true,
       "exclusions": [],
       "forecast": {
-        "precipProbabilityPct": 25.0,
-        "precipitationIn": 0.004,
-        "temperatureF": 59.1,
+        "precipProbabilityPct": 31.0,
+        "precipitationIn": 0.024,
+        "temperatureF": 59.2,
         "validTime": "2026-10-10T22:00:00+00:00",
-        "windGustMph": 4.7,
-        "windMph": 2.6
+        "windGustMph": 6.5,
+        "windMph": 6.1
       },
       "game": "San Diego State @ Oregon State",
       "kickoff": "2026-10-10T22:00:00+00:00",
-      "retrievedAt": "2026-10-07T19:25:04.223935+00:00",
+      "retrievedAt": "2026-10-08T19:20:40.576154+00:00",
       "source": {
         "batchLocations": 20,
         "locationIndex": 8,
         "provider": "open-meteo",
-        "sha256": "33de035a779e4e486abf72609c17bc47a3f14506c8547af8cb763d2aedc318c3",
+        "sha256": "861cc1f17e1363c59673f5760678ad14609b8d9f4a1c44b94924d4e67a5689d4",
         "url": "https://api.open-meteo.com/v1/forecast?latitude=40.001645%2C42.377324%2C31.773335%2C40.446765%2C36.211427%2C36.144045%2C35.596849%2C41.378011%2C44.559456%2C29.649936%2C41.698378%2C38.031180%2C36.068066%2C32.779722%2C38.935849%2C41.387492%2C38.984699%2C35.120943%2C36.125673%2C44.058271&longitude=-83.019727%2C-72.536059%2C-106.507957%2C-80.015760%2C-81.685428%2C-86.808894%2C-77.364564%2C-83.622500%2C-123.281434%2C-82.348579%2C-86.233942%2C-78.513790%2C-94.178953%2C-96.759722%2C-92.333201%2C-73.964089%2C-76.507633%2C-89.977147%2C-97.066513%2C-123.068488&hourly=temperature_2m%2Cprecipitation_probability%2Cprecipitation%2Cwind_speed_10m%2Cwind_gusts_10m&temperature_unit=fahrenheit&wind_speed_unit=mph&precipitation_unit=inch&timezone=UTC&forecast_days=16"
       },
       "venue": {
@@ -948,27 +948,27 @@
         "venueName": "Reser Stadium"
       },
       "weatherSuppressedByDome": false,
-      "windMph": 2.6
+      "windMph": 6.1
     },
     {
       "auditGrade": true,
       "exclusions": [],
       "forecast": {
-        "precipProbabilityPct": 53.0,
-        "precipitationIn": 0.0,
-        "temperatureF": 87.1,
+        "precipProbabilityPct": 28.0,
+        "precipitationIn": 0.051,
+        "temperatureF": 77.5,
         "validTime": "2026-10-10T17:00:00+00:00",
-        "windGustMph": 13.0,
-        "windMph": 9.4
+        "windGustMph": 15.0,
+        "windMph": 4.8
       },
       "game": "South Carolina @ Florida",
       "kickoff": "2026-10-10T16:45:00+00:00",
-      "retrievedAt": "2026-10-07T19:25:04.223935+00:00",
+      "retrievedAt": "2026-10-08T19:20:40.576154+00:00",
       "source": {
         "batchLocations": 20,
         "locationIndex": 9,
         "provider": "open-meteo",
-        "sha256": "33de035a779e4e486abf72609c17bc47a3f14506c8547af8cb763d2aedc318c3",
+        "sha256": "861cc1f17e1363c59673f5760678ad14609b8d9f4a1c44b94924d4e67a5689d4",
         "url": "https://api.open-meteo.com/v1/forecast?latitude=40.001645%2C42.377324%2C31.773335%2C40.446765%2C36.211427%2C36.144045%2C35.596849%2C41.378011%2C44.559456%2C29.649936%2C41.698378%2C38.031180%2C36.068066%2C32.779722%2C38.935849%2C41.387492%2C38.984699%2C35.120943%2C36.125673%2C44.058271&longitude=-83.019727%2C-72.536059%2C-106.507957%2C-80.015760%2C-81.685428%2C-86.808894%2C-77.364564%2C-83.622500%2C-123.281434%2C-82.348579%2C-86.233942%2C-78.513790%2C-94.178953%2C-96.759722%2C-92.333201%2C-73.964089%2C-76.507633%2C-89.977147%2C-97.066513%2C-123.068488&hourly=temperature_2m%2Cprecipitation_probability%2Cprecipitation%2Cwind_speed_10m%2Cwind_gusts_10m&temperature_unit=fahrenheit&wind_speed_unit=mph&precipitation_unit=inch&timezone=UTC&forecast_days=16"
       },
       "venue": {
@@ -980,7 +980,7 @@
         "venueName": "Ben Hill Griffin Stadium"
       },
       "weatherSuppressedByDome": false,
-      "windMph": 9.4
+      "windMph": 4.8
     },
     {
       "auditGrade": true,
@@ -988,19 +988,19 @@
       "forecast": {
         "precipProbabilityPct": 0.0,
         "precipitationIn": 0.0,
-        "temperatureF": 76.8,
+        "temperatureF": 74.7,
         "validTime": "2026-10-10T19:00:00+00:00",
-        "windGustMph": 19.9,
-        "windMph": 12.8
+        "windGustMph": 19.5,
+        "windMph": 12.5
       },
       "game": "Stanford @ Notre Dame",
       "kickoff": "2026-10-10T19:30:00+00:00",
-      "retrievedAt": "2026-10-07T19:25:04.223935+00:00",
+      "retrievedAt": "2026-10-08T19:20:40.576154+00:00",
       "source": {
         "batchLocations": 20,
         "locationIndex": 10,
         "provider": "open-meteo",
-        "sha256": "33de035a779e4e486abf72609c17bc47a3f14506c8547af8cb763d2aedc318c3",
+        "sha256": "861cc1f17e1363c59673f5760678ad14609b8d9f4a1c44b94924d4e67a5689d4",
         "url": "https://api.open-meteo.com/v1/forecast?latitude=40.001645%2C42.377324%2C31.773335%2C40.446765%2C36.211427%2C36.144045%2C35.596849%2C41.378011%2C44.559456%2C29.649936%2C41.698378%2C38.031180%2C36.068066%2C32.779722%2C38.935849%2C41.387492%2C38.984699%2C35.120943%2C36.125673%2C44.058271&longitude=-83.019727%2C-72.536059%2C-106.507957%2C-80.015760%2C-81.685428%2C-86.808894%2C-77.364564%2C-83.622500%2C-123.281434%2C-82.348579%2C-86.233942%2C-78.513790%2C-94.178953%2C-96.759722%2C-92.333201%2C-73.964089%2C-76.507633%2C-89.977147%2C-97.066513%2C-123.068488&hourly=temperature_2m%2Cprecipitation_probability%2Cprecipitation%2Cwind_speed_10m%2Cwind_gusts_10m&temperature_unit=fahrenheit&wind_speed_unit=mph&precipitation_unit=inch&timezone=UTC&forecast_days=16"
       },
       "venue": {
@@ -1012,27 +1012,27 @@
         "venueName": "Notre Dame Stadium"
       },
       "weatherSuppressedByDome": false,
-      "windMph": 12.8
+      "windMph": 12.5
     },
     {
       "auditGrade": true,
       "exclusions": [],
       "forecast": {
         "precipProbabilityPct": 6.0,
-        "precipitationIn": 0.0,
-        "temperatureF": 62.9,
+        "precipitationIn": 0.012,
+        "temperatureF": 57.3,
         "validTime": "2026-10-10T23:00:00+00:00",
-        "windGustMph": 2.9,
-        "windMph": 0.6
+        "windGustMph": 2.2,
+        "windMph": 3.0
       },
       "game": "Syracuse @ Virginia",
       "kickoff": "2026-10-10T23:30:00+00:00",
-      "retrievedAt": "2026-10-07T19:25:04.223935+00:00",
+      "retrievedAt": "2026-10-08T19:20:40.576154+00:00",
       "source": {
         "batchLocations": 20,
         "locationIndex": 11,
         "provider": "open-meteo",
-        "sha256": "33de035a779e4e486abf72609c17bc47a3f14506c8547af8cb763d2aedc318c3",
+        "sha256": "861cc1f17e1363c59673f5760678ad14609b8d9f4a1c44b94924d4e67a5689d4",
         "url": "https://api.open-meteo.com/v1/forecast?latitude=40.001645%2C42.377324%2C31.773335%2C40.446765%2C36.211427%2C36.144045%2C35.596849%2C41.378011%2C44.559456%2C29.649936%2C41.698378%2C38.031180%2C36.068066%2C32.779722%2C38.935849%2C41.387492%2C38.984699%2C35.120943%2C36.125673%2C44.058271&longitude=-83.019727%2C-72.536059%2C-106.507957%2C-80.015760%2C-81.685428%2C-86.808894%2C-77.364564%2C-83.622500%2C-123.281434%2C-82.348579%2C-86.233942%2C-78.513790%2C-94.178953%2C-96.759722%2C-92.333201%2C-73.964089%2C-76.507633%2C-89.977147%2C-97.066513%2C-123.068488&hourly=temperature_2m%2Cprecipitation_probability%2Cprecipitation%2Cwind_speed_10m%2Cwind_gusts_10m&temperature_unit=fahrenheit&wind_speed_unit=mph&precipitation_unit=inch&timezone=UTC&forecast_days=16"
       },
       "venue": {
@@ -1044,27 +1044,27 @@
         "venueName": "Scott Stadium"
       },
       "weatherSuppressedByDome": false,
-      "windMph": 0.6
+      "windMph": 3.0
     },
     {
       "auditGrade": true,
       "exclusions": [],
       "forecast": {
-        "precipProbabilityPct": 3.0,
+        "precipProbabilityPct": 1.0,
         "precipitationIn": 0.0,
-        "temperatureF": 84.6,
+        "temperatureF": 85.1,
         "validTime": "2026-10-10T20:00:00+00:00",
-        "windGustMph": 6.9,
-        "windMph": 10.1
+        "windGustMph": 5.8,
+        "windMph": 7.3
       },
       "game": "Tennessee @ Arkansas",
       "kickoff": "2026-10-10T20:15:00+00:00",
-      "retrievedAt": "2026-10-07T19:25:04.223935+00:00",
+      "retrievedAt": "2026-10-08T19:20:40.576154+00:00",
       "source": {
         "batchLocations": 20,
         "locationIndex": 12,
         "provider": "open-meteo",
-        "sha256": "33de035a779e4e486abf72609c17bc47a3f14506c8547af8cb763d2aedc318c3",
+        "sha256": "861cc1f17e1363c59673f5760678ad14609b8d9f4a1c44b94924d4e67a5689d4",
         "url": "https://api.open-meteo.com/v1/forecast?latitude=40.001645%2C42.377324%2C31.773335%2C40.446765%2C36.211427%2C36.144045%2C35.596849%2C41.378011%2C44.559456%2C29.649936%2C41.698378%2C38.031180%2C36.068066%2C32.779722%2C38.935849%2C41.387492%2C38.984699%2C35.120943%2C36.125673%2C44.058271&longitude=-83.019727%2C-72.536059%2C-106.507957%2C-80.015760%2C-81.685428%2C-86.808894%2C-77.364564%2C-83.622500%2C-123.281434%2C-82.348579%2C-86.233942%2C-78.513790%2C-94.178953%2C-96.759722%2C-92.333201%2C-73.964089%2C-76.507633%2C-89.977147%2C-97.066513%2C-123.068488&hourly=temperature_2m%2Cprecipitation_probability%2Cprecipitation%2Cwind_speed_10m%2Cwind_gusts_10m&temperature_unit=fahrenheit&wind_speed_unit=mph&precipitation_unit=inch&timezone=UTC&forecast_days=16"
       },
       "venue": {
@@ -1076,27 +1076,27 @@
         "venueName": "Razorback Stadium"
       },
       "weatherSuppressedByDome": false,
-      "windMph": 10.1
+      "windMph": 7.3
     },
     {
       "auditGrade": true,
       "exclusions": [],
       "forecast": {
-        "precipProbabilityPct": 2.0,
+        "precipProbabilityPct": 0.0,
         "precipitationIn": 0.0,
-        "temperatureF": 86.9,
+        "temperatureF": 88.5,
         "validTime": "2026-10-10T19:00:00+00:00",
-        "windGustMph": 6.0,
-        "windMph": 5.7
+        "windGustMph": 4.7,
+        "windMph": 3.5
       },
       "game": "Texas @ Oklahoma",
       "kickoff": "2026-10-10T19:30:00+00:00",
-      "retrievedAt": "2026-10-07T19:25:04.223935+00:00",
+      "retrievedAt": "2026-10-08T19:20:40.576154+00:00",
       "source": {
         "batchLocations": 20,
         "locationIndex": 13,
         "provider": "open-meteo",
-        "sha256": "33de035a779e4e486abf72609c17bc47a3f14506c8547af8cb763d2aedc318c3",
+        "sha256": "861cc1f17e1363c59673f5760678ad14609b8d9f4a1c44b94924d4e67a5689d4",
         "url": "https://api.open-meteo.com/v1/forecast?latitude=40.001645%2C42.377324%2C31.773335%2C40.446765%2C36.211427%2C36.144045%2C35.596849%2C41.378011%2C44.559456%2C29.649936%2C41.698378%2C38.031180%2C36.068066%2C32.779722%2C38.935849%2C41.387492%2C38.984699%2C35.120943%2C36.125673%2C44.058271&longitude=-83.019727%2C-72.536059%2C-106.507957%2C-80.015760%2C-81.685428%2C-86.808894%2C-77.364564%2C-83.622500%2C-123.281434%2C-82.348579%2C-86.233942%2C-78.513790%2C-94.178953%2C-96.759722%2C-92.333201%2C-73.964089%2C-76.507633%2C-89.977147%2C-97.066513%2C-123.068488&hourly=temperature_2m%2Cprecipitation_probability%2Cprecipitation%2Cwind_speed_10m%2Cwind_gusts_10m&temperature_unit=fahrenheit&wind_speed_unit=mph&precipitation_unit=inch&timezone=UTC&forecast_days=16"
       },
       "venue": {
@@ -1108,7 +1108,7 @@
         "venueName": "Cotton Bowl"
       },
       "weatherSuppressedByDome": false,
-      "windMph": 5.7
+      "windMph": 3.5
     },
     {
       "auditGrade": true,
@@ -1116,19 +1116,19 @@
       "forecast": {
         "precipProbabilityPct": 0.0,
         "precipitationIn": 0.0,
-        "temperatureF": 76.9,
+        "temperatureF": 78.9,
         "validTime": "2026-10-10T16:00:00+00:00",
-        "windGustMph": 14.3,
-        "windMph": 7.9
+        "windGustMph": 15.4,
+        "windMph": 8.3
       },
       "game": "Texas A&M @ Missouri",
       "kickoff": "2026-10-10T16:00:00+00:00",
-      "retrievedAt": "2026-10-07T19:25:04.223935+00:00",
+      "retrievedAt": "2026-10-08T19:20:40.576154+00:00",
       "source": {
         "batchLocations": 20,
         "locationIndex": 14,
         "provider": "open-meteo",
-        "sha256": "33de035a779e4e486abf72609c17bc47a3f14506c8547af8cb763d2aedc318c3",
+        "sha256": "861cc1f17e1363c59673f5760678ad14609b8d9f4a1c44b94924d4e67a5689d4",
         "url": "https://api.open-meteo.com/v1/forecast?latitude=40.001645%2C42.377324%2C31.773335%2C40.446765%2C36.211427%2C36.144045%2C35.596849%2C41.378011%2C44.559456%2C29.649936%2C41.698378%2C38.031180%2C36.068066%2C32.779722%2C38.935849%2C41.387492%2C38.984699%2C35.120943%2C36.125673%2C44.058271&longitude=-83.019727%2C-72.536059%2C-106.507957%2C-80.015760%2C-81.685428%2C-86.808894%2C-77.364564%2C-83.622500%2C-123.281434%2C-82.348579%2C-86.233942%2C-78.513790%2C-94.178953%2C-96.759722%2C-92.333201%2C-73.964089%2C-76.507633%2C-89.977147%2C-97.066513%2C-123.068488&hourly=temperature_2m%2Cprecipitation_probability%2Cprecipitation%2Cwind_speed_10m%2Cwind_gusts_10m&temperature_unit=fahrenheit&wind_speed_unit=mph&precipitation_unit=inch&timezone=UTC&forecast_days=16"
       },
       "venue": {
@@ -1140,7 +1140,7 @@
         "venueName": "Memorial Stadium"
       },
       "weatherSuppressedByDome": false,
-      "windMph": 7.9
+      "windMph": 8.3
     },
     {
       "auditGrade": true,
@@ -1148,19 +1148,19 @@
       "forecast": {
         "precipProbabilityPct": 0.0,
         "precipitationIn": 0.0,
-        "temperatureF": 61.9,
+        "temperatureF": 61.1,
         "validTime": "2026-10-10T16:00:00+00:00",
-        "windGustMph": 4.5,
-        "windMph": 3.1
+        "windGustMph": 5.1,
+        "windMph": 3.6
       },
       "game": "Tulane @ Army",
       "kickoff": "2026-10-10T16:00:00+00:00",
-      "retrievedAt": "2026-10-07T19:25:04.223935+00:00",
+      "retrievedAt": "2026-10-08T19:20:40.576154+00:00",
       "source": {
         "batchLocations": 20,
         "locationIndex": 15,
         "provider": "open-meteo",
-        "sha256": "33de035a779e4e486abf72609c17bc47a3f14506c8547af8cb763d2aedc318c3",
+        "sha256": "861cc1f17e1363c59673f5760678ad14609b8d9f4a1c44b94924d4e67a5689d4",
         "url": "https://api.open-meteo.com/v1/forecast?latitude=40.001645%2C42.377324%2C31.773335%2C40.446765%2C36.211427%2C36.144045%2C35.596849%2C41.378011%2C44.559456%2C29.649936%2C41.698378%2C38.031180%2C36.068066%2C32.779722%2C38.935849%2C41.387492%2C38.984699%2C35.120943%2C36.125673%2C44.058271&longitude=-83.019727%2C-72.536059%2C-106.507957%2C-80.015760%2C-81.685428%2C-86.808894%2C-77.364564%2C-83.622500%2C-123.281434%2C-82.348579%2C-86.233942%2C-78.513790%2C-94.178953%2C-96.759722%2C-92.333201%2C-73.964089%2C-76.507633%2C-89.977147%2C-97.066513%2C-123.068488&hourly=temperature_2m%2Cprecipitation_probability%2Cprecipitation%2Cwind_speed_10m%2Cwind_gusts_10m&temperature_unit=fahrenheit&wind_speed_unit=mph&precipitation_unit=inch&timezone=UTC&forecast_days=16"
       },
       "venue": {
@@ -1172,7 +1172,7 @@
         "venueName": "Michie Stadium"
       },
       "weatherSuppressedByDome": false,
-      "windMph": 3.1
+      "windMph": 3.6
     },
     {
       "auditGrade": true,
@@ -1180,19 +1180,19 @@
       "forecast": {
         "precipProbabilityPct": 0.0,
         "precipitationIn": 0.0,
-        "temperatureF": 70.2,
+        "temperatureF": 68.4,
         "validTime": "2026-10-10T19:00:00+00:00",
-        "windGustMph": 8.7,
-        "windMph": 4.6
+        "windGustMph": 8.3,
+        "windMph": 2.7
       },
       "game": "Tulsa @ Navy",
       "kickoff": "2026-10-10T19:30:00+00:00",
-      "retrievedAt": "2026-10-07T19:25:04.223935+00:00",
+      "retrievedAt": "2026-10-08T19:20:40.576154+00:00",
       "source": {
         "batchLocations": 20,
         "locationIndex": 16,
         "provider": "open-meteo",
-        "sha256": "33de035a779e4e486abf72609c17bc47a3f14506c8547af8cb763d2aedc318c3",
+        "sha256": "861cc1f17e1363c59673f5760678ad14609b8d9f4a1c44b94924d4e67a5689d4",
         "url": "https://api.open-meteo.com/v1/forecast?latitude=40.001645%2C42.377324%2C31.773335%2C40.446765%2C36.211427%2C36.144045%2C35.596849%2C41.378011%2C44.559456%2C29.649936%2C41.698378%2C38.031180%2C36.068066%2C32.779722%2C38.935849%2C41.387492%2C38.984699%2C35.120943%2C36.125673%2C44.058271&longitude=-83.019727%2C-72.536059%2C-106.507957%2C-80.015760%2C-81.685428%2C-86.808894%2C-77.364564%2C-83.622500%2C-123.281434%2C-82.348579%2C-86.233942%2C-78.513790%2C-94.178953%2C-96.759722%2C-92.333201%2C-73.964089%2C-76.507633%2C-89.977147%2C-97.066513%2C-123.068488&hourly=temperature_2m%2Cprecipitation_probability%2Cprecipitation%2Cwind_speed_10m%2Cwind_gusts_10m&temperature_unit=fahrenheit&wind_speed_unit=mph&precipitation_unit=inch&timezone=UTC&forecast_days=16"
       },
       "venue": {
@@ -1204,27 +1204,27 @@
         "venueName": "Navy-Marine Corps Memorial Stadium"
       },
       "weatherSuppressedByDome": false,
-      "windMph": 4.6
+      "windMph": 2.7
     },
     {
       "auditGrade": true,
       "exclusions": [],
       "forecast": {
-        "precipProbabilityPct": 81.0,
-        "precipitationIn": 0.028,
-        "temperatureF": 61.7,
+        "precipProbabilityPct": 91.0,
+        "precipitationIn": 0.059,
+        "temperatureF": 61.4,
         "validTime": "2026-10-10T23:00:00+00:00",
-        "windGustMph": 20.8,
-        "windMph": 9.5
+        "windGustMph": 23.0,
+        "windMph": 14.9
       },
       "game": "UAB @ Memphis",
       "kickoff": "2026-10-10T23:00:00+00:00",
-      "retrievedAt": "2026-10-07T19:25:04.223935+00:00",
+      "retrievedAt": "2026-10-08T19:20:40.576154+00:00",
       "source": {
         "batchLocations": 20,
         "locationIndex": 17,
         "provider": "open-meteo",
-        "sha256": "33de035a779e4e486abf72609c17bc47a3f14506c8547af8cb763d2aedc318c3",
+        "sha256": "861cc1f17e1363c59673f5760678ad14609b8d9f4a1c44b94924d4e67a5689d4",
         "url": "https://api.open-meteo.com/v1/forecast?latitude=40.001645%2C42.377324%2C31.773335%2C40.446765%2C36.211427%2C36.144045%2C35.596849%2C41.378011%2C44.559456%2C29.649936%2C41.698378%2C38.031180%2C36.068066%2C32.779722%2C38.935849%2C41.387492%2C38.984699%2C35.120943%2C36.125673%2C44.058271&longitude=-83.019727%2C-72.536059%2C-106.507957%2C-80.015760%2C-81.685428%2C-86.808894%2C-77.364564%2C-83.622500%2C-123.281434%2C-82.348579%2C-86.233942%2C-78.513790%2C-94.178953%2C-96.759722%2C-92.333201%2C-73.964089%2C-76.507633%2C-89.977147%2C-97.066513%2C-123.068488&hourly=temperature_2m%2Cprecipitation_probability%2Cprecipitation%2Cwind_speed_10m%2Cwind_gusts_10m&temperature_unit=fahrenheit&wind_speed_unit=mph&precipitation_unit=inch&timezone=UTC&forecast_days=16"
       },
       "venue": {
@@ -1236,7 +1236,7 @@
         "venueName": "Simmons Bank Liberty Stadium"
       },
       "weatherSuppressedByDome": false,
-      "windMph": 9.5
+      "windMph": 14.9
     },
     {
       "auditGrade": true,
@@ -1244,19 +1244,19 @@
       "forecast": {
         "precipProbabilityPct": 0.0,
         "precipitationIn": 0.0,
-        "temperatureF": 80.0,
+        "temperatureF": 81.8,
         "validTime": "2026-10-10T16:00:00+00:00",
-        "windGustMph": 15.2,
-        "windMph": 10.4
+        "windGustMph": 15.0,
+        "windMph": 11.3
       },
       "game": "UCF @ Oklahoma State",
       "kickoff": "2026-10-10T16:00:00+00:00",
-      "retrievedAt": "2026-10-07T19:25:04.223935+00:00",
+      "retrievedAt": "2026-10-08T19:20:40.576154+00:00",
       "source": {
         "batchLocations": 20,
         "locationIndex": 18,
         "provider": "open-meteo",
-        "sha256": "33de035a779e4e486abf72609c17bc47a3f14506c8547af8cb763d2aedc318c3",
+        "sha256": "861cc1f17e1363c59673f5760678ad14609b8d9f4a1c44b94924d4e67a5689d4",
         "url": "https://api.open-meteo.com/v1/forecast?latitude=40.001645%2C42.377324%2C31.773335%2C40.446765%2C36.211427%2C36.144045%2C35.596849%2C41.378011%2C44.559456%2C29.649936%2C41.698378%2C38.031180%2C36.068066%2C32.779722%2C38.935849%2C41.387492%2C38.984699%2C35.120943%2C36.125673%2C44.058271&longitude=-83.019727%2C-72.536059%2C-106.507957%2C-80.015760%2C-81.685428%2C-86.808894%2C-77.364564%2C-83.622500%2C-123.281434%2C-82.348579%2C-86.233942%2C-78.513790%2C-94.178953%2C-96.759722%2C-92.333201%2C-73.964089%2C-76.507633%2C-89.977147%2C-97.066513%2C-123.068488&hourly=temperature_2m%2Cprecipitation_probability%2Cprecipitation%2Cwind_speed_10m%2Cwind_gusts_10m&temperature_unit=fahrenheit&wind_speed_unit=mph&precipitation_unit=inch&timezone=UTC&forecast_days=16"
       },
       "venue": {
@@ -1268,27 +1268,27 @@
         "venueName": "Boone Pickens Stadium"
       },
       "weatherSuppressedByDome": false,
-      "windMph": 10.4
+      "windMph": 11.3
     },
     {
       "auditGrade": true,
       "exclusions": [],
       "forecast": {
-        "precipProbabilityPct": 17.0,
+        "precipProbabilityPct": 8.0,
         "precipitationIn": 0.0,
-        "temperatureF": 60.0,
+        "temperatureF": 56.4,
         "validTime": "2026-10-10T19:00:00+00:00",
-        "windGustMph": 2.2,
-        "windMph": 1.7
+        "windGustMph": 4.0,
+        "windMph": 3.6
       },
       "game": "UCLA @ Oregon",
       "kickoff": "2026-10-10T19:30:00+00:00",
-      "retrievedAt": "2026-10-07T19:25:04.223935+00:00",
+      "retrievedAt": "2026-10-08T19:20:40.576154+00:00",
       "source": {
         "batchLocations": 20,
         "locationIndex": 19,
         "provider": "open-meteo",
-        "sha256": "33de035a779e4e486abf72609c17bc47a3f14506c8547af8cb763d2aedc318c3",
+        "sha256": "861cc1f17e1363c59673f5760678ad14609b8d9f4a1c44b94924d4e67a5689d4",
         "url": "https://api.open-meteo.com/v1/forecast?latitude=40.001645%2C42.377324%2C31.773335%2C40.446765%2C36.211427%2C36.144045%2C35.596849%2C41.378011%2C44.559456%2C29.649936%2C41.698378%2C38.031180%2C36.068066%2C32.779722%2C38.935849%2C41.387492%2C38.984699%2C35.120943%2C36.125673%2C44.058271&longitude=-83.019727%2C-72.536059%2C-106.507957%2C-80.015760%2C-81.685428%2C-86.808894%2C-77.364564%2C-83.622500%2C-123.281434%2C-82.348579%2C-86.233942%2C-78.513790%2C-94.178953%2C-96.759722%2C-92.333201%2C-73.964089%2C-76.507633%2C-89.977147%2C-97.066513%2C-123.068488&hourly=temperature_2m%2Cprecipitation_probability%2Cprecipitation%2Cwind_speed_10m%2Cwind_gusts_10m&temperature_unit=fahrenheit&wind_speed_unit=mph&precipitation_unit=inch&timezone=UTC&forecast_days=16"
       },
       "venue": {
@@ -1300,7 +1300,7 @@
         "venueName": "Autzen Stadium"
       },
       "weatherSuppressedByDome": false,
-      "windMph": 1.7
+      "windMph": 3.6
     },
     {
       "auditGrade": true,
@@ -1308,19 +1308,19 @@
       "forecast": {
         "precipProbabilityPct": 0.0,
         "precipitationIn": 0.0,
-        "temperatureF": 70.5,
+        "temperatureF": 71.6,
         "validTime": "2026-10-10T20:00:00+00:00",
-        "windGustMph": 8.5,
-        "windMph": 6.0
+        "windGustMph": 4.3,
+        "windMph": 4.9
       },
       "game": "UConn @ Temple",
       "kickoff": "2026-10-10T19:45:00+00:00",
-      "retrievedAt": "2026-10-07T19:25:04.223935+00:00",
+      "retrievedAt": "2026-10-08T19:20:40.576154+00:00",
       "source": {
         "batchLocations": 10,
         "locationIndex": 0,
         "provider": "open-meteo",
-        "sha256": "79db0ea320556e1aa84846cbd47ef7474c662afd54ed2df733fdaa54753719d2",
+        "sha256": "245d2400a7ed9a86c55ee87092afe19fe3bfb8082aa415e5acc0aa8bed1f7d23",
         "url": "https://api.open-meteo.com/v1/forecast?latitude=39.900799%2C40.812196%2C37.871043%2C35.800800%2C41.751739%2C37.319668%2C36.814353%2C33.426447%2C40.759972%2C40.435225&longitude=-75.167541%2C-77.856102%2C-122.250773%2C-78.719566%2C-111.811601%2C-121.868296%2C-119.758009%2C-111.932501%2C-111.848826%2C-86.918684&hourly=temperature_2m%2Cprecipitation_probability%2Cprecipitation%2Cwind_speed_10m%2Cwind_gusts_10m&temperature_unit=fahrenheit&wind_speed_unit=mph&precipitation_unit=inch&timezone=UTC&forecast_days=16"
       },
       "venue": {
@@ -1332,7 +1332,7 @@
         "venueName": "Lincoln Financial Field"
       },
       "weatherSuppressedByDome": false,
-      "windMph": 6.0
+      "windMph": 4.9
     },
     {
       "auditGrade": true,
@@ -1340,19 +1340,19 @@
       "forecast": {
         "precipProbabilityPct": 0.0,
         "precipitationIn": 0.0,
-        "temperatureF": 56.5,
+        "temperatureF": 54.2,
         "validTime": "2026-10-10T23:00:00+00:00",
-        "windGustMph": 7.6,
-        "windMph": 3.8
+        "windGustMph": 4.0,
+        "windMph": 4.3
       },
       "game": "USC @ Penn State",
       "kickoff": "2026-10-10T23:30:00+00:00",
-      "retrievedAt": "2026-10-07T19:25:04.223935+00:00",
+      "retrievedAt": "2026-10-08T19:20:40.576154+00:00",
       "source": {
         "batchLocations": 10,
         "locationIndex": 1,
         "provider": "open-meteo",
-        "sha256": "79db0ea320556e1aa84846cbd47ef7474c662afd54ed2df733fdaa54753719d2",
+        "sha256": "245d2400a7ed9a86c55ee87092afe19fe3bfb8082aa415e5acc0aa8bed1f7d23",
         "url": "https://api.open-meteo.com/v1/forecast?latitude=39.900799%2C40.812196%2C37.871043%2C35.800800%2C41.751739%2C37.319668%2C36.814353%2C33.426447%2C40.759972%2C40.435225&longitude=-75.167541%2C-77.856102%2C-122.250773%2C-78.719566%2C-111.811601%2C-121.868296%2C-119.758009%2C-111.932501%2C-111.848826%2C-86.918684&hourly=temperature_2m%2Cprecipitation_probability%2Cprecipitation%2Cwind_speed_10m%2Cwind_gusts_10m&temperature_unit=fahrenheit&wind_speed_unit=mph&precipitation_unit=inch&timezone=UTC&forecast_days=16"
       },
       "venue": {
@@ -1364,7 +1364,7 @@
         "venueName": "Beaver Stadium"
       },
       "weatherSuppressedByDome": false,
-      "windMph": 3.8
+      "windMph": 4.3
     },
     {
       "auditGrade": true,
@@ -1372,19 +1372,19 @@
       "forecast": {
         "precipProbabilityPct": 0.0,
         "precipitationIn": 0.0,
-        "temperatureF": 60.9,
+        "temperatureF": 60.5,
         "validTime": "2026-10-10T19:00:00+00:00",
-        "windGustMph": 18.1,
-        "windMph": 15.5
+        "windGustMph": 19.0,
+        "windMph": 16.6
       },
       "game": "Virginia Tech @ California",
       "kickoff": "2026-10-10T19:30:00+00:00",
-      "retrievedAt": "2026-10-07T19:25:04.223935+00:00",
+      "retrievedAt": "2026-10-08T19:20:40.576154+00:00",
       "source": {
         "batchLocations": 10,
         "locationIndex": 2,
         "provider": "open-meteo",
-        "sha256": "79db0ea320556e1aa84846cbd47ef7474c662afd54ed2df733fdaa54753719d2",
+        "sha256": "245d2400a7ed9a86c55ee87092afe19fe3bfb8082aa415e5acc0aa8bed1f7d23",
         "url": "https://api.open-meteo.com/v1/forecast?latitude=39.900799%2C40.812196%2C37.871043%2C35.800800%2C41.751739%2C37.319668%2C36.814353%2C33.426447%2C40.759972%2C40.435225&longitude=-75.167541%2C-77.856102%2C-122.250773%2C-78.719566%2C-111.811601%2C-121.868296%2C-119.758009%2C-111.932501%2C-111.848826%2C-86.918684&hourly=temperature_2m%2Cprecipitation_probability%2Cprecipitation%2Cwind_speed_10m%2Cwind_gusts_10m&temperature_unit=fahrenheit&wind_speed_unit=mph&precipitation_unit=inch&timezone=UTC&forecast_days=16"
       },
       "venue": {
@@ -1396,27 +1396,27 @@
         "venueName": "California Memorial Stadium"
       },
       "weatherSuppressedByDome": false,
-      "windMph": 15.5
+      "windMph": 16.6
     },
     {
       "auditGrade": true,
       "exclusions": [],
       "forecast": {
-        "precipProbabilityPct": 5.0,
+        "precipProbabilityPct": 9.0,
         "precipitationIn": 0.0,
-        "temperatureF": 64.8,
+        "temperatureF": 63.6,
         "validTime": "2026-10-10T16:00:00+00:00",
         "windGustMph": 24.2,
-        "windMph": 8.7
+        "windMph": 9.1
       },
       "game": "Wake Forest @ NC State",
       "kickoff": "2026-10-10T16:00:00+00:00",
-      "retrievedAt": "2026-10-07T19:25:04.223935+00:00",
+      "retrievedAt": "2026-10-08T19:20:40.576154+00:00",
       "source": {
         "batchLocations": 10,
         "locationIndex": 3,
         "provider": "open-meteo",
-        "sha256": "79db0ea320556e1aa84846cbd47ef7474c662afd54ed2df733fdaa54753719d2",
+        "sha256": "245d2400a7ed9a86c55ee87092afe19fe3bfb8082aa415e5acc0aa8bed1f7d23",
         "url": "https://api.open-meteo.com/v1/forecast?latitude=39.900799%2C40.812196%2C37.871043%2C35.800800%2C41.751739%2C37.319668%2C36.814353%2C33.426447%2C40.759972%2C40.435225&longitude=-75.167541%2C-77.856102%2C-122.250773%2C-78.719566%2C-111.811601%2C-121.868296%2C-119.758009%2C-111.932501%2C-111.848826%2C-86.918684&hourly=temperature_2m%2Cprecipitation_probability%2Cprecipitation%2Cwind_speed_10m%2Cwind_gusts_10m&temperature_unit=fahrenheit&wind_speed_unit=mph&precipitation_unit=inch&timezone=UTC&forecast_days=16"
       },
       "venue": {
@@ -1428,27 +1428,27 @@
         "venueName": "Carter-Finley Stadium"
       },
       "weatherSuppressedByDome": false,
-      "windMph": 8.7
+      "windMph": 9.1
     },
     {
       "auditGrade": true,
       "exclusions": [],
       "forecast": {
-        "precipProbabilityPct": 7.0,
+        "precipProbabilityPct": 1.0,
         "precipitationIn": 0.0,
-        "temperatureF": 67.8,
+        "temperatureF": 71.2,
         "validTime": "2026-10-10T01:00:00+00:00",
-        "windGustMph": 6.7,
-        "windMph": 8.3
+        "windGustMph": 9.6,
+        "windMph": 4.8
       },
       "game": "Washington State @ Utah State",
       "kickoff": "2026-10-10T01:00:00+00:00",
-      "retrievedAt": "2026-10-07T19:25:04.223935+00:00",
+      "retrievedAt": "2026-10-08T19:20:40.576154+00:00",
       "source": {
         "batchLocations": 10,
         "locationIndex": 4,
         "provider": "open-meteo",
-        "sha256": "79db0ea320556e1aa84846cbd47ef7474c662afd54ed2df733fdaa54753719d2",
+        "sha256": "245d2400a7ed9a86c55ee87092afe19fe3bfb8082aa415e5acc0aa8bed1f7d23",
         "url": "https://api.open-meteo.com/v1/forecast?latitude=39.900799%2C40.812196%2C37.871043%2C35.800800%2C41.751739%2C37.319668%2C36.814353%2C33.426447%2C40.759972%2C40.435225&longitude=-75.167541%2C-77.856102%2C-122.250773%2C-78.719566%2C-111.811601%2C-121.868296%2C-119.758009%2C-111.932501%2C-111.848826%2C-86.918684&hourly=temperature_2m%2Cprecipitation_probability%2Cprecipitation%2Cwind_speed_10m%2Cwind_gusts_10m&temperature_unit=fahrenheit&wind_speed_unit=mph&precipitation_unit=inch&timezone=UTC&forecast_days=16"
       },
       "venue": {
@@ -1460,27 +1460,27 @@
         "venueName": "Maverik Stadium"
       },
       "weatherSuppressedByDome": false,
-      "windMph": 8.3
+      "windMph": 4.8
     },
     {
       "auditGrade": true,
       "exclusions": [],
       "forecast": {
-        "precipProbabilityPct": 0.0,
+        "precipProbabilityPct": 1.0,
         "precipitationIn": 0.0,
-        "temperatureF": 83.4,
+        "temperatureF": 70.0,
         "validTime": "2026-10-10T01:00:00+00:00",
-        "windGustMph": 6.7,
-        "windMph": 6.5
+        "windGustMph": 8.3,
+        "windMph": 6.4
       },
       "game": "Wyoming @ San Jos\u00e9 State",
       "kickoff": "2026-10-10T01:00:00+00:00",
-      "retrievedAt": "2026-10-07T19:25:04.223935+00:00",
+      "retrievedAt": "2026-10-08T19:20:40.576154+00:00",
       "source": {
         "batchLocations": 10,
         "locationIndex": 5,
         "provider": "open-meteo",
-        "sha256": "79db0ea320556e1aa84846cbd47ef7474c662afd54ed2df733fdaa54753719d2",
+        "sha256": "245d2400a7ed9a86c55ee87092afe19fe3bfb8082aa415e5acc0aa8bed1f7d23",
         "url": "https://api.open-meteo.com/v1/forecast?latitude=39.900799%2C40.812196%2C37.871043%2C35.800800%2C41.751739%2C37.319668%2C36.814353%2C33.426447%2C40.759972%2C40.435225&longitude=-75.167541%2C-77.856102%2C-122.250773%2C-78.719566%2C-111.811601%2C-121.868296%2C-119.758009%2C-111.932501%2C-111.848826%2C-86.918684&hourly=temperature_2m%2Cprecipitation_probability%2Cprecipitation%2Cwind_speed_10m%2Cwind_gusts_10m&temperature_unit=fahrenheit&wind_speed_unit=mph&precipitation_unit=inch&timezone=UTC&forecast_days=16"
       },
       "venue": {
@@ -1492,27 +1492,27 @@
         "venueName": "CEFCU Stadium"
       },
       "weatherSuppressedByDome": false,
-      "windMph": 6.5
+      "windMph": 6.4
     },
     {
       "auditGrade": true,
       "exclusions": [],
       "forecast": {
-        "precipProbabilityPct": 0.0,
+        "precipProbabilityPct": 1.0,
         "precipitationIn": 0.0,
-        "temperatureF": 76.7,
+        "temperatureF": 82.8,
         "validTime": "2026-10-11T02:00:00+00:00",
-        "windGustMph": 15.0,
-        "windMph": 14.9
+        "windGustMph": 14.8,
+        "windMph": 1.6
       },
       "game": "Boise State @ Fresno State",
       "kickoff": "2026-10-11T02:30:00+00:00",
-      "retrievedAt": "2026-10-07T19:25:04.223935+00:00",
+      "retrievedAt": "2026-10-08T19:20:40.576154+00:00",
       "source": {
         "batchLocations": 10,
         "locationIndex": 6,
         "provider": "open-meteo",
-        "sha256": "79db0ea320556e1aa84846cbd47ef7474c662afd54ed2df733fdaa54753719d2",
+        "sha256": "245d2400a7ed9a86c55ee87092afe19fe3bfb8082aa415e5acc0aa8bed1f7d23",
         "url": "https://api.open-meteo.com/v1/forecast?latitude=39.900799%2C40.812196%2C37.871043%2C35.800800%2C41.751739%2C37.319668%2C36.814353%2C33.426447%2C40.759972%2C40.435225&longitude=-75.167541%2C-77.856102%2C-122.250773%2C-78.719566%2C-111.811601%2C-121.868296%2C-119.758009%2C-111.932501%2C-111.848826%2C-86.918684&hourly=temperature_2m%2Cprecipitation_probability%2Cprecipitation%2Cwind_speed_10m%2Cwind_gusts_10m&temperature_unit=fahrenheit&wind_speed_unit=mph&precipitation_unit=inch&timezone=UTC&forecast_days=16"
       },
       "venue": {
@@ -1524,27 +1524,27 @@
         "venueName": "Valley Children's Stadium"
       },
       "weatherSuppressedByDome": false,
-      "windMph": 14.9
+      "windMph": 1.6
     },
     {
       "auditGrade": true,
       "exclusions": [],
       "forecast": {
-        "precipProbabilityPct": 47.0,
+        "precipProbabilityPct": 61.0,
         "precipitationIn": 0.02,
-        "temperatureF": 85.2,
+        "temperatureF": 89.0,
         "validTime": "2026-10-11T01:00:00+00:00",
-        "windGustMph": 4.5,
-        "windMph": 1.4
+        "windGustMph": 7.4,
+        "windMph": 10.7
       },
       "game": "Hawai'i @ Arizona State",
       "kickoff": "2026-10-11T01:30:00+00:00",
-      "retrievedAt": "2026-10-07T19:25:04.223935+00:00",
+      "retrievedAt": "2026-10-08T19:20:40.576154+00:00",
       "source": {
         "batchLocations": 10,
         "locationIndex": 7,
         "provider": "open-meteo",
-        "sha256": "79db0ea320556e1aa84846cbd47ef7474c662afd54ed2df733fdaa54753719d2",
+        "sha256": "245d2400a7ed9a86c55ee87092afe19fe3bfb8082aa415e5acc0aa8bed1f7d23",
         "url": "https://api.open-meteo.com/v1/forecast?latitude=39.900799%2C40.812196%2C37.871043%2C35.800800%2C41.751739%2C37.319668%2C36.814353%2C33.426447%2C40.759972%2C40.435225&longitude=-75.167541%2C-77.856102%2C-122.250773%2C-78.719566%2C-111.811601%2C-121.868296%2C-119.758009%2C-111.932501%2C-111.848826%2C-86.918684&hourly=temperature_2m%2Cprecipitation_probability%2Cprecipitation%2Cwind_speed_10m%2Cwind_gusts_10m&temperature_unit=fahrenheit&wind_speed_unit=mph&precipitation_unit=inch&timezone=UTC&forecast_days=16"
       },
       "venue": {
@@ -1556,7 +1556,7 @@
         "venueName": "Mountain America Stadium"
       },
       "weatherSuppressedByDome": false,
-      "windMph": 1.4
+      "windMph": 10.7
     },
     {
       "auditGrade": true,
@@ -1564,19 +1564,19 @@
       "forecast": {
         "precipProbabilityPct": 43.0,
         "precipitationIn": 0.0,
-        "temperatureF": 75.7,
+        "temperatureF": 73.2,
         "validTime": "2026-10-11T02:00:00+00:00",
-        "windGustMph": 34.9,
-        "windMph": 16.6
+        "windGustMph": 33.8,
+        "windMph": 17.2
       },
       "game": "Kansas @ Utah",
       "kickoff": "2026-10-11T02:15:00+00:00",
-      "retrievedAt": "2026-10-07T19:25:04.223935+00:00",
+      "retrievedAt": "2026-10-08T19:20:40.576154+00:00",
       "source": {
         "batchLocations": 10,
         "locationIndex": 8,
         "provider": "open-meteo",
-        "sha256": "79db0ea320556e1aa84846cbd47ef7474c662afd54ed2df733fdaa54753719d2",
+        "sha256": "245d2400a7ed9a86c55ee87092afe19fe3bfb8082aa415e5acc0aa8bed1f7d23",
         "url": "https://api.open-meteo.com/v1/forecast?latitude=39.900799%2C40.812196%2C37.871043%2C35.800800%2C41.751739%2C37.319668%2C36.814353%2C33.426447%2C40.759972%2C40.435225&longitude=-75.167541%2C-77.856102%2C-122.250773%2C-78.719566%2C-111.811601%2C-121.868296%2C-119.758009%2C-111.932501%2C-111.848826%2C-86.918684&hourly=temperature_2m%2Cprecipitation_probability%2Cprecipitation%2Cwind_speed_10m%2Cwind_gusts_10m&temperature_unit=fahrenheit&wind_speed_unit=mph&precipitation_unit=inch&timezone=UTC&forecast_days=16"
       },
       "venue": {
@@ -1588,27 +1588,27 @@
         "venueName": "Rice-Eccles Stadium"
       },
       "weatherSuppressedByDome": false,
-      "windMph": 16.6
+      "windMph": 17.2
     },
     {
       "auditGrade": true,
       "exclusions": [],
       "forecast": {
-        "precipProbabilityPct": 3.0,
+        "precipProbabilityPct": 1.0,
         "precipitationIn": 0.0,
-        "temperatureF": 63.9,
+        "temperatureF": 66.5,
         "validTime": "2026-10-11T00:00:00+00:00",
-        "windGustMph": 7.4,
+        "windGustMph": 17.4,
         "windMph": 7.3
       },
       "game": "Minnesota @ Purdue",
       "kickoff": "2026-10-11T00:00:00+00:00",
-      "retrievedAt": "2026-10-07T19:25:04.223935+00:00",
+      "retrievedAt": "2026-10-08T19:20:40.576154+00:00",
       "source": {
         "batchLocations": 10,
         "locationIndex": 9,
         "provider": "open-meteo",
-        "sha256": "79db0ea320556e1aa84846cbd47ef7474c662afd54ed2df733fdaa54753719d2",
+        "sha256": "245d2400a7ed9a86c55ee87092afe19fe3bfb8082aa415e5acc0aa8bed1f7d23",
         "url": "https://api.open-meteo.com/v1/forecast?latitude=39.900799%2C40.812196%2C37.871043%2C35.800800%2C41.751739%2C37.319668%2C36.814353%2C33.426447%2C40.759972%2C40.435225&longitude=-75.167541%2C-77.856102%2C-122.250773%2C-78.719566%2C-111.811601%2C-121.868296%2C-119.758009%2C-111.932501%2C-111.848826%2C-86.918684&hourly=temperature_2m%2Cprecipitation_probability%2Cprecipitation%2Cwind_speed_10m%2Cwind_gusts_10m&temperature_unit=fahrenheit&wind_speed_unit=mph&precipitation_unit=inch&timezone=UTC&forecast_days=16"
       },
       "venue": {
@@ -1626,32 +1626,32 @@
   "schemaVersion": 2,
   "sourceManifest": [
     {
-      "bytes": 326675,
+      "bytes": 325974,
       "kind": "weather_forecast_batch",
       "locations": 20,
-      "path": "capture-data/data/features/br2/weather/raw/96719d8c2cb441272fa827bcd7b2dd4c3818c43080eedcb0d895244bf92deacd.json",
-      "retrievedAt": "2026-10-07T19:25:04.223935+00:00",
-      "sha256": "96719d8c2cb441272fa827bcd7b2dd4c3818c43080eedcb0d895244bf92deacd",
+      "path": "capture-data/data/features/br2/weather/raw/b1c834c65bcf96cd87f35cd866d6893677f61d744e99578813786c77658fca6c.json",
+      "retrievedAt": "2026-10-08T19:20:40.576154+00:00",
+      "sha256": "b1c834c65bcf96cd87f35cd866d6893677f61d744e99578813786c77658fca6c",
       "source": "open-meteo",
       "url": "https://api.open-meteo.com/v1/forecast?latitude=38.205762%2C41.933959%2C39.650274%2C42.065556%2C41.657478%2C39.321279%2C33.203899%2C38.424704%2C33.772445%2C41.072553%2C33.208275%2C39.202010%2C42.728147%2C40.820682%2C47.650323%2C40.257535%2C32.412247%2C42.286006%2C38.022090%2C32.532149&longitude=-85.758814%2C-88.777836%2C-79.955187%2C-87.692500%2C-83.613565%2C-82.103431%2C-97.159245%2C-82.421441%2C-84.392805%2C-81.508341%2C-87.550384%2C-96.593840%2C-84.484853%2C-96.705594%2C-122.301575%2C-111.654525%2C-81.784930%2C-85.600757%2C-84.505341%2C-92.656002&hourly=temperature_2m%2Cprecipitation_probability%2Cprecipitation%2Cwind_speed_10m%2Cwind_gusts_10m&temperature_unit=fahrenheit&wind_speed_unit=mph&precipitation_unit=inch&timezone=UTC&forecast_days=16"
     },
     {
-      "bytes": 325787,
+      "bytes": 325017,
       "kind": "weather_forecast_batch",
       "locations": 20,
-      "path": "capture-data/data/features/br2/weather/raw/33de035a779e4e486abf72609c17bc47a3f14506c8547af8cb763d2aedc318c3.json",
-      "retrievedAt": "2026-10-07T19:25:04.223935+00:00",
-      "sha256": "33de035a779e4e486abf72609c17bc47a3f14506c8547af8cb763d2aedc318c3",
+      "path": "capture-data/data/features/br2/weather/raw/861cc1f17e1363c59673f5760678ad14609b8d9f4a1c44b94924d4e67a5689d4.json",
+      "retrievedAt": "2026-10-08T19:20:40.576154+00:00",
+      "sha256": "861cc1f17e1363c59673f5760678ad14609b8d9f4a1c44b94924d4e67a5689d4",
       "source": "open-meteo",
       "url": "https://api.open-meteo.com/v1/forecast?latitude=40.001645%2C42.377324%2C31.773335%2C40.446765%2C36.211427%2C36.144045%2C35.596849%2C41.378011%2C44.559456%2C29.649936%2C41.698378%2C38.031180%2C36.068066%2C32.779722%2C38.935849%2C41.387492%2C38.984699%2C35.120943%2C36.125673%2C44.058271&longitude=-83.019727%2C-72.536059%2C-106.507957%2C-80.015760%2C-81.685428%2C-86.808894%2C-77.364564%2C-83.622500%2C-123.281434%2C-82.348579%2C-86.233942%2C-78.513790%2C-94.178953%2C-96.759722%2C-92.333201%2C-73.964089%2C-76.507633%2C-89.977147%2C-97.066513%2C-123.068488&hourly=temperature_2m%2Cprecipitation_probability%2Cprecipitation%2Cwind_speed_10m%2Cwind_gusts_10m&temperature_unit=fahrenheit&wind_speed_unit=mph&precipitation_unit=inch&timezone=UTC&forecast_days=16"
     },
     {
-      "bytes": 161593,
+      "bytes": 161432,
       "kind": "weather_forecast_batch",
       "locations": 10,
-      "path": "capture-data/data/features/br2/weather/raw/79db0ea320556e1aa84846cbd47ef7474c662afd54ed2df733fdaa54753719d2.json",
-      "retrievedAt": "2026-10-07T19:25:04.223935+00:00",
-      "sha256": "79db0ea320556e1aa84846cbd47ef7474c662afd54ed2df733fdaa54753719d2",
+      "path": "capture-data/data/features/br2/weather/raw/245d2400a7ed9a86c55ee87092afe19fe3bfb8082aa415e5acc0aa8bed1f7d23.json",
+      "retrievedAt": "2026-10-08T19:20:40.576154+00:00",
+      "sha256": "245d2400a7ed9a86c55ee87092afe19fe3bfb8082aa415e5acc0aa8bed1f7d23",
       "source": "open-meteo",
       "url": "https://api.open-meteo.com/v1/forecast?latitude=39.900799%2C40.812196%2C37.871043%2C35.800800%2C41.751739%2C37.319668%2C36.814353%2C33.426447%2C40.759972%2C40.435225&longitude=-75.167541%2C-77.856102%2C-122.250773%2C-78.719566%2C-111.811601%2C-121.868296%2C-119.758009%2C-111.932501%2C-111.848826%2C-86.918684&hourly=temperature_2m%2Cprecipitation_probability%2Cprecipitation%2Cwind_speed_10m%2Cwind_gusts_10m&temperature_unit=fahrenheit&wind_speed_unit=mph&precipitation_unit=inch&timezone=UTC&forecast_days=16"
     }
